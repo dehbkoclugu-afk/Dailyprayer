@@ -41,7 +41,9 @@ export function ProgressRing({ done, total, size = 56 }: Props) {
           );
         })}
       </View>
-      <Text style={{ fontFamily: fonts.sansBold, fontSize: 15, color: t.ink }}>
+      <Text
+        style={{ fontFamily: fonts.sansBold, fontSize: 15, color: t.ink, fontVariant: ['tabular-nums'] }}
+      >
         {done}/{total}
       </Text>
     </View>

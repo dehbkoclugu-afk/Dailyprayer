@@ -1,65 +1,78 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { router } from 'expo-router';
-import Animated, { FadeIn } from 'react-native-reanimated';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
+import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { type as ty, fonts } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
 
-const LINES = [
-  'Reading your answers…',
-  'Choosing scriptures for your season…',
-  'Shaping your daily rhythm…',
-  'Your plan is ready.',
+const STEPS = [
+  'Reading your answers',
+  'Choosing scriptures for your season',
+  'Shaping your daily rhythm',
+  'Setting your gentle reminder',
 ];
 
-/** "Building your plan" interstitial — investment beat before the reveal. */
+/** "Building your plan" interstitial — a checklist completing line by line. */
 export default function Building() {
   const t = useTheme();
-  const [line, setLine] = useState(0);
+  const [done, setDone] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setLine((l) => {
-        if (l >= LINES.length - 1) {
+      setDone((d) => {
+        if (d >= STEPS.length) {
           clearInterval(timer);
-          setTimeout(() => router.replace('/onboarding/reveal'), 700);
-          return l;
+          setTimeout(() => router.replace('/onboarding/reveal'), 600);
+          return d;
         }
-        return l + 1;
+        return d + 1;
       });
-    }, 1100);
+    }, 950);
     return () => clearInterval(timer);
   }, []);
 
   return (
-    <Screen scroll={false} style={{ justifyContent: 'center', alignItems: 'center' }}>
-      <Ionicons name="sparkles" size={40} color={t.gold} style={{ marginBottom: spacing.xl }} />
-      <Animated.Text
-        key={line}
-        entering={FadeIn.duration(400)}
-        style={[ty.heading, { color: t.ink, textAlign: 'center' }]}
-      >
-        {LINES[line]}
-      </Animated.Text>
-      <View style={{ flexDirection: 'row', gap: 8, marginTop: spacing.xxl }}>
-        {LINES.map((_, i) => (
-          <View
-            key={i}
-            style={{
-              width: 8,
-              height: 8,
-              borderRadius: 4,
-              backgroundColor: i <= line ? t.gold : t.border,
-            }}
-          />
-        ))}
-      </View>
-      <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkFaint, marginTop: spacing.xl }}>
-        Personalizing from your answers
+    <Screen scroll={false} style={{ justifyContent: 'center' }}>
+      <ArtSlot
+        id="A15-building-candle"
+        height={140}
+        fit="contain"
+        style={{ marginBottom: spacing.xxl, alignSelf: 'center', width: 140 }}
+      />
+      <Text style={[ty.title, { color: t.ink, textAlign: 'center', marginBottom: spacing.xxl }]}>
+        Preparing your plan…
       </Text>
+      <View style={{ gap: spacing.lg, alignSelf: 'center' }}>
+        {STEPS.map((s, i) => {
+          const complete = i < done;
+          return (
+            <Animated.View
+              key={s}
+              entering={FadeInDown.delay(i * 120).springify().damping(20)}
+              style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}
+            >
+              <Ionicons
+                name={complete ? 'checkmark-circle' : 'ellipse-outline'}
+                size={20}
+                color={complete ? t.gold : t.inkFaint}
+              />
+              <Text
+                style={{
+                  fontFamily: complete ? fonts.sansMedium : fonts.sans,
+                  fontSize: 16,
+                  color: complete ? t.ink : t.inkSoft,
+                }}
+              >
+                {s}
+              </Text>
+            </Animated.View>
+          );
+        })}
+      </View>
     </Screen>
   );
 }

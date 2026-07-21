@@ -1,0 +1,55 @@
+import type { ImageSourcePropType } from 'react-native';
+
+/**
+ * Art asset registry — single connection point for finished artwork.
+ *
+ * Workflow:
+ *  1. Every ArtSlot in the UI names an AssetId below and renders a labeled
+ *     placeholder while the entry is null.
+ *  2. Generate the artwork with the briefs in docs/asset-briefs.md.
+ *  3. Drop the file into src/assets/art/ using the exact filename from the
+ *     brief (e.g. A4-welcome-hero.png).
+ *  4. Replace `null` with `require('./art/A4-welcome-hero.png')`.
+ * The placeholder disappears and the finished art renders everywhere.
+ */
+export type AssetId =
+  | 'A1-logomark'
+  | 'A4-welcome-hero'
+  | 'A5-verse-peace'
+  | 'A6-affirmation-spot'
+  | 'A7-plan-crest'
+  | 'A8-paywall-hero'
+  | 'A9-thanks-sharing'
+  | 'A10-tonight-night'
+  | 'A12-journal-empty'
+  | 'A13-plan-cover'
+  | 'A15-building-candle';
+
+export const artRegistry: Record<AssetId, ImageSourcePropType | null> = {
+  'A1-logomark': null,
+  'A4-welcome-hero': null,
+  'A5-verse-peace': null,
+  'A6-affirmation-spot': null,
+  'A7-plan-crest': null,
+  'A8-paywall-hero': null,
+  'A9-thanks-sharing': null,
+  'A10-tonight-night': null,
+  'A12-journal-empty': null,
+  'A13-plan-cover': null,
+  'A15-building-candle': null,
+};
+
+/** Placeholder metadata shown inside unfilled slots (matches asset briefs). */
+export const artSpecs: Record<AssetId, { label: string; size: string }> = {
+  'A1-logomark': { label: 'Logomark', size: '512×512 PNG (transparent)' },
+  'A4-welcome-hero': { label: 'Welcome hero', size: '1170×1000 PNG' },
+  'A5-verse-peace': { label: 'Verse art — peace', size: '1170×1300 PNG' },
+  'A6-affirmation-spot': { label: 'Affirmation spot', size: '600×600 PNG (transparent)' },
+  'A7-plan-crest': { label: 'Plan crest', size: '720×720 PNG (transparent)' },
+  'A8-paywall-hero': { label: 'Paywall hero', size: '1170×900 PNG' },
+  'A9-thanks-sharing': { label: 'Thanks — sharing light', size: '900×900 PNG (transparent)' },
+  'A10-tonight-night': { label: 'Tonight night sky', size: '1170×700 PNG' },
+  'A12-journal-empty': { label: 'Journal empty state', size: '720×720 PNG (transparent)' },
+  'A13-plan-cover': { label: 'Plan cover', size: '1170×700 PNG' },
+  'A15-building-candle': { label: 'Building candle', size: '600×600 PNG (transparent)' },
+};

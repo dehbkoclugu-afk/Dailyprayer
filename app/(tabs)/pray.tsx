@@ -129,7 +129,7 @@ function Chip({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 6,
-        backgroundColor: active ? t.goldSoft : t.surface,
+        backgroundColor: active ? t.goldSoft : 'transparent',
         borderColor: active ? t.gold : t.border,
         borderWidth: 1,
         borderRadius: radius.pill,

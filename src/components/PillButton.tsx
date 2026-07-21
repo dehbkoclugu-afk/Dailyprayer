@@ -1,5 +1,6 @@
 import React from 'react';
-import { Pressable, Text, type ViewStyle } from 'react-native';
+import { Pressable, Text, View, type ViewStyle } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
@@ -15,9 +16,24 @@ interface Props {
 
 export function PillButton({ label, onPress, variant = 'primary', disabled, style }: Props) {
   const t = useTheme();
-  const bg =
-    variant === 'primary' ? t.gold : variant === 'secondary' ? t.surfaceAlt : 'transparent';
   const color = variant === 'primary' ? t.onGold : variant === 'secondary' ? t.ink : t.inkSoft;
+
+  const inner = (pressed: boolean) => (
+    <View
+      style={{
+        paddingVertical: 16,
+        paddingHorizontal: spacing.xl,
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: 54,
+      }}
+    >
+      <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 17, color, opacity: pressed ? 0.9 : 1 }}>
+        {label}
+      </Text>
+    </View>
+  );
+
   return (
     <Pressable
       accessibilityRole="button"
@@ -29,20 +45,40 @@ export function PillButton({ label, onPress, variant = 'primary', disabled, styl
       }}
       style={({ pressed }) => [
         {
-          backgroundColor: bg,
           borderRadius: radius.pill,
-          paddingVertical: 16,
-          paddingHorizontal: spacing.xl,
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: 52,
-          opacity: disabled ? 0.4 : pressed ? 0.85 : 1,
-          transform: [{ scale: pressed ? 0.98 : 1 }],
+          overflow: 'hidden',
+          opacity: disabled ? 0.4 : 1,
+          transform: [{ scale: pressed ? 0.97 : 1 }],
+          backgroundColor:
+            variant === 'secondary' ? t.surfaceAlt : variant === 'ghost' ? 'transparent' : undefined,
+          // candlelight glow under the primary action
+          ...(variant === 'primary' && !disabled
+            ? {
+                shadowColor: t.gold,
+                shadowOffset: { width: 0, height: 6 },
+                shadowOpacity: 0.35,
+                shadowRadius: 16,
+                elevation: 6,
+              }
+            : null),
         },
         style,
       ]}
     >
-      <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 17, color }}>{label}</Text>
+      {({ pressed }) =>
+        variant === 'primary' ? (
+          <LinearGradient
+            colors={['#E2B04A', '#C99534']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 1 }}
+            style={{ borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.35)' }}
+          >
+            {inner(pressed)}
+          </LinearGradient>
+        ) : (
+          inner(pressed)
+        )
+      }
     </Pressable>
   );
 }

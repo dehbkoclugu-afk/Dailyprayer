@@ -24,11 +24,23 @@ export default function Profile() {
         {quiz.name ? quiz.name : 'Your journey'}
       </Text>
 
-      {/* stats */}
-      <View style={{ flexDirection: 'row', gap: spacing.md, marginTop: spacing.lg }}>
-        <Stat icon="flame" label="Streak" value={`${count}`} />
-        <Stat icon="trophy-outline" label="Best" value={`${bestCount}`} />
-        <Stat icon="calendar-outline" label="Days" value={`${totalDays}`} />
+      {/* stats — one unified card, not floating tiles */}
+      <View
+        style={{
+          flexDirection: 'row',
+          backgroundColor: t.surface,
+          borderRadius: radius.card,
+          borderWidth: 1,
+          borderColor: t.border,
+          marginTop: spacing.lg,
+          paddingVertical: spacing.lg,
+        }}
+      >
+        <Stat icon="flame" label="Day streak" value={`${count}`} />
+        <View style={{ width: 1, backgroundColor: t.border, marginVertical: spacing.sm }} />
+        <Stat icon="trophy-outline" label="Best streak" value={`${bestCount}`} />
+        <View style={{ width: 1, backgroundColor: t.border, marginVertical: spacing.sm }} />
+        <Stat icon="calendar-outline" label="Total days" value={`${totalDays}`} />
       </View>
 
       {/* subscription card */}
@@ -131,20 +143,18 @@ export default function Profile() {
 function Stat({ icon, label, value }: { icon: string; label: string; value: string }) {
   const t = useTheme();
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: t.surface,
-        borderRadius: radius.inner,
-        borderWidth: 1,
-        borderColor: t.border,
-        padding: spacing.lg,
-        alignItems: 'center',
-        gap: 4,
-      }}
-    >
+    <View style={{ flex: 1, alignItems: 'center', gap: 4 }}>
       <Ionicons name={icon as never} size={20} color={t.gold} />
-      <Text style={{ fontFamily: fonts.sansBold, fontSize: 20, color: t.ink }}>{value}</Text>
+      <Text
+        style={{
+          fontFamily: fonts.sansBold,
+          fontSize: 22,
+          color: t.ink,
+          fontVariant: ['tabular-nums'],
+        }}
+      >
+        {value}
+      </Text>
       <Text style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkSoft }}>{label}</Text>
     </View>
   );
@@ -153,20 +163,23 @@ function Stat({ icon, label, value }: { icon: string; label: string; value: stri
 function Row({ icon, label }: { icon: string; label: string }) {
   const t = useTheme();
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: spacing.md,
-        padding: spacing.lg,
-        borderBottomWidth: 1,
-        borderBottomColor: t.border,
-        minHeight: 52,
-      }}
-    >
-      <Ionicons name={icon as never} size={20} color={t.inkSoft} />
-      <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink, flex: 1 }}>{label}</Text>
-      <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
+    <View style={{ paddingHorizontal: spacing.lg }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: spacing.md,
+          paddingVertical: spacing.lg,
+          // inset divider: starts at text edge, not card edge
+          borderBottomWidth: 1,
+          borderBottomColor: t.border,
+          minHeight: 52,
+        }}
+      >
+        <Ionicons name={icon as never} size={20} color={t.inkSoft} />
+        <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink, flex: 1 }}>{label}</Text>
+        <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
+      </View>
     </View>
   );
 }

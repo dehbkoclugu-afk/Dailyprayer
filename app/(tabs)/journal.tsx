@@ -5,6 +5,7 @@ import * as Haptics from 'expo-haptics';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { PillButton } from '@/components/PillButton';
+import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
@@ -69,6 +70,26 @@ export default function Journal() {
         })}
       </View>
 
+      {/* prompt of the day */}
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: spacing.sm,
+          backgroundColor: t.goldSoft,
+          borderRadius: radius.inner,
+          padding: spacing.md,
+          marginTop: spacing.lg,
+        }}
+      >
+        <Ionicons name="sparkles-outline" size={16} color={t.gold} />
+        <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.ink, flex: 1 }}>
+          {kind === 'gratitude'
+            ? 'What made you smile today, however small?'
+            : 'What would you bring to Him if He were sitting beside you?'}
+        </Text>
+      </View>
+
       <TextInput
         value={text}
         onChangeText={setText}
@@ -106,8 +127,13 @@ export default function Journal() {
             alignItems: 'center',
           }}
         >
-          <Ionicons name="leaf-outline" size={28} color={t.inkFaint} />
-          <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: t.inkSoft, marginTop: spacing.sm, textAlign: 'center' }}>
+          <ArtSlot
+            id="A12-journal-empty"
+            height={120}
+            fit="contain"
+            style={{ width: 120, marginBottom: spacing.md }}
+          />
+          <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: t.inkSoft, textAlign: 'center' }}>
             Nothing here yet. Gratitude grows one line at a time.
           </Text>
         </View>

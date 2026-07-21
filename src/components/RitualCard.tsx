@@ -50,8 +50,8 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress }: Pro
         <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 17, color: t.ink }}>
           {title}
         </Text>
-        <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: t.inkSoft, marginTop: 2 }}>
-          {subtitle}
+        <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: done ? t.gold : t.inkSoft, marginTop: 2 }}>
+          {done ? 'Completed today' : subtitle}
         </Text>
       </View>
       {done ? (

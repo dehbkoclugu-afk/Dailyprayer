@@ -4,6 +4,8 @@ export interface ThemeColors {
   bg: string;
   surface: string;
   surfaceAlt: string;
+  /** tab bar / bottom chrome — one step darker than surface */
+  chrome: string;
   ink: string;
   inkSoft: string;
   inkFaint: string;
@@ -24,11 +26,12 @@ export const themes: Record<ThemeName, ThemeColors> = {
     bg: '#0E1220',
     surface: '#171C2E',
     surfaceAlt: '#1F2740',
+    chrome: '#12172A',
     ink: '#F2EEE6',
     inkSoft: '#A9A698',
     inkFaint: '#6C6B63',
     gold: '#D9A441',
-    goldSoft: '#3A3020',
+    goldSoft: '#2E2718',
     onGold: '#1A1206',
     blue: '#7C9CD9',
     success: '#7FB58A',
@@ -41,6 +44,7 @@ export const themes: Record<ThemeName, ThemeColors> = {
     bg: '#FBF7F0',
     surface: '#FFFFFF',
     surfaceAlt: '#F3EDE2',
+    chrome: '#F6F1E7',
     ink: '#221E19',
     inkSoft: '#6E675C',
     inkFaint: '#9C948A',
@@ -67,6 +71,7 @@ export const spacing = {
 } as const;
 
 export const radius = {
+  hero: 28,
   card: 24,
   inner: 16,
   pill: 999,

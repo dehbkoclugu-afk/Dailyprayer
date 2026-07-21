@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import Animated, { FadeInDown, FadeOut } from 'react-native-reanimated';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
+import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
@@ -19,6 +21,7 @@ export default function Quiz() {
   const [name, setName] = useState('');
   const [selected, setSelected] = useState<string[]>([]);
   const [affirmation, setAffirmation] = useState<string | null>(null);
+  const [nameFocused, setNameFocused] = useState(false);
 
   const total = quizSteps.length + 1;
   const progress = (step + 1) / total;
@@ -50,6 +53,7 @@ export default function Quiz() {
 
   const toggle = (value: string) => {
     if (!current) return;
+    Haptics.selectionAsync().catch(() => {});
     if (current.multi) {
       setSelected((s) => (s.includes(value) ? s.filter((v) => v !== value) : [...s, value]));
     } else {
@@ -61,7 +65,12 @@ export default function Quiz() {
     return (
       <Screen scroll={false} style={{ justifyContent: 'center' }}>
         <Animated.View entering={FadeInDown.springify().damping(20)} exiting={FadeOut}>
-          <Ionicons name="heart" size={36} color={t.gold} style={{ marginBottom: spacing.lg }} />
+          <ArtSlot
+            id="A6-affirmation-spot"
+            height={120}
+            fit="contain"
+            style={{ width: 120, marginBottom: spacing.xl }}
+          />
           <Text style={[ty.title, { color: t.ink }]}>{affirmation}</Text>
           <PillButton label="Continue" onPress={goNext} style={{ marginTop: spacing.xxl }} />
         </Animated.View>
@@ -72,24 +81,37 @@ export default function Quiz() {
   return (
     <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
       <View>
-        {/* progress bar */}
-        <View
-          style={{
-            height: 4,
-            backgroundColor: t.surfaceAlt,
-            borderRadius: 2,
-            marginBottom: spacing.xxl,
-            overflow: 'hidden',
-          }}
-        >
+        {/* progress bar + step counter */}
+        <View style={{ marginBottom: spacing.xxl }}>
           <View
             style={{
-              width: `${progress * 100}%`,
-              height: '100%',
-              backgroundColor: t.gold,
+              height: 4,
+              backgroundColor: t.surfaceAlt,
               borderRadius: 2,
+              overflow: 'hidden',
             }}
-          />
+          >
+            <View
+              style={{
+                width: `${progress * 100}%`,
+                height: '100%',
+                backgroundColor: t.gold,
+                borderRadius: 2,
+              }}
+            />
+          </View>
+          <Text
+            style={{
+              fontFamily: fonts.sansMedium,
+              fontSize: 12,
+              color: t.inkFaint,
+              textAlign: 'right',
+              marginTop: spacing.sm,
+              fontVariant: ['tabular-nums'],
+            }}
+          >
+            {step + 1} of {total}
+          </Text>
         </View>
 
         {step === 0 ? (
@@ -101,19 +123,31 @@ export default function Quiz() {
               placeholder="Your first name"
               placeholderTextColor={t.inkFaint}
               autoFocus
+              onFocus={() => setNameFocused(true)}
+              onBlur={() => setNameFocused(false)}
               accessibilityLabel="Your first name"
               style={{
                 marginTop: spacing.xl,
                 backgroundColor: t.surface,
                 borderRadius: radius.inner,
-                borderWidth: 1,
-                borderColor: t.border,
+                borderWidth: 1.5,
+                borderColor: nameFocused ? t.gold : t.border,
                 padding: spacing.lg,
                 fontFamily: fonts.sans,
                 fontSize: 18,
                 color: t.ink,
               }}
             />
+            <Text
+              style={{
+                fontFamily: fonts.sans,
+                fontSize: 13,
+                color: t.inkFaint,
+                marginTop: spacing.sm,
+              }}
+            >
+              We use this only to greet you. It never leaves your device.
+            </Text>
           </Animated.View>
         ) : current ? (
           <Animated.View key={current.key} entering={FadeInDown.springify().damping(20)}>

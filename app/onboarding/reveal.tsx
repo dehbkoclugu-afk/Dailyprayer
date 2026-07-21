@@ -5,6 +5,7 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
+import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
@@ -56,7 +57,13 @@ export default function Reveal() {
     <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
       <View>
         <Animated.View entering={FadeInDown.springify().damping(20)}>
-          <Text style={[ty.display, { color: t.ink, marginTop: spacing.xxl }]}>
+          <ArtSlot
+            id="A7-plan-crest"
+            height={120}
+            fit="contain"
+            style={{ width: 120, marginTop: spacing.xl }}
+          />
+          <Text style={[ty.display, { color: t.ink, marginTop: spacing.lg }]}>
             {quiz.name ? `${quiz.name}, your` : 'Your'} plan is ready.
           </Text>
           <Text style={[ty.body, { color: t.inkSoft, marginTop: spacing.md }]}>

@@ -55,7 +55,22 @@ export default function DevotionalScreen() {
         </Text>
       </View>
 
-      <Text style={[ty.body, { color: t.ink, marginTop: spacing.xl }]}>{devotional.body}</Text>
+      {/* editorial drop cap on the opening letter */}
+      <View style={{ flexDirection: 'row', marginTop: spacing.xl }}>
+        <Text
+          style={{
+            fontFamily: fonts.serif,
+            fontSize: 64,
+            lineHeight: 64,
+            color: t.gold,
+            marginRight: spacing.sm,
+            marginTop: 2,
+          }}
+        >
+          {devotional.body.charAt(0)}
+        </Text>
+        <Text style={[ty.body, { color: t.ink, flex: 1 }]}>{devotional.body.slice(1)}</Text>
+      </View>
 
       <View
         style={{

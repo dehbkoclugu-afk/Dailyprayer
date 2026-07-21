@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
+import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
@@ -25,8 +26,13 @@ export default function Bible() {
         World English Bible · offline
       </Text>
 
-      {/* chapter picker */}
-      <View style={{ flexDirection: 'row', gap: spacing.sm, marginTop: spacing.lg, flexWrap: 'wrap' }}>
+      {/* chapter picker — single horizontal row */}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={{ marginTop: spacing.lg, marginHorizontal: -spacing.xl }}
+        contentContainerStyle={{ gap: spacing.sm, paddingHorizontal: spacing.xl }}
+      >
         {sampleChapters.map((c, i) => {
           const active = i === openIdx;
           return (
@@ -36,7 +42,7 @@ export default function Bible() {
               accessibilityRole="button"
               accessibilityState={{ selected: active }}
               style={{
-                backgroundColor: active ? t.goldSoft : t.surface,
+                backgroundColor: active ? t.goldSoft : 'transparent',
                 borderColor: active ? t.gold : t.border,
                 borderWidth: 1,
                 borderRadius: radius.pill,
@@ -52,7 +58,7 @@ export default function Bible() {
             </Pressable>
           );
         })}
-      </View>
+      </ScrollView>
 
       {/* reader */}
       <View
@@ -73,13 +79,22 @@ export default function Bible() {
             key={i}
             style={{
               fontFamily: fonts.serifLight,
-              fontSize: 18,
-              lineHeight: 30,
+              fontSize: 19,
+              lineHeight: 34,
               color: t.ink,
               marginBottom: spacing.md,
             }}
           >
-            <Text style={{ fontFamily: fonts.sansBold, fontSize: 12, color: t.gold }}>{i + 1}  </Text>
+            <Text
+              style={{
+                fontFamily: fonts.sansBold,
+                fontSize: 11,
+                color: t.gold,
+                fontVariant: ['tabular-nums'],
+              }}
+            >
+              {i + 1}{'  '}
+            </Text>
             {v}
           </Text>
         ))}
@@ -96,25 +111,38 @@ export default function Bible() {
               accessibilityRole="button"
               accessibilityLabel={`${p.title}${locked ? ', requires Plus' : ''}`}
             >
-              <LinearGradient
-                colors={p.gradient}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={{ borderRadius: radius.card, padding: spacing.xl }}
-              >
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Text style={{ fontFamily: fonts.serif, fontSize: 20, color: '#F2EEE6', flex: 1 }}>
-                    {p.title}
-                  </Text>
-                  {locked ? <Ionicons name="lock-closed" size={18} color="#D9A441" /> : null}
-                </View>
-                <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: 'rgba(242,238,230,0.75)', marginTop: spacing.xs }}>
-                  {p.tagline}
-                </Text>
-                <Text style={{ fontFamily: fonts.sansMedium, fontSize: 12, color: '#D9A441', marginTop: spacing.md }}>
-                  {p.days} days
-                </Text>
-              </LinearGradient>
+              <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
+                <ArtSlot id="A13-plan-cover" height={150} radius={radius.card}>
+                  <LinearGradient
+                    colors={[`${p.gradient[0]}CC`, `${p.gradient[1]}F2`]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                    style={{ position: 'absolute', width: '100%', height: '100%' }}
+                  />
+                  <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Text style={{ fontFamily: fonts.serif, fontSize: 20, color: '#F2EEE6', flex: 1 }}>
+                        {p.title}
+                      </Text>
+                      {locked ? <Ionicons name="lock-closed" size={18} color="#D9A441" /> : null}
+                    </View>
+                    <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: 'rgba(242,238,230,0.75)', marginTop: spacing.xs }}>
+                      {p.tagline}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: fonts.sansMedium,
+                        fontSize: 12,
+                        color: '#D9A441',
+                        marginTop: spacing.sm,
+                        fontVariant: ['tabular-nums'],
+                      }}
+                    >
+                      {p.days} days
+                    </Text>
+                  </View>
+                </ArtSlot>
+              </View>
             </Pressable>
           );
         })}

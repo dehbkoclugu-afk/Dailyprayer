@@ -2,9 +2,9 @@ import React from 'react';
 import { Pressable, Share, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from '@/hooks/useTheme';
-import { fonts, type as ty } from '@/theme/typography';
+import { fonts } from '@/theme/typography';
 import { radius, shadow, spacing } from '@/theme/tokens';
+import { ArtSlot } from '@/components/ArtSlot';
 import type { DailyVerse } from '@/data/verses';
 
 interface Props {
@@ -13,55 +13,81 @@ interface Props {
 }
 
 export function VerseCard({ verse, onRead }: Props) {
-  const t = useTheme();
   const share = () =>
     Share.share({
       message: `“${verse.text}” — ${verse.reference}\n\nShared from Lumen 🕊`,
     }).catch(() => {});
 
   return (
-    <Pressable onPress={onRead} accessibilityRole="button" accessibilityLabel={`Verse of the day, ${verse.reference}`}>
-      <LinearGradient
-        colors={[t.duskFrom, t.duskTo]}
-        start={{ x: 0.2, y: 0 }}
-        end={{ x: 0.8, y: 1 }}
-        style={[{ borderRadius: radius.card, padding: spacing.xl, paddingVertical: spacing.xxl }, shadow.card]}
-      >
-        <Text
-          style={{
-            fontFamily: fonts.sansSemiBold,
-            fontSize: 12,
-            letterSpacing: 2,
-            textTransform: 'uppercase',
-            color: '#D9A441',
-            marginBottom: spacing.lg,
-          }}
-        >
-          Verse of the day
-        </Text>
-        <Text style={[ty.verse, { color: '#F2EEE6' }]}>“{verse.text}”</Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginTop: spacing.xl,
-          }}
-        >
-          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: '#D9A441' }}>
-            {verse.reference}
-          </Text>
-          <Pressable
-            onPress={share}
-            hitSlop={12}
-            accessibilityRole="button"
-            accessibilityLabel="Share this verse"
-            style={{ width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}
+    <Pressable
+      onPress={onRead}
+      accessibilityRole="button"
+      accessibilityLabel={`Verse of the day, ${verse.reference}`}
+      style={[{ borderRadius: radius.hero, overflow: 'hidden' }, shadow.card]}
+    >
+      {/* Painterly art layer (A5 series) with dusk-veil fallback + scrim for legibility */}
+      <ArtSlot id="A5-verse-peace" height={340} radius={radius.hero}>
+        <LinearGradient
+          colors={['rgba(23,16,46,0.55)', 'rgba(14,18,32,0.92)']}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 1 }}
+          style={{ position: 'absolute', width: '100%', height: '100%' }}
+        />
+        <View style={{ flex: 1, padding: spacing.xl, paddingTop: spacing.xxl, justifyContent: 'flex-end' }}>
+          <Text
+            style={{
+              fontFamily: fonts.sansSemiBold,
+              fontSize: 11,
+              letterSpacing: 2.5,
+              textTransform: 'uppercase',
+              color: 'rgba(217,164,65,0.85)',
+            }}
           >
-            <Ionicons name="share-outline" size={22} color="#F2EEE6" />
-          </Pressable>
+            Verse of the day
+          </Text>
+          <Text
+            style={{
+              fontFamily: fonts.serifLight,
+              fontSize: 27,
+              lineHeight: 39,
+              letterSpacing: -0.3,
+              color: '#F2EEE6',
+              marginTop: spacing.md,
+              // hanging opening quote
+              marginLeft: -2,
+            }}
+          >
+            “{verse.text}”
+          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginTop: spacing.lg,
+            }}
+          >
+            <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: '#D9A441' }}>
+              {verse.reference}
+            </Text>
+            <Pressable
+              onPress={share}
+              hitSlop={12}
+              accessibilityRole="button"
+              accessibilityLabel="Share this verse"
+              style={({ pressed }) => ({
+                width: 44,
+                height: 44,
+                alignItems: 'center',
+                justifyContent: 'center',
+                opacity: pressed ? 0.6 : 1,
+              })}
+            >
+              <Ionicons name="share-outline" size={22} color="#F2EEE6" />
+            </Pressable>
+          </View>
         </View>
-      </LinearGradient>
+      </ArtSlot>
     </Pressable>
   );
 }

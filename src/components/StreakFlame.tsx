@@ -46,7 +46,14 @@ export function StreakFlame({ count, litToday }: Props) {
       <Animated.View style={style}>
         <Ionicons name="flame" size={22} color={litToday ? t.gold : t.inkFaint} />
       </Animated.View>
-      <Text style={{ fontFamily: fonts.sansBold, fontSize: 18, color: litToday ? t.gold : t.inkSoft }}>
+      <Text
+        style={{
+          fontFamily: fonts.sansBold,
+          fontSize: 18,
+          color: litToday ? t.gold : t.inkSoft,
+          fontVariant: ['tabular-nums'],
+        }}
+      >
         {count}
       </Text>
     </View>

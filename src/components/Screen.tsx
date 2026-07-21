@@ -20,9 +20,13 @@ export function Screen({ children, scroll = true, style, tabbed = false }: Props
     backgroundColor: t.bg,
   };
   const content: ViewStyle = {
-    paddingTop: insets.top + spacing.md,
+    paddingTop: insets.top + spacing.xl,
     paddingHorizontal: spacing.xl,
     paddingBottom: (tabbed ? 96 : insets.bottom + spacing.xl) + spacing.xl,
+    // keep phone-width composition on web/tablet
+    width: '100%',
+    maxWidth: 480,
+    alignSelf: 'center',
   };
   if (!scroll) return <View style={[base, content, style]}>{children}</View>;
   return (
