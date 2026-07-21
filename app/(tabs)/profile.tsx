@@ -56,6 +56,21 @@ export default function Profile() {
       { text: tr('profile.reminderOff'), style: 'destructive', onPress: () => setReminder(null) },
     ]);
 
+  const currentLanguageLabel =
+    language === 'system' ? tr('profile.auto') : LOCALE_LABELS[language as Locale];
+
+  // Seven language chips wrapped into a ragged 3-3-1 cloud — the busiest block
+  // on the screen. Collapse it to one row that opens a picker instead.
+  const openLanguagePicker = () =>
+    Alert.alert(tr('profile.language'), undefined, [
+      { text: tr('profile.auto'), onPress: () => setLanguage('system') },
+      ...SUPPORTED_LOCALES.map((l) => ({
+        text: LOCALE_LABELS[l],
+        onPress: () => setLanguage(l),
+      })),
+      { text: tr('profile.cancel'), style: 'cancel' as const },
+    ]);
+
   return (
     <Screen tabbed>
       <Text style={[ty.title, { color: t.ink }]}>
@@ -159,20 +174,34 @@ export default function Profile() {
       </View>
 
       <SectionHeader title={tr('profile.language')} />
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm }}>
-        <Choice
-          label={tr('profile.auto')}
-          active={language === 'system'}
-          onPress={() => setLanguage('system')}
-        />
-        {SUPPORTED_LOCALES.map((l) => (
-          <Choice
-            key={l}
-            label={LOCALE_LABELS[l]}
-            active={language === l}
-            onPress={() => setLanguage(l)}
-          />
-        ))}
+      <View
+        style={{
+          backgroundColor: t.surface,
+          borderRadius: radius.card,
+          borderWidth: 1,
+          borderColor: t.border,
+        }}
+      >
+        <Pressable
+          onPress={openLanguagePicker}
+          accessibilityRole="button"
+          accessibilityLabel={`${tr('profile.language')}: ${currentLanguageLabel}`}
+          style={({ pressed }) => ({
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: spacing.md,
+            paddingHorizontal: spacing.lg,
+            paddingVertical: spacing.lg,
+            minHeight: 52,
+            opacity: pressed ? 0.7 : 1,
+          })}
+        >
+          <Ionicons name="language-outline" size={20} color={t.inkSoft} />
+          <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink, flex: 1 }}>
+            {currentLanguageLabel}
+          </Text>
+          <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
+        </Pressable>
       </View>
 
       <SectionHeader title={tr('profile.about')} />

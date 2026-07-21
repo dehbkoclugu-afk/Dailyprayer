@@ -62,9 +62,20 @@ export default function Player() {
             hitSlop={12}
             accessibilityRole="button"
             accessibilityLabel="Close player"
-            style={{ width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}
+            // Visible bordered chip — the only way out of the player must never
+            // become an invisible corner if the close glyph fails to render.
+            style={{
+              width: 44,
+              height: 44,
+              borderRadius: 22,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'rgba(14,18,32,0.7)',
+              borderWidth: 1,
+              borderColor: 'rgba(255,255,255,0.15)',
+            }}
           >
-            <Ionicons name="close" size={24} color="#A9A698" />
+            <Ionicons name="close" size={22} color="#F2EEE6" />
           </Pressable>
         </View>
 
