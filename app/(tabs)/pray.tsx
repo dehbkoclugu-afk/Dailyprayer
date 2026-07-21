@@ -60,9 +60,9 @@ export default function Pray() {
             >
               <ArtSlot
                 id={`A11-${c.key}` as AssetId}
-                height={52}
+                height={68}
                 fit="contain"
-                style={{ width: 52 }}
+                style={{ width: 68 }}
               />
               <Text
                 style={{
