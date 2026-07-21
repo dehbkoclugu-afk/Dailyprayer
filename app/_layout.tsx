@@ -15,6 +15,7 @@ import {
 } from '@expo-google-fonts/figtree';
 import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { ToastHost } from '@/components/ToastHost';
 import { useTheme } from '@/hooks/useTheme';
 import { useStreakStore } from '@/state/useStreakStore';
 import { useUserStore } from '@/state/useUserStore';
@@ -62,6 +63,7 @@ export default function RootLayout() {
         <Stack.Screen name="player" options={{ presentation: 'modal' }} />
         <Stack.Screen name="devotional" options={{ presentation: 'card' }} />
       </Stack>
+      <ToastHost />
     </GestureHandlerRootView>
   );
 }

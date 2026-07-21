@@ -3,7 +3,7 @@ import { Pressable, Text, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeInDown, FadeOut } from 'react-native-reanimated';
+import Animated, { FadeInDown, FadeInRight, FadeOut, FadeOutLeft } from 'react-native-reanimated';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
@@ -150,7 +150,12 @@ export default function Quiz() {
             </Text>
           </Animated.View>
         ) : current ? (
-          <Animated.View key={current.key} entering={FadeInDown.springify().damping(20)}>
+          // directional continuity: steps arrive from the right, leave left
+          <Animated.View
+            key={current.key}
+            entering={FadeInRight.duration(250)}
+            exiting={FadeOutLeft.duration(150)}
+          >
             <Text style={[ty.title, { color: t.ink }]}>{current.question}</Text>
             {current.subtitle ? (
               <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.sm }]}>
@@ -176,7 +181,17 @@ export default function Quiz() {
                       borderWidth: 1,
                       borderRadius: radius.inner,
                       padding: spacing.lg,
-                      minHeight: 56,
+                      minHeight: 60,
+                      // selected options glow like embers (design-100 #14)
+                      ...(active
+                        ? {
+                            shadowColor: t.gold,
+                            shadowOffset: { width: 0, height: 0 },
+                            shadowOpacity: 0.3,
+                            shadowRadius: 12,
+                            elevation: 4,
+                          }
+                        : null),
                     }}
                   >
                     <Ionicons

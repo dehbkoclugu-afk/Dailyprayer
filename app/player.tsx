@@ -3,7 +3,7 @@ import { Pressable, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import Animated, { FadeInUp, FadeOut } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PillButton } from '@/components/PillButton';
@@ -12,6 +12,7 @@ import { fonts } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
 import { prayers } from '@/data/prayers';
 import { useStreakStore } from '@/state/useStreakStore';
+import { toast } from '@/state/useToastStore';
 
 /**
  * Guided prayer player — paced text lines with a breathing pause between them.
@@ -37,6 +38,7 @@ export default function Player() {
   const finish = () => {
     completeStep('prayer');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+    toast('Prayer complete');
     router.back();
   };
 
@@ -66,10 +68,11 @@ export default function Player() {
         </View>
 
         <View style={{ flex: 1, justifyContent: 'center' }}>
+          {/* each line rises gently into place — the "breath" feel */}
           <Animated.Text
             key={line}
-            entering={FadeIn.duration(600)}
-            exiting={FadeOut.duration(300)}
+            entering={FadeInUp.duration(600)}
+            exiting={FadeOut.duration(250)}
             style={{
               fontFamily: 'Fraunces_400Regular',
               fontSize: 26,

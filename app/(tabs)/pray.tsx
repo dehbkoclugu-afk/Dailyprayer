@@ -28,21 +28,68 @@ export default function Pray() {
         Guided prayers for every season
       </Text>
 
-      {/* category chips */}
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginTop: spacing.lg }}>
-        <Chip label="All" icon="apps-outline" active={cat === 'all'} onPress={() => setCat('all')} />
-        {prayerCategories.map((c) => (
-          <Chip
-            key={c.key}
-            label={c.label}
-            icon={c.icon}
-            active={cat === c.key}
-            onPress={() => setCat(c.key)}
-          />
-        ))}
+      {/* category tile grid — tap again to clear; tiles take A11 art when it lands */}
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md, marginTop: spacing.lg }}>
+        {prayerCategories.map((c) => {
+          const active = cat === c.key;
+          return (
+            <Pressable
+              key={c.key}
+              onPress={() => setCat(active ? 'all' : c.key)}
+              accessibilityRole="button"
+              accessibilityState={{ selected: active }}
+              accessibilityLabel={c.label}
+              style={({ pressed }) => ({
+                width: '30.5%',
+                flexGrow: 1,
+                aspectRatio: 1.05,
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: spacing.sm,
+                backgroundColor: active ? t.goldSoft : t.surface,
+                borderColor: active ? t.gold : t.border,
+                borderWidth: 1,
+                borderRadius: radius.inner,
+                opacity: pressed ? 0.85 : 1,
+                transform: [{ scale: pressed ? 0.97 : 1 }],
+              })}
+            >
+              <View
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 22,
+                  backgroundColor: active ? 'transparent' : t.surfaceAlt,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Ionicons name={c.icon as never} size={22} color={t.gold} />
+              </View>
+              <Text
+                style={{
+                  fontFamily: active ? fonts.sansSemiBold : fonts.sansMedium,
+                  fontSize: 13,
+                  color: active ? t.gold : t.inkSoft,
+                }}
+              >
+                {c.label}
+              </Text>
+            </Pressable>
+          );
+        })}
       </View>
 
-      <SectionHeader title={cat === 'all' ? 'Library' : prayerCategories.find((c) => c.key === cat)?.label ?? ''} />
+      <SectionHeader
+        title={cat === 'all' ? 'Library' : prayerCategories.find((c) => c.key === cat)?.label ?? ''}
+        right={
+          cat !== 'all' ? (
+            <Pressable onPress={() => setCat('all')} hitSlop={8} accessibilityRole="button" accessibilityLabel="Show all prayers">
+              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>Show all</Text>
+            </Pressable>
+          ) : undefined
+        }
+      />
       <View style={{ gap: spacing.md }}>
         {list.map((p) => {
           const locked = p.plus && !isPlus;
@@ -105,42 +152,5 @@ export default function Pray() {
         })}
       </View>
     </Screen>
-  );
-}
-
-function Chip({
-  label,
-  icon,
-  active,
-  onPress,
-}: {
-  label: string;
-  icon: string;
-  active: boolean;
-  onPress: () => void;
-}) {
-  const t = useTheme();
-  return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityState={{ selected: active }}
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 6,
-        backgroundColor: active ? t.goldSoft : 'transparent',
-        borderColor: active ? t.gold : t.border,
-        borderWidth: 1,
-        borderRadius: radius.pill,
-        paddingHorizontal: spacing.lg,
-        minHeight: 44,
-      }}
-    >
-      <Ionicons name={icon as never} size={16} color={active ? t.gold : t.inkSoft} />
-      <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: active ? t.gold : t.inkSoft }}>
-        {label}
-      </Text>
-    </Pressable>
   );
 }

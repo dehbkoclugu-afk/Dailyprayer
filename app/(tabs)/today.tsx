@@ -20,6 +20,7 @@ import { useUserStore } from '@/state/useUserStore';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { greetingFor, dayKey } from '@/lib/dates';
 import { prayers } from '@/data/prayers';
+import { toast } from '@/state/useToastStore';
 
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
@@ -105,7 +106,15 @@ export default function Today() {
       </View>
 
       <Animated.View entering={FadeInDown.springify().damping(20)} style={{ marginTop: spacing.xl }}>
-        <VerseCard verse={verse} onRead={() => completeStep('verse')} />
+        <VerseCard
+          verse={verse}
+          onRead={() => {
+            if (!isDone('verse')) {
+              completeStep('verse');
+              toast('Verse kept in your heart — 1 of 4');
+            }
+          }}
+        />
       </Animated.View>
 
       <SectionHeader title="Your daily rhythm" />

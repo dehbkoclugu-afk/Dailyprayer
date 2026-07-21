@@ -11,6 +11,7 @@ import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useJournalStore } from '@/state/useJournalStore';
 import { useStreakStore } from '@/state/useStreakStore';
+import { toast } from '@/state/useToastStore';
 
 export default function Journal() {
   const t = useTheme();
@@ -24,6 +25,7 @@ export default function Journal() {
     add(kind, text);
     if (kind === 'gratitude') completeStep('gratitude');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+    toast(kind === 'gratitude' ? 'Saved — gratitude counted for today' : 'Prayer request saved');
     setText('');
   };
 

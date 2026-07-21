@@ -10,16 +10,22 @@ import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useDailyContent } from '@/hooks/useDailyContent';
 import { useStreakStore } from '@/state/useStreakStore';
+import { toast } from '@/state/useToastStore';
 
 export default function DevotionalScreen() {
   const t = useTheme();
   const { verse, devotional } = useDailyContent();
   const completeStep = useStreakStore((s) => s.completeStep);
+  const [amened, setAmened] = React.useState(false);
 
+  // Amen morphs to a checkmark for a beat before returning (design-100 #64).
   const finish = () => {
+    if (amened) return;
+    setAmened(true);
     completeStep('devotional');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
-    router.back();
+    toast('Devotional complete — your flame stays lit');
+    setTimeout(() => router.back(), 600);
   };
 
   return (
@@ -85,7 +91,7 @@ export default function DevotionalScreen() {
         </Text>
       </View>
 
-      <PillButton label="Amen" onPress={finish} style={{ marginTop: spacing.xxl }} />
+      <PillButton label={amened ? '✓' : 'Amen'} onPress={finish} style={{ marginTop: spacing.xxl }} />
     </Screen>
   );
 }

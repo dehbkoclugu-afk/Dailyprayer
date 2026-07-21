@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { AccessibilityInfo, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
+  withSequence,
+  withSpring,
   withTiming,
   Easing,
 } from 'react-native-reanimated';
@@ -20,6 +22,15 @@ interface Props {
 export function StreakFlame({ count, litToday }: Props) {
   const t = useTheme();
   const scale = useSharedValue(1);
+  const prevCount = useRef(count);
+
+  // one-shot pop when the streak ticks up (design-100 #58)
+  useEffect(() => {
+    if (count > prevCount.current) {
+      scale.value = withSequence(withSpring(1.25, { damping: 12 }), withSpring(1, { damping: 16 }));
+    }
+    prevCount.current = count;
+  }, [count, scale]);
 
   useEffect(() => {
     let cancelled = false;
