@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
-import { ArtSlot } from '@/components/ArtSlot';
-import type { AssetId } from '@/assets/registry';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
@@ -33,8 +31,14 @@ export default function Pray() {
 {tr('pray.sub')}
       </Text>
 
-      {/* category tile grid — tap again to clear; tiles take A11 art when it lands */}
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md, marginTop: spacing.lg }}>
+      {/* category filter — a single calm chip row (matches the Bible chapter
+          picker); tap the active chip again to clear back to the full library */}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={{ marginTop: spacing.lg, marginHorizontal: -spacing.xl }}
+        contentContainerStyle={{ gap: spacing.sm, paddingHorizontal: spacing.xl }}
+      >
         {prayerCategories.map((c) => {
           const active = cat === c.key;
           return (
@@ -45,39 +49,37 @@ export default function Pray() {
               accessibilityState={{ selected: active }}
               accessibilityLabel={tr(`cat.${c.key}` as never)}
               style={({ pressed }) => ({
-                width: '30.5%',
-                flexGrow: 1,
-                aspectRatio: 1.05,
+                flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent: 'center',
-                gap: spacing.sm,
+                gap: 6,
                 backgroundColor: active ? t.goldSoft : t.surface,
                 borderColor: active ? t.gold : t.border,
                 borderWidth: 1,
-                borderRadius: radius.inner,
-                opacity: pressed ? 0.85 : 1,
-                transform: [{ scale: pressed ? 0.97 : 1 }],
+                borderRadius: radius.pill,
+                paddingHorizontal: spacing.lg,
+                paddingVertical: spacing.sm,
+                minHeight: 44,
+                opacity: pressed ? 0.7 : 1,
               })}
             >
-              <ArtSlot
-                id={`A11-${c.key}` as AssetId}
-                height={68}
-                fit="contain"
-                style={{ width: 68 }}
+              <Ionicons
+                name={c.icon as keyof typeof Ionicons.glyphMap}
+                size={16}
+                color={active ? t.gold : t.inkSoft}
               />
               <Text
                 style={{
                   fontFamily: active ? fonts.sansSemiBold : fonts.sansMedium,
-                  fontSize: 13,
+                  fontSize: 14,
                   color: active ? t.gold : t.inkSoft,
                 }}
               >
-{tr(`cat.${c.key}` as never)}
+                {tr(`cat.${c.key}` as never)}
               </Text>
             </Pressable>
           );
         })}
-      </View>
+      </ScrollView>
 
       <SectionHeader
         title={cat === 'all' ? tr('pray.library') : tr(`cat.${cat}` as never)}

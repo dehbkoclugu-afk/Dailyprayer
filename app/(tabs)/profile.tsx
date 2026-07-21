@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Alert, Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
+import { OptionSheet, type SheetOption } from '@/components/OptionSheet';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
@@ -32,6 +33,21 @@ export default function Profile() {
     useUserStore();
   const { count, bestCount, totalDays } = useStreakStore();
   const isPlus = useEntitlementStore((s) => s.isPlus);
+  const [sheet, setSheet] = useState<null | 'appearance' | 'language'>(null);
+
+  const appearanceOptions: SheetOption<ThemeName | 'system'>[] = [
+    { value: 'system', label: tr('profile.auto') },
+    { value: 'vigil', label: tr('profile.vigil') },
+    { value: 'dawn', label: tr('profile.dawn') },
+  ];
+  const languageOptions: SheetOption<Locale | 'system'>[] = [
+    { value: 'system', label: tr('profile.auto') },
+    ...SUPPORTED_LOCALES.map((l) => ({ value: l, label: LOCALE_LABELS[l] })),
+  ];
+  const appearanceLabel =
+    appearanceOptions.find((o) => o.value === themePreference)?.label ?? tr('profile.auto');
+  const languageLabel =
+    language === 'system' ? tr('profile.auto') : LOCALE_LABELS[language as Locale];
 
   const setReminder = (time: string | null) => {
     setQuiz({ prayerTime: time ?? 'none' });
@@ -54,21 +70,6 @@ export default function Profile() {
       { text: tr('profile.reminderMidday'), onPress: () => setReminder('12:30') },
       { text: tr('profile.reminderEvening'), onPress: () => setReminder('21:00') },
       { text: tr('profile.reminderOff'), style: 'destructive', onPress: () => setReminder(null) },
-    ]);
-
-  const currentLanguageLabel =
-    language === 'system' ? tr('profile.auto') : LOCALE_LABELS[language as Locale];
-
-  // Seven language chips wrapped into a ragged 3-3-1 cloud — the busiest block
-  // on the screen. Collapse it to one row that opens a picker instead.
-  const openLanguagePicker = () =>
-    Alert.alert(tr('profile.language'), undefined, [
-      { text: tr('profile.auto'), onPress: () => setLanguage('system') },
-      ...SUPPORTED_LOCALES.map((l) => ({
-        text: LOCALE_LABELS[l],
-        onPress: () => setLanguage(l),
-      })),
-      { text: tr('profile.cancel'), style: 'cancel' as const },
     ]);
 
   return (
@@ -160,20 +161,7 @@ export default function Profile() {
         {!isPlus ? <Ionicons name="chevron-forward" size={20} color={t.inkFaint} /> : null}
       </Pressable>
 
-      <SectionHeader title={tr('profile.appearance')} />
-      <View style={{ flexDirection: 'row', gap: spacing.sm }}>
-        {(
-          [
-            { v: 'system', label: tr('profile.auto') },
-            { v: 'vigil', label: tr('profile.vigil') },
-            { v: 'dawn', label: tr('profile.dawn') },
-          ] as { v: ThemeName | 'system'; label: string }[]
-        ).map(({ v, label }) => (
-          <Choice key={v} label={label} active={themePreference === v} onPress={() => setThemePreference(v)} />
-        ))}
-      </View>
-
-      <SectionHeader title={tr('profile.language')} />
+      <SectionHeader title={tr('profile.preferences')} />
       <View
         style={{
           backgroundColor: t.surface,
@@ -182,26 +170,19 @@ export default function Profile() {
           borderColor: t.border,
         }}
       >
-        <Pressable
-          onPress={openLanguagePicker}
-          accessibilityRole="button"
-          accessibilityLabel={`${tr('profile.language')}: ${currentLanguageLabel}`}
-          style={({ pressed }) => ({
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: spacing.md,
-            paddingHorizontal: spacing.lg,
-            paddingVertical: spacing.lg,
-            minHeight: 52,
-            opacity: pressed ? 0.7 : 1,
-          })}
-        >
-          <Ionicons name="language-outline" size={20} color={t.inkSoft} />
-          <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink, flex: 1 }}>
-            {currentLanguageLabel}
-          </Text>
-          <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
-        </Pressable>
+        <ValueRow
+          icon="contrast-outline"
+          label={tr('profile.appearance')}
+          value={appearanceLabel}
+          onPress={() => setSheet('appearance')}
+          first
+        />
+        <ValueRow
+          icon="language-outline"
+          label={tr('profile.language')}
+          value={languageLabel}
+          onPress={() => setSheet('language')}
+        />
       </View>
 
       <SectionHeader title={tr('profile.about')} />
@@ -254,33 +235,64 @@ export default function Profile() {
       <Text style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkFaint, textAlign: 'center', marginTop: spacing.xl }}>
         Lumen v1.0.0
       </Text>
+
+      <OptionSheet
+        visible={sheet === 'appearance'}
+        title={tr('profile.appearance')}
+        options={appearanceOptions}
+        selected={themePreference}
+        onSelect={setThemePreference}
+        onClose={() => setSheet(null)}
+      />
+      <OptionSheet
+        visible={sheet === 'language'}
+        title={tr('profile.language')}
+        options={languageOptions}
+        selected={language}
+        onSelect={setLanguage}
+        onClose={() => setSheet(null)}
+      />
     </Screen>
   );
 }
 
-function Choice({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
+function ValueRow({
+  icon,
+  label,
+  value,
+  onPress,
+  first,
+}: {
+  icon: string;
+  label: string;
+  value: string;
+  onPress: () => void;
+  first?: boolean;
+}) {
   const t = useTheme();
   return (
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityState={{ selected: active }}
-      style={{
-        // Unselected chips take a surface fill (not transparent) so they read as
-        // a cohesive group on the dark bg instead of near-invisible outlines —
-        // that also makes the language chips' wrap look deliberate, not ragged.
-        backgroundColor: active ? t.goldSoft : t.surface,
-        borderColor: active ? t.gold : t.border,
-        borderWidth: 1,
-        borderRadius: radius.pill,
-        paddingHorizontal: spacing.lg,
-        minHeight: 44,
-        justifyContent: 'center',
-      }}
+      accessibilityLabel={`${label}: ${value}`}
+      style={({ pressed }) => ({ paddingHorizontal: spacing.lg, opacity: pressed ? 0.6 : 1 })}
     >
-      <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: active ? t.gold : t.inkSoft }}>
-        {label}
-      </Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: spacing.md,
+          paddingVertical: spacing.lg,
+          minHeight: 56,
+          borderTopWidth: first ? 0 : 1,
+          borderTopColor: t.border,
+        }}
+      >
+        <Ionicons name={icon as never} size={20} color={t.inkSoft} />
+        <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink, flex: 1 }}>{label}</Text>
+        <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.gold }}>{value}</Text>
+        <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
+      </View>
     </Pressable>
   );
 }
