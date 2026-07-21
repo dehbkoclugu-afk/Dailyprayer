@@ -1,0 +1,111 @@
+# Manually / trigger-file driven Android APK build: expo prebuild + gradle.
+# Output: downloadable "lumen-apk" artifact on the Actions run page.
+# Signing: Expo template default (debug keystore) — for test/sideload only;
+# store release is done via an EAS production build.
+name: Android APK
+
+on:
+  workflow_dispatch:
+  # Builds when the .apk-trigger file changes (ordinary pushes don't build).
+  push:
+    branches:
+      - 'claude/**'
+    paths:
+      - '.apk-trigger'
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      # The runner disk is tight for RN release packaging — free ~20GB by
+      # removing unused preinstalled toolchains.
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/share/boost /usr/local/lib/node_modules
+          df -h /
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate the Android project (prebuild)
+        run: npx expo prebuild --platform android --no-install
+
+      # Only real-device (arm64) + emulator (x86_64) ABIs: halves build time
+      # and disk, shrinks the APK.
+      - name: Narrow architectures
+        run: |
+          sed -i 's/^reactNativeArchitectures=.*/reactNativeArchitectures=arm64-v8a,x86_64/' android/gradle.properties
+          grep reactNativeArchitectures android/gradle.properties
+
+      - name: Build APK
+        run: cd android && ./gradlew assembleRelease --no-daemon
+
+      - name: Disk status
+        if: always()
+        run: df -h /
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: lumen-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error
+
+  # Smoke test: does the APK open on an emulator? A crash lands in the log.
+  smoke:
+    needs: apk
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Download APK
+        uses: actions/download-artifact@v4
+        with:
+          name: lumen-apk
+
+      - name: KVM permissions
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Launch on emulator and collect logcat
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          script: |
+            adb install app-release.apk
+            adb logcat -c
+            adb shell monkey -p com.lumen.dailyprayer -c android.intent.category.LAUNCHER 1
+            sleep 30
+            adb logcat -d > logcat.txt
+            echo "===== JAVA CRASH ====="
+            grep -B 2 -A 80 "FATAL EXCEPTION" logcat.txt || echo "none"
+            echo "===== NATIVE CRASH ====="
+            grep -B 2 -A 80 -E "Fatal signal|tombstoned" logcat.txt || echo "none"
+            echo "===== APP TRACES ====="
+            grep -E "lumen|Lumen|AndroidRuntime|ReactNativeJS|E ReactNative|Hermes|hermes|SoLoader|UnsatisfiedLink|Reanimated|Purchases" logcat.txt | tail -150 || true
+            adb shell pidof com.lumen.dailyprayer && echo "PROCESS ALIVE" || echo "PROCESS DEAD"
+
+      - name: Upload logcat
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logcat
+          path: logcat.txt
+          if-no-files-found: ignore

@@ -13,7 +13,9 @@
       "supportsTablet": false,
       "icon": "./assets/icon.png",
       "infoPlist": {
-        "UIBackgroundModes": ["audio"]
+        "UIBackgroundModes": [
+          "audio"
+        ]
       }
     },
     "android": {
@@ -43,7 +45,9 @@
         {
           "color": "#D9A441"
         }
-      ]
+      ],
+      "expo-asset",
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true
