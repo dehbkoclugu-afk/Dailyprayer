@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "Lumen: Daily Prayer & Bible",
+    "slug": "lumen-daily-prayer",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "lumen",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "bundleIdentifier": "com.lumen.dailyprayer",
+      "supportsTablet": false,
+      "infoPlist": {
+        "UIBackgroundModes": ["audio"]
+      }
+    },
+    "android": {
+      "package": "com.lumen.dailyprayer",
+      "adaptiveIcon": {
+        "backgroundColor": "#0E1220"
+      }
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      [
+        "expo-notifications",
+        {
+          "color": "#D9A441"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
