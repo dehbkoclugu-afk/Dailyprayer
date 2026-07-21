@@ -26,7 +26,7 @@ export type AssetId =
   | 'A15-building-candle';
 
 export const artRegistry: Record<AssetId, ImageSourcePropType | null> = {
-  'A1-logomark': null,
+  'A1-logomark': require('./art/A1-logomark.png'),
   'A4-welcome-hero': null,
   'A5-verse-peace': null,
   'A6-affirmation-spot': null,

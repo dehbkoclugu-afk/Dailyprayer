@@ -7,9 +7,11 @@
     "scheme": "lumen",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "icon": "./assets/icon.png",
     "ios": {
       "bundleIdentifier": "com.lumen.dailyprayer",
       "supportsTablet": false,
+      "icon": "./assets/icon.png",
       "infoPlist": {
         "UIBackgroundModes": ["audio"]
       }
@@ -17,6 +19,7 @@
     "android": {
       "package": "com.lumen.dailyprayer",
       "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0E1220"
       }
     },
