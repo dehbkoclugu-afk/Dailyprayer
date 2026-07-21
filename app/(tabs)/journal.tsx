@@ -100,7 +100,7 @@ tr(kind === 'gratitude' ? 'journal.placeholderGratitude' : 'journal.placeholderR
         }
         placeholderTextColor={t.inkFaint}
         multiline
-        accessibilityLabel="Journal entry"
+        accessibilityLabel={tr('a11y.journalEntry')}
         style={{
           marginTop: spacing.lg,
           backgroundColor: t.surface,
@@ -163,7 +163,7 @@ tr(kind === 'gratitude' ? 'journal.placeholderGratitude' : 'journal.placeholderR
                       onPress={() => toggleAnswered(e.id)}
                       hitSlop={8}
                       accessibilityRole="button"
-                      accessibilityLabel={e.answered ? 'Mark as not answered' : 'Mark as answered'}
+                      accessibilityLabel={e.answered ? tr('a11y.markUnanswered') : tr('a11y.markAnswered')}
                     >
                       <Ionicons
                         name={e.answered ? 'checkmark-circle' : 'checkmark-circle-outline'}
@@ -176,7 +176,7 @@ tr(kind === 'gratitude' ? 'journal.placeholderGratitude' : 'journal.placeholderR
                     onPress={() => remove(e.id)}
                     hitSlop={8}
                     accessibilityRole="button"
-                    accessibilityLabel="Delete entry"
+                    accessibilityLabel={tr('a11y.deleteEntry')}
                   >
                     <Ionicons name="trash-outline" size={18} color={t.inkFaint} />
                   </Pressable>

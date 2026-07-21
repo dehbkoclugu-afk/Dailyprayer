@@ -13,7 +13,7 @@ import { spacing } from '@/theme/tokens';
 import { usePrayers } from '@/data/prayers';
 import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
-import { translate } from '@/i18n';
+import { translate, useT } from '@/i18n';
 
 /**
  * Guided prayer player — paced text lines with a breathing pause between them.
@@ -21,6 +21,7 @@ import { translate } from '@/i18n';
  */
 export default function Player() {
   const t = useTheme();
+  const { t: tr } = useT();
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
   const prayers = usePrayers();
@@ -62,7 +63,7 @@ export default function Player() {
             onPress={() => router.back()}
             hitSlop={12}
             accessibilityRole="button"
-            accessibilityLabel="Close player"
+            accessibilityLabel={tr('a11y.closePlayer')}
             // Visible bordered chip — the only way out of the player must never
             // become an invisible corner if the close glyph fails to render.
             style={{
@@ -120,7 +121,7 @@ export default function Player() {
             <Pressable
               onPress={() => setLine((l) => Math.max(0, l - 1))}
               accessibilityRole="button"
-              accessibilityLabel="Previous line"
+              accessibilityLabel={tr('a11y.prevLine')}
               style={{ width: 56, height: 56, alignItems: 'center', justifyContent: 'center' }}
             >
               <Ionicons name="play-skip-back" size={24} color="#A9A698" />
@@ -143,7 +144,7 @@ export default function Player() {
             <Pressable
               onPress={() => setLine((l) => Math.min(prayer.script.length - 1, l + 1))}
               accessibilityRole="button"
-              accessibilityLabel="Next line"
+              accessibilityLabel={tr('a11y.nextLine')}
               style={{ width: 56, height: 56, alignItems: 'center', justifyContent: 'center' }}
             >
               <Ionicons name="play-skip-forward" size={24} color="#A9A698" />

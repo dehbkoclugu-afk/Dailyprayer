@@ -43,7 +43,7 @@ export default function Pray() {
               onPress={() => setCat(active ? 'all' : c.key)}
               accessibilityRole="button"
               accessibilityState={{ selected: active }}
-              accessibilityLabel={c.label}
+              accessibilityLabel={tr(`cat.${c.key}` as never)}
               style={({ pressed }) => ({
                 width: '30.5%',
                 flexGrow: 1,
@@ -83,7 +83,7 @@ export default function Pray() {
         title={cat === 'all' ? tr('pray.library') : tr(`cat.${cat}` as never)}
         right={
           cat !== 'all' ? (
-            <Pressable onPress={() => setCat('all')} hitSlop={8} accessibilityRole="button" accessibilityLabel="Show all prayers">
+            <Pressable onPress={() => setCat('all')} hitSlop={8} accessibilityRole="button" accessibilityLabel={tr('a11y.showAll')}>
               <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>{tr('pray.showAll')}</Text>
             </Pressable>
           ) : undefined

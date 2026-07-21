@@ -192,7 +192,9 @@ export default function Today() {
                 }
                 accessibilityRole="button"
                 accessibilityLabel={
-                  sleepPrayer.plus && !isPlus ? 'Unlock sleep prayers' : `Play ${sleepPrayer.title}`
+                  sleepPrayer.plus && !isPlus
+                    ? tr('a11y.unlockSleep')
+                    : `${tr('a11y.play')} ${sleepPrayer.title}`
                 }
                 style={{
                   fontFamily: fonts.sansSemiBold,

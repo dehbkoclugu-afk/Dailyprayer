@@ -127,7 +127,7 @@ export default function Quiz() {
               autoFocus
               onFocus={() => setNameFocused(true)}
               onBlur={() => setNameFocused(false)}
-              accessibilityLabel="Your first name"
+              accessibilityLabel={tr('a11y.firstName')}
               style={{
                 marginTop: spacing.xl,
                 backgroundColor: t.surface,

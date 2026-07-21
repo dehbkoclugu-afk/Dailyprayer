@@ -36,7 +36,7 @@ export default function DevotionalScreen() {
         onPress={() => router.back()}
         hitSlop={12}
         accessibilityRole="button"
-        accessibilityLabel="Go back"
+        accessibilityLabel={tr('a11y.back')}
         // Bordered chip so there's always a visible tap target to leave the
         // reader — a bare icon becomes an invisible dead corner if the glyph
         // ever fails to render.

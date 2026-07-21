@@ -45,7 +45,7 @@ export default function Paywall() {
       const ok = await purchase(selected);
       if (ok) setThanks(true);
     } catch {
-      Alert.alert('Purchase failed', 'Nothing was charged. Please try again.');
+      Alert.alert(tr('paywall.purchaseFailTitle'), tr('paywall.purchaseFailBody'));
     } finally {
       setBusy(false);
     }
@@ -55,11 +55,11 @@ export default function Paywall() {
     if (from === 'onboarding' && !sawDiscountOffer) {
       setSawDiscountOffer(true);
       Alert.alert(
-        'A gift before you go',
-        'Get your first year 50% off — this offer won’t appear again.',
+        tr('paywall.giftTitle'),
+        tr('paywall.giftBody'),
         [
-          { text: 'No thanks', style: 'cancel', onPress: () => router.replace('/(tabs)/today') },
-          { text: 'Claim 50% off', onPress: buy },
+          { text: tr('paywall.giftDecline'), style: 'cancel', onPress: () => router.replace('/(tabs)/today') },
+          { text: tr('paywall.giftClaim'), onPress: buy },
         ],
       );
       return;
@@ -99,7 +99,7 @@ export default function Paywall() {
         onPress={close}
         hitSlop={12}
         accessibilityRole="button"
-        accessibilityLabel="Close"
+        accessibilityLabel={tr('a11y.close')}
         style={({ pressed }) => ({
           alignSelf: 'flex-end',
           width: 44,

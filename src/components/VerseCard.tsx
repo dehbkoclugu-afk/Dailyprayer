@@ -112,7 +112,7 @@ export function VerseCard({ verse, onRead }: Props) {
               onPress={share}
               hitSlop={12}
               accessibilityRole="button"
-              accessibilityLabel="Share this verse"
+              accessibilityLabel={tr('a11y.shareVerse')}
               style={({ pressed }) => ({
                 width: 44,
                 height: 44,
