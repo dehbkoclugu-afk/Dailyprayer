@@ -27,7 +27,17 @@ const CURATED = {
   gratitude: ['1 Thessalonians 5:18','Psalm 107:1','Psalm 100:4','Colossians 3:17','Psalm 118:1','Psalm 9:1','Colossians 2:6-7','Psalm 136:1','Ephesians 5:20','Psalm 95:2','James 1:17','2 Corinthians 9:15','Psalm 103:2','Psalm 69:30','1 Chronicles 16:34','Psalm 116:12','Hebrews 12:28','Psalm 92:1','Psalm 75:1','Psalm 111:1'],
   comfort: ['Psalm 23:4','2 Corinthians 1:3-4','Matthew 5:4','Psalm 34:18','Isaiah 49:13','Psalm 147:3','Isaiah 66:13','Psalm 119:76','Revelation 21:4','Psalm 71:21','Isaiah 51:12','Psalm 94:19','Isaiah 61:2-3','Psalm 116:8','Psalm 86:17','Isaiah 40:1','Psalm 30:11','Romans 8:18','Psalm 56:8','Isaiah 25:8'],
   faith: ['Hebrews 11:1','Mark 11:24','2 Corinthians 5:7','Matthew 17:20','Romans 10:17','James 1:6','Ephesians 2:8-9','Mark 9:23','Hebrews 11:6','1 Peter 1:8-9','John 20:29','Matthew 21:22','James 2:17','1 John 5:4','Habakkuk 2:4','Psalm 27:13','Mark 5:36','Hebrews 10:23','2 Timothy 4:7','1 Corinthians 2:5'],
-  forgiveness: ['1 John 1:9','Ephesians 4:32','Psalm 103:12','Colossians 3:13','Matthew 6:14','Isaiah 1:18','Micah 7:18-19','Psalm 32:5','Luke 6:37','Acts 3:19','Isaiah 43:25','Matthew 18:21-22','Psalm 51:10','Hebrews 8:12','Mark 11:25','Psalm 86:5','Romans 8:1','Psalm 130:3-4'],
+  forgiveness: ['1 John 1:9','Ephesians 4:32','Psalm 103:12','Colossians 3:13','Matthew 6:14','Isaiah 1:18','Micah 7:18-19','Psalm 32:5','Luke 6:37','Acts 3:19','Isaiah 43:25','Matthew 18:21-22','Psalm 51:10','Hebrews 8:12','Mark 11:25','Psalm 86:5','Romans 8:1','Psalm 130:3-4','Psalm 65:3','Colossians 1:14','Nehemiah 9:17','Luke 23:34','Psalm 25:11'],
+  // ── expansion batch (fills toward 365 days) ──
+  peace2: ['Psalm 116:7','John 14:1','Isaiah 9:6','Psalm 131:2','Romans 14:19','Galatians 5:22','Psalm 34:14','Ephesians 4:3','Psalm 4:8','1 Peter 3:11','Isaiah 26:12'],
+  strength2: ['Psalm 62:11','Isaiah 30:15','2 Corinthians 4:16','Psalm 46:5','Ephesians 3:16','Psalm 84:5','Isaiah 33:2','Psalm 71:16','Philippians 4:19','Psalm 89:21','2 Chronicles 15:7'],
+  hope2: ['Romans 4:18','Psalm 33:22','Isaiah 40:31','Psalm 146:5','Jeremiah 31:17','Psalm 43:5','Romans 8:28','Psalm 121:2','Micah 7:7','Psalm 27:14','Proverbs 24:14'],
+  trust2: ['Psalm 118:8','Isaiah 41:13','Psalm 37:3','Proverbs 3:5','Psalm 71:5','Nahum 1:7','Psalm 143:8','Isaiah 50:10','Psalm 33:20','Jeremiah 17:8','Psalm 91:4'],
+  joy2: ['Psalm 30:11','Nehemiah 12:43','Romans 14:17','Psalm 65:8','Isaiah 12:3','Psalm 68:3','John 15:11','Psalm 89:15','Philippians 1:4','Psalm 132:9'],
+  love2: ['1 John 4:11','John 14:21','Romans 12:9','Psalm 143:8','1 Corinthians 16:14','Ephesians 5:2','1 John 4:12','Psalm 33:5','Colossians 3:14','Jude 1:21'],
+  faith2: ['2 Corinthians 1:24','Romans 15:13','Hebrews 12:2','Psalm 31:24','1 Timothy 6:12','Mark 10:52','Ephesians 3:12','Galatians 3:11','Hebrews 11:8','James 1:3'],
+  guidance2: ['Psalm 119:133','Proverbs 16:3','Isaiah 48:17','Psalm 25:12','Proverbs 3:23','Psalm 139:10','Isaiah 30:21','Psalm 5:8','Proverbs 20:24','Psalm 32:8'],
+  comfort2: ['Psalm 46:1','Matthew 11:28','Isaiah 43:2','Psalm 138:7','2 Corinthians 7:6','Psalm 42:8','John 16:22','Isaiah 41:10','Psalm 145:14','Revelation 7:17'],
 };
 
 // Map spoken book names -> WEB json filenames.
@@ -76,7 +86,10 @@ function verseText(ref) {
 const entries = [];
 const failed = [];
 const seen = new Set();
-for (const [theme, refs] of Object.entries(CURATED)) {
+for (const [group, refs] of Object.entries(CURATED)) {
+  // Expansion groups are suffixed (peace2, strength2…); map back to the real
+  // theme so every verse still keys a valid A5 art series.
+  const theme = group.replace(/\d+$/, '');
   for (const ref of refs) {
     if (seen.has(ref)) continue; // a verse belongs to its first theme only
     seen.add(ref);
@@ -102,7 +115,9 @@ while (added) {
   }
 }
 
-const themeUnion = Object.keys(CURATED).map((t) => `'${t}'`).join(' | ');
+const themeUnion = [...new Set(Object.keys(CURATED).map((g) => g.replace(/\d+$/, '')))]
+  .map((t) => `'${t}'`)
+  .join(' | ');
 const body = interleaved
   .map((e) => `  { text: ${JSON.stringify(e.text)}, reference: ${JSON.stringify(e.reference)}, theme: '${e.theme}' },`)
   .join('\n');

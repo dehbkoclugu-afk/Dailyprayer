@@ -5,8 +5,8 @@ import { verses } from './verses.ts';
 // Data-integrity guard for scripture. See docs/scripture-integrity.md.
 // This caught a real incident where a generator wrote an empty verses file.
 
-test('verse pool is large enough for daily rotation', () => {
-  assert.ok(verses.length >= 250, `only ${verses.length} verses; expected >= 250`);
+test('verse pool covers a full year of daily rotation', () => {
+  assert.ok(verses.length >= 365, `only ${verses.length} verses; expected >= 365`);
 });
 
 test('every verse has real, non-empty text', () => {
