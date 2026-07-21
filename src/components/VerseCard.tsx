@@ -34,9 +34,11 @@ const VERSE_ART: Record<DailyVerse['theme'], AssetId> = {
 interface Props {
   verse: DailyVerse;
   onRead?: () => void;
+  /** Swap the shown verse for another from the pool (optional affordance). */
+  onShuffle?: () => void;
 }
 
-export function VerseCard({ verse, onRead }: Props) {
+export function VerseCard({ verse, onRead, onShuffle }: Props) {
   const { t: tr } = useT();
   const cardRef = useRef<View>(null);
 
@@ -108,21 +110,40 @@ export function VerseCard({ verse, onRead }: Props) {
             <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: '#D9A441' }}>
               {verse.reference}
             </Text>
-            <Pressable
-              onPress={share}
-              hitSlop={12}
-              accessibilityRole="button"
-              accessibilityLabel={tr('a11y.shareVerse')}
-              style={({ pressed }) => ({
-                width: 44,
-                height: 44,
-                alignItems: 'center',
-                justifyContent: 'center',
-                opacity: pressed ? 0.6 : 1,
-              })}
-            >
-              <Ionicons name="share-outline" size={22} color="#F2EEE6" />
-            </Pressable>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              {onShuffle ? (
+                <Pressable
+                  onPress={onShuffle}
+                  hitSlop={12}
+                  accessibilityRole="button"
+                  accessibilityLabel={tr('a11y.anotherVerse')}
+                  style={({ pressed }) => ({
+                    width: 44,
+                    height: 44,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    opacity: pressed ? 0.6 : 1,
+                  })}
+                >
+                  <Ionicons name="shuffle" size={22} color="#F2EEE6" />
+                </Pressable>
+              ) : null}
+              <Pressable
+                onPress={share}
+                hitSlop={12}
+                accessibilityRole="button"
+                accessibilityLabel={tr('a11y.shareVerse')}
+                style={({ pressed }) => ({
+                  width: 44,
+                  height: 44,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  opacity: pressed ? 0.6 : 1,
+                })}
+              >
+                <Ionicons name="share-outline" size={22} color="#F2EEE6" />
+              </Pressable>
+            </View>
           </View>
         </View>
       </ArtSlot>

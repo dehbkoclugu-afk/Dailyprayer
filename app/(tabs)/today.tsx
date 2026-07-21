@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -15,6 +15,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useDailyContent } from '@/hooks/useDailyContent';
+import { verses, type DailyVerse } from '@/data/verses';
 import { useStreakStore } from '@/state/useStreakStore';
 import { useUserStore } from '@/state/useUserStore';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
@@ -30,6 +31,18 @@ export default function Today() {
   const t = useTheme();
   const { t: tr } = useT();
   const { verse, devotional } = useDailyContent();
+  // The verse of the day is fixed by date, but let people browse the pool — a
+  // shuffle swaps in another verse without touching the day's read-streak.
+  const [otherVerse, setOtherVerse] = useState<DailyVerse | null>(null);
+  const shownVerse = otherVerse ?? verse;
+  const shuffleVerse = () => {
+    if (verses.length < 2) return;
+    let next = shownVerse;
+    while (next.reference === shownVerse.reference) {
+      next = verses[Math.floor(Math.random() * verses.length)];
+    }
+    setOtherVerse(next);
+  };
   const prayers = usePrayers();
   const name = useUserStore((s) => s.quiz.name);
   const isPlus = useEntitlementStore((s) => s.isPlus);
@@ -106,7 +119,8 @@ export default function Today() {
 
       <Animated.View entering={FadeInDown.springify().damping(20)} style={{ marginTop: spacing.xl }}>
         <VerseCard
-          verse={verse}
+          verse={shownVerse}
+          onShuffle={shuffleVerse}
           onRead={() => {
             if (!isDone('verse')) {
               completeStep('verse');
