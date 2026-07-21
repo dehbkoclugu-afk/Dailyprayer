@@ -6,6 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { ArtSlot } from '@/components/ArtSlot';
+import { planArt } from '@/assets/registry';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
@@ -130,11 +131,12 @@ export default function Bible() {
               accessibilityLabel={`${p.title}${locked ? ', requires Plus' : ''}`}
             >
               <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
-                <ArtSlot id="A13-plan-cover" height={150} radius={radius.card}>
+                <ArtSlot id={planArt(p.id)} height={150} radius={radius.card}>
+                  {/* light bottom-up scrim: art shows at top, title stays legible */}
                   <LinearGradient
-                    colors={[`${p.gradient[0]}CC`, `${p.gradient[1]}F2`]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 1 }}
+                    colors={['rgba(14,18,32,0.1)', `${p.gradient[1]}E6`]}
+                    start={{ x: 0.5, y: 0 }}
+                    end={{ x: 0.5, y: 1 }}
                     style={{ position: 'absolute', width: '100%', height: '100%' }}
                   />
                   <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>

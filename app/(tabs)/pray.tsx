@@ -9,6 +9,8 @@ import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { prayers, prayerCategories, type GuidedPrayer } from '@/data/prayers';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
+import { ArtSlot } from '@/components/ArtSlot';
+import { categoryArt } from '@/assets/registry';
 import { useT } from '@/i18n';
 
 export default function Pray() {
@@ -58,15 +60,20 @@ export default function Pray() {
             >
               <View
                 style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 22,
+                  width: 52,
+                  height: 52,
+                  borderRadius: 26,
+                  overflow: 'hidden',
                   backgroundColor: active ? 'transparent' : t.surfaceAlt,
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
               >
-                <Ionicons name={c.icon as never} size={22} color={t.gold} />
+                {categoryArt(c.key) ? (
+                  <ArtSlot id={categoryArt(c.key)!} height={52} fit="cover" style={{ width: 52 }} />
+                ) : (
+                  <Ionicons name={c.icon as never} size={22} color={t.gold} />
+                )}
               </View>
               <Text
                 style={{

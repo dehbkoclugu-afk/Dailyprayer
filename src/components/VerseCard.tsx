@@ -7,6 +7,7 @@ import * as Sharing from 'expo-sharing';
 import { fonts } from '@/theme/typography';
 import { radius, shadow, spacing } from '@/theme/tokens';
 import { ArtSlot } from '@/components/ArtSlot';
+import { verseArt } from '@/assets/registry';
 import type { DailyVerse } from '@/data/verses';
 import { useT } from '@/i18n';
 
@@ -42,8 +43,8 @@ export function VerseCard({ verse, onRead }: Props) {
       accessibilityLabel={`Verse of the day, ${verse.reference}`}
       style={[{ borderRadius: radius.hero, overflow: 'hidden' }, shadow.card]}
     >
-      {/* Painterly art layer (A5 series) with dusk-veil fallback + scrim for legibility */}
-      <ArtSlot id="A5-verse-peace" height={340} radius={radius.hero}>
+      {/* Painterly art layer (A5 series, chosen by verse theme) + scrim for legibility */}
+      <ArtSlot id={verseArt(verse.theme)} height={340} radius={radius.hero}>
         <LinearGradient
           colors={['rgba(23,16,46,0.55)', 'rgba(14,18,32,0.92)']}
           start={{ x: 0.5, y: 0 }}

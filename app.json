@@ -31,6 +31,14 @@
       "expo-router",
       "expo-font",
       [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash.png",
+          "backgroundColor": "#0E1220",
+          "imageWidth": 200
+        }
+      ],
+      [
         "expo-notifications",
         {
           "color": "#D9A441"
