@@ -36,7 +36,7 @@ export const artRegistry: Record<AssetId, ImageSourcePropType | null> = {
   'A10-tonight-night': require('./art/A10-tonight-night.png'),
   'A12-journal-empty': require('./art/A12-journal-empty.png'),
   'A13-plan-cover': require('./art/A13-plan-cover.png'),
-  'A15-building-candle': null,
+  'A15-building-candle': require('./art/A15-building-candle.png'),
 };
 
 /** Placeholder metadata shown inside unfilled slots (matches asset briefs). */
