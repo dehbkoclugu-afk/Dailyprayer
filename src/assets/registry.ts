@@ -27,15 +27,15 @@ export type AssetId =
 
 export const artRegistry: Record<AssetId, ImageSourcePropType | null> = {
   'A1-logomark': require('./art/A1-logomark.png'),
-  'A4-welcome-hero': null,
-  'A5-verse-peace': null,
-  'A6-affirmation-spot': null,
-  'A7-plan-crest': null,
-  'A8-paywall-hero': null,
-  'A9-thanks-sharing': null,
-  'A10-tonight-night': null,
-  'A12-journal-empty': null,
-  'A13-plan-cover': null,
+  'A4-welcome-hero': require('./art/A4-welcome-hero.png'),
+  'A5-verse-peace': require('./art/A5-verse-peace.png'),
+  'A6-affirmation-spot': require('./art/A6-affirmation-spot.png'),
+  'A7-plan-crest': require('./art/A7-plan-crest.png'),
+  'A8-paywall-hero': require('./art/A8-paywall-hero.png'),
+  'A9-thanks-sharing': require('./art/A9-thanks-sharing.png'),
+  'A10-tonight-night': require('./art/A10-tonight-night.png'),
+  'A12-journal-empty': require('./art/A12-journal-empty.png'),
+  'A13-plan-cover': require('./art/A13-plan-cover.png'),
   'A15-building-candle': null,
 };
 
