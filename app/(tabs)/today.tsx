@@ -21,12 +21,14 @@ import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { greetingFor, dayKey } from '@/lib/dates';
 import { prayers } from '@/data/prayers';
 import { toast } from '@/state/useToastStore';
+import { useT, translate } from '@/i18n';
 
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
 export default function Today() {
   const t = useTheme();
+  const { t: tr } = useT();
   const { verse, devotional } = useDailyContent();
   const name = useUserStore((s) => s.quiz.name);
   const isPlus = useEntitlementStore((s) => s.isPlus);
@@ -38,7 +40,7 @@ export default function Today() {
   const dateLine = `${DAYS[now.getDay()]}, ${MONTHS[now.getMonth()]} ${now.getDate()}`;
   const greeting = greetingFor(now.getHours());
   const greetText =
-    greeting === 'morning' ? 'Good morning' : greeting === 'afternoon' ? 'Good afternoon' : 'Good evening';
+    greeting === 'morning' ? tr('today.morning') : greeting === 'afternoon' ? tr('today.afternoon') : tr('today.evening');
 
   const isDone = (s: 'verse' | 'devotional' | 'prayer' | 'gratitude') =>
     doneDay === dayKey() && doneSteps.includes(s);
@@ -99,7 +101,7 @@ export default function Today() {
             }}
           >
             <StreakFlame count={count} litToday={litToday} />
-            <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft }}> day streak</Text>
+            <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft }}> {tr('today.dayStreak')}</Text>
           </View>
         </View>
         <ProgressRing done={doneCount} total={4} size={56} />
@@ -111,27 +113,27 @@ export default function Today() {
           onRead={() => {
             if (!isDone('verse')) {
               completeStep('verse');
-              toast('Verse kept in your heart — 1 of 4');
+              toast(translate('toast.verse'));
             }
           }}
         />
       </Animated.View>
 
-      <SectionHeader title="Your daily rhythm" />
+      <SectionHeader title={tr('today.rhythm')} />
       <View style={{ gap: spacing.md }}>
         {[
           <RitualCard
             key="devotional"
             icon="book-outline"
-            title="Daily devotional"
-            subtitle={`${devotional.title} · 2 min read`}
+            title={tr('today.devotional')}
+            subtitle={`${devotional.title} · 2 ${tr('today.minRead')}`}
             done={isDone('devotional')}
             onPress={() => router.push('/devotional')}
           />,
           <RitualCard
             key="prayer"
             icon="flame-outline"
-            title="Guided prayer"
+            title={tr('today.guidedPrayer')}
             subtitle={`${morningPrayer.title} · ${morningPrayer.minutes} min`}
             done={isDone('prayer')}
             onPress={() => router.push({ pathname: '/player', params: { id: morningPrayer.id } })}
@@ -139,8 +141,8 @@ export default function Today() {
           <RitualCard
             key="gratitude"
             icon="heart-outline"
-            title="Gratitude"
-            subtitle="Write one thing you’re thankful for"
+            title={tr('today.gratitude')}
+            subtitle={tr('today.gratitudeSub')}
             done={isDone('gratitude')}
             onPress={() => router.push('/(tabs)/journal')}
           />,
@@ -151,7 +153,7 @@ export default function Today() {
         ))}
       </View>
 
-      <SectionHeader title="Tonight" />
+      <SectionHeader title={tr('today.tonight')} />
       {/* Night shifts the palette: indigo art card, not a standard row */}
       <Animated.View entering={FadeInDown.delay(300).springify().damping(20)}>
         <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
@@ -179,7 +181,7 @@ export default function Today() {
                     color: 'rgba(217,164,65,0.85)',
                   }}
                 >
-                  Sleep prayer
+{tr('today.sleepPrayer')}
                 </Text>
                 <Text style={{ fontFamily: fonts.serif, fontSize: 21, color: '#F2EEE6', marginTop: 4 }}>
                   {sleepPrayer.title} · {sleepPrayer.minutes} min
@@ -206,7 +208,7 @@ export default function Today() {
                   overflow: 'hidden',
                 }}
               >
-                {sleepPrayer.plus && !isPlus ? 'Unlock' : 'Play'}
+                {sleepPrayer.plus && !isPlus ? tr('today.unlock') : tr('today.play')}
               </Text>
             </View>
             {sleepPrayer.plus && !isPlus ? (

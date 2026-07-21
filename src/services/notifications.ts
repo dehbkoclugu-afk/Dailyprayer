@@ -35,12 +35,12 @@ export async function scheduleDailyReminder(time: string): Promise<void> {
   });
 }
 
-export async function scheduleStreakSave(): Promise<void> {
+export async function scheduleStreakSave(streak = 0): Promise<void> {
   await Notifications.cancelScheduledNotificationAsync(STREAK_ID).catch(() => {});
   await Notifications.scheduleNotificationAsync({
     identifier: STREAK_ID,
     content: {
-      title: "Don't lose your streak",
+      title: streak > 1 ? `Don't lose your ${streak}-day streak` : "Don't lose your streak",
       body: 'One minute with today’s verse keeps your flame lit.',
     },
     trigger: {

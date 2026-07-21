@@ -11,9 +11,11 @@ import { radius, spacing } from '@/theme/tokens';
 import { useDailyContent } from '@/hooks/useDailyContent';
 import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
+import { useT, translate } from '@/i18n';
 
 export default function DevotionalScreen() {
   const t = useTheme();
+  const { t: tr } = useT();
   const { verse, devotional } = useDailyContent();
   const completeStep = useStreakStore((s) => s.completeStep);
   const [amened, setAmened] = React.useState(false);
@@ -24,7 +26,7 @@ export default function DevotionalScreen() {
     setAmened(true);
     completeStep('devotional');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
-    toast('Devotional complete — your flame stays lit');
+    toast(translate('toast.devotional'));
     setTimeout(() => router.back(), 600);
   };
 
@@ -41,7 +43,7 @@ export default function DevotionalScreen() {
       </Pressable>
 
       <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 12, letterSpacing: 2, textTransform: 'uppercase', color: t.gold, marginTop: spacing.lg }}>
-        Today’s devotional
+{tr('devotional.label')}
       </Text>
       <Text style={[ty.display, { color: t.ink, marginTop: spacing.sm }]}>{devotional.title}</Text>
 
@@ -91,7 +93,7 @@ export default function DevotionalScreen() {
         </Text>
       </View>
 
-      <PillButton label={amened ? '✓' : 'Amen'} onPress={finish} style={{ marginTop: spacing.xxl }} />
+      <PillButton label={amened ? '✓' : tr('devotional.amen')} onPress={finish} style={{ marginTop: spacing.xxl }} />
     </Screen>
   );
 }

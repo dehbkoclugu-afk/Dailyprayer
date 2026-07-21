@@ -1,11 +1,14 @@
-import React from 'react';
-import { Pressable, Share, Text, View } from 'react-native';
+import React, { useRef } from 'react';
+import { Platform, Pressable, Share, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
+import { captureRef } from 'react-native-view-shot';
+import * as Sharing from 'expo-sharing';
 import { fonts } from '@/theme/typography';
 import { radius, shadow, spacing } from '@/theme/tokens';
 import { ArtSlot } from '@/components/ArtSlot';
 import type { DailyVerse } from '@/data/verses';
+import { useT } from '@/i18n';
 
 interface Props {
   verse: DailyVerse;
@@ -13,13 +16,27 @@ interface Props {
 }
 
 export function VerseCard({ verse, onRead }: Props) {
-  const share = () =>
-    Share.share({
-      message: `“${verse.text}” — ${verse.reference}\n\nShared from Lumen 🕊`,
-    }).catch(() => {});
+  const { t: tr } = useT();
+  const cardRef = useRef<View>(null);
+
+  /** Share the rendered card as an image (organic growth); text fallback on web/failure. */
+  const share = async () => {
+    const text = `“${verse.text}” — ${verse.reference}\n\nLumen 🕊`;
+    try {
+      if (Platform.OS !== 'web' && (await Sharing.isAvailableAsync())) {
+        const uri = await captureRef(cardRef, { format: 'png', quality: 1 });
+        await Sharing.shareAsync(uri, { dialogTitle: verse.reference });
+        return;
+      }
+    } catch {
+      // fall through to text share
+    }
+    Share.share({ message: text }).catch(() => {});
+  };
 
   return (
     <Pressable
+      ref={cardRef}
       onPress={onRead}
       accessibilityRole="button"
       accessibilityLabel={`Verse of the day, ${verse.reference}`}
@@ -43,7 +60,7 @@ export function VerseCard({ verse, onRead }: Props) {
               color: 'rgba(217,164,65,0.85)',
             }}
           >
-            Verse of the day
+{tr('today.verseOfDay')}
           </Text>
           <Text
             style={{

@@ -12,18 +12,23 @@ import { radius, spacing } from '@/theme/tokens';
 import { sampleChapters } from '@/data/bible';
 import { plans } from '@/data/plans';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
+import { useHighlightStore } from '@/state/useHighlightStore';
+import { toast } from '@/state/useToastStore';
+import { useT, translate } from '@/i18n';
 
 export default function Bible() {
   const t = useTheme();
+  const { t: tr } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
+  const { keys: highlightKeys, toggle: toggleHighlight } = useHighlightStore();
   const [openIdx, setOpenIdx] = useState(0);
   const chapter = sampleChapters[openIdx];
 
   return (
     <Screen tabbed>
-      <Text style={[ty.title, { color: t.ink }]}>Bible</Text>
+      <Text style={[ty.title, { color: t.ink }]}>{tr('bible.title')}</Text>
       <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>
-        World English Bible · offline
+{tr('bible.sub')}
       </Text>
 
       {/* chapter picker — single horizontal row */}
@@ -74,15 +79,27 @@ export default function Bible() {
         <Text style={[ty.title, { color: t.ink, marginBottom: spacing.lg }]}>
           {chapter.book} {chapter.chapter}
         </Text>
-        {chapter.verses.map((v, i) => (
+        <Text style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkFaint, marginBottom: spacing.md }}>
+          {tr('bible.highlightHint')}
+        </Text>
+        {chapter.verses.map((v, i) => {
+          const hKey = `${chapter.book}|${chapter.chapter}|${i}`;
+          const highlighted = highlightKeys.includes(hKey);
+          return (
           <Text
             key={i}
+            onPress={() => {
+              const on = toggleHighlight(hKey);
+              toast(translate(on ? 'toast.highlightOn' : 'toast.highlightOff'));
+            }}
+            suppressHighlighting
             style={{
               fontFamily: fonts.serifLight,
               fontSize: 19,
               lineHeight: 34,
               color: t.ink,
               marginBottom: spacing.md,
+              backgroundColor: highlighted ? t.goldSoft : 'transparent',
             }}
           >
             <Text
@@ -97,10 +114,11 @@ export default function Bible() {
             </Text>
             {v}
           </Text>
-        ))}
+          );
+        })}
       </View>
 
-      <SectionHeader title="Reading plans" />
+      <SectionHeader title={tr('bible.plans')} />
       <View style={{ gap: spacing.md }}>
         {plans.map((p) => {
           const locked = p.plus && !isPlus;
@@ -138,7 +156,7 @@ export default function Bible() {
                         fontVariant: ['tabular-nums'],
                       }}
                     >
-                      {p.days} days
+{p.days} {tr('bible.days')}
                     </Text>
                   </View>
                 </ArtSlot>

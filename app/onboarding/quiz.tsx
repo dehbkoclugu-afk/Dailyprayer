@@ -12,10 +12,12 @@ import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { quizSteps } from '@/data/quiz';
 import { useUserStore } from '@/state/useUserStore';
+import { useT } from '@/i18n';
 
 /** Step 0 = name entry, then quizSteps, with affirmation interstitials. */
 export default function Quiz() {
   const t = useTheme();
+  const { t: tr } = useT();
   const setQuiz = useUserStore((s) => s.setQuiz);
   const [step, setStep] = useState(0);
   const [name, setName] = useState('');
@@ -72,7 +74,7 @@ export default function Quiz() {
             style={{ width: 120, marginBottom: spacing.xl }}
           />
           <Text style={[ty.title, { color: t.ink }]}>{affirmation}</Text>
-          <PillButton label="Continue" onPress={goNext} style={{ marginTop: spacing.xxl }} />
+          <PillButton label={tr('quiz.continue')} onPress={goNext} style={{ marginTop: spacing.xxl }} />
         </Animated.View>
       </Screen>
     );
@@ -110,17 +112,17 @@ export default function Quiz() {
               fontVariant: ['tabular-nums'],
             }}
           >
-            {step + 1} of {total}
+            {step + 1} {tr('quiz.stepOf')} {total}
           </Text>
         </View>
 
         {step === 0 ? (
           <Animated.View key="name" entering={FadeInDown.springify().damping(20)}>
-            <Text style={[ty.title, { color: t.ink }]}>What should we call you?</Text>
+            <Text style={[ty.title, { color: t.ink }]}>{tr('quiz.namePrompt')}</Text>
             <TextInput
               value={name}
               onChangeText={setName}
-              placeholder="Your first name"
+              placeholder={tr('quiz.namePlaceholder')}
               placeholderTextColor={t.inkFaint}
               autoFocus
               onFocus={() => setNameFocused(true)}
@@ -146,7 +148,7 @@ export default function Quiz() {
                 marginTop: spacing.sm,
               }}
             >
-              We use this only to greet you. It never leaves your device.
+{tr('quiz.nameNote')}
             </Text>
           </Animated.View>
         ) : current ? (
@@ -219,7 +221,7 @@ export default function Quiz() {
       </View>
 
       <PillButton
-        label={step + 1 >= total ? 'Create my plan' : 'Continue'}
+        label={step + 1 >= total ? tr('quiz.createPlan') : tr('quiz.continue')}
         onPress={advance}
         disabled={step === 0 ? name.trim().length === 0 : selected.length === 0}
       />

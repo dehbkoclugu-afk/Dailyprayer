@@ -30,12 +30,14 @@ export default function Reveal() {
   useEffect(() => {
     // Schedule the reminder they chose (permission prompt happens here, post-investment).
     if (quiz.prayerTime && quiz.prayerTime !== 'none') {
-      NotificationService.requestPermission().then((granted) => {
-        if (granted) {
-          NotificationService.scheduleDailyReminder(quiz.prayerTime as string);
-          NotificationService.scheduleStreakSave();
-        }
-      });
+      NotificationService.requestPermission()
+        .then((granted) => {
+          if (granted) {
+            NotificationService.scheduleDailyReminder(quiz.prayerTime as string);
+            NotificationService.scheduleStreakSave();
+          }
+        })
+        .catch(() => {}); // web / denied permissions must never crash the reveal
     }
   }, [quiz.prayerTime]);
 

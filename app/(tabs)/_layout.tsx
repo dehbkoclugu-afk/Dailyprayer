@@ -2,10 +2,12 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/hooks/useTheme';
+import { useT } from '@/i18n';
 import { fonts } from '@/theme/typography';
 
 export default function TabsLayout() {
   const t = useTheme();
+  const { t: tr } = useT();
   return (
     <Tabs
       screenOptions={{
@@ -24,35 +26,35 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="today"
         options={{
-          title: 'Today',
+          title: tr('tab.today'),
           tabBarIcon: ({ color, size }) => <Ionicons name="sunny-outline" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="bible"
         options={{
-          title: 'Bible',
+          title: tr('tab.bible'),
           tabBarIcon: ({ color, size }) => <Ionicons name="book-outline" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="pray"
         options={{
-          title: 'Pray',
+          title: tr('tab.pray'),
           tabBarIcon: ({ color, size }) => <Ionicons name="flame-outline" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="journal"
         options={{
-          title: 'Journal',
+          title: tr('tab.journal'),
           tabBarIcon: ({ color, size }) => <Ionicons name="create-outline" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Me',
+          title: tr('tab.me'),
           tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
         }}
       />

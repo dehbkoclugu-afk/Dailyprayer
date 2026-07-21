@@ -11,23 +11,28 @@ import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { FALLBACK_PLANS, purchase, restore, type PlanId } from '@/services/purchases';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
+import { useT } from '@/i18n';
 
-const BENEFITS = [
-  'Full guided prayer & sleep library',
-  'Every reading plan, incl. Bible in a Year',
-  'Unlimited “write my prayer”',
-  'Journal sync & export',
-];
-
-/** Per-plan supporting copy (equivalent pricing sells the annual). */
-const SUBCOPY: Record<PlanId, string> = {
-  annual: 'Just $4.99/mo, billed yearly · 7-day free trial',
-  weekly: 'For a short season',
-  lifetime: 'One gift, forever',
-};
 
 export default function Paywall() {
   const t = useTheme();
+  const { t: tr } = useT();
+  const BENEFITS = [tr('paywall.b1'), tr('paywall.b2'), tr('paywall.b3'), tr('paywall.b4')];
+  const SUBCOPY: Record<PlanId, string> = {
+    annual: tr('paywall.yearlySub'),
+    weekly: tr('paywall.weeklySub'),
+    lifetime: tr('paywall.lifetimeSub'),
+  };
+  const PLAN_TITLE: Record<PlanId, string> = {
+    annual: tr('paywall.yearly'),
+    weekly: tr('paywall.weekly'),
+    lifetime: tr('paywall.lifetime'),
+  };
+  const PLAN_PERIOD: Record<PlanId, string> = {
+    annual: tr('paywall.perYear'),
+    weekly: tr('paywall.perWeek'),
+    lifetime: tr('paywall.once'),
+  };
   const { from } = useLocalSearchParams<{ from?: string }>();
   const [selected, setSelected] = useState<PlanId>('annual');
   const [busy, setBusy] = useState(false);
@@ -74,14 +79,13 @@ export default function Paywall() {
           style={{ width: 180, alignSelf: 'center', marginBottom: spacing.xl }}
         />
         <Text style={[ty.title, { color: t.ink, textAlign: 'center' }]}>
-          Your light reaches further.
+{tr('paywall.thanksTitle')}
         </Text>
         <Text style={[ty.body, { color: t.inkSoft, marginTop: spacing.md, textAlign: 'center' }]}>
-          Part of every subscription gives Lumen free to someone who can’t afford
-          it. Thank you for praying it forward.
+{tr('paywall.thanksBody')}
         </Text>
         <PillButton
-          label="Begin with tonight’s sleep prayer"
+          label={tr('paywall.thanksCta')}
           onPress={() => router.replace('/(tabs)/today')}
           style={{ marginTop: spacing.xxl }}
         />
@@ -117,7 +121,7 @@ export default function Paywall() {
           />
           <View style={{ flex: 1, justifyContent: 'flex-end', padding: spacing.xl }}>
             <Text style={{ fontFamily: fonts.serif, fontSize: 27, color: '#F2EEE6' }}>
-              Go deeper with Lumen Plus
+{tr('paywall.title')}
             </Text>
             <View style={{ gap: spacing.xs, marginTop: spacing.md }}>
               {BENEFITS.map((b) => (
@@ -143,7 +147,7 @@ export default function Paywall() {
       >
         <Ionicons name="star" size={13} color={t.gold} />
         <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: t.inkSoft }}>
-          4.9 · loved by a growing community of daily prayer
+{tr('paywall.social')}
         </Text>
       </View>
 
@@ -157,7 +161,7 @@ export default function Paywall() {
               onPress={() => setSelected(p.id)}
               accessibilityRole="button"
               accessibilityState={{ selected: active }}
-              accessibilityLabel={`${p.title} ${p.price} ${p.period}`}
+              accessibilityLabel={`${PLAN_TITLE[p.id]} ${p.price} ${PLAN_PERIOD[p.id]}`}
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -178,7 +182,7 @@ export default function Paywall() {
               <View style={{ flex: 1 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
                   <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 17, color: t.ink }}>
-                    {p.title}
+{PLAN_TITLE[p.id]}
                   </Text>
                   {p.badge ? (
                     <View
@@ -190,7 +194,7 @@ export default function Paywall() {
                       }}
                     >
                       <Text style={{ fontFamily: fonts.sansBold, fontSize: 11, color: t.onGold }}>
-                        {p.badge}
+{tr('paywall.save')}
                       </Text>
                     </View>
                   ) : null}
@@ -209,7 +213,7 @@ export default function Paywall() {
               >
                 {p.price}
                 <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft }}>
-                  {' '}{p.period}
+{' '}{PLAN_PERIOD[p.id]}
                 </Text>
               </Text>
             </Pressable>
@@ -218,7 +222,7 @@ export default function Paywall() {
       </View>
 
       <PillButton
-        label={selected === 'annual' ? 'Start 7-day free trial' : 'Continue'}
+        label={selected === 'annual' ? tr('paywall.trialCta') : tr('paywall.continue')}
         onPress={buy}
         disabled={busy}
         style={{ marginTop: spacing.xl }}
@@ -237,7 +241,7 @@ export default function Paywall() {
         >
           <Ionicons name="notifications-outline" size={14} color={t.inkSoft} />
           <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft }}>
-            We’ll remind you 2 days before your trial ends.
+{tr('paywall.reassure')}
           </Text>
         </View>
       ) : null}
@@ -252,7 +256,7 @@ export default function Paywall() {
         })}
       >
         <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: t.blue, textAlign: 'center' }}>
-          Restore purchases
+{tr('paywall.restore')}
         </Text>
       </Pressable>
       <Text
@@ -264,7 +268,7 @@ export default function Paywall() {
           marginTop: spacing.md,
         }}
       >
-        Auto-renews unless cancelled 24h before period end. Terms · Privacy
+{tr('paywall.legal')}
       </Text>
     </Screen>
   );

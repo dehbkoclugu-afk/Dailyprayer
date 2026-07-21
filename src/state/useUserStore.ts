@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { ThemeName } from '@/theme/tokens';
+import type { Locale } from '@/i18n/translations';
 
 export interface QuizAnswers {
   name: string;
@@ -15,9 +16,12 @@ export interface QuizAnswers {
 interface UserState {
   onboarded: boolean;
   themePreference: ThemeName | 'system';
+  /** 'system' = follow device locale (falls back to English) */
+  language: Locale | 'system';
   quiz: QuizAnswers;
   setOnboarded: (v: boolean) => void;
   setThemePreference: (t: ThemeName | 'system') => void;
+  setLanguage: (l: Locale | 'system') => void;
   setQuiz: (patch: Partial<QuizAnswers>) => void;
   reset: () => void;
 }
@@ -36,9 +40,11 @@ export const useUserStore = create<UserState>()(
     (set) => ({
       onboarded: false,
       themePreference: 'system',
+      language: 'system',
       quiz: emptyQuiz,
       setOnboarded: (v) => set({ onboarded: v }),
       setThemePreference: (t) => set({ themePreference: t }),
+      setLanguage: (l) => set({ language: l }),
       setQuiz: (patch) => set((s) => ({ quiz: { ...s.quiz, ...patch } })),
       reset: () => set({ onboarded: false, quiz: emptyQuiz }),
     }),

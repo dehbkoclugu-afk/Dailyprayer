@@ -12,9 +12,11 @@ import { radius, spacing } from '@/theme/tokens';
 import { useJournalStore } from '@/state/useJournalStore';
 import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
+import { useT, translate } from '@/i18n';
 
 export default function Journal() {
   const t = useTheme();
+  const { t: tr } = useT();
   const { entries, add, toggleAnswered, remove } = useJournalStore();
   const completeStep = useStreakStore((s) => s.completeStep);
   const [text, setText] = useState('');
@@ -25,23 +27,23 @@ export default function Journal() {
     add(kind, text);
     if (kind === 'gratitude') completeStep('gratitude');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
-    toast(kind === 'gratitude' ? 'Saved — gratitude counted for today' : 'Prayer request saved');
+    toast(translate(kind === 'gratitude' ? 'toast.gratitudeSaved' : 'toast.requestSaved'));
     setText('');
   };
 
   return (
     <Screen tabbed>
-      <Text style={[ty.title, { color: t.ink }]}>Journal</Text>
+      <Text style={[ty.title, { color: t.ink }]}>{tr('journal.title')}</Text>
       <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>
-        Gratitude and prayer requests, kept between you and God
+{tr('journal.sub')}
       </Text>
 
       {/* kind toggle */}
       <View style={{ flexDirection: 'row', gap: spacing.sm, marginTop: spacing.lg }}>
         {(
           [
-            { k: 'gratitude', label: 'Gratitude', icon: 'heart-outline' },
-            { k: 'prayer-request', label: 'Prayer request', icon: 'flame-outline' },
+            { k: 'gratitude', label: tr('journal.gratitude'), icon: 'heart-outline' },
+            { k: 'prayer-request', label: tr('journal.request'), icon: 'flame-outline' },
           ] as const
         ).map(({ k, label, icon }) => {
           const active = kind === k;
@@ -86,9 +88,7 @@ export default function Journal() {
       >
         <Ionicons name="sparkles-outline" size={16} color={t.gold} />
         <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.ink, flex: 1 }}>
-          {kind === 'gratitude'
-            ? 'What made you smile today, however small?'
-            : 'What would you bring to Him if He were sitting beside you?'}
+          {tr(kind === 'gratitude' ? 'journal.promptGratitude' : 'journal.promptRequest')}
         </Text>
       </View>
 
@@ -96,7 +96,7 @@ export default function Journal() {
         value={text}
         onChangeText={setText}
         placeholder={
-          kind === 'gratitude' ? 'Today I’m thankful for…' : 'Lord, I bring You…'
+tr(kind === 'gratitude' ? 'journal.placeholderGratitude' : 'journal.placeholderRequest')
         }
         placeholderTextColor={t.inkFaint}
         multiline
@@ -115,9 +115,9 @@ export default function Journal() {
           textAlignVertical: 'top',
         }}
       />
-      <PillButton label="Save entry" onPress={submit} disabled={!text.trim()} style={{ marginTop: spacing.md }} />
+      <PillButton label={tr('journal.save')} onPress={submit} disabled={!text.trim()} style={{ marginTop: spacing.md }} />
 
-      <SectionHeader title="Your entries" />
+      <SectionHeader title={tr('journal.entries')} />
       {entries.length === 0 ? (
         <View
           style={{
@@ -136,7 +136,7 @@ export default function Journal() {
             style={{ width: 120, marginBottom: spacing.md }}
           />
           <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: t.inkSoft, textAlign: 'center' }}>
-            Nothing here yet. Gratitude grows one line at a time.
+{tr('journal.empty')}
           </Text>
         </View>
       ) : (
@@ -154,8 +154,8 @@ export default function Journal() {
             >
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Text style={{ fontFamily: fonts.sansMedium, fontSize: 12, color: t.inkFaint }}>
-                  {e.day} · {e.kind === 'gratitude' ? 'Gratitude' : 'Prayer request'}
-                  {e.answered ? ' · Answered ✦' : ''}
+                  {e.day} · {tr(e.kind === 'gratitude' ? 'journal.gratitude' : 'journal.request')}
+                  {e.answered ? ` · ${tr('journal.answered')}` : ''}
                 </Text>
                 <View style={{ flexDirection: 'row', gap: spacing.sm }}>
                   {e.kind === 'prayer-request' ? (

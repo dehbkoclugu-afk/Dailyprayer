@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useColorScheme } from 'react-native';
+import { Platform, useColorScheme } from 'react-native';
 import { useFonts } from 'expo-font';
 import {
   Fraunces_400Regular,
@@ -39,14 +39,29 @@ export default function RootLayout() {
   useEffect(() => {
     initPurchases();
     // App-open streak tick (YouVersion pattern): opening the app keeps the flame lit.
-    useStreakStore.getState().tickToday();
+    const streak = useStreakStore.getState();
+    streak.tickToday();
+    // Keep the evening streak-save notification referencing the live count —
+    // only for users who opted into reminders.
+    const { prayerTime } = useUserStore.getState().quiz;
+    if (prayerTime && prayerTime !== 'none') {
+      import('@/services/notifications')
+        .then((n) => n.scheduleStreakSave(useStreakStore.getState().count))
+        .catch(() => {});
+    }
   }, []);
 
   useEffect(() => {
     if (loaded) SplashScreen.hideAsync().catch(() => {});
   }, [loaded]);
 
-  if (!loaded) return null;
+  // Web static export renders build-time HTML with default state; persisted
+  // stores + locale only exist client-side, so hydrate after mount to avoid
+  // React hydration mismatches. No-op on native.
+  const [mounted, setMounted] = useState(Platform.OS !== 'web');
+  useEffect(() => setMounted(true), []);
+
+  if (!loaded || !mounted) return null;
 
   const dark = pref === 'system' ? scheme !== 'light' : pref === 'vigil';
 

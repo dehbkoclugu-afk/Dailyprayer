@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import Animated, { ZoomIn } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 
@@ -26,8 +27,10 @@ export function ProgressRing({ done, total, size = 56 }: Props) {
           const angle = (i / total) * 2 * Math.PI - Math.PI / 2;
           const r = size / 2 - 5;
           return (
-            <View
-              key={i}
+            // key includes fill state so a newly-earned dot pops in with a spring
+            <Animated.View
+              key={`${i}-${filled}`}
+              entering={filled ? ZoomIn.springify().damping(12) : undefined}
               style={{
                 position: 'absolute',
                 left: size / 2 + r * Math.cos(angle) - 4,

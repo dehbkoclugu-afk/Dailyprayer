@@ -9,9 +9,11 @@ import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { prayers, prayerCategories, type GuidedPrayer } from '@/data/prayers';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
+import { useT } from '@/i18n';
 
 export default function Pray() {
   const t = useTheme();
+  const { t: tr } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const [cat, setCat] = useState<GuidedPrayer['category'] | 'all'>('all');
   const list = cat === 'all' ? prayers : prayers.filter((p) => p.category === cat);
@@ -23,9 +25,9 @@ export default function Pray() {
 
   return (
     <Screen tabbed>
-      <Text style={[ty.title, { color: t.ink }]}>Pray</Text>
+      <Text style={[ty.title, { color: t.ink }]}>{tr('pray.title')}</Text>
       <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>
-        Guided prayers for every season
+{tr('pray.sub')}
       </Text>
 
       {/* category tile grid — tap again to clear; tiles take A11 art when it lands */}
@@ -73,7 +75,7 @@ export default function Pray() {
                   color: active ? t.gold : t.inkSoft,
                 }}
               >
-                {c.label}
+{tr(`cat.${c.key}` as never)}
               </Text>
             </Pressable>
           );
@@ -81,11 +83,11 @@ export default function Pray() {
       </View>
 
       <SectionHeader
-        title={cat === 'all' ? 'Library' : prayerCategories.find((c) => c.key === cat)?.label ?? ''}
+        title={cat === 'all' ? tr('pray.library') : tr(`cat.${cat}` as never)}
         right={
           cat !== 'all' ? (
             <Pressable onPress={() => setCat('all')} hitSlop={8} accessibilityRole="button" accessibilityLabel="Show all prayers">
-              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>Show all</Text>
+              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>{tr('pray.showAll')}</Text>
             </Pressable>
           ) : undefined
         }
@@ -130,7 +132,7 @@ export default function Pray() {
               <View style={{ flex: 1 }}>
                 <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>{p.title}</Text>
                 <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
-                  {p.minutes} min · {prayerCategories.find((c) => c.key === p.category)?.label}
+                  {p.minutes} {tr('pray.min')} · {tr(`cat.${p.category}` as never)}
                 </Text>
               </View>
               {p.plus ? (

@@ -13,6 +13,7 @@ import { spacing } from '@/theme/tokens';
 import { prayers } from '@/data/prayers';
 import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
+import { translate } from '@/i18n';
 
 /**
  * Guided prayer player — paced text lines with a breathing pause between them.
@@ -38,7 +39,7 @@ export default function Player() {
   const finish = () => {
     completeStep('prayer');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
-    toast('Prayer complete');
+    toast(translate('toast.prayer'));
     router.back();
   };
 
@@ -101,7 +102,7 @@ export default function Player() {
         </View>
 
         {lastLine ? (
-          <PillButton label="Amen" onPress={finish} />
+          <PillButton label={translate('devotional.amen')} onPress={finish} />
         ) : (
           <View style={{ flexDirection: 'row', justifyContent: 'center', gap: spacing.xl }}>
             <Pressable
