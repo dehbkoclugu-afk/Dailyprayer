@@ -173,6 +173,19 @@ export default function Bible() {
           );
         })}
       </View>
+
+      {/* Scripture attribution — required by the YTC CC-BY-ND license. */}
+      <Text
+        style={{
+          fontFamily: fonts.sans,
+          fontSize: 11,
+          color: t.inkFaint,
+          textAlign: 'center',
+          marginTop: spacing.xl,
+        }}
+      >
+        {tr('bible.credit')}
+      </Text>
     </Screen>
   );
 }

@@ -16,7 +16,9 @@ test('every verse has real, non-empty text', () => {
 });
 
 test('every reference is well-formed "Book chapter:verse"', () => {
-  const re = /^[0-9]?\s?[A-Za-z ]+\s\d+:\d+(-\d+)?$/;
+  // Book names are localized (Turkish): Unicode letters, digits ("1. Korintliler"),
+  // periods and apostrophes (’/') are all valid in the book portion.
+  const re = /^[\p{L}\p{N}][\p{L}\p{N}.’' ]*\s\d+:\d+(-\d+)?$/u;
   for (const v of verses) {
     assert.match(v.reference, re, `malformed reference: ${v.reference}`);
   }

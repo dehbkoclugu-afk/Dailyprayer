@@ -1,7 +1,8 @@
 /**
- * Built-in Bible sample — World English Bible (public domain).
- * v1 ships selected books offline; the full canon loads via bundled JSON at
- * build time (scripts/fetch-web-bible, phase 2) behind this same interface.
+ * Built-in Bible sample — Yorumsuz Türkçe Çeviri (YTC), © İsmail Serinken &
+ * eBible.org, CC-BY-ND 4.0 (verbatim, with attribution).
+ * v1 ships selected chapters offline; the full canon loads via bundled data at
+ * build time (phase 2) behind this same interface.
  */
 export interface BibleChapter {
   book: string;
@@ -16,38 +17,38 @@ export const books = [
 
 export const sampleChapters: BibleChapter[] = [
   {
-    book: 'Psalms',
+    book: 'Mezmur',
     chapter: 23,
     verses: [
-      'Yahweh is my shepherd; I shall lack nothing.',
-      'He makes me lie down in green pastures. He leads me beside still waters.',
-      'He restores my soul. He guides me in the paths of righteousness for his name’s sake.',
-      'Even though I walk through the valley of the shadow of death, I will fear no evil, for you are with me. Your rod and your staff, they comfort me.',
-      'You prepare a table before me in the presence of my enemies. You anoint my head with oil. My cup runs over.',
-      'Surely goodness and loving kindness shall follow me all the days of my life, and I will dwell in Yahweh’s house forever.',
+      'David’in mezmuru Yahve benim çobanımdır, hiç eksiğim olmaz.',
+      'Beni yeşil çayırlarda yatırır. Sakin suların yanına götürür.',
+      'Canımı onarır. Adı uğruna doğruluk yollarında bana rehberlik eder.',
+      'Ölüm gölgesindeki vadiden geçsem bile, kötülükten hiç korkmam, çünkü sen benimlesin. Senin asan, değneğin, onlar rahatlatır beni.',
+      'Düşmanlarımın huzurunda, önüme sofra kurarsın. Başımı yağla meshedersin. Kâsem taşmakta.',
+      'Kesinlikle hayatımın bütün günlerinde iyilik ve sevgi izleyecek beni, ve daima Yahve’nin evinde oturacağım.',
     ],
   },
   {
-    book: 'John',
+    book: 'Yuhanna',
     chapter: 1,
     verses: [
-      'In the beginning was the Word, and the Word was with God, and the Word was God.',
-      'The same was in the beginning with God.',
-      'All things were made through him. Without him, nothing was made that has been made.',
-      'In him was life, and the life was the light of men.',
-      'The light shines in the darkness, and the darkness hasn’t overcome it.',
+      'Başlangıçta Söz vardı ve Söz Tanrı\'yla birlikteydi ve Söz Tanrı’ydı.',
+      'O, başlangıçta Tanrı’yla birlikteydi.',
+      'Her şey O’nun aracılığıyla oldu. Olmuş olanların hiçbiri O\'nsuz olmadı.',
+      'Yaşam O’ndaydı ve yaşam insanların ışığıydı.',
+      'Işık karanlıkta parlar ve karanlık onu yenemedi.',
     ],
   },
   {
-    book: 'Philippians',
+    book: 'Filipililer',
     chapter: 4,
     verses: [
-      'Therefore, my brothers, beloved and longed for, my joy and crown, stand firm in the Lord in this way, my beloved.',
-      'I exhort Euodia, and I exhort Syntyche, to think the same way in the Lord.',
-      'Rejoice in the Lord always! Again I will say, “Rejoice!”',
-      'Let your gentleness be known to all men. The Lord is at hand.',
-      'In nothing be anxious, but in everything, by prayer and petition with thanksgiving, let your requests be made known to God.',
-      'And the peace of God, which surpasses all understanding, will guard your hearts and your thoughts in Christ Jesus.',
+      'Bu nedenle, ey sevgililer, özlediğim kardeşlerim, sevincim ve başımın tacı sizsiniz. Böylece Efendi’de dimdik durun, sevgili kardeşlerim.',
+      'Evodiya’ya ve Sintihi’ye rica ediyorum, Efendi’de aynı düşüncede olun.',
+      'Evet, gerçek ortağım, sana da yalvarırım, bu kadınlara yardım et. Çünkü onlar benimle, Klement’le ve yaşam kitabında adları olan öteki emektaşlarımla birlikte Müjde\'de benimle birlikte çalıştılar.',
+      'Her zaman Efendi’de sevinin! Yine diyorum, “Sevinin!”',
+      'Nezaketiniz bütün insanlar tarafından bilinsin. Efendi yakındır.',
+      'Hiçbir şeyde kaygılanmayın. Ama her şeyde dua ve dilekle, şükran dolu bir yürekle isteklerinizi Tanrı’ya bildirin.',
     ],
   },
 ];
