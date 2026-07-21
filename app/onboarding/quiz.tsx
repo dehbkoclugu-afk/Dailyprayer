@@ -3,7 +3,6 @@ import { Pressable, Text, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeInDown, FadeInRight, FadeOut, FadeOutLeft } from 'react-native-reanimated';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
@@ -66,7 +65,7 @@ export default function Quiz() {
   if (affirmation) {
     return (
       <Screen scroll={false} style={{ justifyContent: 'center' }}>
-        <Animated.View entering={FadeInDown.springify().damping(20)} exiting={FadeOut}>
+        <View>
           <ArtSlot
             id="A6-affirmation-spot"
             height={120}
@@ -75,7 +74,7 @@ export default function Quiz() {
           />
           <Text style={[ty.title, { color: t.ink }]}>{affirmation}</Text>
           <PillButton label={tr('quiz.continue')} onPress={goNext} style={{ marginTop: spacing.xxl }} />
-        </Animated.View>
+        </View>
       </Screen>
     );
   }
@@ -117,7 +116,7 @@ export default function Quiz() {
         </View>
 
         {step === 0 ? (
-          <Animated.View key="name" entering={FadeInDown.springify().damping(20)}>
+          <View key="name">
             <Text style={[ty.title, { color: t.ink }]}>{tr('quiz.namePrompt')}</Text>
             <TextInput
               value={name}
@@ -150,14 +149,12 @@ export default function Quiz() {
             >
 {tr('quiz.nameNote')}
             </Text>
-          </Animated.View>
+          </View>
         ) : current ? (
-          // directional continuity: steps arrive from the right, leave left
-          <Animated.View
-            key={current.key}
-            entering={FadeInRight.duration(250)}
-            exiting={FadeOutLeft.duration(150)}
-          >
+          // Plain View — no reanimated entering/exiting here: on the old
+          // architecture the exiting layout copy lingers over the next step and
+          // swallows taps on the option buttons, trapping the user in the quiz.
+          <View key={current.key}>
             <Text style={[ty.title, { color: t.ink }]}>{current.question}</Text>
             {current.subtitle ? (
               <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.sm }]}>
@@ -216,7 +213,7 @@ export default function Quiz() {
                 );
               })}
             </View>
-          </Animated.View>
+          </View>
         ) : null}
       </View>
 
