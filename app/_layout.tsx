@@ -27,7 +27,7 @@ export default function RootLayout() {
   const t = useTheme();
   const scheme = useColorScheme();
   const pref = useUserStore((s) => s.themePreference);
-  const [loaded] = useFonts({
+  const [loaded, fontError] = useFonts({
     Fraunces_400Regular,
     Fraunces_600SemiBold,
     Figtree_400Regular,
@@ -35,6 +35,19 @@ export default function RootLayout() {
     Figtree_600SemiBold,
     Figtree_700Bold,
   });
+
+  // Gate rendering on font readiness, but NEVER hang on the splash: proceed when
+  // fonts load, when they error, or after a short failsafe timeout. A release
+  // build that stalls loading fonts would otherwise sit on the splash forever
+  // (the emulator smoke test can't catch this — the process stays alive).
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    if (loaded || fontError) setReady(true);
+  }, [loaded, fontError]);
+  useEffect(() => {
+    const timer = setTimeout(() => setReady(true), 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     initPurchases();
@@ -52,8 +65,8 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
-    if (loaded) SplashScreen.hideAsync().catch(() => {});
-  }, [loaded]);
+    if (ready) SplashScreen.hideAsync().catch(() => {});
+  }, [ready]);
 
   // Web static export renders build-time HTML with default state; persisted
   // stores + locale only exist client-side, so hydrate after mount to avoid
@@ -61,7 +74,12 @@ export default function RootLayout() {
   const [mounted, setMounted] = useState(Platform.OS !== 'web');
   useEffect(() => setMounted(true), []);
 
-  if (!loaded || !mounted) return null;
+  // Render marker for the smoke test — a stuck splash never logs this.
+  useEffect(() => {
+    if (ready && mounted) console.log('LUMEN_UI_READY');
+  }, [ready, mounted]);
+
+  if (!ready || !mounted) return null;
 
   const dark = pref === 'system' ? scheme !== 'light' : pref === 'vigil';
 

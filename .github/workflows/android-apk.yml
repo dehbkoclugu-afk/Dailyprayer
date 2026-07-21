@@ -99,7 +99,8 @@ jobs:
             # emulator-runner script'i satır satır çalıştırır — her kontrol TEK satır olmalı (çok satırlı if/fi bölünür).
             if grep -qE "FATAL EXCEPTION|Fatal signal|tombstoned|NoClassDefFoundError|UnsatisfiedLinkError" logcat.txt; then echo "::error::Cokme izi bulundu (logcat.txt artifact)"; grep -B 2 -A 40 -E "FATAL EXCEPTION|Fatal signal|tombstoned" logcat.txt | head -120; exit 1; fi
             if ! adb shell pidof com.lumen.dailyprayer > /dev/null; then echo "::error::Surec oldu - uygulama acilista coktu"; exit 1; fi
-            echo "OK: uygulama acildi, cokme yok"
+            if ! grep -q "LUMEN_UI_READY" logcat.txt; then echo "::error::UI mount olmadi - splash/blank ekranda takildi"; exit 1; fi
+            echo "OK: uygulama acildi ve UI mount oldu"
 
       - name: Upload logcat
         if: always()
