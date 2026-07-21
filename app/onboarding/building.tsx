@@ -8,23 +8,24 @@ import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { type as ty, fonts } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
-
-const STEPS = [
-  'Reading your answers',
-  'Choosing scriptures for your season',
-  'Shaping your daily rhythm',
-  'Setting your gentle reminder',
-];
+import { useT } from '@/i18n';
 
 /** "Building your plan" interstitial — a checklist completing line by line. */
 export default function Building() {
   const t = useTheme();
+  const { t: tr } = useT();
+  const STEPS = [
+    tr('building.step1'),
+    tr('building.step2'),
+    tr('building.step3'),
+    tr('building.step4'),
+  ];
   const [done, setDone] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setDone((d) => {
-        if (d >= STEPS.length) {
+        if (d >= 4) {
           clearInterval(timer);
           setTimeout(() => router.replace('/onboarding/reveal'), 600);
           return d;
@@ -44,7 +45,7 @@ export default function Building() {
         style={{ marginBottom: spacing.xxl, alignSelf: 'center', width: 140 }}
       />
       <Text style={[ty.title, { color: t.ink, textAlign: 'center', marginBottom: spacing.xxl }]}>
-        Preparing your plan…
+        {tr('building.title')}
       </Text>
       <View style={{ gap: spacing.lg, alignSelf: 'center' }}>
         {STEPS.map((s, i) => {

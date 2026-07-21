@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,14 +9,15 @@ import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
-import { quizSteps } from '@/data/quiz';
+import { getQuizSteps } from '@/data/quiz';
 import { useUserStore } from '@/state/useUserStore';
 import { useT } from '@/i18n';
 
 /** Step 0 = name entry, then quizSteps, with affirmation interstitials. */
 export default function Quiz() {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
+  const quizSteps = useMemo(() => getQuizSteps(locale), [locale]);
   const setQuiz = useUserStore((s) => s.setQuiz);
   const [step, setStep] = useState(0);
   const [name, setName] = useState('');

@@ -11,19 +11,35 @@ import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useUserStore } from '@/state/useUserStore';
 import * as NotificationService from '@/services/notifications';
+import { useT } from '@/i18n';
+import type { Locale } from '@/i18n/translations';
 
-const GOAL_LABELS: Record<string, string> = {
-  habit: 'a steady daily habit',
-  closer: 'closeness with God',
-  peace: 'peace over anxiety',
-  sleep: 'restful sleep',
-  bible: 'understanding scripture',
-  gratitude: 'a grateful heart',
+// Goal phrases read into the "Guided prayers: …" line. `en` is the fallback.
+const GOAL_LABELS: Partial<Record<Locale, Record<string, string>>> = {
+  en: {
+    habit: 'a steady daily habit',
+    closer: 'closeness with God',
+    peace: 'peace over anxiety',
+    sleep: 'restful sleep',
+    bible: 'understanding scripture',
+    gratitude: 'a grateful heart',
+    default: 'a deeper prayer life',
+  },
+  tr: {
+    habit: 'istikrarlı bir günlük alışkanlık',
+    closer: 'Tanrı’yla yakınlık',
+    peace: 'kaygı yerine huzur',
+    sleep: 'huzurlu uyku',
+    bible: 'kutsal metni anlamak',
+    gratitude: 'şükreden bir kalp',
+    default: 'daha derin bir dua hayatı',
+  },
 };
 
 /** Personalized plan reveal — the moment before the paywall. */
 export default function Reveal() {
   const t = useTheme();
+  const { t: tr, locale } = useT();
   const quiz = useUserStore((s) => s.quiz);
   const setOnboarded = useUserStore((s) => s.setOnboarded);
 
@@ -41,13 +57,14 @@ export default function Reveal() {
     }
   }, [quiz.prayerTime]);
 
-  const goal = quiz.goals[0] ? GOAL_LABELS[quiz.goals[0]] ?? 'a deeper prayer life' : 'a deeper prayer life';
+  const goals = GOAL_LABELS[locale] ?? GOAL_LABELS.en!;
+  const goal = (quiz.goals[0] && goals[quiz.goals[0]]) || goals.default;
 
   const items = [
-    { icon: 'sunny-outline', text: 'A verse chosen for your season, every morning' },
-    { icon: 'book-outline', text: 'A 2-minute devotional that meets you where you are' },
-    { icon: 'flame-outline', text: `Guided prayers for ${goal}` },
-    { icon: 'moon-outline', text: 'Sleep prayers to end the day in peace' },
+    { icon: 'sunny-outline', text: tr('reveal.itemVerse') },
+    { icon: 'book-outline', text: tr('reveal.itemDevotional') },
+    { icon: 'flame-outline', text: `${tr('reveal.itemPrayers')} ${goal}` },
+    { icon: 'moon-outline', text: tr('reveal.itemSleep') },
   ] as const;
 
   const finish = () => {
@@ -66,10 +83,10 @@ export default function Reveal() {
             style={{ width: 120, marginTop: spacing.xl }}
           />
           <Text style={[ty.display, { color: t.ink, marginTop: spacing.lg }]}>
-            {quiz.name ? `${quiz.name}, your` : 'Your'} plan is ready.
+            {quiz.name ? `${quiz.name}, ${tr('reveal.planReadySuffix')}` : tr('reveal.planReady')}
           </Text>
           <Text style={[ty.body, { color: t.inkSoft, marginTop: spacing.md }]}>
-            Built from your answers — a gentle rhythm you can actually keep.
+            {tr('reveal.sub')}
           </Text>
         </Animated.View>
         <View style={{ gap: spacing.md, marginTop: spacing.xxl }}>
@@ -96,7 +113,7 @@ export default function Reveal() {
           ))}
         </View>
       </View>
-      <PillButton label="Start my journey" onPress={finish} />
+      <PillButton label={tr('reveal.start')} onPress={finish} />
     </Screen>
   );
 }
