@@ -1,3 +1,5 @@
+import type { Locale } from '@/i18n/translations';
+
 /** 2-minute daily devotionals, rotate by day-of-year. Expand toward 365. */
 export interface Devotional {
   title: string;
@@ -223,3 +225,222 @@ export const devotionals: Devotional[] = [
     prayer: 'Lord, in my night, help me trust the morning You have promised. Hold my tears. Amen.',
   },
 ];
+
+/** Turkish devotionals — same order/length as the English base (the fallback). */
+const devotionalsTR: Devotional[] = [
+  {
+    title: 'Dinginliğin Armağanı',
+    body:
+      'Çoğumuz sabaha zaten koşarak başlarız — mesajlar, başlıklar, yükümlülükler. ' +
+      'Mezmur 46 bir çalkantı döneminde yazıldı, yine de merkezi bir fısıltıdır: sakin ol. ' +
+      'Dinginlik hiçbir şey yapmamak değildir; her şeyi kimin tuttuğunu hatırlamaktır. ' +
+      'İki dakika boyunca omuzların düşsün. Dünya senin yardımın olmadan da dönmeye ' +
+      'devam edecek — hep etti. Bu senin başarısızlığın değil. Bu O’nun sadakati.',
+    prayer: 'Rab, içimdeki gürültüyü dindir. Senin Tanrı olduğuna, benimse olmadığıma güvenmeme yardım et. Âmin.',
+  },
+  {
+    title: 'Sana Ait Olmayan Güç',
+    body:
+      'Pavlus “Her şeyi yapabilirim” sözünü bir zirvede değil, bir hapishane hücresinde yazdı. ' +
+      'Anlattığı güç özgüven değildir; ödünç alınmış bir güçtür — tam da seninki tükendiğinde ' +
+      'gelen türden. Bugün senden ne isterse istesin, onu asla yalnız taşıman gerekmiyordu. ' +
+      'İste. Al. Yürü.',
+    prayer: 'İsa, bugün güçsüz olduğum yerde gücüm ol. Ağır gelen şeyi Sana bırakıyorum. Âmin.',
+  },
+  {
+    title: 'Sürüklenmiş Değil, Yönetilmiş',
+    body:
+      'Bir çoban önden yürür; bir sürücü arkadan iter. Mezmur 23, Tanrı’nın yönlendirdiğinde ' +
+      'ısrar eder — yeşil çayırlara, durgun suların yanına. İmanın sürüklenmek gibi hissettirdiyse ' +
+      '— telaşlı, baskı altında, korkulu — o ses Çoban’ın değil. ' +
+      'Bugün nazikçe yönlendiren sesi dinle ve her seferinde bir adım izle.',
+    prayer: 'Canımın Çobanı, sesinin nasıl olduğunu öğret bana. Bugün beni yönlendir. Âmin.',
+  },
+  {
+    title: 'Yorgunlar İçin Dinlenme',
+    body:
+      'İsa “her şeyi yoluna koymuş olanlar, bana gelin” demedi. Yorgunları, yükü ağır olanları, ' +
+      'zar zor tutunanları çağırdı. Dinlenme işini bitirmenin bir ödülü değildir; işin tam ' +
+      'ortasında sunulan bir armağandır. Olduğun gibi gel — bütün davet bu.',
+    prayer: 'Rab, yorgun geliyorum. Ağırlığımı Senin dinlenmenle değiştir. Âmin.',
+  },
+  {
+    title: 'Bir Gelecek ve Bir Umut',
+    body:
+      'Yeremya 29:11 sürgündekilere yazıldı — planları çökmüş insanlara. Tanrı’nın vaadi ' +
+      'anında bir kurtuluş değildi; O’nun karakteriydi: seni unutmadım. ' +
+      'Aksiliğin hikâyenin sonu değil. Yazar hâlâ yazıyor.',
+    prayer: 'Baba, yolu göremediğimde, gören O’na güvenmeme yardım et. Âmin.',
+  },
+  {
+    title: 'Yaslan',
+    body:
+      'Kendi anlayışın iyi bir araç, korkunç bir efendidir. Özdeyişler bizi bütün yürekle ' +
+      'güvenmeye çağırır — düşünmek yanlış olduğu için değil, görüşümüz dar olduğu için. ' +
+      'Sürekli evirip çevirdiğin kararı Tanrı’ya getir. Sonra konuştuğundan daha uzun süre dinle.',
+    prayer: 'Rab, aklımdaki kararla ilgili Sana güveniyorum. Yolumu düz kıl. Âmin.',
+  },
+  {
+    title: 'Kaygının Panzehiri',
+    body:
+      'Pavlus’un kaygı reçetesi tuhaf biçimde nettir: her şey için dua et ve şükran ekle. ' +
+      'Şükran inkâr değildir — çerçeveyi, Tanrı’nın geçmişteki sadakati yeniden görünene dek ' +
+      'genişletmektir. Şükrettiğin üç şeyi say. Korkuya ne yaptığını izle.',
+    prayer: 'Esenlik Tanrısı, bugün kalbimi ve zihnimi koru. Endişelerimi birer birer Sana veriyorum. Âmin.',
+  },
+  {
+    title: 'Karanlıkta Işık',
+    body:
+      'Yuhanna karanlıksız bir yaşam vaat etmedi. Karanlığın kazanamayacağını vaat etti. ' +
+      'Tek bir mum geceyle tartışmaz; sadece yanar ve karanlık geri çekilir. ' +
+      'Bugün her şeyi düzeltmek zorunda değilsin. Yalnızca küçük ışığını yanık tutman ' +
+      've gerisini yapması için Işığın kendisi olan O’na güvenmen yeter.',
+    prayer: 'İsa, dünyanın Işığı, bugün karanlık hisseden köşelerimde parla. Âmin.',
+  },
+  {
+    title: 'Bugüne Yeter',
+    body:
+      'Man biriktirilemezdi. Her sabah halk sadece yeterince topladı, ertesi gün yeniden topladı. ' +
+      'Tanrı bizi günü gününe güvenmeye alıştırır — cimri olduğu için değil, günlük ekmek ' +
+      'günlük bir ilişki kurduğu için. Yarının yükünü bugüne taşıma. ' +
+      'Bugünün kendine yetecek lütfu var.',
+    prayer: 'Baba, bugün bana günlük ekmeğimi ver — ve yarını Sana bırakacak huzuru. Âmin.',
+  },
+  {
+    title: 'Tanınan ve Sevilen',
+    body:
+      'Bu sabah tek bir düşünce oluşturmadan önce, zaten tanınıyordun. Mezmur 139, ' +
+      'Tanrı’nın seni ördüğünü ve ne zaman oturup ne zaman kalktığını bildiğini söyler. ' +
+      'İlgi dilenen bir yabancı değilsin. Tamamen tanınan ve — şaşırtıcı biçimde — ' +
+      'tamamen sevilen bir çocuksun. Bugün üzerinde durduğun zemin bu olsun.',
+    prayer: 'Rab, tamamen tanındığım halde hâlâ tamamen sevildiğim için teşekkür ederim. Beni bunda sağlam tut. Âmin.',
+  },
+  {
+    title: 'Uzun İtaat',
+    body:
+      'Sadakat nadiren çarpıcıdır. Çoğunlukla gelmektir — bir dua, bir iyilik, ' +
+      'her seferinde bir dürüst seçim. Bir nehir bir kanyonu güçle değil, her gün aynı yola ' +
+      'dönerek oyar. Tanrı’ya küçük, tekrarlanan “evet”in gördüğünden çok daha fazlasını ' +
+      'yapıyor. Dönmeye devam et.',
+    prayer: 'Rab, bugün küçük şeylerde beni sadık kıl, bütünün şeklini Sana emanet ederek. Âmin.',
+  },
+  {
+    title: 'Unutulmuş Hissettiğinde',
+    body:
+      'Çölde yalnız kalan Hacer, Tanrı’ya bir ad verdi: “beni gören Tanrı.” Başka kimse onu ' +
+      'fark etmezken, O fark etti. Bugün göz ardı edilmiş hissediyorsan — insanlar tarafından, ' +
+      'koşullar tarafından, hatta kendi umutların tarafından — şunu duy: görülüyorsun. ' +
+      'Yıldızları sayan ve her birini adıyla çağıran O’na, hayatında görünmez hiçbir şey yok.',
+    prayer: 'Beni gören Tanrı, asla gerçekten yalnız olmadığım için teşekkür ederim. Burada benimle buluş. Âmin.',
+  },
+  {
+    title: 'Hak Etmediğin Armağan',
+    body:
+      'Lütuf, yerini hak etmek isteyen yanımıza aykırı gelir. Ama Efesliler nettir: ' +
+      'iman aracılığıyla, lütufla kurtuldun ve bu senden değil — bir armağandır. ' +
+      'Zaten sahip olduğun sevgi için seçmelere girmeyi bırakabilirsin. Dinlenme, ' +
+      'bitirmenin ödülü değildir; yeniden başlamana izin veren armağandır.',
+    prayer: 'Baba, asla hak edemeyeceğimi alıyorum. Lütuf için teşekkür ederim. Onda dinlenmeyi öğret bana. Âmin.',
+  },
+  {
+    title: 'Çölde Irmaklar',
+    body:
+      'Yeşaya çorak toprakta ırmaklardan söz eder — hiçbir şeyin büyüyemeyeceğine yemin ' +
+      'edeceğin yerde su. Kurak mevsimin hikâyenin sonu değil. Tanrı, tam da vazgeçtiğimiz ' +
+      'yerlerde yaşamı filizlendirmekte uzmandır. Umudunu kestiğin toprağı izle. ' +
+      'O orada işini bitirmedi.',
+    prayer: 'Rab, içimdeki kurak yerlere ırmaklar getir. Her şeyi yenilemen için Sana güveniyorum. Âmin.',
+  },
+  {
+    title: 'Taşımak Değil, Atmak',
+    body:
+      'Petrus fiziksel bir sözcük kullanır: at. Kaygını, ağır bir yükü omuzlarından fırlatır ' +
+      'gibi Tanrı’nın üzerine at. Neden? “Çünkü O seni kayırır.” Endişe, üzerinde yeterince ' +
+      'düşünürsen çözüleceğiymiş gibi yararlıymış gibi yapar. Çözülmez. Dua, yükü onu ' +
+      'tutacak kadar güçlü olan tek O’na taşır.',
+    prayer: 'Rab, kaygımı Sana atıyorum — gerçekten, sadece sözde değil. Taşıyamadığımı Sen taşı. Âmin.',
+  },
+  {
+    title: 'Sana İyi Diyen Ses',
+    body:
+      'İsa tek bir mucize yapmadan önce, Baba, “Sevgili Oğlum budur, O’ndan hoşnudum” dedi. ' +
+      'Sevilmişliği önce geldi, yapılan işin karşılığı olarak değil. Seninki de öyle. ' +
+      'Sevilmek için başarıya ulaşmak zorunda değilsin. Sevgiden çalışabilirsin, sevgi için değil.',
+    prayer: 'Baba, bugün bir şey yapmadan önce beni sevgili diye çağırdığını duyayım. Âmin.',
+  },
+  {
+    title: 'Küçük Başlangıçları Küçümseme',
+    body:
+      'Zekeriya, küçük şeylerin gününü küçümsemeye kimin cesaret edeceğini sorar. Biz bitmiş ' +
+      'katedrali isteriz; Tanrı ilk konan taştan hoşlanır. Ne başlatıyorsan — bir alışkanlık, ' +
+      'bir iyileşme, bir barışma — onu bugün ne kadar küçük göründüğüyle ölçme. ' +
+      'Büyük şeyler neredeyse her zaman utandırıcı derecede küçük başlar.',
+    prayer: 'Rab, önümdeki küçük başlangıcı bereketle. Azla sadık olmama yardım et. Âmin.',
+  },
+  {
+    title: 'O Onarır',
+    body:
+      'Mezmur 23’ün çobanı, koyunlar tükendiğinde onları ileri sürmez. Onları yatırır; ' +
+      'durgun suya götürür; canı onarır. Boşta koşuyorsan, yapabileceğin en kutsal şey ' +
+      'durmak olabilir. Onarım tembellik değildir. Seni dinlenmeye ihtiyaç duyacak şekilde ' +
+      'yaratan bir Tanrı’ya itaattir.',
+    prayer: 'Çoban, bugün beni durgun suların yanına götür. İçimde yıpranmış olanı onar. Âmin.',
+  },
+  {
+    title: 'Sıradanın İçindeki Sevgi',
+    body:
+      'Pavlus’un ünlü sevgi tarifi duygusal değil — pratik, neredeyse sıradandır. ' +
+      'Sabırlı. İyiliksever. Kolay öfkelenmez. Kötülüğün hesabını tutmaz. Bu, kolları sıvanmış ' +
+      'bir sevgi; salı öğleden sonraları ve zor insanlar için bir sevgi. “Sevgi hissediyor ' +
+      'muyum?” diye değil, “burada sabırlı, iyiliksever, bağışlayıcı olabilir miyim?” diye sor.',
+    prayer: 'Rab, bugün beni sabırlı ve iyiliksever kıl, özellikle bana bir bedele mal olduğu yerde. Âmin.',
+  },
+  {
+    title: 'Görkemin Ağırlığı',
+    body:
+      'Pavlus sıkıntılarına “hafif ve geçici” der — hem de dövülmüş ve hapsedilmiş bir adamdan. ' +
+      'Bunu söyleyebildi, çünkü dertlerini sonsuz bir görkemle ölçtü. Acın gerçek; O bunu asla ' +
+      'inkâr etmez. Ama görüşteki en büyük şey o değil. Çok daha ağır ve çok daha iyi bir şey geliyor.',
+    prayer: 'Baba, bugün ağır geldiğinde, gözlerimi kalıcı olana kaldır. Beni taşı. Âmin.',
+  },
+  {
+    title: 'Bana Dönün',
+    body:
+      'Peygamberlerin en çok tekrarladığı söz “daha çok çabala” değil, “dönün”dür. Tanrı ' +
+      'halkını sürekli geri çağırır — bir vaazla değil, açık kollarla. Uzaklaştıysan, ' +
+      'eve giden yol korktuğundan daha kısa. Kalbin dürüst bir dönüşü, ve O’nu çoktan sana ' +
+      'doğru koşarken bulacaksın.',
+    prayer: 'Baba, bugün Sana geri dönüyorum. Daha varmadan beni karşıladığın için teşekkür ederim. Âmin.',
+  },
+  {
+    title: 'Sakin Ol',
+    body:
+      '“Sakin olun, bilin ki, Tanrı benim.” Önce dinginlik gelir, sonra bilmek. Huzura akıl ' +
+      'yürüterek ulaşmaya çalışır ve daha da dolaşırız. Bazen iman, sadece çabalamayı ' +
+      'bırakmaktır — dünyayı gerçekte kimin bir arada tuttuğunu hatırlayacak kadar uzun süre ' +
+      'ellerinin gevşemesine izin vermektir. O hiç sen olmadın.',
+    prayer: 'Tanrı, çabalamamı dindir. Senin Tanrı olduğunu hatırlayacak kadar sakin olmama yardım et. Âmin.',
+  },
+  {
+    title: 'Kalan Dost',
+    body:
+      'Özdeyişler, bir kardeşten daha yakın duran bir dost olduğunu söyler. Gelip geçen ' +
+      'insanların dünyasında, kalan O’dur — başarısızlığın, sessizliğin, uzun gecenin içinde. ' +
+      'O’na fazla gelmezsin ve asla çok uzağa gitmiş değilsin. O ayrılmak için bahane aramıyor. ' +
+      'O, kalan dosttur.',
+    prayer: 'İsa, başkaları kalamadığında kaldığın için teşekkür ederim. Senin sadakatinde dinlenmeme yardım et. Âmin.',
+  },
+  {
+    title: 'Sevinç Sabahleyin Gelir',
+    body:
+      'Mezmur yazarı ağlamayı inkâr etmez; “bir gece sürebilir” der. Gece gerçek. ' +
+      'Ama kalıcı değil. Yasın öbür yanında bir sabah var ve gözyaşlarını bir tulumda tutan ' +
+      'Tanrı bir tekini bile kaybetmedi. Dayan. Sabah bir “belki” değil, bir vaat.',
+    prayer: 'Rab, gecemde, vaat ettiğin sabaha güvenmeme yardım et. Gözyaşlarımı tut. Âmin.',
+  },
+];
+
+/** Devotionals localized to the active locale (English fallback). */
+export function getDevotionals(locale: Locale): Devotional[] {
+  return locale === 'tr' ? devotionalsTR : devotionals;
+}

@@ -1,4 +1,6 @@
 import type { AssetId } from '@/assets/registry';
+import { useT } from '@/i18n';
+import type { Locale } from '@/i18n/translations';
 
 /** Reading plans. Day content references the built-in reader or devotional text. */
 export interface ReadingPlan {
@@ -59,3 +61,42 @@ export const plans: ReadingPlan[] = [
     art: 'A13-bible365',
   },
 ];
+
+/** Localized title/tagline overlays. `en` (the base above) is the fallback. */
+const TR: Record<string, { title: string; tagline: string }> = {
+  'peace-7': {
+    title: 'Yedi Günlük Huzur',
+    tagline: 'Kaygılı dönemler için — günde bir yatıştırıcı bölüm.',
+  },
+  'gratitude-7': {
+    title: 'Şükran Haftası',
+    tagline: 'Gözlerini her yerde lütfu görmeye alıştır.',
+  },
+  'psalms-30': {
+    title: 'Mezmurlarda 30 Gün',
+    tagline: 'İncil’in dua kitabı — her seferinde bir mezmur.',
+  },
+  'gospels-90': {
+    title: '90 Günde İsa’nın Yaşamı',
+    tagline: 'Dört İncil’in tamamında yürü.',
+  },
+  'bible-365': {
+    title: 'Bir Yılda İncil',
+    tagline: 'Bütün hikâye — günde 20 dakika.',
+  },
+};
+
+/** Reading plans localized to the active locale (English fallback). */
+export function getPlans(locale: Locale): ReadingPlan[] {
+  if (locale === 'en') return plans;
+  return plans.map((p) => {
+    const o = locale === 'tr' ? TR[p.id] : undefined;
+    return o ? { ...p, title: o.title, tagline: o.tagline } : p;
+  });
+}
+
+/** Reactive plans for components. */
+export function usePlans(): ReadingPlan[] {
+  const { locale } = useT();
+  return getPlans(locale);
+}

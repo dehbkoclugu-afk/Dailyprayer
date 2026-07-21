@@ -1,3 +1,6 @@
+import { useT } from '@/i18n';
+import type { Locale } from '@/i18n/translations';
+
 /** Guided prayer library. `plus` marks premium content. */
 export interface GuidedPrayer {
   id: string;
@@ -258,3 +261,192 @@ export const prayerCategories: { key: GuidedPrayer['category']; label: string; i
   { key: 'family', label: 'Family', icon: 'home-outline' },
   { key: 'strength', label: 'Strength', icon: 'flame-outline' },
 ];
+
+/** Turkish title/script overlays keyed by prayer id. `en` (above) is the fallback. */
+const TR: Record<string, { title: string; script: string[] }> = {
+  'morning-light': {
+    title: 'Sabah Işığı',
+    script: [
+      'Yavaşça bir nefes al… ver. Gün senden bir şey istemeden önce, burada ol.',
+      'Rab, bu sabah için teşekkür ederim — nefes için, yeni bir başlangıç için.',
+      'Önümdeki saatleri Sana veriyorum: işimi, sözlerimi, karşılaşacağım insanları.',
+      'Kaygılı olduğum yerde huzurum ol. Yorgun olduğum yerde gücüm ol.',
+      'Bu günü telaşsız, Senin yakın olduğunu bilerek yürümeme izin ver. Âmin.',
+    ],
+  },
+  'calm-the-storm': {
+    title: 'Fırtınayı Dindir',
+    script: [
+      'Elini kalbinin üzerine koy. Attığını hisset — yaşıyorsun ve tutuluyorsun.',
+      'İsa, bir fırtınanın içinde uyudun ve onu tek sözle susturdun. Benimkine de söyle.',
+      'Endişemi şimdi adlandırıyorum… ve onu Senin ellerine bırakıyorum.',
+      '“Sus, sakin ol.” Bu sözler zihnimin üzerine durgun su gibi çöksün.',
+      'Bugün korkuyla sürüklenmeyeceğim. Beni Sen taşıyorsun. Âmin.',
+    ],
+  },
+  'grateful-heart': {
+    title: 'Şükreden Bir Kalp',
+    script: [
+      'Bugünden güzel bir şey düşün — ne kadar küçük olursa olsun. Bir an onu tut.',
+      'Baba, her iyi armağan Senden gelir. Teşekkür ederim.',
+      'Dua edip aldıklarım için — ve esirgendiğim şeyler için teşekkür ederim.',
+      'Sıradan saatlerde saklanan lütfu fark etmeyi öğret bana.',
+      'Şükran, günümün bittiği nota olsun. Âmin.',
+    ],
+  },
+  'into-rest': {
+    title: 'Dinlenmeye',
+    script: [
+      'Gün bitsin. Elinden geleni yaptın — ve bu yeterli.',
+      'Rab, uzanırken, bitmemiş olanı Senin korumana bırakıyorum.',
+      'Biz uyurken sevdiğim insanları koru.',
+      '“Esenlik içinde yatar uyurum, çünkü beni güvenlikte yaşatan yalnız Sensin.”',
+      'Nefesimi yavaşlat… düşüncelerimi dindir… ve sabaha dek beni tut. Âmin.',
+    ],
+  },
+  'bless-my-family': {
+    title: 'Aileme Bereket',
+    script: [
+      'Ailenin yüzlerini birer birer aklına getir.',
+      'Baba, her birini bereketle — sağlıkta, yürekte, imanda.',
+      'Aramızda gerginleşeni iyileştir; katılaşanı yumuşat.',
+      'Evimizi sabrın ve kahkahanın yeri yap.',
+      'Bizi sevginle birbirimize bağla. Âmin.',
+    ],
+  },
+  'courage-for-today': {
+    title: 'Bugün İçin Cesaret',
+    script: [
+      'Bir an dik dur. Derin nefes al.',
+      'Rab, bana korku ruhu değil, güç, sevgi ve sağduyu ruhu verdin.',
+      'Sürekli ertelediğim konuşma, görev, adım için bana cesaret ver.',
+      'Sendelediğimde bana hatırlat: Sen önümden gidiyorsun.',
+      'Güçlü ve cesur olacağım — yalnız değil, Seninle. Âmin.',
+    ],
+  },
+  'gratitude-evening': {
+    title: 'Armağanları Sayarken',
+    script: [
+      'Gün otursun. Senden istediğini bir nefeste ver.',
+      'Baba, eksiğimi adlandırmadan önce, bana verileni adlandırayım.',
+      'Bugün neredeyse yanından geçtiğim sıradan merhametler için teşekkür ederim.',
+      'Hayatımı ısıtan insanlar için teşekkür ederim.',
+      'Şükreden bir kalp dolu bir kalptir. Bu gece benimkini doldur. Âmin.',
+    ],
+  },
+  'still-waters': {
+    title: 'Durgun Sular',
+    script: [
+      'Ellerini gevşet. Her satırla nefesin yavaşlasın.',
+      'Çoban, beni durgun suların yanına götürürsün. Şimdi oraya götür.',
+      'İçimde koşuşan düşünceleri birer birer ayaklarının dibine bırakıyorum.',
+      'Canımı onarırsın. Bugünün yıprattığını onar.',
+      'Korkmayacağım, çünkü Sen benimlesin. Âmin.',
+    ],
+  },
+  'morning-surrender': {
+    title: 'Gün Başlamadan',
+    script: [
+      'Gün henüz tükenmedi. Onu burada, her şeyden önce Tanrı’yla karşıla.',
+      'Rab, bu gün benim olmadan önce Senindir.',
+      'Gireceğim her odaya, söyleyeceğim her söze benden önce git.',
+      'Aceleye kapıldığım yerde, yürümeyi öğret bana.',
+      'Saatlerimi düzenle, kalbimi Seninkine yakın tut. Âmin.',
+    ],
+  },
+  'peace-of-christ': {
+    title: 'Koruyan Huzur',
+    script: [
+      'İki ayağını da yere bas. Buradasın. Tanrı burada.',
+      'İsa, huzurunu bize bıraktın — dünyanın verdiği gibi değil, gerçek ve derin.',
+      'O huzur bugün kalbimi ve zihnimi kapıdaki bir nöbetçi gibi korusun.',
+      'Denetleyemediğimi Sana bırakıyorum.',
+      'Senin huzurun yeter. Onda dinleniyorum. Âmin.',
+    ],
+  },
+  'gratitude-morning': {
+    title: 'İlk Şükran',
+    script: [
+      'Yapılacaklar listesinden önce, bir duraklama. Bir şükran nefesi.',
+      'Baba, beni bir lütuf gününe daha uyandırdığın için teşekkür ederim.',
+      'Nefes için, ışık için, taze bir sayfa için teşekkür ederim.',
+      'Sabahımın tonunu telaş değil, şükran belirlesin.',
+      'Bugüne şükrederek başlıyorum. Âmin.',
+    ],
+  },
+  'rest-for-the-weary': {
+    title: 'Bırak Gitsin',
+    script: [
+      'Gün bitti. Elinden geleni yaptın ve bu yeterli.',
+      'Rab, bitmemiş her şeyi Senin korumana bırakıyorum.',
+      'Karanlığa taşıyacağım endişeleri Seninle bırakıyorum.',
+      'Sevdiklerine uyku verirsin. Şimdi beni de kabul et.',
+      'Esenlik içinde yatar uyurum, çünkü beni güvende tutan yalnız Sensin. Âmin.',
+    ],
+  },
+  'for-my-children': {
+    title: 'Sevdiklerimin Üzerine',
+    script: [
+      'Sevdiğin her kişiyi aklına getir. Bir an yüzünü tut.',
+      'Baba, bana emanet edilenleri koru.',
+      'Gidişlerini ve gelişlerini gözet.',
+      'Onları yüzüstü bıraktığım yerde, lütfun boşluğu kapatsın.',
+      'Onları benim asla yapamayacağım kadar yakın, Senin elinde tut. Âmin.',
+    ],
+  },
+  'strength-to-forgive': {
+    title: 'Bağışlama Gücü',
+    script: [
+      'Nefes al. Bu zor bir şey ve Tanrı bunu biliyor.',
+      'Rab, beni büyük bir bedelle bağışladın. Bana bağışlama gücü ver.',
+      'İsmi, anıyı, yarayı getiriyorum — onu Sana uzatıyorum.',
+      'Taşımak bana düşmeyen şeyi taşımaktan beni özgür kıl.',
+      'Bağışlamanın açtığını iyileştir. Beni bütün kıl. Âmin.',
+    ],
+  },
+  'sleep-psalm': {
+    title: 'Kanatlarının Altında',
+    script: [
+      'Günün ağırlığının omuzlarından indiğini hisset.',
+      'Yüceler Yücesi’nin barınağında oturan, O’nun gölgesinde dinlenecek.',
+      'Rab, bir kuşun yavrusunu örttüğü gibi bu gece beni ört.',
+      'Gecenin korkusu yok, yarının kaygısı yok — yalnız Senin korumanda.',
+      'Korkmayacağım, çünkü Sen hiç uyumazsın. İyi geceler, Baba. Âmin.',
+    ],
+  },
+  'when-i-am-weak': {
+    title: 'Güçsüz Olduğumda',
+    script: [
+      'Burada güçlü görünmek zorunda değilsin.',
+      'Rab, gücünün güçsüzlükte tamamlandığını söyledin.',
+      'İşte güçsüzlüğüm — onu Senden saklamayı bırakıyorum.',
+      'Hiçbir şeyimin kalmadığı yerde tam da orada güçlü ol.',
+      'Lütfun bana yeter. Bu yeterli. Âmin.',
+    ],
+  },
+  'thankful-in-hard-times': {
+    title: 'Şimdi Bile, Teşekkürler',
+    script: [
+      'Bu daha zor bir şükran. Nefes al ve dürüst kal.',
+      'Baba, şimdi bile — bunun içinde — Senin elini arıyorum.',
+      'Beni bunun içinde yalnız bırakmadığın için teşekkür ederim.',
+      'Bu dönemin hikâyenin sonu olmadığı için teşekkür ederim.',
+      'Şükrü seçiyorum, kolay olduğu için değil, Sen iyi olduğun için. Âmin.',
+    ],
+  },
+};
+
+/** Guided prayers localized to the active locale (English fallback). */
+export function getPrayers(locale: Locale): GuidedPrayer[] {
+  if (locale === 'en') return prayers;
+  return prayers.map((p) => {
+    const o = locale === 'tr' ? TR[p.id] : undefined;
+    return o ? { ...p, title: o.title, script: o.script } : p;
+  });
+}
+
+/** Reactive prayers for components. */
+export function usePrayers(): GuidedPrayer[] {
+  const { locale } = useT();
+  return getPrayers(locale);
+}

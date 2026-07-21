@@ -10,7 +10,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { sampleChapters } from '@/data/bible';
-import { plans } from '@/data/plans';
+import { usePlans } from '@/data/plans';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useHighlightStore } from '@/state/useHighlightStore';
 import { toast } from '@/state/useToastStore';
@@ -21,6 +21,7 @@ export default function Bible() {
   const { t: tr } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const { keys: highlightKeys, toggle: toggleHighlight } = useHighlightStore();
+  const plans = usePlans();
   const [openIdx, setOpenIdx] = useState(0);
   const chapter = sampleChapters[openIdx];
 

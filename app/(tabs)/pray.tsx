@@ -9,7 +9,7 @@ import type { AssetId } from '@/assets/registry';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
-import { prayers, prayerCategories, type GuidedPrayer } from '@/data/prayers';
+import { usePrayers, prayerCategories, type GuidedPrayer } from '@/data/prayers';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useT } from '@/i18n';
 
@@ -17,6 +17,7 @@ export default function Pray() {
   const t = useTheme();
   const { t: tr } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
+  const prayers = usePrayers();
   const [cat, setCat] = useState<GuidedPrayer['category'] | 'all'>('all');
   const list = cat === 'all' ? prayers : prayers.filter((p) => p.category === cat);
 

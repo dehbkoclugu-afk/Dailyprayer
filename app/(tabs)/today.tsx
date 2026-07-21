@@ -19,7 +19,7 @@ import { useStreakStore } from '@/state/useStreakStore';
 import { useUserStore } from '@/state/useUserStore';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { greetingFor, dayKey } from '@/lib/dates';
-import { prayers } from '@/data/prayers';
+import { usePrayers } from '@/data/prayers';
 import { toast } from '@/state/useToastStore';
 import { useT, translate } from '@/i18n';
 
@@ -30,6 +30,7 @@ export default function Today() {
   const t = useTheme();
   const { t: tr } = useT();
   const { verse, devotional } = useDailyContent();
+  const prayers = usePrayers();
   const name = useUserStore((s) => s.quiz.name);
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const { count, lastTickDay, doneDay, doneSteps } = useStreakStore();
