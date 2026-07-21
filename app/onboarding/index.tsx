@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
+import { Wordmark } from '@/components/Wordmark';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
@@ -17,7 +18,7 @@ export default function Welcome() {
     <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
         <ArtSlot id="A1-logomark" height={44} fit="contain" radius={12} style={{ width: 44 }} />
-        <Text style={{ fontFamily: fonts.serif, fontSize: 22, color: t.ink }}>Lumen</Text>
+        <Wordmark size={24} />
       </View>
 
       <View>
