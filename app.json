@@ -31,7 +31,20 @@
     },
     "plugins": [
       "expo-router",
-      "expo-font",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf",
+            "./node_modules/@expo-google-fonts/fraunces/Fraunces_400Regular.ttf",
+            "./node_modules/@expo-google-fonts/fraunces/Fraunces_600SemiBold.ttf",
+            "./node_modules/@expo-google-fonts/figtree/Figtree_400Regular.ttf",
+            "./node_modules/@expo-google-fonts/figtree/Figtree_500Medium.ttf",
+            "./node_modules/@expo-google-fonts/figtree/Figtree_600SemiBold.ttf",
+            "./node_modules/@expo-google-fonts/figtree/Figtree_700Bold.ttf"
+          ]
+        }
+      ],
       [
         "expo-splash-screen",
         {

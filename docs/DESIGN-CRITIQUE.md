@@ -80,3 +80,35 @@ okunuyor. Kalan sinyal: jenerik "avatar-daire + başlık + altyazı" liste satı
 - Ayet İngilizce kalacaksa bu bir ürün kararı mı, eksik mi? Karar verilip tutarlı uygulanmalı.
 - Kütüphane satırları ve tile'lar aynı kategori-görsel dilini paylaşabilir mi (tek sistem)?
 - "Aç" ve oynatıcı butonu tek bir birincil-aksiyon biçiminde birleşmeli mi?
+
+---
+
+## Ek: "Ben" (Profil) ekranı — amatörlük analizi
+
+**Kanıt:** cihaz ekran görüntüsü + `app/(tabs)/profile.tsx`. Uygulamanın en zayıf
+yüzeyi; Bugün/İncil craft'ının (tam-kanama ayet kartı, disiplinli tek-vurgu) hiçbiri
+burada yok — "ayarlar çöplüğü" gibi kurulmuş.
+
+### Bug kaynaklı (eksik ikonlar — düzeltildi)
+En görünür amatör sinyal, ekrandaki **tüm ikonların boş render edilmesiydi**
+(istatistik alev/kupa/takvim, Plus yıldızı, chevron'lar). Kök neden ilk sanıldığı gibi
+sadece `Ionicons.font` preload eksikliği değil: uygulama **New Architecture** (`newArchEnabled: true`)
+üzerinde ve release build'de `@expo/vector-icons` glyph fontu JS tarafı async yüklemeyle
+güvenilmez şekilde geliyordu. Kalıcı çözüm: **`expo-font` config plugin'i ile Ionicons.ttf'yi
+(ve gövde fontlarını) native olarak gömmek** — glyph'ler artık async yüklemeden ve New Arch
+davranışından bağımsız, anında hazır. Plus kartındaki "metin sağa kaymış, solda boşluk"
+görüntüsü de buydu (ikon gelmeyince `gap` yeri boş kalıyordu).
+
+### Kalıcı craft açıkları
+| # | Bulgu | Neden amatör | Durum |
+|---|-------|--------------|-------|
+| 1 | Üç "1"lik hero-metrik kutusu (seri/en iyi/toplam) | impeccable'ın yasakladığı "hero-metric template"; yeni kullanıcıda üçü de 1 → bomboş | Backlog — veri zenginleşince kabul edilebilir; boş-durum tasarımı önerilir |
+| 2 | Başlık sadece "Umut", alt-metin/bağlam yok | Üst kısım çıplak/bitmemiş | Backlog |
+| 3 | Dil pill'leri 3-3-1 sarıyor, "Deutsch" öksüz | Dağınık chip bulutu | Kısmen düzeltildi (chip kontrastı — grup artık kohezyonlu okunur) |
+| 4 | Seçili-olmayan pill kenarları görünmez | Yarım görünüm | **Düzeltildi** — `surface` dolgu eklendi |
+| 5 | Üç ayrı "kap" dili (bordürlü kart vs kapsız pill) | Ayar ekranı tutarsızlığı | Backlog |
+| 6 | Plus kartı `goldSoft` çamurlu zeytin dolgu | Ucuz duruyor, chip diliyle karışıyor | **Düzeltildi** — temiz `surface` + altın kenar + yıldız |
+| 7 | Gevşek/düzensiz dikey ritim | Kademe kurulmamış | Backlog |
+
+**Öncelik:** #1 (üç "1") ve #2 (çıplak başlık) kalan en görünür açıklar; bir sonraki
+"Ben" polish turunda ele alınmalı.

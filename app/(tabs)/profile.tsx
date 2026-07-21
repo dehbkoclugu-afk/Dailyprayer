@@ -87,7 +87,10 @@ export default function Profile() {
         accessibilityRole="button"
         accessibilityLabel={isPlus ? tr('profile.plusActive') : tr('profile.plusCta')}
         style={{
-          backgroundColor: isPlus ? t.goldSoft : t.surface,
+          // Active Plus previously filled with goldSoft — a muddy olive block on
+          // the dark surface. The gold border + filled star already read as
+          // premium, so keep a clean surface fill in both states.
+          backgroundColor: t.surface,
           borderColor: t.gold,
           borderWidth: 1,
           borderRadius: radius.card,
@@ -222,7 +225,10 @@ function Choice({ label, active, onPress }: { label: string; active: boolean; on
       accessibilityRole="button"
       accessibilityState={{ selected: active }}
       style={{
-        backgroundColor: active ? t.goldSoft : 'transparent',
+        // Unselected chips take a surface fill (not transparent) so they read as
+        // a cohesive group on the dark bg instead of near-invisible outlines —
+        // that also makes the language chips' wrap look deliberate, not ragged.
+        backgroundColor: active ? t.goldSoft : t.surface,
         borderColor: active ? t.gold : t.border,
         borderWidth: 1,
         borderRadius: radius.pill,
