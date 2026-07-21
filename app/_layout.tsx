@@ -3,6 +3,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { Platform, useColorScheme } from 'react-native';
 import { useFonts } from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
 import {
   Fraunces_400Regular,
   Fraunces_600SemiBold,
@@ -28,6 +29,9 @@ export default function RootLayout() {
   const scheme = useColorScheme();
   const pref = useUserStore((s) => s.themePreference);
   const [loaded, fontError] = useFonts({
+    // Ionicons glyph font — without this the icons render blank in release
+    // builds (empty buttons, missing chevrons/play controls).
+    ...Ionicons.font,
     Fraunces_400Regular,
     Fraunces_600SemiBold,
     Figtree_400Regular,
