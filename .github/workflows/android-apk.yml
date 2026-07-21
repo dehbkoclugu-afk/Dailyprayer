@@ -94,13 +94,23 @@ jobs:
             adb shell monkey -p com.lumen.dailyprayer -c android.intent.category.LAUNCHER 1
             sleep 30
             adb logcat -d > logcat.txt
-            echo "===== JAVA CRASH ====="
-            grep -B 2 -A 80 "FATAL EXCEPTION" logcat.txt || echo "none"
-            echo "===== NATIVE CRASH ====="
-            grep -B 2 -A 80 -E "Fatal signal|tombstoned" logcat.txt || echo "none"
             echo "===== APP TRACES ====="
             grep -E "lumen|Lumen|AndroidRuntime|ReactNativeJS|E ReactNative|Hermes|hermes|SoLoader|UnsatisfiedLink|Reanimated|Purchases" logcat.txt | tail -150 || true
-            adb shell pidof com.lumen.dailyprayer && echo "PROCESS ALIVE" || echo "PROCESS DEAD"
+            # Çökme = başarısızlık: Java/native crash izi ya da ölü süreç job'u fail eder
+            FAIL=0
+            if grep -qE "FATAL EXCEPTION|Fatal signal|tombstoned|NoClassDefFoundError|UnsatisfiedLinkError" logcat.txt; then
+              echo "::error::Çökme izi bulundu (logcat.txt artifact'ine bak)"
+              echo "===== CRASH ====="
+              grep -B 2 -A 80 -E "FATAL EXCEPTION|Fatal signal|tombstoned" logcat.txt | head -120
+              FAIL=1
+            fi
+            if adb shell pidof com.lumen.dailyprayer > /dev/null; then
+              echo "PROCESS ALIVE"
+            else
+              echo "::error::Süreç öldü — uygulama açılışta çöktü"
+              FAIL=1
+            fi
+            exit $FAIL
 
       - name: Upload logcat
         if: always()
