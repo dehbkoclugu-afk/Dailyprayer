@@ -4,6 +4,8 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
+import { ArtSlot } from '@/components/ArtSlot';
+import type { AssetId } from '@/assets/registry';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
@@ -56,18 +58,12 @@ export default function Pray() {
                 transform: [{ scale: pressed ? 0.97 : 1 }],
               })}
             >
-              <View
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 22,
-                  backgroundColor: active ? 'transparent' : t.surfaceAlt,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Ionicons name={c.icon as never} size={22} color={t.gold} />
-              </View>
+              <ArtSlot
+                id={`A11-${c.key}` as AssetId}
+                height={52}
+                fit="contain"
+                style={{ width: 52 }}
+              />
               <Text
                 style={{
                   fontFamily: active ? fonts.sansSemiBold : fonts.sansMedium,

@@ -7,8 +7,29 @@ import * as Sharing from 'expo-sharing';
 import { fonts } from '@/theme/typography';
 import { radius, shadow, spacing } from '@/theme/tokens';
 import { ArtSlot } from '@/components/ArtSlot';
+import type { AssetId } from '@/assets/registry';
 import type { DailyVerse } from '@/data/verses';
 import { useT } from '@/i18n';
+
+/**
+ * Verse theme → A5 background. Eight themes have dedicated art; the remaining
+ * themes borrow the nearest one in mood so every verse still gets a scene.
+ */
+const VERSE_ART: Record<DailyVerse['theme'], AssetId> = {
+  peace: 'A5-verse-peace',
+  strength: 'A5-verse-strength',
+  trust: 'A5-verse-trust',
+  rest: 'A5-verse-rest',
+  hope: 'A5-verse-hope',
+  guidance: 'A5-verse-guidance',
+  joy: 'A5-verse-joy',
+  love: 'A5-verse-love',
+  anxiety: 'A5-verse-hope', // sunbeam breaking the storm
+  gratitude: 'A5-verse-joy', // golden harvest
+  comfort: 'A5-verse-rest', // candlelit calm
+  faith: 'A5-verse-guidance', // star to follow
+  forgiveness: 'A5-verse-love', // reaching hands
+};
 
 interface Props {
   verse: DailyVerse;
@@ -42,8 +63,8 @@ export function VerseCard({ verse, onRead }: Props) {
       accessibilityLabel={`Verse of the day, ${verse.reference}`}
       style={[{ borderRadius: radius.hero, overflow: 'hidden' }, shadow.card]}
     >
-      {/* Painterly art layer (A5 series) with dusk-veil fallback + scrim for legibility */}
-      <ArtSlot id="A5-verse-peace" height={340} radius={radius.hero}>
+      {/* Painterly art layer (A5 series, chosen by verse theme) + scrim for legibility */}
+      <ArtSlot id={VERSE_ART[verse.theme]} height={340} radius={radius.hero}>
         <LinearGradient
           colors={['rgba(23,16,46,0.55)', 'rgba(14,18,32,0.92)']}
           start={{ x: 0.5, y: 0 }}

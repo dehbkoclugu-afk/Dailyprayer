@@ -31,6 +31,14 @@ export default function Bible() {
 {tr('bible.sub')}
       </Text>
 
+      {/* A14 — restrained line-art etching under the header */}
+      <ArtSlot
+        id="A14-bible-etching"
+        height={64}
+        fit="contain"
+        style={{ marginTop: spacing.md, opacity: 0.55 }}
+      />
+
       {/* chapter picker — single horizontal row */}
       <ScrollView
         horizontal
@@ -130,7 +138,7 @@ export default function Bible() {
               accessibilityLabel={`${p.title}${locked ? ', requires Plus' : ''}`}
             >
               <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
-                <ArtSlot id="A13-plan-cover" height={150} radius={radius.card}>
+                <ArtSlot id={p.art} height={150} radius={radius.card}>
                   <LinearGradient
                     colors={[`${p.gradient[0]}CC`, `${p.gradient[1]}F2`]}
                     start={{ x: 0, y: 0 }}
