@@ -51,19 +51,15 @@ export default function Today() {
 
   return (
     <Screen tabbed>
-      {/* candle-glow halo behind the header */}
-      <View
+      {/* candle-glow wash behind the header — a soft top-down fade, not a hard
+          disc. The old 340px circle read as an unintentional dark dome; a
+          vertical gradient bleeds warmth in without a visible shape edge. */}
+      <LinearGradient
         pointerEvents="none"
-        style={{
-          position: 'absolute',
-          top: -120,
-          alignSelf: 'center',
-          width: 340,
-          height: 340,
-          borderRadius: 170,
-          backgroundColor: t.gold,
-          opacity: 0.07,
-        }}
+        colors={['rgba(217,164,65,0.10)', 'rgba(217,164,65,0.0)']}
+        start={{ x: 0.5, y: 0 }}
+        end={{ x: 0.5, y: 1 }}
+        style={{ position: 'absolute', top: -60, left: -40, right: -40, height: 300 }}
       />
 
       {/* Header */}
