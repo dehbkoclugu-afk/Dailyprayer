@@ -61,24 +61,56 @@ export default function Profile() {
       <Text style={[ty.title, { color: t.ink }]}>
         {quiz.name ? quiz.name : tr('profile.journey')}
       </Text>
+      <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>
+        {tr('profile.subtitle')}
+      </Text>
 
-      {/* stats — one unified card */}
+      {/* streak — the current run is the hero (a flame + one number reads warm,
+          not the hollow "three identical 1s" dashboard); best/total sit below
+          as a quiet footnote so the card has hierarchy instead of three peers. */}
       <View
         style={{
-          flexDirection: 'row',
           backgroundColor: t.surface,
           borderRadius: radius.card,
           borderWidth: 1,
           borderColor: t.border,
           marginTop: spacing.lg,
-          paddingVertical: spacing.lg,
+          padding: spacing.lg,
         }}
       >
-        <Stat icon="flame" label={tr('profile.dayStreak')} value={`${count}`} />
-        <View style={{ width: 1, backgroundColor: t.border, marginVertical: spacing.sm }} />
-        <Stat icon="trophy-outline" label={tr('profile.bestStreak')} value={`${bestCount}`} />
-        <View style={{ width: 1, backgroundColor: t.border, marginVertical: spacing.sm }} />
-        <Stat icon="calendar-outline" label={tr('profile.totalDays')} value={`${totalDays}`} />
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.lg }}>
+          <View
+            style={{
+              width: 52,
+              height: 52,
+              borderRadius: 26,
+              backgroundColor: t.goldSoft,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Ionicons name="flame" size={26} color={t.gold} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text
+              style={{
+                fontFamily: fonts.sansBold,
+                fontSize: 30,
+                color: t.ink,
+                fontVariant: ['tabular-nums'],
+              }}
+            >
+              {count}
+            </Text>
+            <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
+              {tr('profile.dayStreak')}
+            </Text>
+          </View>
+        </View>
+        <View style={{ height: 1, backgroundColor: t.border, marginVertical: spacing.md }} />
+        <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft }}>
+          {tr('profile.bestStreak')} {bestCount} · {tr('profile.totalDays')} {totalDays}
+        </Text>
       </View>
 
       {/* subscription card */}
@@ -194,26 +226,6 @@ export default function Profile() {
         Lumen v1.0.0
       </Text>
     </Screen>
-  );
-}
-
-function Stat({ icon, label, value }: { icon: string; label: string; value: string }) {
-  const t = useTheme();
-  return (
-    <View style={{ flex: 1, alignItems: 'center', gap: 4 }}>
-      <Ionicons name={icon as never} size={20} color={t.gold} />
-      <Text
-        style={{
-          fontFamily: fonts.sansBold,
-          fontSize: 22,
-          color: t.ink,
-          fontVariant: ['tabular-nums'],
-        }}
-      >
-        {value}
-      </Text>
-      <Text style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkSoft }}>{label}</Text>
-    </View>
   );
 }
 
