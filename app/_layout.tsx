@@ -77,6 +77,7 @@ export default function RootLayout() {
         <Stack.Screen name="paywall" options={{ presentation: 'modal' }} />
         <Stack.Screen name="player" options={{ presentation: 'modal' }} />
         <Stack.Screen name="devotional" options={{ presentation: 'card' }} />
+        <Stack.Screen name="legal" options={{ presentation: 'card' }} />
       </Stack>
       <ToastHost />
     </GestureHandlerRootView>

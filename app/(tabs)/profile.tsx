@@ -156,7 +156,16 @@ export default function Profile() {
           }`}
           onPress={openReminderPicker}
         />
-        <Row icon="document-text-outline" label={tr('profile.terms')} />
+        <Row
+          icon="lock-closed-outline"
+          label={tr('profile.privacy')}
+          onPress={() => router.push({ pathname: '/legal', params: { doc: 'privacy' } })}
+        />
+        <Row
+          icon="document-text-outline"
+          label={tr('profile.terms')}
+          onPress={() => router.push({ pathname: '/legal', params: { doc: 'terms' } })}
+        />
         <Row icon="mail-outline" label={tr('profile.contact')} />
         <Pressable
           onPress={reset}

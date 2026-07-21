@@ -268,8 +268,24 @@ export default function Paywall() {
           marginTop: spacing.md,
         }}
       >
-{tr('paywall.legal')}
+{tr('paywall.legalPrefix')}
       </Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'center', gap: spacing.lg, marginTop: 6 }}>
+        <Text
+          onPress={() => router.push({ pathname: '/legal', params: { doc: 'terms' } })}
+          accessibilityRole="link"
+          style={{ fontFamily: fonts.sansMedium, fontSize: 12, color: t.blue }}
+        >
+          {tr('paywall.termsLink')}
+        </Text>
+        <Text
+          onPress={() => router.push({ pathname: '/legal', params: { doc: 'privacy' } })}
+          accessibilityRole="link"
+          style={{ fontFamily: fonts.sansMedium, fontSize: 12, color: t.blue }}
+        >
+          {tr('paywall.privacyLink')}
+        </Text>
+      </View>
     </Screen>
   );
 }
