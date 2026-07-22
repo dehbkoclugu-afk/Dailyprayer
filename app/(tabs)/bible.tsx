@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import React from 'react';
+import { Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -9,21 +9,20 @@ import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
-import { sampleChapters } from '@/data/bible';
 import { usePlans } from '@/data/plans';
+import { bookMeta } from '@/data/bibleMeta';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
-import { useHighlightStore } from '@/state/useHighlightStore';
-import { toast } from '@/state/useToastStore';
-import { useT, translate } from '@/i18n';
+import { useReaderStore } from '@/state/useReaderStore';
+import { useT } from '@/i18n';
 
 export default function Bible() {
   const t = useTheme();
   const { t: tr } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
-  const { keys: highlightKeys, toggle: toggleHighlight } = useHighlightStore();
   const plans = usePlans();
-  const [openIdx, setOpenIdx] = useState(0);
-  const chapter = sampleChapters[openIdx];
+  const { book, chapter } = useReaderStore();
+  const readerBook = bookMeta[book] ?? bookMeta[0];
+  const readerChapter = chapter;
 
   return (
     <Screen tabbed>
@@ -40,92 +39,46 @@ export default function Bible() {
         style={{ marginTop: spacing.md, opacity: 0.55 }}
       />
 
-      {/* chapter picker — single horizontal row */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={{ marginTop: spacing.lg, marginHorizontal: -spacing.xl }}
-        contentContainerStyle={{ gap: spacing.sm, paddingHorizontal: spacing.xl }}
-      >
-        {sampleChapters.map((c, i) => {
-          const active = i === openIdx;
-          return (
-            <Pressable
-              key={`${c.book}-${c.chapter}`}
-              onPress={() => setOpenIdx(i)}
-              accessibilityRole="button"
-              accessibilityState={{ selected: active }}
-              style={{
-                backgroundColor: active ? t.goldSoft : 'transparent',
-                borderColor: active ? t.gold : t.border,
-                borderWidth: 1,
-                borderRadius: radius.pill,
-                paddingHorizontal: spacing.lg,
-                paddingVertical: spacing.sm,
-                minHeight: 44,
-                justifyContent: 'center',
-              }}
-            >
-              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: active ? t.gold : t.inkSoft }}>
-                {c.book} {c.chapter}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </ScrollView>
-
-      {/* reader */}
-      <View
-        style={{
+      {/* Open the full sequential Bible reader (resumes the last position) */}
+      <Pressable
+        onPress={() => router.push('/read')}
+        accessibilityRole="button"
+        accessibilityLabel={tr('read.openBible')}
+        style={({ pressed }) => ({
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: spacing.lg,
           backgroundColor: t.surface,
           borderRadius: radius.card,
           borderWidth: 1,
           borderColor: t.border,
-          padding: spacing.xl,
+          padding: spacing.lg,
           marginTop: spacing.lg,
-        }}
-      >
-        <Text style={[ty.title, { color: t.ink, marginBottom: spacing.lg }]}>
-          {chapter.book} {chapter.chapter}
-        </Text>
-        <Text style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkFaint, marginBottom: spacing.md }}>
-          {tr('bible.highlightHint')}
-        </Text>
-        {chapter.verses.map((v, i) => {
-          const hKey = `${chapter.book}|${chapter.chapter}|${i}`;
-          const highlighted = highlightKeys.includes(hKey);
-          return (
-          <Text
-            key={i}
-            onPress={() => {
-              const on = toggleHighlight(hKey);
-              toast(translate(on ? 'toast.highlightOn' : 'toast.highlightOff'));
-            }}
-            suppressHighlighting
-            style={{
-              fontFamily: fonts.serifLight,
-              fontSize: 19,
-              lineHeight: 34,
-              color: t.ink,
-              marginBottom: spacing.md,
-              backgroundColor: highlighted ? t.goldSoft : 'transparent',
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: fonts.sansBold,
-                fontSize: 11,
-                color: t.gold,
-                fontVariant: ['tabular-nums'],
-              }}
-            >
-              {i + 1}{'  '}
-            </Text>
-            {v}
-          </Text>
-          );
+          opacity: pressed ? 0.9 : 1,
         })}
-      </View>
+      >
+        <View
+          style={{
+            width: 48,
+            height: 48,
+            borderRadius: radius.inner,
+            backgroundColor: t.goldSoft,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Ionicons name="book" size={22} color={t.gold} />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>
+            {tr('read.openBible')}
+          </Text>
+          <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
+            {tr('read.continue')} · {readerBook.name} {readerChapter + 1}
+          </Text>
+        </View>
+        <Ionicons name="chevron-forward" size={20} color={t.inkFaint} />
+      </Pressable>
 
       <SectionHeader title={tr('bible.plans')} />
       <View style={{ gap: spacing.md }}>
