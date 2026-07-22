@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,7 +14,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useDailyContent } from '@/hooks/useDailyContent';
-import { verses, type DailyVerse } from '@/data/verses';
+import { getVerses, type DailyVerse } from '@/data/verses';
 import { useStreakStore } from '@/state/useStreakStore';
 import { useUserStore } from '@/state/useUserStore';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
@@ -45,13 +45,16 @@ export default function Today() {
   const [otherVerse, setOtherVerse] = useState<DailyVerse | null>(null);
   const shownVerse = otherVerse ?? verse;
   const shuffleVerse = () => {
-    if (verses.length < 2) return;
+    const pool = getVerses(locale);
+    if (pool.length < 2) return;
     let next = shownVerse;
     while (next.reference === shownVerse.reference) {
-      next = verses[Math.floor(Math.random() * verses.length)];
+      next = pool[Math.floor(Math.random() * pool.length)];
     }
     setOtherVerse(next);
   };
+  // Drop a shuffled pick when the language changes so it doesn't show stale text.
+  useEffect(() => setOtherVerse(null), [locale]);
   const prayers = usePrayers();
   const name = useUserStore((s) => s.quiz.name);
   const isPlus = useEntitlementStore((s) => s.isPlus);
