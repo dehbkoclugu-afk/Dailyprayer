@@ -15,7 +15,7 @@ import { useT } from '@/i18n';
 
 export default function PlanScreen() {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
   const plan = usePlans().find((p) => p.id === id);
@@ -107,7 +107,7 @@ export default function PlanScreen() {
           alignSelf: 'center',
         }}
         renderItem={({ item: dayIdx }) => {
-          const readingRef = formatReadingRef(planReading(plan.id, dayIdx));
+          const readingRef = formatReadingRef(planReading(plan.id, dayIdx), locale);
           const isDone = done.includes(dayIdx);
           return (
             <Pressable

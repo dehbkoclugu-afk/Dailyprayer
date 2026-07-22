@@ -1,4 +1,5 @@
-import { bookMeta } from '@/data/bibleMeta';
+import { bookMeta, bookName } from '@/data/bibleMeta';
+import type { Locale } from '@/i18n/translations';
 
 /**
  * Maps each reading plan's day to a REAL passage in the bundled Bible, replacing
@@ -87,9 +88,11 @@ export function planReading(planId: string, day: number): PlanReading {
 }
 
 /** Display reference, e.g. "Mezmur 23", "Yaratılış 1–3", "Malaki 4 – Matta 2". */
-export function formatReadingRef(r: PlanReading): string {
-  const sName = bookMeta[r.book]?.name ?? '';
-  const eName = bookMeta[r.endBook]?.name ?? '';
+export function formatReadingRef(r: PlanReading, locale: Locale): string {
+  const sCode = bookMeta[r.book]?.code ?? '';
+  const eCode = bookMeta[r.endBook]?.code ?? '';
+  const sName = sCode ? bookName(locale, sCode) : '';
+  const eName = eCode ? bookName(locale, eCode) : '';
   if (r.book === r.endBook) {
     return r.chapter === r.endChapter
       ? `${sName} ${r.chapter + 1}`

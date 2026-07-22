@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
-import { fullBible } from '@/data/bibleFull';
+import { getBible } from '@/data/bibleFull';
 import { useT } from '@/i18n';
 
 interface Hit {
@@ -23,7 +23,7 @@ const MAX = 300;
 
 export default function Search() {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const insets = useSafeAreaInsets();
   const [query, setQuery] = useState('');
   const [q, setQ] = useState(''); // debounced
@@ -35,10 +35,11 @@ export default function Search() {
 
   const hits = useMemo<Hit[]>(() => {
     if (q.length < 2) return [];
+    const bible = getBible(locale);
     const needle = lower(q);
     const out: Hit[] = [];
-    for (let b = 0; b < fullBible.length; b++) {
-      const bk = fullBible[b];
+    for (let b = 0; b < bible.length; b++) {
+      const bk = bible[b];
       for (let c = 0; c < bk.chapters.length; c++) {
         const ch = bk.chapters[c];
         for (let v = 0; v < ch.length; v++) {
@@ -52,7 +53,7 @@ export default function Search() {
       }
     }
     return out;
-  }, [q]);
+  }, [q, locale]);
 
   const snippet = (h: Hit) => {
     const start = Math.max(0, h.at - 40);

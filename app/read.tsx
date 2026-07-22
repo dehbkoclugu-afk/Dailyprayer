@@ -8,7 +8,7 @@ import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { HIGHLIGHT_TINT } from '@/theme/highlights';
 import { useReaderTheme } from '@/theme/reading';
-import { fullBible } from '@/data/bibleFull';
+import { getBible } from '@/data/bibleFull';
 import { useReaderStore } from '@/state/useReaderStore';
 import { useReaderPrefsStore } from '@/state/useReaderPrefsStore';
 import { useHighlightStore } from '@/state/useHighlightStore';
@@ -17,8 +17,9 @@ import { VerseActionSheet, type SelectedVerse } from '@/components/VerseActionSh
 import { useT } from '@/i18n';
 
 export default function Read() {
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const insets = useSafeAreaInsets();
+  const bible = getBible(locale);
   const { book, chapter, setPos } = useReaderStore();
   const fontScale = useReaderPrefsStore((s) => s.fontScale);
   const marks = useHighlightStore((s) => s.marks);
@@ -35,8 +36,8 @@ export default function Read() {
   const [flashV, setFlashV] = useState<number | null>(null);
   const listRef = useRef<FlatList>(null);
 
-  const bIdx = Math.min(book, fullBible.length - 1);
-  const bk = fullBible[bIdx];
+  const bIdx = Math.min(book, bible.length - 1);
+  const bk = bible[bIdx];
   const cIdx = Math.min(chapter, bk.chapters.length - 1);
   const verses = bk.chapters[cIdx];
 
@@ -65,13 +66,13 @@ export default function Read() {
   };
   const next = () => {
     if (cIdx + 1 < bk.chapters.length) go(bIdx, cIdx + 1);
-    else if (bIdx + 1 < fullBible.length) go(bIdx + 1, 0);
+    else if (bIdx + 1 < bible.length) go(bIdx + 1, 0);
   };
   const prev = () => {
     if (cIdx > 0) go(bIdx, cIdx - 1);
-    else if (bIdx > 0) go(bIdx - 1, fullBible[bIdx - 1].chapters.length - 1);
+    else if (bIdx > 0) go(bIdx - 1, bible[bIdx - 1].chapters.length - 1);
   };
-  const hasNext = cIdx + 1 < bk.chapters.length || bIdx + 1 < fullBible.length;
+  const hasNext = cIdx + 1 < bk.chapters.length || bIdx + 1 < bible.length;
   const hasPrev = cIdx > 0 || bIdx > 0;
 
   const bodySize = Math.round(18 * fontScale);
@@ -329,13 +330,13 @@ export default function Read() {
                 </Pressable>
               ) : null}
               <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: rt.ink }}>
-                {typeof picker === 'number' ? fullBible[picker].name : tr('read.pickBook')}
+                {typeof picker === 'number' ? bible[picker].name : tr('read.pickBook')}
               </Text>
             </View>
 
             {picker === 'books' ? (
               <FlatList
-                data={fullBible}
+                data={bible}
                 keyExtractor={(b) => b.code}
                 contentContainerStyle={{ paddingHorizontal: spacing.lg }}
                 renderItem={({ item, index }) => (
@@ -367,7 +368,7 @@ export default function Read() {
             ) : typeof picker === 'number' ? (
               <FlatList
                 key="chapters"
-                data={fullBible[picker].chapters}
+                data={bible[picker].chapters}
                 keyExtractor={(_, i) => String(i)}
                 numColumns={5}
                 contentContainerStyle={{ paddingHorizontal: spacing.lg, gap: spacing.sm }}

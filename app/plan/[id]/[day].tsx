@@ -10,13 +10,13 @@ import { fonts } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
 import { planReading, formatReadingRef } from '@/data/planReadings';
-import { fullBible } from '@/data/bibleFull';
+import { getBible } from '@/data/bibleFull';
 import { usePlanStore } from '@/state/usePlanStore';
 import { useT } from '@/i18n';
 
 export default function PlanDay() {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const { id, day } = useLocalSearchParams<{ id: string; day: string }>();
   const plan = usePlans().find((p) => p.id === id);
   const dayIdx = Number(day) || 0;
@@ -25,8 +25,8 @@ export default function PlanDay() {
   if (!plan) return <View style={{ flex: 1, backgroundColor: t.bg }} />;
 
   const reading = planReading(plan.id, dayIdx);
-  const ref = formatReadingRef(reading);
-  const firstVerse = fullBible[reading.book]?.chapters[reading.chapter]?.[0]?.[1] ?? '';
+  const ref = formatReadingRef(reading, locale);
+  const firstVerse = getBible(locale)[reading.book]?.chapters[reading.chapter]?.[0]?.[1] ?? '';
   const teaser = firstVerse.length > 170 ? `${firstVerse.slice(0, 170).trimEnd()}…` : firstVerse;
   const done = (progress[plan.id] ?? []).includes(dayIdx);
 

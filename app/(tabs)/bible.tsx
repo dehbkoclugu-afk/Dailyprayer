@@ -10,18 +10,20 @@ import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
-import { bookMeta } from '@/data/bibleMeta';
+import { bookMeta, bookName } from '@/data/bibleMeta';
+import { getBibleCredit } from '@/data/bibleFull';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useReaderStore } from '@/state/useReaderStore';
 import { useT } from '@/i18n';
 
 export default function Bible() {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const plans = usePlans();
   const { book, chapter } = useReaderStore();
   const readerBook = bookMeta[book] ?? bookMeta[0];
+  const readerBookName = bookName(locale, readerBook.code);
   const readerChapter = chapter;
 
   return (
@@ -33,7 +35,7 @@ export default function Bible() {
       <Pressable
         onPress={() => router.push('/read')}
         accessibilityRole="button"
-        accessibilityLabel={`${tr('read.openBible')} — ${tr('read.continue')} ${readerBook.name} ${readerChapter + 1}`}
+        accessibilityLabel={`${tr('read.openBible')} — ${tr('read.continue')} ${readerBookName} ${readerChapter + 1}`}
         style={({ pressed }) => ({ marginTop: spacing.xl, opacity: pressed ? 0.92 : 1 })}
       >
         <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
@@ -64,7 +66,7 @@ export default function Bible() {
                     {tr('read.openBible')}
                   </Text>
                   <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: 'rgba(242,238,230,0.82)', marginTop: spacing.xs }}>
-                    {readerBook.name} {readerChapter + 1}
+                    {readerBookName} {readerChapter + 1}
                   </Text>
                 </View>
                 <View
@@ -168,7 +170,7 @@ export default function Bible() {
         })}
       </View>
 
-      {/* Scripture attribution — required by the YTC CC-BY-ND license. */}
+      {/* Scripture attribution — each translation carries its own license credit. */}
       <Text
         style={{
           fontFamily: fonts.sans,
@@ -178,7 +180,7 @@ export default function Bible() {
           marginTop: spacing.xl,
         }}
       >
-        {tr('bible.credit')}
+        {getBibleCredit(locale)}
       </Text>
     </Screen>
   );

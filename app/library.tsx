@@ -7,7 +7,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { HIGHLIGHT_SWATCH } from '@/theme/highlights';
-import { fullBible } from '@/data/bibleFull';
+import { getBible } from '@/data/bibleFull';
 import { useBookmarkStore } from '@/state/useBookmarkStore';
 import { useHighlightStore } from '@/state/useHighlightStore';
 import { useT } from '@/i18n';
@@ -26,7 +26,7 @@ interface Row {
 
 export default function Library() {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const insets = useSafeAreaInsets();
   const [tab, setTab] = useState<Tab>('bookmarks');
 
@@ -48,28 +48,29 @@ export default function Library() {
   );
 
   const highlightRows = useMemo<Row[]>(() => {
+    const bible = getBible(locale);
     const rows: Row[] = [];
     for (const [key, color] of Object.entries(marks)) {
       const [code, cStr, vStr] = key.split('|');
-      const b = fullBible.findIndex((bk) => bk.code === code);
+      const b = bible.findIndex((bk) => bk.code === code);
       if (b < 0) continue;
       const c = Number(cStr);
       const v = Number(vStr);
-      const ch = fullBible[b].chapters[c];
+      const ch = bible[b].chapters[c];
       if (!ch || !ch[v]) continue;
       const text = ch[v][1];
       rows.push({
         book: b,
         chapter: c,
         verse: v,
-        ref: `${fullBible[b].name} ${c + 1}:${ch[v][0]}`,
+        ref: `${bible[b].name} ${c + 1}:${ch[v][0]}`,
         preview: text.length > 90 ? `${text.slice(0, 90).trimEnd()}…` : text,
         color: HIGHLIGHT_SWATCH[color],
         markKey: key,
       });
     }
     return rows;
-  }, [marks]);
+  }, [marks, locale]);
 
   const rows = tab === 'bookmarks' ? bookmarkRows : highlightRows;
 
