@@ -75,7 +75,7 @@ export default function Today() {
         style={{ position: 'absolute', top: -60, left: -40, right: -40, height: 300 }}
       />
 
-      {/* Header */}
+      {/* Header — greeting on the left, a square streak badge on the right */}
       <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
         <View style={{ flex: 1, paddingRight: spacing.lg }}>
           <Text
@@ -93,27 +93,22 @@ export default function Today() {
           <Text style={[ty.title, { color: t.ink, marginTop: spacing.xs }]}>
             {greetText}{name ? `, ${name}` : ''}
           </Text>
-          {/* streak chip */}
-          <View
-            style={{
-              flexDirection: 'row',
-              alignSelf: 'flex-start',
-              alignItems: 'center',
-              backgroundColor: t.surface,
-              borderColor: litToday ? t.gold : t.border,
-              borderWidth: 1,
-              borderRadius: radius.pill,
-              paddingHorizontal: spacing.md,
-              paddingVertical: 6,
-              marginTop: spacing.md,
-              gap: 4,
-            }}
-          >
-            <StreakFlame count={count} litToday={litToday} />
-            <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft }}> {tr('today.dayStreak')}</Text>
-          </View>
         </View>
-        <ProgressRing done={doneCount} total={4} size={56} />
+        <View
+          accessibilityLabel={`${count} ${tr('today.dayStreak')}`}
+          style={{
+            width: 64,
+            height: 64,
+            borderRadius: radius.inner,
+            backgroundColor: t.surface,
+            borderColor: litToday ? t.gold : t.border,
+            borderWidth: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <StreakFlame count={count} litToday={litToday} />
+        </View>
       </View>
 
       <View style={{ marginTop: spacing.xl }}>
@@ -161,7 +156,11 @@ export default function Today() {
         ))}
       </View>
 
-      <SectionHeader title={tr('today.tonight')} />
+      <SectionHeader
+        title={tr('today.tonight')}
+        style={{ paddingLeft: spacing.sm }}
+        right={<ProgressRing done={doneCount} total={4} size={52} />}
+      />
       {/* Night shifts the palette: indigo art card, not a standard row */}
       <View>
         <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
