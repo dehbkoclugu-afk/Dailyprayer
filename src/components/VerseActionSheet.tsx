@@ -4,9 +4,9 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
+import { useReaderTheme } from '@/theme/reading';
 import {
   HIGHLIGHT_ORDER,
   HIGHLIGHT_SWATCH,
@@ -36,7 +36,7 @@ export function VerseActionSheet({
   verse: SelectedVerse | null;
   onClose: () => void;
 }) {
-  const t = useTheme();
+  const t = useReaderTheme();
   const { t: tr } = useT();
   const insets = useSafeAreaInsets();
 

@@ -3,14 +3,14 @@ import { Modal, Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
+import { useReaderTheme } from '@/theme/reading';
 import { useReaderPrefsStore, FONT_MIN, FONT_MAX } from '@/state/useReaderPrefsStore';
 import { useT } from '@/i18n';
 
 export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
-  const t = useTheme();
+  const t = useReaderTheme();
   const { t: tr } = useT();
   const insets = useSafeAreaInsets();
   const { fontScale, paper, bumpFont, togglePaper } = useReaderPrefsStore();

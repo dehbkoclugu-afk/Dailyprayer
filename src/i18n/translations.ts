@@ -104,7 +104,7 @@ export const translations = {
     'paywall.thanksCta': 'Begin with tonight’s sleep prayer',
 
     'journal.title': 'Journal',
-    'journal.sub': 'Gratitude and prayer requests, kept between you and God',
+    'journal.sub': 'A quiet place for gratitude, kept between you and God',
     'journal.gratitude': 'Gratitude',
     'journal.request': 'Prayer request',
     'journal.promptGratitude': 'What made you smile today, however small?',
@@ -319,7 +319,7 @@ export const translations = {
     'paywall.thanksCta': 'Bu gecenin uyku duasıyla başla',
 
     'journal.title': 'Günlük',
-    'journal.sub': 'Şükranlar ve dua istekleri, seninle Tanrı arasında',
+    'journal.sub': 'Şükran için sakin bir yer, seninle Tanrı arasında',
     'journal.gratitude': 'Şükran',
     'journal.request': 'Dua isteği',
     'journal.promptGratitude': 'Bugün seni ne gülümsetti, ne kadar küçük olursa olsun?',

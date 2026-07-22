@@ -17,107 +17,81 @@ import { useT, translate } from '@/i18n';
 export default function Journal() {
   const t = useTheme();
   const { t: tr } = useT();
-  const { entries, add, toggleAnswered, remove } = useJournalStore();
+  const { entries, add, remove } = useJournalStore();
   const completeStep = useStreakStore((s) => s.completeStep);
   const [text, setText] = useState('');
-  const [kind, setKind] = useState<'gratitude' | 'prayer-request'>('gratitude');
+
+  // A single-purpose gratitude journal now. Verses saved from the reader still
+  // belong here (they're personal reflections); legacy prayer requests are hidden.
+  const shown = entries.filter((e) => e.kind !== 'prayer-request');
 
   const submit = () => {
     if (!text.trim()) return;
-    add(kind, text);
-    if (kind === 'gratitude') completeStep('gratitude');
+    add('gratitude', text);
+    completeStep('gratitude');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
-    toast(translate(kind === 'gratitude' ? 'toast.gratitudeSaved' : 'toast.requestSaved'));
+    toast(translate('toast.gratitudeSaved'));
     setText('');
   };
-
-  const kinds = [
-    { k: 'gratitude', label: tr('journal.gratitude'), icon: 'heart' },
-    { k: 'prayer-request', label: tr('journal.request'), icon: 'flame' },
-  ] as const;
 
   return (
     <Screen tabbed>
       <Text style={[ty.title, { color: t.ink }]}>{tr('journal.title')}</Text>
       <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>{tr('journal.sub')}</Text>
 
-      {/* One composer card — a segmented mode switch, a quiet serif prompt, the
-          writing field and the save action, grouped instead of loose blocks. */}
+      {/* Composer — one calm card with room to breathe: a serif prompt, a
+          borderless field, and the save action, spaced generously. */}
       <View
         style={{
           backgroundColor: t.surface,
           borderRadius: radius.card,
           borderWidth: 1,
           borderColor: t.border,
-          padding: spacing.md,
-          marginTop: spacing.lg,
+          padding: spacing.xl,
+          marginTop: spacing.xl,
         }}
       >
-        {/* segmented mode switch */}
-        <View style={{ flexDirection: 'row', backgroundColor: t.bg, borderRadius: radius.pill, padding: 4 }}>
-          {kinds.map(({ k, label, icon }) => {
-            const active = kind === k;
-            return (
-              <Pressable
-                key={k}
-                onPress={() => setKind(k)}
-                accessibilityRole="button"
-                accessibilityState={{ selected: active }}
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 6,
-                  paddingVertical: 9,
-                  borderRadius: radius.pill,
-                  backgroundColor: active ? t.gold : 'transparent',
-                }}
-              >
-                <Ionicons name={icon} size={15} color={active ? t.onGold : t.inkSoft} />
-                <Text
-                  style={{
-                    fontFamily: fonts.sansSemiBold,
-                    fontSize: 14,
-                    color: active ? t.onGold : t.inkSoft,
-                  }}
-                >
-                  {label}
-                </Text>
-              </Pressable>
-            );
-          })}
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
+          <Ionicons name="leaf-outline" size={16} color={t.gold} />
+          <Text
+            style={{
+              fontFamily: fonts.sansSemiBold,
+              fontSize: 11,
+              letterSpacing: 2,
+              textTransform: 'uppercase',
+              color: t.gold,
+            }}
+          >
+            {tr('journal.gratitude')}
+          </Text>
         </View>
 
-        {/* prompt — a gentle serif line, not a boxed callout */}
         <Text
           style={{
             fontFamily: fonts.serifLight,
-            fontSize: 16,
-            lineHeight: 24,
-            color: t.inkSoft,
+            fontSize: 19,
+            lineHeight: 28,
+            color: t.ink,
             fontStyle: 'italic',
-            marginTop: spacing.lg,
-            marginHorizontal: spacing.xs,
+            marginTop: spacing.md,
           }}
         >
-          {tr(kind === 'gratitude' ? 'journal.promptGratitude' : 'journal.promptRequest')}
+          {tr('journal.promptGratitude')}
         </Text>
 
         <TextInput
           value={text}
           onChangeText={setText}
-          placeholder={tr(kind === 'gratitude' ? 'journal.placeholderGratitude' : 'journal.placeholderRequest')}
+          placeholder={tr('journal.placeholderGratitude')}
           placeholderTextColor={t.inkFaint}
           multiline
           accessibilityLabel={tr('a11y.journalEntry')}
           style={{
-            marginTop: spacing.md,
-            minHeight: 96,
-            paddingHorizontal: spacing.xs,
+            marginTop: spacing.lg,
+            minHeight: 108,
             fontFamily: fonts.sans,
             fontSize: 16,
-            lineHeight: 24,
+            lineHeight: 25,
             color: t.ink,
             textAlignVertical: 'top',
           }}
@@ -127,27 +101,27 @@ export default function Journal() {
           label={tr('journal.save')}
           onPress={submit}
           disabled={!text.trim()}
-          style={{ marginTop: spacing.sm }}
+          style={{ marginTop: spacing.lg }}
         />
       </View>
 
       <SectionHeader title={tr('journal.entries')} />
-      {entries.length === 0 ? (
-        <View style={{ alignItems: 'center', paddingVertical: spacing.xl }}>
+      {shown.length === 0 ? (
+        <View style={{ alignItems: 'center', paddingVertical: spacing.xxl }}>
           <ArtSlot
             id="A12-journal-empty"
-            height={132}
+            height={140}
             fit="contain"
-            style={{ width: 132, marginBottom: spacing.lg }}
+            style={{ width: 140, marginBottom: spacing.lg }}
           />
           <Text
             style={{
               fontFamily: fonts.serifLight,
-              fontSize: 15,
-              lineHeight: 22,
+              fontSize: 16,
+              lineHeight: 24,
               color: t.inkSoft,
               textAlign: 'center',
-              maxWidth: 260,
+              maxWidth: 280,
             }}
           >
             {tr('journal.empty')}
@@ -155,15 +129,15 @@ export default function Journal() {
         </View>
       ) : (
         <View style={{ gap: spacing.md }}>
-          {entries.map((e) => (
+          {shown.map((e) => (
             <View
               key={e.id}
               style={{
                 backgroundColor: t.surface,
                 borderRadius: radius.card,
                 borderWidth: 1,
-                borderColor: e.answered ? t.gold : t.border,
-                padding: spacing.lg,
+                borderColor: t.border,
+                padding: spacing.xl,
               }}
             >
               {e.kind === 'verse' && e.ref ? (
@@ -174,7 +148,7 @@ export default function Journal() {
                     letterSpacing: 1.5,
                     textTransform: 'uppercase',
                     color: t.gold,
-                    marginBottom: spacing.xs,
+                    marginBottom: spacing.sm,
                   }}
                 >
                   {e.ref}
@@ -183,8 +157,8 @@ export default function Journal() {
               <Text
                 style={{
                   fontFamily: fonts.serifLight,
-                  fontSize: 16,
-                  lineHeight: 24,
+                  fontSize: 17,
+                  lineHeight: 26,
                   color: t.ink,
                   fontStyle: e.kind === 'verse' ? 'italic' : 'normal',
                 }}
@@ -196,44 +170,27 @@ export default function Journal() {
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  marginTop: spacing.md,
+                  marginTop: spacing.lg,
                 }}
               >
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                   <Ionicons
-                    name={e.kind === 'gratitude' ? 'heart' : e.kind === 'verse' ? 'bookmark' : 'flame'}
+                    name={e.kind === 'verse' ? 'bookmark' : 'leaf'}
                     size={13}
-                    color={e.answered ? t.gold : t.inkFaint}
+                    color={t.inkFaint}
                   />
                   <Text style={{ fontFamily: fonts.sansMedium, fontSize: 12, color: t.inkFaint }}>
                     {e.day}
-                    {e.answered ? ` · ${tr('journal.answered')}` : ''}
                   </Text>
                 </View>
-                <View style={{ flexDirection: 'row', gap: spacing.lg }}>
-                  {e.kind === 'prayer-request' ? (
-                    <Pressable
-                      onPress={() => toggleAnswered(e.id)}
-                      hitSlop={8}
-                      accessibilityRole="button"
-                      accessibilityLabel={e.answered ? tr('a11y.markUnanswered') : tr('a11y.markAnswered')}
-                    >
-                      <Ionicons
-                        name={e.answered ? 'checkmark-circle' : 'checkmark-circle-outline'}
-                        size={20}
-                        color={e.answered ? t.gold : t.inkFaint}
-                      />
-                    </Pressable>
-                  ) : null}
-                  <Pressable
-                    onPress={() => remove(e.id)}
-                    hitSlop={8}
-                    accessibilityRole="button"
-                    accessibilityLabel={tr('a11y.deleteEntry')}
-                  >
-                    <Ionicons name="trash-outline" size={18} color={t.inkFaint} />
-                  </Pressable>
-                </View>
+                <Pressable
+                  onPress={() => remove(e.id)}
+                  hitSlop={8}
+                  accessibilityRole="button"
+                  accessibilityLabel={tr('a11y.deleteEntry')}
+                >
+                  <Ionicons name="trash-outline" size={18} color={t.inkFaint} />
+                </Pressable>
               </View>
             </View>
           ))}

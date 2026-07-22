@@ -2,11 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, Modal, Pressable, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { HIGHLIGHT_TINT } from '@/theme/highlights';
+import { useReaderTheme } from '@/theme/reading';
 import { fullBible } from '@/data/bibleFull';
 import { useReaderStore } from '@/state/useReaderStore';
 import { useReaderPrefsStore } from '@/state/useReaderPrefsStore';
@@ -15,32 +16,18 @@ import { ReadingSettingsSheet } from '@/components/ReadingSettingsSheet';
 import { VerseActionSheet, type SelectedVerse } from '@/components/VerseActionSheet';
 import { useT } from '@/i18n';
 
-// Warm "paper" reading surface — a self-contained palette so the reading mode
-// reads like a printed page regardless of the app's light/dark theme.
-const PAPER = {
-  bg: '#F3E7CE',
-  surface: '#EBDFC3',
-  surfaceAlt: '#E3D5B6',
-  ink: '#33291A',
-  inkSoft: '#6E5F45',
-  inkFaint: '#A08E6C',
-  gold: '#94670F',
-  goldSoft: '#E6D5A8',
-  onGold: '#FFFFFF',
-  border: '#D8C6A0',
-};
-
 export default function Read() {
-  const t = useTheme();
   const { t: tr } = useT();
   const insets = useSafeAreaInsets();
   const { book, chapter, setPos } = useReaderStore();
-  const { fontScale, paper } = useReaderPrefsStore();
+  const fontScale = useReaderPrefsStore((s) => s.fontScale);
   const marks = useHighlightStore((s) => s.marks);
+  const setMark = useHighlightStore((s) => s.set);
+  const clearMark = useHighlightStore((s) => s.clear);
   const params = useLocalSearchParams<{ b?: string; c?: string; v?: string }>();
 
   // reading palette: paper override folded over the app theme
-  const rt = paper ? { ...t, ...PAPER } : t;
+  const rt = useReaderTheme();
 
   const [picker, setPicker] = useState<null | 'books' | number>(null);
   const [settings, setSettings] = useState(false);
@@ -231,6 +218,13 @@ export default function Read() {
           const ref = `${bk.name} ${cIdx + 1}:${item[0]}`;
           const open = () =>
             setSelected({ book: bIdx, chapter: cIdx, verse: index, code: bk.code, ref, text: item[1] });
+          // long-press is the quick path: highlight (or un-highlight) in place,
+          // no menu. A short tap opens the full action sheet.
+          const quickHighlight = () => {
+            Haptics.selectionAsync().catch(() => {});
+            if (color) clearMark(hKey);
+            else setMark(hKey, 'gold');
+          };
 
           if (index === 0) {
             const first = item[1].slice(0, 1);
@@ -238,6 +232,7 @@ export default function Read() {
             return (
               <Text
                 onPress={open}
+                onLongPress={quickHighlight}
                 suppressHighlighting
                 style={{
                   fontFamily: fonts.serifLight,
@@ -258,6 +253,7 @@ export default function Read() {
           return (
             <Text
               onPress={open}
+              onLongPress={quickHighlight}
               suppressHighlighting
               style={{
                 fontFamily: fonts.serifLight,

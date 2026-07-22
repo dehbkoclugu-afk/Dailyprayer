@@ -23,12 +23,22 @@ import { usePrayers } from '@/data/prayers';
 import { toast } from '@/state/useToastStore';
 import { useT, translate } from '@/i18n';
 
-const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DAYS_EN = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS_TR = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+const DAYS_TR = ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
+
+/** Locale-aware date line: "Wednesday, July 22" (en) · "22 Temmuz Çarşamba" (tr) */
+function formatDateLine(now: Date, locale: string): string {
+  if (locale === 'tr') {
+    return `${now.getDate()} ${MONTHS_TR[now.getMonth()]} ${DAYS_TR[now.getDay()]}`;
+  }
+  return `${DAYS_EN[now.getDay()]}, ${MONTHS_EN[now.getMonth()]} ${now.getDate()}`;
+}
 
 export default function Today() {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const { verse, devotional } = useDailyContent();
   // The verse of the day is fixed by date, but let people browse the pool — a
   // shuffle swaps in another verse without touching the day's read-streak.
@@ -50,7 +60,7 @@ export default function Today() {
   const doneCount = doneDay === dayKey() ? doneSteps.length : 0;
 
   const now = new Date();
-  const dateLine = `${DAYS[now.getDay()]}, ${MONTHS[now.getMonth()]} ${now.getDate()}`;
+  const dateLine = formatDateLine(now, locale);
   const greeting = greetingFor(now.getHours());
   const greetText =
     greeting === 'morning' ? tr('today.morning') : greeting === 'afternoon' ? tr('today.afternoon') : tr('today.evening');

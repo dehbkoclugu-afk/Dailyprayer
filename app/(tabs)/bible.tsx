@@ -27,17 +27,6 @@ export default function Bible() {
   return (
     <Screen tabbed>
       <Text style={[ty.title, { color: t.ink }]}>{tr('bible.title')}</Text>
-      <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>
-{tr('bible.sub')}
-      </Text>
-
-      {/* A14 — restrained line-art etching under the header */}
-      <ArtSlot
-        id="A14-bible-etching"
-        height={64}
-        fit="contain"
-        style={{ marginTop: spacing.md, opacity: 0.55 }}
-      />
 
       {/* The Scripture reader — the tab's flagship, so it earns a full art hero
           at least as grand as the plan covers below. Resumes the last position. */}
@@ -45,14 +34,14 @@ export default function Bible() {
         onPress={() => router.push('/read')}
         accessibilityRole="button"
         accessibilityLabel={`${tr('read.openBible')} — ${tr('read.continue')} ${readerBook.name} ${readerChapter + 1}`}
-        style={({ pressed }) => ({ marginTop: spacing.lg, opacity: pressed ? 0.92 : 1 })}
+        style={({ pressed }) => ({ marginTop: spacing.xl, opacity: pressed ? 0.92 : 1 })}
       >
         <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
           <ArtSlot id="A18-ritual-reading" height={176} radius={radius.card}>
-            {/* warm candlelit art up top, darkening to the base so the title
-                reads as cream over ink — same legibility move as the plan cards */}
+            {/* keep the candlelit art bright — only enough darkening at the base
+                for the cream title to stay legible */}
             <LinearGradient
-              colors={['rgba(26,18,6,0.10)', 'rgba(26,18,6,0.58)', 'rgba(20,14,6,0.94)']}
+              colors={['rgba(26,18,6,0.02)', 'rgba(26,18,6,0.26)', 'rgba(20,14,6,0.78)']}
               start={{ x: 0.3, y: 0 }}
               end={{ x: 0.5, y: 1 }}
               style={{ position: 'absolute', width: '100%', height: '100%' }}
