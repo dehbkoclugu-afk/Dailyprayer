@@ -198,6 +198,234 @@ const text: Partial<Record<Locale, StepText[]>> = {
       },
     },
   ],
+  es: [
+    {
+      question: '¿Qué tradición sientes como tu hogar?',
+      subtitle: 'Ajustaremos tus oraciones y planes a ella.',
+      labels: {
+        catholic: 'Católica',
+        protestant: 'Protestante',
+        orthodox: 'Ortodoxa',
+        nondenominational: 'No confesional',
+        exploring: 'Solo explorando',
+      },
+    },
+    {
+      question: '¿Qué esperas que crezca en ti?',
+      subtitle: 'Elige todas las que correspondan.',
+      affirmation: 'Estás en buena compañía: el 73 % de los miembros se unió por la misma razón.',
+      labels: {
+        habit: 'Un hábito diario de oración',
+        closer: 'Sentirme más cerca de Dios',
+        peace: 'Paz y menos ansiedad',
+        sleep: 'Dormir mejor',
+        bible: 'Entender la Biblia',
+        gratitude: 'Un corazón agradecido',
+      },
+    },
+    {
+      question: '¿Qué te pesa últimamente?',
+      subtitle: 'Tu respuesta es privada. Da forma a tu plan.',
+      affirmation: 'Gracias por confiárnoslo. La Escritura encuentra a las personas justo aquí.',
+      labels: {
+        anxiety: 'Ansiedad o preocupación',
+        loneliness: 'Soledad',
+        grief: 'Duelo o pérdida',
+        direction: 'Encontrar rumbo',
+        consistency: 'Ser constante',
+        none: 'Estoy bien',
+      },
+    },
+    {
+      question: '¿Qué tan familiar es la oración para ti?',
+      labels: {
+        new: 'Apenas empiezo',
+        returning: 'Vuelvo después de un tiempo',
+        regular: 'Oro con regularidad',
+      },
+    },
+    {
+      question: '¿Cuándo quieres un recordatorio diario?',
+      subtitle: 'Un recordatorio suave, nunca spam.',
+      labels: {
+        '07:30': 'Mañana · 7:30',
+        '12:30': 'Mediodía · 12:30',
+        '21:00': 'Noche · 21:00',
+        none: 'Sin recordatorios',
+      },
+    },
+  ],
+  pt: [
+    {
+      question: 'Qual tradição você sente como o seu lar?',
+      subtitle: 'Vamos ajustar suas orações e planos a ela.',
+      labels: {
+        catholic: 'Católica',
+        protestant: 'Protestante',
+        orthodox: 'Ortodoxa',
+        nondenominational: 'Não denominacional',
+        exploring: 'Apenas explorando',
+      },
+    },
+    {
+      question: 'O que você espera que cresça em você?',
+      subtitle: 'Escolha todas as que se aplicam.',
+      affirmation: 'Você está em boa companhia — 73% dos membros entraram pelo mesmo motivo.',
+      labels: {
+        habit: 'Um hábito diário de oração',
+        closer: 'Sentir-me mais perto de Deus',
+        peace: 'Paz e menos ansiedade',
+        sleep: 'Dormir melhor',
+        bible: 'Entender a Bíblia',
+        gratitude: 'Um coração grato',
+      },
+    },
+    {
+      question: 'O que tem pesado em você ultimamente?',
+      subtitle: 'Sua resposta é privada. Ela molda o seu plano.',
+      affirmation: 'Obrigado por confiar isso a nós. A Escritura encontra as pessoas exatamente aqui.',
+      labels: {
+        anxiety: 'Ansiedade ou preocupação',
+        loneliness: 'Solidão',
+        grief: 'Luto ou perda',
+        direction: 'Encontrar direção',
+        consistency: 'Manter a constância',
+        none: 'Estou bem',
+      },
+    },
+    {
+      question: 'Quão familiar é a oração para você?',
+      labels: {
+        new: 'Estou apenas começando',
+        returning: 'Voltando depois de um tempo',
+        regular: 'Oro regularmente',
+      },
+    },
+    {
+      question: 'Quando você gostaria de um lembrete diário?',
+      subtitle: 'Um lembrete gentil — nunca spam.',
+      labels: {
+        '07:30': 'Manhã · 7:30',
+        '12:30': 'Meio-dia · 12:30',
+        '21:00': 'Noite · 21:00',
+        none: 'Sem lembretes',
+      },
+    },
+  ],
+  fr: [
+    {
+      question: 'Quelle tradition ressens-tu comme un foyer ?',
+      subtitle: 'Nous adapterons tes prières et tes plans en conséquence.',
+      labels: {
+        catholic: 'Catholique',
+        protestant: 'Protestante',
+        orthodox: 'Orthodoxe',
+        nondenominational: 'Non confessionnelle',
+        exploring: 'Je découvre simplement',
+      },
+    },
+    {
+      question: 'Qu’espères-tu voir grandir en toi ?',
+      subtitle: 'Choisis tout ce qui s’applique.',
+      affirmation: 'Tu es en bonne compagnie — 73 % des membres nous ont rejoints pour la même raison.',
+      labels: {
+        habit: 'Une habitude de prière quotidienne',
+        closer: 'Me sentir plus proche de Dieu',
+        peace: 'La paix et moins d’anxiété',
+        sleep: 'Un meilleur sommeil',
+        bible: 'Comprendre la Bible',
+        gratitude: 'Un cœur reconnaissant',
+      },
+    },
+    {
+      question: 'Qu’est-ce qui te pèse ces derniers temps ?',
+      subtitle: 'Ta réponse reste privée. Elle façonne ton plan.',
+      affirmation: 'Merci de nous confier cela. L’Écriture rejoint les gens exactement ici.',
+      labels: {
+        anxiety: 'L’anxiété ou l’inquiétude',
+        loneliness: 'La solitude',
+        grief: 'Le deuil ou la perte',
+        direction: 'Trouver ma direction',
+        consistency: 'Rester régulier',
+        none: 'Je vais bien',
+      },
+    },
+    {
+      question: 'La prière t’est-elle familière ?',
+      labels: {
+        new: 'Je débute tout juste',
+        returning: 'Je reviens après un temps',
+        regular: 'Je prie régulièrement',
+      },
+    },
+    {
+      question: 'Quand souhaites-tu un rappel quotidien ?',
+      subtitle: 'Un rappel doux — jamais de spam.',
+      labels: {
+        '07:30': 'Matin · 7:30',
+        '12:30': 'Midi · 12:30',
+        '21:00': 'Soir · 21:00',
+        none: 'Aucun rappel',
+      },
+    },
+  ],
+  de: [
+    {
+      question: 'Welche Tradition fühlt sich wie Zuhause an?',
+      subtitle: 'Wir stimmen deine Gebete und Pläne darauf ab.',
+      labels: {
+        catholic: 'Katholisch',
+        protestant: 'Evangelisch',
+        orthodox: 'Orthodox',
+        nondenominational: 'Konfessionslos',
+        exploring: 'Ich schaue mich nur um',
+      },
+    },
+    {
+      question: 'Was soll in dir wachsen?',
+      subtitle: 'Wähle alles Zutreffende.',
+      affirmation: 'Du bist in guter Gesellschaft — 73 % der Mitglieder sind aus demselben Grund beigetreten.',
+      labels: {
+        habit: 'Eine tägliche Gebetsgewohnheit',
+        closer: 'Gott näher fühlen',
+        peace: 'Frieden und weniger Angst',
+        sleep: 'Besserer Schlaf',
+        bible: 'Die Bibel verstehen',
+        gratitude: 'Ein dankbares Herz',
+      },
+    },
+    {
+      question: 'Was belastet dich in letzter Zeit?',
+      subtitle: 'Deine Antwort bleibt privat. Sie formt deinen Plan.',
+      affirmation: 'Danke, dass du uns das anvertraust. Die Schrift begegnet den Menschen genau hier.',
+      labels: {
+        anxiety: 'Angst oder Sorge',
+        loneliness: 'Einsamkeit',
+        grief: 'Trauer oder Verlust',
+        direction: 'Orientierung finden',
+        consistency: 'Dranbleiben',
+        none: 'Mir geht es gut',
+      },
+    },
+    {
+      question: 'Wie vertraut ist dir das Gebet?',
+      labels: {
+        new: 'Ich fange gerade erst an',
+        returning: 'Ich kehre nach einer Weile zurück',
+        regular: 'Ich bete regelmäßig',
+      },
+    },
+    {
+      question: 'Wann möchtest du eine tägliche Erinnerung?',
+      subtitle: 'Eine sanfte Erinnerung — niemals Spam.',
+      labels: {
+        '07:30': 'Morgens · 7:30',
+        '12:30': 'Mittags · 12:30',
+        '21:00': 'Abends · 21:00',
+        none: 'Keine Erinnerungen',
+      },
+    },
+  ],
 };
 
 /** Localized quiz steps for the active locale, falling back to English. */
