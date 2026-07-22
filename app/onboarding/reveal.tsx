@@ -79,7 +79,7 @@ export default function Reveal() {
             id="A7-plan-crest"
             height={120}
             fit="contain"
-            style={{ width: 120, marginTop: spacing.xl }}
+            style={{ width: 120, alignSelf: 'center', marginTop: spacing.xl }}
           />
           <Text style={[ty.display, { color: t.ink, marginTop: spacing.lg }]}>
             {quiz.name ? `${quiz.name}, ${tr('reveal.planReadySuffix')}` : tr('reveal.planReady')}

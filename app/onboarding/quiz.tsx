@@ -71,7 +71,7 @@ export default function Quiz() {
             id="A6-affirmation-spot"
             height={120}
             fit="contain"
-            style={{ width: 120, marginBottom: spacing.xl }}
+            style={{ width: 120, alignSelf: 'center', marginBottom: spacing.xl }}
           />
           <Text style={[ty.title, { color: t.ink }]}>{affirmation}</Text>
           <PillButton label={tr('quiz.continue')} onPress={goNext} style={{ marginTop: spacing.xxl }} />
