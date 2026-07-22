@@ -3,7 +3,6 @@ import { Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Screen } from '@/components/Screen';
 import { VerseCard } from '@/components/VerseCard';
 import { RitualCard } from '@/components/RitualCard';
@@ -117,7 +116,7 @@ export default function Today() {
         <ProgressRing done={doneCount} total={4} size={56} />
       </View>
 
-      <Animated.View entering={FadeInDown.springify().damping(20)} style={{ marginTop: spacing.xl }}>
+      <View style={{ marginTop: spacing.xl }}>
         <VerseCard
           verse={shownVerse}
           onShuffle={shuffleVerse}
@@ -128,7 +127,7 @@ export default function Today() {
             }
           }}
         />
-      </Animated.View>
+      </View>
 
       <SectionHeader title={tr('today.rhythm')} />
       <View style={{ gap: spacing.md }}>
@@ -158,15 +157,13 @@ export default function Today() {
             onPress={() => router.push('/(tabs)/journal')}
           />,
         ].map((card, i) => (
-          <Animated.View key={i} entering={FadeInDown.delay(120 + i * 60).springify().damping(20)}>
-            {card}
-          </Animated.View>
+          <View key={i}>{card}</View>
         ))}
       </View>
 
       <SectionHeader title={tr('today.tonight')} />
       {/* Night shifts the palette: indigo art card, not a standard row */}
-      <Animated.View entering={FadeInDown.delay(300).springify().damping(20)}>
+      <View>
         <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
           <ArtSlot id="A10-tonight-night" height={150} radius={radius.card}>
             <LinearGradient
@@ -245,7 +242,7 @@ export default function Today() {
             ) : null}
           </ArtSlot>
         </View>
-      </Animated.View>
+      </View>
     </Screen>
   );
 }

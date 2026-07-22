@@ -43,7 +43,10 @@ export function Screen({ children, scroll = true, style, tabbed = false }: Props
   const content: ViewStyle = {
     paddingTop: insets.top + spacing.xl,
     paddingHorizontal: spacing.xl,
-    paddingBottom: (tabbed ? 96 : insets.bottom + spacing.xl) + spacing.xl,
+    // The native tab bar sits below the content area (it doesn't overlap), so
+    // tabbed screens only need a normal bottom margin — the old 96px reserve
+    // left a long empty gap under every screen.
+    paddingBottom: tabbed ? spacing.xxl : insets.bottom + spacing.xxl,
     // keep phone-width composition on web/tablet
     width: '100%',
     maxWidth: 480,
