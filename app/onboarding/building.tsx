@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { router } from 'expo-router';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { ArtSlot } from '@/components/ArtSlot';
@@ -51,9 +50,8 @@ export default function Building() {
         {STEPS.map((s, i) => {
           const complete = i < done;
           return (
-            <Animated.View
+            <View
               key={s}
-              entering={FadeInDown.delay(i * 120).springify().damping(20)}
               style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}
             >
               <Ionicons
@@ -70,7 +68,7 @@ export default function Building() {
               >
                 {s}
               </Text>
-            </Animated.View>
+            </View>
           );
         })}
       </View>

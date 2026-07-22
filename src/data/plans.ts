@@ -1,6 +1,7 @@
 import type { AssetId } from '@/assets/registry';
 import { useT } from '@/i18n';
 import type { Locale } from '@/i18n/translations';
+import { verses, type DailyVerse } from '@/data/verses';
 
 /** Reading plans. Day content references the built-in reader or devotional text. */
 export interface ReadingPlan {
@@ -99,4 +100,19 @@ export function getPlans(locale: Locale): ReadingPlan[] {
 export function usePlans(): ReadingPlan[] {
   const { locale } = useT();
   return getPlans(locale);
+}
+
+function seedFromId(id: string): number {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
+  return h;
+}
+
+/**
+ * A stable verse for a given plan day, drawn from the verse pool. Deterministic
+ * (same day always shows the same verse) and spread with a prime step so
+ * consecutive days don't repeat. Content is localized because `verses` is.
+ */
+export function planDayVerse(planId: string, dayIndex: number): DailyVerse {
+  return verses[(seedFromId(planId) + dayIndex * 7) % verses.length];
 }

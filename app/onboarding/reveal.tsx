@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { router } from 'expo-router';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
@@ -75,7 +74,7 @@ export default function Reveal() {
   return (
     <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
       <View>
-        <Animated.View entering={FadeInDown.springify().damping(20)}>
+        <View>
           <ArtSlot
             id="A7-plan-crest"
             height={120}
@@ -88,12 +87,11 @@ export default function Reveal() {
           <Text style={[ty.body, { color: t.inkSoft, marginTop: spacing.md }]}>
             {tr('reveal.sub')}
           </Text>
-        </Animated.View>
+        </View>
         <View style={{ gap: spacing.md, marginTop: spacing.xxl }}>
-          {items.map((item, i) => (
-            <Animated.View
+          {items.map((item) => (
+            <View
               key={item.text}
-              entering={FadeInDown.delay(200 + i * 150).springify().damping(20)}
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -109,7 +107,7 @@ export default function Reveal() {
               <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.ink, flex: 1 }}>
                 {item.text}
               </Text>
-            </Animated.View>
+            </View>
           ))}
         </View>
       </View>

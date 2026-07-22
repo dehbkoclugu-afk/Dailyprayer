@@ -134,7 +134,11 @@ export default function Bible() {
           return (
             <Pressable
               key={p.id}
-              onPress={() => (locked ? router.push('/paywall') : toast(translate('bible.planSoon')))}
+              onPress={() =>
+                locked
+                  ? router.push('/paywall')
+                  : router.push({ pathname: '/plan/[id]', params: { id: p.id } })
+              }
               accessibilityRole="button"
               accessibilityLabel={`${p.title}${locked ? ', requires Plus' : ''}`}
             >
