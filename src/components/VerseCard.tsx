@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Image, Platform, Pressable, Share, Text, View } from 'react-native';
+import { Image, Platform, Pressable, ScrollView, Share, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { captureRef } from 'react-native-view-shot';
@@ -64,10 +64,10 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       onPress={onRead}
       accessibilityRole="button"
       accessibilityLabel={`Verse of the day, ${verse.reference}`}
-      // Height follows the verse: a min-height keeps short verses hero-sized,
-      // while long ones grow the card instead of being clipped at the top.
+      // A fixed-height hero box: the frame stays constant so the layout below it
+      // never shifts. Long verses scroll gently inside instead of growing the card.
       style={[
-        { borderRadius: radius.hero, overflow: 'hidden', minHeight: 300, justifyContent: 'flex-end' },
+        { height: 320, borderRadius: radius.hero, overflow: 'hidden' },
         shadow.card,
       ]}
     >
@@ -86,7 +86,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
         end={{ x: 0.5, y: 1 }}
         style={{ position: 'absolute', width: '100%', height: '100%' }}
       />
-      <View style={{ padding: spacing.xl, paddingTop: spacing.xxl }}>
+      <View style={{ flex: 1, padding: spacing.xl, paddingTop: spacing.xxl }}>
           <Text
             style={{
               fontFamily: fonts.sansSemiBold,
@@ -98,26 +98,41 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
           >
 {tr('today.verseOfDay')}
           </Text>
-          <Text
-            style={{
-              fontFamily: fonts.serifLight,
-              fontSize: 27,
-              lineHeight: 39,
-              letterSpacing: -0.3,
-              color: '#F2EEE6',
-              marginTop: spacing.md,
-              // hanging opening quote
-              marginLeft: -2,
-            }}
-          >
-            “{verse.text}”
-          </Text>
+
+          {/* the verse gets a flexible middle that scrolls when it's long; a soft
+              bottom fade hints there's more to read without a hard scrollbar */}
+          <View style={{ flex: 1, marginTop: spacing.md }}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              nestedScrollEnabled
+              contentContainerStyle={{ paddingBottom: spacing.lg }}
+            >
+              <Text
+                style={{
+                  fontFamily: fonts.serifLight,
+                  fontSize: 25,
+                  lineHeight: 37,
+                  letterSpacing: -0.3,
+                  color: '#F2EEE6',
+                  marginLeft: -2, // hanging opening quote
+                }}
+              >
+                “{verse.text}”
+              </Text>
+            </ScrollView>
+            <LinearGradient
+              pointerEvents="none"
+              colors={['rgba(14,18,32,0)', 'rgba(14,18,32,0.92)']}
+              style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 24 }}
+            />
+          </View>
+
           <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-              marginTop: spacing.lg,
+              marginTop: spacing.md,
             }}
           >
             <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: '#D9A441' }}>
