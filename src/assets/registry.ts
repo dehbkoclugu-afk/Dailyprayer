@@ -44,7 +44,10 @@ export type AssetId =
   | 'A13-bible365'
   | 'A14-bible-etching'
   | 'A15-building-candle'
-  | 'A17-splash';
+  | 'A17-splash'
+  | 'A18-ritual-reading'
+  | 'A19-ritual-prayer'
+  | 'A20-ritual-gratitude';
 
 export const artRegistry: Record<AssetId, ImageSourcePropType | null> = {
   'A1-logomark': require('./art/A1-logomark.png'),
@@ -79,6 +82,9 @@ export const artRegistry: Record<AssetId, ImageSourcePropType | null> = {
   'A14-bible-etching': require('./art/A14-bible-etching.png'),
   'A15-building-candle': require('./art/A15-building-candle.png'),
   'A17-splash': require('./art/A17-splash.png'),
+  'A18-ritual-reading': require('./art/A18-ritual-reading.png'),
+  'A19-ritual-prayer': require('./art/A19-ritual-prayer.png'),
+  'A20-ritual-gratitude': require('./art/A20-ritual-gratitude.png'),
 };
 
 /** Placeholder metadata shown inside unfilled slots (matches asset briefs). */
@@ -115,4 +121,7 @@ export const artSpecs: Record<AssetId, { label: string; size: string }> = {
   'A14-bible-etching': { label: 'Bible header etching', size: '1170×400 PNG (transparent)' },
   'A15-building-candle': { label: 'Building candle', size: '600×600 PNG (transparent)' },
   'A17-splash': { label: 'Splash', size: '1284×2778 PNG' },
+  'A18-ritual-reading': { label: 'Ritual: reading', size: '1980×800 PNG' },
+  'A19-ritual-prayer': { label: 'Ritual: prayer', size: '1980×800 PNG' },
+  'A20-ritual-gratitude': { label: 'Ritual: gratitude', size: '1980×800 PNG' },
 };

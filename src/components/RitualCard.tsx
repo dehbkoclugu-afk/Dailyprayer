@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Image, Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { artRegistry, type AssetId } from '@/assets/registry';
 import Animated, {
   Easing,
   ReduceMotion,
@@ -23,11 +24,13 @@ interface Props {
   done: boolean;
   locked?: boolean;
   onPress: () => void;
+  /** optional right-weighted background art (a left→right scrim keeps text legible) */
+  art?: AssetId;
 }
 
 const CARD_W = 360; // approximate; the shimmer just needs to travel past the edge
 
-export function RitualCard({ icon, title, subtitle, done, locked, onPress }: Props) {
+export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }: Props) {
   const t = useTheme();
   const { t: tr } = useT();
 
@@ -71,6 +74,25 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress }: Pro
         transform: [{ scale: pressed ? 0.99 : 1 }],
       })}
     >
+      {/* right-weighted background art + a left→right scrim so the icon and
+          text stay on near-solid surface while the amber glow shows on the right */}
+      {art && artRegistry[art] ? (
+        <>
+          <Image
+            source={artRegistry[art]!}
+            resizeMode="cover"
+            accessibilityIgnoresInvertColors
+            style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
+          />
+          <LinearGradient
+            colors={['rgba(23,28,46,0.97)', 'rgba(23,28,46,0.62)', 'rgba(23,28,46,0.12)']}
+            start={{ x: 0, y: 0.5 }}
+            end={{ x: 1, y: 0.5 }}
+            style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
+          />
+        </>
+      ) : null}
+
       {/* shimmer overlay — sweeps once on completion, invisible otherwise */}
       <Animated.View
         pointerEvents="none"

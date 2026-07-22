@@ -99,7 +99,7 @@ export default function Pray() {
               key={p.id}
               onPress={() => open(p)}
               accessibilityRole="button"
-              accessibilityLabel={`${p.title}, ${p.minutes} minutes${locked ? ', requires Plus' : ''}`}
+              accessibilityLabel={`${p.title}, ${p.minutes} ${tr('pray.min')}${p.plus ? ' · Plus' : ''}`}
               style={({ pressed }) => ({
                 flexDirection: 'row',
                 alignItems: 'center',

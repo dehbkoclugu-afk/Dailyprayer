@@ -130,6 +130,7 @@ export default function Today() {
           <RitualCard
             key="devotional"
             icon="book-outline"
+            art="A18-ritual-reading"
             title={tr('today.devotional')}
             subtitle={`${devotional.title} · 2 ${tr('today.minRead')}`}
             done={isDone('devotional')}
@@ -138,14 +139,16 @@ export default function Today() {
           <RitualCard
             key="prayer"
             icon="flame-outline"
+            art="A19-ritual-prayer"
             title={tr('today.guidedPrayer')}
-            subtitle={`${morningPrayer.title} · ${morningPrayer.minutes} min`}
+            subtitle={`${morningPrayer.title} · ${morningPrayer.minutes} ${tr('pray.min')}`}
             done={isDone('prayer')}
             onPress={() => router.push({ pathname: '/player', params: { id: morningPrayer.id } })}
           />,
           <RitualCard
             key="gratitude"
             icon="heart-outline"
+            art="A20-ritual-gratitude"
             title={tr('today.gratitude')}
             subtitle={tr('today.gratitudeSub')}
             done={isDone('gratitude')}
@@ -191,7 +194,7 @@ export default function Today() {
 {tr('today.sleepPrayer')}
                 </Text>
                 <Text style={{ fontFamily: fonts.serif, fontSize: 21, color: '#F2EEE6', marginTop: 4 }}>
-                  {sleepPrayer.title} · {sleepPrayer.minutes} min
+                  {sleepPrayer.title} · {sleepPrayer.minutes} {tr('pray.min')}
                 </Text>
               </View>
               <Text
