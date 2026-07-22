@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
@@ -19,8 +18,7 @@ export default function PlanScreen() {
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
   const plan = usePlans().find((p) => p.id === id);
-  const { progress, toggleDay } = usePlanStore();
-  const [open, setOpen] = useState<number | null>(null);
+  const progress = usePlanStore((s) => s.progress);
 
   if (!plan) return <View style={{ flex: 1, backgroundColor: t.bg }} />;
 
@@ -66,7 +64,6 @@ export default function PlanScreen() {
         </ArtSlot>
       </View>
 
-      {/* progress */}
       <View style={{ marginTop: spacing.lg, marginBottom: spacing.md }}>
         <View style={{ height: 6, backgroundColor: t.surfaceAlt, borderRadius: 3, overflow: 'hidden' }}>
           <View
@@ -111,89 +108,50 @@ export default function PlanScreen() {
         renderItem={({ item: dayIdx }) => {
           const verse = planDayVerse(plan.id, dayIdx);
           const isDone = done.includes(dayIdx);
-          const expanded = open === dayIdx;
           return (
             <Pressable
-              onPress={() => setOpen(expanded ? null : dayIdx)}
-              style={{
+              onPress={() => router.push({ pathname: '/plan/[id]/[day]', params: { id: plan.id, day: dayIdx } })}
+              accessibilityRole="button"
+              style={({ pressed }) => ({
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: spacing.md,
                 backgroundColor: t.surface,
                 borderRadius: radius.card,
                 borderWidth: 1,
                 borderColor: isDone ? t.gold : t.border,
                 padding: spacing.lg,
                 marginBottom: spacing.md,
-              }}
+                opacity: pressed ? 0.9 : 1,
+              })}
             >
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
-                <View
-                  style={{
-                    width: 34,
-                    height: 34,
-                    borderRadius: 17,
-                    backgroundColor: isDone ? t.gold : t.surfaceAlt,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {isDone ? (
-                    <Ionicons name="checkmark" size={18} color={t.onGold} />
-                  ) : (
-                    <Text style={{ fontFamily: fonts.sansBold, fontSize: 13, color: t.inkSoft, fontVariant: ['tabular-nums'] }}>
-                      {dayIdx + 1}
-                    </Text>
-                  )}
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: t.ink }}>
-                    {tr('plan.dayLabel')} {dayIdx + 1}
+              <View
+                style={{
+                  width: 34,
+                  height: 34,
+                  borderRadius: 17,
+                  backgroundColor: isDone ? t.gold : t.surfaceAlt,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                {isDone ? (
+                  <Ionicons name="checkmark" size={18} color={t.onGold} />
+                ) : (
+                  <Text style={{ fontFamily: fonts.sansBold, fontSize: 13, color: t.inkSoft, fontVariant: ['tabular-nums'] }}>
+                    {dayIdx + 1}
                   </Text>
-                  <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: t.gold, marginTop: 2 }}>
-                    {verse.reference}
-                  </Text>
-                </View>
-                <Ionicons name={expanded ? 'chevron-up' : 'chevron-down'} size={18} color={t.inkFaint} />
+                )}
               </View>
-
-              {expanded ? (
-                <View style={{ marginTop: spacing.lg, gap: spacing.lg }}>
-                  <Text style={{ fontFamily: fonts.serifLight, fontSize: 18, lineHeight: 28, color: t.ink }}>
-                    “{verse.text}”
-                  </Text>
-                  <Pressable
-                    onPress={() => {
-                      Haptics.selectionAsync().catch(() => {});
-                      toggleDay(plan.id, dayIdx);
-                    }}
-                    accessibilityRole="button"
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 6,
-                      alignSelf: 'flex-start',
-                      backgroundColor: isDone ? t.goldSoft : t.gold,
-                      borderRadius: radius.pill,
-                      paddingHorizontal: spacing.lg,
-                      paddingVertical: 10,
-                    }}
-                  >
-                    <Ionicons
-                      name={isDone ? 'checkmark-circle' : 'ellipse-outline'}
-                      size={16}
-                      color={isDone ? t.gold : t.onGold}
-                    />
-                    <Text
-                      style={{
-                        fontFamily: fonts.sansSemiBold,
-                        fontSize: 14,
-                        color: isDone ? t.gold : t.onGold,
-                      }}
-                    >
-                      {isDone ? tr('plan.done') : tr('plan.markDone')}
-                    </Text>
-                  </Pressable>
-                </View>
-              ) : null}
+              <View style={{ flex: 1 }}>
+                <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: t.ink }}>
+                  {tr('plan.dayLabel')} {dayIdx + 1}
+                </Text>
+                <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: isDone ? t.gold : t.inkSoft, marginTop: 2 }}>
+                  {verse.reference}
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
             </Pressable>
           );
         }}
