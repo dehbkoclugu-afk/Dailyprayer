@@ -44,7 +44,7 @@ export default function Reveal() {
   const goal = quiz.goals[0] ? GOAL_LABELS[quiz.goals[0]] ?? 'a deeper prayer life' : 'a deeper prayer life';
 
   const items = [
-    { icon: 'sunny-outline', text: 'A verse chosen for your season, every morning' },
+    { icon: 'sunny-outline', text: 'A fresh verse to carry with you, every morning' },
     { icon: 'book-outline', text: 'A 2-minute devotional that meets you where you are' },
     { icon: 'flame-outline', text: `Guided prayers for ${goal}` },
     { icon: 'moon-outline', text: 'Sleep prayers to end the day in peace' },

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Platform, Pressable, Share, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, Share, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { captureRef } from 'react-native-view-shot';
@@ -63,20 +63,30 @@ export function VerseCard({ verse, onRead }: Props) {
           >
 {tr('today.verseOfDay')}
           </Text>
-          <Text
-            style={{
-              fontFamily: fonts.serifLight,
-              fontSize: 27,
-              lineHeight: 39,
-              letterSpacing: -0.3,
-              color: '#F2EEE6',
-              marginTop: spacing.md,
-              // hanging opening quote
-              marginLeft: -2,
-            }}
+          {/* Long verses (up to ~365 chars) scroll inside the fixed card instead of
+              blowing out the layout. flexShrink caps height to the space left after the
+              label + reference rows; short verses render at natural height, no scroll.
+              ponytail: shared card capture clips to the visible portion for long verses. */}
+          <ScrollView
+            style={{ flexShrink: 1, marginTop: spacing.md }}
+            contentContainerStyle={{ paddingBottom: 2 }}
+            showsVerticalScrollIndicator
+            nestedScrollEnabled
           >
-            “{verse.text}”
-          </Text>
+            <Text
+              style={{
+                fontFamily: fonts.serifLight,
+                fontSize: 27,
+                lineHeight: 39,
+                letterSpacing: -0.3,
+                color: '#F2EEE6',
+                // hanging opening quote
+                marginLeft: -2,
+              }}
+            >
+              “{verse.text}”
+            </Text>
+          </ScrollView>
           <View
             style={{
               flexDirection: 'row',

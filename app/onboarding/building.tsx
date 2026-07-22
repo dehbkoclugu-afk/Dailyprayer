@@ -11,7 +11,7 @@ import { spacing } from '@/theme/tokens';
 
 const STEPS = [
   'Reading your answers',
-  'Choosing scriptures for your season',
+  'Choosing today’s scriptures',
   'Shaping your daily rhythm',
   'Setting your gentle reminder',
 ];
