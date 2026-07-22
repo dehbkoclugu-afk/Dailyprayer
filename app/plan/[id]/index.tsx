@@ -8,7 +8,8 @@ import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
-import { usePlans, planDayVerse } from '@/data/plans';
+import { usePlans } from '@/data/plans';
+import { planReading, formatReadingRef } from '@/data/planReadings';
 import { usePlanStore } from '@/state/usePlanStore';
 import { useT } from '@/i18n';
 
@@ -106,7 +107,7 @@ export default function PlanScreen() {
           alignSelf: 'center',
         }}
         renderItem={({ item: dayIdx }) => {
-          const verse = planDayVerse(plan.id, dayIdx);
+          const readingRef = formatReadingRef(planReading(plan.id, dayIdx));
           const isDone = done.includes(dayIdx);
           return (
             <Pressable
@@ -148,7 +149,7 @@ export default function PlanScreen() {
                   {tr('plan.dayLabel')} {dayIdx + 1}
                 </Text>
                 <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: isDone ? t.gold : t.inkSoft, marginTop: 2 }}>
-                  {verse.reference}
+                  {readingRef}
                 </Text>
               </View>
               <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />

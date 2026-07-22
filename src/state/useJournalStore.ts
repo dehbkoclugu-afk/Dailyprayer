@@ -17,7 +17,6 @@ export interface JournalEntry {
 interface JournalState {
   entries: JournalEntry[];
   add: (kind: JournalEntry['kind'], text: string, ref?: string) => void;
-  toggleAnswered: (id: string) => void;
   remove: (id: string) => void;
 }
 
@@ -39,12 +38,6 @@ export const useJournalStore = create<JournalState>()(
             },
             ...s.entries,
           ],
-        })),
-      toggleAnswered: (id) =>
-        set((s) => ({
-          entries: s.entries.map((e) =>
-            e.id === id ? { ...e, answered: !e.answered } : e,
-          ),
         })),
       remove: (id) =>
         set((s) => ({ entries: s.entries.filter((e) => e.id !== id) })),

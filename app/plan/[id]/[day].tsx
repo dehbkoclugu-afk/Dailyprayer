@@ -8,7 +8,9 @@ import { PillButton } from '@/components/PillButton';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
-import { usePlans, planDayVerse } from '@/data/plans';
+import { usePlans } from '@/data/plans';
+import { planReading, formatReadingRef } from '@/data/planReadings';
+import { fullBible } from '@/data/bibleFull';
 import { usePlanStore } from '@/state/usePlanStore';
 import { useT } from '@/i18n';
 
@@ -22,8 +24,14 @@ export default function PlanDay() {
 
   if (!plan) return <View style={{ flex: 1, backgroundColor: t.bg }} />;
 
-  const verse = planDayVerse(plan.id, dayIdx);
+  const reading = planReading(plan.id, dayIdx);
+  const ref = formatReadingRef(reading);
+  const firstVerse = fullBible[reading.book]?.chapters[reading.chapter]?.[0]?.[1] ?? '';
+  const teaser = firstVerse.length > 170 ? `${firstVerse.slice(0, 170).trimEnd()}…` : firstVerse;
   const done = (progress[plan.id] ?? []).includes(dayIdx);
+
+  const openReader = () =>
+    router.push({ pathname: '/read', params: { b: reading.book, c: reading.chapter } });
 
   const complete = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
@@ -66,63 +74,74 @@ export default function PlanDay() {
           {plan.title} · {tr('plan.dayLabel')} {dayIdx + 1}
         </Text>
 
-        {/* the passage, given room to breathe — a reading, not a checklist item */}
-        <View style={{ flexDirection: 'row', marginTop: spacing.xl }}>
-          <Text
-            style={{
-              fontFamily: fonts.serif,
-              fontSize: 60,
-              lineHeight: 60,
-              color: t.gold,
-              marginRight: spacing.sm,
-              marginTop: 4,
-            }}
-          >
-            {'“'}
-          </Text>
-          <Text
-            style={{
-              fontFamily: fonts.serifLight,
-              fontSize: 23,
-              lineHeight: 36,
-              color: t.ink,
-              flex: 1,
-            }}
-          >
-            {verse.text}
-          </Text>
-        </View>
+        {/* the day's reading — a real passage in the bundled Bible */}
+        <Text style={{ fontFamily: fonts.serif, fontSize: 34, color: t.ink, marginTop: spacing.md }}>
+          {ref}
+        </Text>
         <Text
           style={{
             fontFamily: fonts.sansMedium,
-            fontSize: 15,
-            color: t.gold,
-            marginTop: spacing.xl,
-            marginLeft: spacing.xl,
+            fontSize: 13,
+            letterSpacing: 1,
+            textTransform: 'uppercase',
+            color: t.inkFaint,
+            marginTop: spacing.sm,
           }}
         >
-          — {verse.reference}
+          {tr('plan.todaysReading')}
         </Text>
+
+        {teaser ? (
+          <View style={{ flexDirection: 'row', marginTop: spacing.xl }}>
+            <Text
+              style={{
+                fontFamily: fonts.serif,
+                fontSize: 46,
+                lineHeight: 46,
+                color: t.gold,
+                marginRight: spacing.sm,
+                marginTop: 2,
+              }}
+            >
+              {'“'}
+            </Text>
+            <Text
+              style={{
+                fontFamily: fonts.serifLight,
+                fontSize: 19,
+                lineHeight: 30,
+                color: t.inkSoft,
+                flex: 1,
+                fontStyle: 'italic',
+              }}
+            >
+              {teaser}
+            </Text>
+          </View>
+        ) : null}
       </View>
 
-      {done ? (
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: spacing.sm,
-            paddingVertical: 16,
-          }}
-        >
-          <Ionicons name="checkmark-circle" size={20} color={t.gold} />
-          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.gold }}>
-            {tr('plan.done')}
-          </Text>
-        </View>
-      ) : (
-        <PillButton label={tr('plan.complete')} onPress={complete} />
-      )}
+      <View style={{ gap: spacing.md }}>
+        <PillButton label={tr('plan.read')} onPress={openReader} />
+        {done ? (
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: spacing.sm,
+              paddingVertical: 14,
+            }}
+          >
+            <Ionicons name="checkmark-circle" size={20} color={t.gold} />
+            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.gold }}>
+              {tr('plan.done')}
+            </Text>
+          </View>
+        ) : (
+          <PillButton label={tr('plan.complete')} onPress={complete} variant="secondary" />
+        )}
+      </View>
     </Screen>
   );
 }
