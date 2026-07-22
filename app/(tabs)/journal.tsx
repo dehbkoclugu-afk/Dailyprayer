@@ -166,12 +166,27 @@ export default function Journal() {
                 padding: spacing.lg,
               }}
             >
+              {e.kind === 'verse' && e.ref ? (
+                <Text
+                  style={{
+                    fontFamily: fonts.sansSemiBold,
+                    fontSize: 12,
+                    letterSpacing: 1.5,
+                    textTransform: 'uppercase',
+                    color: t.gold,
+                    marginBottom: spacing.xs,
+                  }}
+                >
+                  {e.ref}
+                </Text>
+              ) : null}
               <Text
                 style={{
                   fontFamily: fonts.serifLight,
                   fontSize: 16,
                   lineHeight: 24,
                   color: t.ink,
+                  fontStyle: e.kind === 'verse' ? 'italic' : 'normal',
                 }}
               >
                 {e.text}
@@ -186,7 +201,7 @@ export default function Journal() {
               >
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                   <Ionicons
-                    name={e.kind === 'gratitude' ? 'heart' : 'flame'}
+                    name={e.kind === 'gratitude' ? 'heart' : e.kind === 'verse' ? 'bookmark' : 'flame'}
                     size={13}
                     color={e.answered ? t.gold : t.inkFaint}
                   />

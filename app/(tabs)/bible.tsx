@@ -96,6 +96,37 @@ export default function Bible() {
         </View>
       </Pressable>
 
+      {/* quick access to Scripture search and the reader's saved verses */}
+      <View style={{ flexDirection: 'row', gap: spacing.md, marginTop: spacing.md }}>
+        {[
+          { icon: 'search' as const, label: tr('read.search'), onPress: () => router.push('/search') },
+          { icon: 'bookmark-outline' as const, label: tr('library.title'), onPress: () => router.push('/library') },
+        ].map((a) => (
+          <Pressable
+            key={a.label}
+            onPress={a.onPress}
+            accessibilityRole="button"
+            accessibilityLabel={a.label}
+            style={({ pressed }) => ({
+              flex: 1,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: spacing.sm,
+              backgroundColor: t.surface,
+              borderRadius: radius.inner,
+              borderWidth: 1,
+              borderColor: t.border,
+              paddingVertical: spacing.md,
+              opacity: pressed ? 0.85 : 1,
+            })}
+          >
+            <Ionicons name={a.icon} size={18} color={t.gold} />
+            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: t.ink }}>{a.label}</Text>
+          </Pressable>
+        ))}
+      </View>
+
       <SectionHeader title={tr('bible.plans')} />
       <View style={{ gap: spacing.md }}>
         {plans.map((p) => {

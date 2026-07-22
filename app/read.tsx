@@ -1,29 +1,76 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, Modal, Pressable, Text, View } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
+import { HIGHLIGHT_TINT } from '@/theme/highlights';
 import { fullBible } from '@/data/bibleFull';
 import { useReaderStore } from '@/state/useReaderStore';
+import { useReaderPrefsStore } from '@/state/useReaderPrefsStore';
 import { useHighlightStore } from '@/state/useHighlightStore';
+import { ReadingSettingsSheet } from '@/components/ReadingSettingsSheet';
+import { VerseActionSheet, type SelectedVerse } from '@/components/VerseActionSheet';
 import { useT } from '@/i18n';
+
+// Warm "paper" reading surface — a self-contained palette so the reading mode
+// reads like a printed page regardless of the app's light/dark theme.
+const PAPER = {
+  bg: '#F3E7CE',
+  surface: '#EBDFC3',
+  surfaceAlt: '#E3D5B6',
+  ink: '#33291A',
+  inkSoft: '#6E5F45',
+  inkFaint: '#A08E6C',
+  gold: '#94670F',
+  goldSoft: '#E6D5A8',
+  onGold: '#FFFFFF',
+  border: '#D8C6A0',
+};
 
 export default function Read() {
   const t = useTheme();
   const { t: tr } = useT();
   const insets = useSafeAreaInsets();
   const { book, chapter, setPos } = useReaderStore();
-  const { keys: highlightKeys, toggle: toggleHighlight } = useHighlightStore();
-  // picker: null = closed, 'books' = book list, number = chapter grid for that book
+  const { fontScale, paper } = useReaderPrefsStore();
+  const marks = useHighlightStore((s) => s.marks);
+  const params = useLocalSearchParams<{ b?: string; c?: string; v?: string }>();
+
+  // reading palette: paper override folded over the app theme
+  const rt = paper ? { ...t, ...PAPER } : t;
+
   const [picker, setPicker] = useState<null | 'books' | number>(null);
+  const [settings, setSettings] = useState(false);
+  const [selected, setSelected] = useState<SelectedVerse | null>(null);
+  const [flashV, setFlashV] = useState<number | null>(null);
+  const listRef = useRef<FlatList>(null);
 
   const bIdx = Math.min(book, fullBible.length - 1);
   const bk = fullBible[bIdx];
   const cIdx = Math.min(chapter, bk.chapters.length - 1);
   const verses = bk.chapters[cIdx];
+
+  // deep-navigation: /read?b=&c=&v= jumps to a verse (from search / saved)
+  useEffect(() => {
+    if (params.b != null && params.c != null) {
+      setPos(Number(params.b), Number(params.c));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.b, params.c]);
+
+  const targetV = params.v != null ? Number(params.v) : null;
+  useEffect(() => {
+    if (targetV == null || Number.isNaN(targetV)) return;
+    const id = setTimeout(() => {
+      listRef.current?.scrollToIndex({ index: targetV, viewPosition: 0.28, animated: true });
+      setFlashV(targetV);
+      setTimeout(() => setFlashV(null), 2200);
+    }, 320);
+    return () => clearTimeout(id);
+  }, [targetV, bIdx, cIdx]);
 
   const go = (b: number, c: number) => {
     setPos(b, c);
@@ -40,6 +87,31 @@ export default function Read() {
   const hasNext = cIdx + 1 < bk.chapters.length || bIdx + 1 < fullBible.length;
   const hasPrev = cIdx > 0 || bIdx > 0;
 
+  const bodySize = Math.round(18 * fontScale);
+  const bodyLine = Math.round(30 * fontScale);
+  const dropCap = Math.round(bodySize * 1.9);
+
+  const iconBtn = (icon: keyof typeof Ionicons.glyphMap, label: string, onPress: () => void) => (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      style={({ pressed }) => ({
+        width: 44,
+        height: 44,
+        borderRadius: 22,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: rt.surface,
+        borderWidth: 1,
+        borderColor: rt.border,
+        opacity: pressed ? 0.7 : 1,
+      })}
+    >
+      <Ionicons name={icon} size={20} color={rt.inkSoft} />
+    </Pressable>
+  );
+
   const navBtn = (dir: 'prev' | 'next', enabled: boolean, onPress: () => void, label: string) => (
     <Pressable
       onPress={enabled ? onPress : undefined}
@@ -51,24 +123,24 @@ export default function Read() {
         alignItems: 'center',
         justifyContent: 'center',
         gap: 6,
-        backgroundColor: t.surface,
+        backgroundColor: rt.surface,
         borderWidth: 1,
-        borderColor: t.border,
+        borderColor: rt.border,
         borderRadius: radius.pill,
         paddingVertical: 12,
         opacity: enabled ? 1 : 0.4,
       }}
     >
-      {dir === 'prev' ? <Ionicons name="chevron-back" size={16} color={t.inkSoft} /> : null}
-      <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.inkSoft }}>{label}</Text>
-      {dir === 'next' ? <Ionicons name="chevron-forward" size={16} color={t.inkSoft} /> : null}
+      {dir === 'prev' ? <Ionicons name="chevron-back" size={16} color={rt.inkSoft} /> : null}
+      <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: rt.inkSoft }}>{label}</Text>
+      {dir === 'next' ? <Ionicons name="chevron-forward" size={16} color={rt.inkSoft} /> : null}
     </Pressable>
   );
 
   return (
-    <View style={{ flex: 1, backgroundColor: t.bg, paddingTop: insets.top + spacing.md }}>
+    <View style={{ flex: 1, backgroundColor: rt.bg, paddingTop: insets.top + spacing.md }}>
       {/* header */}
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, paddingHorizontal: spacing.xl }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm, paddingHorizontal: spacing.xl }}>
         <Pressable
           onPress={() => router.back()}
           hitSlop={12}
@@ -80,12 +152,12 @@ export default function Read() {
             borderRadius: 22,
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: t.surface,
+            backgroundColor: rt.surface,
             borderWidth: 1,
-            borderColor: t.border,
+            borderColor: rt.border,
           }}
         >
-          <Ionicons name="chevron-back" size={24} color={t.inkSoft} />
+          <Ionicons name="chevron-back" size={24} color={rt.inkSoft} />
         </Pressable>
         <Pressable
           onPress={() => setPicker('books')}
@@ -95,27 +167,36 @@ export default function Read() {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: t.surface,
+            backgroundColor: rt.surface,
             borderWidth: 1,
-            borderColor: t.border,
+            borderColor: rt.border,
             borderRadius: radius.pill,
             paddingHorizontal: spacing.lg,
             height: 44,
             opacity: pressed ? 0.7 : 1,
           })}
         >
-          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>
+          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: rt.ink }} numberOfLines={1}>
             {bk.name} {cIdx + 1}
           </Text>
-          <Ionicons name="chevron-down" size={18} color={t.inkFaint} />
+          <Ionicons name="chevron-down" size={18} color={rt.inkFaint} />
         </Pressable>
+        {iconBtn('search', tr('a11y.search'), () => router.push('/search'))}
+        {iconBtn('text', tr('a11y.readingSettings'), () => setSettings(true))}
       </View>
 
       <FlatList
+        ref={listRef}
         key={`${bIdx}-${cIdx}`}
         data={verses}
         keyExtractor={(_, i) => String(i)}
         showsVerticalScrollIndicator={false}
+        onScrollToIndexFailed={({ index, averageItemLength }) => {
+          listRef.current?.scrollToOffset({ offset: index * (averageItemLength || bodyLine * 2), animated: false });
+          setTimeout(() => {
+            listRef.current?.scrollToIndex({ index, viewPosition: 0.28, animated: true });
+          }, 120);
+        }}
         contentContainerStyle={{
           paddingHorizontal: spacing.xl,
           paddingTop: spacing.lg,
@@ -124,26 +205,71 @@ export default function Read() {
           width: '100%',
           alignSelf: 'center',
         }}
+        ListHeaderComponent={
+          <View style={{ marginBottom: spacing.lg }}>
+            <Text
+              style={{
+                fontFamily: fonts.sansSemiBold,
+                fontSize: 11,
+                letterSpacing: 2.5,
+                textTransform: 'uppercase',
+                color: rt.gold,
+              }}
+            >
+              {tr('read.chapter')} {cIdx + 1}
+            </Text>
+            <Text style={{ fontFamily: fonts.serif, fontSize: Math.round(30 * fontScale), color: rt.ink, marginTop: 4 }}>
+              {bk.name}
+            </Text>
+          </View>
+        }
         renderItem={({ item, index }) => {
           const hKey = `${bk.code}|${cIdx}|${index}`;
-          const highlighted = highlightKeys.includes(hKey);
+          const color = marks[hKey];
+          const tint = color ? HIGHLIGHT_TINT[color] : 'transparent';
+          const flashed = flashV === index;
+          const ref = `${bk.name} ${cIdx + 1}:${item[0]}`;
+          const open = () =>
+            setSelected({ book: bIdx, chapter: cIdx, verse: index, code: bk.code, ref, text: item[1] });
+
+          if (index === 0) {
+            const first = item[1].slice(0, 1);
+            const rest = item[1].slice(1);
+            return (
+              <Text
+                onPress={open}
+                suppressHighlighting
+                style={{
+                  fontFamily: fonts.serifLight,
+                  fontSize: bodySize,
+                  lineHeight: dropCap,
+                  color: rt.ink,
+                  marginBottom: spacing.sm,
+                  backgroundColor: flashed ? rt.goldSoft : tint,
+                  borderRadius: 6,
+                }}
+              >
+                <Text style={{ fontFamily: fonts.serif, fontSize: dropCap, color: rt.gold }}>{first}</Text>
+                {rest}
+              </Text>
+            );
+          }
+
           return (
             <Text
-              onPress={() => {
-                const on = toggleHighlight(hKey);
-                void on;
-              }}
+              onPress={open}
               suppressHighlighting
               style={{
                 fontFamily: fonts.serifLight,
-                fontSize: 18,
-                lineHeight: 30,
-                color: t.ink,
+                fontSize: bodySize,
+                lineHeight: bodyLine,
+                color: rt.ink,
                 marginBottom: spacing.sm,
-                backgroundColor: highlighted ? t.goldSoft : 'transparent',
+                backgroundColor: flashed ? rt.goldSoft : tint,
+                borderRadius: 6,
               }}
             >
-              <Text style={{ fontFamily: fonts.sansBold, fontSize: 11, color: t.gold }}>
+              <Text style={{ fontFamily: fonts.sansBold, fontSize: Math.round(11 * fontScale), color: rt.gold }}>
                 {item[0]}
                 {'  '}
               </Text>
@@ -172,12 +298,12 @@ export default function Read() {
           <View
             style={{
               maxHeight: '72%',
-              backgroundColor: t.surface,
+              backgroundColor: rt.surface,
               borderTopLeftRadius: radius.card,
               borderTopRightRadius: radius.card,
               borderWidth: 1,
               borderBottomWidth: 0,
-              borderColor: t.border,
+              borderColor: rt.border,
               paddingTop: spacing.md,
               paddingBottom: insets.bottom + spacing.lg,
             }}
@@ -188,7 +314,7 @@ export default function Read() {
                 width: 40,
                 height: 4,
                 borderRadius: 2,
-                backgroundColor: t.border,
+                backgroundColor: rt.border,
                 marginBottom: spacing.md,
               }}
             />
@@ -203,10 +329,10 @@ export default function Read() {
             >
               {typeof picker === 'number' ? (
                 <Pressable onPress={() => setPicker('books')} hitSlop={8} accessibilityRole="button">
-                  <Ionicons name="chevron-back" size={22} color={t.inkSoft} />
+                  <Ionicons name="chevron-back" size={22} color={rt.inkSoft} />
                 </Pressable>
               ) : null}
-              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>
+              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: rt.ink }}>
                 {typeof picker === 'number' ? fullBible[picker].name : tr('read.pickBook')}
               </Text>
             </View>
@@ -225,7 +351,7 @@ export default function Read() {
                       justifyContent: 'space-between',
                       paddingVertical: 14,
                       borderTopWidth: index === 0 ? 0 : 1,
-                      borderTopColor: t.border,
+                      borderTopColor: rt.border,
                       opacity: pressed ? 0.6 : 1,
                     })}
                   >
@@ -233,12 +359,12 @@ export default function Read() {
                       style={{
                         fontFamily: index === bIdx ? fonts.sansSemiBold : fonts.sans,
                         fontSize: 16,
-                        color: index === bIdx ? t.gold : t.ink,
+                        color: index === bIdx ? rt.gold : rt.ink,
                       }}
                     >
                       {item.name}
                     </Text>
-                    <Ionicons name="chevron-forward" size={16} color={t.inkFaint} />
+                    <Ionicons name="chevron-forward" size={16} color={rt.inkFaint} />
                   </Pressable>
                 )}
               />
@@ -261,9 +387,9 @@ export default function Read() {
                         maxWidth: 64,
                         alignItems: 'center',
                         justifyContent: 'center',
-                        backgroundColor: active ? t.goldSoft : t.surfaceAlt,
+                        backgroundColor: active ? rt.goldSoft : rt.surfaceAlt,
                         borderWidth: 1,
-                        borderColor: active ? t.gold : t.border,
+                        borderColor: active ? rt.gold : rt.border,
                         borderRadius: radius.inner,
                       }}
                     >
@@ -271,7 +397,7 @@ export default function Read() {
                         style={{
                           fontFamily: fonts.sansMedium,
                           fontSize: 15,
-                          color: active ? t.gold : t.ink,
+                          color: active ? rt.gold : rt.ink,
                           fontVariant: ['tabular-nums'],
                         }}
                       >
@@ -285,6 +411,9 @@ export default function Read() {
           </View>
         </View>
       </Modal>
+
+      <ReadingSettingsSheet visible={settings} onClose={() => setSettings(false)} />
+      <VerseActionSheet verse={selected} onClose={() => setSelected(null)} />
     </View>
   );
 }
