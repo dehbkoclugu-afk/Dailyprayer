@@ -39,45 +39,61 @@ export default function Bible() {
         style={{ marginTop: spacing.md, opacity: 0.55 }}
       />
 
-      {/* Open the full sequential Bible reader (resumes the last position) */}
+      {/* The Scripture reader — the tab's flagship, so it earns a full art hero
+          at least as grand as the plan covers below. Resumes the last position. */}
       <Pressable
         onPress={() => router.push('/read')}
         accessibilityRole="button"
-        accessibilityLabel={tr('read.openBible')}
-        style={({ pressed }) => ({
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: spacing.lg,
-          backgroundColor: t.surface,
-          borderRadius: radius.card,
-          borderWidth: 1,
-          borderColor: t.border,
-          padding: spacing.lg,
-          marginTop: spacing.lg,
-          opacity: pressed ? 0.9 : 1,
-        })}
+        accessibilityLabel={`${tr('read.openBible')} — ${tr('read.continue')} ${readerBook.name} ${readerChapter + 1}`}
+        style={({ pressed }) => ({ marginTop: spacing.lg, opacity: pressed ? 0.92 : 1 })}
       >
-        <View
-          style={{
-            width: 48,
-            height: 48,
-            borderRadius: radius.inner,
-            backgroundColor: t.goldSoft,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Ionicons name="book" size={22} color={t.gold} />
+        <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
+          <ArtSlot id="A18-ritual-reading" height={176} radius={radius.card}>
+            {/* warm candlelit art up top, darkening to the base so the title
+                reads as cream over ink — same legibility move as the plan cards */}
+            <LinearGradient
+              colors={['rgba(26,18,6,0.10)', 'rgba(26,18,6,0.58)', 'rgba(20,14,6,0.94)']}
+              start={{ x: 0.3, y: 0 }}
+              end={{ x: 0.5, y: 1 }}
+              style={{ position: 'absolute', width: '100%', height: '100%' }}
+            />
+            <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
+              <Text
+                style={{
+                  fontFamily: fonts.sansSemiBold,
+                  fontSize: 11,
+                  letterSpacing: 2.5,
+                  textTransform: 'uppercase',
+                  color: 'rgba(217,164,65,0.9)',
+                }}
+              >
+                {tr('read.continue')}
+              </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 4 }}>
+                <View style={{ flex: 1, paddingRight: spacing.lg }}>
+                  <Text style={{ fontFamily: fonts.serif, fontSize: 24, color: '#F2EEE6' }}>
+                    {tr('read.openBible')}
+                  </Text>
+                  <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: 'rgba(242,238,230,0.82)', marginTop: spacing.xs }}>
+                    {readerBook.name} {readerChapter + 1}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    width: 48,
+                    height: 48,
+                    borderRadius: 24,
+                    backgroundColor: '#D9A441',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Ionicons name="arrow-forward" size={22} color="#1A1206" />
+                </View>
+              </View>
+            </View>
+          </ArtSlot>
         </View>
-        <View style={{ flex: 1 }}>
-          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>
-            {tr('read.openBible')}
-          </Text>
-          <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
-            {tr('read.continue')} · {readerBook.name} {readerChapter + 1}
-          </Text>
-        </View>
-        <Ionicons name="chevron-forward" size={20} color={t.inkFaint} />
       </Pressable>
 
       <SectionHeader title={tr('bible.plans')} />
