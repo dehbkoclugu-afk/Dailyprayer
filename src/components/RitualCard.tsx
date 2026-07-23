@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Image, Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { artRegistry, type AssetId } from '@/assets/registry';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, {
   Easing,
@@ -22,14 +23,17 @@ interface Props {
   subtitle: string;
   done: boolean;
   locked?: boolean;
+  /** Optional tile art; falls back to the icon until the PNG is registered. */
+  art?: AssetId;
   onPress: () => void;
 }
 
 const CARD_W = 360; // approximate; the shimmer just needs to travel past the edge
 
-export function RitualCard({ icon, title, subtitle, done, locked, onPress }: Props) {
+export function RitualCard({ icon, title, subtitle, done, locked, art, onPress }: Props) {
   const t = useTheme();
   const { t: tr } = useT();
+  const artSource = art ? artRegistry[art] : null;
 
   // One-time gold shimmer sweep when a card transitions to done (design-100 #57).
   const shimmerX = useSharedValue(-CARD_W);
@@ -95,9 +99,19 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress }: Pro
           backgroundColor: done ? t.goldSoft : t.surfaceAlt,
           alignItems: 'center',
           justifyContent: 'center',
+          overflow: 'hidden',
         }}
       >
-        <Ionicons name={icon} size={22} color={done ? t.gold : t.inkSoft} />
+        {artSource ? (
+          <Image
+            source={artSource}
+            resizeMode="cover"
+            style={{ width: '100%', height: '100%' }}
+            accessibilityIgnoresInvertColors
+          />
+        ) : (
+          <Ionicons name={icon} size={22} color={done ? t.gold : t.inkSoft} />
+        )}
       </View>
       <View style={{ flex: 1 }}>
         <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 17, color: t.ink }}>{title}</Text>

@@ -125,6 +125,7 @@ export default function Today() {
           <RitualCard
             key="devotional"
             icon="book-outline"
+            art="A18-ritual-devotional"
             title={tr('today.devotional')}
             subtitle={`${devotional.title} · 2 ${tr('today.minRead')}`}
             done={isDone('devotional')}
@@ -133,6 +134,7 @@ export default function Today() {
           <RitualCard
             key="prayer"
             icon="flame-outline"
+            art="A19-ritual-prayer"
             title={tr('today.guidedPrayer')}
             subtitle={`${morningPrayer.title} · ${morningPrayer.minutes} min`}
             done={isDone('prayer')}
@@ -141,6 +143,7 @@ export default function Today() {
           <RitualCard
             key="gratitude"
             icon="heart-outline"
+            art="A20-ritual-gratitude"
             title={tr('today.gratitude')}
             subtitle={tr('today.gratitudeSub')}
             done={isDone('gratitude')}

@@ -35,7 +35,10 @@ export type AssetId =
   | 'A13-gospels90'
   | 'A13-bible365'
   | 'A14-bible-etching'
-  | 'A15-building-candle';
+  | 'A15-building-candle'
+  | 'A18-ritual-devotional'
+  | 'A19-ritual-prayer'
+  | 'A20-ritual-gratitude';
 
 export const artRegistry: Record<AssetId, ImageSourcePropType | null> = {
   'A1-logomark': require('./art/A1-logomark.png'),
@@ -68,6 +71,11 @@ export const artRegistry: Record<AssetId, ImageSourcePropType | null> = {
   'A13-bible365': require('./art/A13-bible365.png'),
   'A14-bible-etching': require('./art/A14-bible-etching.png'),
   'A15-building-candle': null,
+  // Ritual-card tile art (Today rhythm). Null until finished PNGs land; drop
+  // the file in ./art and swap null → require() to light the card up.
+  'A18-ritual-devotional': null,
+  'A19-ritual-prayer': null,
+  'A20-ritual-gratitude': null,
 };
 
 /** Placeholder metadata shown inside unfilled slots. */
@@ -102,6 +110,9 @@ export const artSpecs: Record<AssetId, { label: string; size: string }> = {
   'A13-bible365': { label: 'Bible plan', size: '1170×700' },
   'A14-bible-etching': { label: 'Bible etching', size: '1170×400' },
   'A15-building-candle': { label: 'Building candle', size: '600²' },
+  'A18-ritual-devotional': { label: 'Ritual — devotional', size: '144²' },
+  'A19-ritual-prayer': { label: 'Ritual — prayer', size: '144²' },
+  'A20-ritual-gratitude': { label: 'Ritual — gratitude', size: '144²' },
 };
 
 /** Verse-card background art keyed by verse theme; falls back to peace. */
