@@ -4,10 +4,10 @@
  * offline-first, no account, no analytics/tracking, local storage only, with
  * purchases handled by RevenueCat and local-only notifications.
  *
- * PLACEHOLDERS to fill before submission: [COMPANY], [CONTACT_EMAIL],
- * [JURISDICTION]. Have a lawyer review before publishing.
+ * Entity: Umut Ceylan · Contact: dehbkoclugu@gmail.com · Governing law: Turkey.
+ * Have a lawyer review before publishing.
  */
-export const LEGAL_LAST_UPDATED = '2026-07-21';
+export const LEGAL_LAST_UPDATED = '2026-07-24';
 
 export const PRIVACY_POLICY = `# Privacy Policy
 
@@ -52,8 +52,8 @@ We do not knowingly collect data from children.
 If this policy changes, we will update the date above and the version in the app.
 
 ## Contact
-Questions about privacy: [CONTACT_EMAIL]
-[COMPANY]
+Questions about privacy: dehbkoclugu@gmail.com
+Umut Ceylan
 `;
 
 export const TERMS_OF_SERVICE = `# Terms of Service
@@ -89,17 +89,17 @@ permission. (Scripture from the World English Bible is public domain.)
 
 ## Disclaimers
 The app is provided "as is" without warranties of any kind. To the maximum extent
-permitted by law, [COMPANY] is not liable for any indirect or incidental damages
+permitted by law, Umut Ceylan is not liable for any indirect or incidental damages
 arising from use of the app.
 
 ## Changes
 We may update these terms; continued use after changes means you accept them.
 
 ## Governing law
-These terms are governed by the laws of [JURISDICTION], without regard to
+These terms are governed by the laws of Turkey, without regard to
 conflict-of-law rules.
 
 ## Contact
-[CONTACT_EMAIL]
-[COMPANY]
+dehbkoclugu@gmail.com
+Umut Ceylan
 `;
