@@ -68,6 +68,26 @@ export default function Bible() {
       <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>
 {tr('bible.sub')}
       </Text>
+      {savedVerseKeys.length > 0 ? (
+        <Pressable
+          onPress={() => router.push('/saved-verses')}
+          accessibilityRole="button"
+          accessibilityLabel={`${tr('bible.savedVerses')}: ${savedVerseKeys.length}`}
+          style={{
+            minHeight: 48,
+            flexDirection: 'row',
+            alignItems: 'center',
+            alignSelf: 'flex-start',
+            gap: spacing.sm,
+            marginTop: spacing.sm,
+          }}
+        >
+          <Ionicons name="bookmark-outline" size={18} color={t.blue} />
+          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>
+            {tr('bible.savedVerses')} · {savedVerseKeys.length}
+          </Text>
+        </Pressable>
+      ) : null}
       <TextInput
         value={query}
         onChangeText={setQuery}
@@ -210,11 +230,7 @@ export default function Bible() {
           return (
             <Pressable
               key={p.id}
-              onPress={() =>
-                locked
-                  ? router.push(`/paywall?from=plan-${p.id}`)
-                  : router.push({ pathname: '/plan', params: { id: p.id } })
-              }
+              onPress={() => router.push({ pathname: '/plan', params: { id: p.id } })}
               accessibilityRole="button"
               accessibilityLabel={`${p.title}${locked ? ', requires Plus' : ''}`}
             >

@@ -8,6 +8,7 @@ import { PillButton } from '@/components/PillButton';
 import { planArt } from '@/assets/registry';
 import { plans } from '@/data/plans';
 import { useBibleStore } from '@/state/useBibleStore';
+import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
@@ -19,9 +20,11 @@ export default function PlanDetail() {
   const t = useTheme();
   const { t: tr } = useT();
   const progress = useBibleStore((state) => state.planProgress[plan.id] ?? 0);
+  const isPlus = useEntitlementStore((state) => state.isPlus);
   const startPlan = useBibleStore((state) => state.startPlan);
   const completePlanDay = useBibleStore((state) => state.completePlanDay);
   const completed = progress >= plan.days;
+  const locked = plan.plus && !isPlus;
 
   return (
     <Screen>
@@ -36,6 +39,23 @@ export default function PlanDetail() {
       <ArtSlot id={planArt(plan.id)} height={220} radius={radius.hero} />
       <Text style={[ty.title, { color: t.ink, marginTop: spacing.xl }]}>{plan.title}</Text>
       <Text style={[ty.body, { color: t.inkSoft, marginTop: spacing.sm }]}>{plan.tagline}</Text>
+      {locked ? (
+        <View
+          style={{
+            backgroundColor: t.surface,
+            borderRadius: radius.inner,
+            padding: spacing.lg,
+            marginTop: spacing.lg,
+          }}
+        >
+          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: t.ink }}>
+            {tr('plan.previewTitle')}
+          </Text>
+          <Text style={{ fontFamily: fonts.sans, fontSize: 14, lineHeight: 21, color: t.inkSoft, marginTop: spacing.xs }}>
+            {tr('plan.previewBody')}
+          </Text>
+        </View>
+      ) : null}
       <View
         style={{
           height: 6,
@@ -58,15 +78,21 @@ export default function PlanDetail() {
       </Text>
       <PillButton
         label={
-          completed
+          locked
+            ? tr('plan.unlock')
+            : completed
             ? tr('plan.completed')
             : progress === 0
               ? tr('plan.start')
               : tr('plan.completeToday')
         }
-        disabled={completed}
+        disabled={!locked && completed}
         onPress={() =>
-          progress === 0 ? startPlan(plan.id) : completePlanDay(plan.id, plan.days)
+          locked
+            ? router.push(`/paywall?from=plan-${plan.id}`)
+            : progress === 0
+              ? startPlan(plan.id)
+              : completePlanDay(plan.id, plan.days)
         }
         style={{ marginTop: spacing.xl }}
       />
