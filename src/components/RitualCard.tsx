@@ -57,7 +57,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, primary, onPre
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={`${title}${done ? ', completed' : locked ? ', locked' : ''}`}
+      accessibilityLabel={`${title}${done ? `, ${tr('today.undoCompletion')}` : locked ? ', locked' : ''}`}
       accessibilityState={{ disabled: Boolean(locked), selected: done }}
       style={({ pressed }) => ({
         flexDirection: 'row',
@@ -104,7 +104,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, primary, onPre
       <View style={{ flex: 1 }}>
         <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 17, color: t.ink }}>{title}</Text>
         <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: done ? t.gold : t.inkSoft, marginTop: 2 }}>
-          {done ? tr('today.completed') : subtitle}
+          {done ? `${tr('today.completed')} · ${tr('common.undo')}` : subtitle}
         </Text>
       </View>
       {done ? (

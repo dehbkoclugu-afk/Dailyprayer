@@ -91,7 +91,7 @@ export default function Journal() {
                 borderWidth: 1,
                 borderRadius: radius.pill,
                 paddingHorizontal: spacing.lg,
-                minHeight: 44,
+                minHeight: 48,
               }}
             >
               <Ionicons name={icon} size={16} color={active ? t.gold : t.inkSoft} />

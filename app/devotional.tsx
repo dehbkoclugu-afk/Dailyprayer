@@ -36,8 +36,8 @@ export default function DevotionalScreen() {
         onPress={() => router.back()}
         hitSlop={12}
         accessibilityRole="button"
-        accessibilityLabel="Go back"
-        style={{ width: 44, height: 44, justifyContent: 'center' }}
+        accessibilityLabel={tr('common.back')}
+        style={{ width: 48, height: 48, justifyContent: 'center' }}
       >
         <Ionicons name="chevron-back" size={26} color={t.inkSoft} />
       </Pressable>

@@ -50,6 +50,7 @@ export default function Today() {
   const morningPrayer = prayers.find((p) => p.category === 'morning')!;
   const sleepPrayer = prayers.find((p) => p.category === 'sleep')!;
   const completeStep = useStreakStore((s) => s.completeStep);
+  const uncompleteStep = useStreakStore((s) => s.uncompleteStep);
   const rituals = [
     {
       step: 'devotional' as const,
@@ -177,6 +178,19 @@ export default function Today() {
               {tr('today.reflect')}
             </Text>
           </Pressable>
+          <Pressable
+            onPress={() => {
+              const lastStep = doneSteps[doneSteps.length - 1];
+              if (lastStep) uncompleteStep(lastStep);
+            }}
+            accessibilityRole="button"
+            accessibilityLabel={tr('today.undoLastCompletion')}
+            style={{ minHeight: 48, justifyContent: 'center' }}
+          >
+            <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.inkSoft }}>
+              {tr('today.undoLastCompletion')}
+            </Text>
+          </Pressable>
         </View>
       ) : (
         <View style={{ gap: spacing.md }}>
@@ -215,7 +229,7 @@ export default function Today() {
                     title={ritual.title}
                     subtitle={ritual.subtitle}
                     done
-                    onPress={ritual.onPress}
+                    onPress={() => uncompleteStep(ritual.step)}
                   />
                 ))}
             </View>

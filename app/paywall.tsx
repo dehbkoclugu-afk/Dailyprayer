@@ -15,7 +15,7 @@ import { useT } from '@/i18n';
 
 export default function Paywall() {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const BENEFITS = [tr('paywall.b1'), tr('paywall.b2'), tr('paywall.b3'), tr('paywall.b4')];
   const SUBCOPY: Record<PlanId, string> = {
     annual: tr('paywall.yearlySub'),
@@ -36,6 +36,13 @@ export default function Paywall() {
   const [busy, setBusy] = useState(false);
   const [thanks, setThanks] = useState(false);
   const [restoreStatus, setRestoreStatus] = useState<'idle' | 'busy' | 'found' | 'missing'>('idle');
+  const trialEnd = new Date();
+  trialEnd.setDate(trialEnd.getDate() + 7);
+  const trialEndLabel = new Intl.DateTimeFormat(locale, {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(trialEnd);
 
   const buy = async () => {
     setBusy(true);
@@ -101,8 +108,8 @@ export default function Paywall() {
         accessibilityLabel={tr('common.close')}
         style={({ pressed }) => ({
           alignSelf: 'flex-end',
-          width: 44,
-          height: 44,
+          width: 48,
+          height: 48,
           alignItems: 'center',
           justifyContent: 'center',
           opacity: pressed ? 0.6 : 1,
@@ -231,18 +238,12 @@ export default function Paywall() {
 
       {/* Trial reassurance — the #1 objection killer */}
       {selected === 'annual' ? (
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 6,
-            marginTop: spacing.md,
-          }}
-        >
-          <Ionicons name="notifications-outline" size={14} color={t.inkSoft} />
-          <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft }}>
-{tr('paywall.reassure')}
+        <View style={{ marginTop: spacing.md, gap: spacing.xs }}>
+          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, lineHeight: 19, color: t.ink, textAlign: 'center' }}>
+            {tr('paywall.trialEnds')} {trialEndLabel}. {tr('paywall.thenAnnual')}
+          </Text>
+          <Text style={{ fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, color: t.inkSoft, textAlign: 'center' }}>
+            {tr('paywall.reassure')}
           </Text>
         </View>
       ) : null}

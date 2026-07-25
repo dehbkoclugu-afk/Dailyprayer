@@ -16,6 +16,7 @@ interface StreakState {
   /** Called on app open and on any completion. */
   tickToday: () => void;
   completeStep: (step: RitualStep) => void;
+  uncompleteStep: (step: RitualStep) => void;
   isStepDone: (step: RitualStep) => boolean;
 }
 
@@ -48,6 +49,13 @@ export const useStreakStore = create<StreakState>()(
           set({ doneDay: today, doneSteps: [...steps, step] });
         }
         get().tickToday();
+      },
+      uncompleteStep: (step) => {
+        const today = dayKey();
+        const { doneDay, doneSteps } = get();
+        if (doneDay === today) {
+          set({ doneSteps: doneSteps.filter((item) => item !== step) });
+        }
       },
       isStepDone: (step) => {
         const { doneDay, doneSteps } = get();

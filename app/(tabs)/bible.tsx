@@ -110,7 +110,7 @@ export default function Bible() {
                 borderRadius: radius.pill,
                 paddingHorizontal: spacing.lg,
                 paddingVertical: spacing.sm,
-                minHeight: 44,
+                minHeight: 48,
                 justifyContent: 'center',
               }}
             >

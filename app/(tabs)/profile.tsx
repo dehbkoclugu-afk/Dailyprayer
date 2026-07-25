@@ -245,7 +245,7 @@ function Choice({ label, active, onPress }: { label: string; active: boolean; on
         borderWidth: 1,
         borderRadius: radius.pill,
         paddingHorizontal: spacing.lg,
-        minHeight: 44,
+        minHeight: 48,
         justifyContent: 'center',
       }}
     >

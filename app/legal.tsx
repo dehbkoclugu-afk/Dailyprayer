@@ -4,6 +4,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
+import { useT } from '@/i18n';
 import { fonts } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
 import { PRIVACY_POLICY, TERMS_OF_SERVICE } from '@/data/legal';
@@ -80,6 +81,7 @@ function Markdown({ source }: { source: string }) {
 
 export default function Legal() {
   const t = useTheme();
+  const { t: tr } = useT();
   const { doc } = useLocalSearchParams<{ doc?: string }>();
   const source = doc === 'terms' ? TERMS_OF_SERVICE : PRIVACY_POLICY;
 
@@ -89,8 +91,8 @@ export default function Legal() {
         onPress={() => router.back()}
         hitSlop={12}
         accessibilityRole="button"
-        accessibilityLabel="Go back"
-        style={({ pressed }) => ({ width: 44, height: 44, justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
+        accessibilityLabel={tr('common.back')}
+        style={({ pressed }) => ({ width: 48, height: 48, justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
       >
         <Ionicons name="chevron-back" size={26} color={t.inkSoft} />
       </Pressable>
