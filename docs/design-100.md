@@ -1,188 +1,234 @@
-# 100 Critical Design Recommendations — Lumen
+# Lumen — Güncel 100 Açık Tasarım Önerisi
 
-Deep-dive critique of the current build, synthesized from: Emil Kowalski's design-engineering
-principles, taste-skill's anti-slop discipline, impeccable's polish/critique method,
-ui-ux-pro-max's UX database, and teardown patterns from Hallow, Glorify, Bible Chat, Calm
-and Headspace. Items marked **[ASSET]** need artwork — see `docs/asset-briefs.md`;
-items marked **[DONE]** are implemented in code in this branch.
+Bu liste, `f7a010d4` birleşiminden sonraki uygulama kaynakları incelenerek yeniden
+hazırlandı. Önceki listede tamamlanan işler tekrar sayılmadı. Maddeler etki sırasındadır:
+önce yayın ve güven sorunları, sonra erişilebilirlik ve temel kullanım, ardından okuma
+deneyimi, performans ve görsel cila gelir.
 
-## A. Brand & identity (1–10)
+## P0 — Yayın, güven ve geri dönüşü zor riskler (1–20)
 
-1. **Replace the emoji dove with a real logomark.** An emoji in the hero is the #1 amateur
-   tell. **[ASSET A1] [DONE — slot placed]**
-2. Define a **glyph system**: one consistent stroke weight (1.75px), rounded caps, gold-on-ink.
-   Never mix filled + outline icons in one view (Today header currently does).
-3. Craft a **wordmark** ("Lumen" in Fraunces with a subtly raised 'e' ligature or halo dot). **[ASSET A2]**
-4. Brand gradient — "**dusk veil**" (deep violet `#2B2352` → midnight `#0E1220`) — must appear
-   only on *sacred* surfaces (verse, prayer player, paywall hero). Never on chrome.
-5. The gold accent needs a **physical metaphor**: candlelight. All gold elements should glow
-   (soft outer shadow `#D9A441` at 20–30%), not sit flat. **[DONE]**
-6. Add **grain texture** (2–3% opacity noise) over gradient surfaces to kill the "CSS gradient"
-   flatness. **[ASSET A3 — tileable noise PNG]**
-7. Give every screen **one moment of art** — an illustration, halo, or texture. Pure-token
-   screens (Journal, Profile) currently read as admin panels. **[DONE — slots placed]**
-8. App icon: dove-in-halo mark on dusk-veil gradient, gold rim light. No text. **[ASSET A16]**
-9. Splash: bg `#0E1220`, centered mark with slow halo bloom (Lottie later). **[ASSET A17]**
-10. Voice: every empty state, permission prompt and error must speak in the same gentle,
-    second-person liturgical voice. Never system language ("No data").
+1. **Release derlemesinde sahte Plus yetkisini kesin olarak kapat.** `src/services/purchases.ts`
+   içinde RevenueCat yokken satın alma başarılı sayılıyor; production sürümünde eksik anahtar
+   ayrı, açıklayıcı ve satın almayı engelleyen bir durum göstermeli.
+2. **Paywall fiyatlarını yalnızca mağaza ürünlerinden göster.** `$59.99` gibi fallback fiyatlar
+   yayın derlemesinde kullanıcıya sunulmamalı; para birimi, vergi ve dönem Google Play/App Store
+   tarafından yerelleştirilmiş değerlerden gelmeli.
+3. **Deneme süresini gerçek ürün uygunluğuna bağla.** Kullanıcı denemeye uygun değilse “7 gün
+   ücretsiz” başlığı ve deneme bitiş tarihi hiç görünmemeli.
+4. **Satın alma iptalini hatadan ayır.** Kullanıcının mağaza penceresini kapatması hata alarmı
+   üretmemeli; hata, iptal ve bekleyen ödeme için üç ayrı durum tasarlanmalı.
+5. **Bekleyen satın alma durumunu kalıcı göster.** Google Play onay/bekleme sürecinde CTA yeniden
+   satın alma başlatmamalı; durum kartı ve “daha sonra kontrol et” eylemi sunulmalı.
+6. **Plus durumuna “aboneliği yönet” eylemi ekle.** Aktif üyeler Profile ekranından doğrudan
+   mağazanın abonelik yönetimine gidebilmeli.
+7. **Restore sonucunu kalıcı ve eylemli yap.** “Bulunamadı” metnine doğru mağaza hesabını kontrol
+   etme ve destek e-postası eylemleri eklenmeli.
+8. **Paywall bağlamını gerçekten kullan.** `from=` parametresi başlık, fayda sırası ve ilk görseli
+   “uyku duasını aç”, “planı aç” gibi dokunulan içerikle eşleştirmeli.
+9. **Yasal metinlerde altı Kutsal Kitap kaynağını ayrı ayrı beyan et.** Mevcut Terms yalnızca WEB
+   söylüyor; her dilde kullanılan sürüm, telif/lisans ve atıf koşulu gerçek kaynağıyla yazılmalı.
+10. **YTC ve Ostervald lisanslarını yayın öncesi doğrula.** Kamu malı olmayan veya sürümü belirsiz
+    metin “public domain” diye sunulmamalı; doğrulama tamamlanmadan ilgili dil release kapısından
+    geçmemeli.
+11. **Kutsal Kitap metnini dönüştüren hiçbir UI/AI akışına izin verme.** Özetle, sadeleştir,
+    yeniden yaz ve otomatik çevir eylemleri okuyucu ve paylaşım ekranlarında bulunmamalı.
+12. **Kaynak ve lisans bilgisini okuyucuda görünür kıl.** Sadece bölüm sonunda küçük kredi yerine
+    ayarlar panelinden açılan “Metin kaynağı” ekranı; sürüm adı, lisans ve tam atıf sunmalı.
+13. **Dini metin bütünlüğü için release kontrolü tasarla.** Altı JSON’un bilinen SHA değerleri
+    değişirse CI açıkça durmalı; değişiklik ancak kaynak belgesi güncellenerek kabul edilmeli.
+14. **Günlük ve kullanıcı verisi silme akışını iki aşamalı yap.** Onboarding’i yeniden başlatmak,
+    streak/günlük/işaretleri yanlışlıkla silememeli; silinecek veri listesi açıkça gösterilmeli.
+15. **Günlük girdisi silmeye Undo ekle.** Küçük çöp ikonuna dokunma anında kalıcı silme yerine
+    snackbar içinde geri al sunulmalı.
+16. **Bildirim izni reddedildiğinde ölü başarı mesajı gösterme.** Profile satırı “Kapalı —
+    Ayarlardan aç” durumuna geçmeli ve sistem ayarlarına eylem vermeli.
+17. **Hatırlatıcı saatini gerçek bir saat seçiciyle değiştir.** Sabit veya sınırlı seçenek yerine
+    yerel 12/24 saat formatına uyan native time picker kullanılmalı.
+18. **İletişim satırını çalışır hâle getir.** Profile’daki e-posta satırı adresi açmalı; cihazda
+    e-posta uygulaması yoksa adresi kopyalama seçeneği vermeli.
+19. **Bilinmeyen rota/veri hatalarına tasarlanmış durum ekle.** Geçersiz plan, gün veya kitap
+    parametresi boş koyu ekran üretmemeli; açıklama ve güvenli geri dönüş sunmalı.
+20. **Yayın öncesi metin-doğruluk ekranı oluştur.** Lisans, fiyat, deneme, bildirim ve gizlilik
+    beyanlarının gerçek runtime davranışıyla eşleştiği tek kontrol listesi release şartı olmalı.
 
-## B. Color & theming (11–20)
+## P1 — Erişilebilirlik ve temel kullanım (21–50)
 
-11. **Elevate surfaces by lightness, not shadow alone**: Vigil needs a 3-step surface ramp
-    (`#141928` → `#171C2E` → `#1F2740`); shadows barely read on dark. **[DONE]**
-12. Add a **candle-glow radial** behind the Today header (gold 8% → transparent, 320px). **[DONE]**
-13. Fix goldSoft in Vigil — `#3A3020` reads muddy-olive; shift to `#2E2718` (warmer, darker). **[DONE]**
-14. Selected quiz options: add inner glow (gold 12%) not just border color change.
-15. Success/danger only in semantics (answered ✦, delete) — never decorative. Audit passed.
-16. Dawn bg `#FBF7F0` needs a **paper feel**: faint warm vignette at screen edges via a
-    full-screen radial overlay. **[ASSET A3 reuse]**
-17. All gradients must be **two-hue, same-temperature**. Never introduce a third hue mid-ramp.
-18. Reserve pure `#D9A441` for interactive/reward. Informational gold (labels) drops to 80%
-    opacity so CTAs stay the brightest gold on screen.
-19. Themed **status-bar & tab-bar tint**: tab bar in Vigil should be `#12172A` (slightly darker
-    than surface) with a 1px `#262D45` top hairline. **[DONE]**
-20. Plan-card gradients: derive all five from one hue wheel (violet, indigo, teal, umber,
-    bronze at same S/L) so the shelf reads as a set. **[DONE]**
+21. **Android’de tüm dokunma hedeflerini 48×48 dp’ye çıkar.** Okuyucu, arama ve devotional’daki
+    44×44 düğmeler Material minimumunun altında.
+22. **Yan yana hedefler arasında en az 8 dp boşluk bırak.** Özellikle okuyucu başlığı ve ayet
+    aksiyon satırı yanlış dokunmayı azaltacak şekilde yeniden ölçülmeli.
+23. **Kitap/bölüm seçicisine erişilebilirlik etiketleri ekle.** Başlık seçicisi, kitap satırları,
+    bölüm hücreleri ve geri düğmesi TalkBack’te amaç ve seçili durumu söylemeli.
+24. **Bölüm ileri/geri düğmelerinin disabled durumunu seslendir.** `accessibilityState.disabled`
+    ve açıklayıcı etiket, yalnızca düşük opacity yerine kullanılmalı.
+25. **Ayet satırlarını gerçek erişilebilir eylemlere dönüştür.** TalkBack kullanıcıları “Aç” ve
+    “Vurgula” eylemlerine uzun basmayı keşfetmek zorunda kalmamalı.
+26. **Highlight renk adlarını altı dilde insan diline çevir.** `gold`, `blue` gibi kod anahtarları
+    erişilebilirlik etiketinde okunmamalı.
+27. **Renk seçimini yalnız renkle anlatma.** Her highlight swatch içinde farklı simge/desen veya
+    metin kısaltması bulunmalı.
+28. **Bottom sheet odak yönetimini tamamla.** Açılışta başlığa odak taşı, TalkBack odağını modal
+    içinde tut ve kapanınca tetikleyen kontrole geri ver.
+29. **Modal arka planlarını erişilebilirlik ağacından çıkar.** Görünmez kapatma alanları ayrı
+    “Kapat” düğmesi gibi tekrarlanmak yerine modal semantiğiyle yönetilmeli.
+30. **Büyük yazıda sabit yükseklikleri kaldır.** VerseCard, paywall hero ve yatay aksiyonlar
+    200% font ölçeğinde metin kırpmadan büyüyebilmeli.
+31. **Metin rollerini merkezi tipe bağla.** Dağınık 10/11/12/14/16/18/20/21/24/27/30/34/46/64
+    değerleri semantic display/title/body/label rollerinden çözülmeli.
+32. **En küçük okunabilir metni yükselt.** PLUS rozetleri ve yardımcı etiketler 10–11 sp’de
+    kalmamalı; kontrast ve font ölçeğiyle en az Material label-small karşılığı sağlanmalı.
+33. **Uppercase dönüşümünü yerel dile göre yap.** Türkçe `i/İ` hataları için render-time
+    `textTransform` yerine çevrilmiş doğru biçim kullanılmalı.
+34. **Tüm sabit İngilizce erişilebilirlik metinlerini çeviri anahtarına taşı.** “Verse of the
+    day”, “requires Plus”, “locked”, “day streak” gibi etiketler altı dilde tutarlı olmalı.
+35. **ProgressRing ve StreakFlame etiketlerini yerelleştir.** İngilizce cümle birleştirme yerine
+    çoğul kuralları olan tam çeviri anahtarları kullanılmalı.
+36. **Reduce Motion kapsamını bütün uygulamaya genişlet.** Player ve flame dışında onboarding,
+    RitualCard, toast ve ekran giriş animasyonları sistem ayarına uymalı.
+37. **Hareket azaltmada shimmer’ı kaldır.** Tamamlama ödülü statik glow/check’e dönüşmeli;
+    kullanıcının sistem tercihi ritüel animasyonunda da korunmalı.
+38. **Animasyonlu durum değişimlerini seslendir.** Ritüel tamamlandı/geri alındı, plan günü bitti
+    ve dua sona erdi mesajları TalkBack’e tek kez bildirilmelidir.
+39. **PillButton `busy` ile `disabled` durumunu ayır.** Her pasif düğme “meşgul” değildir;
+    yüklenme sırasında spinner ve doğru erişilebilirlik durumu gösterilmeli.
+40. **Silme ve destructive işlemlerde erişilebilir doğrulama kullan.** Native Alert düğme sırası,
+    iptal varsayılanı ve TalkBack açıklaması bütün dillerde kontrol edilmeli.
+41. **Arama temizleme düğmesini 48 dp hedefe çıkar.** Küçük 18 px ikon yalnızca `hitSlop` ile
+    bırakılmamalı; görünür/fiziksel hedef alanı sağlanmalı.
+42. **Prayer kategori chip’lerini 48 dp yap.** Mevcut 44 dp minimumu Android hedefinin altında;
+    yatay liste de odak sırasında seçili chip’i görünür alana kaydırmalı.
+43. **“Tümünü göster” metin bağlantısını gerçek düğme alanına çevir.** Sadece metne basmak yerine
+    48 dp satır ve belirgin pressed/focus durumu kullanılmalı.
+44. **Günlük silme ikonuna görünür hedef ver.** Küçük çöp simgesi, 48 dp alan ve hafif tonal
+    arka planla hem dokunma hem destructive anlamı taşımalı.
+45. **Okuyucu font ayarında örnek paragraf göster.** Sadece büyük/küçük A düğmeleri, gerçek satır
+    uzunluğu ve leading etkisini anlatmıyor.
+46. **Reader “paper” switch’ini platform semantiğiyle düzelt.** Görsel olarak özel kalabilir ama
+    swipe/tap, checked state ve büyük yazı düzeni Material switch beklentisini karşılamalı.
+47. **Ekran okuyucuda ayet numarası + metni tek anlamlı cümle yap.** İç içe Text düğümlerinin
+    kesik veya tekrarlı okunmadığı cihaz testleriyle doğrulanmalı.
+48. **Player otomatik ilerlemeyi erişilebilirlik açıkken varsayılan duraklat.** Kullanıcı satırı
+    bitirmeden ekran değişmemeli; devam etme açık bir tercih olmalı.
+49. **Player kalan süreyi canlı ama gürültüsüz güncelle.** Her satırda tam ekran duyurusu yerine
+    yalnız dua metni okunmalı, süre ayrı erişilebilir açıklama olmalı.
+50. **Kontrastı gerçek görseller üzerinde ölç.** Verse, ritual, Tonight ve plan kartlarının her
+    görsel varyantında metin 4.5:1; büyük başlık 3:1 eşiğini geçmeli.
 
-## C. Typography (21–30)
+## P1 — Bilgi mimarisi ve temel akışlar (51–65)
 
-21. Verse display should use **Fraunces optical size + slight negative tracking** (-0.5) at
-    26pt+; RN: `letterSpacing: -0.3`. **[DONE]**
-22. Establish a strict **6-step scale** (13/15/17/22/28/38) — audit found stray 12/14/16/18/20;
-    consolidate. **[partially DONE — new UI uses scale]**
-23. **Never letter-space serif**; only the sans overline labels get `+2` tracking.
-24. Overline labels ("VERSE OF THE DAY") are the brand's voice-of-God device: 11pt, 2.5
-    tracking, gold 80%, always uppercase, always Figtree SemiBold. **[DONE]**
-25. Body max line length ≈ 38ch on 390px — current 17pt/26 works; never go below 1.5 leading.
-26. Numerals: use **tabular numerals** for streak/stats (`fontVariant: ['tabular-nums']`) so
-    counters don't jiggle. **[DONE]**
-27. Quotes: use real curly quotes and a **hanging quotation mark** on verse cards (the opening
-    `“` sits in the margin). **[DONE]**
-28. Devotional body: first paragraph gets a **drop cap** (Fraunces, 3-line, gold) — editorial
-    signature. **[DONE]**
-29. Turkish/i18n readiness: avoid ALL-CAPS on translatable strings except overlines (Turkish
-    dotless-i risk); keep copy in a strings module (phase 2).
-30. Never center long text; center only display lines ≤2 rows (player, building screen comply).
+51. **Tablette alt barı navigation rail’e dönüştür.** 840 dp üstünde 600 px geniş alt bar
+    kullanmak yerine Material’ın expanded-width navigasyon kalıbı uygulanmalı.
+52. **Yatay/tablet düzeninde iki sütunlu içerik kullan.** 640 px tek kolon yalnızca büyümüş telefon
+    hissi veriyor; Today ritüelleri ve Bible planları master/detail veya iki kolon olmalı.
+53. **Android Predictive Back akışlarını doğrula.** Player, okuyucu ve tüm bottom sheet’ler sistem
+    geri hareketinde kapanmalı; uygulama dışına beklenmedik çıkış olmamalı.
+54. **İkincil ekranlara tutarlı top app bar getir.** Search, Library, Plan Day, Devotional ve
+    Legal aynı geri düğmesi, başlık konumu ve inset sistemini paylaşmalı.
+55. **Bible ana sayfasına son okuma ilerlemesini ekle.** “Devam et” kartı yalnız bölüm adını değil,
+    son görülen ayet ve bölüm içi ilerlemeyi göstermeli.
+56. **Kitap seçicisine Testament grupları ve hızlı arama ekle.** 66 kitaplık düz liste yerine
+    Eski/Yeni Ahit başlıkları ve kitap adı araması tanımayı hızlandırmalı.
+57. **Bölüm seçicisinde mevcut bölümü görünür seçili durumla sabitle.** Kullanıcı geri açtığında
+    doğru hücreye otomatik kaymalı ve “seçili” semantiği taşımalı.
+58. **Reader üst çubuğunun kalabalığını azalt.** Kompakt ekranda geri + seçici + arama + ayar
+    yerine arama/ayar tek overflow veya alt araç alanında gruplanmalı.
+59. **Ayet eylemlerini dört eşit dar kutuya sıkıştırma.** Dar ekran/büyük yazıda 2×2 grid veya
+    tam genişlik satırlar kullanılmalı.
+60. **Uzun basma davranışını ilk kullanımda öğret.** Bir defalık, kapatılabilir ipucu “Dokun:
+    işlemler · Basılı tut: hızlı vurgula” demeli.
+61. **Aramaya kitap filtresi ekle.** Tüm Kutsal Kitap sonuçlarında kullanıcı kitabı veya Ahit’i
+    daraltabilmeli; varsayılan deneyim hâlâ basit kalmalı.
+62. **Arama sonucunda eşleşme bağlamını dengeli göster.** Yalnız ilk eşleşmeyi renklendir; uzun
+    ayetlerde sorgu çevresini iki satırlık okunur snippet olarak sınırla.
+63. **300 sonuç sınırını açıklayıp daraltma yolu ver.** Sessiz `300+` yerine “İlk 300 sonuç —
+    aramayı daralt” mesajı ve filtre eylemi gösterilmeli.
+64. **Library içinde yer imleri, vurgular ve günlük kayıtlarını net sekmelere ayır.** Tek uzun
+    akış yerine sayaçlı, erişilebilir segmentler ve boş durumlar kullanılmalı.
+65. **Plan gününde “tamamla” sonrası bir sonraki güne geçiş sun.** Geri dönmek tek seçenek
+    olmamalı; “Bugün tamamlandı · Yarın devam et” bitiş durumu oluşturulmalı.
 
-## D. Layout & spacing (31–40)
+## P2 — Okuma, içerik keşfi ve alışkanlık (66–80)
 
-31. Adopt a **4pt baseline, 8pt rhythm**; audit stray 6/10px paddings. Section gap = 32,
-    card gap = 12, in-card padding = 20. **[DONE]**
-32. Screen top padding: greeting should sit 24 below the notch, not 12 — breathing room is the
-    sanctuary. **[DONE]**
-33. The Today header is cramped: streak + ring compete. Move ring into the **greeting row's
-    right edge alone**, put streak into a pill chip under the greeting. **[DONE]**
-34. Card radius hierarchy: hero cards 28, standard 24, inner 16, chips pill. Hero verse card
-    upgraded to 28. **[DONE]**
-35. Add **content max-width (480)** + horizontal auto margins so web/tablet doesn't stretch. **[DONE]**
-36. Tab bar: 5 items is max; icons 24px, active state gets a 4px gold dot under label, not just
-    tint. **[DONE]**
-37. Empty states center in the **upper third**, not dead center (feels lighter). **[DONE — Journal]**
-38. Verse card interior: text inset 24, reference row pinned bottom with 20 gap — avoid
-    cramped bottom. **[DONE]**
-39. Quiz options ≥ 60px tall; icon column fixed 24 so labels align vertically across rows. **[DONE]**
-40. Respect safe areas on the player (already using insets) and keep the close button 44pt
-    from the top-right corner exactly.
+66. **Today ekranında birincil eylemi tekleştir.** Ayet kartı, üç ritüel ve Tonight aynı ağırlıkta
+    yarışmamalı; günün sıradaki tamamlanmamış adımı belirgin olmalı.
+67. **Tamamlanan ritüelleri daraltılabilir yap.** Geri alma korunurken tamamlanmış kartın yüksekliği
+    azalmalı; kalan adımlar görsel olarak öne çıkmalı.
+68. **Ritüel ilerlemesine metinsel özet ekle.** Halka tek başına yeterli değil; “4 adımın 2’si”
+    başlık yakınında okunmalı.
+69. **Tonight kartını saate göre göstermeyi değerlendir.** Sabah ana akışında tam boy gece kartı
+    yerine akşam yaklaşınca genişleyen, gün içinde küçük önizleme olan yapı kullanılmalı.
+70. **Pray kategorilerini gerçek 2×3 görsel keşif alanına çevir.** Mevcut yatay chip şeridi marka
+    illüstrasyonlarını kullanmıyor ve altı kategoriyi keşfetmeyi zorlaştırıyor.
+71. **Dua listesinde kilit bilgisini metne bağımlı olmayan biçimde göster.** PLUS rozeti,
+    kilit simgesi ve erişilebilir “Plus gerekir” durumu aynı bileşende birleşmeli.
+72. **Player’da satır geçmişini kontrollü göster.** Tek satırlık boş sahne yerine önceki satır
+    düşük opacity ile yukarıda kalabilir; odak yine mevcut duada olmalı.
+73. **Player pace seçimini döngüsel gizli düğme olmaktan çıkar.** Slow/Normal/Quick üç seçenekli
+    sheet veya segmented control ile mevcut seçim görünür olmalı.
+74. **Player ilerlemesine bölüm noktaları ekle.** Uzun dualarda başlangıç/orta/kapanış gibi kısa
+    yapısal işaretler kullanıcıya ne kadar kaldığını anlatmalı.
+75. **Devotional bitişini gerçek bir tamamlanma sahnesi yap.** `✓` karakterine dönüşen düğme
+    yerine kısa “Bugünün düşüncesi tamamlandı” durumu ve geri/Journal eylemi sunulmalı.
+76. **Devotional’dan Journal’a bağlamsal geçiş ekle.** Okunan metni kopyalamadan, yalnız özgün
+    yansıma sorusuyla günlük yazma eylemi verilmeli.
+77. **Journal girişlerini günlere göre grupla.** Uzun kronolojik listede ay başlıkları, sticky
+    tarihler ve kayıt sayısı görünmeli.
+78. **Journal için düzenleme akışı ekle.** Kaydedilen giriş yalnız silinebilmemeli; tarih ve
+    içerik korunarak düzenlenebilmelidir.
+79. **Journal boş durumunda ilk yazma eylemini görünür yap.** Görsel ve açıklamanın altında input’a
+    odaklayan “İlk notunu yaz” CTA’sı olmalı.
+80. **Profile istatistiklerini anlamlı eşiklerle açıkla.** Best/total sayıları yalnız rakam
+    olmamalı; “bu hafta 4 gün” gibi yakın dönem bağlamı davranışı desteklemeli.
 
-## E. Illustration & imagery — the biggest gap (41–52)
+## P2 — Performans, adaptasyon ve dayanıklılık (81–90)
 
-41. **Welcome hero illustration**: full-width, 4:3 — establishes the visual world in second
-    one. **[ASSET A4] [DONE — slot]**
-42. **Verse-card art series**: 8–12 rotating background paintings keyed to verse themes
-    (peace, strength, hope…). Text must stay on a dark scrim area. **[ASSET A5.x] [DONE — slot behind text]**
-43. **Quiz affirmation spot art**: small warm vignette (heart/candle) instead of bare icon.
-    **[ASSET A6] [DONE — slot]**
-44. **Plan-reveal crest**: personalized-plan "seal" illustration above the title. **[ASSET A7] [DONE — slot]**
-45. **Paywall hero art**: the single highest-ROI image in the app — sunrise-through-arch scene
-    with gold rim light. **[ASSET A8] [DONE — slot]**
-46. **Thanks/charity screen**: hands-sharing-light illustration. **[ASSET A9] [DONE — slot]**
-47. **Sleep section art**: night-sky/candle motif on the Tonight card. **[ASSET A10] [DONE — slot]**
-48. **Prayer category tiles**: 6 spot illustrations (morning, anxiety, gratitude, sleep,
-    family, strength) in one style. **[ASSET A11.x]**
-49. **Journal empty state**: sprouting-seedling-in-light spot art. **[ASSET A12] [DONE — slot]**
-50. **Reading-plan covers**: 5 painterly covers replacing bare gradients. **[ASSET A13.x] [DONE — slot layer]**
-51. **Bible tab header art**: subtle open-book-with-light etching behind the title. **[ASSET A14]**
-52. **Building screen**: replace sparkles icon with a slow-burning candle spot art. **[ASSET A15] [DONE — slot]**
+81. **Kutsal Kitap aramasını ana JS thread’den çıkar.** Altı tam metinde her tuşta senkron tarama
+    düşük cihazlarda takılır; önceden hazırlanmış indeks veya worker/native arama kullanılmalı.
+82. **Dil değişiminde büyük JSON yüklerini ölç.** Altı çevirinin aynı bundle’da tutulmasının
+    açılış süresi ve bellek etkisi profillenip yalnız aktif dilin lazy-load edilmesi sağlanmalı.
+83. **55,8 MB JS bundle için ağırlık bütçesi koy.** Her release’te bundle ve asset boyutu
+    raporlanmalı; eşik aşımı CI’ı durdurmalı.
+84. **Görsel çözünürlüklerini kullanım alanına göre üret.** 150 px kartta gereksiz büyük bitmap
+    decode edilmemeli; 1×/2× Android yoğunluk varyantları hazırlanmalı.
+85. **VerseCard iç içe scroll davranışını kaldır veya açıklaştır.** Kartın içinde fark edilmeyen
+    dikey kaydırma, ana sayfa scroll’u ile çakışıyor; metin boyuna göre kartı büyütmek tercih edilmeli.
+86. **Landscape ve split-screen için kritik ekranları yeniden akıt.** Player, paywall ve onboarding
+    sabit dikey kompozisyonları kısa yükseklikte kırpılmamalı.
+87. **Klavye/IME test matrisi oluştur.** Quiz name ve Journal input; küçük ekran, landscape ve
+    büyük yazıda CTA’yı klavye arkasında bırakmamalı.
+88. **Foldable hinge alanını hesaba kat.** Expanded layout, katlama çizgisinin üzerine kart veya
+    birincil düğme yerleştirmemeli.
+89. **Bozuk local storage için kurtarma durumları ekle.** Persist edilmiş reader/plan/journal
+    verisi parse edilemezse uygulama çökmek yerine ilgili parçayı güvenle sıfırlamalı.
+90. **Tüm boş/yükleniyor/hata durumlarını ekran matrisiyle belgeleyip test et.** Search, Library,
+    Plan, Paywall, bildirim ve satın alma için her durumun tasarlanmış karşılığı bulunmalı.
 
-## F. Motion & micro-interaction (53–65)
+## P3 — Görsel sistem, marka ve son cila (91–100)
 
-53. All entrances: `scale 0.97 + opacity` springs — never from scale(0), never plain fades
-    for cards. **[DONE — FadeInDown springs used]**
-54. Button press: scale 0.97 at 120ms ease-out (PillButton has 0.98 — tighten to 0.97, 120ms). **[DONE]**
-55. Exits must be **faster than entrances** (150ms vs 300ms).
-56. **Stagger** ritual cards 60ms apart on Today mount. **[DONE]**
-57. Completion moment: ring segment fills with a 300ms sweep + haptic success + one-time
-    600ms gold shimmer across the card. Rare = allowed to delight.
-58. Streak flame: breathing only when lit (implemented); on tick-up, a single 400ms
-    scale-pop 1→1.2→1 with glow bloom.
-59. Verse card: slow 8s Ken-Burns drift on the background art (disable under Reduce Motion).
-60. Quiz step change: outgoing slides -12px/150ms, incoming +12px/250ms — directional
-    continuity, not crossfade.
-61. Paywall plan select: selection ring animates via layout spring, price does a 2px rise.
-62. Player line change: current implementation fades; add 4px upward drift and blur(2px)→0
-    on entry — the "breath" feel.
-63. Tab switches: no animation (frequency rule — used hundreds of times).
-64. "Amen" on devotional: button morphs to a checkmark for 600ms before navigating back.
-65. Never animate width/height/padding — transform+opacity only (audit passed).
+91. **Ham renkleri semantic tokenlara taşı.** `#F2EEE6`, `#D9A441`, scrim ve player renkleri
+    ekranlarda tekrarlanmamalı; `onArtwork`, `scrimStrong`, `sacredGold` rolleri kullanılmalı.
+92. **Dawn temasının grain yoğunluğunu ayrı ayarla.** Vigil’de çalışan %4 doku açık temada kirli
+    görünmemeli; tema bazlı %1–2 kağıt dokusu kullanılmalı.
+93. **Gölgeleri Android tonal elevation ile dengele.** Yüksek `elevation: 8` her kartta aynı
+    kullanılmamalı; hero, standard ve floating yüzey rolleri tanımlanmalı.
+94. **İkon ailesinin stroke ağırlığını normalize et.** Ionicons outline/filled karışımı ekran
+    içinde rastgele olmamalı; seçili durum dışında aynı aile ve ağırlık korunmalı.
+95. **Kart görsellerinin scrim reçetesini standartlaştır.** Ritual, plan, Tonight ve Bible hero
+    için metin konumuna göre üç kontrollü scrim preset’i kullanılmalı.
+96. **Aktif tab göstergesini daha belirgin ama sakin yap.** Yalnız renk değişimine ek olarak kısa
+    alt çizgi/nokta ve erişilebilir selected state kullanılmalı.
+97. **Pressed/focus/disabled görsel durumlarını tokenlaştır.** Her Pressable kendi `0.6/0.7/0.85`
+    opacity değerini seçmemeli; platforma uygun ortak etkileşim durumları kullanılmalı.
+98. **Ekran geçişi motion dilini üç kalıba indir.** Shared-axis ileri/geri, fade-through sekme
+    içeriği ve container transform modal; diğer özel animasyonlar kaldırılmalı.
+99. **Paylaşım kartına marka güvenliği ekle.** Render edilen ayet görselinde metin kaynak/sürüm
+    kredisi okunur olmalı; hiçbir zaman ayet metni kırpılmamalı veya yeniden akışta bozulmamalı.
+100. **Gerçek cihaz görsel kabul testi kur.** 360×640, 390×844, büyük Android, tablet,
+    landscape; Vigil/Dawn ve %100/%200 font ölçeğinde ana ekranların ekran görüntüsü karşılaştırılmalı.
 
-## G. Component polish (66–78)
+## Sabit sınırlar
 
-66. PillButton primary needs a **gradient fill** (`#E2B04A→#C99534`) + 1px inner top highlight —
-    flat gold reads cheap. **[DONE]**
-67. PillButton disabled: 40% opacity is right, but also drop the shadow — disabled things
-    don't float. **[DONE]**
-68. RitualCard done-state: fill icon container with goldSoft + swap chevron for gold check
-    (done) — add a subtle strikethrough-free "completed" caption instead of border-only. **[DONE]**
-69. Icon buttons need pressed feedback (opacity 0.6) — share/close currently give none. **[DONE]**
-70. ProgressRing: dots are fine at 4 steps; add rounded stroke SVG ring at phase 2; keep
-    number tabular. **[DONE — tabular]**
-71. Chips: active chip gets goldSoft fill + gold text **+ 1px gold border**; inactive gets
-    transparent fill + border only — current surface fill is too heavy. **[DONE]**
-72. Inputs: focus state = gold border + goldSoft ring (RN: border + shadow). Currently no
-    focus affordance. **[DONE]**
-73. Dividers: replace full-bleed hairlines in Profile rows with inset (start at text edge). **[DONE]**
-74. Locked content: dim art 40% + centered lock chip "PLUS" — lock icon alone is ambiguous. **[DONE — pray rows]**
-75. Toast/feedback layer: add a minimal gold-bordered toast for "Saved", "Streak +1" (phase 2).
-76. Skeletons: verse card shimmer placeholder for future API content (phase 2).
-77. Share sheet: share a **rendered verse image**, not text (react-native-view-shot, phase 2) —
-    organic growth engine.
-78. Haptics map: light=navigation, medium=selection, success=completion — audit and enforce
-    (selection currently uses light). **[DONE]**
-
-## H. Screen-specific (79–92)
-
-79. **Welcome**: logo mark + hero art + benefit line; move "No account needed" under CTA into
-    a trust row with lock glyph. **[DONE]**
-80. **Quiz**: show step counter "2 of 6" right-aligned with progress bar. **[DONE]**
-81. **Quiz**: name step — add "we use this only to greet you" microcopy (privacy trust). **[DONE]**
-82. **Building**: add the four checklist lines appearing with checkmarks as they "complete"
-    instead of replacing a single line. **[DONE]**
-83. **Reveal**: personalize visibly — echo chosen goal + tradition in card copy ("For your
-    anxious season…"). **[DONE — goal echoed]**
-84. **Paywall**: add social proof row (laurel + "4.9 ★ · 12k prayers daily") under hero. **[DONE]**
-85. **Paywall**: per-plan sub-copy: annual shows "$4.99/mo billed yearly" equivalent price. **[DONE]**
-86. **Today**: date line ("Tuesday, July 21") in overline style above greeting. **[DONE]**
-87. **Today**: "Tonight" section should visually shift to night — indigo card with moon art,
-    not a standard ritual card. **[DONE]**
-88. **Bible**: chapter chips scroll horizontally in one row (wrap currently pushes content). **[DONE]**
-89. **Bible**: reader typography — 19pt serif, 34 leading, verse numbers superscript gold. **[DONE]**
-90. **Pray**: category chips → 2×3 illustrated tile grid (see #48); rows keep play affordance. **[slots ready]**
-91. **Journal**: prompt-of-the-day chip above input ("What made you smile today?"). **[DONE]**
-92. **Profile**: stats need context — add "day streak / best / total days" captions with icons
-    forming one card, not three floating tiles. **[DONE — unified card]**
-
-## I. Conversion & retention design (93–100)
-
-93. Paywall hero must show **content, not adjectives**: mini mockup strip of sleep/prayer
-    covers inside the hero art. **[ASSET A8 includes]**
-94. Trial reassurance row: "🔔 We'll remind you 2 days before trial ends" — the #1 objection
-    killer (Blinkist pattern). **[DONE — bell glyph]**
-95. Annual plan card shows **equivalent monthly price** big, yearly total small. **[DONE]**
-96. Keep weekly visible but visually quiet — its job is anchoring, not selling. **[DONE]**
-97. Post-purchase thanks screen doubles as **first-action push**: single CTA into tonight's
-    sleep prayer (immediate value redemption). **[DONE — CTA copy]**
-98. Streak-save notification copy references the actual streak number (phase 2: dynamic).
-99. Widget (phase 2) is the retention moat — verse + streak on lock screen; design tokens
-    already support it.
-100. Every locked touchpoint routes to the paywall with **context** (`from=` param) so copy
-     can adapt ("Unlock sleep prayers") — plumbing added via router params. **[DONE — from param]**
+- Kutsal Kitap metinleri çevrilmez, sadeleştirilmez, özetlenmez veya yeniden yazılmaz.
+- Altı kaynak metin yalnız doğrulanmış dosyalardan ve lisans koşulları korunarak kullanılır.
+- Tamamlanmış önceki maddeler bu listeye başarı gibi yeniden eklenmez.
+- Uygulama değiştikçe bir madde ancak kod, cihaz testi veya yayın kanıtıyla kapatılır.
