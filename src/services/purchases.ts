@@ -1,74 +1,167 @@
 /**
- * RevenueCat wrapper. The rest of the app only talks to this module and the
- * entitlement store — never to the SDK directly. In Expo Go (no native module)
- * it degrades to a mock so the full funnel is testable in development.
+ * RevenueCat boundary. Production never invents prices, trials, or entitlement.
+ * Expo Go keeps an explicit development-only mock so the funnel remains testable.
  */
 import { Linking, Platform } from 'react-native';
+import type { PurchasesPackage } from 'react-native-purchases';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
+import {
+  classifyPurchaseError,
+  planIdForPackage,
+  type PlanId,
+} from './purchases.logic';
 
-export type PlanId = 'weekly' | 'annual' | 'lifetime';
+export type { PlanId } from './purchases.logic';
 
-export interface Plan {
+export interface PurchasePlan {
   id: PlanId;
-  title: string;
   price: string;
-  period: string;
-  badge?: string;
-  trialDays?: number;
+  monthlyPrice: string | null;
+  trialEligible: boolean;
+  trialDays: number | null;
 }
 
-/** Displayed plans; live prices are overridden by RevenueCat offerings when available. */
-export const FALLBACK_PLANS: Plan[] = [
-  { id: 'annual', title: 'Yearly', price: '$59.99', period: '/year', badge: 'SAVE 88%', trialDays: 7 },
-  { id: 'weekly', title: 'Weekly', price: '$9.99', period: '/week' },
-  { id: 'lifetime', title: 'Lifetime', price: '$129.99', period: 'once' },
+export interface PurchaseCatalog {
+  status: 'ready' | 'unavailable';
+  plans: PurchasePlan[];
+  mock: boolean;
+}
+
+export type PurchaseResult =
+  | { status: 'purchased' }
+  | { status: 'cancelled' }
+  | { status: 'pending' }
+  | { status: 'unavailable' }
+  | { status: 'failed' };
+
+const DEV_PLANS: PurchasePlan[] = [
+  { id: 'annual', price: '$59.99', monthlyPrice: '$4.99', trialEligible: true, trialDays: 7 },
+  { id: 'weekly', price: '$9.99', monthlyPrice: null, trialEligible: false, trialDays: null },
+  { id: 'lifetime', price: '$129.99', monthlyPrice: null, trialEligible: false, trialDays: null },
 ];
 
-const API_KEYS = {
-  ios: 'appl_REPLACE_ME',
-  android: 'goog_REPLACE_ME',
-};
+const apiKey =
+  Platform.OS === 'ios'
+    ? process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY
+    : process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY;
 
 let rc: typeof import('react-native-purchases').default | null = null;
+let initPromise: Promise<void> | null = null;
+const packages = new Map<PlanId, PurchasesPackage>();
 
-export async function initPurchases(): Promise<void> {
+function trialDaysFor(pkg: PurchasesPackage): number | null {
+  const intro = pkg.product.introPrice;
+  if (intro?.price === 0) {
+    const multiplier = intro.periodUnit === 'DAY' ? 1 : intro.periodUnit === 'WEEK' ? 7 : null;
+    return multiplier ? intro.periodNumberOfUnits * intro.cycles * multiplier : null;
+  }
+
+  const freePhase = pkg.product.defaultOption?.freePhase;
+  if (!freePhase) return null;
+  const multiplier =
+    freePhase.billingPeriod.unit === 'DAY'
+      ? 1
+      : freePhase.billingPeriod.unit === 'WEEK'
+        ? 7
+        : null;
+  return multiplier
+    ? freePhase.billingPeriod.value * (freePhase.billingCycleCount ?? 1) * multiplier
+    : null;
+}
+
+export function initPurchases(): Promise<void> {
+  if (initPromise) return initPromise;
+  initPromise = (async () => {
+    if (!apiKey || Platform.OS === 'web') return;
+    try {
+      const Purchases = (await import('react-native-purchases')).default;
+      Purchases.configure({ apiKey });
+      rc = Purchases;
+      const info = await Purchases.getCustomerInfo();
+      useEntitlementStore.getState().setPlus(Boolean(info.entitlements.active.plus));
+    } catch {
+      rc = null;
+    }
+  })();
+  return initPromise;
+}
+
+export async function loadPlans(): Promise<PurchaseCatalog> {
+  await initPurchases();
+  if (!rc) {
+    return __DEV__
+      ? { status: 'ready', plans: DEV_PLANS, mock: true }
+      : { status: 'unavailable', plans: [], mock: false };
+  }
+
   try {
-    const Purchases = (await import('react-native-purchases')).default;
-    const key = Platform.OS === 'ios' ? API_KEYS.ios : API_KEYS.android;
-    if (key.includes('REPLACE_ME')) return; // dev mode — mock only
-    Purchases.configure({ apiKey: key });
-    rc = Purchases;
-    const info = await Purchases.getCustomerInfo();
-    useEntitlementStore
-      .getState()
-      .setPlus(Boolean(info.entitlements.active['plus']));
+    const offering = (await rc.getOfferings()).current;
+    if (!offering) return { status: 'unavailable', plans: [], mock: false };
+
+    packages.clear();
+    const recognized = offering.availablePackages.flatMap((pkg) => {
+      const id = planIdForPackage(pkg.packageType, pkg.identifier);
+      if (!id) return [];
+      packages.set(id, pkg);
+      return [{ id, pkg }];
+    });
+    if (recognized.length === 0) {
+      return { status: 'unavailable', plans: [], mock: false };
+    }
+
+    const eligibility: Record<string, { status: number }> = await rc
+      .checkTrialOrIntroductoryPriceEligibility(
+        recognized.map(({ pkg }) => pkg.product.identifier),
+      )
+      .catch(() => ({}));
+
+    return {
+      status: 'ready',
+      mock: false,
+      plans: recognized.map(({ id, pkg }) => {
+        const trialEligible =
+          eligibility[pkg.product.identifier]?.status ===
+          rc!.INTRO_ELIGIBILITY_STATUS.INTRO_ELIGIBILITY_STATUS_ELIGIBLE;
+        return {
+          id,
+          price: pkg.product.priceString,
+          monthlyPrice: pkg.product.pricePerMonthString,
+          trialEligible,
+          trialDays: trialEligible ? trialDaysFor(pkg) : null,
+        };
+      }),
+    };
   } catch {
-    // Expo Go / web: native module unavailable → stay in mock mode.
-    rc = null;
+    return { status: 'unavailable', plans: [], mock: false };
   }
 }
 
-export async function purchase(planId: PlanId): Promise<boolean> {
+export async function purchase(planId: PlanId): Promise<PurchaseResult> {
+  await initPurchases();
   if (!rc) {
-    // Dev mock: grant entitlement locally so the funnel is testable.
+    if (!__DEV__) return { status: 'unavailable' };
     useEntitlementStore.getState().setPlus(true);
-    return true;
+    return { status: 'purchased' };
   }
-  const offerings = await rc.getOfferings();
-  const pkg = offerings.current?.availablePackages.find((p) =>
-    p.identifier.toLowerCase().includes(planId),
-  );
-  if (!pkg) return false;
-  const { customerInfo } = await rc.purchasePackage(pkg);
-  const active = Boolean(customerInfo.entitlements.active['plus']);
-  useEntitlementStore.getState().setPlus(active);
-  return active;
+
+  try {
+    if (!packages.has(planId)) await loadPlans();
+    const pkg = packages.get(planId);
+    if (!pkg) return { status: 'unavailable' };
+    const { customerInfo } = await rc.purchasePackage(pkg);
+    const active = Boolean(customerInfo.entitlements.active.plus);
+    useEntitlementStore.getState().setPlus(active);
+    return active ? { status: 'purchased' } : { status: 'failed' };
+  } catch (error) {
+    return { status: classifyPurchaseError(error) };
+  }
 }
 
 export async function restore(): Promise<boolean> {
-  if (!rc) return useEntitlementStore.getState().isPlus;
+  await initPurchases();
+  if (!rc) return __DEV__ && useEntitlementStore.getState().isPlus;
   const info = await rc.restorePurchases();
-  const active = Boolean(info.entitlements.active['plus']);
+  const active = Boolean(info.entitlements.active.plus);
   useEntitlementStore.getState().setPlus(active);
   return active;
 }

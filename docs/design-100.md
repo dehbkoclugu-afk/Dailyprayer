@@ -1,4 +1,4 @@
-# Lumen — Güncel 100 Açık Tasarım Önerisi
+# Lumen — Güncel 100 Tasarım Önerisi
 
 Bu liste, `f7a010d4` birleşiminden sonraki uygulama kaynakları incelenerek yeniden
 hazırlandı. Önceki listede tamamlanan işler tekrar sayılmadı. Maddeler etki sırasındadır:
@@ -7,17 +7,17 @@ deneyimi, performans ve görsel cila gelir.
 
 ## P0 — Yayın, güven ve geri dönüşü zor riskler (1–20)
 
-1. **Release derlemesinde sahte Plus yetkisini kesin olarak kapat.** `src/services/purchases.ts`
+1. ✅ **TAMAMLANDI — Release derlemesinde sahte Plus yetkisini kesin olarak kapat.** `src/services/purchases.ts`
    içinde RevenueCat yokken satın alma başarılı sayılıyor; production sürümünde eksik anahtar
    ayrı, açıklayıcı ve satın almayı engelleyen bir durum göstermeli.
-2. **Paywall fiyatlarını yalnızca mağaza ürünlerinden göster.** `$59.99` gibi fallback fiyatlar
+2. ✅ **TAMAMLANDI — Paywall fiyatlarını yalnızca mağaza ürünlerinden göster.** `$59.99` gibi fallback fiyatlar
    yayın derlemesinde kullanıcıya sunulmamalı; para birimi, vergi ve dönem Google Play/App Store
    tarafından yerelleştirilmiş değerlerden gelmeli.
-3. **Deneme süresini gerçek ürün uygunluğuna bağla.** Kullanıcı denemeye uygun değilse “7 gün
+3. ✅ **TAMAMLANDI — Deneme süresini gerçek ürün uygunluğuna bağla.** Kullanıcı denemeye uygun değilse “7 gün
    ücretsiz” başlığı ve deneme bitiş tarihi hiç görünmemeli.
-4. **Satın alma iptalini hatadan ayır.** Kullanıcının mağaza penceresini kapatması hata alarmı
+4. ✅ **TAMAMLANDI — Satın alma iptalini hatadan ayır.** Kullanıcının mağaza penceresini kapatması hata alarmı
    üretmemeli; hata, iptal ve bekleyen ödeme için üç ayrı durum tasarlanmalı.
-5. **Bekleyen satın alma durumunu kalıcı göster.** Google Play onay/bekleme sürecinde CTA yeniden
+5. ✅ **TAMAMLANDI — Bekleyen satın alma durumunu kalıcı göster.** Google Play onay/bekleme sürecinde CTA yeniden
    satın alma başlatmamalı; durum kartı ve “daha sonra kontrol et” eylemi sunulmalı.
 6. **Plus durumuna “aboneliği yönet” eylemi ekle.** Aktif üyeler Profile ekranından doğrudan
    mağazanın abonelik yönetimine gidebilmeli.

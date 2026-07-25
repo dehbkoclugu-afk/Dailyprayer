@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,7 +9,14 @@ import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
-import { FALLBACK_PLANS, purchase, restore, type PlanId } from '@/services/purchases';
+import {
+  loadPlans,
+  purchase,
+  restore,
+  type PlanId,
+  type PurchaseCatalog,
+  type PurchasePlan,
+} from '@/services/purchases';
 import { useT } from '@/i18n';
 
 
@@ -17,11 +24,6 @@ export default function Paywall() {
   const t = useTheme();
   const { t: tr, locale } = useT();
   const BENEFITS = [tr('paywall.b1'), tr('paywall.b2'), tr('paywall.b3'), tr('paywall.b4')];
-  const SUBCOPY: Record<PlanId, string> = {
-    annual: tr('paywall.yearlySub'),
-    weekly: tr('paywall.weeklySub'),
-    lifetime: tr('paywall.lifetimeSub'),
-  };
   const PLAN_TITLE: Record<PlanId, string> = {
     annual: tr('paywall.yearly'),
     weekly: tr('paywall.weekly'),
@@ -33,22 +35,52 @@ export default function Paywall() {
     lifetime: tr('paywall.once'),
   };
   const [selected, setSelected] = useState<PlanId>('annual');
+  const [catalog, setCatalog] = useState<PurchaseCatalog | null>(null);
   const [busy, setBusy] = useState(false);
   const [thanks, setThanks] = useState(false);
+  const [pending, setPending] = useState(false);
   const [restoreStatus, setRestoreStatus] = useState<'idle' | 'busy' | 'found' | 'missing'>('idle');
-  const trialEnd = new Date();
-  trialEnd.setDate(trialEnd.getDate() + 7);
-  const trialEndLabel = new Intl.DateTimeFormat(locale, {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  }).format(trialEnd);
+  const refreshCatalog = () => {
+    setCatalog(null);
+    loadPlans().then((next) => {
+      setCatalog(next);
+      if (next.status === 'ready') {
+        setSelected((current) =>
+          next.plans.some((p) => p.id === current) ? current : next.plans[0].id,
+        );
+      }
+    });
+  };
+
+  useEffect(refreshCatalog, []);
+
+  const plans = catalog?.status === 'ready' ? catalog.plans : [];
+  const selectedPlan = plans.find((p) => p.id === selected);
+  const subcopy = (plan: PurchasePlan) => {
+    if (plan.id === 'annual' && plan.monthlyPrice) {
+      const trialCopy = plan.trialEligible
+        ? plan.trialDays === 7
+          ? tr('paywall.trialCta')
+          : tr('paywall.trialCtaGeneric')
+        : null;
+      return `${plan.monthlyPrice}${tr('paywall.perMonth')}${trialCopy ? ` · ${trialCopy}` : ''}`;
+    }
+    return plan.id === 'weekly' ? tr('paywall.weeklySub') : tr('paywall.lifetimeSub');
+  };
 
   const buy = async () => {
+    if (!selectedPlan || busy) return;
     setBusy(true);
+    setPending(false);
     try {
-      const ok = await purchase(selected);
-      if (ok) setThanks(true);
+      const result = await purchase(selectedPlan.id);
+      if (result.status === 'purchased') setThanks(true);
+      else if (result.status === 'pending') setPending(true);
+      else if (result.status === 'failed') {
+        Alert.alert(tr('paywall.purchaseFailTitle'), tr('paywall.purchaseFailBody'));
+      } else if (result.status === 'unavailable') {
+        setCatalog({ status: 'unavailable', plans: [], mock: false });
+      }
     } catch {
       Alert.alert(tr('paywall.purchaseFailTitle'), tr('paywall.purchaseFailBody'));
     } finally {
@@ -99,6 +131,32 @@ export default function Paywall() {
     );
   }
 
+  if (!catalog) {
+    return (
+      <Screen scroll={false} style={{ alignItems: 'center', justifyContent: 'center', gap: spacing.md }}>
+        <ActivityIndicator color={t.gold} />
+        <Text accessibilityRole="alert" style={[ty.secondary, { color: t.inkSoft, textAlign: 'center' }]}>
+          {tr('paywall.processing')}
+        </Text>
+      </Screen>
+    );
+  }
+
+  if (catalog.status === 'unavailable') {
+    return (
+      <Screen scroll={false} style={{ justifyContent: 'center' }}>
+        <Text style={[ty.title, { color: t.ink, textAlign: 'center' }]}>
+          {tr('paywall.purchaseFailTitle')}
+        </Text>
+        <Text style={[ty.body, { color: t.inkSoft, textAlign: 'center', marginTop: spacing.md }]}>
+          {tr('paywall.purchaseFailBody')}
+        </Text>
+        <PillButton label={tr('paywall.retry')} onPress={refreshCatalog} style={{ marginTop: spacing.xl }} />
+        <PillButton label={tr('a11y.close')} onPress={close} variant="ghost" style={{ marginTop: spacing.sm }} />
+      </Screen>
+    );
+  }
+
   return (
     <Screen>
       <Pressable
@@ -142,7 +200,7 @@ export default function Paywall() {
       </View>
 
       <View style={{ gap: spacing.md }}>
-        {FALLBACK_PLANS.map((p) => {
+        {plans.map((p) => {
           const active = selected === p.id;
           const quiet = p.id === 'weekly'; // anchor, not the sell
           return (
@@ -174,23 +232,9 @@ export default function Paywall() {
                   <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 17, color: t.ink }}>
 {PLAN_TITLE[p.id]}
                   </Text>
-                  {p.badge ? (
-                    <View
-                      style={{
-                        backgroundColor: t.gold,
-                        borderRadius: radius.pill,
-                        paddingHorizontal: spacing.sm,
-                        paddingVertical: 2,
-                      }}
-                    >
-                      <Text style={{ fontFamily: fonts.sansBold, fontSize: 11, color: t.onGold }}>
-{tr('paywall.save')}
-                      </Text>
-                    </View>
-                  ) : null}
                 </View>
                 <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
-                  {SUBCOPY[p.id]}
+                  {subcopy(p)}
                 </Text>
               </View>
               <Text
@@ -215,12 +259,14 @@ export default function Paywall() {
         label={
           busy
             ? tr('paywall.processing')
-            : selected === 'annual'
-              ? tr('paywall.trialCta')
+            : selectedPlan?.trialEligible
+              ? selectedPlan.trialDays === 7
+                ? tr('paywall.trialCta')
+                : tr('paywall.trialCtaGeneric')
               : tr('paywall.continue')
         }
         onPress={buy}
-        disabled={busy}
+        disabled={busy || !selectedPlan}
         style={{ marginTop: spacing.xl }}
       />
       {busy ? (
@@ -236,11 +282,35 @@ export default function Paywall() {
         </View>
       ) : null}
 
-      {/* Trial reassurance — the #1 objection killer */}
-      {selected === 'annual' ? (
+      {pending ? (
+        <View
+          accessibilityRole="alert"
+          style={{
+            marginTop: spacing.md,
+            padding: spacing.lg,
+            borderRadius: radius.inner,
+            backgroundColor: t.goldSoft,
+          }}
+        >
+          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: t.ink, textAlign: 'center' }}>
+            {tr('paywall.pendingTitle')}
+          </Text>
+          <Text style={{ fontFamily: fonts.sans, fontSize: 13, lineHeight: 19, color: t.inkSoft, textAlign: 'center', marginTop: spacing.xs }}>
+            {tr('paywall.pendingBody')}
+          </Text>
+        </View>
+      ) : null}
+
+      {selectedPlan?.trialEligible && selectedPlan.trialDays ? (
         <View style={{ marginTop: spacing.md, gap: spacing.xs }}>
           <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, lineHeight: 19, color: t.ink, textAlign: 'center' }}>
-            {tr('paywall.trialEnds')} {trialEndLabel}. {tr('paywall.thenAnnual')}
+            {tr('paywall.trialEnds')}{' '}
+            {new Intl.DateTimeFormat(locale, {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            }).format(new Date(Date.now() + selectedPlan.trialDays * 86_400_000))}
+            . {selectedPlan.price} {PLAN_PERIOD[selectedPlan.id]}.
           </Text>
           <Text style={{ fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, color: t.inkSoft, textAlign: 'center' }}>
             {tr('paywall.reassure')}
