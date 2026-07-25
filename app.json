@@ -3,14 +3,14 @@
     "name": "Lumen: Daily Prayer & Bible",
     "slug": "lumen-daily-prayer",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "scheme": "lumen",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "icon": "./assets/icon.png",
     "ios": {
       "bundleIdentifier": "com.lumen.dailyprayer",
-      "supportsTablet": false,
+      "supportsTablet": true,
       "icon": "./assets/icon.png",
       "infoPlist": {
         "UIBackgroundModes": ["audio"]

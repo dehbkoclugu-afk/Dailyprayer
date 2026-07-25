@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, Pressable, Text, TextInput, View } from 'react-native';
+import {
+  Alert,
+  FlatList,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { Screen } from '@/components/Screen';
@@ -52,7 +61,7 @@ export default function Journal() {
       style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-    <Screen tabbed>
+    <Screen tabbed scroll={false}>
       <Text style={[ty.title, { color: t.ink }]}>{tr('journal.title')}</Text>
       <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>
 {tr('journal.sub')}
@@ -138,79 +147,104 @@ tr(kind === 'gratitude' ? 'journal.placeholderGratitude' : 'journal.placeholderR
       <PillButton label={tr('journal.save')} onPress={submit} disabled={!text.trim()} style={{ marginTop: spacing.md }} />
 
       <SectionHeader title={tr('journal.entries')} />
-      {entries.length === 0 ? (
-        <View
-          style={{
-            backgroundColor: t.surface,
-            borderRadius: radius.card,
-            borderWidth: 1,
-            borderColor: t.border,
-            padding: spacing.xl,
-            alignItems: 'center',
-          }}
-        >
-          <ArtSlot
-            id="A12-journal-empty"
-            height={120}
-            fit="contain"
-            style={{ width: 120, marginBottom: spacing.md }}
-          />
-          <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: t.inkSoft, textAlign: 'center' }}>
-{tr('journal.empty')}
-          </Text>
-        </View>
-      ) : (
-        <View style={{ gap: spacing.md }}>
-          {entries.map((e) => (
-            <View
-              key={e.id}
+      <FlatList
+        data={entries}
+        keyExtractor={(entry) => entry.id}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ gap: spacing.md, flexGrow: 1, paddingBottom: spacing.xl }}
+        ListEmptyComponent={
+          <View
+            style={{
+              backgroundColor: t.surface,
+              borderRadius: radius.card,
+              borderWidth: 1,
+              borderColor: t.border,
+              padding: spacing.xl,
+              alignItems: 'center',
+            }}
+          >
+            <ArtSlot
+              id="A12-journal-empty"
+              height={120}
+              fit="contain"
+              style={{ width: 120, marginBottom: spacing.md }}
+            />
+            <Text
               style={{
-                backgroundColor: t.surface,
-                borderRadius: radius.inner,
-                borderWidth: 1,
-                borderColor: e.answered ? t.gold : t.border,
-                padding: spacing.lg,
+                fontFamily: fonts.sans,
+                fontSize: 14,
+                color: t.inkSoft,
+                textAlign: 'center',
               }}
             >
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Text style={{ fontFamily: fonts.sansMedium, fontSize: 12, color: t.inkFaint }}>
-                  {e.day} · {tr(e.kind === 'gratitude' ? 'journal.gratitude' : 'journal.request')}
-                  {e.answered ? ` · ${tr('journal.answered')}` : ''}
-                </Text>
-                <View style={{ flexDirection: 'row', gap: spacing.sm }}>
-                  {e.kind === 'prayer-request' ? (
-                    <Pressable
-                      onPress={() => toggleAnswered(e.id)}
-                      accessibilityRole="button"
-                      accessibilityLabel={
-                        e.answered ? tr('journal.markUnanswered') : tr('journal.markAnswered')
-                      }
-                      style={{ width: 48, height: 48, alignItems: 'center', justifyContent: 'center' }}
-                    >
-                      <Ionicons
-                        name={e.answered ? 'checkmark-circle' : 'checkmark-circle-outline'}
-                        size={20}
-                        color={e.answered ? t.gold : t.inkFaint}
-                      />
-                    </Pressable>
-                  ) : null}
+              {tr('journal.empty')}
+            </Text>
+          </View>
+        }
+        renderItem={({ item: entry }) => (
+          <View
+            style={{
+              backgroundColor: t.surface,
+              borderRadius: radius.inner,
+              borderWidth: 1,
+              borderColor: entry.answered ? t.success : t.border,
+              padding: spacing.lg,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Text style={{ flex: 1, fontFamily: fonts.sansMedium, fontSize: 13, color: t.inkSoft }}>
+                {entry.day} · {tr(entry.kind === 'gratitude' ? 'journal.gratitude' : 'journal.request')}
+                {entry.answered ? ` · ${tr('journal.answered')}` : ''}
+              </Text>
+              <View style={{ flexDirection: 'row' }}>
+                {entry.kind === 'prayer-request' ? (
                   <Pressable
-                    onPress={() => confirmRemove(e.id)}
+                    onPress={() => toggleAnswered(entry.id)}
                     accessibilityRole="button"
-                    accessibilityLabel={tr('journal.deleteEntry')}
+                    accessibilityState={{ selected: Boolean(entry.answered) }}
+                    accessibilityLabel={
+                      entry.answered ? tr('journal.markUnanswered') : tr('journal.markAnswered')
+                    }
                     style={{ width: 48, height: 48, alignItems: 'center', justifyContent: 'center' }}
                   >
-                    <Ionicons name="trash-outline" size={18} color={t.inkFaint} />
+                    <Ionicons
+                      name={entry.answered ? 'checkmark-circle' : 'checkmark-circle-outline'}
+                      size={22}
+                      color={entry.answered ? t.success : t.inkFaint}
+                    />
                   </Pressable>
-                </View>
+                ) : null}
+                <Pressable
+                  onPress={() => confirmRemove(entry.id)}
+                  accessibilityRole="button"
+                  accessibilityLabel={tr('journal.deleteEntry')}
+                  style={{ width: 48, height: 48, alignItems: 'center', justifyContent: 'center' }}
+                >
+                  <Ionicons name="trash-outline" size={20} color={t.inkFaint} />
+                </Pressable>
               </View>
-              <Text style={{ fontFamily: fonts.sans, fontSize: 15, lineHeight: 22, color: t.ink, marginTop: spacing.sm }}>
-                {e.text}
-              </Text>
             </View>
-          ))}
-        </View>
-      )}
+            <Text
+              style={{
+                fontFamily: fonts.sans,
+                fontSize: 15,
+                lineHeight: 22,
+                color: t.ink,
+                marginTop: spacing.sm,
+              }}
+            >
+              {entry.text}
+            </Text>
+          </View>
+        )}
+      />
     </Screen>
     </KeyboardAvoidingView>
   );

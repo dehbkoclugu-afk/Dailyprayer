@@ -1,4 +1,5 @@
 import React from 'react';
+import { useWindowDimensions } from 'react-native';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/hooks/useTheme';
@@ -8,6 +9,8 @@ import { fonts } from '@/theme/typography';
 export default function TabsLayout() {
   const t = useTheme();
   const { t: tr } = useT();
+  const { width } = useWindowDimensions();
+  const expanded = width >= 840;
   return (
     <Tabs
       screenOptions={{
@@ -17,6 +20,10 @@ export default function TabsLayout() {
           borderTopColor: t.border,
           height: 84,
           paddingTop: 8,
+          width: expanded ? 600 : undefined,
+          alignSelf: 'center',
+          borderTopLeftRadius: expanded ? 24 : 0,
+          borderTopRightRadius: expanded ? 24 : 0,
         },
         tabBarActiveTintColor: t.gold,
         tabBarInactiveTintColor: t.inkFaint,
