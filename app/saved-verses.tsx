@@ -1,7 +1,8 @@
 import React from 'react';
-import { Pressable, Share, Text, View } from 'react-native';
+import { FlatList, Pressable, Share, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import * as Clipboard from 'expo-clipboard';
 import { Screen } from '@/components/Screen';
 import { sampleChapters } from '@/data/bible';
 import { useBibleStore } from '@/state/useBibleStore';
@@ -9,6 +10,8 @@ import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
+import { toast } from '@/state/useToastStore';
+import { translate } from '@/i18n';
 
 export default function SavedVerses() {
   const t = useTheme();
@@ -27,7 +30,7 @@ export default function SavedVerses() {
   });
 
   return (
-    <Screen>
+    <Screen scroll={false}>
       <Pressable
         onPress={() => router.back()}
         accessibilityRole="button"
@@ -37,15 +40,18 @@ export default function SavedVerses() {
         <Ionicons name="chevron-back" size={24} color={t.ink} />
       </Pressable>
       <Text style={[ty.title, { color: t.ink }]}>{tr('bible.savedVerses')}</Text>
-      {verses.length === 0 ? (
-        <Text style={[ty.body, { color: t.inkSoft, marginTop: spacing.lg }]}>
-          {tr('bible.savedEmpty')}
-        </Text>
-      ) : (
-        <View style={{ gap: spacing.md, marginTop: spacing.xl }}>
-          {verses.map((verse) => (
+      <FlatList
+        data={verses}
+        keyExtractor={(verse) => verse.key}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ gap: spacing.md, paddingTop: spacing.xl, paddingBottom: spacing.xl, flexGrow: 1 }}
+        ListEmptyComponent={
+          <Text style={[ty.body, { color: t.inkSoft }]}>
+            {tr('bible.savedEmpty')}
+          </Text>
+        }
+        renderItem={({ item: verse }) => (
             <View
-              key={verse.key}
               style={{
                 backgroundColor: t.surface,
                 borderRadius: radius.inner,
@@ -59,6 +65,19 @@ export default function SavedVerses() {
                 {verse.reference}
               </Text>
               <View style={{ flexDirection: 'row', gap: spacing.md, marginTop: spacing.sm }}>
+                <Pressable
+                  onPress={async () => {
+                    await Clipboard.setStringAsync(`${verse.text}\n— ${verse.reference}`);
+                    toast(translate('toast.copied'));
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel={tr('bible.copy')}
+                  style={{ minHeight: 48, justifyContent: 'center' }}
+                >
+                  <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>
+                    {tr('bible.copy')}
+                  </Text>
+                </Pressable>
                 <Pressable
                   onPress={() => Share.share({ message: `${verse.text}\n— ${verse.reference}` })}
                   accessibilityRole="button"
@@ -81,9 +100,8 @@ export default function SavedVerses() {
                 </Pressable>
               </View>
             </View>
-          ))}
-        </View>
-      )}
+        )}
+      />
     </Screen>
   );
 }

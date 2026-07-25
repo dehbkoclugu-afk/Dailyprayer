@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Alert, Pressable, ScrollView, Share, Text, TextInput, View } from 'react-native';
+import { Alert, FlatList, Pressable, ScrollView, Share, Text, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as Clipboard from 'expo-clipboard';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { ArtSlot } from '@/components/ArtSlot';
@@ -21,26 +22,39 @@ import { useBibleStore } from '@/state/useBibleStore';
 export default function Bible() {
   const t = useTheme();
   const { t: tr } = useT();
-  const isPlus = useEntitlementStore((s) => s.isPlus);
+  const isPlus = useEntitlementStore((state) => state.isPlus);
   const { keys: highlightKeys, toggle: toggleHighlight } = useHighlightStore();
-  const openIdx = useBibleStore((s) => s.chapterIndex);
-  const setOpenIdx = useBibleStore((s) => s.setChapterIndex);
-  const savedVerseKeys = useBibleStore((s) => s.savedVerseKeys);
-  const toggleSavedVerse = useBibleStore((s) => s.toggleSavedVerse);
-  const planProgress = useBibleStore((s) => s.planProgress);
+  const openIdx = useBibleStore((state) => state.chapterIndex);
+  const setOpenIdx = useBibleStore((state) => state.setChapterIndex);
+  const savedVerseKeys = useBibleStore((state) => state.savedVerseKeys);
+  const toggleSavedVerse = useBibleStore((state) => state.toggleSavedVerse);
+  const planProgress = useBibleStore((state) => state.planProgress);
   const [query, setQuery] = useState('');
   const chapter = sampleChapters[openIdx];
+  const availableBooks = [...new Set(sampleChapters.map((item) => item.book))];
+  const normalizedQuery = query.trim().toLocaleLowerCase();
   const visibleChapters = sampleChapters
     .map((item, index) => ({ item, index }))
+    .filter(({ item }) => item.book === chapter.book)
     .filter(({ item }) =>
-      `${item.book} ${item.chapter}`.toLowerCase().includes(query.trim().toLowerCase()),
+      normalizedQuery
+        ? `${item.book} ${item.chapter}`.toLocaleLowerCase().includes(normalizedQuery)
+        : true,
     );
 
+  const referenceFor = (index: number) => `${chapter.book} ${chapter.chapter}:${index + 1}`;
+  const keyFor = (index: number) => `${chapter.book}|${chapter.chapter}|${index}`;
+
+  const copyVerse = async (verse: string, index: number) => {
+    await Clipboard.setStringAsync(`${verse}\n— ${referenceFor(index)}`);
+    toast(translate('toast.copied'));
+  };
+
   const openVerseActions = (verse: string, index: number) => {
-    const key = `${chapter.book}|${chapter.chapter}|${index}`;
+    const key = keyFor(index);
     const highlighted = highlightKeys.includes(key);
     const saved = savedVerseKeys.includes(key);
-    Alert.alert(`${chapter.book} ${chapter.chapter}:${index + 1}`, verse, [
+    Alert.alert(referenceFor(index), verse, [
       {
         text: highlighted ? tr('bible.removeHighlight') : tr('bible.highlight'),
         onPress: () => {
@@ -54,19 +68,24 @@ export default function Bible() {
       },
       {
         text: tr('bible.share'),
-        onPress: () =>
-          Share.share({
-            message: `${verse}\n— ${chapter.book} ${chapter.chapter}:${index + 1}`,
-          }),
+        onPress: () => Share.share({ message: `${verse}\n— ${referenceFor(index)}` }),
       },
     ]);
   };
 
-  return (
-    <Screen tabbed>
+  const openBook = (book: string) => {
+    const index = sampleChapters.findIndex((item) => item.book === book);
+    if (index >= 0) {
+      setOpenIdx(index);
+      setQuery('');
+    }
+  };
+
+  const header = (
+    <>
       <Text style={[ty.title, { color: t.ink }]}>{tr('bible.title')}</Text>
       <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>
-{tr('bible.sub')}
+        {tr('bible.sub')}
       </Text>
       {savedVerseKeys.length > 0 ? (
         <Pressable
@@ -107,138 +126,137 @@ export default function Bible() {
           fontSize: 16,
         }}
       />
-
-      {/* chapter picker — single horizontal row */}
+      <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 13, color: t.inkSoft, marginTop: spacing.lg }}>
+        {tr('bible.books')}
+      </Text>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        style={{ marginTop: spacing.lg, marginHorizontal: -spacing.xl }}
+        style={{ marginTop: spacing.sm, marginHorizontal: -spacing.xl }}
         contentContainerStyle={{ gap: spacing.sm, paddingHorizontal: spacing.xl }}
       >
-        {visibleChapters.map(({ item: c, index: i }) => {
-          const active = i === openIdx;
+        {availableBooks.map((book) => {
+          const active = book === chapter.book;
           return (
             <Pressable
-              key={`${c.book}-${c.chapter}`}
-              onPress={() => setOpenIdx(i)}
+              key={book}
+              onPress={() => openBook(book)}
               accessibilityRole="button"
               accessibilityState={{ selected: active }}
               style={{
-                backgroundColor: active ? t.goldSoft : 'transparent',
-                borderColor: active ? t.gold : t.border,
-                borderWidth: 1,
-                borderRadius: radius.pill,
-                paddingHorizontal: spacing.lg,
-                paddingVertical: spacing.sm,
                 minHeight: 48,
                 justifyContent: 'center',
+                borderRadius: radius.pill,
+                borderWidth: 1,
+                borderColor: active ? t.gold : t.border,
+                backgroundColor: active ? t.goldSoft : 'transparent',
+                paddingHorizontal: spacing.lg,
               }}
             >
               <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: active ? t.gold : t.inkSoft }}>
-                {c.book} {c.chapter}
+                {book}
               </Text>
             </Pressable>
           );
         })}
       </ScrollView>
-
-      {/* reader */}
-      <View
-        style={{
-          backgroundColor: t.surface,
-          borderRadius: radius.card,
-          borderWidth: 1,
-          borderColor: t.border,
-          padding: spacing.xl,
-          marginTop: spacing.lg,
-        }}
+      <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 13, color: t.inkSoft, marginTop: spacing.md }}>
+        {tr('bible.chapters')}
+      </Text>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={{ marginTop: spacing.sm, marginHorizontal: -spacing.xl }}
+        contentContainerStyle={{ gap: spacing.sm, paddingHorizontal: spacing.xl }}
       >
-        <Text style={[ty.title, { color: t.ink, marginBottom: spacing.lg }]}>
-          {chapter.book} {chapter.chapter}
-        </Text>
-        <Text style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkFaint, marginBottom: spacing.md }}>
-          {tr('bible.highlightHint')}
-        </Text>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: spacing.md }}>
-          <Pressable
-            onPress={() => setOpenIdx(Math.max(0, openIdx - 1))}
-            disabled={openIdx === 0}
-            accessibilityRole="button"
-            accessibilityState={{ disabled: openIdx === 0 }}
-            style={{ minHeight: 48, justifyContent: 'center', opacity: openIdx === 0 ? 0.35 : 1 }}
-          >
-            <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>
-              {tr('bible.previousChapter')}
-            </Text>
-          </Pressable>
-          <Pressable
-            onPress={() => setOpenIdx(Math.min(sampleChapters.length - 1, openIdx + 1))}
-            disabled={openIdx === sampleChapters.length - 1}
-            accessibilityRole="button"
-            accessibilityState={{ disabled: openIdx === sampleChapters.length - 1 }}
-            style={{
-              minHeight: 48,
-              justifyContent: 'center',
-              opacity: openIdx === sampleChapters.length - 1 ? 0.35 : 1,
-            }}
-          >
-            <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>
-              {tr('bible.nextChapter')}
-            </Text>
-          </Pressable>
-        </View>
-        {chapter.verses.map((v, i) => {
-          const hKey = `${chapter.book}|${chapter.chapter}|${i}`;
-          const highlighted = highlightKeys.includes(hKey);
-          return (
-          <Pressable
-            key={i}
-            onPress={() => openVerseActions(v, i)}
-            accessibilityRole="button"
-            accessibilityLabel={`${chapter.book} ${chapter.chapter}:${i + 1}. ${v}`}
-            accessibilityState={{ selected: highlighted }}
-            style={{
-              minHeight: 48,
-              justifyContent: 'center',
-              marginBottom: spacing.md,
-              backgroundColor: highlighted ? t.goldSoft : 'transparent',
-            }}
-          >
-            <Text style={{ fontFamily: fonts.serifLight, fontSize: 19, lineHeight: 34, color: t.ink }}>
-              <Text
-                style={{
-                  fontFamily: fonts.sansBold,
-                  fontSize: 11,
-                  color: t.gold,
-                  fontVariant: ['tabular-nums'],
-                }}
-              >
-                {i + 1}{'  '}
-              </Text>
-              {v}
-              {savedVerseKeys.includes(hKey) ? '  ◆' : ''}
-            </Text>
-          </Pressable>
-          );
-        })}
-      </View>
-
-      <SectionHeader title={tr('bible.plans')} />
-      <View style={{ gap: spacing.md }}>
-        {plans.map((p) => {
-          const locked = p.plus && !isPlus;
+        {visibleChapters.map(({ item, index }) => {
+          const active = index === openIdx;
           return (
             <Pressable
-              key={p.id}
-              onPress={() => router.push({ pathname: '/plan', params: { id: p.id } })}
+              key={`${item.book}-${item.chapter}`}
+              onPress={() => setOpenIdx(index)}
               accessibilityRole="button"
-              accessibilityLabel={`${p.title}${locked ? ', requires Plus' : ''}`}
+              accessibilityState={{ selected: active }}
+              style={{
+                minWidth: 48,
+                minHeight: 48,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: radius.pill,
+                borderWidth: 1,
+                borderColor: active ? t.gold : t.border,
+                backgroundColor: active ? t.goldSoft : 'transparent',
+                paddingHorizontal: spacing.md,
+              }}
+            >
+              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: active ? t.gold : t.inkSoft }}>
+                {item.chapter}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </ScrollView>
+      {visibleChapters.length === 0 ? (
+        <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: t.inkSoft, marginTop: spacing.sm }}>
+          {tr('bible.noResults')}
+        </Text>
+      ) : null}
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginTop: spacing.xl,
+          marginBottom: spacing.md,
+        }}
+      >
+        <Pressable
+          onPress={() => setOpenIdx(Math.max(0, openIdx - 1))}
+          disabled={openIdx === 0}
+          accessibilityRole="button"
+          accessibilityState={{ disabled: openIdx === 0 }}
+          accessibilityLabel={tr('bible.previousChapter')}
+          style={{ width: 48, height: 48, alignItems: 'center', justifyContent: 'center', opacity: openIdx === 0 ? 0.35 : 1 }}
+        >
+          <Ionicons name="chevron-back" size={22} color={t.blue} />
+        </Pressable>
+        <View style={{ alignItems: 'center', flex: 1 }}>
+          <Text style={[ty.title, { color: t.ink }]}>{chapter.book} {chapter.chapter}</Text>
+          <Text style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkSoft, marginTop: spacing.xs }}>
+            {tr('bible.highlightHint')}
+          </Text>
+        </View>
+        <Pressable
+          onPress={() => setOpenIdx(Math.min(sampleChapters.length - 1, openIdx + 1))}
+          disabled={openIdx === sampleChapters.length - 1}
+          accessibilityRole="button"
+          accessibilityState={{ disabled: openIdx === sampleChapters.length - 1 }}
+          accessibilityLabel={tr('bible.nextChapter')}
+          style={{ width: 48, height: 48, alignItems: 'center', justifyContent: 'center', opacity: openIdx === sampleChapters.length - 1 ? 0.35 : 1 }}
+        >
+          <Ionicons name="chevron-forward" size={22} color={t.blue} />
+        </Pressable>
+      </View>
+    </>
+  );
+
+  const footer = (
+    <>
+      <SectionHeader title={tr('bible.plans')} />
+      <View style={{ gap: spacing.md }}>
+        {plans.map((plan) => {
+          const locked = plan.plus && !isPlus;
+          return (
+            <Pressable
+              key={plan.id}
+              onPress={() => router.push({ pathname: '/plan', params: { id: plan.id } })}
+              accessibilityRole="button"
+              accessibilityLabel={`${plan.title}${locked ? `, ${tr('bible.requiresPlus')}` : ''}`}
             >
               <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
-                <ArtSlot id={planArt(p.id)} height={150} radius={radius.card}>
-                  {/* light bottom-up scrim: art shows at top, title stays legible */}
+                <ArtSlot id={planArt(plan.id)} height={150} radius={radius.card}>
                   <LinearGradient
-                    colors={['rgba(14,18,32,0.1)', `${p.gradient[1]}E6`]}
+                    colors={['rgba(14,18,32,0.1)', `${plan.gradient[1]}E6`]}
                     start={{ x: 0.5, y: 0 }}
                     end={{ x: 0.5, y: 1 }}
                     style={{ position: 'absolute', width: '100%', height: '100%' }}
@@ -246,25 +264,17 @@ export default function Bible() {
                   <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                       <Text style={{ fontFamily: fonts.serif, fontSize: 20, color: '#F2EEE6', flex: 1 }}>
-                        {p.title}
+                        {plan.title}
                       </Text>
                       {locked ? <Ionicons name="lock-closed" size={18} color="#D9A441" /> : null}
                     </View>
                     <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: 'rgba(242,238,230,0.75)', marginTop: spacing.xs }}>
-                      {p.tagline}
+                      {plan.tagline}
                     </Text>
-                    <Text
-                      style={{
-                        fontFamily: fonts.sansMedium,
-                        fontSize: 12,
-                        color: '#D9A441',
-                        marginTop: spacing.sm,
-                        fontVariant: ['tabular-nums'],
-                      }}
-                    >
-                      {(planProgress[p.id] ?? 0) > 0
-                        ? `${planProgress[p.id]} / ${p.days} ${tr('bible.days')}`
-                        : `${p.days} ${tr('bible.days')}`}
+                    <Text style={{ fontFamily: fonts.sansMedium, fontSize: 12, color: '#D9A441', marginTop: spacing.sm }}>
+                      {(planProgress[plan.id] ?? 0) > 0
+                        ? `${planProgress[plan.id]} / ${plan.days} ${tr('bible.days')}`
+                        : `${plan.days} ${tr('bible.days')}`}
                     </Text>
                   </View>
                 </ArtSlot>
@@ -273,6 +283,61 @@ export default function Bible() {
           );
         })}
       </View>
+    </>
+  );
+
+  return (
+    <Screen tabbed scroll={false}>
+      <FlatList
+        data={chapter.verses.map((text, index) => ({ text, index }))}
+        key={`${chapter.book}-${chapter.chapter}`}
+        keyExtractor={({ index }) => `${chapter.book}-${chapter.chapter}-${index}`}
+        ListHeaderComponent={header}
+        ListFooterComponent={footer}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: spacing.xl }}
+        initialNumToRender={12}
+        windowSize={7}
+        renderItem={({ item }) => {
+          const key = keyFor(item.index);
+          const highlighted = highlightKeys.includes(key);
+          return (
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: highlighted ? t.goldSoft : t.surface,
+                borderRadius: radius.inner,
+                marginBottom: spacing.sm,
+              }}
+            >
+              <Pressable
+                onPress={() => openVerseActions(item.text, item.index)}
+                accessibilityRole="button"
+                accessibilityLabel={`${referenceFor(item.index)}. ${item.text}`}
+                accessibilityState={{ selected: highlighted }}
+                style={{ flex: 1, minHeight: 48, justifyContent: 'center', padding: spacing.lg }}
+              >
+                <Text style={{ fontFamily: fonts.serifLight, fontSize: 19, lineHeight: 32, color: t.ink }}>
+                  <Text style={{ fontFamily: fonts.sansBold, fontSize: 11, color: t.gold }}>
+                    {item.index + 1}{'  '}
+                  </Text>
+                  {item.text}
+                  {savedVerseKeys.includes(key) ? '  ◆' : ''}
+                </Text>
+              </Pressable>
+              <Pressable
+                onPress={() => copyVerse(item.text, item.index)}
+                accessibilityRole="button"
+                accessibilityLabel={`${tr('bible.copy')} ${referenceFor(item.index)}`}
+                style={{ width: 48, height: 48, alignItems: 'center', justifyContent: 'center' }}
+              >
+                <Ionicons name="copy-outline" size={19} color={t.inkSoft} />
+              </Pressable>
+            </View>
+          );
+        }}
+      />
     </Screen>
   );
 }
