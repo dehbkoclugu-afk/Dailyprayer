@@ -69,7 +69,7 @@ export default function Paywall() {
   };
 
   const buy = async () => {
-    if (!selectedPlan || busy) return;
+    if (!selectedPlan || busy || pending) return;
     setBusy(true);
     setPending(false);
     try {
@@ -257,7 +257,9 @@ export default function Paywall() {
 
       <PillButton
         label={
-          busy
+          pending
+            ? tr('paywall.pendingTitle')
+            : busy
             ? tr('paywall.processing')
             : selectedPlan?.trialEligible
               ? selectedPlan.trialDays === 7
@@ -266,7 +268,7 @@ export default function Paywall() {
               : tr('paywall.continue')
         }
         onPress={buy}
-        disabled={busy || !selectedPlan}
+        disabled={busy || pending || !selectedPlan}
         style={{ marginTop: spacing.xl }}
       />
       {busy ? (
