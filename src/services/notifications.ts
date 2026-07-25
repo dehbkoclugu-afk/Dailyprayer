@@ -1,5 +1,6 @@
 /** Local notifications: daily prayer-time reminder + evening streak save. */
 import * as Notifications from 'expo-notifications';
+import { translate } from '@/i18n';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -24,8 +25,8 @@ export async function scheduleDailyReminder(time: string): Promise<void> {
   await Notifications.scheduleNotificationAsync({
     identifier: REMINDER_ID,
     content: {
-      title: 'Time to be still 🕊',
-      body: 'Your verse and prayer for today are ready.',
+      title: translate('notification.dailyTitle'),
+      body: translate('notification.dailyBody'),
     },
     trigger: {
       type: Notifications.SchedulableTriggerInputTypes.DAILY,
@@ -40,8 +41,8 @@ export async function scheduleStreakSave(streak = 0): Promise<void> {
   await Notifications.scheduleNotificationAsync({
     identifier: STREAK_ID,
     content: {
-      title: streak > 1 ? `Don't lose your ${streak}-day streak` : "Don't lose your streak",
-      body: 'One minute with today’s verse keeps your flame lit.',
+      title: translate('notification.eveningTitle'),
+      body: translate('notification.eveningBody'),
     },
     trigger: {
       type: Notifications.SchedulableTriggerInputTypes.DAILY,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Alert, Pressable, ScrollView, Share, Text, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -16,14 +16,51 @@ import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useHighlightStore } from '@/state/useHighlightStore';
 import { toast } from '@/state/useToastStore';
 import { useT, translate } from '@/i18n';
+import { useBibleStore } from '@/state/useBibleStore';
 
 export default function Bible() {
   const t = useTheme();
   const { t: tr } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const { keys: highlightKeys, toggle: toggleHighlight } = useHighlightStore();
-  const [openIdx, setOpenIdx] = useState(0);
+  const openIdx = useBibleStore((s) => s.chapterIndex);
+  const setOpenIdx = useBibleStore((s) => s.setChapterIndex);
+  const savedVerseKeys = useBibleStore((s) => s.savedVerseKeys);
+  const toggleSavedVerse = useBibleStore((s) => s.toggleSavedVerse);
+  const planProgress = useBibleStore((s) => s.planProgress);
+  const [query, setQuery] = useState('');
   const chapter = sampleChapters[openIdx];
+  const visibleChapters = sampleChapters
+    .map((item, index) => ({ item, index }))
+    .filter(({ item }) =>
+      `${item.book} ${item.chapter}`.toLowerCase().includes(query.trim().toLowerCase()),
+    );
+
+  const openVerseActions = (verse: string, index: number) => {
+    const key = `${chapter.book}|${chapter.chapter}|${index}`;
+    const highlighted = highlightKeys.includes(key);
+    const saved = savedVerseKeys.includes(key);
+    Alert.alert(`${chapter.book} ${chapter.chapter}:${index + 1}`, verse, [
+      {
+        text: highlighted ? tr('bible.removeHighlight') : tr('bible.highlight'),
+        onPress: () => {
+          const on = toggleHighlight(key);
+          toast(translate(on ? 'toast.highlightOn' : 'toast.highlightOff'));
+        },
+      },
+      {
+        text: saved ? tr('bible.unsave') : tr('bible.save'),
+        onPress: () => toggleSavedVerse(key),
+      },
+      {
+        text: tr('bible.share'),
+        onPress: () =>
+          Share.share({
+            message: `${verse}\n— ${chapter.book} ${chapter.chapter}:${index + 1}`,
+          }),
+      },
+    ]);
+  };
 
   return (
     <Screen tabbed>
@@ -31,6 +68,25 @@ export default function Bible() {
       <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>
 {tr('bible.sub')}
       </Text>
+      <TextInput
+        value={query}
+        onChangeText={setQuery}
+        placeholder={tr('bible.search')}
+        placeholderTextColor={t.inkSoft}
+        accessibilityLabel={tr('bible.search')}
+        style={{
+          minHeight: 48,
+          backgroundColor: t.surface,
+          color: t.ink,
+          borderColor: t.border,
+          borderWidth: 1,
+          borderRadius: radius.inner,
+          paddingHorizontal: spacing.lg,
+          marginTop: spacing.lg,
+          fontFamily: fonts.sans,
+          fontSize: 16,
+        }}
+      />
 
       {/* chapter picker — single horizontal row */}
       <ScrollView
@@ -39,7 +95,7 @@ export default function Bible() {
         style={{ marginTop: spacing.lg, marginHorizontal: -spacing.xl }}
         contentContainerStyle={{ gap: spacing.sm, paddingHorizontal: spacing.xl }}
       >
-        {sampleChapters.map((c, i) => {
+        {visibleChapters.map(({ item: c, index: i }) => {
           const active = i === openIdx;
           return (
             <Pressable
@@ -83,38 +139,66 @@ export default function Bible() {
         <Text style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkFaint, marginBottom: spacing.md }}>
           {tr('bible.highlightHint')}
         </Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: spacing.md }}>
+          <Pressable
+            onPress={() => setOpenIdx(Math.max(0, openIdx - 1))}
+            disabled={openIdx === 0}
+            accessibilityRole="button"
+            accessibilityState={{ disabled: openIdx === 0 }}
+            style={{ minHeight: 48, justifyContent: 'center', opacity: openIdx === 0 ? 0.35 : 1 }}
+          >
+            <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>
+              {tr('bible.previousChapter')}
+            </Text>
+          </Pressable>
+          <Pressable
+            onPress={() => setOpenIdx(Math.min(sampleChapters.length - 1, openIdx + 1))}
+            disabled={openIdx === sampleChapters.length - 1}
+            accessibilityRole="button"
+            accessibilityState={{ disabled: openIdx === sampleChapters.length - 1 }}
+            style={{
+              minHeight: 48,
+              justifyContent: 'center',
+              opacity: openIdx === sampleChapters.length - 1 ? 0.35 : 1,
+            }}
+          >
+            <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>
+              {tr('bible.nextChapter')}
+            </Text>
+          </Pressable>
+        </View>
         {chapter.verses.map((v, i) => {
           const hKey = `${chapter.book}|${chapter.chapter}|${i}`;
           const highlighted = highlightKeys.includes(hKey);
           return (
-          <Text
+          <Pressable
             key={i}
-            onPress={() => {
-              const on = toggleHighlight(hKey);
-              toast(translate(on ? 'toast.highlightOn' : 'toast.highlightOff'));
-            }}
-            suppressHighlighting
+            onPress={() => openVerseActions(v, i)}
+            accessibilityRole="button"
+            accessibilityLabel={`${chapter.book} ${chapter.chapter}:${i + 1}. ${v}`}
+            accessibilityState={{ selected: highlighted }}
             style={{
-              fontFamily: fonts.serifLight,
-              fontSize: 19,
-              lineHeight: 34,
-              color: t.ink,
+              minHeight: 48,
+              justifyContent: 'center',
               marginBottom: spacing.md,
               backgroundColor: highlighted ? t.goldSoft : 'transparent',
             }}
           >
-            <Text
-              style={{
-                fontFamily: fonts.sansBold,
-                fontSize: 11,
-                color: t.gold,
-                fontVariant: ['tabular-nums'],
-              }}
-            >
-              {i + 1}{'  '}
+            <Text style={{ fontFamily: fonts.serifLight, fontSize: 19, lineHeight: 34, color: t.ink }}>
+              <Text
+                style={{
+                  fontFamily: fonts.sansBold,
+                  fontSize: 11,
+                  color: t.gold,
+                  fontVariant: ['tabular-nums'],
+                }}
+              >
+                {i + 1}{'  '}
+              </Text>
+              {v}
+              {savedVerseKeys.includes(hKey) ? '  ◆' : ''}
             </Text>
-            {v}
-          </Text>
+          </Pressable>
           );
         })}
       </View>
@@ -126,7 +210,11 @@ export default function Bible() {
           return (
             <Pressable
               key={p.id}
-              onPress={() => (locked ? router.push('/paywall') : null)}
+              onPress={() =>
+                locked
+                  ? router.push(`/paywall?from=plan-${p.id}`)
+                  : router.push({ pathname: '/plan', params: { id: p.id } })
+              }
               accessibilityRole="button"
               accessibilityLabel={`${p.title}${locked ? ', requires Plus' : ''}`}
             >
@@ -158,7 +246,9 @@ export default function Bible() {
                         fontVariant: ['tabular-nums'],
                       }}
                     >
-{p.days} {tr('bible.days')}
+                      {(planProgress[p.id] ?? 0) > 0
+                        ? `${planProgress[p.id]} / ${p.days} ${tr('bible.days')}`
+                        : `${p.days} ${tr('bible.days')}`}
                     </Text>
                   </View>
                 </ArtSlot>

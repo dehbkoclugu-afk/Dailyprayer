@@ -1,39 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 import { router } from 'expo-router';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { ArtSlot } from '@/components/ArtSlot';
+import { PillButton } from '@/components/PillButton';
 import { useTheme } from '@/hooks/useTheme';
 import { type as ty, fonts } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
-
-const STEPS = [
-  'Reading your answers',
-  'Choosing today’s scriptures',
-  'Shaping your daily rhythm',
-  'Setting your gentle reminder',
-];
+import { useUserStore } from '@/state/useUserStore';
+import { useT } from '@/i18n';
 
 /** "Building your plan" interstitial — a checklist completing line by line. */
 export default function Building() {
   const t = useTheme();
-  const [done, setDone] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setDone((d) => {
-        if (d >= STEPS.length) {
-          clearInterval(timer);
-          setTimeout(() => router.replace('/onboarding/reveal'), 600);
-          return d;
-        }
-        return d + 1;
-      });
-    }, 950);
-    return () => clearInterval(timer);
-  }, []);
+  const quiz = useUserStore((state) => state.quiz);
+  const { t: tr } = useT();
+  const rows = [
+    { icon: 'heart-outline' as const, text: tr('building.preference') },
+    { icon: 'sparkles-outline' as const, text: `${quiz.goals.length} ${tr('building.goals')}` },
+    {
+      icon: 'notifications-outline' as const,
+      text:
+        quiz.prayerTime && quiz.prayerTime !== 'none'
+          ? `${tr('building.reminder')} · ${quiz.prayerTime}`
+          : tr('building.noReminder'),
+    },
+  ];
 
   return (
     <Screen scroll={false} style={{ justifyContent: 'center' }}>
@@ -44,35 +37,39 @@ export default function Building() {
         style={{ marginBottom: spacing.xxl, alignSelf: 'center', width: 140 }}
       />
       <Text style={[ty.title, { color: t.ink, textAlign: 'center', marginBottom: spacing.xxl }]}>
-        Preparing your plan…
+        {tr('building.title')}
+      </Text>
+      <Text style={[ty.secondary, { color: t.inkSoft, textAlign: 'center', marginBottom: spacing.xl }]}>
+        {tr('building.body')}
       </Text>
       <View style={{ gap: spacing.lg, alignSelf: 'center' }}>
-        {STEPS.map((s, i) => {
-          const complete = i < done;
-          return (
-            <Animated.View
-              key={s}
-              entering={FadeInDown.delay(i * 120).springify().damping(20)}
+        {rows.map((row) => (
+            <View
+              key={row.text}
               style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}
             >
               <Ionicons
-                name={complete ? 'checkmark-circle' : 'ellipse-outline'}
+                name={row.icon}
                 size={20}
-                color={complete ? t.gold : t.inkFaint}
+                color={t.gold}
               />
               <Text
                 style={{
-                  fontFamily: complete ? fonts.sansMedium : fonts.sans,
+                  fontFamily: fonts.sansMedium,
                   fontSize: 16,
-                  color: complete ? t.ink : t.inkSoft,
+                  color: t.ink,
                 }}
               >
-                {s}
+                {row.text}
               </Text>
-            </Animated.View>
-          );
-        })}
+            </View>
+        ))}
       </View>
+      <PillButton
+        label={tr('building.continue')}
+        onPress={() => router.replace('/onboarding/reveal')}
+        style={{ marginTop: spacing.xxl }}
+      />
     </Screen>
   );
 }

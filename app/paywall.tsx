@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Alert, Pressable, Text, View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
+import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
+import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Screen } from '@/components/Screen';
@@ -10,7 +10,6 @@ import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { FALLBACK_PLANS, purchase, restore, type PlanId } from '@/services/purchases';
-import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useT } from '@/i18n';
 
 
@@ -33,11 +32,10 @@ export default function Paywall() {
     weekly: tr('paywall.perWeek'),
     lifetime: tr('paywall.once'),
   };
-  const { from } = useLocalSearchParams<{ from?: string }>();
   const [selected, setSelected] = useState<PlanId>('annual');
   const [busy, setBusy] = useState(false);
   const [thanks, setThanks] = useState(false);
-  const { sawDiscountOffer, setSawDiscountOffer } = useEntitlementStore();
+  const [restoreStatus, setRestoreStatus] = useState<'idle' | 'busy' | 'found' | 'missing'>('idle');
 
   const buy = async () => {
     setBusy(true);
@@ -45,27 +43,28 @@ export default function Paywall() {
       const ok = await purchase(selected);
       if (ok) setThanks(true);
     } catch {
-      Alert.alert('Purchase failed', 'Nothing was charged. Please try again.');
+      Alert.alert(tr('paywall.purchaseErrorTitle'), tr('paywall.purchaseErrorBody'));
     } finally {
       setBusy(false);
     }
   };
 
   const close = () => {
-    if (from === 'onboarding' && !sawDiscountOffer) {
-      setSawDiscountOffer(true);
-      Alert.alert(
-        'A gift before you go',
-        'Get your first year 50% off — this offer won’t appear again.',
-        [
-          { text: 'No thanks', style: 'cancel', onPress: () => router.replace('/(tabs)/today') },
-          { text: 'Claim 50% off', onPress: buy },
-        ],
-      );
-      return;
-    }
     if (router.canGoBack()) router.back();
     else router.replace('/(tabs)/today');
+  };
+
+  const restorePurchase = async () => {
+    if (restoreStatus === 'busy') return;
+    setRestoreStatus('busy');
+    try {
+      const restored = await restore();
+      setRestoreStatus(restored ? 'found' : 'missing');
+      if (restored) setThanks(true);
+    } catch {
+      setRestoreStatus('idle');
+      Alert.alert(tr('paywall.restoreErrorTitle'), tr('paywall.restoreErrorBody'));
+    }
   };
 
   if (thanks) {
@@ -99,7 +98,7 @@ export default function Paywall() {
         onPress={close}
         hitSlop={12}
         accessibilityRole="button"
-        accessibilityLabel="Close"
+        accessibilityLabel={tr('common.close')}
         style={({ pressed }) => ({
           alignSelf: 'flex-end',
           width: 44,
@@ -133,22 +132,6 @@ export default function Paywall() {
             </View>
           </View>
         </ArtSlot>
-      </View>
-
-      {/* Social proof */}
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 6,
-          marginBottom: spacing.xl,
-        }}
-      >
-        <Ionicons name="star" size={13} color={t.gold} />
-        <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: t.inkSoft }}>
-{tr('paywall.social')}
-        </Text>
       </View>
 
       <View style={{ gap: spacing.md }}>
@@ -222,11 +205,29 @@ export default function Paywall() {
       </View>
 
       <PillButton
-        label={selected === 'annual' ? tr('paywall.trialCta') : tr('paywall.continue')}
+        label={
+          busy
+            ? tr('paywall.processing')
+            : selected === 'annual'
+              ? tr('paywall.trialCta')
+              : tr('paywall.continue')
+        }
         onPress={buy}
         disabled={busy}
         style={{ marginTop: spacing.xl }}
       />
+      {busy ? (
+        <View
+          accessibilityRole="progressbar"
+          accessibilityLabel={tr('paywall.processing')}
+          style={{ flexDirection: 'row', justifyContent: 'center', gap: spacing.sm, marginTop: spacing.md }}
+        >
+          <ActivityIndicator color={t.gold} />
+          <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft }}>
+            {tr('paywall.processing')}
+          </Text>
+        </View>
+      ) : null}
 
       {/* Trial reassurance — the #1 objection killer */}
       {selected === 'annual' ? (
@@ -247,18 +248,30 @@ export default function Paywall() {
       ) : null}
 
       <Pressable
-        onPress={() => restore()}
+        onPress={restorePurchase}
+        disabled={restoreStatus === 'busy'}
+        accessibilityRole="button"
+        accessibilityState={{ busy: restoreStatus === 'busy', disabled: restoreStatus === 'busy' }}
+        accessibilityLabel={tr('paywall.restore')}
         style={({ pressed }) => ({
           marginTop: spacing.lg,
-          minHeight: 44,
+          minHeight: 48,
           justifyContent: 'center',
-          opacity: pressed ? 0.6 : 1,
+          opacity: restoreStatus === 'busy' ? 0.5 : pressed ? 0.6 : 1,
         })}
       >
         <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: t.blue, textAlign: 'center' }}>
-{tr('paywall.restore')}
+          {restoreStatus === 'busy' ? tr('paywall.restoring') : tr('paywall.restore')}
         </Text>
       </Pressable>
+      {restoreStatus === 'missing' ? (
+        <Text
+          accessibilityRole="alert"
+          style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, textAlign: 'center' }}
+        >
+          {tr('paywall.restoreMissing')}
+        </Text>
+      ) : null}
       <Text
         style={{
           fontFamily: fonts.sans,
@@ -271,20 +284,24 @@ export default function Paywall() {
 {tr('paywall.legalPrefix')}
       </Text>
       <View style={{ flexDirection: 'row', justifyContent: 'center', gap: spacing.lg, marginTop: 6 }}>
-        <Text
+        <Pressable
           onPress={() => router.push({ pathname: '/legal', params: { doc: 'terms' } })}
           accessibilityRole="link"
-          style={{ fontFamily: fonts.sansMedium, fontSize: 12, color: t.blue }}
+          style={{ minHeight: 48, justifyContent: 'center' }}
         >
-          {tr('paywall.termsLink')}
-        </Text>
-        <Text
+          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: t.blue }}>
+            {tr('paywall.termsLink')}
+          </Text>
+        </Pressable>
+        <Pressable
           onPress={() => router.push({ pathname: '/legal', params: { doc: 'privacy' } })}
           accessibilityRole="link"
-          style={{ fontFamily: fonts.sansMedium, fontSize: 12, color: t.blue }}
+          style={{ minHeight: 48, justifyContent: 'center' }}
         >
-          {tr('paywall.privacyLink')}
-        </Text>
+          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: t.blue }}>
+            {tr('paywall.privacyLink')}
+          </Text>
+        </Pressable>
       </View>
     </Screen>
   );

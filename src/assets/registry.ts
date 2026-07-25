@@ -67,7 +67,8 @@ export const artRegistry: Record<AssetId, ImageSourcePropType | null> = {
   'A13-gospels90': require('./art/A13-gospels90.png'),
   'A13-bible365': require('./art/A13-bible365.png'),
   'A14-bible-etching': require('./art/A14-bible-etching.png'),
-  'A15-building-candle': null,
+  // Reuse the existing candle-lit affirmation until a dedicated crop is commissioned.
+  'A15-building-candle': require('./art/A6-affirmation-spot.png'),
 };
 
 /** Placeholder metadata shown inside unfilled slots. */

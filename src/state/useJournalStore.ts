@@ -17,6 +17,7 @@ interface JournalState {
   add: (kind: JournalEntry['kind'], text: string) => void;
   toggleAnswered: (id: string) => void;
   remove: (id: string) => void;
+  restore: (entry: JournalEntry) => void;
 }
 
 export const useJournalStore = create<JournalState>()(
@@ -45,6 +46,12 @@ export const useJournalStore = create<JournalState>()(
         })),
       remove: (id) =>
         set((s) => ({ entries: s.entries.filter((e) => e.id !== id) })),
+      restore: (entry) =>
+        set((s) => ({
+          entries: [entry, ...s.entries.filter((e) => e.id !== entry.id)].sort(
+            (a, b) => b.createdAt - a.createdAt,
+          ),
+        })),
     }),
     { name: 'lumen-journal', storage: createJSONStorage(() => AsyncStorage) },
   ),

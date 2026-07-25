@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, Pressable, Text, TextInput, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { Screen } from '@/components/Screen';
@@ -17,7 +17,7 @@ import { useT, translate } from '@/i18n';
 export default function Journal() {
   const t = useTheme();
   const { t: tr } = useT();
-  const { entries, add, toggleAnswered, remove } = useJournalStore();
+  const { entries, add, toggleAnswered, remove, restore } = useJournalStore();
   const completeStep = useStreakStore((s) => s.completeStep);
   const [text, setText] = useState('');
   const [kind, setKind] = useState<'gratitude' | 'prayer-request'>('gratitude');
@@ -31,7 +31,27 @@ export default function Journal() {
     setText('');
   };
 
+  const confirmRemove = (id: string) => {
+    const entry = entries.find((item) => item.id === id);
+    if (!entry) return;
+    Alert.alert(tr('journal.deleteTitle'), tr('journal.deleteBody'), [
+      { text: tr('common.cancel'), style: 'cancel' },
+      {
+        text: tr('common.delete'),
+        style: 'destructive',
+        onPress: () => {
+          remove(id);
+          toast(tr('journal.deleted'), tr('common.undo'), () => restore(entry));
+        },
+      },
+    ]);
+  };
+
   return (
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
     <Screen tabbed>
       <Text style={[ty.title, { color: t.ink }]}>{tr('journal.title')}</Text>
       <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>
@@ -100,7 +120,7 @@ tr(kind === 'gratitude' ? 'journal.placeholderGratitude' : 'journal.placeholderR
         }
         placeholderTextColor={t.inkFaint}
         multiline
-        accessibilityLabel="Journal entry"
+        accessibilityLabel={tr('journal.entryLabel')}
         style={{
           marginTop: spacing.lg,
           backgroundColor: t.surface,
@@ -161,9 +181,11 @@ tr(kind === 'gratitude' ? 'journal.placeholderGratitude' : 'journal.placeholderR
                   {e.kind === 'prayer-request' ? (
                     <Pressable
                       onPress={() => toggleAnswered(e.id)}
-                      hitSlop={8}
                       accessibilityRole="button"
-                      accessibilityLabel={e.answered ? 'Mark as not answered' : 'Mark as answered'}
+                      accessibilityLabel={
+                        e.answered ? tr('journal.markUnanswered') : tr('journal.markAnswered')
+                      }
+                      style={{ width: 48, height: 48, alignItems: 'center', justifyContent: 'center' }}
                     >
                       <Ionicons
                         name={e.answered ? 'checkmark-circle' : 'checkmark-circle-outline'}
@@ -173,10 +195,10 @@ tr(kind === 'gratitude' ? 'journal.placeholderGratitude' : 'journal.placeholderR
                     </Pressable>
                   ) : null}
                   <Pressable
-                    onPress={() => remove(e.id)}
-                    hitSlop={8}
+                    onPress={() => confirmRemove(e.id)}
                     accessibilityRole="button"
-                    accessibilityLabel="Delete entry"
+                    accessibilityLabel={tr('journal.deleteEntry')}
+                    style={{ width: 48, height: 48, alignItems: 'center', justifyContent: 'center' }}
                   >
                     <Ionicons name="trash-outline" size={18} color={t.inkFaint} />
                   </Pressable>
@@ -190,5 +212,6 @@ tr(kind === 'gratitude' ? 'journal.placeholderGratitude' : 'journal.placeholderR
         </View>
       )}
     </Screen>
+    </KeyboardAvoidingView>
   );
 }

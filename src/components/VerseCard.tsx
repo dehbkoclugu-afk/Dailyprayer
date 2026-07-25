@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { Platform, Pressable, ScrollView, Share, Text, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { ActivityIndicator, Platform, Pressable, Share, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { captureRef } from 'react-native-view-shot';
@@ -19,18 +19,29 @@ interface Props {
 export function VerseCard({ verse, onRead }: Props) {
   const { t: tr } = useT();
   const cardRef = useRef<View>(null);
+  const [sharing, setSharing] = useState(false);
+  const cardHeight = Math.min(520, 320 + Math.ceil(verse.text.length / 110) * 48);
 
   /** Share the rendered card as an image (organic growth); text fallback on web/failure. */
   const share = async () => {
-    const text = `“${verse.text}” — ${verse.reference}\n\nLumen 🕊`;
+    if (sharing) return;
+    setSharing(true);
+    const text = `“${verse.text}” — ${verse.reference}\n\nLumen`;
     try {
       if (Platform.OS !== 'web' && (await Sharing.isAvailableAsync())) {
-        const uri = await captureRef(cardRef, { format: 'png', quality: 1 });
+        const uri = await captureRef(cardRef, {
+          format: 'jpg',
+          quality: 0.9,
+          width: 1080,
+          height: Math.round((1080 / 340) * cardHeight),
+        });
         await Sharing.shareAsync(uri, { dialogTitle: verse.reference });
         return;
       }
     } catch {
       // fall through to text share
+    } finally {
+      setSharing(false);
     }
     Share.share({ message: text }).catch(() => {});
   };
@@ -44,7 +55,7 @@ export function VerseCard({ verse, onRead }: Props) {
       style={[{ borderRadius: radius.hero, overflow: 'hidden' }, shadow.card]}
     >
       {/* Painterly art layer (A5 series, chosen by verse theme) + scrim for legibility */}
-      <ArtSlot id={verseArt(verse.theme)} height={340} radius={radius.hero}>
+      <ArtSlot id={verseArt(verse.theme)} height={cardHeight} radius={radius.hero}>
         <LinearGradient
           colors={['rgba(23,16,46,0.55)', 'rgba(14,18,32,0.92)']}
           start={{ x: 0.5, y: 0 }}
@@ -63,30 +74,19 @@ export function VerseCard({ verse, onRead }: Props) {
           >
 {tr('today.verseOfDay')}
           </Text>
-          {/* Long verses (up to ~365 chars) scroll inside the fixed card instead of
-              blowing out the layout. flexShrink caps height to the space left after the
-              label + reference rows; short verses render at natural height, no scroll.
-              ponytail: shared card capture clips to the visible portion for long verses. */}
-          <ScrollView
-            style={{ flexShrink: 1, marginTop: spacing.md }}
-            contentContainerStyle={{ paddingBottom: 2 }}
-            showsVerticalScrollIndicator
-            nestedScrollEnabled
+          <Text
+            style={{
+              fontFamily: fonts.serifLight,
+              fontSize: 27,
+              lineHeight: 39,
+              letterSpacing: -0.3,
+              color: '#F2EEE6',
+              marginLeft: -2,
+              marginTop: spacing.md,
+            }}
           >
-            <Text
-              style={{
-                fontFamily: fonts.serifLight,
-                fontSize: 27,
-                lineHeight: 39,
-                letterSpacing: -0.3,
-                color: '#F2EEE6',
-                // hanging opening quote
-                marginLeft: -2,
-              }}
-            >
-              “{verse.text}”
-            </Text>
-          </ScrollView>
+            “{verse.text}”
+          </Text>
           <View
             style={{
               flexDirection: 'row',
@@ -99,19 +99,27 @@ export function VerseCard({ verse, onRead }: Props) {
               {verse.reference}
             </Text>
             <Pressable
-              onPress={share}
-              hitSlop={12}
+              onPress={(event) => {
+                event.stopPropagation();
+                share();
+              }}
+              disabled={sharing}
               accessibilityRole="button"
-              accessibilityLabel="Share this verse"
+              accessibilityState={{ busy: sharing, disabled: sharing }}
+              accessibilityLabel={tr('verse.share')}
               style={({ pressed }) => ({
-                width: 44,
-                height: 44,
+                width: 48,
+                height: 48,
                 alignItems: 'center',
                 justifyContent: 'center',
                 opacity: pressed ? 0.6 : 1,
               })}
             >
-              <Ionicons name="share-outline" size={22} color="#F2EEE6" />
+              {sharing ? (
+                <ActivityIndicator color="#F2EEE6" />
+              ) : (
+                <Ionicons name="share-outline" size={22} color="#F2EEE6" />
+              )}
             </Pressable>
           </View>
         </View>

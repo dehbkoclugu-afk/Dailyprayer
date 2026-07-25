@@ -22,12 +22,13 @@ interface Props {
   subtitle: string;
   done: boolean;
   locked?: boolean;
+  primary?: boolean;
   onPress: () => void;
 }
 
 const CARD_W = 360; // approximate; the shimmer just needs to travel past the edge
 
-export function RitualCard({ icon, title, subtitle, done, locked, onPress }: Props) {
+export function RitualCard({ icon, title, subtitle, done, locked, primary, onPress }: Props) {
   const t = useTheme();
   const { t: tr } = useT();
 
@@ -41,7 +42,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress }: Pro
         withTiming(CARD_W, {
           duration: 650,
           easing: Easing.out(Easing.cubic),
-          reduceMotion: ReduceMotion.Never,
+          reduceMotion: ReduceMotion.System,
         }),
       );
     }
@@ -57,13 +58,14 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress }: Pro
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={`${title}${done ? ', completed' : locked ? ', locked' : ''}`}
+      accessibilityState={{ disabled: Boolean(locked), selected: done }}
       style={({ pressed }) => ({
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: t.surface,
+        backgroundColor: primary ? t.goldSoft : t.surface,
         borderRadius: radius.card,
-        borderWidth: 1,
-        borderColor: done ? t.gold : t.border,
+        borderColor: primary || done ? t.gold : t.border,
+        borderWidth: primary ? 2 : 1,
         padding: spacing.lg,
         gap: spacing.lg,
         overflow: 'hidden',

@@ -38,6 +38,7 @@ export function PillButton({ label, onPress, variant = 'primary', disabled, styl
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={label}
+      accessibilityState={{ disabled: Boolean(disabled), busy: Boolean(disabled) }}
       disabled={disabled}
       onPress={() => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});

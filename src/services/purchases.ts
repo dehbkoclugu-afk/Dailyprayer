@@ -3,7 +3,7 @@
  * entitlement store — never to the SDK directly. In Expo Go (no native module)
  * it degrades to a mock so the full funnel is testable in development.
  */
-import { Platform } from 'react-native';
+import { Linking, Platform } from 'react-native';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 
 export type PlanId = 'weekly' | 'annual' | 'lifetime';
@@ -71,4 +71,12 @@ export async function restore(): Promise<boolean> {
   const active = Boolean(info.entitlements.active['plus']);
   useEntitlementStore.getState().setPlus(active);
   return active;
+}
+
+export async function openSubscriptionManagement(): Promise<void> {
+  const url =
+    Platform.OS === 'ios'
+      ? 'https://apps.apple.com/account/subscriptions'
+      : 'https://play.google.com/store/account/subscriptions?package=com.lumen.dailyprayer';
+  await Linking.openURL(url);
 }

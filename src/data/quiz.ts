@@ -36,7 +36,6 @@ export const quizSteps: QuizStep[] = [
       { value: 'bible', label: 'Understanding the Bible', icon: 'library-outline' },
       { value: 'gratitude', label: 'A grateful heart', icon: 'heart-outline' },
     ],
-    affirmation: 'You’re in good company — 73% of members joined for the very same reason.',
   },
   {
     key: 'struggles',
@@ -51,7 +50,6 @@ export const quizSteps: QuizStep[] = [
       { value: 'consistency', label: 'Staying consistent', icon: 'repeat-outline' },
       { value: 'none', label: 'I’m doing okay', icon: 'sunny-outline' },
     ],
-    affirmation: 'Thank you for trusting us with that. Scripture meets people exactly here.',
   },
   {
     key: 'experience',

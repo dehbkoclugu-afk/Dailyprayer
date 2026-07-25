@@ -13,8 +13,10 @@ import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { toast } from '@/state/useToastStore';
 import { useT, translate, SUPPORTED_LOCALES } from '@/i18n';
 import * as NotificationService from '@/services/notifications';
+import * as Linking from 'expo-linking';
 import type { ThemeName } from '@/theme/tokens';
 import type { Locale } from '@/i18n/translations';
+import { openSubscriptionManagement } from '@/services/purchases';
 
 const LOCALE_LABELS: Record<Locale, string> = {
   en: 'English',
@@ -33,19 +35,24 @@ export default function Profile() {
   const { count, bestCount, totalDays } = useStreakStore();
   const isPlus = useEntitlementStore((s) => s.isPlus);
 
-  const setReminder = (time: string | null) => {
+  const setReminder = async (time: string | null) => {
     setQuiz({ prayerTime: time ?? 'none' });
-    if (time) {
-      NotificationService.requestPermission()
-        .then((granted) => {
-          if (granted) {
-            NotificationService.scheduleDailyReminder(time);
-            NotificationService.scheduleStreakSave(count);
-          }
-        })
-        .catch(() => {});
+    if (!time) {
+      toast(translate('toast.reminderSet'));
+      return;
     }
-    toast(translate('toast.reminderSet'));
+    try {
+      const granted = await NotificationService.requestPermission();
+      if (!granted) {
+        Alert.alert(tr('reminder.deniedTitle'), tr('reminder.deniedBody'));
+        return;
+      }
+      await NotificationService.scheduleDailyReminder(time);
+      await NotificationService.scheduleStreakSave(count);
+      toast(translate('toast.reminderSet'));
+    } catch {
+      Alert.alert(tr('reminder.errorTitle'), tr('reminder.errorBody'));
+    }
   };
 
   const openReminderPicker = () =>
@@ -83,7 +90,9 @@ export default function Profile() {
 
       {/* subscription card */}
       <Pressable
-        onPress={() => (!isPlus ? router.push('/paywall?from=profile') : null)}
+        onPress={() =>
+          isPlus ? openSubscriptionManagement() : router.push('/paywall?from=profile')
+        }
         accessibilityRole="button"
         accessibilityLabel={isPlus ? tr('profile.plusActive') : tr('profile.plusCta')}
         style={{
@@ -104,10 +113,10 @@ export default function Profile() {
             {isPlus ? tr('profile.plusActive') : tr('profile.plusCta')}
           </Text>
           <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
-            {isPlus ? tr('profile.plusThanks') : tr('profile.plusSub')}
+            {isPlus ? tr('profile.manageSubscription') : tr('profile.plusSub')}
           </Text>
         </View>
-        {!isPlus ? <Ionicons name="chevron-forward" size={20} color={t.inkFaint} /> : null}
+        <Ionicons name="chevron-forward" size={20} color={t.inkFaint} />
       </Pressable>
 
       <SectionHeader title={tr('profile.appearance')} />
@@ -166,9 +175,18 @@ export default function Profile() {
           label={tr('profile.terms')}
           onPress={() => router.push({ pathname: '/legal', params: { doc: 'terms' } })}
         />
-        <Row icon="mail-outline" label={tr('profile.contact')} />
+        <Row
+          icon="mail-outline"
+          label={tr('profile.contact')}
+          onPress={() => Linking.openURL('mailto:support@lumen.app')}
+        />
         <Pressable
-          onPress={reset}
+          onPress={() =>
+            Alert.alert(tr('profile.restartConfirmTitle'), tr('profile.restartConfirmBody'), [
+              { text: tr('common.cancel'), style: 'cancel' },
+              { text: tr('profile.restart'), style: 'destructive', onPress: reset },
+            ])
+          }
           accessibilityRole="button"
           accessibilityLabel={tr('profile.restart')}
           style={({ pressed }) => ({
@@ -261,7 +279,7 @@ function Row({ icon, label, onPress }: { icon: string; label: string; onPress?: 
       >
         <Ionicons name={icon as never} size={20} color={t.inkSoft} />
         <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink, flex: 1 }}>{label}</Text>
-        <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
+        {onPress ? <Ionicons name="chevron-forward" size={18} color={t.inkFaint} /> : null}
       </View>
     </Pressable>
   );

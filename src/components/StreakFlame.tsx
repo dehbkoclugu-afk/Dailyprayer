@@ -8,6 +8,7 @@ import Animated, {
   withSpring,
   withTiming,
   Easing,
+  cancelAnimation,
 } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/hooks/useTheme';
@@ -44,6 +45,8 @@ export function StreakFlame({ count, litToday }: Props) {
     });
     return () => {
       cancelled = true;
+      cancelAnimation(scale);
+      scale.value = 1;
     };
   }, [litToday, scale]);
 

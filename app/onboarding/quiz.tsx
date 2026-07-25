@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, Text, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeInDown, FadeInRight, FadeOut, FadeOutLeft } from 'react-native-reanimated';
+import Animated, {
+  FadeInDown,
+  FadeInRight,
+  FadeOut,
+  FadeOutLeft,
+  useReducedMotion,
+} from 'react-native-reanimated';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
@@ -17,6 +23,7 @@ import { useT } from '@/i18n';
 /** Step 0 = name entry, then quizSteps, with affirmation interstitials. */
 export default function Quiz() {
   const t = useTheme();
+  const reduceMotion = useReducedMotion();
   const { t: tr } = useT();
   const setQuiz = useUserStore((s) => s.setQuiz);
   const [step, setStep] = useState(0);
@@ -66,7 +73,10 @@ export default function Quiz() {
   if (affirmation) {
     return (
       <Screen scroll={false} style={{ justifyContent: 'center' }}>
-        <Animated.View entering={FadeInDown.springify().damping(20)} exiting={FadeOut}>
+        <Animated.View
+          entering={reduceMotion ? undefined : FadeInDown.springify().damping(20)}
+          exiting={reduceMotion ? undefined : FadeOut}
+        >
           <ArtSlot
             id="A6-affirmation-spot"
             height={120}
@@ -81,6 +91,10 @@ export default function Quiz() {
   }
 
   return (
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
     <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
       <View>
         {/* progress bar + step counter */}
@@ -117,7 +131,10 @@ export default function Quiz() {
         </View>
 
         {step === 0 ? (
-          <Animated.View key="name" entering={FadeInDown.springify().damping(20)}>
+          <Animated.View
+            key="name"
+            entering={reduceMotion ? undefined : FadeInDown.springify().damping(20)}
+          >
             <Text style={[ty.title, { color: t.ink }]}>{tr('quiz.namePrompt')}</Text>
             <TextInput
               value={name}
@@ -127,7 +144,7 @@ export default function Quiz() {
               autoFocus
               onFocus={() => setNameFocused(true)}
               onBlur={() => setNameFocused(false)}
-              accessibilityLabel="Your first name"
+              accessibilityLabel={tr('quiz.namePlaceholder')}
               style={{
                 marginTop: spacing.xl,
                 backgroundColor: t.surface,
@@ -155,13 +172,15 @@ export default function Quiz() {
           // directional continuity: steps arrive from the right, leave left
           <Animated.View
             key={current.key}
-            entering={FadeInRight.duration(250)}
-            exiting={FadeOutLeft.duration(150)}
+            entering={reduceMotion ? undefined : FadeInRight.duration(250)}
+            exiting={reduceMotion ? undefined : FadeOutLeft.duration(150)}
           >
-            <Text style={[ty.title, { color: t.ink }]}>{current.question}</Text>
+            <Text style={[ty.title, { color: t.ink }]}>
+              {tr(`quiz.${current.key}.question` as never)}
+            </Text>
             {current.subtitle ? (
               <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.sm }]}>
-                {current.subtitle}
+                {tr(`quiz.${current.key}.subtitle` as never)}
               </Text>
             ) : null}
             <View style={{ gap: spacing.md, marginTop: spacing.xl }}>
@@ -173,7 +192,7 @@ export default function Quiz() {
                     onPress={() => toggle(o.value)}
                     accessibilityRole="button"
                     accessibilityState={{ selected: active }}
-                    accessibilityLabel={o.label}
+                    accessibilityLabel={tr(`quiz.${current.key}.${o.value}` as never)}
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',
@@ -209,7 +228,7 @@ export default function Quiz() {
                         flex: 1,
                       }}
                     >
-                      {o.label}
+                      {tr(`quiz.${current.key}.${o.value}` as never)}
                     </Text>
                     {active ? <Ionicons name="checkmark" size={20} color={t.gold} /> : null}
                   </Pressable>
@@ -226,5 +245,6 @@ export default function Quiz() {
         disabled={step === 0 ? name.trim().length === 0 : selected.length === 0}
       />
     </Screen>
+    </KeyboardAvoidingView>
   );
 }

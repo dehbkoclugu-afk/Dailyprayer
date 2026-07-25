@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { AccessibilityInfo, Pressable, Text, View } from 'react-native';
 import Animated, { FadeInDown, FadeOutUp } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,10 +12,11 @@ import { radius, shadow, spacing } from '@/theme/tokens';
 export function ToastHost() {
   const t = useTheme();
   const insets = useSafeAreaInsets();
-  const { message, seq, clear } = useToastStore();
+  const { message, actionLabel, action, seq, clear } = useToastStore();
 
   useEffect(() => {
     if (!message) return;
+    AccessibilityInfo.announceForAccessibility(message);
     const timer = setTimeout(clear, 2200);
     return () => clearTimeout(timer);
   }, [message, seq, clear]);
@@ -36,6 +37,8 @@ export function ToastHost() {
     >
       <Animated.View
         key={seq}
+        accessibilityRole="alert"
+        accessibilityLiveRegion="polite"
         entering={FadeInDown.springify().damping(20)}
         exiting={FadeOutUp.duration(150)}
         style={[
@@ -55,7 +58,30 @@ export function ToastHost() {
         ]}
       >
         <Ionicons name="sparkles" size={15} color={t.gold} />
-        <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.ink }}>{message}</Text>
+        <Text style={{ flexShrink: 1, fontFamily: fonts.sansMedium, fontSize: 14, color: t.ink }}>
+          {message}
+        </Text>
+        {actionLabel && action ? (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={actionLabel}
+            onPress={() => {
+              action();
+              clear();
+            }}
+            style={({ pressed }) => ({
+              minWidth: 48,
+              minHeight: 48,
+              alignItems: 'center',
+              justifyContent: 'center',
+              opacity: pressed ? 0.6 : 1,
+            })}
+          >
+            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: t.gold }}>
+              {actionLabel}
+            </Text>
+          </Pressable>
+        ) : null}
       </Animated.View>
     </View>
   );
