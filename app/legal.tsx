@@ -91,7 +91,7 @@ export default function Legal() {
         onPress={() => router.back()}
         hitSlop={12}
         accessibilityRole="button"
-        accessibilityLabel={tr('common.back')}
+        accessibilityLabel={tr('a11y.back')}
         style={({ pressed }) => ({ width: 48, height: 48, justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
       >
         <Ionicons name="chevron-back" size={26} color={t.inkSoft} />

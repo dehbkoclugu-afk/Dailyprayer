@@ -36,10 +36,22 @@ export default function DevotionalScreen() {
         onPress={() => router.back()}
         hitSlop={12}
         accessibilityRole="button"
-        accessibilityLabel={tr('common.back')}
-        style={{ width: 48, height: 48, justifyContent: 'center' }}
+        accessibilityLabel={tr('a11y.back')}
+        // Bordered chip so there's always a visible tap target to leave the
+        // reader — a bare icon becomes an invisible dead corner if the glyph
+        // ever fails to render.
+        style={{
+          width: 44,
+          height: 44,
+          borderRadius: 22,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: t.surface,
+          borderWidth: 1,
+          borderColor: t.border,
+        }}
       >
-        <Ionicons name="chevron-back" size={26} color={t.inkSoft} />
+        <Ionicons name="chevron-back" size={24} color={t.inkSoft} />
       </Pressable>
 
       <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 12, letterSpacing: 2, textTransform: 'uppercase', color: t.gold, marginTop: spacing.lg }}>

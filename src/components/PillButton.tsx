@@ -16,7 +16,15 @@ interface Props {
 
 export function PillButton({ label, onPress, variant = 'primary', disabled, style }: Props) {
   const t = useTheme();
-  const color = variant === 'primary' ? t.onGold : variant === 'secondary' ? t.ink : t.inkSoft;
+  // Disabled reads as a flat, clearly-inactive neutral chip — dimming the gold
+  // gradient to 40% instead looks like a muddy/broken button, not "not yet".
+  const color = disabled
+    ? t.inkFaint
+    : variant === 'primary'
+      ? t.onGold
+      : variant === 'secondary'
+        ? t.ink
+        : t.inkSoft;
 
   const inner = (pressed: boolean) => (
     <View
@@ -48,10 +56,14 @@ export function PillButton({ label, onPress, variant = 'primary', disabled, styl
         {
           borderRadius: radius.pill,
           overflow: 'hidden',
-          opacity: disabled ? 0.4 : 1,
           transform: [{ scale: pressed ? 0.97 : 1 }],
-          backgroundColor:
-            variant === 'secondary' ? t.surfaceAlt : variant === 'ghost' ? 'transparent' : undefined,
+          backgroundColor: disabled
+            ? t.surfaceAlt
+            : variant === 'secondary'
+              ? t.surfaceAlt
+              : variant === 'ghost'
+                ? 'transparent'
+                : undefined,
           // candlelight glow under the primary action
           ...(variant === 'primary' && !disabled
             ? {
@@ -67,7 +79,7 @@ export function PillButton({ label, onPress, variant = 'primary', disabled, styl
       ]}
     >
       {({ pressed }) =>
-        variant === 'primary' ? (
+        variant === 'primary' && !disabled ? (
           <LinearGradient
             colors={['#E2B04A', '#C99534']}
             start={{ x: 0, y: 0 }}

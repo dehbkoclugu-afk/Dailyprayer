@@ -1,30 +1,23 @@
-import React, { useState } from 'react';
-import { KeyboardAvoidingView, Platform, Pressable, Text, TextInput, View } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import Animated, {
-  FadeInDown,
-  FadeInRight,
-  FadeOut,
-  FadeOutLeft,
-  useReducedMotion,
-} from 'react-native-reanimated';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
-import { quizSteps } from '@/data/quiz';
+import { getQuizSteps } from '@/data/quiz';
 import { useUserStore } from '@/state/useUserStore';
 import { useT } from '@/i18n';
 
 /** Step 0 = name entry, then quizSteps, with affirmation interstitials. */
 export default function Quiz() {
   const t = useTheme();
-  const reduceMotion = useReducedMotion();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
+  const quizSteps = useMemo(() => getQuizSteps(locale), [locale]);
   const setQuiz = useUserStore((s) => s.setQuiz);
   const [step, setStep] = useState(0);
   const [name, setName] = useState('');
@@ -73,28 +66,21 @@ export default function Quiz() {
   if (affirmation) {
     return (
       <Screen scroll={false} style={{ justifyContent: 'center' }}>
-        <Animated.View
-          entering={reduceMotion ? undefined : FadeInDown.springify().damping(20)}
-          exiting={reduceMotion ? undefined : FadeOut}
-        >
+        <View>
           <ArtSlot
             id="A6-affirmation-spot"
             height={120}
             fit="contain"
-            style={{ width: 120, marginBottom: spacing.xl }}
+            style={{ width: 120, alignSelf: 'center', marginBottom: spacing.xl }}
           />
           <Text style={[ty.title, { color: t.ink }]}>{affirmation}</Text>
           <PillButton label={tr('quiz.continue')} onPress={goNext} style={{ marginTop: spacing.xxl }} />
-        </Animated.View>
+        </View>
       </Screen>
     );
   }
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
     <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
       <View>
         {/* progress bar + step counter */}
@@ -131,10 +117,7 @@ export default function Quiz() {
         </View>
 
         {step === 0 ? (
-          <Animated.View
-            key="name"
-            entering={reduceMotion ? undefined : FadeInDown.springify().damping(20)}
-          >
+          <View key="name">
             <Text style={[ty.title, { color: t.ink }]}>{tr('quiz.namePrompt')}</Text>
             <TextInput
               value={name}
@@ -144,7 +127,7 @@ export default function Quiz() {
               autoFocus
               onFocus={() => setNameFocused(true)}
               onBlur={() => setNameFocused(false)}
-              accessibilityLabel={tr('quiz.namePlaceholder')}
+              accessibilityLabel={tr('a11y.firstName')}
               style={{
                 marginTop: spacing.xl,
                 backgroundColor: t.surface,
@@ -167,20 +150,16 @@ export default function Quiz() {
             >
 {tr('quiz.nameNote')}
             </Text>
-          </Animated.View>
+          </View>
         ) : current ? (
-          // directional continuity: steps arrive from the right, leave left
-          <Animated.View
-            key={current.key}
-            entering={reduceMotion ? undefined : FadeInRight.duration(250)}
-            exiting={reduceMotion ? undefined : FadeOutLeft.duration(150)}
-          >
-            <Text style={[ty.title, { color: t.ink }]}>
-              {tr(`quiz.${current.key}.question` as never)}
-            </Text>
+          // Plain View — no reanimated entering/exiting here: on the old
+          // architecture the exiting layout copy lingers over the next step and
+          // swallows taps on the option buttons, trapping the user in the quiz.
+          <View key={current.key}>
+            <Text style={[ty.title, { color: t.ink }]}>{current.question}</Text>
             {current.subtitle ? (
               <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.sm }]}>
-                {tr(`quiz.${current.key}.subtitle` as never)}
+                {current.subtitle}
               </Text>
             ) : null}
             <View style={{ gap: spacing.md, marginTop: spacing.xl }}>
@@ -192,7 +171,7 @@ export default function Quiz() {
                     onPress={() => toggle(o.value)}
                     accessibilityRole="button"
                     accessibilityState={{ selected: active }}
-                    accessibilityLabel={tr(`quiz.${current.key}.${o.value}` as never)}
+                    accessibilityLabel={o.label}
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',
@@ -228,14 +207,14 @@ export default function Quiz() {
                         flex: 1,
                       }}
                     >
-                      {tr(`quiz.${current.key}.${o.value}` as never)}
+                      {o.label}
                     </Text>
                     {active ? <Ionicons name="checkmark" size={20} color={t.gold} /> : null}
                   </Pressable>
                 );
               })}
             </View>
-          </Animated.View>
+          </View>
         ) : null}
       </View>
 
@@ -245,6 +224,5 @@ export default function Quiz() {
         disabled={step === 0 ? name.trim().length === 0 : selected.length === 0}
       />
     </Screen>
-    </KeyboardAvoidingView>
   );
 }

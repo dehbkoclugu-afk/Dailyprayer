@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Alert, Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
+import { OptionSheet, type SheetOption } from '@/components/OptionSheet';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
@@ -13,10 +14,8 @@ import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { toast } from '@/state/useToastStore';
 import { useT, translate, SUPPORTED_LOCALES } from '@/i18n';
 import * as NotificationService from '@/services/notifications';
-import * as Linking from 'expo-linking';
 import type { ThemeName } from '@/theme/tokens';
 import type { Locale } from '@/i18n/translations';
-import { openSubscriptionManagement } from '@/services/purchases';
 
 const LOCALE_LABELS: Record<Locale, string> = {
   en: 'English',
@@ -34,25 +33,35 @@ export default function Profile() {
     useUserStore();
   const { count, bestCount, totalDays } = useStreakStore();
   const isPlus = useEntitlementStore((s) => s.isPlus);
+  const [sheet, setSheet] = useState<null | 'appearance' | 'language'>(null);
 
-  const setReminder = async (time: string | null) => {
+  const appearanceOptions: SheetOption<ThemeName | 'system'>[] = [
+    { value: 'system', label: tr('profile.auto') },
+    { value: 'vigil', label: tr('profile.vigil') },
+    { value: 'dawn', label: tr('profile.dawn') },
+  ];
+  const languageOptions: SheetOption<Locale | 'system'>[] = [
+    { value: 'system', label: tr('profile.auto') },
+    ...SUPPORTED_LOCALES.map((l) => ({ value: l, label: LOCALE_LABELS[l] })),
+  ];
+  const appearanceLabel =
+    appearanceOptions.find((o) => o.value === themePreference)?.label ?? tr('profile.auto');
+  const languageLabel =
+    language === 'system' ? tr('profile.auto') : LOCALE_LABELS[language as Locale];
+
+  const setReminder = (time: string | null) => {
     setQuiz({ prayerTime: time ?? 'none' });
-    if (!time) {
-      toast(translate('toast.reminderSet'));
-      return;
+    if (time) {
+      NotificationService.requestPermission()
+        .then((granted) => {
+          if (granted) {
+            NotificationService.scheduleDailyReminder(time);
+            NotificationService.scheduleStreakSave(count);
+          }
+        })
+        .catch(() => {});
     }
-    try {
-      const granted = await NotificationService.requestPermission();
-      if (!granted) {
-        Alert.alert(tr('reminder.deniedTitle'), tr('reminder.deniedBody'));
-        return;
-      }
-      await NotificationService.scheduleDailyReminder(time);
-      await NotificationService.scheduleStreakSave(count);
-      toast(translate('toast.reminderSet'));
-    } catch {
-      Alert.alert(tr('reminder.errorTitle'), tr('reminder.errorBody'));
-    }
+    toast(translate('toast.reminderSet'));
   };
 
   const openReminderPicker = () =>
@@ -68,35 +77,68 @@ export default function Profile() {
       <Text style={[ty.title, { color: t.ink }]}>
         {quiz.name ? quiz.name : tr('profile.journey')}
       </Text>
+      <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>
+        {tr('profile.subtitle')}
+      </Text>
 
-      {/* stats — one unified card */}
+      {/* streak — the current run is the hero (a flame + one number reads warm,
+          not the hollow "three identical 1s" dashboard); best/total sit below
+          as a quiet footnote so the card has hierarchy instead of three peers. */}
       <View
         style={{
-          flexDirection: 'row',
           backgroundColor: t.surface,
           borderRadius: radius.card,
           borderWidth: 1,
           borderColor: t.border,
           marginTop: spacing.lg,
-          paddingVertical: spacing.lg,
+          padding: spacing.lg,
         }}
       >
-        <Stat icon="flame" label={tr('profile.dayStreak')} value={`${count}`} />
-        <View style={{ width: 1, backgroundColor: t.border, marginVertical: spacing.sm }} />
-        <Stat icon="trophy-outline" label={tr('profile.bestStreak')} value={`${bestCount}`} />
-        <View style={{ width: 1, backgroundColor: t.border, marginVertical: spacing.sm }} />
-        <Stat icon="calendar-outline" label={tr('profile.totalDays')} value={`${totalDays}`} />
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.lg }}>
+          <View
+            style={{
+              width: 52,
+              height: 52,
+              borderRadius: 26,
+              backgroundColor: t.goldSoft,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Ionicons name="flame" size={26} color={t.gold} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text
+              style={{
+                fontFamily: fonts.sansBold,
+                fontSize: 30,
+                color: t.ink,
+                fontVariant: ['tabular-nums'],
+              }}
+            >
+              {count}
+            </Text>
+            <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
+              {tr('profile.dayStreak')}
+            </Text>
+          </View>
+        </View>
+        <View style={{ height: 1, backgroundColor: t.border, marginVertical: spacing.md }} />
+        <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft }}>
+          {tr('profile.bestStreak')} {bestCount} · {tr('profile.totalDays')} {totalDays}
+        </Text>
       </View>
 
       {/* subscription card */}
       <Pressable
-        onPress={() =>
-          isPlus ? openSubscriptionManagement() : router.push('/paywall?from=profile')
-        }
+        onPress={() => (!isPlus ? router.push('/paywall?from=profile') : null)}
         accessibilityRole="button"
         accessibilityLabel={isPlus ? tr('profile.plusActive') : tr('profile.plusCta')}
         style={{
-          backgroundColor: isPlus ? t.goldSoft : t.surface,
+          // Active Plus previously filled with goldSoft — a muddy olive block on
+          // the dark surface. The gold border + filled star already read as
+          // premium, so keep a clean surface fill in both states.
+          backgroundColor: t.surface,
           borderColor: t.gold,
           borderWidth: 1,
           borderRadius: radius.card,
@@ -113,40 +155,34 @@ export default function Profile() {
             {isPlus ? tr('profile.plusActive') : tr('profile.plusCta')}
           </Text>
           <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
-            {isPlus ? tr('profile.manageSubscription') : tr('profile.plusSub')}
+            {isPlus ? tr('profile.plusThanks') : tr('profile.plusSub')}
           </Text>
         </View>
-        <Ionicons name="chevron-forward" size={20} color={t.inkFaint} />
+        {!isPlus ? <Ionicons name="chevron-forward" size={20} color={t.inkFaint} /> : null}
       </Pressable>
 
-      <SectionHeader title={tr('profile.appearance')} />
-      <View style={{ flexDirection: 'row', gap: spacing.sm }}>
-        {(
-          [
-            { v: 'system', label: tr('profile.auto') },
-            { v: 'vigil', label: tr('profile.vigil') },
-            { v: 'dawn', label: tr('profile.dawn') },
-          ] as { v: ThemeName | 'system'; label: string }[]
-        ).map(({ v, label }) => (
-          <Choice key={v} label={label} active={themePreference === v} onPress={() => setThemePreference(v)} />
-        ))}
-      </View>
-
-      <SectionHeader title={tr('profile.language')} />
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm }}>
-        <Choice
-          label={tr('profile.auto')}
-          active={language === 'system'}
-          onPress={() => setLanguage('system')}
+      <SectionHeader title={tr('profile.preferences')} />
+      <View
+        style={{
+          backgroundColor: t.surface,
+          borderRadius: radius.card,
+          borderWidth: 1,
+          borderColor: t.border,
+        }}
+      >
+        <ValueRow
+          icon="contrast-outline"
+          label={tr('profile.appearance')}
+          value={appearanceLabel}
+          onPress={() => setSheet('appearance')}
+          first
         />
-        {SUPPORTED_LOCALES.map((l) => (
-          <Choice
-            key={l}
-            label={LOCALE_LABELS[l]}
-            active={language === l}
-            onPress={() => setLanguage(l)}
-          />
-        ))}
+        <ValueRow
+          icon="language-outline"
+          label={tr('profile.language')}
+          value={languageLabel}
+          onPress={() => setSheet('language')}
+        />
       </View>
 
       <SectionHeader title={tr('profile.about')} />
@@ -175,18 +211,9 @@ export default function Profile() {
           label={tr('profile.terms')}
           onPress={() => router.push({ pathname: '/legal', params: { doc: 'terms' } })}
         />
-        <Row
-          icon="mail-outline"
-          label={tr('profile.contact')}
-          onPress={() => Linking.openURL('mailto:support@lumen.app')}
-        />
+        <Row icon="mail-outline" label={tr('profile.contact')} />
         <Pressable
-          onPress={() =>
-            Alert.alert(tr('profile.restartConfirmTitle'), tr('profile.restartConfirmBody'), [
-              { text: tr('common.cancel'), style: 'cancel' },
-              { text: tr('profile.restart'), style: 'destructive', onPress: reset },
-            ])
-          }
+          onPress={reset}
           accessibilityRole="button"
           accessibilityLabel={tr('profile.restart')}
           style={({ pressed }) => ({
@@ -208,50 +235,64 @@ export default function Profile() {
       <Text style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkFaint, textAlign: 'center', marginTop: spacing.xl }}>
         Lumen v1.0.0
       </Text>
+
+      <OptionSheet
+        visible={sheet === 'appearance'}
+        title={tr('profile.appearance')}
+        options={appearanceOptions}
+        selected={themePreference}
+        onSelect={setThemePreference}
+        onClose={() => setSheet(null)}
+      />
+      <OptionSheet
+        visible={sheet === 'language'}
+        title={tr('profile.language')}
+        options={languageOptions}
+        selected={language}
+        onSelect={setLanguage}
+        onClose={() => setSheet(null)}
+      />
     </Screen>
   );
 }
 
-function Stat({ icon, label, value }: { icon: string; label: string; value: string }) {
-  const t = useTheme();
-  return (
-    <View style={{ flex: 1, alignItems: 'center', gap: 4 }}>
-      <Ionicons name={icon as never} size={20} color={t.gold} />
-      <Text
-        style={{
-          fontFamily: fonts.sansBold,
-          fontSize: 22,
-          color: t.ink,
-          fontVariant: ['tabular-nums'],
-        }}
-      >
-        {value}
-      </Text>
-      <Text style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkSoft }}>{label}</Text>
-    </View>
-  );
-}
-
-function Choice({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
+function ValueRow({
+  icon,
+  label,
+  value,
+  onPress,
+  first,
+}: {
+  icon: string;
+  label: string;
+  value: string;
+  onPress: () => void;
+  first?: boolean;
+}) {
   const t = useTheme();
   return (
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityState={{ selected: active }}
-      style={{
-        backgroundColor: active ? t.goldSoft : 'transparent',
-        borderColor: active ? t.gold : t.border,
-        borderWidth: 1,
-        borderRadius: radius.pill,
-        paddingHorizontal: spacing.lg,
-        minHeight: 48,
-        justifyContent: 'center',
-      }}
+      accessibilityLabel={`${label}: ${value}`}
+      style={({ pressed }) => ({ paddingHorizontal: spacing.lg, opacity: pressed ? 0.6 : 1 })}
     >
-      <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: active ? t.gold : t.inkSoft }}>
-        {label}
-      </Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: spacing.md,
+          paddingVertical: spacing.lg,
+          minHeight: 56,
+          borderTopWidth: first ? 0 : 1,
+          borderTopColor: t.border,
+        }}
+      >
+        <Ionicons name={icon as never} size={20} color={t.inkSoft} />
+        <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink, flex: 1 }}>{label}</Text>
+        <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.gold }}>{value}</Text>
+        <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
+      </View>
     </Pressable>
   );
 }
@@ -279,7 +320,7 @@ function Row({ icon, label, onPress }: { icon: string; label: string; onPress?: 
       >
         <Ionicons name={icon as never} size={20} color={t.inkSoft} />
         <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink, flex: 1 }}>{label}</Text>
-        {onPress ? <Ionicons name="chevron-forward" size={18} color={t.inkFaint} /> : null}
+        <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
       </View>
     </Pressable>
   );

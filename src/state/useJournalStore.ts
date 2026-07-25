@@ -6,16 +6,17 @@ import { dayKey } from '@/lib/dates';
 export interface JournalEntry {
   id: string;
   day: string;
-  kind: 'gratitude' | 'prayer-request';
+  kind: 'gratitude' | 'prayer-request' | 'verse';
   text: string;
+  /** scripture reference, set when kind === 'verse' */
+  ref?: string;
   answered?: boolean;
   createdAt: number;
 }
 
 interface JournalState {
   entries: JournalEntry[];
-  add: (kind: JournalEntry['kind'], text: string) => void;
-  toggleAnswered: (id: string) => void;
+  add: (kind: JournalEntry['kind'], text: string, ref?: string) => void;
   remove: (id: string) => void;
   restore: (entry: JournalEntry) => void;
 }
@@ -24,7 +25,7 @@ export const useJournalStore = create<JournalState>()(
   persist(
     (set) => ({
       entries: [],
-      add: (kind, text) =>
+      add: (kind, text, ref) =>
         set((s) => ({
           entries: [
             {
@@ -32,17 +33,12 @@ export const useJournalStore = create<JournalState>()(
               day: dayKey(),
               kind,
               text: text.trim(),
+              ...(ref ? { ref } : {}),
               answered: false,
               createdAt: Date.now(),
             },
             ...s.entries,
           ],
-        })),
-      toggleAnswered: (id) =>
-        set((s) => ({
-          entries: s.entries.map((e) =>
-            e.id === id ? { ...e, answered: !e.answered } : e,
-          ),
         })),
       remove: (id) =>
         set((s) => ({ entries: s.entries.filter((e) => e.id !== id) })),

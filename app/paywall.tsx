@@ -50,7 +50,7 @@ export default function Paywall() {
       const ok = await purchase(selected);
       if (ok) setThanks(true);
     } catch {
-      Alert.alert(tr('paywall.purchaseErrorTitle'), tr('paywall.purchaseErrorBody'));
+      Alert.alert(tr('paywall.purchaseFailTitle'), tr('paywall.purchaseFailBody'));
     } finally {
       setBusy(false);
     }
@@ -105,7 +105,7 @@ export default function Paywall() {
         onPress={close}
         hitSlop={12}
         accessibilityRole="button"
-        accessibilityLabel={tr('common.close')}
+        accessibilityLabel={tr('a11y.close')}
         style={({ pressed }) => ({
           alignSelf: 'flex-end',
           width: 48,

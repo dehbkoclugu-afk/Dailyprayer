@@ -7,6 +7,8 @@ import type { ImageSourcePropType } from 'react-native';
  */
 export type AssetId =
   | 'A1-logomark'
+  | 'A2-wordmark'
+  | 'A3-grain'
   | 'A4-welcome-hero'
   | 'A5-verse-peace'
   | 'A5-verse-strength'
@@ -35,10 +37,16 @@ export type AssetId =
   | 'A13-gospels90'
   | 'A13-bible365'
   | 'A14-bible-etching'
-  | 'A15-building-candle';
+  | 'A15-building-candle'
+  | 'A17-splash'
+  | 'A18-ritual-reading'
+  | 'A19-ritual-prayer'
+  | 'A20-ritual-gratitude';
 
 export const artRegistry: Record<AssetId, ImageSourcePropType | null> = {
   'A1-logomark': require('./art/A1-logomark.webp'),
+  'A2-wordmark': require('./art/A2-wordmark.webp'),
+  'A3-grain': require('./art/A3-grain.webp'),
   'A4-welcome-hero': require('./art/A4-welcome-hero.webp'),
   'A5-verse-peace': require('./art/A5-verse-peace.webp'),
   'A5-verse-strength': require('./art/A5-verse-strength.webp'),
@@ -67,13 +75,18 @@ export const artRegistry: Record<AssetId, ImageSourcePropType | null> = {
   'A13-gospels90': require('./art/A13-gospels90.webp'),
   'A13-bible365': require('./art/A13-bible365.webp'),
   'A14-bible-etching': require('./art/A14-bible-etching.webp'),
-  // Reuse the existing candle-lit affirmation until a dedicated crop is commissioned.
-  'A15-building-candle': require('./art/A6-affirmation-spot.webp'),
+  'A15-building-candle': require('./art/A15-building-candle.webp'),
+  'A17-splash': require('./art/A17-splash.webp'),
+  'A18-ritual-reading': require('./art/A18-ritual-reading.webp'),
+  'A19-ritual-prayer': require('./art/A19-ritual-prayer.webp'),
+  'A20-ritual-gratitude': require('./art/A20-ritual-gratitude.webp'),
 };
 
 /** Placeholder metadata shown inside unfilled slots. */
 export const artSpecs: Record<AssetId, { label: string; size: string }> = {
   'A1-logomark': { label: 'Logomark', size: '512²' },
+  'A2-wordmark': { label: 'Wordmark', size: '1200×400' },
+  'A3-grain': { label: 'Grain tile', size: '512²' },
   'A4-welcome-hero': { label: 'Welcome hero', size: '1170×1000' },
   'A5-verse-peace': { label: 'Verse — peace', size: '1170×1300' },
   'A5-verse-strength': { label: 'Verse — strength', size: '1170×1300' },
@@ -103,6 +116,10 @@ export const artSpecs: Record<AssetId, { label: string; size: string }> = {
   'A13-bible365': { label: 'Bible plan', size: '1170×700' },
   'A14-bible-etching': { label: 'Bible etching', size: '1170×400' },
   'A15-building-candle': { label: 'Building candle', size: '600²' },
+  'A17-splash': { label: 'Splash', size: '1284×2778' },
+  'A18-ritual-reading': { label: 'Ritual: reading', size: '1980×800' },
+  'A19-ritual-prayer': { label: 'Ritual: prayer', size: '1980×800' },
+  'A20-ritual-gratitude': { label: 'Ritual: gratitude', size: '1980×800' },
 };
 
 /** Verse-card background art keyed by verse theme; falls back to peace. */

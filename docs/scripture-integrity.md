@@ -4,6 +4,21 @@ Scripture is the one kind of content in this app that must never be paraphrased,
 machine-translated, or written from memory. A wrong verse is not a bug — it is a
 breach of trust with the user. These rules are binding for every future change.
 
+## Approved source boundary
+
+- Production scripture may come only from the six source files approved by the
+  product owner: WEB, YTC, Reina-Valera 1909, João Ferreira de Almeida,
+  Ostervald, and Luther 1912.
+- Importing a source requires its exact edition name, upstream URL, license
+  evidence, retrieval date, and immutable Git blob hash.
+- Scripture text, book names, verse labels, headings, and source notes are
+  immutable source data. They must never pass through the UI translation
+  dictionary or an AI translation/rewrite step.
+- YTC is not public domain. It must remain verbatim with its attribution and
+  CC BY-ND 4.0 notice intact.
+- A source file may be replaced only by a newly verified verbatim export of the
+  same approved edition. Missing text must never be filled from another edition.
+
 ## 1. Verse text comes from a source, never from a model
 
 - All verses in `src/data/verses.ts` are extracted **verbatim** from the World
@@ -18,13 +33,9 @@ breach of trust with the user. These rules are binding for every future change.
 
 - The 6-language i18n system (`src/i18n/`) localizes **UI chrome only** —
   buttons, labels, section titles. It contains **no scripture**.
-- Verses, and the scripture quoted inside devotionals/prayers, stay in authentic
-  WEB English regardless of UI language. A Turkish-UI user still reads the exact
-  WEB verse text.
-- To localize scripture later, you MUST use each language's own **established,
-  properly-licensed public-domain translation** (e.g. a recognized historical
-  translation), sourced as a file the same way `fetch-verses.mjs` sources WEB.
-  Machine translation of scripture is prohibited. So is paraphrase.
+- The reader selects the already bundled, established edition for the active
+  language. It never translates one edition into another at runtime.
+- Machine translation of scripture is prohibited. So is paraphrase.
 
 ## 3. Devotionals and prayers are original content, clearly bounded
 

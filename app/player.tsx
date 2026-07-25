@@ -11,7 +11,7 @@ import { PillButton } from '@/components/PillButton';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
-import { prayers } from '@/data/prayers';
+import { usePrayers } from '@/data/prayers';
 import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
 import { translate, useT } from '@/i18n';
@@ -34,6 +34,7 @@ export default function Player() {
   const insets = useSafeAreaInsets();
   const reduceMotion = useReducedMotion();
   const { id } = useLocalSearchParams<{ id: string }>();
+  const prayers = usePrayers();
   const prayer = prayers.find((p) => p.id === id) ?? prayers[0];
   const [line, setLine] = useState(0);
   const [paused, setPaused] = useState(false);
