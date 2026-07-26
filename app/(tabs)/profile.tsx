@@ -14,6 +14,7 @@ import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { toast } from '@/state/useToastStore';
 import { useT, translate, SUPPORTED_LOCALES } from '@/i18n';
 import * as NotificationService from '@/services/notifications';
+import { openSubscriptionManagement } from '@/services/purchases';
 import type { ThemeName } from '@/theme/tokens';
 import type { Locale } from '@/i18n/translations';
 
@@ -71,6 +72,17 @@ export default function Profile() {
       { text: tr('profile.reminderEvening'), onPress: () => setReminder('21:00') },
       { text: tr('profile.reminderOff'), style: 'destructive', onPress: () => setReminder(null) },
     ]);
+
+  const manageSubscription = async () => {
+    try {
+      await openSubscriptionManagement();
+    } catch {
+      Alert.alert(
+        tr('profile.manageSubscriptionErrorTitle'),
+        tr('profile.manageSubscriptionErrorBody'),
+      );
+    }
+  };
 
   return (
     <Screen tabbed>
@@ -130,10 +142,7 @@ export default function Profile() {
       </View>
 
       {/* subscription card */}
-      <Pressable
-        onPress={() => (!isPlus ? router.push('/paywall?from=profile') : null)}
-        accessibilityRole="button"
-        accessibilityLabel={isPlus ? tr('profile.plusActive') : tr('profile.plusCta')}
+      <View
         style={{
           // Active Plus previously filled with goldSoft — a muddy olive block on
           // the dark surface. The gold border + filled star already read as
@@ -144,22 +153,62 @@ export default function Profile() {
           borderRadius: radius.card,
           padding: spacing.xl,
           marginTop: spacing.xl,
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: spacing.lg,
         }}
       >
-        <Ionicons name={isPlus ? 'star' : 'star-outline'} size={26} color={t.gold} />
-        <View style={{ flex: 1 }}>
-          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>
-            {isPlus ? tr('profile.plusActive') : tr('profile.plusCta')}
-          </Text>
-          <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
-            {isPlus ? tr('profile.plusThanks') : tr('profile.plusSub')}
-          </Text>
-        </View>
-        {!isPlus ? <Ionicons name="chevron-forward" size={20} color={t.inkFaint} /> : null}
-      </Pressable>
+        <Pressable
+          onPress={() => router.push('/paywall?from=profile')}
+          disabled={isPlus}
+          accessibilityRole={isPlus ? undefined : 'button'}
+          accessibilityLabel={isPlus ? undefined : tr('profile.plusCta')}
+          style={({ pressed }) => ({
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: spacing.lg,
+            opacity: pressed ? 0.7 : 1,
+          })}
+        >
+          <Ionicons name={isPlus ? 'star' : 'star-outline'} size={26} color={t.gold} />
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>
+              {isPlus ? tr('profile.plusActive') : tr('profile.plusCta')}
+            </Text>
+            <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
+              {isPlus ? tr('profile.plusThanks') : tr('profile.plusSub')}
+            </Text>
+          </View>
+          {!isPlus ? <Ionicons name="chevron-forward" size={20} color={t.inkFaint} /> : null}
+        </Pressable>
+        {isPlus ? (
+          <>
+            <View style={{ height: 1, backgroundColor: t.border, marginTop: spacing.lg }} />
+            <Pressable
+              onPress={manageSubscription}
+              accessibilityRole="button"
+              accessibilityLabel={tr('profile.manageSubscription')}
+              style={({ pressed }) => ({
+                minHeight: 48,
+                paddingTop: spacing.md,
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: spacing.sm,
+                opacity: pressed ? 0.6 : 1,
+              })}
+            >
+              <Text
+                style={{
+                  flex: 1,
+                  fontFamily: fonts.sansMedium,
+                  fontSize: 15,
+                  color: t.blue,
+                }}
+              >
+                {tr('profile.manageSubscription')}
+              </Text>
+              <Ionicons name="open-outline" size={18} color={t.blue} />
+            </Pressable>
+          </>
+        ) : null}
+      </View>
 
       <SectionHeader title={tr('profile.preferences')} />
       <View

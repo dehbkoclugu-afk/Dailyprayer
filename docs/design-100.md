@@ -19,7 +19,7 @@ deneyimi, performans ve görsel cila gelir.
    üretmemeli; hata, iptal ve bekleyen ödeme için üç ayrı durum tasarlanmalı.
 5. ✅ **TAMAMLANDI — Bekleyen satın alma durumunu kalıcı göster.** Google Play onay/bekleme sürecinde CTA yeniden
    satın alma başlatmamalı; durum kartı ve “daha sonra kontrol et” eylemi sunulmalı.
-6. **Plus durumuna “aboneliği yönet” eylemi ekle.** Aktif üyeler Profile ekranından doğrudan
+6. ✅ **TAMAMLANDI — Plus durumuna “aboneliği yönet” eylemi ekle.** Aktif üyeler Profile ekranından doğrudan
    mağazanın abonelik yönetimine gidebilmeli.
 7. **Restore sonucunu kalıcı ve eylemli yap.** “Bulunamadı” metnine doğru mağaza hesabını kontrol
    etme ve destek e-postası eylemleri eklenmeli.
