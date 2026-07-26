@@ -21,7 +21,7 @@ deneyimi, performans ve görsel cila gelir.
    satın alma başlatmamalı; durum kartı ve “daha sonra kontrol et” eylemi sunulmalı.
 6. ✅ **TAMAMLANDI — Plus durumuna “aboneliği yönet” eylemi ekle.** Aktif üyeler Profile ekranından doğrudan
    mağazanın abonelik yönetimine gidebilmeli.
-7. **Restore sonucunu kalıcı ve eylemli yap.** “Bulunamadı” metnine doğru mağaza hesabını kontrol
+7. ✅ **TAMAMLANDI — Restore sonucunu kalıcı ve eylemli yap.** “Bulunamadı” metnine doğru mağaza hesabını kontrol
    etme ve destek e-postası eylemleri eklenmeli.
 8. **Paywall bağlamını gerçekten kullan.** `from=` parametresi başlık, fayda sırası ve ilk görseli
    “uyku duasını aç”, “planı aç” gibi dokunulan içerikle eşleştirmeli.
