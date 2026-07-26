@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Pressable, Text, View } from 'react-native';
+import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -143,6 +144,41 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
             >
               <View style={{ width: 22, height: 22, borderRadius: 11, backgroundColor: paper ? t.onGold : t.surface }} />
             </View>
+          </Pressable>
+
+          {/* text source — full edition, license and attribution (roadmap item 12).
+              Licensed editions require this to be reachable from the reader, not
+              only implied by the one-line credit under the chapter. */}
+          <Pressable
+            onPress={() => {
+              tap();
+              onClose();
+              router.push('/source');
+            }}
+            accessibilityRole="button"
+            accessibilityLabel={tr('read.textSource')}
+            style={({ pressed }) => ({
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginTop: spacing.md,
+              minHeight: 56,
+              paddingVertical: spacing.md,
+              paddingHorizontal: spacing.lg,
+              borderRadius: radius.inner,
+              backgroundColor: t.surfaceAlt,
+              borderWidth: 1,
+              borderColor: t.border,
+              opacity: pressed ? 0.7 : 1,
+            })}
+          >
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, flex: 1 }}>
+              <Ionicons name="document-text-outline" size={20} color={t.inkSoft} />
+              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.ink }}>
+                {tr('read.textSource')}
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
           </Pressable>
         </View>
       </View>

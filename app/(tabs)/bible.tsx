@@ -170,18 +170,43 @@ export default function Bible() {
         })}
       </View>
 
-      {/* Scripture attribution — each translation carries its own license credit. */}
-      <Text
-        style={{
-          fontFamily: fonts.sans,
-          fontSize: 11,
-          color: t.inkFaint,
-          textAlign: 'center',
+      {/* Scripture attribution — each translation carries its own license credit.
+          Tapping it opens the full edition, license and attribution, so the credit
+          is an entry point rather than the whole disclosure (roadmap item 12). */}
+      <Pressable
+        onPress={() => router.push('/source')}
+        accessibilityRole="button"
+        accessibilityLabel={`${getBibleCredit(locale)} — ${tr('read.textSource')}`}
+        style={({ pressed }) => ({
           marginTop: spacing.xl,
-        }}
+          minHeight: 48,
+          justifyContent: 'center',
+          opacity: pressed ? 0.6 : 1,
+        })}
       >
-        {getBibleCredit(locale)}
-      </Text>
+        <Text
+          style={{
+            fontFamily: fonts.sans,
+            fontSize: 12,
+            lineHeight: 18,
+            color: t.inkFaint,
+            textAlign: 'center',
+          }}
+        >
+          {getBibleCredit(locale)}
+        </Text>
+        <Text
+          style={{
+            fontFamily: fonts.sansMedium,
+            fontSize: 12,
+            color: t.gold,
+            textAlign: 'center',
+            marginTop: 2,
+          }}
+        >
+          {tr('read.textSource')}
+        </Text>
+      </Pressable>
     </Screen>
   );
 }

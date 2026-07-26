@@ -100,6 +100,7 @@ export default function RootLayout() {
         <Stack.Screen name="player" options={{ presentation: 'modal' }} />
         <Stack.Screen name="devotional" options={{ presentation: 'card' }} />
         <Stack.Screen name="legal" options={{ presentation: 'card' }} />
+        <Stack.Screen name="source" options={{ presentation: 'card' }} />
         <Stack.Screen name="plan" options={{ presentation: 'card' }} />
       </Stack>
       <ToastHost />

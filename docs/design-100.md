@@ -53,8 +53,18 @@ deneyimi, performans ve görsel cila gelir.
     bilgisini göndermiyordu. YTC (CC BY-ND 4.0) ve Bíblia Livre (CC BY 4.0) alıntının telif ve
     kaynak bilgisiyle birlikte dolaşmasını şart koşuyor; artık kredi hem metin paylaşımına hem de
     paylaşılan kartın üzerine işleniyor ve bu da testle sabitlendi.
-12. **Kaynak ve lisans bilgisini okuyucuda görünür kıl.** Sadece bölüm sonunda küçük kredi yerine
-    ayarlar panelinden açılan “Metin kaynağı” ekranı; sürüm adı, lisans ve tam atıf sunmalı.
+12. ✅ **TAMAMLANDI — Kaynak ve lisans bilgisini okuyucuda görünür kıl.** `app/source.tsx` eklendi:
+    okuyucunun ayar panelinden (“Metin kaynağı” satırı) ve İncil sekmesindeki kredinin kendisine
+    dokunularak açılıyor. Ekran her sürüm için sürüm adı, hak durumu (kamu malı / lisansla
+    kullanılıyor), telif, lisans, sürüm tarihi, uyduğumuz koşullar ve hakların son inceleme tarihini
+    gösteriyor; lisans metnine ve yayıncının hak beyanına doğrudan bağlantı veriyor. Aktif dilin
+    sürümü üstte işaretli, diğer beş dil altında listeli. Tüm veriler
+    `src/data/scriptureRights.ts`’den geliyor, yani ekran release kapısının denetlediği haklardan
+    sapamıyor. Etiketler ve koşul metinleri altı dile çevrildi (koşullar `source.conditions.*`
+    anahtarlarıyla; kayıt defteri kanonik İngilizce sürümü tutuyor). Sürüm alanı dile bağımsız
+    biçimde (`eBible.org · 2026-07-22`) tutuldu. Bíblia Livre’nin istediği sürüm tarihi de böylece
+    karşılandı. Ekran web export üzerinden Playwright ile hem İngilizce/açık temada hem
+    Türkçe/koyu temada render edilerek doğrulandı — konsol hatası ve başarısız istek yok.
 13. **Dini metin bütünlüğü için release kontrolü tasarla.** Altı JSON’un bilinen SHA değerleri
     değişirse CI açıkça durmalı; değişiklik ancak kaynak belgesi güncellenerek kabul edilmeli.
     Kontrol ayrıca upstream sapmasını da yakalamalı: YTC hâlâ gözden geçiriliyor, dolayısıyla

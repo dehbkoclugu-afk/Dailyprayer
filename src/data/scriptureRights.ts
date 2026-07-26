@@ -31,8 +31,22 @@ export interface ScriptureSource {
   copyright?: string;
   license?: string;
   licenseUrl?: string;
-  /** Conditions we must honor when distributing the text. */
+  /**
+   * Conditions we must honor when distributing the text. Canonical English, kept
+   * here as the record the docs and release gate reason about.
+   */
   conditions?: string;
+  /**
+   * Translation key for the same conditions, so the source screen can show them
+   * in the reader's language. Must stay in step with `conditions`.
+   */
+  conditionsKey?: 'source.conditions.ytc' | 'source.conditions.webTrademark' | 'source.conditions.blivre';
+  /**
+   * Which version of the edition this is, where the publisher dates it. Bíblia
+   * Livre asks that the version date be cited, and YTC is revised over time, so
+   * the source screen shows this rather than implying a single timeless text.
+   */
+  version?: string;
   /** The artifact the bundled text was built from. */
   sourceUrl: string;
   /** Date the rights evidence was last reviewed (ISO). */
@@ -51,6 +65,8 @@ export const SCRIPTURE_SOURCES: Record<Locale, ScriptureSource> = {
     licenseUrl: 'https://creativecommons.org/licenses/by-nd/4.0/',
     conditions:
       'Keep the copyright and source information, and do not change the words or punctuation of the Scriptures.',
+    conditionsKey: 'source.conditions.ytc',
+    version: 'eBible.org · 2026-07-22',
     sourceUrl: 'https://ebible.org/turytc/copyright.htm',
     reviewed: '2026-07-26',
     basis:
@@ -62,6 +78,7 @@ export const SCRIPTURE_SOURCES: Record<Locale, ScriptureSource> = {
     credit: 'World English Bible · Public Domain',
     conditions:
       '“World English Bible” is an eBible.org trademark and may identify unchanged text only.',
+    conditionsKey: 'source.conditions.webTrademark',
     sourceUrl: 'https://ebible.org/eng-web/copyright.htm',
     reviewed: '2026-07-26',
     basis: 'The publisher dedicates the WEB to the public domain in its own rights notice.',
@@ -83,7 +100,9 @@ export const SCRIPTURE_SOURCES: Record<Locale, ScriptureSource> = {
     license: 'CC BY 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by/4.0/',
     conditions:
-      'Include the copyright and source information, and mark any change to the text so the original licensor is not shown as endorsing it.',
+      'Include the copyright and source information, cite the version date, and mark any change to the text so the original licensor is not shown as endorsing it.',
+    conditionsKey: 'source.conditions.blivre',
+    version: 'Bíblia Livre 2018-02 · eBible.org 2022-03-08',
     sourceUrl: 'https://ebible.org/porbr2018/copyright.htm',
     reviewed: '2026-07-26',
     basis:
@@ -93,6 +112,7 @@ export const SCRIPTURE_SOURCES: Record<Locale, ScriptureSource> = {
     edition: 'La Sainte Bible (Ostervald)',
     status: 'public-domain',
     credit: 'La Sainte Bible (Ostervald) · Domaine public',
+    version: 'eBible.org fra_fob · 2026-05-22',
     sourceUrl: 'https://ebible.org/fra_fob/copyright.htm',
     reviewed: '2026-07-26',
     basis:
