@@ -9,6 +9,7 @@ import { radius, shadow, spacing } from '@/theme/tokens';
 import { artRegistry, type AssetId } from '@/assets/registry';
 import type { DailyVerse } from '@/data/verses';
 import { useT } from '@/i18n';
+import { getBibleCredit } from '@/data/bibleFull';
 
 /**
  * Verse theme → A5 background. Eight themes have dedicated art; the remaining
@@ -38,12 +39,18 @@ interface Props {
 }
 
 export function VerseCard({ verse, onRead, onShuffle }: Props) {
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const cardRef = useRef<View>(null);
+
+  // The credit travels with the verse in every direction it can leave the app —
+  // rendered onto the shared card and in the text fallback. YTC (CC BY-ND 4.0)
+  // and Bíblia Livre (CC BY 4.0) both require the copyright and source
+  // information to accompany an extract.
+  const credit = getBibleCredit(locale);
 
   /** Share the rendered card as an image (organic growth); text fallback on web/failure. */
   const share = async () => {
-    const text = `“${verse.text}” — ${verse.reference}\n\nLumen 🕊`;
+    const text = `“${verse.text}” — ${verse.reference}\n${credit}\n\nLumen 🕊`;
     try {
       if (Platform.OS !== 'web' && (await Sharing.isAvailableAsync())) {
         const uri = await captureRef(cardRef, { format: 'png', quality: 1 });
@@ -135,9 +142,15 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               marginTop: spacing.md,
             }}
           >
-            <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: '#D9A441' }}>
-              {verse.reference}
-            </Text>
+            <View style={{ flex: 1, paddingRight: spacing.sm }}>
+              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: '#D9A441' }}>
+                {verse.reference}
+              </Text>
+              {/* required attribution — see scriptureRights.ts */}
+              <Text style={{ fontFamily: fonts.sans, fontSize: 11, lineHeight: 15, color: 'rgba(242,238,230,0.65)', marginTop: 2 }}>
+                {credit}
+              </Text>
+            </View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               {onShuffle ? (
                 <Pressable

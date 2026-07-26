@@ -63,6 +63,25 @@ breach of trust with the user. These rules are binding for every future change.
 text, malformed references, or leftover parsing artifacts. This caught a real
 incident where a network-based generator produced an empty file. Run `npm test`.
 
+`src/data/scriptureIntegrity.test.ts` enforces rule 2 and rule 3 above instead of
+trusting them to review. It fails if any of these appear:
+
+- a runtime network client (`fetch`, `axios`, `XMLHttpRequest`, `WebSocket`,
+  `EventSource`) anywhere under `app/` or `src/` — a summarize, simplify, rewrite
+  or machine-translate flow needs a service call, and the Privacy Policy promises
+  offline-first behavior;
+- an AI or machine-translation dependency, in the source or in `package.json`;
+- transform vocabulary reaching the interface (`summarize`, `simplify`,
+  `paraphrase`, `rewrite`, `retell`, `modernize`, `translateVerse`, …), so a
+  button cannot be labeled with an action that is not allowed;
+- a verse action outside the allowlist of bookmark / copy / share / save-to-journal;
+- a copy or share payload that alters the verse or drops the edition credit;
+- `toUpperCase` in any file that renders Scripture.
+
+`src/data/scriptureRights.test.ts` guards the rights registry, and
+`npm run release-gate` blocks a release while any bundled edition's rights are
+unverified.
+
 ## Verification done at authoring time
 
 Spot-checked against known WEB text (exact match, including WEB's "Yahweh",

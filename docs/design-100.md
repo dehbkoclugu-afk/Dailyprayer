@@ -39,8 +39,20 @@ deneyimi, performans ve görsel cila gelir.
     `src/data/scriptureRights.ts`’de; uygulama krediyi yalnızca oradan okuyor ve
     `npm run release-gate` doğrulanmamış bir sürüm derlemede kaldığı sürece release’i durduruyor.
     Kapı geçiyor. Kanıt ve reddedilen sürümlerin gerekçesi: `docs/scripture-sources.md`.
-11. **Kutsal Kitap metnini dönüştüren hiçbir UI/AI akışına izin verme.** Özetle, sadeleştir,
-    yeniden yaz ve otomatik çevir eylemleri okuyucu ve paylaşım ekranlarında bulunmamalı.
+11. ✅ **TAMAMLANDI — Kutsal Kitap metnini dönüştüren hiçbir UI/AI akışına izin verme.** Denetim
+    sonucu: böyle bir akış hiç yoktu. Runtime kodunda tek bir ağ çağrısı bile yok (`fetch`, `axios`,
+    `XMLHttpRequest`, `WebSocket` — hiçbiri), dolayısıyla bir özetleme/çeviri servisi teknik olarak
+    erişilemez; ayet sayfasındaki dört aksiyon (işaretle, kopyala, paylaş, günlüğe kaydet) metni
+    birebir geçiriyor; `textTransform: 'uppercase'` yalnızca UI etiketlerinde ve referans
+    satırında, ayet metninde değil; günlüğe kaydedilen ayet düzenlenemiyor. Bu durumun sonradan
+    bozulmaması `src/data/scriptureIntegrity.test.ts` ile makineye bağlandı: ağ istemcisi, AI/çeviri
+    bağımlılığı, “summarize/simplify/rewrite/paraphrase/translateVerse” sözcük dağarı, ayet
+    aksiyonlarının allowlist’i ve paylaşım yükünün birebirliği kontrol ediliyor. Korumaların
+    gerçekten yakaladığı, kasıtlı ihlaller enjekte edilerek doğrulandı.
+    **Ek olarak düzeltildi:** kopyala/paylaş ve günlük ayet kartı, lisansların zorunlu kıldığı atıf
+    bilgisini göndermiyordu. YTC (CC BY-ND 4.0) ve Bíblia Livre (CC BY 4.0) alıntının telif ve
+    kaynak bilgisiyle birlikte dolaşmasını şart koşuyor; artık kredi hem metin paylaşımına hem de
+    paylaşılan kartın üzerine işleniyor ve bu da testle sabitlendi.
 12. **Kaynak ve lisans bilgisini okuyucuda görünür kıl.** Sadece bölüm sonunda küçük kredi yerine
     ayarlar panelinden açılan “Metin kaynağı” ekranı; sürüm adı, lisans ve tam atıf sunmalı.
 13. **Dini metin bütünlüğü için release kontrolü tasarla.** Altı JSON’un bilinen SHA değerleri

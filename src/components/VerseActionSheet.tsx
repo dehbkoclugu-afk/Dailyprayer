@@ -17,6 +17,7 @@ import { useBookmarkStore } from '@/state/useBookmarkStore';
 import { useJournalStore } from '@/state/useJournalStore';
 import { toast } from '@/state/useToastStore';
 import { useT } from '@/i18n';
+import { getBibleCredit } from '@/data/bibleFull';
 
 export interface SelectedVerse {
   book: number;
@@ -37,7 +38,7 @@ export function VerseActionSheet({
   onClose: () => void;
 }) {
   const t = useReaderTheme();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const insets = useSafeAreaInsets();
 
   const marks = useHighlightStore((s) => s.marks);
@@ -75,15 +76,21 @@ export function VerseActionSheet({
     toast(on ? tr('verse.bookmarkAdded') : tr('verse.bookmarkRemoved'));
   };
 
+  // Verbatim text, its reference, then the edition credit. The credit is not
+  // decoration: YTC (CC BY-ND 4.0) and Bíblia Livre (CC BY 4.0) both require the
+  // copyright and source information to travel with any extract, and the WEB
+  // trademark condition requires identifying unchanged text.
+  const payload = `“${verse.text}”\n— ${verse.ref}\n${getBibleCredit(locale)}`;
+
   const onCopy = async () => {
     tap();
-    await Clipboard.setStringAsync(`“${verse.text}”\n— ${verse.ref}`).catch(() => {});
+    await Clipboard.setStringAsync(payload).catch(() => {});
     toast(tr('verse.copied'));
     onClose();
   };
 
   const onShare = () => {
-    Share.share({ message: `“${verse.text}”\n— ${verse.ref}` }).catch(() => {});
+    Share.share({ message: payload }).catch(() => {});
     onClose();
   };
 
