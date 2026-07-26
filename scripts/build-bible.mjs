@@ -1,5 +1,5 @@
 /**
- * Builds src/data/bible-full.json — the whole Yorumsuz Türkçe Çeviri (YTC)
+ * Builds src/data/bible-full.tr.json — the whole Yorumsuz Türkçe Çeviri (YTC)
  * bundled for the offline sequential reader.
  *   YTC_XML=/path/to/turytc_vpl.xml node scripts/build-bible.mjs
  * License: YTC CC-BY-ND 4.0, © İsmail Serinken & eBible.org (verbatim).
@@ -59,7 +59,7 @@ for (const [code, name] of ORDER) {
 }
 
 const credit = 'Yorumsuz Türkçe Çeviri © İsmail Serinken & eBible.org · CC BY-ND 4.0';
-const OUT = new URL('../src/data/bible-full.json', import.meta.url).pathname;
+const OUT = new URL('../src/data/bible-full.tr.json', import.meta.url).pathname;
 writeFileSync(OUT, JSON.stringify({ credit, books }));
 
 // Lightweight metadata (names + chapter counts) so the tab and the chapter
@@ -71,6 +71,6 @@ writeFileSync(
 );
 
 const bytes = readFileSync(OUT).length;
-console.log(`Wrote ${books.length} books to src/data/bible-full.json (${(bytes / 1024 / 1024).toFixed(2)} MB)`);
+console.log(`Wrote ${books.length} books to src/data/bible-full.tr.json (${(bytes / 1024 / 1024).toFixed(2)} MB)`);
 console.log('meta -> src/data/bible-books.json');
 console.log('total chapters:', books.reduce((n, b) => n + b.chapters.length, 0));

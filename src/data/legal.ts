@@ -83,17 +83,15 @@ content and are not a substitute for professional, medical, or pastoral advice.
 - **Spanish — Reina-Valera 1909:** public domain. Published in 1909, and its
   revisers died more than 70 years ago, so protection has expired. Source:
   https://github.com/seven1m/open-bibles/blob/master/spa-rv1909.usfx.xml.
-- **Portuguese — João Ferreira de Almeida:** rights status **not verified**. The
-  imported file identifies no dated revision and carries no rights statement, so
-  Lumen does not claim this text is public domain. This edition is withheld from
-  release until its edition and rights are established. Source:
-  https://github.com/seven1m/open-bibles/blob/master/por-almeida.usfx.xml.
-- **French — Bible J.F. Ostervald 1996:** rights status **not verified**. The
-  1996 revision was edited by C. H. Boughman and published by Bearing Precious
-  Seed (Milford, Ohio); no public-domain dedication by them has been found, so
-  Lumen does not claim this text is public domain. This edition is withheld from
-  release until its rights are established. Source:
-  https://github.com/seven1m/open-bibles/blob/master/fra-ostervald.osis.xml.
+- **Portuguese — Bíblia Livre:** copyright © 2018 Diego Santos, Mario Sérgio, e
+  Marco Teles; CC BY 4.0. Updated from the 1819 João Ferreira de Almeida
+  translation, Textus Receptus edition. Lumen distributes the Scripture text
+  verbatim and credits the copyright holders. Source:
+  https://ebible.org/porbr2018/copyright.htm. License:
+  https://creativecommons.org/licenses/by/4.0/.
+- **French — La Sainte Bible (Ostervald):** public domain, published by
+  eBible.org with a public-domain rights notice. Source:
+  https://ebible.org/fra_fob/copyright.htm.
 - **German — Luther Bible 1912:** public domain. Published in 1912, and its
   revisers died more than 70 years ago, so protection has expired. Source:
   https://github.com/seven1m/open-bibles/blob/master/deu-luther1912.osis.xml.

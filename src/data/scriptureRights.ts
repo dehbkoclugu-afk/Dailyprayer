@@ -3,12 +3,12 @@
  * truth for what Lumen may claim about each text and which locales are allowed
  * through the release gate.
  *
- * Why this exists: `scripts/build-bible-i18n.mjs` hard-coded an attribution line
- * into every `bible-full.<locale>.json`, including a "public domain" claim for
- * French and Portuguese that the evidence does not support. The bundled JSON is
- * immutable source data (see `docs/scripture-integrity.md`), so the claim is
- * corrected here at the presentation layer instead of by rewriting Scripture
- * files: `getBibleCredit()` reads this registry, never the JSON `credit` field.
+ * Why this exists: the generators hard-code an attribution line into every
+ * `bible-full.<locale>.json`, so a rights claim used to be able to reach users
+ * without anyone verifying it — which is how an unverified "public domain" claim
+ * shipped for French and Portuguese. Rights now live here and `getBibleCredit()`
+ * reads this registry, never the JSON `credit` field, so a claim cannot enter the
+ * app without an entry that states its evidence and passes the release gate.
  *
  * Evidence and verdicts: `docs/scripture-sources.md`.
  */
@@ -54,7 +54,7 @@ export const SCRIPTURE_SOURCES: Record<Locale, ScriptureSource> = {
     sourceUrl: 'https://ebible.org/turytc/copyright.htm',
     reviewed: '2026-07-26',
     basis:
-      'The copyright holder states the copyright and CC BY-ND 4.0 terms on its own official page.',
+      'The copyright holder states the copyright and CC BY-ND 4.0 terms on its own official page. Re-exported verbatim from the 2026-07-26 upstream artifact.',
   },
   en: {
     edition: 'World English Bible',
@@ -76,22 +76,27 @@ export const SCRIPTURE_SOURCES: Record<Locale, ScriptureSource> = {
       'Published in 1909 and its revisers died more than 70 years ago, so the term of protection has expired independently of any upstream label.',
   },
   pt: {
-    edition: 'João Ferreira de Almeida (revision not identified)',
-    status: 'unverified',
-    credit: 'João Ferreira de Almeida · Edição e direitos por verificar',
-    sourceUrl: 'https://github.com/seven1m/open-bibles/blob/master/por-almeida.usfx.xml',
+    edition: 'Bíblia Livre (updated from the 1819 Almeida, Textus Receptus edition)',
+    status: 'licensed',
+    credit: 'Bíblia Livre © Diego Santos, Mario Sérgio e Marco Teles · CC BY 4.0',
+    copyright: '© 2018 Diego Santos, Mario Sérgio, e Marco Teles',
+    license: 'CC BY 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by/4.0/',
+    conditions:
+      'Include the copyright and source information, and mark any change to the text so the original licensor is not shown as endorsing it.',
+    sourceUrl: 'https://ebible.org/porbr2018/copyright.htm',
     reviewed: '2026-07-26',
     basis:
-      'The upstream artifact carries no header, no rights statement and no dated revision, and its wording does not match a single known Almeida revision, so neither the edition nor its rights status is established.',
+      'Replaced the unidentified Almeida file on 2026-07-26. eBible.org publishes the copyright holders and CC BY 4.0 terms, and the rights holders state their own attribution requirement, so both the edition and its license are established.',
   },
   fr: {
-    edition: 'Bible J.F. Ostervald 1996',
-    status: 'unverified',
-    credit: 'Bible Ostervald 1996 · Droits en cours de vérification',
-    sourceUrl: 'https://github.com/seven1m/open-bibles/blob/master/fra-ostervald.osis.xml',
+    edition: 'La Sainte Bible (Ostervald)',
+    status: 'public-domain',
+    credit: 'La Sainte Bible (Ostervald) · Domaine public',
+    sourceUrl: 'https://ebible.org/fra_fob/copyright.htm',
     reviewed: '2026-07-26',
     basis:
-      'The 1996 revision was edited by C. H. Boughman and published by Bearing Precious Seed (Milford, Ohio) in 1996, and no public-domain dedication from them was found; the only "public domain" label comes from a third-party software packager.',
+      'Replaced the Ostervald 1996 file on 2026-07-26, whose 1996 editorial layer had an identifiable publisher and no public-domain dedication. This edition is published by eBible.org with an authoritative public-domain notice and predates that layer.',
   },
   de: {
     edition: 'Luther Bible 1912',

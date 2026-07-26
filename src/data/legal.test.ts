@@ -7,16 +7,17 @@ const editions = [
   'Yorumsuz Türkçe Çeviri',
   'World English Bible',
   'Reina-Valera 1909',
-  'João Ferreira de Almeida',
-  'Ostervald 1996',
+  'Bíblia Livre',
+  'La Sainte Bible \\(Ostervald\\)',
   'Luther Bible 1912',
 ];
-const sourceFiles = [
-  'eng-web.usfx.xml',
-  'spa-rv1909.usfx.xml',
-  'por-almeida.usfx.xml',
-  'fra-ostervald.osis.xml',
-  'deu-luther1912.osis.xml',
+const sourceUrls = [
+  'https://ebible.org/turytc/copyright.htm',
+  'https://github.com/seven1m/open-bibles/blob/master/eng-web.usfx.xml',
+  'https://github.com/seven1m/open-bibles/blob/master/spa-rv1909.usfx.xml',
+  'https://ebible.org/porbr2018/copyright.htm',
+  'https://ebible.org/fra_fob/copyright.htm',
+  'https://github.com/seven1m/open-bibles/blob/master/deu-luther1912.osis.xml',
 ];
 
 test('Terms disclose all six Scripture editions and sensitive rights limits', () => {
@@ -24,28 +25,26 @@ test('Terms disclose all six Scripture editions and sensitive rights limits', ()
   assert.match(TERMS_OF_SERVICE, /© 2023-2025 İsmail\s+Serinken and eBible\.org/);
   assert.match(TERMS_OF_SERVICE, /CC BY-ND 4\.0/);
   assert.match(TERMS_OF_SERVICE, /https:\/\/ebible\.org\/turytc\/copyright\.htm/);
-  for (const sourceFile of sourceFiles) assert.ok(TERMS_OF_SERVICE.includes(sourceFile));
+  for (const sourceUrl of sourceUrls) assert.ok(TERMS_OF_SERVICE.includes(sourceUrl));
   assert.doesNotMatch(TERMS_OF_SERVICE, /All Scripture.*public domain/i);
 });
 
-test('Terms withhold a public-domain claim from the unverified editions', () => {
-  // French Ostervald 1996 and the undated Portuguese Almeida failed verification
-  // (roadmap item 10). Neither may be described as public domain.
-  for (const marker of [/C\. H\. Boughman/, /Bearing Precious\s+Seed/]) {
-    assert.match(TERMS_OF_SERVICE, marker);
+test('Terms state the Portuguese license Lumen must comply with', () => {
+  // Bíblia Livre is CC BY 4.0, not public domain — attribution is a condition.
+  assert.match(TERMS_OF_SERVICE, /Bíblia Livre:\*\* copyright © 2018 Diego Santos/);
+  assert.match(TERMS_OF_SERVICE, /CC BY 4\.0/);
+  assert.match(TERMS_OF_SERVICE, /creativecommons\.org\/licenses\/by\/4\.0/);
+});
+
+test('Terms no longer carry the editions that failed rights verification', () => {
+  // Ostervald 1996 and the unidentified Almeida were replaced (roadmap item 10).
+  for (const rejected of [
+    /Ostervald 1996/,
+    /fra-ostervald\.osis\.xml/,
+    /por-almeida\.usfx\.xml/,
+  ]) {
+    assert.doesNotMatch(TERMS_OF_SERVICE, rejected);
   }
-  const unverified = TERMS_OF_SERVICE.match(/rights status \*\*not verified\*\*/g) ?? [];
-  assert.equal(unverified.length, 2, 'both unverified editions must say so');
-  assert.equal(
-    (TERMS_OF_SERVICE.match(/withheld from\s+release/g) ?? []).length,
-    2,
-    'both unverified editions must be withheld from release',
-  );
-  assert.doesNotMatch(
-    TERMS_OF_SERVICE,
-    /Ostervald 1996:\*\* public domain/,
-    'French must not be claimed public domain',
-  );
 });
 
 test('hosted Terms mirror the Scripture disclosure', () => {

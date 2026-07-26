@@ -8,12 +8,16 @@
  *
  * Sources (download into $SRC before running). Rights status is verified in
  * docs/scripture-sources.md and enforced by src/data/scriptureRights.ts — the
- * `credit` strings below are historical and are NOT what the app displays:
- *   eng-web.usfx.xml       World English Bible          public domain (verified)
- *   spa-rv1909.usfx.xml    Reina-Valera 1909            public domain (verified)
- *   por-almeida.usfx.xml   João Ferreira de Almeida     UNVERIFIED — edition unidentified
- *   fra-ostervald.osis.xml Ostervald 1996 (revision)    UNVERIFIED — 1996 reviser/publisher known
- *   deu-luther1912.osis.xml Luther 1912                 public domain (verified)
+ * `credit` strings below are not what the app displays:
+ *   eng-web.usfx.xml       World English Bible    public domain    seven1m/open-bibles
+ *   spa-rv1909.usfx.xml    Reina-Valera 1909      public domain    seven1m/open-bibles
+ *   deu-luther1912.osis.xml Luther 1912           public domain    seven1m/open-bibles
+ *   fra_fob_usfx.xml       La Sainte Bible (Ostervald) public domain  ebible.org/fra_fob
+ *   porbr2018_usfx.xml     Bíblia Livre           CC BY 4.0        ebible.org/porbr2018
+ *
+ * French and Portuguese moved to eBible.org on 2026-07-26: the previous
+ * fra-ostervald.osis.xml (Ostervald 1996) and por-almeida.usfx.xml failed rights
+ * verification under roadmap item 10.
  *
  * Do not add a rights claim to a new locale here. Add it to scriptureRights.ts
  * with its evidence, or the release gate will reject it.
@@ -47,15 +51,8 @@ const OSIS_TO_CODE = {
   '1John':'1JN','2John':'2JN','3John':'3JN',Jude:'JUD',Rev:'REV',
 };
 
-// Localized book names for the OSIS sources (they carry no per-book heading).
-const NAMES_FR = ['Genèse','Exode','Lévitique','Nombres','Deutéronome','Josué','Juges','Ruth',
-  '1 Samuel','2 Samuel','1 Rois','2 Rois','1 Chroniques','2 Chroniques','Esdras','Néhémie',
-  'Esther','Job','Psaumes','Proverbes','Ecclésiaste','Cantique des Cantiques','Ésaïe','Jérémie',
-  'Lamentations','Ézéchiel','Daniel','Osée','Joël','Amos','Abdias','Jonas','Michée','Nahum',
-  'Habacuc','Sophonie','Aggée','Zacharie','Malachie','Matthieu','Marc','Luc','Jean','Actes',
-  'Romains','1 Corinthiens','2 Corinthiens','Galates','Éphésiens','Philippiens','Colossiens',
-  '1 Thessaloniciens','2 Thessaloniciens','1 Timothée','2 Timothée','Tite','Philémon','Hébreux',
-  'Jacques','1 Pierre','2 Pierre','1 Jean','2 Jean','3 Jean','Jude','Apocalypse'];
+// Localized book names for the OSIS source (it carries no per-book heading).
+// French no longer needs a list: its eBible USFX export supplies <h> headings.
 const NAMES_DE = ['1. Mose','2. Mose','3. Mose','4. Mose','5. Mose','Josua','Richter','Rut',
   '1. Samuel','2. Samuel','1. Könige','2. Könige','1. Chronik','2. Chronik','Esra','Nehemia',
   'Ester','Hiob','Psalmen','Sprüche','Prediger','Hoheslied','Jesaja','Jeremia','Klagelieder',
@@ -86,8 +83,11 @@ function parseUsfx(xml) {
     const nameM = body.match(/<h>([^<]*)<\/h>/);
     const name = nameM ? clean(nameM[1]) : code;
     const chapters = {};
-    // Walk chapter/verse markers in document order.
-    const tokRe = /<c id="(\d+)"\s*\/>|<v id="(\d+)"\s*\/>([\s\S]*?)(?=<v id="\d+"\s*\/>|<ve\s*\/>|<c id="\d+"\s*\/>|$)/g;
+    // Walk chapter/verse markers in document order. eBible's own USFX exports add
+    // attributes to the verse marker (<v id="1" bcv="GEN.1.1" />), so anything up
+    // to the closing slash is tolerated. Verse ids stay strictly numeric: ranged
+    // ids are skipped exactly as before, so already-built locales are unaffected.
+    const tokRe = /<c id="(\d+)"[^>]*\/>|<v id="(\d+)"[^>]*\/>([\s\S]*?)(?=<v id="\d+"[^>]*\/>|<ve\s*\/>|<c id="\d+"[^>]*\/>|$)/g;
     let cur = 0, tk;
     while ((tk = tokRe.exec(body))) {
       if (tk[1] !== undefined) { cur = Number(tk[1]); continue; }
@@ -150,10 +150,13 @@ const JOBS = [
     credit: 'World English Bible · Public Domain' },
   { locale: 'es', file: 'spa-rv1909.usfx.xml', fmt: 'usfx',
     credit: 'Reina-Valera 1909 · Dominio público' },
-  { locale: 'pt', file: 'por-almeida.usfx.xml', fmt: 'usfx',
-    credit: 'João Ferreira de Almeida · Domínio público' },
-  { locale: 'fr', file: 'fra-ostervald.osis.xml', fmt: 'osis', names: nameMap(NAMES_FR),
-    credit: 'Bible Ostervald · Domaine public' },
+  // pt/fr replaced 2026-07-26 after their rights failed verification (item 10).
+  // Both now come from eBible.org, which publishes an authoritative rights notice
+  // per edition. Book names come from each file's own <h> heading.
+  { locale: 'pt', file: 'porbr2018_usfx.xml', fmt: 'usfx',
+    credit: 'Bíblia Livre © Diego Santos, Mario Sérgio e Marco Teles · CC BY 4.0' },
+  { locale: 'fr', file: 'fra_fob_usfx.xml', fmt: 'usfx',
+    credit: 'La Sainte Bible (Ostervald) · Domaine public' },
   { locale: 'de', file: 'deu-luther1912.osis.xml', fmt: 'osis', names: nameMap(NAMES_DE),
     credit: 'Lutherbibel 1912 · Gemeinfrei' },
 ];

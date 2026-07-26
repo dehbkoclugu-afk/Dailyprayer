@@ -7,24 +7,27 @@ breach of trust with the user. These rules are binding for every future change.
 ## Approved source boundary
 
 - Production scripture may come only from the six source files approved by the
-  product owner: WEB, YTC, Reina-Valera 1909, João Ferreira de Almeida,
-  Ostervald, and Luther 1912.
+  product owner: YTC, WEB, Reina-Valera 1909, Bíblia Livre (Portuguese), La
+  Sainte Bible / Ostervald (French, eBible `fra_fob`), and Luther 1912. The
+  Portuguese and French sources were replaced on 2026-07-26 after the previous
+  ones failed rights verification.
 - Importing a source requires its exact edition name, upstream URL, license
   evidence, retrieval date, and immutable Git blob hash.
 - Scripture text, book names, verse labels, headings, and source notes are
   immutable source data. They must never pass through the UI translation
   dictionary or an AI translation/rewrite step.
-- YTC is not public domain. It must remain verbatim with its attribution and
-  CC BY-ND 4.0 notice intact.
+- Two editions are licensed, not public domain, and must remain verbatim with
+  their attribution intact: YTC (CC BY-ND 4.0) and Bíblia Livre (CC BY 4.0).
 - A source file may be replaced only by a newly verified verbatim export of the
   same approved edition. Missing text must never be filled from another edition.
 - Rights claims live in `src/data/scriptureRights.ts`, never in the bundled JSON
-  or in a UI string. The generator wrote a "public domain" credit into every
-  non-Turkish file; because those files are immutable, the registry supersedes
-  them and is the only thing the app reads. Evidence: `docs/scripture-sources.md`.
-- Approval is not verification. French (Ostervald 1996) and Portuguese (an
-  unidentified Almeida revision) are approved editions whose rights failed
-  verification, so `npm run release-gate` blocks them from shipping.
+  or in a UI string. The generators write a credit into each JSON, which once let
+  an unverified "public domain" claim reach users; the app reads only the
+  registry, so a claim must carry evidence. Evidence: `docs/scripture-sources.md`.
+- Approval is not verification. Ostervald 1996 and an unidentified Almeida
+  revision were approved editions whose rights failed verification, and both had
+  to be replaced. `npm run release-gate` fails while any bundled edition's rights
+  are unverified — run it before every release.
 
 ## 1. Verse text comes from a source, never from a model
 

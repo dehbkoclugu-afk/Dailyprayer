@@ -127,9 +127,11 @@ const header = `/**
  *
  * The pool resolves the curated reference list (scripts/curated-refs.mjs)
  * against each translation's full text, in a fixed theme-interleaved order for
- * day-of-year rotation. Turkish is the Yorumsuz Türkçe Çeviri (© İsmail
- * Serinken & eBible.org, CC-BY-ND 4.0); the other locales use the public-domain
- * translations bundled with the reader.
+ * day-of-year rotation. Each locale uses the edition bundled with the reader,
+ * under its own rights: see src/data/scriptureRights.ts for the per-edition
+ * copyright, license and attribution conditions. Two editions are licensed
+ * rather than public domain (Turkish CC BY-ND 4.0, Portuguese CC BY 4.0), so the
+ * verses shown here must stay verbatim and keep their credit.
  *
  * GENERATED — rebuild with scripts/build-verses-i18n.mjs; edit the reference
  * list in scripts/curated-refs.mjs, not this file.

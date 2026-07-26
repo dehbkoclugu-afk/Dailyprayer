@@ -123,11 +123,77 @@ method so verification can be repeated.
   generator output changed; all six bundled SHA-256 values still match the
   manifest. `git diff --check` clean.
 
-## Open decision for the product owner
+## Task 5: Replace the two rejected editions (approved by the product owner)
 
-French and Portuguese cannot ship as they stand. Choose per locale: swap to a
-verified public-domain edition (recommended for French — an older PD Ostervald
-keeps the same textual tradition without the 1996 layer), obtain written
-permission from the rights holder, or drop the locale from the build. Whichever
-is chosen, update `src/data/scriptureRights.ts` and `docs/scripture-sources.md`
-until `npm run release-gate` passes.
+**Files:**
+- Modify: `src/data/bible-full.fr.json`, `src/data/bible-full.pt.json`,
+  `src/data/bible-full.tr.json`, `src/data/bible-book-names.json`,
+  `src/data/verses.ts`, `scripts/build-bible.mjs`, `scripts/build-bible-i18n.mjs`,
+  `scripts/build-verses-i18n.mjs`, `src/data/scriptureRights.ts`,
+  `src/data/legal.ts`, and both legal/rights documents
+
+- [x] **Step 1: Find editions with authoritative rights notices**
+
+  eBible.org publishes a per-edition rights notice and a machine-readable
+  catalogue (`translations.csv`), so it can answer the question the previous
+  sources could not. French: `fra_fob` "La Sainte Bible", "The Holy Bible in
+  French, Ostervald", public domain — the historical Ostervald, without the 1996
+  layer, so the textual tradition is preserved. Portuguese: no public-domain
+  Almeida exists in the catalogue; `porbr2018` "Bíblia Livre" is derived from the
+  1819 Almeida under CC BY 4.0, while the only public-domain Portuguese option
+  (`porbrbsl`) is self-described as a draft. Chose the licensed Almeida-derived
+  edition over a public-domain draft.
+
+- [x] **Step 2: Teach the parser eBible's USFX**
+
+  eBible's own exports add attributes to the verse marker
+  (`<v id="1" bcv="GEN.1.1" />`), which the existing regex rejected. Widened the
+  verse/chapter patterns to tolerate attributes while keeping verse ids strictly
+  numeric, so ranged ids are skipped exactly as before and the already-built
+  locales cannot shift.
+
+- [x] **Step 3: Rebuild and prove the untouched locales did not move**
+
+  Rebuilt all five i18n locales from the same pinned upstream blobs plus the two
+  new sources. English, Spanish and German came out **byte-identical** to their
+  recorded SHA-256 values, which proves the parser change was behaviour-preserving.
+
+- [x] **Step 4: Re-export Turkish from the current upstream**
+
+  `scripts/build-bible.mjs` wrote to `bible-full.json` while the app reads
+  `bible-full.tr.json`; corrected the output path, then re-exported from the
+  2026-07-26 artifact. Diffed old against new: exactly the 4 upstream-corrected
+  verses changed, `bible-books.json` byte-identical.
+
+- [x] **Step 5: Validate the two new texts**
+
+  Both: 66 books, 1189 chapters (fr 31,107 verses, pt 31,102), zero empty
+  chapters, zero empty verses, zero residual markup or Strong's artifacts, and
+  spot-checked wording (fr Psalm 23:1 "L'Éternel est mon berger; je n'aurai point
+  de disette."; pt Psalm 23:1 "O SENHOR é meu pastor, nada me faltará.").
+
+- [x] **Step 6: Regenerate the daily-verse pool**
+
+  The pool resolves curated references against all six Bibles, so it was rebuilt:
+  all 368 verses resolved in all six locales. Corrected its generated header,
+  which described every non-Turkish locale as public domain.
+
+- [x] **Step 7: Update the rights registry, Terms and evidence**
+
+  French becomes `public-domain`, Portuguese `licensed` (CC BY 4.0, attribution
+  required). Terms and the hosted mirror now state the real editions and the
+  Portuguese licence; tests assert the rejected editions and their source
+  filenames are gone.
+
+- [x] **Step 8: Run all checks**
+
+  `npm run typecheck`, `EXPO_NO_TELEMETRY=1 npm run lint`, `npm test` (31/31),
+  Android Expo export, and `npm run release-gate` — which now **passes**.
+
+## Left open
+
+- Roadmap item 13 still needs the automated integrity check: it should catch both
+  upstream drift (Turkish drifts because the translation is under active review)
+  and the 5 ranged verse ids the generator silently skips in the WEB source.
+- Bíblia Livre asks that the version date be cited; the reader currently shows the
+  credit without a date. Worth folding into item 12's source screen.

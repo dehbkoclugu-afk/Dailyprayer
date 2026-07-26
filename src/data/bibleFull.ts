@@ -17,8 +17,9 @@ interface BibleData {
 
 // Each translation is ~4 MB. The require() calls keep them out of initial bundle
 // evaluation — a locale's JSON is parsed only the first time its reader opens,
-// then cached. Each edition's rights status differs — see scriptureRights.ts;
-// French and Portuguese are not verified as free and are release-blocked.
+// then cached. Each edition's rights status differs (public domain for en/es/fr/de,
+// licensed for tr/pt) — see scriptureRights.ts, which is the only place allowed to
+// state rights to the user.
 const LOADERS: Record<Locale, () => BibleData> = {
   tr: () => require('./bible-full.tr.json'),
   en: () => require('./bible-full.en.json'),
@@ -42,10 +43,10 @@ export function getBible(locale: Locale): FullBook[] {
 /**
  * Per-translation attribution line (required by each source's license).
  *
- * Read from `scriptureRights.ts`, not from the bundled JSON: the generator wrote
- * an unverified "public domain" claim into the French and Portuguese files, and
- * those files are immutable Scripture source data (`docs/scripture-integrity.md`).
- * The registry is the only thing allowed to state rights to the user.
+ * Read from `scriptureRights.ts`, not from the bundled JSON. The generators write a
+ * credit into the JSON, which once let an unverified "public domain" claim reach
+ * users; routing display through the registry means a claim has to carry evidence
+ * and pass `npm run release-gate` before anyone can see it.
  */
 export function getBibleCredit(locale: Locale): string {
   return (SCRIPTURE_SOURCES[locale] ?? SCRIPTURE_SOURCES.en).credit;
