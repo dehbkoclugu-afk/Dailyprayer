@@ -65,13 +65,33 @@ deneyimi, performans ve görsel cila gelir.
     biçimde (`eBible.org · 2026-07-22`) tutuldu. Bíblia Livre’nin istediği sürüm tarihi de böylece
     karşılandı. Ekran web export üzerinden Playwright ile hem İngilizce/açık temada hem
     Türkçe/koyu temada render edilerek doğrulandı — konsol hatası ve başarısız istek yok.
-13. **Dini metin bütünlüğü için release kontrolü tasarla.** Altı JSON’un bilinen SHA değerleri
-    değişirse CI açıkça durmalı; değişiklik ancak kaynak belgesi güncellenerek kabul edilmeli.
-    Kontrol ayrıca upstream sapmasını da yakalamalı: YTC hâlâ gözden geçiriliyor, dolayısıyla
-    upstream metin zamanla değişiyor. 2026-07-26’da bulunan 4 ayetlik sapma güncel upstream’den
-    birebir yeniden export ile kapatıldı (ayrıntı `docs/scripture-sources.md`); asıl eksik, bunu
-    her yayında otomatik yakalayan kontrol. Ayrıca WEB kaynağında generator’ın atladığı 5 aralıklı
-    ayet id’si var — bu da aynı kontrolle ele alınmalı.
+13. ✅ **TAMAMLANDI — Dini metin bütünlüğü için release kontrolü tasarla.** İki script eklendi.
+    `npm run scripture-check` (offline, deterministik): `docs/scripture-sources.md` içindeki
+    manifest tablosu **tek yetki** — altı JSON’un SHA-256’sı, kitap/bölüm/ayet sayıları oradan
+    okunuyor ve dosyalarla karşılaştırılıyor. Ayrıca 66 kitabın kanonik sırası, boş bölüm/ayet
+    olmaması, parser artığı bulunmaması, kitap adlarının dolu olması, JSON kredisinin hak kayıt
+    defteriyle uyuşması ve navigasyon meta dosyalarının aynı kanonu kapsaması denetleniyor.
+    Kutsal Kitap verisini manifest tablosunu aynı commit’te güncellemeden değiştirmek CI’yı
+    durduruyor. `npm run scripture-drift` (ağ gerektirir, yayın öncesi): upstream artifact’ı
+    indirip bundled metinle ayet ayet karşılaştırıyor — YTC hâlâ gözden geçirildiği için sapma
+    tekrar oluşacak. Bilinçli olarak CI’da değil; yayıncı kesintisi ilgisiz derlemeleri
+    düşürmemeli. CI’ya `scripture-check`, APK iş akışına hem `scripture-check` hem `release-gate`
+    eklendi — APK bir sürüm artifact’ı olduğu için doğrulanmamış hak veya değiştirilmiş metin
+    derlemeye giremiyor. Dört ihlal sınıfı (ayet değiştirme, bölüm boşaltma, dosya yerine
+    manifest’i değiştirme, kredi sapması) enjekte edilerek kontrolün gerçekten durdurduğu
+    doğrulandı. 2026-07-26’daki 4 ayetlik YTC sapması yeniden export ile kapatıldı; sapma
+    kontrolü şu an temiz.
+    **Önceki notumdaki düzeltme:** WEB kaynağındaki 5 aralıklı ayet id’si eksik metin *değil* —
+    hepsi Sirak’ta (apokrif), yani hiç paketlenmeyen 20 kitaptan birinde, ve içerikleri editoryal
+    not. Dört USFX kaynağının kanonik kitaplarında **sıfır** aralıklı id var; hiçbir kanonik ayet
+    düşmüyor.
+    **Kontrolün bulduğu gerçek sorun:** Luther 1912 İbranice versifikasyonunu izliyor — Yoel 4
+    bölüm (diğerleri 3), Malaki 3 bölüm (diğerleri 4). Toplam 1189 aynı kaldığı için bugüne kadar
+    görünmemiş. Okuyucu etkilenmiyor (bölüm sayısını yüklü sürümden okuyor, indeksi kırpıyor) ama
+    `src/data/planReadings.ts` bölümleri Türkçe sayılardan planlıyor: Almanca okuyucu için Malaki 4
+    planlanıp Malaki 3’e kırpılıyor (tekrar) ve Almanca Yoel 4 hiç planlanmıyor. Bilinen fark
+    `KNOWN_CHAPTER_DIVERGENCE` içinde beyan edildi, yani yeni bir sapma artık kontrolü düşürür.
+    **Açık:** plan zamanlamasını dile duyarlı bölüm sayılarına geçirmek.
 14. **Günlük ve kullanıcı verisi silme akışını iki aşamalı yap.** Onboarding’i yeniden başlatmak,
     streak/günlük/işaretleri yanlışlıkla silememeli; silinecek veri listesi açıkça gösterilmeli.
 15. **Günlük girdisi silmeye Undo ekle.** Küçük çöp ikonuna dokunma anında kalıcı silme yerine

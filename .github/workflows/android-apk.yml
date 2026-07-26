@@ -35,6 +35,14 @@ jobs:
       - name: Bağımlılıklar
         run: npm ci
 
+      # Yayın kapıları: APK bir sürüm artifact'ı olduğu için, doğrulanmamış haklara
+      # sahip bir sürüm veya değiştirilmiş Kutsal Kitap metni derlemeye girmemeli.
+      - name: Kutsal Kitap bütünlüğü
+        run: npm run scripture-check
+
+      - name: Kutsal Kitap hakları kapısı
+        run: npm run release-gate
+
       - name: Android projesini üret
         run: npx expo prebuild --platform android --no-install
 

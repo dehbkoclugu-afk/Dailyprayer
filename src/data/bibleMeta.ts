@@ -11,8 +11,14 @@ export interface BookMeta {
 
 /**
  * Lightweight book list (canonical order + chapter counts). The `name` is the
- * Turkish heading; use `bookName`/`getBookMeta` for a localized label. Chapter
- * counts are canonical and identical across every bundled translation.
+ * Turkish heading; use `bookName`/`getBookMeta` for a localized label.
+ *
+ * Chapter counts come from the Turkish edition and are NOT valid for every
+ * locale: Luther 1912 follows the Hebrew versification, so German has Joel 4
+ * (others 3) and Malachi 3 (others 4). Totals still come to 1189. The reader is
+ * unaffected — it reads chapter counts from the loaded edition — but anything
+ * that schedules or resolves chapters from this list (see `planReadings.ts`) is
+ * wrong for German in those two books. Tracked in docs/design-100.md item 13.
  */
 export const bookMeta = meta as BookMeta[];
 

@@ -21,3 +21,8 @@ jobs:
         run: npm run lint
       - name: Test
         run: npm test
+      # Scripture data is immutable source data. This fails if a bundled edition
+      # no longer matches the manifest in docs/scripture-sources.md, which is the
+      # only place a deliberate change is accepted. Offline and deterministic.
+      - name: Scripture integrity
+        run: npm run scripture-check

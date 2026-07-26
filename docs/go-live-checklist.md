@@ -48,6 +48,13 @@ marked **[you]** need a human with accounts/credentials; **[code]** I can do.
 ## 6. Pre-submit QA — [code] mostly done
 - [x] Typecheck clean (`npm run typecheck`).
 - [x] Unit tests pass (`npm test`) incl. scripture-integrity guard.
+- [x] Scripture rights gate passes (`npm run release-gate`) — no bundled edition
+      may ship with unverified rights.
+- [x] Bundled Scripture matches its manifest (`npm run scripture-check`) — also
+      runs in CI and in the APK workflow.
+- [ ] Re-run `npm run scripture-drift` (needs network) right before submitting.
+      The Turkish YTC is still under review upstream, so its text drifts; decide
+      deliberately whether to re-export before shipping.
 - [x] Full flow bug-tested (onboarding → paywall → tabs, EN + TR, dark + light).
 - [ ] Re-run the flow on a physical device once art + purchases are wired.
 - [ ] Verify restore-purchases works.

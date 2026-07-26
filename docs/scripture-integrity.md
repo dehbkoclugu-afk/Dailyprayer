@@ -82,6 +82,29 @@ trusting them to review. It fails if any of these appear:
 `npm run release-gate` blocks a release while any bundled edition's rights are
 unverified.
 
+## 5. Release checks for the bundled text
+
+`npm run scripture-check` — offline, runs in CI on every push and in the APK
+workflow before building. The manifest table in `docs/scripture-sources.md` is the
+authority; the check fails if a bundled edition no longer matches it. That is what
+makes "Scripture data is immutable" enforceable: a deliberate change is accepted
+only by updating that table in the same commit, with the reason recorded. It also
+verifies the canonical 66 books in order, no empty chapter or verse, no parser
+leftovers, that every book has a localized name, that each JSON credit agrees with
+the rights registry, and that the navigation metadata covers the same canon.
+
+Known versification differences are declared in the script rather than smoothed
+over: Luther 1912 follows the Hebrew division, giving German Joel 4 chapters and
+Malachi 3 where the other editions have 3 and 4. A *new* divergence fails the
+check.
+
+`npm run scripture-drift` — needs network, so it is deliberately not in CI; run it
+before a release. It re-downloads the upstream artifact and compares verse by
+verse. eBible.org states the Turkish YTC is still under review, so its text drifts:
+a 4-verse drift was found this way on 2026-07-26 and closed by re-exporting. Only
+actively revised editions are watched; the rest are pinned to immutable upstream
+blobs.
+
 ## Verification done at authoring time
 
 Spot-checked against known WEB text (exact match, including WEB's "Yahweh",

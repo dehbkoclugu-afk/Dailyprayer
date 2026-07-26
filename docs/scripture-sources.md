@@ -24,21 +24,45 @@ editions failed it and were replaced.
 All six pass the release gate. Two are licensed rather than public domain, so
 their text must stay verbatim and carry its credit.
 
-## Bundled file hashes
+## Bundled file manifest
 
-| Locale | File | SHA-256 |
-| --- | --- | --- |
-| tr | `src/data/bible-full.tr.json` | `3da984d938f693538f0b1a539f331fb00200ee8c689e1157d2d9f948765f1bca` |
-| en | `src/data/bible-full.en.json` | `99213d02de0b38dc3b87085af5b26bb90f314646e02b6862498a762a980cc160` |
-| es | `src/data/bible-full.es.json` | `8591b6aaf8939d9c451d4677355244e0e5a9c79fdb860985c8c2c3adc48a0c35` |
-| pt | `src/data/bible-full.pt.json` | `e480d1bb55323ce9766e5fd52e301f95ea0c0324576114dea662fc8864906ac3` |
-| fr | `src/data/bible-full.fr.json` | `309a522b1c9c857c9741d1622f35c1c7d12c632df6de324dd56812ca62699cd5` |
-| de | `src/data/bible-full.de.json` | `003cf8e9caa2d4c1f104ad5f6bdcb7be474ba63837fe4f8213639b7878159c4a` |
+**This table is the authority.** `npm run scripture-check` reads it and fails if a
+bundled file no longer matches, so a change to Scripture data is only accepted by
+updating this table in the same commit. Run it before every release; CI runs it on
+every push and the APK workflow runs it before building.
+
+<!-- scripture-manifest:start -->
+
+| Locale | File | SHA-256 | Books | Chapters | Verses |
+| --- | --- | --- | --- | --- | --- |
+| tr | `src/data/bible-full.tr.json` | `3da984d938f693538f0b1a539f331fb00200ee8c689e1157d2d9f948765f1bca` | 66 | 1189 | 31059 |
+| en | `src/data/bible-full.en.json` | `99213d02de0b38dc3b87085af5b26bb90f314646e02b6862498a762a980cc160` | 66 | 1189 | 31098 |
+| es | `src/data/bible-full.es.json` | `8591b6aaf8939d9c451d4677355244e0e5a9c79fdb860985c8c2c3adc48a0c35` | 66 | 1189 | 31084 |
+| pt | `src/data/bible-full.pt.json` | `e480d1bb55323ce9766e5fd52e301f95ea0c0324576114dea662fc8864906ac3` | 66 | 1189 | 31102 |
+| fr | `src/data/bible-full.fr.json` | `309a522b1c9c857c9741d1622f35c1c7d12c632df6de324dd56812ca62699cd5` | 66 | 1189 | 31107 |
+| de | `src/data/bible-full.de.json` | `003cf8e9caa2d4c1f104ad5f6bdcb7be474ba63837fe4f8213639b7878159c4a` | 66 | 1189 | 31171 |
+
+<!-- scripture-manifest:end -->
+
+Verse counts differ legitimately between editions: they follow each edition's own
+verse divisions, and a chapter may merge or split verses. What must never differ
+is the book and chapter count — all six carry the same 66 books and 1189 chapters.
 
 The en, es and de files are byte-identical to their previous builds — the
 2026-07-26 rebuild reproduced them exactly from the same pinned upstream blobs,
 which confirms the generator is deterministic and that the parser change made for
 the new sources did not alter the untouched locales.
+
+### Apocryphal books are not bundled
+
+The WEB source (`eng-web.usfx.xml`) also contains 20 non-canonical books
+(Sirach, Tobit, Judith, 1–4 Maccabees, Wisdom, and others). The generator keeps
+only the 66-book canon, so they never reach the app. The five ranged verse ids in
+that file (`11:15-16`, `16:15-16`, `19:18-19`, `22:9-10`, `26:19-27`) are all in
+Sirach and their content is an editorial note — "Verses 15 and 16 are omitted by
+the best authorities" — not Scripture. Verified 2026-07-26: **zero** ranged verse
+ids occur inside a canonical book in any of the four USFX sources, so no canonical
+verse is dropped by the generator's numeric-id parsing.
 
 ## Turkish — Yorumsuz Türkçe Çeviri (YTC)
 
