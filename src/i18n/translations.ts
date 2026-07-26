@@ -306,6 +306,8 @@ export const translations = {
     'data.keepSettings': 'Appearance and language settings',
     'data.doneRestart': 'Onboarding reset',
     'data.doneDelete': 'Your data has been deleted',
+    'journal.deleted': 'Entry deleted',
+    'journal.undo': 'Undo',
   },
   tr: {
     'tab.today': 'Bugün',
@@ -588,6 +590,8 @@ export const translations = {
     'data.keepSettings': 'Görünüm ve dil ayarların',
     'data.doneRestart': 'Tanışma sıfırlandı',
     'data.doneDelete': 'Verilerin silindi',
+    'journal.deleted': 'Girdi silindi',
+    'journal.undo': 'Geri al',
   },
   es: {
     'tab.today': 'Hoy',
@@ -857,6 +861,8 @@ export const translations = {
     'data.keepSettings': 'Ajustes de apariencia e idioma',
     'data.doneRestart': 'Bienvenida reiniciada',
     'data.doneDelete': 'Tus datos se han eliminado',
+    'journal.deleted': 'Entrada eliminada',
+    'journal.undo': 'Deshacer',
   },
   pt: {
     'tab.today': 'Hoje',
@@ -1126,6 +1132,8 @@ export const translations = {
     'data.keepSettings': 'Configurações de aparência e idioma',
     'data.doneRestart': 'Boas-vindas reiniciadas',
     'data.doneDelete': 'Seus dados foram excluídos',
+    'journal.deleted': 'Registro excluído',
+    'journal.undo': 'Desfazer',
   },
   fr: {
     'tab.today': 'Aujourd’hui',
@@ -1395,6 +1403,8 @@ export const translations = {
     'data.keepSettings': 'Réglages d’apparence et de langue',
     'data.doneRestart': 'Bienvenue réinitialisée',
     'data.doneDelete': 'Vos données ont été supprimées',
+    'journal.deleted': 'Entrée supprimée',
+    'journal.undo': 'Annuler',
   },
   de: {
     'tab.today': 'Heute',
@@ -1664,6 +1674,8 @@ export const translations = {
     'data.keepSettings': 'Darstellungs- und Spracheinstellungen',
     'data.doneRestart': 'Einführung zurückgesetzt',
     'data.doneDelete': 'Deine Daten wurden gelöscht',
+    'journal.deleted': 'Eintrag gelöscht',
+    'journal.undo': 'Widerrufen',
   },
 } as const;
 

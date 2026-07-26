@@ -14,18 +14,28 @@ export function ToastHost() {
   const insets = useSafeAreaInsets();
   const { message, actionLabel, action, seq, clear } = useToastStore();
 
+  const hasAction = Boolean(actionLabel && action);
+
   useEffect(() => {
     if (!message) return;
-    AccessibilityInfo.announceForAccessibility(message);
-    const timer = setTimeout(clear, 2200);
+    // Announce the action too, or a screen-reader user is told something happened
+    // without being told it can be undone.
+    AccessibilityInfo.announceForAccessibility(
+      hasAction ? `${message}. ${actionLabel}` : message,
+    );
+    // An undo needs time to read, decide and reach; a plain confirmation does not.
+    const timer = setTimeout(clear, hasAction ? 6000 : 2200);
     return () => clearTimeout(timer);
-  }, [message, seq, clear]);
+  }, [message, seq, clear, hasAction, actionLabel]);
 
   if (!message) return null;
 
   return (
     <View
-      pointerEvents="none"
+      // "box-none" and not "none": the container must stay transparent to touches
+      // so it never blocks the screen underneath, but the action button inside has
+      // to be tappable. With "none" the undo affordance rendered and did nothing.
+      pointerEvents="box-none"
       style={{
         position: 'absolute',
         top: insets.top + spacing.md,
@@ -37,6 +47,9 @@ export function ToastHost() {
     >
       <Animated.View
         key={seq}
+        // Only an actionable toast captures touches. A plain confirmation stays
+        // transparent, so it cannot swallow a tap on whatever is underneath it.
+        pointerEvents={hasAction ? 'auto' : 'none'}
         accessibilityRole="alert"
         accessibilityLiveRegion="polite"
         entering={FadeInDown.springify().damping(20)}

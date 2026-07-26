@@ -9,7 +9,7 @@ import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
-import { useJournalStore } from '@/state/useJournalStore';
+import { useJournalStore, type JournalEntry } from '@/state/useJournalStore';
 import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
 import { useT, translate } from '@/i18n';
@@ -17,13 +17,27 @@ import { useT, translate } from '@/i18n';
 export default function Journal() {
   const t = useTheme();
   const { t: tr } = useT();
-  const { entries, add, remove } = useJournalStore();
+  const { entries, add, remove, restore } = useJournalStore();
   const completeStep = useStreakStore((s) => s.completeStep);
   const [text, setText] = useState('');
 
   // A single-purpose gratitude journal now. Verses saved from the reader still
   // belong here (they're personal reflections); legacy prayer requests are hidden.
   const shown = entries.filter((e) => e.kind !== 'prayer-request');
+
+  /**
+   * Deleting is not permanent on the first tap. The entry is kept in the closure
+   * and the toast offers it back — a gratitude note or a saved verse is exactly the
+   * kind of thing a mis-tap should not cost (roadmap item 15).
+   */
+  const deleteEntry = (entry: JournalEntry) => {
+    remove(entry.id);
+    Haptics.selectionAsync().catch(() => {});
+    toast(translate('journal.deleted'), translate('journal.undo'), () => {
+      restore(entry);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+    });
+  };
 
   const submit = () => {
     if (!text.trim()) return;
@@ -184,7 +198,7 @@ export default function Journal() {
                   </Text>
                 </View>
                 <Pressable
-                  onPress={() => remove(e.id)}
+                  onPress={() => deleteEntry(e)}
                   hitSlop={8}
                   accessibilityRole="button"
                   accessibilityLabel={tr('a11y.deleteEntry')}

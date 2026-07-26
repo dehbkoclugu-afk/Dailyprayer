@@ -116,8 +116,22 @@ deneyimi, performans ve görsel cila gelir.
     sıfırlaması ve hiçbir yolun Plus’ı iptal etmemesi. Dört ihlal enjekte edilerek testlerin
     gerçekten durdurduğu doğrulandı. İki akış da altı dile çevrildi ve web export üzerinden
     Playwright ile Türkçe/koyu temada render edilerek görsel olarak doğrulandı.
-15. **Günlük girdisi silmeye Undo ekle.** Küçük çöp ikonuna dokunma anında kalıcı silme yerine
-    snackbar içinde geri al sunulmalı.
+15. ✅ **TAMAMLANDI — Günlük girdisi silmeye Undo ekle.** Çöp ikonu artık `remove(e.id)` çağırmıyor;
+    `deleteEntry(entry)` girdinin **tamamını** closure’da tutup siliyor ve toast “Girdi silindi ·
+    Geri al” sunuyor — `useJournalStore.restore` girdiyi `createdAt`’e göre eski sırasına geri
+    koyuyor. Id yeterli olmazdı: silindikten sonra metin, referans ve zaman damgası geri
+    çözülemez.
+    **Bu iş sırasında bulunan gerçek hata:** toast altyapısı aksiyon düğmesini zaten destekliyordu
+    ama dış kapsayıcı `pointerEvents="none"` taşıyordu — yani düğme çiziliyor, dokunma tamamen
+    yutuluyordu. Bugüne kadar hiçbir çağıran aksiyon geçirmediği için görünmemiş. Kapsayıcı
+    `box-none` oldu, aksiyonlu toast `auto` (aksiyonsuz olan `none` kalıyor, altındaki ekranı
+    engellememesi için). Aksiyonlu toast’un süresi 2,2 sn’den 6 sn’ye çıkarıldı ve erişilebilirlik
+    duyurusu artık aksiyonu da söylüyor — yoksa ekran okuyucu kullanıcısına bir şeyin olduğu
+    söylenip geri alınabileceği söylenmiyordu.
+    `src/state/journalUndo.test.ts` yedi güvenceyi koruyor (doğrudan `remove` çağrısı yok, girdi
+    bütün olarak yakalanıyor, restore kopyalamıyor ve yeniden sıralıyor, kapsayıcı dokunmayı
+    engellemiyor, süre ≥ 4 sn, duyuru aksiyonu içeriyor). Tarayıcıda tam tur doğrulandı: sil →
+    girdi kayboldu → “Geri al” → girdi **eski konumunda** geri geldi, konsol hatası yok.
 16. **Bildirim izni reddedildiğinde ölü başarı mesajı gösterme.** Profile satırı “Kapalı —
     Ayarlardan aç” durumuna geçmeli ve sistem ayarlarına eylem vermeli.
 17. **Hatırlatıcı saatini gerçek bir saat seçiciyle değiştir.** Sabit veya sınırlı seçenek yerine
