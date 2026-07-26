@@ -27,15 +27,28 @@ deneyimi, performans ve görsel cila gelir.
    “uyku duasını aç”, “planı aç” gibi dokunulan içerikle eşleştirmeli.
 9. ✅ **TAMAMLANDI — Yasal metinlerde altı Kutsal Kitap kaynağını ayrı ayrı beyan et.** Mevcut Terms yalnızca WEB
    söylüyor; her dilde kullanılan sürüm, telif/lisans ve atıf koşulu gerçek kaynağıyla yazılmalı.
-10. **YTC ve Ostervald lisanslarını yayın öncesi doğrula.** Kamu malı olmayan veya sürümü belirsiz
-    metin “public domain” diye sunulmamalı; doğrulama tamamlanmadan ilgili dil release kapısından
-    geçmemeli.
+10. ✅ **DOĞRULAMA TAMAMLANDI — YTC ve Ostervald lisanslarını yayın öncesi doğrula.** YTC lisansı hak
+    sahibinin kendi resmî sayfasından doğrulandı (© 2023–2025 İsmail Serinken & eBible.org, CC BY-ND
+    4.0) ve upstream artifact SHA-256 ile sabitlendi. Ostervald 1996 **doğrulanamadı**: 1996
+    revizyonu C. H. Boughman editörlüğünde, Bearing Precious Seed (Milford, Ohio) tarafından
+    yayınlanmış; onlardan gelen bir kamu malı beyanı bulunamadı — tek “public domain” etiketi
+    üçüncü taraf bir yazılım paketleyicisinin kendi beyanı. Portekizce Almeida da aynı kapıya
+    takıldı: dosyada başlık, hak beyanı ve tarihli revizyon yok, sürüm belirsiz. Her iki dilin
+    kamu malı iddiası uygulamadan, Terms’ten ve okuyucu kredisinden kaldırıldı;
+    `src/data/scriptureRights.ts` tek hak kaynağı oldu ve `npm run release-gate` bu iki dil
+    yayına girdiği sürece release’i durduruyor. Kanıt: `docs/scripture-sources.md`.
+    **Açık ürün kararı:** fr/pt için doğrulanmış kamu malı sürüme geçmek, hak sahibinden yazılı
+    izin almak veya dili derlemeden çıkarmak arasında seçim yapılmalı.
 11. **Kutsal Kitap metnini dönüştüren hiçbir UI/AI akışına izin verme.** Özetle, sadeleştir,
     yeniden yaz ve otomatik çevir eylemleri okuyucu ve paylaşım ekranlarında bulunmamalı.
 12. **Kaynak ve lisans bilgisini okuyucuda görünür kıl.** Sadece bölüm sonunda küçük kredi yerine
     ayarlar panelinden açılan “Metin kaynağı” ekranı; sürüm adı, lisans ve tam atıf sunmalı.
 13. **Dini metin bütünlüğü için release kontrolü tasarla.** Altı JSON’un bilinen SHA değerleri
     değişirse CI açıkça durmalı; değişiklik ancak kaynak belgesi güncellenerek kabul edilmeli.
+    Kontrol ayrıca upstream sapmasını da yakalamalı: 2026-07-26 karşılaştırmasında bundled YTC,
+    güncel eBible YTC’sinden 4 ayette ayrılıyor (31.059 ayet, yapı birebir aynı; ayrıntı
+    `docs/scripture-sources.md`). Metni biz değiştirmedik, upstream düzeltti — hangi revizyonun
+    yayınlanacağı bilinçli bir karar olmalı.
 14. **Günlük ve kullanıcı verisi silme akışını iki aşamalı yap.** Onboarding’i yeniden başlatmak,
     streak/günlük/işaretleri yanlışlıkla silememeli; silinecek veri listesi açıkça gösterilmeli.
 15. **Günlük girdisi silmeye Undo ekle.** Küçük çöp ikonuna dokunma anında kalıcı silme yerine

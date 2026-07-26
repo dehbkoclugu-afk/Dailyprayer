@@ -8,7 +8,8 @@
     "ios": "expo start --ios",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --test src/lib/dates.test.ts src/data/verses.test.ts src/data/legal.test.ts src/services/purchases.test.ts src/services/paywallContext.test.ts"
+    "test": "node --experimental-strip-types --test src/lib/dates.test.ts src/data/verses.test.ts src/data/legal.test.ts src/data/scriptureRights.test.ts src/services/purchases.test.ts src/services/paywallContext.test.ts",
+    "release-gate": "node --experimental-strip-types scripts/check-release-gate.mjs"
   },
   "dependencies": {
     "@expo-google-fonts/figtree": "^0.2.3",

@@ -6,12 +6,17 @@
  * sources (seven1m/open-bibles), matching the exact shape of bible-full.json:
  *   { credit, books: [ { code, name, chapters: [ [ [label, text], ... ] ] } ] }
  *
- * Sources (download into $SRC before running):
- *   eng-web.usfx.xml       World English Bible          public domain
- *   spa-rv1909.usfx.xml    Reina-Valera 1909            public domain
- *   por-almeida.usfx.xml   João Ferreira de Almeida     public domain
- *   fra-ostervald.osis.xml Ostervald 1996 (revision)    public domain
- *   deu-luther1912.osis.xml Luther 1912                 public domain
+ * Sources (download into $SRC before running). Rights status is verified in
+ * docs/scripture-sources.md and enforced by src/data/scriptureRights.ts — the
+ * `credit` strings below are historical and are NOT what the app displays:
+ *   eng-web.usfx.xml       World English Bible          public domain (verified)
+ *   spa-rv1909.usfx.xml    Reina-Valera 1909            public domain (verified)
+ *   por-almeida.usfx.xml   João Ferreira de Almeida     UNVERIFIED — edition unidentified
+ *   fra-ostervald.osis.xml Ostervald 1996 (revision)    UNVERIFIED — 1996 reviser/publisher known
+ *   deu-luther1912.osis.xml Luther 1912                 public domain (verified)
+ *
+ * Do not add a rights claim to a new locale here. Add it to scriptureRights.ts
+ * with its evidence, or the release gate will reject it.
  *
  *   SRC=/path/to/xml node scripts/build-bible-i18n.mjs
  */

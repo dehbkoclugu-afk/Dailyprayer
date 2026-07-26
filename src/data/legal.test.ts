@@ -25,8 +25,27 @@ test('Terms disclose all six Scripture editions and sensitive rights limits', ()
   assert.match(TERMS_OF_SERVICE, /CC BY-ND 4\.0/);
   assert.match(TERMS_OF_SERVICE, /https:\/\/ebible\.org\/turytc\/copyright\.htm/);
   for (const sourceFile of sourceFiles) assert.ok(TERMS_OF_SERVICE.includes(sourceFile));
-  assert.match(TERMS_OF_SERVICE, /independent rights verification is\s+pending/);
   assert.doesNotMatch(TERMS_OF_SERVICE, /All Scripture.*public domain/i);
+});
+
+test('Terms withhold a public-domain claim from the unverified editions', () => {
+  // French Ostervald 1996 and the undated Portuguese Almeida failed verification
+  // (roadmap item 10). Neither may be described as public domain.
+  for (const marker of [/C\. H\. Boughman/, /Bearing Precious\s+Seed/]) {
+    assert.match(TERMS_OF_SERVICE, marker);
+  }
+  const unverified = TERMS_OF_SERVICE.match(/rights status \*\*not verified\*\*/g) ?? [];
+  assert.equal(unverified.length, 2, 'both unverified editions must say so');
+  assert.equal(
+    (TERMS_OF_SERVICE.match(/withheld from\s+release/g) ?? []).length,
+    2,
+    'both unverified editions must be withheld from release',
+  );
+  assert.doesNotMatch(
+    TERMS_OF_SERVICE,
+    /Ostervald 1996:\*\* public domain/,
+    'French must not be claimed public domain',
+  );
 });
 
 test('hosted Terms mirror the Scripture disclosure', () => {

@@ -18,6 +18,13 @@ breach of trust with the user. These rules are binding for every future change.
   CC BY-ND 4.0 notice intact.
 - A source file may be replaced only by a newly verified verbatim export of the
   same approved edition. Missing text must never be filled from another edition.
+- Rights claims live in `src/data/scriptureRights.ts`, never in the bundled JSON
+  or in a UI string. The generator wrote a "public domain" credit into every
+  non-Turkish file; because those files are immutable, the registry supersedes
+  them and is the only thing the app reads. Evidence: `docs/scripture-sources.md`.
+- Approval is not verification. French (Ostervald 1996) and Portuguese (an
+  unidentified Almeida revision) are approved editions whose rights failed
+  verification, so `npm run release-gate` blocks them from shipping.
 
 ## 1. Verse text comes from a source, never from a model
 

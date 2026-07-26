@@ -24,17 +24,22 @@ content and are not a substitute for professional, medical, or pastoral advice.
   text only. Imported source:
   https://github.com/seven1m/open-bibles/blob/master/eng-web.usfx.xml. Official
   rights notice: https://ebible.org/eng-web/copyright.htm.
-- **Spanish — Reina-Valera 1909:** the upstream Open Bibles source labels
-  `spa-rv1909.usfx.xml` public domain. Source:
+- **Spanish — Reina-Valera 1909:** public domain. Published in 1909, and its
+  revisers died more than 70 years ago, so protection has expired. Source:
   https://github.com/seven1m/open-bibles/blob/master/spa-rv1909.usfx.xml.
-- **Portuguese — João Ferreira de Almeida:** the upstream Open Bibles source
-  labels `por-almeida.usfx.xml` public domain. Source:
+- **Portuguese — João Ferreira de Almeida:** rights status **not verified**. The
+  imported file identifies no dated revision and carries no rights statement, so
+  Lumen does not claim this text is public domain. This edition is withheld from
+  release until its edition and rights are established. Source:
   https://github.com/seven1m/open-bibles/blob/master/por-almeida.usfx.xml.
-- **French — Ostervald 1996:** the upstream Open Bibles source labels
-  `fra-ostervald.osis.xml` public domain; independent rights verification is
-  pending before release. Source:
+- **French — Bible J.F. Ostervald 1996:** rights status **not verified**. The
+  1996 revision was edited by C. H. Boughman and published by Bearing Precious
+  Seed (Milford, Ohio); no public-domain dedication by them has been found, so
+  Lumen does not claim this text is public domain. This edition is withheld from
+  release until its rights are established. Source:
   https://github.com/seven1m/open-bibles/blob/master/fra-ostervald.osis.xml.
-- **German — Luther Bible 1912:** public domain. Source:
+- **German — Luther Bible 1912:** public domain. Published in 1912, and its
+  revisers died more than 70 years ago, so protection has expired. Source:
   https://github.com/seven1m/open-bibles/blob/master/deu-luther1912.osis.xml.
 
 ## Subscriptions (Lumen Plus)
