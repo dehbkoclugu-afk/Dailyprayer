@@ -7,6 +7,8 @@ interface ReaderState {
   book: number;
   chapter: number;
   setPos: (book: number, chapter: number) => void;
+  /** Forget the reading position (see src/state/dataReset.ts). */
+  reset: () => void;
 }
 
 export const useReaderStore = create<ReaderState>()(
@@ -15,6 +17,7 @@ export const useReaderStore = create<ReaderState>()(
       book: 0,
       chapter: 0,
       setPos: (book, chapter) => set({ book, chapter }),
+      reset: () => set({ book: 0, chapter: 0 }),
     }),
     { name: 'lumen-reader', storage: createJSONStorage(() => AsyncStorage) },
   ),

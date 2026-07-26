@@ -98,8 +98,24 @@ deneyimi, performans ve görsel cila gelir.
     için planlanan her bölümün o sürümde gerçekten var olduğunu doğruluyor; eski davranış bu testte
     285. günde Malaki 4 ile düşüyordu. Türetilmiş metadatanın bayatlaması hem testle hem
     `scripture-check` ile yakalanıyor.
-14. **Günlük ve kullanıcı verisi silme akışını iki aşamalı yap.** Onboarding’i yeniden başlatmak,
-    streak/günlük/işaretleri yanlışlıkla silememeli; silinecek veri listesi açıkça gösterilmeli.
+14. ✅ **TAMAMLANDI — Günlük ve kullanıcı verisi silme akışını iki aşamalı yap.** Önceki durum:
+    Profile’daki “Tanışmayı yeniden başlat” satırı **tek dokunuşla, hiçbir onay olmadan** çalışıyordu
+    ve gerçek bir veri silme akışı hiç yoktu. Artık iki ayrı yıkıcı eylem var, ikisi de
+    `DataActionSheet` üzerinden iki aşamalı: aşama 1 neyin gideceğini ve neyin kalacağını **gerçek
+    sayılarla** kalem kalem listeliyor (“Günlük — 12 girdi”, “Seri — 41 gün (en iyi 63)”), aşama 2
+    ayrı ve bilinçli bir onay. Sayılar sheet açıldığında anlık olarak alınıyor, karar sırasında
+    kaymıyor. `src/state/dataReset.ts` neyin silindiğine tek yerden karar veriyor:
+    `restartOnboarding()` yalnızca ad ve karşılama yanıtlarını sıfırlıyor — seri, günlük, vurgular,
+    işaretler ve plan ilerlemesi onboarding durumu değil, dokunulmuyor ve bu sheet’te açıkça
+    “KORUNACAK” altında gösteriliyor. `deleteAllUserData()` kişisel geçmişin tamamını siliyor ama
+    **Plus yetkisine asla dokunmuyor** (satın alma mağaza hesabına ait, oradan geri yükleniyor);
+    görünüm ve dil ayarları da korunuyor, böylece kullanıcı temizlik yaparken uygulama başka bile
+    dile atlamıyor. Sekiz store’a `reset()` eklendi. `src/state/dataReset.test.ts` dört güvenceyi
+    kaynak düzeyinde koruyor: yeniden başlatmanın user store dışına dokunmaması, user store
+    reset’inin yalnızca `onboarded`+`quiz` kapsamında kalması, silmenin her kişisel store’u
+    sıfırlaması ve hiçbir yolun Plus’ı iptal etmemesi. Dört ihlal enjekte edilerek testlerin
+    gerçekten durdurduğu doğrulandı. İki akış da altı dile çevrildi ve web export üzerinden
+    Playwright ile Türkçe/koyu temada render edilerek görsel olarak doğrulandı.
 15. **Günlük girdisi silmeye Undo ekle.** Küçük çöp ikonuna dokunma anında kalıcı silme yerine
     snackbar içinde geri al sunulmalı.
 16. **Bildirim izni reddedildiğinde ölü başarı mesajı gösterme.** Profile satırı “Kapalı —

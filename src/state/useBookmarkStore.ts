@@ -25,12 +25,15 @@ interface BookmarkState {
   remove: (b: number, c: number, v: number) => void;
   /** returns the new state (true = bookmarked) */
   toggle: (bm: Omit<Bookmark, 'createdAt'>) => boolean;
+  /** Wipe every bookmark (see src/state/dataReset.ts). */
+  reset: () => void;
 }
 
 export const useBookmarkStore = create<BookmarkState>()(
   persist(
     (set, get) => ({
       bookmarks: [],
+      reset: () => set({ bookmarks: [] }),
       has: (b, c, v) =>
         get().bookmarks.some((m) => m.book === b && m.chapter === c && m.verse === v),
       add: (bm) =>

@@ -8,12 +8,15 @@ interface PlanState {
   toggleDay: (planId: string, day: number) => void;
   isDone: (planId: string, day: number) => boolean;
   doneCount: (planId: string) => number;
+  /** Drop all plan progress (see src/state/dataReset.ts). */
+  reset: () => void;
 }
 
 export const usePlanStore = create<PlanState>()(
   persist(
     (set, get) => ({
       progress: {},
+      reset: () => set({ progress: {} }),
       toggleDay: (planId, day) =>
         set((s) => {
           const cur = s.progress[planId] ?? [];

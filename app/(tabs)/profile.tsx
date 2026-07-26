@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { OptionSheet, type SheetOption } from '@/components/OptionSheet';
+import { DataActionSheet, type DataAction } from '@/components/DataActionSheet';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
@@ -30,11 +31,13 @@ const LOCALE_LABELS: Record<Locale, string> = {
 export default function Profile() {
   const t = useTheme();
   const { t: tr } = useT();
-  const { quiz, themePreference, setThemePreference, language, setLanguage, setQuiz, reset } =
+  const { quiz, themePreference, setThemePreference, language, setLanguage, setQuiz } =
     useUserStore();
   const { count, bestCount, totalDays } = useStreakStore();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const [sheet, setSheet] = useState<null | 'appearance' | 'language'>(null);
+  // Destructive data actions are confirmed in two stages — see DataActionSheet.
+  const [dataAction, setDataAction] = useState<DataAction | null>(null);
 
   const appearanceOptions: SheetOption<ThemeName | 'system'>[] = [
     { value: 'system', label: tr('profile.auto') },
@@ -261,8 +264,10 @@ export default function Profile() {
           onPress={() => router.push({ pathname: '/legal', params: { doc: 'terms' } })}
         />
         <Row icon="mail-outline" label={tr('profile.contact')} />
+        {/* Both destructive actions open a two-stage confirmation that itemizes what
+            goes and what stays. Restart used to fire on a single tap. */}
         <Pressable
-          onPress={reset}
+          onPress={() => setDataAction('restart')}
           accessibilityRole="button"
           accessibilityLabel={tr('profile.restart')}
           style={({ pressed }) => ({
@@ -274,9 +279,27 @@ export default function Profile() {
             opacity: pressed ? 0.7 : 1,
           })}
         >
-          <Ionicons name="refresh-outline" size={20} color={t.danger} />
-          <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.danger }}>
+          <Ionicons name="refresh-outline" size={20} color={t.inkSoft} />
+          <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink }}>
             {tr('profile.restart')}
+          </Text>
+        </Pressable>
+        <Pressable
+          onPress={() => setDataAction('delete')}
+          accessibilityRole="button"
+          accessibilityLabel={tr('data.deleteAll')}
+          style={({ pressed }) => ({
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: spacing.md,
+            padding: spacing.lg,
+            minHeight: 52,
+            opacity: pressed ? 0.7 : 1,
+          })}
+        >
+          <Ionicons name="trash-outline" size={20} color={t.danger} />
+          <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.danger }}>
+            {tr('data.deleteAll')}
           </Text>
         </Pressable>
       </View>
@@ -284,6 +307,15 @@ export default function Profile() {
       <Text style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkFaint, textAlign: 'center', marginTop: spacing.xl }}>
         Lumen v1.0.0
       </Text>
+
+      <DataActionSheet
+        action={dataAction}
+        onClose={() => setDataAction(null)}
+        onDone={(action) => {
+          setDataAction(null);
+          toast(tr(action === 'delete' ? 'data.doneDelete' : 'data.doneRestart'));
+        }}
+      />
 
       <OptionSheet
         visible={sheet === 'appearance'}

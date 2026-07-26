@@ -7,6 +7,8 @@ interface PrayerState {
   favoritePrayerIds: string[];
   markOpened: (id: string) => void;
   toggleFavorite: (id: string) => void;
+  /** Forget recents and favorites (see src/state/dataReset.ts). */
+  reset: () => void;
 }
 
 export const usePrayerStore = create<PrayerState>()(
@@ -14,6 +16,7 @@ export const usePrayerStore = create<PrayerState>()(
     (set) => ({
       recentPrayerId: null,
       favoritePrayerIds: [],
+      reset: () => set({ recentPrayerId: null, favoritePrayerIds: [] }),
       markOpened: (recentPrayerId) => set({ recentPrayerId }),
       toggleFavorite: (id) =>
         set((state) => ({

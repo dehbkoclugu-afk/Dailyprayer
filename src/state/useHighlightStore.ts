@@ -15,12 +15,15 @@ interface HighlightState {
   /** remove a highlight */
   clear: (key: string) => void;
   colorOf: (key: string) => HighlightColor | undefined;
+  /** Wipe every highlight (see src/state/dataReset.ts). */
+  reset: () => void;
 }
 
 export const useHighlightStore = create<HighlightState>()(
   persist(
     (set, get) => ({
       marks: {},
+      reset: () => set({ marks: {} }),
       set: (key, color) => set((s) => ({ marks: { ...s.marks, [key]: color } })),
       clear: (key) =>
         set((s) => {

@@ -19,12 +19,15 @@ interface JournalState {
   add: (kind: JournalEntry['kind'], text: string, ref?: string) => void;
   remove: (id: string) => void;
   restore: (entry: JournalEntry) => void;
+  /** Wipe every journal entry (see src/state/dataReset.ts). */
+  reset: () => void;
 }
 
 export const useJournalStore = create<JournalState>()(
   persist(
     (set) => ({
       entries: [],
+      reset: () => set({ entries: [] }),
       add: (kind, text, ref) =>
         set((s) => ({
           entries: [

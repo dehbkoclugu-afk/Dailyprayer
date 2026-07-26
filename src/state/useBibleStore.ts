@@ -10,6 +10,8 @@ interface BibleState {
   toggleSavedVerse: (key: string) => boolean;
   startPlan: (planId: string) => void;
   completePlanDay: (planId: string, totalDays: number) => void;
+  /** Wipe saved verses and plan progress (see src/state/dataReset.ts). */
+  reset: () => void;
 }
 
 export const useBibleStore = create<BibleState>()(
@@ -18,6 +20,7 @@ export const useBibleStore = create<BibleState>()(
       chapterIndex: 0,
       savedVerseKeys: [],
       planProgress: {},
+      reset: () => set({ chapterIndex: 0, savedVerseKeys: [], planProgress: {} }),
       setChapterIndex: (chapterIndex) => set({ chapterIndex }),
       toggleSavedVerse: (key) => {
         const saved = !get().savedVerseKeys.includes(key);

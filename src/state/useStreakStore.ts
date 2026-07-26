@@ -18,6 +18,8 @@ interface StreakState {
   completeStep: (step: RitualStep) => void;
   uncompleteStep: (step: RitualStep) => void;
   isStepDone: (step: RitualStep) => boolean;
+  /** Wipe all streak history (see src/state/dataReset.ts). */
+  reset: () => void;
 }
 
 export const useStreakStore = create<StreakState>()(
@@ -29,6 +31,8 @@ export const useStreakStore = create<StreakState>()(
       totalDays: 0,
       doneDay: null,
       doneSteps: [],
+      reset: () =>
+        set({ count: 0, lastTickDay: null, bestCount: 0, totalDays: 0, doneDay: null, doneSteps: [] }),
       tickToday: () => {
         const { count, lastTickDay, bestCount, totalDays } = get();
         const today = dayKey();
