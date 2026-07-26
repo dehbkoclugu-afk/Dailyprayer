@@ -63,8 +63,29 @@ our export.
     repeated day) and never includes German Joel 4.
 
   Declared in `KNOWN_CHAPTER_DIVERGENCE` so it stays visible and any new
-  divergence fails the check. Left open: making plan scheduling use locale-aware
-  chapter counts.
+  divergence fails the check.
+
+- [x] **Fixed the plan scheduling**
+
+  `scripts/build-bible-chapters.mjs` derives per-locale chapter counts from the
+  bundled text into `src/data/bible-chapters.json` — derived from the text itself,
+  so it cannot disagree with what the reader loads. `bibleMeta.chapterCount(locale,
+  code)` exposes them and `getBookMeta(locale)` now returns locale-correct counts.
+
+  Scheduling moved into `src/data/planReadings.logic.ts` as a pure function of
+  chapter counts, following the repo's existing `*.logic.ts` split, because
+  `planReadings.ts` reaches JSON and path aliases that the plain Node test runner
+  cannot import. `planReading` caches a layout per locale — sharing one cache is
+  what caused the bug.
+
+  `src/data/planReadings.test.ts` asserts, for all six locales × five plans × 365
+  days, that every scheduled chapter exists in that edition, plus that the German
+  plan reaches Joel 4 and never schedules Malachi 4. Reproducing the old shared
+  layout shows it scheduled Malachi 4 on day 285 and never reached German Joel 4,
+  so the test fails on the old behaviour.
+
+  Staleness of the derived metadata is caught twice: by the test and by
+  `npm run scripture-check`.
 
 ## Task 4: Build the drift check
 
@@ -111,7 +132,9 @@ our export.
 
 ## Left open
 
-- Plan scheduling should use locale-aware chapter counts so German Joel/Malachi
-  readings are correct.
 - `npm run scripture-drift` only watches Turkish. If another publisher starts
   revising, add it to `WATCHED`.
+- `bible-books.json` still carries the Turkish chapter counts for the legacy
+  `bookMeta` export. Call sites that need a count should use
+  `chapterCount(locale, code)` or `getBookMeta(locale)`; the remaining `bookMeta`
+  use in the Bible tab only reads codes and names.

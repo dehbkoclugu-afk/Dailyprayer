@@ -168,6 +168,8 @@ for (const row of manifest) {
  * the Hebrew versification, giving Joel 4 chapters (others have 3) and Malachi 3
  * (others have 4). The totals still come to 1189, which is why this went unnoticed.
  * Known divergences are declared here so they stay visible and any *new* one fails.
+ * Reading plans now schedule per locale (`planReadings.logic.ts`), so a divergence
+ * is handled rather than merely tolerated.
  */
 const KNOWN_CHAPTER_DIVERGENCE = {
   de: { JOL: 4, MAL: 3 },
@@ -195,6 +197,7 @@ for (const entry of shape) {
 for (const [file, extract] of [
   ['src/data/bible-books.json', (json) => json.map((b) => b.code)],
   ['src/data/bible-book-names.json', (json) => Object.keys(json)],
+  ['src/data/bible-chapters.json', (json) => Object.keys(json)],
 ]) {
   if (!existsSync(file)) {
     fail(`${file} is missing.`);
@@ -203,6 +206,24 @@ for (const [file, extract] of [
   const codes = extract(JSON.parse(readFileSync(file, 'utf8')));
   const missing = CODES.filter((c) => !codes.includes(c));
   if (missing.length) fail(`${file} is missing books: ${missing.join(',')}`);
+}
+
+// Per-locale chapter counts are derived metadata: reading plans schedule against
+// them, so a stale file would schedule chapters the reader does not have.
+const CHAPTERS_FILE = 'src/data/bible-chapters.json';
+if (existsSync(CHAPTERS_FILE)) {
+  const declared = JSON.parse(readFileSync(CHAPTERS_FILE, 'utf8'));
+  for (const entry of shape) {
+    for (const [code, actual] of Object.entries(entry.chapters)) {
+      const stated = declared[code]?.[entry.locale];
+      if (stated !== actual) {
+        fail(
+          `${CHAPTERS_FILE} says ${code} has ${stated} chapters in ${entry.locale}, ` +
+            `the bundled text has ${actual}. Re-run scripts/build-bible-chapters.mjs.`,
+        );
+      }
+    }
+  }
 }
 
 if (failures.length) {

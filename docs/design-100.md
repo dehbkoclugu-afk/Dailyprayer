@@ -91,7 +91,13 @@ deneyimi, performans ve görsel cila gelir.
     `src/data/planReadings.ts` bölümleri Türkçe sayılardan planlıyor: Almanca okuyucu için Malaki 4
     planlanıp Malaki 3’e kırpılıyor (tekrar) ve Almanca Yoel 4 hiç planlanmıyor. Bilinen fark
     `KNOWN_CHAPTER_DIVERGENCE` içinde beyan edildi, yani yeni bir sapma artık kontrolü düşürür.
-    **Açık:** plan zamanlamasını dile duyarlı bölüm sayılarına geçirmek.
+    **Bu hata düzeltildi:** `scripts/build-bible-chapters.mjs` bundled metinden dil bazlı bölüm
+    sayılarını türetiyor (`src/data/bible-chapters.json`), `bibleMeta.chapterCount(locale, code)`
+    bunu sunuyor ve plan zamanlaması artık dile duyarlı — mantık test edilebilmesi için
+    `planReadings.logic.ts`’e ayrıldı. `src/data/planReadings.test.ts` altı dil × beş plan × 365 gün
+    için planlanan her bölümün o sürümde gerçekten var olduğunu doğruluyor; eski davranış bu testte
+    285. günde Malaki 4 ile düşüyordu. Türetilmiş metadatanın bayatlaması hem testle hem
+    `scripture-check` ile yakalanıyor.
 14. **Günlük ve kullanıcı verisi silme akışını iki aşamalı yap.** Onboarding’i yeniden başlatmak,
     streak/günlük/işaretleri yanlışlıkla silememeli; silinecek veri listesi açıkça gösterilmeli.
 15. **Günlük girdisi silmeye Undo ekle.** Küçük çöp ikonuna dokunma anında kalıcı silme yerine

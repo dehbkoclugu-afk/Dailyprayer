@@ -24,7 +24,7 @@ export default function PlanDay() {
 
   if (!plan) return <View style={{ flex: 1, backgroundColor: t.bg }} />;
 
-  const reading = planReading(plan.id, dayIdx);
+  const reading = planReading(plan.id, dayIdx, locale);
   const ref = formatReadingRef(reading, locale);
   const firstVerse = getBible(locale)[reading.book]?.chapters[reading.chapter]?.[0]?.[1] ?? '';
   const teaser = firstVerse.length > 170 ? `${firstVerse.slice(0, 170).trimEnd()}…` : firstVerse;

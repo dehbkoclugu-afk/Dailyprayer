@@ -107,7 +107,7 @@ export default function PlanScreen() {
           alignSelf: 'center',
         }}
         renderItem={({ item: dayIdx }) => {
-          const readingRef = formatReadingRef(planReading(plan.id, dayIdx), locale);
+          const readingRef = formatReadingRef(planReading(plan.id, dayIdx, locale), locale);
           const isDone = done.includes(dayIdx);
           return (
             <Pressable

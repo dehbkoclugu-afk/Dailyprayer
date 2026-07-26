@@ -98,6 +98,14 @@ over: Luther 1912 follows the Hebrew division, giving German Joel 4 chapters and
 Malachi 3 where the other editions have 3 and 4. A *new* divergence fails the
 check.
 
+Because editions divide books differently, **never resolve a chapter from another
+locale's counts.** `bible-books.json` carries the Turkish counts only; use
+`chapterCount(locale, code)` or `getBookMeta(locale)`, both backed by
+`bible-chapters.json`, which `scripts/build-bible-chapters.mjs` derives from the
+bundled text. Reading plans schedule per locale for this reason
+(`planReadings.logic.ts`), and `src/data/planReadings.test.ts` checks every plan
+day in every language against the edition the reader actually opens.
+
 `npm run scripture-drift` — needs network, so it is deliberately not in CI; run it
 before a release. It re-downloads the upstream artifact and compares verse by
 verse. eBible.org states the Turkish YTC is still under review, so its text drifts:
