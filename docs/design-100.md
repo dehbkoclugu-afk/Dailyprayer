@@ -23,7 +23,7 @@ deneyimi, performans ve görsel cila gelir.
    mağazanın abonelik yönetimine gidebilmeli.
 7. ✅ **TAMAMLANDI — Restore sonucunu kalıcı ve eylemli yap.** “Bulunamadı” metnine doğru mağaza hesabını kontrol
    etme ve destek e-postası eylemleri eklenmeli.
-8. **Paywall bağlamını gerçekten kullan.** `from=` parametresi başlık, fayda sırası ve ilk görseli
+8. ✅ **TAMAMLANDI — Paywall bağlamını gerçekten kullan.** `from=` parametresi başlık, fayda sırası ve ilk görseli
    “uyku duasını aç”, “planı aç” gibi dokunulan içerikle eşleştirmeli.
 9. **Yasal metinlerde altı Kutsal Kitap kaynağını ayrı ayrı beyan et.** Mevcut Terms yalnızca WEB
    söylüyor; her dilde kullanılan sürüm, telif/lisans ve atıf koşulu gerçek kaynağıyla yazılmalı.

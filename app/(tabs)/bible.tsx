@@ -127,7 +127,7 @@ export default function Bible() {
               key={p.id}
               onPress={() =>
                 locked
-                  ? router.push('/paywall')
+                  ? router.push('/paywall?from=plan')
                   : router.push({ pathname: '/plan/[id]', params: { id: p.id } })
               }
               accessibilityRole="button"

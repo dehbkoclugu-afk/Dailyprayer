@@ -20,7 +20,7 @@ export default function Pray() {
   const list = cat === 'all' ? prayers : prayers.filter((p) => p.category === cat);
 
   const open = (p: GuidedPrayer) => {
-    if (p.plus && !isPlus) router.push('/paywall');
+    if (p.plus && !isPlus) router.push('/paywall?from=prayer');
     else router.push({ pathname: '/player', params: { id: p.id } });
   };
 

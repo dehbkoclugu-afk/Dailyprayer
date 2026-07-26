@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Linking, Pressable, Text, View } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Screen } from '@/components/Screen';
@@ -18,6 +18,10 @@ import {
   type PurchasePlan,
 } from '@/services/purchases';
 import { useT } from '@/i18n';
+import {
+  resolvePaywallContext,
+  type BenefitId,
+} from '@/services/paywallContext.logic';
 
 const configuredSupportEmail = process.env.EXPO_PUBLIC_SUPPORT_EMAIL?.trim() ?? '';
 const supportEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(configuredSupportEmail)
@@ -27,7 +31,15 @@ const supportEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(configuredSupportEmail)
 export default function Paywall() {
   const t = useTheme();
   const { t: tr, locale } = useT();
-  const BENEFITS = [tr('paywall.b1'), tr('paywall.b2'), tr('paywall.b3'), tr('paywall.b4')];
+  const { from } = useLocalSearchParams<{ from?: string | string[] }>();
+  const paywallContext = resolvePaywallContext(from);
+  const benefitStrings: Record<BenefitId, string> = {
+    1: tr('paywall.b1'),
+    2: tr('paywall.b2'),
+    3: tr('paywall.b3'),
+    4: tr('paywall.b4'),
+  };
+  const BENEFITS = paywallContext.benefits.map((id) => benefitStrings[id]);
   const PLAN_TITLE: Record<PlanId, string> = {
     annual: tr('paywall.yearly'),
     weekly: tr('paywall.weekly'),
@@ -192,14 +204,14 @@ export default function Paywall() {
 
       {/* Hero: sunrise-through-arch artwork with scrim + copy */}
       <View style={{ borderRadius: radius.hero, overflow: 'hidden', marginBottom: spacing.md }}>
-        <ArtSlot id="A8-paywall-hero" height={260} radius={radius.hero}>
+        <ArtSlot id={paywallContext.hero} height={260} radius={radius.hero}>
           <LinearGradient
             colors={['rgba(14,18,32,0.15)', 'rgba(14,18,32,0.9)']}
             style={{ position: 'absolute', width: '100%', height: '100%' }}
           />
           <View style={{ flex: 1, justifyContent: 'flex-end', padding: spacing.xl }}>
             <Text style={{ fontFamily: fonts.serif, fontSize: 27, color: '#F2EEE6' }}>
-{tr('paywall.title')}
+{tr(paywallContext.titleKey)}
             </Text>
             <View style={{ gap: spacing.xs, marginTop: spacing.md }}>
               {BENEFITS.map((b) => (
