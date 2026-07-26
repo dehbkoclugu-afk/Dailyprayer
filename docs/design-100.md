@@ -25,7 +25,7 @@ deneyimi, performans ve görsel cila gelir.
    etme ve destek e-postası eylemleri eklenmeli.
 8. ✅ **TAMAMLANDI — Paywall bağlamını gerçekten kullan.** `from=` parametresi başlık, fayda sırası ve ilk görseli
    “uyku duasını aç”, “planı aç” gibi dokunulan içerikle eşleştirmeli.
-9. **Yasal metinlerde altı Kutsal Kitap kaynağını ayrı ayrı beyan et.** Mevcut Terms yalnızca WEB
+9. ✅ **TAMAMLANDI — Yasal metinlerde altı Kutsal Kitap kaynağını ayrı ayrı beyan et.** Mevcut Terms yalnızca WEB
    söylüyor; her dilde kullanılan sürüm, telif/lisans ve atıf koşulu gerçek kaynağıyla yazılmalı.
 10. **YTC ve Ostervald lisanslarını yayın öncesi doğrula.** Kamu malı olmayan veya sürümü belirsiz
     metin “public domain” diye sunulmamalı; doğrulama tamamlanmadan ilgili dil release kapısından

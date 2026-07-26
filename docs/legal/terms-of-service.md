@@ -1,18 +1,41 @@
 # Terms of Service
 
-_Last updated: 2026-07-21_
+_Last updated: 2026-07-26_
 
 > Source of truth is `src/data/legal.ts` (shown in-app). Keep this hosted copy in
-> sync. Fill placeholders **[COMPANY]**, **[CONTACT_EMAIL]**, **[JURISDICTION]**
-> and have a lawyer review before publishing.
+> sync and have a lawyer review before publishing.
 
 By using Lumen ("the app") you agree to these terms.
 
 ## The service
 Lumen provides daily Bible verses, devotionals, guided prayers, reading plans,
-and a personal journal. Scripture is presented from the World English Bible
-(public domain). Devotionals and prayers are original devotional content and are
-not a substitute for professional, medical, or pastoral advice.
+and a personal journal. The Bible reader uses one of six separately sourced
+Scripture editions listed below. Devotionals and prayers are original devotional
+content and are not a substitute for professional, medical, or pastoral advice.
+
+## Scripture sources and rights
+- **Turkish — Yorumsuz Türkçe Çeviri (YTC):** copyright © 2023-2025 İsmail
+  Serinken and eBible.org; CC BY-ND 4.0. Lumen distributes the Scripture text
+  verbatim and does not change its words or punctuation. Source:
+  https://ebible.org/turytc/copyright.htm. License:
+  https://creativecommons.org/licenses/by-nd/4.0/.
+- **English — World English Bible, 2020 stable text edition:** public domain.
+  “World English Bible” is an eBible.org trademark and identifies unchanged
+  text only. Imported source:
+  https://github.com/seven1m/open-bibles/blob/master/eng-web.usfx.xml. Official
+  rights notice: https://ebible.org/eng-web/copyright.htm.
+- **Spanish — Reina-Valera 1909:** the upstream Open Bibles source labels
+  `spa-rv1909.usfx.xml` public domain. Source:
+  https://github.com/seven1m/open-bibles/blob/master/spa-rv1909.usfx.xml.
+- **Portuguese — João Ferreira de Almeida:** the upstream Open Bibles source
+  labels `por-almeida.usfx.xml` public domain. Source:
+  https://github.com/seven1m/open-bibles/blob/master/por-almeida.usfx.xml.
+- **French — Ostervald 1996:** the upstream Open Bibles source labels
+  `fra-ostervald.osis.xml` public domain; independent rights verification is
+  pending before release. Source:
+  https://github.com/seven1m/open-bibles/blob/master/fra-ostervald.osis.xml.
+- **German — Luther Bible 1912:** public domain. Source:
+  https://github.com/seven1m/open-bibles/blob/master/deu-luther1912.osis.xml.
 
 ## Subscriptions (Lumen Plus)
 - Lumen offers auto-renewable subscriptions that unlock additional content.
@@ -31,20 +54,21 @@ not a substitute for professional, medical, or pastoral advice.
 ## Acceptable use
 Use the app for personal, non-commercial devotional purposes. Do not copy,
 resell, or redistribute the app's original devotional and prayer content without
-permission. (Scripture from the World English Bible is public domain.)
+permission. Scripture remains governed by the edition-specific rights and
+conditions listed above.
 
 ## Disclaimers
 The app is provided "as is" without warranties of any kind. To the maximum extent
-permitted by law, [COMPANY] is not liable for any indirect or incidental damages
+permitted by law, Umut Ceylan is not liable for any indirect or incidental damages
 arising from use of the app.
 
 ## Changes
 We may update these terms; continued use after changes means you accept them.
 
 ## Governing law
-These terms are governed by the laws of [JURISDICTION], without regard to
+These terms are governed by the laws of Turkey, without regard to
 conflict-of-law rules.
 
 ## Contact
-[CONTACT_EMAIL]
-[COMPANY]
+dehbkoclugu@gmail.com
+Umut Ceylan
