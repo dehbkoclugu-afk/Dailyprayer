@@ -384,8 +384,20 @@ deneyimi, performans ve görsel cila gelir.
     taşıması ve silme düğmesinin geçmiş zamanlı toast’a dönmemesi. Dört ihlal enjekte edilip
     yakalandığı doğrulandı. Türkçe, Fransızca ve Almanca’da üç yüzeyin de tarayıcıda okunduğu
     doğrulandı; konsol temiz.
-27. **Renk seçimini yalnız renkle anlatma.** Her highlight swatch içinde farklı simge/desen veya
-    metin kısaltması bulunmalı.
+27. ✅ **TAMAMLANDI — Renk seçimini yalnız renkle anlatma.** Yalnızca tonuyla ayrılan dört daire,
+    kırmızı-yeşil renk körlüğü olan bir okuyucu için dört özdeş dairedir — ve gül/altın ile
+    yeşil/altın tam da çakışan çiftler. Madde 26 ekran okuyucuya adı verdi, ama swatch’ı *gören*
+    ve ayırt edemeyen birine hiçbir şey vermedi.
+    Her renk artık kendi şeklini taşıyor: altın ★, gül ♥, yeşil yaprak, mavi damla
+    (`HIGHLIGHT_ICON`). Seçili olan **dolu**, diğerleri **outline** — madde 94’ün Ionicons
+    outline/filled ailelerinin karışmasına izin verdiği tek yer bu. Eski işaret yalnız seçili
+    swatch’ta beliren bir onay imiydi, yani diğer üçü renkten ibaretti.
+    **Kütüphane listesi de aynı kusurdaydı** ve düzeltildi: gül bir vurguyu yeşil bir vurgudan
+    ayıran tek şey soldaki 6px renk şeridiydi. Şerit yerini şekle bıraktı — yer imi satırlarının
+    zaten ikonunu koyduğu aynı alanda, yani iki sekme nihayet kardeş görünüyor.
+    Koruma: her rengin **benzersiz** bir şekli olması, swatch’ın şekli çizmesi, dolu/outline
+    ayrımı ve kütüphanenin renk-yalnız şeride dönmemesi. Üç ihlal enjekte edilip yakalandığı
+    doğrulandı; ikisi de tarayıcıda ekran görüntüsüyle gözden geçirildi.
 28. **Bottom sheet odak yönetimini tamamla.** Açılışta başlığa odak taşı, TalkBack odağını modal
     içinde tut ve kapanınca tetikleyen kontrole geri ver.
 29. **Modal arka planlarını erişilebilirlik ağacından çıkar.** Görünmez kapatma alanları ayrı

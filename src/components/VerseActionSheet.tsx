@@ -8,6 +8,7 @@ import { fonts } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useReaderTheme } from '@/theme/reading';
 import {
+  HIGHLIGHT_ICON,
   HIGHLIGHT_LABEL,
   HIGHLIGHT_ORDER,
   HIGHLIGHT_SWATCH,
@@ -190,7 +191,14 @@ export function VerseActionSheet({
                     borderColor: t.ink,
                   }}
                 >
-                  {on ? <Ionicons name="checkmark" size={20} color={t.onGold} /> : null}
+                  {/* The shape is what distinguishes the four without colour
+                      vision; filled vs outline is the second channel for which
+                      one is chosen (roadmap item 27). */}
+                  <Ionicons
+                    name={on ? HIGHLIGHT_ICON[c] : `${HIGHLIGHT_ICON[c]}-outline`}
+                    size={20}
+                    color={t.onGold}
+                  />
                 </Pressable>
               );
             })}

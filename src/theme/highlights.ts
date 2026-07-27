@@ -27,6 +27,21 @@ export const HIGHLIGHT_LABEL: Record<HighlightColor, TranslationKey> = {
   blue: 'highlight.blue',
 };
 
+/**
+ * A shape per colour (roadmap item 27). Four circles that differ only in hue are
+ * four identical circles to the ~8% of men with red-green colour blindness — and
+ * rose against gold, green against gold are exactly the pairs that collapse.
+ *
+ * Filled marks the chosen one and outline the rest, which is the one place
+ * roadmap item 94 allows the Ionicons outline/filled families to mix.
+ */
+export const HIGHLIGHT_ICON: Record<HighlightColor, 'star' | 'heart' | 'leaf' | 'water'> = {
+  gold: 'star',
+  rose: 'heart',
+  green: 'leaf',
+  blue: 'water',
+};
+
 /** Wash used behind the verse text. */
 export const HIGHLIGHT_TINT: Record<HighlightColor, string> = {
   gold: 'rgba(217,164,65,0.24)',

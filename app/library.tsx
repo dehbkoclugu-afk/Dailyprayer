@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
-import { HIGHLIGHT_LABEL, HIGHLIGHT_SWATCH } from '@/theme/highlights';
+import { HIGHLIGHT_ICON, HIGHLIGHT_LABEL, HIGHLIGHT_SWATCH } from '@/theme/highlights';
 import { getBible } from '@/data/bibleFull';
 import { useBookmarkStore } from '@/state/useBookmarkStore';
 import { useHighlightStore } from '@/state/useHighlightStore';
@@ -25,6 +25,8 @@ interface Row {
   color?: string;
   /** The same colour as something a screen reader can say (roadmap item 26). */
   colorName?: TranslationKey;
+  /** …and as a shape, for a reader who sees but cannot tell the hues apart. */
+  icon?: (typeof HIGHLIGHT_ICON)[keyof typeof HIGHLIGHT_ICON];
   markKey?: string;
 }
 
@@ -71,6 +73,7 @@ export default function Library() {
         preview: text.length > 90 ? `${text.slice(0, 90).trimEnd()}…` : text,
         color: HIGHLIGHT_SWATCH[color],
         colorName: HIGHLIGHT_LABEL[color],
+        icon: HIGHLIGHT_ICON[color],
         markKey: key,
       });
     }
@@ -216,8 +219,12 @@ export default function Library() {
               opacity: pressed ? 0.85 : 1,
             })}
           >
-            {item.color ? (
-              <View style={{ width: 6, alignSelf: 'stretch', borderRadius: 3, backgroundColor: item.color }} />
+            {/* A bare colour stripe was the only thing separating a rose
+                highlight from a green one (roadmap item 27). The shape carries
+                it now, in the same slot a bookmark row already uses for its
+                icon — so the two tabs finally look like siblings. */}
+            {item.icon ? (
+              <Ionicons name={item.icon} size={20} color={item.color} />
             ) : (
               <Ionicons name="bookmark" size={18} color={t.gold} />
             )}

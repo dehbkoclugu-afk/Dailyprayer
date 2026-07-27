@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import test from 'node:test';
-import { HIGHLIGHT_LABEL, HIGHLIGHT_ORDER } from '../theme/highlights.ts';
+import { HIGHLIGHT_ICON, HIGHLIGHT_LABEL, HIGHLIGHT_ORDER } from '../theme/highlights.ts';
 import { translations } from '../i18n/translations.ts';
 
 /**
@@ -285,6 +285,33 @@ test('a highlight colour is named, never spelled from its storage key', () => {
     offenders,
     [],
     `raw colour keys in labels — use HIGHLIGHT_LABEL:\n${offenders.join('\n')}`,
+  );
+});
+
+test('colour is never the only way to tell the highlights apart', () => {
+  // Roadmap item 27. Four circles differing only in hue are four identical
+  // circles to a red-green colour-blind reader, and rose-against-gold and
+  // green-against-gold are exactly the pairs that collapse. A screen reader now
+  // hears the name (item 26), but somebody who sees the swatch and cannot
+  // distinguish it gets nothing from a name they never hear.
+  const shapes = Object.values(HIGHLIGHT_ICON);
+  assert.equal(new Set(shapes).size, shapes.length, 'each colour needs its own shape');
+  assert.equal(shapes.length, HIGHLIGHT_ORDER.length);
+
+  const sheet = readFileSync(join('src', 'components', 'VerseActionSheet.tsx'), 'utf8');
+  assert.match(sheet, /HIGHLIGHT_ICON\[c\]/, 'the swatch must draw its shape');
+  // The plain checkmark was the old marker: present only on the chosen swatch, so
+  // the other three carried nothing but colour.
+  assert.doesNotMatch(sheet, /name="checkmark" size=\{20\}/);
+  // Filled vs outline is the second channel for which one is chosen.
+  assert.match(sheet, /on \? HIGHLIGHT_ICON\[c\] : `\$\{HIGHLIGHT_ICON\[c\]\}-outline`/);
+
+  const library = readFileSync(join('app', 'library.tsx'), 'utf8');
+  assert.match(library, /icon: HIGHLIGHT_ICON\[color\]/, 'a library row must carry its shape');
+  assert.doesNotMatch(
+    library,
+    /width: 6, alignSelf: 'stretch'/,
+    'the colour-only stripe should be gone',
   );
 });
 
