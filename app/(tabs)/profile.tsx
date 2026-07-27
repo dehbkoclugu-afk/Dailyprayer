@@ -6,6 +6,8 @@ import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { OptionSheet, type SheetOption } from '@/components/OptionSheet';
 import { DataActionSheet, type DataAction } from '@/components/DataActionSheet';
+import { ReminderTimeSheet } from '@/components/ReminderTimeSheet';
+import { formatTime } from '@/lib/time';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
@@ -114,13 +116,9 @@ export default function Profile() {
     toast(translate('toast.reminderSet'));
   };
 
-  const openReminderPicker = () =>
-    Alert.alert(tr('profile.reminderTitle'), tr('profile.reminderMsg'), [
-      { text: tr('profile.reminderMorning'), onPress: () => setReminder('07:30') },
-      { text: tr('profile.reminderMidday'), onPress: () => setReminder('12:30') },
-      { text: tr('profile.reminderEvening'), onPress: () => setReminder('21:00') },
-      { text: tr('profile.reminderOff'), style: 'destructive', onPress: () => setReminder(null) },
-    ]);
+  // A real time picker, not three fixed times in an Alert (roadmap item 17).
+  const [timeSheet, setTimeSheet] = useState(false);
+  const openReminderPicker = () => setTimeSheet(true);
 
   const manageSubscription = async () => {
     try {
@@ -139,7 +137,7 @@ export default function Profile() {
   const reminderBlocked = permission === 'blocked' && Boolean(reminderTime);
   const reminderLabel = reminderBlocked
     ? tr('profile.reminderBlocked')
-    : (reminderTime ?? tr('profile.off'));
+    : (formatTime(reminderTime) ?? tr('profile.off'));
 
   return (
     <Screen tabbed>
@@ -367,6 +365,20 @@ export default function Profile() {
       <Text style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkFaint, textAlign: 'center', marginTop: spacing.xl }}>
         Lumen v1.0.0
       </Text>
+
+      <ReminderTimeSheet
+        visible={timeSheet}
+        current={reminderTime}
+        onPick={(time) => {
+          setTimeSheet(false);
+          setReminder(time);
+        }}
+        onTurnOff={() => {
+          setTimeSheet(false);
+          setReminder(null);
+        }}
+        onClose={() => setTimeSheet(false)}
+      />
 
       <DataActionSheet
         action={dataAction}

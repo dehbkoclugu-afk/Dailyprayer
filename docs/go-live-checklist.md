@@ -55,6 +55,10 @@ marked **[you]** need a human with accounts/credentials; **[code]** I can do.
 - [ ] Re-run `npm run scripture-drift` (needs network) right before submitting.
       The Turkish YTC is still under review upstream, so its text drifts; decide
       deliberately whether to re-export before shipping.
+- [ ] Restore the A17 splash art: `expo-splash-screen` needs a PNG and only
+      `src/assets/art/A17-splash.webp` exists. A duplicate plugin entry pointing at
+      the missing PNG was breaking `expo prebuild` (and so the APK workflow) and
+      has been removed; the app currently falls back to `assets/splash.png`.
 - [x] Full flow bug-tested (onboarding → paywall → tabs, EN + TR, dark + light).
 - [ ] Re-run the flow on a physical device once art + purchases are wired.
 - [ ] Verify restore-purchases works.

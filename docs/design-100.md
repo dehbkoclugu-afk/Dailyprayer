@@ -150,8 +150,26 @@ deneyimi, performans ve görsel cila gelir.
     mesajı oradan geri gelirdi. `src/services/notificationPermission.test.ts` sekiz güvenceyi
     koruyor; dört ihlal enjekte edilerek doğrulandı. Bloklu satır web export üzerinden görsel
     olarak da doğrulandı (izin durumu zorlanarak).
-17. **Hatırlatıcı saatini gerçek bir saat seçiciyle değiştir.** Sabit veya sınırlı seçenek yerine
-    yerel 12/24 saat formatına uyan native time picker kullanılmalı.
+17. ✅ **TAMAMLANDI — Hatırlatıcı saatini gerçek bir saat seçiciyle değiştir.** Önceki hâli üç sabit
+    saatli (`07:30`, `12:30`, `21:00`) bir native `Alert`’ti — saat seçici değil; üstelik 12 saatlik
+    bir cihazda kullanıcıya “21:00” gösteriliyordu. Artık `@react-native-community/datetimepicker`
+    (SDK 53 uyumlu 8.4.1) ile `ReminderTimeSheet`: Android’de sistem saat diyaloğu imperatif
+    açılıyor ve yalnızca **OK**’te yazılıyor (kapatınca hatırlatma kurulmuyor), iOS’ta spinner
+    satır içi gelip “Saati kaydet” ile onaylanıyor. Android’e `is24Hour` açıkça veriliyor — iOS
+    sistem ayarını kendi okur ama Android söylenmezse 12 saate düşer.
+    **Saklama ile gösterim ayrıldı:** değer her zaman 24 saatlik `HH:MM` olarak saklanıyor (tek
+    anlamlı ve sıralanabilir), gösterim cihazın kendi düzenine bırakılıyor. Aynı `21:00` değeri
+    Türkçe cihazda **21:00**, İngilizce cihazda **9:00 PM** görünüyor — tarayıcıda iki dilde
+    doğrulandı. Biçimlendirme `src/lib/time.ts`’de saf fonksiyonlar olarak duruyor ve gerçek
+    Intl ile birim testli (`parseTime`, `toStoredTime`, `formatTime`, `prefers24Hour`).
+    Native seçici iOS/Android dışında hiç render olmadığı için orada yazılabilir bir alan var —
+    yoksa sheet “kaydet” düğmesiyle ama seçecek hiçbir şey olmadan kalıyordu; geçersiz giriş
+    sessizce eski saati kaydetmiyor. Artık kullanılmayan üç sabit saat çeviri anahtarı silindi.
+    **Ayrıca bulunan, bu maddeyle ilgisiz yayın engeli:** `app.json` iki `expo-splash-screen`
+    girdisi taşıyordu ve ilki var olmayan `./src/assets/art/A17-splash.png` dosyasını gösteriyordu
+    (diskteki dosya `.webp`). Bu yüzden `npx expo prebuild` — yani **APK iş akışının ilk adımı** —
+    hata veriyordu. Bozuk kopya girdi kaldırıldı, prebuild artık tamamlanıyor. A17 splash görselini
+    geri getirmek için `.webp`’nin PNG dışa aktarımı gerekiyor (bu ortamda dönüştürücü yok).
 18. **İletişim satırını çalışır hâle getir.** Profile’daki e-posta satırı adresi açmalı; cihazda
     e-posta uygulaması yoksa adresi kopyalama seçeneği vermeli.
 19. **Bilinmeyen rota/veri hatalarına tasarlanmış durum ekle.** Geçersiz plan, gün veya kitap

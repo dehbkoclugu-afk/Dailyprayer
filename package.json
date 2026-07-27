@@ -4,11 +4,11 @@
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --test src/lib/dates.test.ts src/data/verses.test.ts src/data/legal.test.ts src/data/scriptureRights.test.ts src/data/scriptureIntegrity.test.ts src/data/planReadings.test.ts src/state/dataReset.test.ts src/state/journalUndo.test.ts src/services/notificationPermission.test.ts src/services/purchases.test.ts src/services/paywallContext.test.ts",
+    "test": "node --experimental-strip-types --test src/lib/dates.test.ts src/lib/time.test.ts src/data/verses.test.ts src/data/legal.test.ts src/data/scriptureRights.test.ts src/data/scriptureIntegrity.test.ts src/data/planReadings.test.ts src/state/dataReset.test.ts src/state/journalUndo.test.ts src/components/reminderPicker.test.ts src/services/notificationPermission.test.ts src/services/purchases.test.ts src/services/paywallContext.test.ts",
     "scripture-check": "node scripts/check-scripture-integrity.mjs",
     "scripture-drift": "node scripts/check-scripture-drift.mjs",
     "release-gate": "node --experimental-strip-types scripts/check-release-gate.mjs"
@@ -19,6 +19,7 @@
     "@expo/metro-runtime": "~5.0.5",
     "@expo/vector-icons": "^14.1.0",
     "@react-native-async-storage/async-storage": "2.1.2",
+    "@react-native-community/datetimepicker": "8.4.1",
     "expo": "~53.0.9",
     "expo-asset": "~11.1.7",
     "expo-blur": "~14.1.4",
