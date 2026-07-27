@@ -187,8 +187,28 @@ deneyimi, performans ve görsel cila gelir.
     “7:30” üretiyordu; `timeStyle: 'short'` yerel kanonik biçimi veriyor — tr/de/fr “07:30”,
     en-US “7:30 AM”. `src/services/support.test.ts` yedi güvenceyi koruyor; üç ihlal enjekte
     edilerek doğrulandı. Satır web export’ta görsel olarak doğrulandı.
-19. **Bilinmeyen rota/veri hatalarına tasarlanmış durum ekle.** Geçersiz plan, gün veya kitap
-    parametresi boş koyu ekran üretmemeli; açıklama ve güvenli geri dönüş sunmalı.
+19. ✅ **TAMAMLANDI — Bilinmeyen rota/veri hatalarına tasarlanmış durum ekle.** Maddenin tarif ettiği
+    ekran birebir koddaydı: her iki plan ekranı da bilinmeyen bir id için
+    `return <View style={{ flex: 1, backgroundColor: t.bg }} />` döndürüyordu — açıklama yok,
+    çıkış yok. Denetimde dört ayrı hata modu çıktı ve hepsi düzeltildi:
+    **(1) Bilinmeyen plan** → tasarlanmış durum, “Okuma planlarına bak”.
+    **(2) Plan dışı gün** → `Number(day) || 0` “abc”yi sessizce 1. güne çeviriyor, 9999. günü de
+    kırpılmış bir okumayla “10000. Gün” başlığı altında gösteriyordu; artık katı ayrıştırma ve
+    `0 ≤ gün < plan.days` sınırı var, dışına çıkan “Planı aç” ile karşılanıyor.
+    **(3) Geçersiz Kutsal Kitap referansı — bu bir çökmeydi.** `/read?b=abc` →
+    `setPos(NaN, 1)` kalıcı okuyucu konumunu **NaN ile bozuyor**, sonraki render’da
+    `Math.min(NaN, 65)` yine NaN olduğu için `bible[NaN].chapters` fırlatıyordu. Artık deep link
+    yalnızca bu sürümde gerçekten var olan bir referansı kabul ediyor (yoksa kaydedilmiş konuma
+    dokunulmuyor), indeksleme sonlu tam sayıya kırpılıyor ve bölüm yine de bulunamazsa
+    “Kutsal Kitap’ı aç” durumu geliyor.
+    **(4) Bilinmeyen dua** → `?? prayers[0]` kullanıcının istemediği bir duayı sessizce
+    oynatıyordu; artık tasarlanmış durum. Hook kuralları için player, koruma + iç ekran olarak
+    ikiye ayrıldı.
+    Ayrıca `app/+not-found.tsx` eklendi — daha önce eşleşmeyen bağlantılar expo-router’ın
+    biçimsiz, yalnızca İngilizce ekranına düşüyordu. Ortak `NotFoundState` ikon, başlık, açıklama,
+    adlandırılmış güvenli hedef ve (geri gidilecek bir yer varsa) “Geri dön” sunuyor; 16 metin
+    altı dile çevrildi. Dört senaryo da tarayıcıda çalıştırıldı: hiçbiri boş değil, konsol hatası
+    yok.
 20. **Yayın öncesi metin-doğruluk ekranı oluştur.** Lisans, fiyat, deneme, bildirim ve gizlilik
     beyanlarının gerçek runtime davranışıyla eşleştiği tek kontrol listesi release şartı olmalı.
 

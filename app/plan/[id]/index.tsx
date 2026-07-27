@@ -12,6 +12,7 @@ import { usePlans } from '@/data/plans';
 import { planReading, formatReadingRef } from '@/data/planReadings';
 import { usePlanStore } from '@/state/usePlanStore';
 import { useT } from '@/i18n';
+import { NotFoundState } from '@/components/NotFoundState';
 
 export default function PlanScreen() {
   const t = useTheme();
@@ -21,7 +22,18 @@ export default function PlanScreen() {
   const plan = usePlans().find((p) => p.id === id);
   const progress = usePlanStore((s) => s.progress);
 
-  if (!plan) return <View style={{ flex: 1, backgroundColor: t.bg }} />;
+  // A stale deep link is normal; a blank dark screen with no way out is not.
+  if (!plan) {
+    return (
+      <NotFoundState
+        icon="book-outline"
+        title={tr('notFound.planTitle')}
+        body={tr('notFound.planBody')}
+        actionLabel={tr('notFound.planAction')}
+        onAction={() => router.replace('/(tabs)/bible')}
+      />
+    );
+  }
 
   const done = progress[plan.id] ?? [];
   const days = Array.from({ length: plan.days }, (_, i) => i);

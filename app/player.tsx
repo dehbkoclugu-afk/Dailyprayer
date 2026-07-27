@@ -8,6 +8,7 @@ import * as Haptics from 'expo-haptics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PillButton } from '@/components/PillButton';
+import { NotFoundState } from '@/components/NotFoundState';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
@@ -29,17 +30,37 @@ const PACE_FACTOR: Record<Pace, number> = {
  * Audio narration slots in here later (expo-audio) without changing the flow.
  */
 export default function Player() {
+  const { t: tr } = useT();
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const prayers = usePrayers();
+  // Falling back to prayers[0] silently played a prayer the user did not ask for.
+  // Resolving here keeps the player's hooks off a possibly-missing prayer.
+  const prayer = prayers.find((p) => p.id === id);
+
+  if (!prayer) {
+    return (
+      <NotFoundState
+        icon="leaf-outline"
+        title={tr('notFound.prayerTitle')}
+        body={tr('notFound.prayerBody')}
+        actionLabel={tr('notFound.prayerAction')}
+        onAction={() => router.replace('/(tabs)/pray')}
+      />
+    );
+  }
+
+  return <PlayerScreen prayer={prayer} />;
+}
+
+function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number] }) {
   const t = useTheme();
   const { t: tr } = useT();
   const insets = useSafeAreaInsets();
   const reduceMotion = useReducedMotion();
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const prayers = usePrayers();
-  const prayer = prayers.find((p) => p.id === id) ?? prayers[0];
+  const completeStep = useStreakStore((s) => s.completeStep);
   const [line, setLine] = useState(0);
   const [paused, setPaused] = useState(false);
   const [pace, setPace] = useState<Pace>('normal');
-  const completeStep = useStreakStore((s) => s.completeStep);
   const lastLine = line >= prayer.script.length - 1;
   const progress = (line + 1) / prayer.script.length;
   const remainingMinutes = Math.max(

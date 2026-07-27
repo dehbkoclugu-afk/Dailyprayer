@@ -13,16 +13,42 @@ import { planReading, formatReadingRef } from '@/data/planReadings';
 import { getBible } from '@/data/bibleFull';
 import { usePlanStore } from '@/state/usePlanStore';
 import { useT } from '@/i18n';
+import { NotFoundState } from '@/components/NotFoundState';
 
 export default function PlanDay() {
   const t = useTheme();
   const { t: tr, locale } = useT();
   const { id, day } = useLocalSearchParams<{ id: string; day: string }>();
   const plan = usePlans().find((p) => p.id === id);
-  const dayIdx = Number(day) || 0;
+  // `Number(day) || 0` quietly turned "abc" into day 1 and let day 9999 render a
+  // clamped reading under a "Day 10000" heading. Parse strictly instead.
+  const parsedDay = Number(day);
+  const dayIdx = Number.isInteger(parsedDay) ? parsedDay : NaN;
   const { progress, toggleDay } = usePlanStore();
 
-  if (!plan) return <View style={{ flex: 1, backgroundColor: t.bg }} />;
+  if (!plan) {
+    return (
+      <NotFoundState
+        icon="book-outline"
+        title={tr('notFound.planTitle')}
+        body={tr('notFound.planBody')}
+        actionLabel={tr('notFound.planAction')}
+        onAction={() => router.replace('/(tabs)/bible')}
+      />
+    );
+  }
+
+  if (!Number.isInteger(dayIdx) || dayIdx < 0 || dayIdx >= plan.days) {
+    return (
+      <NotFoundState
+        icon="calendar-outline"
+        title={tr('notFound.dayTitle')}
+        body={tr('notFound.dayBody')}
+        actionLabel={tr('notFound.dayAction')}
+        onAction={() => router.replace({ pathname: '/plan/[id]', params: { id: plan.id } })}
+      />
+    );
+  }
 
   const reading = planReading(plan.id, dayIdx, locale);
   const ref = formatReadingRef(reading, locale);

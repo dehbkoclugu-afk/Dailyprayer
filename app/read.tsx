@@ -15,6 +15,7 @@ import { useHighlightStore } from '@/state/useHighlightStore';
 import { ReadingSettingsSheet } from '@/components/ReadingSettingsSheet';
 import { VerseActionSheet, type SelectedVerse } from '@/components/VerseActionSheet';
 import { useT } from '@/i18n';
+import { NotFoundState } from '@/components/NotFoundState';
 
 export default function Read() {
   const { t: tr, locale } = useT();
@@ -36,16 +37,27 @@ export default function Read() {
   const [flashV, setFlashV] = useState<number | null>(null);
   const listRef = useRef<FlatList>(null);
 
-  const bIdx = Math.min(book, bible.length - 1);
+  // `book`/`chapter` come from the persisted position, which a bad deep link could
+  // previously poison with NaN — Math.min(NaN, 65) is NaN, and bible[NaN].chapters
+  // threw. Clamp through a finite integer so the reader always has somewhere to be.
+  const safeIndex = (value: number, max: number) =>
+    Number.isInteger(value) ? Math.min(Math.max(value, 0), max) : 0;
+  const bIdx = safeIndex(book, bible.length - 1);
   const bk = bible[bIdx];
-  const cIdx = Math.min(chapter, bk.chapters.length - 1);
-  const verses = bk.chapters[cIdx];
+  const cIdx = bk ? safeIndex(chapter, bk.chapters.length - 1) : 0;
+  const verses = bk?.chapters[cIdx];
 
   // deep-navigation: /read?b=&c=&v= jumps to a verse (from search / saved)
   useEffect(() => {
-    if (params.b != null && params.c != null) {
-      setPos(Number(params.b), Number(params.c));
-    }
+    if (params.b == null || params.c == null) return;
+    // Only accept a reference this edition actually has. An out-of-range or
+    // non-numeric link must not overwrite where the reader was sitting.
+    const b = Number(params.b);
+    const c = Number(params.c);
+    if (!Number.isInteger(b) || !Number.isInteger(c)) return;
+    if (b < 0 || b >= bible.length) return;
+    if (c < 0 || c >= bible[b].chapters.length) return;
+    setPos(b, c);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.b, params.c]);
 
@@ -124,6 +136,20 @@ export default function Read() {
       {dir === 'next' ? <Ionicons name="chevron-forward" size={16} color={rt.inkSoft} /> : null}
     </Pressable>
   );
+
+  // Placed after every hook: a missing book or chapter means the bundled edition
+  // could not answer, which is a designed dead end rather than a blank screen.
+  if (!bk || !verses) {
+    return (
+      <NotFoundState
+        icon="book-outline"
+        title={tr('notFound.passageTitle')}
+        body={tr('notFound.passageBody')}
+        actionLabel={tr('notFound.passageAction')}
+        onAction={() => router.replace('/(tabs)/bible')}
+      />
+    );
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: rt.bg, paddingTop: insets.top + spacing.md }}>
