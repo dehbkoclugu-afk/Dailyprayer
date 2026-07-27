@@ -6,7 +6,7 @@ import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { fonts } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
-import { HIGHLIGHT_TINT } from '@/theme/highlights';
+import { HIGHLIGHT_LABEL, HIGHLIGHT_TINT, QUICK_HIGHLIGHT } from '@/theme/highlights';
 import { useReaderTheme } from '@/theme/reading';
 import { getBible } from '@/data/bibleFull';
 import { useReaderStore } from '@/state/useReaderStore';
@@ -278,11 +278,14 @@ export default function Read() {
           const quickHighlight = () => {
             Haptics.selectionAsync().catch(() => {});
             if (color) clearMark(hKey);
-            else setMark(hKey, 'gold');
+            else setMark(hKey, QUICK_HIGHLIGHT);
             // Haptics are the only confirmation a sighted user needs; a screen
             // reader gets nothing, and the tint it cannot see is the whole result.
+            // The shortcut offers no colour choice, so it says which one it used.
             AccessibilityInfo.announceForAccessibility(
-              tr(color ? 'verse.highlightRemoved' : 'verse.highlightAdded'),
+              color
+                ? tr('verse.highlightRemoved')
+                : `${tr('verse.highlightAdded')}, ${tr(HIGHLIGHT_LABEL[QUICK_HIGHLIGHT])}`,
             );
           };
 
@@ -302,7 +305,7 @@ export default function Read() {
             // twenty seconds to read out, and the state is what the reader is
             // listening for.
             accessibilityLabel: color
-              ? `${tr('read.verse')} ${item[0]}, ${tr('a11y.highlighted')}. ${item[1]}`
+              ? `${tr('read.verse')} ${item[0]}, ${tr('a11y.highlighted')}, ${tr(HIGHLIGHT_LABEL[color])}. ${item[1]}`
               : `${tr('read.verse')} ${item[0]}. ${item[1]}`,
             accessibilityActions: [
               { name: 'activate', label: tr('a11y.verseActions') },

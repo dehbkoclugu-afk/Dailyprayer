@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import test from 'node:test';
+import { HIGHLIGHT_LABEL, HIGHLIGHT_ORDER } from '../theme/highlights.ts';
+import { translations } from '../i18n/translations.ts';
 
 /**
  * Guards roadmap items 23, 24 and 25: a control has to announce what it is,
@@ -228,7 +230,11 @@ test('a verse offers its actions instead of hiding them in a long press', () => 
   assert.match(block, /read\.verse/, 'a bare numeral runs into the first word');
   // The state has to come before the verse: a long verse takes twenty seconds to
   // read out, and a trailing "highlighted" arrives after all of it.
-  assert.match(block, /a11y\.highlighted'\)\}\. \$\{item\[1\]\}/, 'the highlight must precede the text');
+  const highlighted = block.match(/a11y\.highlighted'\)\}[^\n]*/);
+  assert.ok(highlighted, 'the highlighted branch');
+  assert.match(highlighted[0], /\$\{item\[1\]\}`$/, 'the verse text must come last');
+  // And the colour is named, not the storage key (roadmap item 26).
+  assert.match(block, /HIGHLIGHT_LABEL\[color\]/, 'the colour must be named');
   assert.match(block, /name: 'activate'/, 'opening the sheet must be an announced action');
   assert.match(block, /name: 'highlight'/, 'highlighting must be an announced action');
   assert.match(block, /verse\.removeHighlight/, 'the action label must follow the current state');
@@ -241,7 +247,60 @@ test('a verse offers its actions instead of hiding them in a long press', () => 
 
   // Performing the action has to be confirmed: haptics are the only feedback a
   // sighted user needs, and a screen reader gets nothing from a tint.
-  assert.match(source, /announceForAccessibility\(\s*\n?\s*tr\(color \? 'verse\.highlightRemoved'/);
+  const announce = source.match(/announceForAccessibility\([\s\S]*?\);/);
+  assert.ok(announce, 'highlighting must confirm itself');
+  assert.match(announce[0], /verse\.highlightRemoved/);
+  assert.match(announce[0], /verse\.highlightAdded/);
+  // The shortcut gives no colour choice, so it says which colour it used.
+  assert.match(announce[0], /HIGHLIGHT_LABEL\[QUICK_HIGHLIGHT\]/);
+});
+
+test('a highlight colour is named, never spelled from its storage key', () => {
+  // Roadmap item 26. The swatch label was `${tr('verse.highlight')} ${c}`, so
+  // TalkBack read the key out of the store: "Vurgula gold" — an English word in
+  // five of the six languages, and jargon in the sixth.
+  const names = Object.keys(HIGHLIGHT_LABEL) as (keyof typeof HIGHLIGHT_LABEL)[];
+  assert.deepEqual(names, HIGHLIGHT_ORDER, 'every colour needs a name');
+
+  // Every colour key must resolve to a real translation in all six locales; the
+  // dictionary completeness test proves the rest.
+  for (const colour of names) {
+    assert.ok(
+      HIGHLIGHT_LABEL[colour] in translations.en,
+      `${HIGHLIGHT_LABEL[colour]} is not a translation key`,
+    );
+  }
+
+  // No label may interpolate a bare colour variable. The old bug had a shape:
+  // an accessibilityLabel template ending in the loop variable itself.
+  const offenders: string[] = [];
+  for (const file of sourceFiles()) {
+    const source = readFileSync(file, 'utf8');
+    for (const [, expression] of source.matchAll(/accessibilityLabel=\{`([^`]*)`\}/g)) {
+      // `${c}` / `${color}` straight into a label is the storage key.
+      if (/\$\{c\}|\$\{colou?r\}/.test(expression)) offenders.push(`${file}: ${expression}`);
+    }
+  }
+  assert.deepEqual(
+    offenders,
+    [],
+    `raw colour keys in labels — use HIGHLIGHT_LABEL:\n${offenders.join('\n')}`,
+  );
+});
+
+test('a highlight in the library says which colour it is', () => {
+  // The colour stripe is the only thing telling two highlights apart in the list,
+  // and it is drawn, not written.
+  const source = readFileSync(join('app', 'library.tsx'), 'utf8');
+  assert.match(source, /colorName: HIGHLIGHT_LABEL\[color\]/, 'the row must carry the name');
+  assert.match(source, /item\.colorName\s*\n?\s*\?[\s\S]{0,120}a11y\.highlighted/);
+  // "Bookmark removed" is the toast text; it was being used to name the button
+  // that does the removing.
+  assert.match(source, /tr\('verse\.removeBookmark'\)/);
+  assert.doesNotMatch(
+    source,
+    /accessibilityLabel=\{item\.markKey \? tr\('verse\.removeHighlight'\) : tr\('verse\.bookmarkRemoved'\)\}/,
+  );
 });
 
 test('the book and chapter picker announces purpose and selection', () => {

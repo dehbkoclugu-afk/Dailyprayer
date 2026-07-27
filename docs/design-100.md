@@ -362,8 +362,28 @@ deneyimi, performans ve görsel cila gelir.
     doğrulanan: birleştirilmiş etiket Türkçe ve Almanca olarak (“Vers 2, markiert. …”), vurgu
     durumunun doğru ayette görünmesi, dokunma yolunun hâlâ sheet’i açması ve konsolda hata
     olmaması. Eylem menüsünün kendisi TalkBack ile cihaz testinde.
-26. **Highlight renk adlarını altı dilde insan diline çevir.** `gold`, `blue` gibi kod anahtarları
-    erişilebilirlik etiketinde okunmamalı.
+26. ✅ **TAMAMLANDI — Highlight renk adlarını altı dilde insan diline çevir.** Swatch etiketi
+    `${tr('verse.highlight')} ${c}` diye kuruluyordu, yani TalkBack depolama anahtarını okuyordu:
+    “Vurgula gold” — altı dilin beşinde İngilizce bir kelime, altıncısında jargon. Dört renk altı
+    dile çevrildi (`highlight.gold` … `highlight.blue`) ve `HIGHLIGHT_LABEL` haritası
+    `Record<HighlightColor, TranslationKey>` olarak yazıldı: `tr()` içine `as never` ile şablon
+    anahtar gömmek yerine, bir anahtar yeniden adlandırılırsa **derleme kırılıyor**, çalışma
+    zamanında sessizce İngilizce’ye düşmüyor.
+    **Renk üç yerde okunuyor, üçü de düzeltildi.** (1) Sheet’teki swatch’lar: “Vurgula, Altın”.
+    (2) Okuyucudaki ayet etiketi: madde 25 vurguyu duyuruyordu ama hangi rengi değil — artık
+    “Ayet 2, vurgulu, Mavi.”. (3) **Kütüphane listesi:** vurgu satırlarını birbirinden ayıran tek
+    şey soldaki renk şeridiydi ve o çizilmiş, yazılmamıştı; satır etiketi yalnızca referanstı.
+    Artık “Mezmurlar 23:2, vurgulu, Mavi”.
+    Uzun basma kısayolu renk seçtirmediği için onayı da hangi rengi kullandığını söylüyor
+    (“Vurgulandı, Altın”); `'gold'` sabiti `QUICK_HIGHLIGHT` olarak adlandırıldı.
+    **Yan yolda bulunan hata:** kütüphanedeki yer imi silme düğmesinin etiketi
+    `verse.bookmarkRemoved` idi — yani “Yer imi kaldırıldı”, *toast* metni, geçmiş zaman. Düğmenin
+    adı olarak okunuyordu. `verse.removeBookmark` eklendi (altı dil).
+    Koruma: her rengin adı olması, her adın gerçek bir çeviri anahtarı olması, hiçbir etiketin
+    çıplak renk değişkeni (`${c}`, `${color}`) enterpole etmemesi, kütüphane satırının rengi
+    taşıması ve silme düğmesinin geçmiş zamanlı toast’a dönmemesi. Dört ihlal enjekte edilip
+    yakalandığı doğrulandı. Türkçe, Fransızca ve Almanca’da üç yüzeyin de tarayıcıda okunduğu
+    doğrulandı; konsol temiz.
 27. **Renk seçimini yalnız renkle anlatma.** Her highlight swatch içinde farklı simge/desen veya
     metin kısaltması bulunmalı.
 28. **Bottom sheet odak yönetimini tamamla.** Açılışta başlığa odak taşı, TalkBack odağını modal

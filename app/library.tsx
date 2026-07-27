@@ -6,11 +6,12 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
-import { HIGHLIGHT_SWATCH } from '@/theme/highlights';
+import { HIGHLIGHT_LABEL, HIGHLIGHT_SWATCH } from '@/theme/highlights';
 import { getBible } from '@/data/bibleFull';
 import { useBookmarkStore } from '@/state/useBookmarkStore';
 import { useHighlightStore } from '@/state/useHighlightStore';
 import { useT } from '@/i18n';
+import type { TranslationKey } from '@/i18n/translations';
 
 type Tab = 'bookmarks' | 'highlights';
 
@@ -20,7 +21,10 @@ interface Row {
   verse: number;
   ref: string;
   preview: string;
+  /** The swatch drawn on the row; present only on a highlight. */
   color?: string;
+  /** The same colour as something a screen reader can say (roadmap item 26). */
+  colorName?: TranslationKey;
   markKey?: string;
 }
 
@@ -66,6 +70,7 @@ export default function Library() {
         ref: `${bible[b].name} ${c + 1}:${ch[v][0]}`,
         preview: text.length > 90 ? `${text.slice(0, 90).trimEnd()}…` : text,
         color: HIGHLIGHT_SWATCH[color],
+        colorName: HIGHLIGHT_LABEL[color],
         markKey: key,
       });
     }
@@ -191,7 +196,13 @@ export default function Library() {
               router.push({ pathname: '/read', params: { b: item.book, c: item.chapter, v: item.verse } })
             }
             accessibilityRole="button"
-            accessibilityLabel={item.ref}
+            // The colour stripe is the only thing telling two highlights apart,
+            // and a screen reader cannot see it (roadmap item 26).
+            accessibilityLabel={
+              item.colorName
+                ? `${item.ref}, ${tr('a11y.highlighted')}, ${tr(item.colorName)}`
+                : item.ref
+            }
             style={({ pressed }) => ({
               flexDirection: 'row',
               alignItems: 'center',
@@ -224,7 +235,7 @@ export default function Library() {
                 item.markKey ? clearMark(item.markKey) : removeBookmark(item.book, item.chapter, item.verse)
               }
               accessibilityRole="button"
-              accessibilityLabel={item.markKey ? tr('verse.removeHighlight') : tr('verse.bookmarkRemoved')}
+              accessibilityLabel={item.markKey ? tr('verse.removeHighlight') : tr('verse.removeBookmark')}
               style={{
                 width: TAP_MIN,
                 height: TAP_MIN,

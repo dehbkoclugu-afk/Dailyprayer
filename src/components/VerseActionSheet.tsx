@@ -8,6 +8,7 @@ import { fonts } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useReaderTheme } from '@/theme/reading';
 import {
+  HIGHLIGHT_LABEL,
   HIGHLIGHT_ORDER,
   HIGHLIGHT_SWATCH,
   type HighlightColor,
@@ -173,7 +174,9 @@ export function VerseActionSheet({
                   key={c}
                   onPress={() => pickColor(c)}
                   accessibilityRole="button"
-                  accessibilityLabel={`${tr('verse.highlight')} ${c}`}
+                  // `${tr('verse.highlight')} ${c}` read out the storage key —
+                  // "Vurgula gold" — in every language (roadmap item 26).
+                  accessibilityLabel={`${tr('verse.highlight')}, ${tr(HIGHLIGHT_LABEL[c])}`}
                   accessibilityState={{ selected: on }}
                   hitSlop={6}
                   style={{
