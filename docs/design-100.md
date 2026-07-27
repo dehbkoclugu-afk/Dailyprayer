@@ -132,8 +132,24 @@ deneyimi, performans ve görsel cila gelir.
     bütün olarak yakalanıyor, restore kopyalamıyor ve yeniden sıralıyor, kapsayıcı dokunmayı
     engellemiyor, süre ≥ 4 sn, duyuru aksiyonu içeriyor). Tarayıcıda tam tur doğrulandı: sil →
     girdi kayboldu → “Geri al” → girdi **eski konumunda** geri geldi, konsol hatası yok.
-16. **Bildirim izni reddedildiğinde ölü başarı mesajı gösterme.** Profile satırı “Kapalı —
-    Ayarlardan aç” durumuna geçmeli ve sistem ayarlarına eylem vermeli.
+16. ✅ **TAMAMLANDI — Bildirim izni reddedildiğinde ölü başarı mesajı gösterme.** Önceki akış saati
+    yazıyor, izin isteğini ateşleyip **sonucu beklemeden** “Hatırlatıcı güncellendi” diyordu; izni
+    engellemiş bir kullanıcıya hiçbir şey kurulmamışken hatırlatma varmış gibi söyleniyordu. Satır
+    da yalnızca `quiz.prayerTime`’a bakıyordu, yani bildirimler engelliyken “07:30” yazıyordu.
+    Artık izin üç durumlu (`granted` / `blocked` / `undetermined`); `blocked`, `canAskAgain`
+    false demek — işletim sistemi bir daha sormaz, tek çıkış sistem ayarlarıdır. Başarı toast’ı
+    yalnızca izin alınıp **gerçekten planlandıktan sonra** gösteriliyor. Engelliyse saat “none”
+    olarak kaydediliyor, ne olduğunu açıklayan bir uyarı ve **“Ayarları aç”** eylemi sunuluyor.
+    Profile satırı gerçek durumu gösteriyor: üstü çizili zil ikonu ve “Kapalı — bildirimler
+    engelli”, dokununca doğrudan sistem ayarlarına gidiyor; ekran her odaklandığında izin yeniden
+    okunuyor, böylece kullanıcı ayarlardan izin verip döndüğünde satır kendini düzeltiyor.
+    **Aynı akıştaki ikinci sessiz hata da düzeltildi:** hatırlatmayı kapatmak yalnızca
+    `prayerTime: 'none'` yazıyor, planlanmış bildirimleri **iptal etmiyordu** — satır “Kapalı”
+    derken bildirimler gelmeye devam ediyordu. `cancelReminders()` eklendi. Web ve desteklenmeyen
+    platformlarda izin sorgusu hata verirse `blocked` dönüyor (fail-closed), yoksa ölü başarı
+    mesajı oradan geri gelirdi. `src/services/notificationPermission.test.ts` sekiz güvenceyi
+    koruyor; dört ihlal enjekte edilerek doğrulandı. Bloklu satır web export üzerinden görsel
+    olarak da doğrulandı (izin durumu zorlanarak).
 17. **Hatırlatıcı saatini gerçek bir saat seçiciyle değiştir.** Sabit veya sınırlı seçenek yerine
     yerel 12/24 saat formatına uyan native time picker kullanılmalı.
 18. **İletişim satırını çalışır hâle getir.** Profile’daki e-posta satırı adresi açmalı; cihazda

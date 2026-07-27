@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Alert, Pressable, Text, View } from 'react-native';
-import { router } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
@@ -38,6 +38,23 @@ export default function Profile() {
   const [sheet, setSheet] = useState<null | 'appearance' | 'language'>(null);
   // Destructive data actions are confirmed in two stages — see DataActionSheet.
   const [dataAction, setDataAction] = useState<DataAction | null>(null);
+  const [permission, setPermission] = useState<NotificationService.PermissionState>('undetermined');
+
+  // Re-read on focus: someone can leave for the system settings, allow
+  // notifications and come back, and the row must stop saying "blocked".
+  useFocusEffect(
+    useCallback(() => {
+      let active = true;
+      NotificationService.getPermissionState()
+        .then((state) => {
+          if (active) setPermission(state);
+        })
+        .catch(() => {});
+      return () => {
+        active = false;
+      };
+    }, []),
+  );
 
   const appearanceOptions: SheetOption<ThemeName | 'system'>[] = [
     { value: 'system', label: tr('profile.auto') },
@@ -53,18 +70,47 @@ export default function Profile() {
   const languageLabel =
     language === 'system' ? tr('profile.auto') : LOCALE_LABELS[language as Locale];
 
-  const setReminder = (time: string | null) => {
-    setQuiz({ prayerTime: time ?? 'none' });
-    if (time) {
-      NotificationService.requestPermission()
-        .then((granted) => {
-          if (granted) {
-            NotificationService.scheduleDailyReminder(time);
-            NotificationService.scheduleStreakSave(count);
-          }
-        })
-        .catch(() => {});
+  /**
+   * Only claim a reminder was set if one actually was.
+   *
+   * The old flow wrote the time, fired the permission request and then showed
+   * "Reminder updated" regardless — so a user who had blocked notifications was
+   * told a reminder existed while nothing was scheduled (roadmap item 16).
+   */
+  const setReminder = async (time: string | null) => {
+    if (!time) {
+      setQuiz({ prayerTime: 'none' });
+      // Turning it off has to cancel the schedule, or notifications keep arriving
+      // while the row says "Off".
+      await NotificationService.cancelReminders().catch(() => {});
+      toast(translate('toast.reminderOff'));
+      return;
     }
+
+    const state = await NotificationService.requestPermissionState().catch(
+      () => 'blocked' as const,
+    );
+    setPermission(state);
+
+    if (state !== 'granted') {
+      // No dead success message, and a way out: the OS will not prompt again, so
+      // the only route back is the system settings page.
+      setQuiz({ prayerTime: 'none' });
+      Alert.alert(tr('profile.reminderBlockedTitle'), tr('profile.reminderBlockedBody'), [
+        { text: tr('data.cancel'), style: 'cancel' },
+        {
+          text: tr('profile.reminderOpenSettings'),
+          onPress: () => {
+            NotificationService.openSystemSettings().catch(() => {});
+          },
+        },
+      ]);
+      return;
+    }
+
+    setQuiz({ prayerTime: time });
+    await NotificationService.scheduleDailyReminder(time).catch(() => {});
+    await NotificationService.scheduleStreakSave(count).catch(() => {});
     toast(translate('toast.reminderSet'));
   };
 
@@ -86,6 +132,14 @@ export default function Profile() {
       );
     }
   };
+
+  const reminderTime = quiz.prayerTime && quiz.prayerTime !== 'none' ? quiz.prayerTime : null;
+  // Blocked only matters once a time has been chosen; with no reminder wanted,
+  // permission is irrelevant and the row should just read "Off".
+  const reminderBlocked = permission === 'blocked' && Boolean(reminderTime);
+  const reminderLabel = reminderBlocked
+    ? tr('profile.reminderBlocked')
+    : (reminderTime ?? tr('profile.off'));
 
   return (
     <Screen tabbed>
@@ -246,12 +300,18 @@ export default function Profile() {
           borderColor: t.border,
         }}
       >
+        {/* The row reports the real state, not what was stored: a saved time means
+            nothing while the OS is blocking notifications (roadmap item 16). */}
         <Row
-          icon="notifications-outline"
-          label={`${tr('profile.reminder')} · ${
-            quiz.prayerTime && quiz.prayerTime !== 'none' ? quiz.prayerTime : tr('profile.off')
-          }`}
-          onPress={openReminderPicker}
+          icon={reminderBlocked ? 'notifications-off-outline' : 'notifications-outline'}
+          label={`${tr('profile.reminder')} · ${reminderLabel}`}
+          onPress={
+            reminderBlocked
+              ? () => {
+                  NotificationService.openSystemSettings().catch(() => {});
+                }
+              : openReminderPicker
+          }
         />
         <Row
           icon="lock-closed-outline"
