@@ -178,6 +178,9 @@ export default function Read() {
         <Pressable
           onPress={() => setPicker('books')}
           accessibilityRole="button"
+          // Without a label this reads as just "Psalms 23, button" — the passage
+          // but not the fact that tapping it changes the passage.
+          accessibilityLabel={`${bk.name} ${cIdx + 1}, ${tr('a11y.pickPassage')}`}
           style={({ pressed }) => ({
             flex: 1,
             flexDirection: 'row',
@@ -318,8 +321,18 @@ export default function Read() {
         onRequestClose={() => setPicker(null)}
         statusBarTranslucent
       >
-        <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }}>
-          <Pressable style={{ flex: 1 }} onPress={() => setPicker(null)} />
+        {/* accessibilityViewIsModal keeps TalkBack inside the sheet; without it the
+            reader behind the dim layer is still reachable by swiping. */}
+        <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }} accessibilityViewIsModal>
+          {/* The dim area dismisses on tap, but it is not a control a screen
+              reader should land on: it has nothing to announce, and the gesture
+              back / onRequestClose already closes the sheet. */}
+          <Pressable
+            style={{ flex: 1 }}
+            onPress={() => setPicker(null)}
+            importantForAccessibility="no"
+            accessibilityElementsHidden
+          />
           <View
             style={{
               maxHeight: '72%',
@@ -356,7 +369,10 @@ export default function Read() {
                 <Pressable
                   onPress={() => setPicker('books')}
                   accessibilityRole="button"
-                  accessibilityLabel={tr('a11y.back')}
+                  // Not a generic "go back" — it returns to the book list, one
+                  // level inside the sheet, and saying so avoids the guess that
+                  // it closes the sheet.
+                  accessibilityLabel={tr('a11y.backToBooks')}
                   style={{
                     width: TAP_MIN,
                     height: TAP_MIN,
@@ -367,7 +383,10 @@ export default function Read() {
                   <Ionicons name="chevron-back" size={22} color={rt.inkSoft} />
                 </Pressable>
               ) : null}
-              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: rt.ink }}>
+              <Text
+                accessibilityRole="header"
+                style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: rt.ink }}
+              >
                 {typeof picker === 'number' ? bible[picker].name : tr('read.pickBook')}
               </Text>
             </View>
@@ -380,10 +399,20 @@ export default function Read() {
                 renderItem={({ item, index }) => (
                   <Pressable
                     onPress={() => setPicker(index)}
+                    accessibilityRole="button"
+                    accessibilityLabel={item.name}
+                    // The row does not open the book, it opens its chapters —
+                    // and the current book is marked only by weight and colour,
+                    // which a screen reader cannot see.
+                    accessibilityHint={tr('a11y.opensChapters')}
+                    accessibilityState={{ selected: index === bIdx }}
                     style={({ pressed }) => ({
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'space-between',
+                      // Padding alone gives 47dp on the first row, which is the
+                      // only one without a divider adding its pixel back.
+                      minHeight: TAP_MIN,
                       paddingVertical: 14,
                       borderTopWidth: index === 0 ? 0 : 1,
                       borderTopColor: rt.border,
@@ -416,6 +445,11 @@ export default function Read() {
                   return (
                     <Pressable
                       onPress={() => go(picker as number, index)}
+                      accessibilityRole="button"
+                      // A bare "3" says nothing on its own; the book name is on
+                      // screen but not in the cell.
+                      accessibilityLabel={`${bible[picker].name} ${index + 1}`}
+                      accessibilityState={{ selected: active }}
                       style={{
                         flex: 1,
                         aspectRatio: 1,

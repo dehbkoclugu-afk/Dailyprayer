@@ -276,8 +276,37 @@ deneyimi, performans ve görsel cila gelir.
     metne göre düzeltildi; rol eksikliği madde 25’in konusu.
     Kapsam 9 ekrandan **11 görünüme** çıktı (ayet aksiyon ve okuma ayarları sheet’leri dahil);
     hepsinde 0 küçük hedef, 0 dar boşluk.
-23. **Kitap/bölüm seçicisine erişilebilirlik etiketleri ekle.** Başlık seçicisi, kitap satırları,
-    bölüm hücreleri ve geri düğmesi TalkBack’te amaç ve seçili durumu söylemeli.
+23. ✅ **TAMAMLANDI — Kitap/bölüm seçicisine erişilebilirlik etiketleri ekle.** Seçicinin dört
+    kontrolü de eksikti ya da yanlıştı: **başlık tetikleyicisi** yalnızca “Mezmurlar 23, düğme”
+    diyordu — okunan yeri söylüyor ama dokununca *değiştiğini* söylemiyordu; artık
+    “Mezmurlar 23, kitap ve bölüm seç”. **Kitap satırları** çıplak `Pressable`’dı: rol yok, etiket
+    yok, seçili durum yok — açık olan kitap yalnızca yazı ağırlığı ve altın rengiyle işaretliydi,
+    yani ekran okuyucu için görünmezdi. **Bölüm hücreleri** ekran okuyucuya yalnız “3” diyordu;
+    kitap adı ekranda var ama hücrede yok, artık etikette. **Sheet’in geri oku** `a11y.back`
+    kullanıyordu (“Geri dön”) — oysa sheet’i kapatmıyor, kitap listesine dönüyor: `a11y.backToBooks`.
+    Ayrıca sheet başlığı `accessibilityRole="header"` aldı, sheet `accessibilityViewIsModal` ile
+    kapatıldı (TalkBack karartmanın arkasındaki okuyucuya kayabiliyordu) ve karartma alanı
+    erişilebilirlikten çıkarıldı: dokununca kapanıyor ama söyleyecek bir şeyi yok.
+    Üç yeni i18n anahtarı altı dile eklendi; etiketler tarayıcıda Türkçe, Almanca ve Fransızca
+    olarak okundu (“Psalmen 23, Buch und Kapitel wählen”, “Psaumes 23, choisir le livre et le
+    chapitre”).
+    **Yeni koruma:** `src/a11y/labels.test.ts`. İki genel kural — (1) yalnızca ikon içeren bir
+    düğmenin okunacak metni yoktur, etiketi olmalı; (2) kendini “aktif” diye boyayan bir kontrol
+    aynı durumu erişilebilirliğe de vermeli — artı seçicinin dört kontrolünü adıyla denetleyen bir
+    test. Sarmalayıcı `Pressable`’lar içindeki iç kontroller ayrıştırılıyor, yoksa sheet karartması
+    içindeki her satırdan sorumlu tutuluyordu (üç yanlış pozitif). Üç ihlal enjekte edilip
+    yakalandığı doğrulandı.
+    Genel kural sırasında **VerseActionSheet’in yer imi düğmesi** de çıktı: altın tonlu arka planla
+    “işaretli” görünüyor ama durumu söylemiyordu; `accessibilityState` eklendi.
+    Seçici artık buton rolü taşıdığı için **ölçülebilir** hâle geldi ve
+    `scripts/measure-tap-targets.mjs` kapsamı 11’den **13 görünüme** çıktı. İlk ölçüm hemen bir şey
+    buldu: kitap listesinin **ilk satırı 47dp** — ayırıcı çizgisi olmayan tek satır olduğu için
+    diğerlerinin 1px’i onda yoktu. `minHeight: TAP_MIN` verildi.
+    **Doğrulamanın sınırı:** `accessibilityState` bu yığında yalnızca yerel (native) bir kanal;
+    react-native-web onu hiçbir ARIA niteliğine çevirmiyor, dolayısıyla seçili durum tarayıcıda
+    *gözlemlenemedi* (kaynak koruması ve uygulamanın geri kalanıyla aynı API olması dışında). Rol,
+    etiket, başlık ve modal kapatma tarayıcıda doğrulandı. TalkBack ile cihaz testi yayın öncesi
+    kontrol listesinde.
 24. **Bölüm ileri/geri düğmelerinin disabled durumunu seslendir.** `accessibilityState.disabled`
     ve açıklayıcı etiket, yalnızca düşük opacity yerine kullanılmalı.
 25. **Ayet satırlarını gerçek erişilebilir eylemlere dönüştür.** TalkBack kullanıcıları “Aç” ve

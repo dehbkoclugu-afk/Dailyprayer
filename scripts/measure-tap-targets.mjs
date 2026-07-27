@@ -223,6 +223,19 @@ offenders += await measure('Reader · verse actions sheet', '/read', async () =>
   await page.waitForTimeout(1500);
 });
 
+// The picker only became measurable once its rows carried a button role
+// (roadmap item 23); before that it was invisible to this scan.
+const openPicker = async () => {
+  await page.getByRole('button', { name: /kitap ve bölüm seç/i }).click({ timeout: 5000 });
+  await page.waitForTimeout(1500);
+};
+offenders += await measure('Reader · book picker', '/read', openPicker);
+offenders += await measure('Reader · chapter picker', '/read', async () => {
+  await openPicker();
+  await page.getByRole('button', { name: 'Mezmurlar', exact: true }).click({ timeout: 5000 });
+  await page.waitForTimeout(1500);
+});
+
 offenders += await measure('Reader · reading settings sheet', '/read', async () => {
   const settings = page.getByLabel('Okuma ayarları');
   if (await settings.count()) {
@@ -247,6 +260,6 @@ if (offenders) {
   process.exit(1);
 }
 console.log(
-  `Tap-target measurement passed — on ${screens.length + 3} views every control is at least ` +
+  `Tap-target measurement passed — on ${screens.length + 5} views every control is at least ` +
     `${MIN}dp with ${GAP_MIN}dp between neighbours.`,
 );

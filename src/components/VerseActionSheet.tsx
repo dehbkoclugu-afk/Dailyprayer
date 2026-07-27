@@ -106,6 +106,7 @@ export function VerseActionSheet({
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={label}
+      accessibilityState={{ selected: active }}
       style={({ pressed }) => ({
         flex: 1,
         alignItems: 'center',
