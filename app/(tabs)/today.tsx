@@ -12,7 +12,7 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useDailyContent } from '@/hooks/useDailyContent';
 import { getVerses, type DailyVerse } from '@/data/verses';
 import { useStreakStore } from '@/state/useStreakStore';
@@ -231,6 +231,7 @@ export default function Today() {
                   borderRadius: radius.pill,
                   paddingHorizontal: spacing.lg,
                   paddingVertical: 10,
+                  minHeight: TAP_MIN,
                   overflow: 'hidden',
                 }}
               >

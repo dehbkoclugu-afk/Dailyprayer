@@ -6,7 +6,7 @@ import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
 import { fonts } from '@/theme/typography';
-import { spacing } from '@/theme/tokens';
+import { spacing, TAP_MIN } from '@/theme/tokens';
 import { PRIVACY_POLICY, TERMS_OF_SERVICE } from '@/data/legal';
 
 /**
@@ -92,7 +92,7 @@ export default function Legal() {
         hitSlop={12}
         accessibilityRole="button"
         accessibilityLabel={tr('a11y.back')}
-        style={({ pressed }) => ({ width: 48, height: 48, justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
+        style={({ pressed }) => ({ width: TAP_MIN, height: TAP_MIN, justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
       >
         <Ionicons name="chevron-back" size={26} color={t.inkSoft} />
       </Pressable>

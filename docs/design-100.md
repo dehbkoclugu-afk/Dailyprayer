@@ -237,8 +237,24 @@ deneyimi, performans ve görsel cila gelir.
 
 ## P1 — Erişilebilirlik ve temel kullanım (21–50)
 
-21. **Android’de tüm dokunma hedeflerini 48×48 dp’ye çıkar.** Okuyucu, arama ve devotional’daki
-    44×44 düğmeler Material minimumunun altında.
+21. ✅ **TAMAMLANDI — Android’de tüm dokunma hedeflerini 48×48 dp’ye çıkar.** `TAP_MIN = 48` token’ı
+    eklendi (iOS 44 ister, Material 48; tek sayı tutmak için her yerde 48). Maddede anılan 44×44
+    düğmeler — okuyucu, arama, devotional, kütüphane, plan ekranları, VerseCard — ve 40×40 vurgu
+    dairecikleri yükseltildi. Yalnızca `hitSlop`’a dayanan ikon düğmeleri (kütüphane silme, okuyucu
+    seçici oku, arama temizleme, günlük silme, dua “tümünü göster”) gerçek boyut aldı: `hitSlop`
+    dokunulabilir alanı büyütür ama görünen kontrolü küçük bırakır, yani gördüğünle vurduğun şey
+    farklı olur — kontrolleri güvenilmez hissettiren tam olarak budur. Arama alanı ve bölüm seçici
+    tetikleyicisi de 44’ten 48’e çıktı. Dağınık `48` literalleri token’a çevrildi.
+    **Kaynak taraması yetmedi; ölçmek gerekti.** `src/theme/tapTargets.test.ts` bildirilen boyutları
+    okuyor ve CI’da çalışıyor, ama yüksekliği padding + satır yüksekliğinden çıkan bir kontrolü
+    göremiyor. Bu boşluk gerçekti: `scripts/measure-tap-targets.mjs` ile dokuz ekranı gerçek
+    tarayıcıda ölçünce beş hedef daha çıktı — bölüm gezinme düğmeleri **43dp**, İncil sekmesi hızlı
+    eylemleri **46dp**, kütüphane filtreleri **35dp**, Bugün’deki uyku kilidi **37dp** — hiçbiri
+    minimumun altında bir şey *bildirmediği* hâlde. Hepsine açık `minHeight` verildi; ölçüm artık
+    dokuz ekranda **sıfır** ihlal raporluyor. Üç ihlal (hedefi 44’e küçültmek, `hitSlop`-only bir
+    düğme geri koymak, token’ı düşürmek) enjekte edilerek testin yakaladığı doğrulandı.
+    Not: bu sweep 41, 42 ve 44’ün **boyut** kısmını da kapatıyor; o maddelerin görünür hedef alanı,
+    tonal arka plan ve odak kaydırma istekleri açık kalıyor.
 22. **Yan yana hedefler arasında en az 8 dp boşluk bırak.** Özellikle okuyucu başlığı ve ayet
     aksiyon satırı yanlış dokunmayı azaltacak şekilde yeniden ölçülmeli.
 23. **Kitap/bölüm seçicisine erişilebilirlik etiketleri ekle.** Başlık seçicisi, kitap satırları,

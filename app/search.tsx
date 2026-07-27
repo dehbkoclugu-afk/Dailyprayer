@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { getBible } from '@/data/bibleFull';
 import { useT } from '@/i18n';
 
@@ -73,8 +73,8 @@ export default function Search() {
           accessibilityRole="button"
           accessibilityLabel={tr('a11y.back')}
           style={{
-            width: 44,
-            height: 44,
+            width: TAP_MIN,
+            height: TAP_MIN,
             borderRadius: 22,
             alignItems: 'center',
             justifyContent: 'center',
@@ -96,7 +96,7 @@ export default function Search() {
             borderColor: t.border,
             borderRadius: radius.pill,
             paddingHorizontal: spacing.lg,
-            height: 44,
+            height: TAP_MIN,
           }}
         >
           <Ionicons name="search" size={18} color={t.inkFaint} />
@@ -111,7 +111,18 @@ export default function Search() {
             style={{ flex: 1, fontFamily: fonts.sans, fontSize: 16, color: t.ink, paddingVertical: 0 }}
           />
           {query.length > 0 ? (
-            <Pressable onPress={() => setQuery('')} hitSlop={8} accessibilityRole="button" accessibilityLabel={tr('a11y.close')}>
+            <Pressable
+              onPress={() => setQuery('')}
+              accessibilityRole="button"
+              accessibilityLabel={tr('a11y.close')}
+              style={{
+                width: TAP_MIN,
+                height: TAP_MIN,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: -spacing.sm,
+              }}
+            >
               <Ionicons name="close-circle" size={18} color={t.inkFaint} />
             </Pressable>
           ) : null}

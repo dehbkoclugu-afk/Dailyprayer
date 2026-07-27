@@ -70,6 +70,19 @@ export const spacing = {
   xxxl: 48,
 } as const;
 
+/**
+ * Minimum touch target, in dp (roadmap item 21).
+ *
+ * Material requires 48×48; iOS asks for 44×44. We use 48 everywhere rather than
+ * branching per platform — the larger target is never wrong, and one number is one
+ * thing to remember.
+ *
+ * `hitSlop` alone does not count. It extends the touchable region but leaves the
+ * visible control small, so the thing you can see and the thing you can hit are
+ * different sizes — which is exactly what makes small controls feel unreliable.
+ */
+export const TAP_MIN = 48;
+
 export const radius = {
   hero: 28,
   card: 24,

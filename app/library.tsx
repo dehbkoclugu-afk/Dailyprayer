@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { HIGHLIGHT_SWATCH } from '@/theme/highlights';
 import { getBible } from '@/data/bibleFull';
 import { useBookmarkStore } from '@/state/useBookmarkStore';
@@ -88,6 +88,7 @@ export default function Library() {
           justifyContent: 'center',
           gap: 6,
           paddingVertical: 9,
+          minHeight: TAP_MIN,
           borderRadius: radius.pill,
           backgroundColor: active ? t.gold : 'transparent',
         }}
@@ -118,8 +119,8 @@ export default function Library() {
           accessibilityRole="button"
           accessibilityLabel={tr('a11y.back')}
           style={{
-            width: 44,
-            height: 44,
+            width: TAP_MIN,
+            height: TAP_MIN,
             borderRadius: 22,
             alignItems: 'center',
             justifyContent: 'center',
@@ -219,9 +220,14 @@ export default function Library() {
               onPress={() =>
                 item.markKey ? clearMark(item.markKey) : removeBookmark(item.book, item.chapter, item.verse)
               }
-              hitSlop={10}
               accessibilityRole="button"
               accessibilityLabel={item.markKey ? tr('verse.removeHighlight') : tr('verse.bookmarkRemoved')}
+              style={{
+                width: TAP_MIN,
+                height: TAP_MIN,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
               <Ionicons name="close" size={18} color={t.inkFaint} />
             </Pressable>

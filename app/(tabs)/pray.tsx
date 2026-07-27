@@ -6,7 +6,7 @@ import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { usePrayers, prayerCategories, type GuidedPrayer } from '@/data/prayers';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useT } from '@/i18n';
@@ -58,7 +58,7 @@ export default function Pray() {
                 borderRadius: radius.pill,
                 paddingHorizontal: spacing.lg,
                 paddingVertical: spacing.sm,
-                minHeight: 44,
+                minHeight: TAP_MIN,
                 opacity: pressed ? 0.7 : 1,
               })}
             >
@@ -85,7 +85,10 @@ export default function Pray() {
         title={cat === 'all' ? tr('pray.library') : tr(`cat.${cat}` as never)}
         right={
           cat !== 'all' ? (
-            <Pressable onPress={() => setCat('all')} hitSlop={8} accessibilityRole="button" accessibilityLabel={tr('a11y.showAll')}>
+            <Pressable onPress={() => setCat('all')} accessibilityRole="button"
+              accessibilityLabel={tr('a11y.showAll')}
+              style={{ minHeight: TAP_MIN, justifyContent: 'center' }}
+            >
               <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>{tr('pray.showAll')}</Text>
             </Pressable>
           ) : undefined

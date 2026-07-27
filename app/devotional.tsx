@@ -7,7 +7,7 @@ import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useDailyContent } from '@/hooks/useDailyContent';
 import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
@@ -41,8 +41,8 @@ export default function DevotionalScreen() {
         // reader — a bare icon becomes an invisible dead corner if the glyph
         // ever fails to render.
         style={{
-          width: 44,
-          height: 44,
+          width: TAP_MIN,
+          height: TAP_MIN,
           borderRadius: 22,
           alignItems: 'center',
           justifyContent: 'center',

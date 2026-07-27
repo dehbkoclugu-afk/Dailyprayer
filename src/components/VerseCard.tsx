@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { captureRef } from 'react-native-view-shot';
 import * as Sharing from 'expo-sharing';
 import { fonts } from '@/theme/typography';
-import { radius, shadow, spacing } from '@/theme/tokens';
+import { radius, shadow, spacing, TAP_MIN } from '@/theme/tokens';
 import { artRegistry, type AssetId } from '@/assets/registry';
 import type { DailyVerse } from '@/data/verses';
 import { useT } from '@/i18n';
@@ -159,8 +159,8 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
                   accessibilityRole="button"
                   accessibilityLabel={tr('a11y.anotherVerse')}
                   style={({ pressed }) => ({
-                    width: 44,
-                    height: 44,
+                    width: TAP_MIN,
+                    height: TAP_MIN,
                     alignItems: 'center',
                     justifyContent: 'center',
                     opacity: pressed ? 0.6 : 1,
@@ -175,8 +175,8 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
                 accessibilityRole="button"
                 accessibilityLabel={tr('a11y.shareVerse')}
                 style={({ pressed }) => ({
-                  width: 44,
-                  height: 44,
+                  width: TAP_MIN,
+                  height: TAP_MIN,
                   alignItems: 'center',
                   justifyContent: 'center',
                   opacity: pressed ? 0.6 : 1,

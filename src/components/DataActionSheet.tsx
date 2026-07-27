@@ -5,7 +5,7 @@ import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useT } from '@/i18n';
 import {
   collectDataSummary,
@@ -226,7 +226,7 @@ export function DataActionSheet({
             accessibilityLabel={tr('data.cancel')}
             style={({ pressed }) => ({
               marginTop: spacing.sm,
-              minHeight: 48,
+              minHeight: TAP_MIN,
               alignItems: 'center',
               justifyContent: 'center',
               opacity: pressed ? 0.6 : 1,

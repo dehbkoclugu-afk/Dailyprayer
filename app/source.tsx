@@ -6,7 +6,7 @@ import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
 import { SUPPORTED_LOCALES, useT } from '@/i18n';
 import { fonts } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { SCRIPTURE_SOURCES, type ScriptureSource } from '@/data/scriptureRights';
 import type { Locale } from '@/i18n/translations';
 
@@ -70,7 +70,7 @@ export default function SourceScreen() {
         flexDirection: 'row',
         alignItems: 'center',
         gap: spacing.sm,
-        minHeight: 48,
+        minHeight: TAP_MIN,
         opacity: pressed ? 0.6 : 1,
       })}
     >
@@ -139,8 +139,8 @@ export default function SourceScreen() {
         accessibilityRole="button"
         accessibilityLabel={tr('a11y.back')}
         style={({ pressed }) => ({
-          width: 48,
-          height: 48,
+          width: TAP_MIN,
+          height: TAP_MIN,
           justifyContent: 'center',
           opacity: pressed ? 0.6 : 1,
         })}

@@ -6,7 +6,7 @@ import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useT } from '@/i18n';
 
 /**
@@ -93,7 +93,7 @@ export function NotFoundState({
             accessibilityRole="button"
             accessibilityLabel={tr('a11y.back')}
             style={({ pressed }) => ({
-              minHeight: 48,
+              minHeight: TAP_MIN,
               justifyContent: 'center',
               paddingHorizontal: spacing.lg,
               borderRadius: radius.pill,

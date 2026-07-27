@@ -11,7 +11,7 @@ import { PillButton } from '@/components/PillButton';
 import { NotFoundState } from '@/components/NotFoundState';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
-import { spacing } from '@/theme/tokens';
+import { spacing, TAP_MIN } from '@/theme/tokens';
 import { usePrayers } from '@/data/prayers';
 import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
@@ -125,7 +125,7 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
             hitSlop={12}
             accessibilityRole="button"
             accessibilityLabel={tr('player.close')}
-            style={{ width: 48, height: 48, alignItems: 'center', justifyContent: 'center' }}
+            style={{ width: TAP_MIN, height: TAP_MIN, alignItems: 'center', justifyContent: 'center' }}
           >
             <Ionicons name="close" size={24} color="#A9A698" />
           </Pressable>
@@ -167,7 +167,7 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
           onPress={() => setPace((current) => current === 'slow' ? 'normal' : current === 'normal' ? 'quick' : 'slow')}
           accessibilityRole="button"
           accessibilityLabel={`${tr('player.pace')}: ${tr(`player.pace.${pace}` as never)}`}
-          style={{ minHeight: 48, alignSelf: 'center', justifyContent: 'center', marginBottom: spacing.md }}
+          style={{ minHeight: TAP_MIN, alignSelf: 'center', justifyContent: 'center', marginBottom: spacing.md }}
         >
           <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: '#C9C5B8' }}>
             {tr('player.pace')}: {tr(`player.pace.${pace}` as never)}

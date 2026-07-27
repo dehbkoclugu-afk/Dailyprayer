@@ -7,7 +7,7 @@ import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
-import { spacing } from '@/theme/tokens';
+import { spacing, TAP_MIN } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
 import { planReading, formatReadingRef } from '@/data/planReadings';
 import { getBible } from '@/data/bibleFull';
@@ -74,8 +74,8 @@ export default function PlanDay() {
           accessibilityRole="button"
           accessibilityLabel={tr('a11y.back')}
           style={{
-            width: 44,
-            height: 44,
+            width: TAP_MIN,
+            height: TAP_MIN,
             borderRadius: 22,
             alignItems: 'center',
             justifyContent: 'center',

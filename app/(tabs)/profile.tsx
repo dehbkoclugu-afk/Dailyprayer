@@ -10,7 +10,7 @@ import { ReminderTimeSheet } from '@/components/ReminderTimeSheet';
 import { formatTime } from '@/lib/time';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useUserStore } from '@/state/useUserStore';
 import { useStreakStore } from '@/state/useStreakStore';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
@@ -253,7 +253,7 @@ export default function Profile() {
               accessibilityRole="button"
               accessibilityLabel={tr('profile.manageSubscription')}
               style={({ pressed }) => ({
-                minHeight: 48,
+                minHeight: TAP_MIN,
                 paddingTop: spacing.md,
                 flexDirection: 'row',
                 alignItems: 'center',

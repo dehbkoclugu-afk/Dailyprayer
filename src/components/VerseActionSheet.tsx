@@ -5,7 +5,7 @@ import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { fonts } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useReaderTheme } from '@/theme/reading';
 import {
   HIGHLIGHT_ORDER,
@@ -176,9 +176,9 @@ export function VerseActionSheet({
                   accessibilityState={{ selected: on }}
                   hitSlop={6}
                   style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 20,
+                    width: TAP_MIN,
+                    height: TAP_MIN,
+                    borderRadius: TAP_MIN / 2,
                     backgroundColor: HIGHLIGHT_SWATCH[c],
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -200,9 +200,9 @@ export function VerseActionSheet({
                 accessibilityLabel={tr('verse.removeHighlight')}
                 hitSlop={6}
                 style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
+                  width: TAP_MIN,
+                  height: TAP_MIN,
+                  borderRadius: TAP_MIN / 2,
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderWidth: 1,

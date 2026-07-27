@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
 import { planReading, formatReadingRef } from '@/data/planReadings';
 import { usePlanStore } from '@/state/usePlanStore';
@@ -46,8 +46,8 @@ export default function PlanScreen() {
         accessibilityRole="button"
         accessibilityLabel={tr('a11y.back')}
         style={{
-          width: 44,
-          height: 44,
+          width: TAP_MIN,
+          height: TAP_MIN,
           borderRadius: 22,
           alignItems: 'center',
           justifyContent: 'center',

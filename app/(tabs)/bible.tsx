@@ -8,7 +8,7 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
 import { bookMeta, bookName } from '@/data/bibleMeta';
 import { getBibleCredit } from '@/data/bibleFull';
@@ -109,6 +109,7 @@ export default function Bible() {
               borderWidth: 1,
               borderColor: t.border,
               paddingVertical: spacing.md,
+              minHeight: TAP_MIN,
               opacity: pressed ? 0.85 : 1,
             })}
           >
@@ -179,7 +180,7 @@ export default function Bible() {
         accessibilityLabel={`${getBibleCredit(locale)} — ${tr('read.textSource')}`}
         style={({ pressed }) => ({
           marginTop: spacing.xl,
-          minHeight: 48,
+          minHeight: TAP_MIN,
           justifyContent: 'center',
           opacity: pressed ? 0.6 : 1,
         })}

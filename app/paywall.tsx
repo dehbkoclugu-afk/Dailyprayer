@@ -8,7 +8,7 @@ import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import {
   loadPlans,
   purchase,
@@ -190,8 +190,8 @@ export default function Paywall() {
         accessibilityLabel={tr('a11y.close')}
         style={({ pressed }) => ({
           alignSelf: 'flex-end',
-          width: 48,
-          height: 48,
+          width: TAP_MIN,
+          height: TAP_MIN,
           alignItems: 'center',
           justifyContent: 'center',
           opacity: pressed ? 0.6 : 1,
@@ -353,7 +353,7 @@ export default function Paywall() {
           accessibilityLabel={tr('paywall.restore')}
           style={({ pressed }) => ({
             marginTop: spacing.lg,
-            minHeight: 48,
+            minHeight: TAP_MIN,
             justifyContent: 'center',
             opacity: restoreStatus === 'busy' ? 0.5 : pressed ? 0.6 : 1,
           })}
@@ -392,7 +392,7 @@ export default function Paywall() {
             accessibilityRole="button"
             accessibilityLabel={tr('paywall.retry')}
             style={({ pressed }) => ({
-              minHeight: 48,
+              minHeight: TAP_MIN,
               justifyContent: 'center',
               marginTop: spacing.sm,
               opacity: pressed ? 0.6 : 1,
@@ -408,7 +408,7 @@ export default function Paywall() {
               accessibilityRole="button"
               accessibilityLabel={tr('paywall.contactSupport')}
               style={({ pressed }) => ({
-                minHeight: 48,
+                minHeight: TAP_MIN,
                 justifyContent: 'center',
                 opacity: pressed ? 0.6 : 1,
               })}
@@ -435,7 +435,7 @@ export default function Paywall() {
         <Pressable
           onPress={() => router.push({ pathname: '/legal', params: { doc: 'terms' } })}
           accessibilityRole="link"
-          style={{ minHeight: 48, justifyContent: 'center' }}
+          style={{ minHeight: TAP_MIN, justifyContent: 'center' }}
         >
           <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: t.blue }}>
             {tr('paywall.termsLink')}
@@ -444,7 +444,7 @@ export default function Paywall() {
         <Pressable
           onPress={() => router.push({ pathname: '/legal', params: { doc: 'privacy' } })}
           accessibilityRole="link"
-          style={{ minHeight: 48, justifyContent: 'center' }}
+          style={{ minHeight: TAP_MIN, justifyContent: 'center' }}
         >
           <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: t.blue }}>
             {tr('paywall.privacyLink')}

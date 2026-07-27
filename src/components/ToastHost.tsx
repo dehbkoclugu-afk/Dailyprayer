@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useToastStore } from '@/state/useToastStore';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
-import { radius, shadow, spacing } from '@/theme/tokens';
+import { radius, shadow, spacing, TAP_MIN } from '@/theme/tokens';
 
 /** Minimal gold-trimmed toast. Mount once in the root layout. */
 export function ToastHost() {
@@ -83,8 +83,8 @@ export function ToastHost() {
               clear();
             }}
             style={({ pressed }) => ({
-              minWidth: 48,
-              minHeight: 48,
+              minWidth: TAP_MIN,
+              minHeight: TAP_MIN,
               alignItems: 'center',
               justifyContent: 'center',
               opacity: pressed ? 0.6 : 1,

@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { fonts } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { HIGHLIGHT_TINT } from '@/theme/highlights';
 import { useReaderTheme } from '@/theme/reading';
 import { getBible } from '@/data/bibleFull';
@@ -97,8 +97,8 @@ export default function Read() {
       accessibilityRole="button"
       accessibilityLabel={label}
       style={({ pressed }) => ({
-        width: 44,
-        height: 44,
+        width: TAP_MIN,
+        height: TAP_MIN,
         borderRadius: 22,
         alignItems: 'center',
         justifyContent: 'center',
@@ -127,6 +127,8 @@ export default function Read() {
         borderWidth: 1,
         borderColor: rt.border,
         borderRadius: radius.pill,
+        // Padding alone rendered these at 43dp tall; the minimum has to be explicit.
+        minHeight: TAP_MIN,
         paddingVertical: 12,
         opacity: enabled ? 1 : 0.4,
       }}
@@ -161,8 +163,8 @@ export default function Read() {
           accessibilityRole="button"
           accessibilityLabel={tr('a11y.back')}
           style={{
-            width: 44,
-            height: 44,
+            width: TAP_MIN,
+            height: TAP_MIN,
             borderRadius: 22,
             alignItems: 'center',
             justifyContent: 'center',
@@ -186,7 +188,7 @@ export default function Read() {
             borderColor: rt.border,
             borderRadius: radius.pill,
             paddingHorizontal: spacing.lg,
-            height: 44,
+            height: TAP_MIN,
             opacity: pressed ? 0.7 : 1,
           })}
         >
@@ -351,7 +353,17 @@ export default function Read() {
               }}
             >
               {typeof picker === 'number' ? (
-                <Pressable onPress={() => setPicker('books')} hitSlop={8} accessibilityRole="button">
+                <Pressable
+                  onPress={() => setPicker('books')}
+                  accessibilityRole="button"
+                  accessibilityLabel={tr('a11y.back')}
+                  style={{
+                    width: TAP_MIN,
+                    height: TAP_MIN,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
                   <Ionicons name="chevron-back" size={22} color={rt.inkSoft} />
                 </Pressable>
               ) : null}

@@ -8,7 +8,7 @@ import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useJournalStore, type JournalEntry } from '@/state/useJournalStore';
 import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
@@ -199,9 +199,15 @@ export default function Journal() {
                 </View>
                 <Pressable
                   onPress={() => deleteEntry(e)}
-                  hitSlop={8}
                   accessibilityRole="button"
                   accessibilityLabel={tr('a11y.deleteEntry')}
+                  style={{
+                    width: TAP_MIN,
+                    height: TAP_MIN,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginRight: -spacing.md,
+                  }}
                 >
                   <Ionicons name="trash-outline" size={18} color={t.inkFaint} />
                 </Pressable>
