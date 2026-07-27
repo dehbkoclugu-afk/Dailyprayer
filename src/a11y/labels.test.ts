@@ -4,8 +4,8 @@ import { join } from 'node:path';
 import test from 'node:test';
 
 /**
- * Guards roadmap item 23: a control has to announce what it is and, when it can
- * be chosen, whether it is the chosen one.
+ * Guards roadmap items 23 and 24: a control has to announce what it is, whether
+ * it is the chosen one, and — when it is dimmed — why.
  *
  * The book/chapter picker was the case that prompted this. Its book rows and
  * chapter cells were bare `Pressable`s: no role, no label, and the current book
@@ -13,13 +13,15 @@ import test from 'node:test';
  * and "3" with no indication that either was selected — or, for a chapter cell,
  * which book the number belonged to.
  *
- * Two rules, both readable from source:
+ * Three rules, all readable from source:
  *
  *  1. An icon-only button has no text to fall back on, so it needs a label.
  *  2. A control that paints itself differently when active is conveying state
  *     visually, and must convey the same state to accessibility.
+ *  3. A control that dims itself must be genuinely disabled — the dimming is a
+ *     promise that pressing does nothing, and `opacity` alone does not keep it.
  *
- * Neither can see a label that is wrong, only one that is missing — the picker's
+ * None of them can see a label that is *wrong*, only one that is missing — the
  * wording was checked in a browser (`scripts/measure-tap-targets.mjs` renders the
  * same views) rather than here.
  */
@@ -153,6 +155,53 @@ test('a control that looks selected also says it is selected', () => {
     [],
     `Pressables that highlight an active state without announcing it:\n${offenders.join('\n')}`,
   );
+});
+
+test('a control that dims itself is really disabled', () => {
+  // Dimming is a promise that pressing does nothing. RN's Pressable folds the
+  // `disabled` prop into accessibilityState, so the prop is the whole job — but a
+  // control that only drops its opacity keeps neither half of the promise.
+  const offenders: string[] = [];
+  for (const file of sourceFiles()) {
+    for (const { tag, line } of pressables(readFileSync(file, 'utf8'))) {
+      const dims = [...tag.matchAll(/opacity:\s*([^?]+)\?/g)]
+        // `pressed` is press feedback, not a disabled state.
+        .filter(([, condition]) => !/\bpressed\b/.test(condition));
+      if (dims.length === 0) continue;
+      if (!/\bdisabled=/.test(tag) && !/accessibilityState=\{\{[^}]*disabled/.test(tag)) {
+        offenders.push(`${file}:${line} opacity: ${dims[0][1].trim()} ?`);
+      }
+    }
+  }
+  assert.deepEqual(
+    offenders,
+    [],
+    `Pressables dimmed without being disabled:\n${offenders.join('\n')}`,
+  );
+});
+
+test('a dimmed control says why it is dimmed', () => {
+  // "Previous, button, dimmed" leaves the reader guessing. Roadmap item 24: the
+  // two places that dim to a limit both branch their label on that limit.
+  const reader = readFileSync(join('app', 'read.tsx'), 'utf8');
+  const nav = pressables(reader).find(({ tag }) => /disabled=\{!target\}/.test(tag));
+  assert.ok(nav, 'the reader’s chapter arrows');
+  assert.match(nav.tag, /accessibilityLabel=\{\s*target\s*\?/, 'the label must branch on the limit');
+  assert.match(nav.tag, /a11y\.atBibleStart|a11y\.atBibleEnd/);
+
+  const settings = readFileSync(join('src', 'components', 'ReadingSettingsSheet.tsx'), 'utf8');
+  const step = pressables(settings).find(({ tag }) => /disabled=\{disabled\}/.test(tag));
+  assert.ok(step, 'the font-size steppers');
+  assert.match(step.tag, /accessibilityLabel=\{\s*\n?\s*disabled\s*\?/);
+  assert.match(step.tag, /a11y\.textAtLargest|a11y\.textAtSmallest/);
+
+  // The player's line-back button is the third of the three, and was the same
+  // defect one file over.
+  const player = readFileSync(join('app', 'player.tsx'), 'utf8');
+  const back = pressables(player).find(({ tag }) => /disabled=\{line === 0\}/.test(tag));
+  assert.ok(back, 'the player’s previous-line button');
+  assert.match(back.tag, /accessibilityLabel=\{line === 0 \?/);
+  assert.match(back.tag, /a11y\.atFirstLine/);
 });
 
 test('the book and chapter picker announces purpose and selection', () => {

@@ -307,8 +307,33 @@ deneyimi, performans ve görsel cila gelir.
     *gözlemlenemedi* (kaynak koruması ve uygulamanın geri kalanıyla aynı API olması dışında). Rol,
     etiket, başlık ve modal kapatma tarayıcıda doğrulandı. TalkBack ile cihaz testi yayın öncesi
     kontrol listesinde.
-24. **Bölüm ileri/geri düğmelerinin disabled durumunu seslendir.** `accessibilityState.disabled`
-    ve açıklayıcı etiket, yalnızca düşük opacity yerine kullanılmalı.
+24. ✅ **TAMAMLANDI — Bölüm ileri/geri düğmelerinin disabled durumunu seslendir.**
+    **Maddenin ilk yarısı zaten çalışıyordu ve bunu söylemek önemli:** RN’in `Pressable`’ı
+    `disabled` prop’unu kendiliğinden `accessibilityState`’e katıyor
+    (`Pressable.js`: `disabled != null ? {..._accessibilityState, disabled}`), yani düğmeler
+    `disabled={!enabled}` sayesinde TalkBack’e “devre dışı” diyordu — tarayıcıda
+    `aria-disabled="true"` olarak da doğrulandı. Eksik olan **gerekçeydi**: “Önceki, düğme,
+    devre dışı” okuyucuyu neden olduğunu tahmin etmeye bırakıyor. Bu yüzden etiket ikiye ayrıldı:
+    açıkken nereye gittiğini söylüyor (“Önceki bölüm, Mezmurlar 22” — kitap sınırını da geçiyor:
+    Mezmurlar 150’den sonrası “Süleyman’ın Özdeyişleri 1”), kapalıyken nedenini
+    (“Önceki bölüm yok — Kutsal Kitap’ın başı”).
+    Bu arada sınır kuralı **üç yerde** yazılıydı — `prev()`, `next()` ve `hasPrev`/`hasNext` — ve
+    etiket dördüncüsü olacaktı; tek bir `prevPos`/`nextPos` hesabına indirildi.
+    **Aynı kusur iki yerde daha vardı ve düzeltildi:** okuma ayarlarındaki A−/A+ düğmeleri sınırda
+    yalnızca soluyordu (artık “Daha küçük metin, hâlihazırda en küçük boyut”), ve oynatıcının
+    “önceki satır” düğmesi ilk satırda (artık “Önceki satır yok — ilk satır”). Üçünün de
+    `aria-disabled="true"` + gerekçeli etiketi tarayıcıda okundu.
+    **Korumaya iki kural eklendi** (`src/a11y/labels.test.ts`): (1) kendini soldurun bir kontrol
+    gerçekten `disabled` olmalı — soldurma “basmak bir şey yapmaz” sözüdür, `opacity` tek başına o
+    sözü tutmaz; `pressed` temelli soldurmalar basış geri bildirimi olduğu için hariç. Kural boş
+    değil: uygulamada basış dışı bir koşulla solan **4** kontrol var ve dördü de denetleniyor.
+    (2) sınıra dayanıp solan üç kontrolün etiketi o sınıra göre dallanmalı. Dört ihlal enjekte
+    edilip yakalandığı doğrulandı.
+    **Bu doğrulama sırasında ayrı ve daha büyük bir kusur çıktı:** oynatıcının etiketleri Türkçe
+    dilde İngilizce okunuyordu — `player.*` anahtarları yalnızca İngilizce sözlükte var. Ölçüldü:
+    İngilizce dışındaki beş dilde **21–22 anahtar eksik** (tüm oynatıcı ekranı, paywall’ın işlem/
+    geri yükleme metinleri, **ve günlük bildirim başlık/gövdeleri**), `lookup()` sessizce
+    İngilizce’ye düşüyor. Madde 24’ün konusu değil; ayrı ele alınıyor (aşağıya bakın).
 25. **Ayet satırlarını gerçek erişilebilir eylemlere dönüştür.** TalkBack kullanıcıları “Aç” ve
     “Vurgula” eylemlerine uzun basmayı keşfetmek zorunda kalmamalı.
 26. **Highlight renk adlarını altı dilde insan diline çevir.** `gold`, `blue` gibi kod anahtarları

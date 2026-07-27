@@ -183,7 +183,10 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
               disabled={line === 0}
               accessibilityRole="button"
               accessibilityState={{ disabled: line === 0 }}
-              accessibilityLabel={tr('player.previous')}
+              // Same rule as the reader's chapter arrows (roadmap item 24): the
+              // dimming is announced by the state, the reason has to be in the
+              // label.
+              accessibilityLabel={line === 0 ? tr('a11y.atFirstLine') : tr('player.previous')}
               style={{ width: 56, height: 56, alignItems: 'center', justifyContent: 'center', opacity: line === 0 ? 0.35 : 1 }}
             >
               <Ionicons name="play-skip-back" size={24} color="#A9A698" />

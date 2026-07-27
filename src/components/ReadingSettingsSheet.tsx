@@ -31,7 +31,14 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
       }
       disabled={disabled}
       accessibilityRole="button"
-      accessibilityLabel={label}
+      // At the limit the button only dims. RN's Pressable already reports the
+      // disabled state from the prop, but not why — so the label carries the
+      // reason, the same as the reader's chapter arrows.
+      accessibilityLabel={
+        disabled
+          ? `${label}, ${tr(dir === 1 ? 'a11y.textAtLargest' : 'a11y.textAtSmallest')}`
+          : label
+      }
       style={{
         width: 56,
         height: 56,

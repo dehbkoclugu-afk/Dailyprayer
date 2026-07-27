@@ -76,16 +76,24 @@ export default function Read() {
     setPos(b, c);
     setPicker(null);
   };
-  const next = () => {
-    if (cIdx + 1 < bk.chapters.length) go(bIdx, cIdx + 1);
-    else if (bIdx + 1 < bible.length) go(bIdx + 1, 0);
-  };
-  const prev = () => {
-    if (cIdx > 0) go(bIdx, cIdx - 1);
-    else if (bIdx > 0) go(bIdx - 1, bible[bIdx - 1].chapters.length - 1);
-  };
-  const hasNext = cIdx + 1 < bk.chapters.length || bIdx + 1 < bible.length;
-  const hasPrev = cIdx > 0 || bIdx > 0;
+  // Where the chapter arrows lead, worked out once. The boundary rule used to be
+  // written three times — in prev(), in next() and again as hasPrev/hasNext — and
+  // the accessible label needs the same answer, so it is one calculation now.
+  const nextPos: [number, number] | null =
+    cIdx + 1 < bk.chapters.length
+      ? [bIdx, cIdx + 1]
+      : bIdx + 1 < bible.length
+        ? [bIdx + 1, 0]
+        : null;
+  const prevPos: [number, number] | null =
+    cIdx > 0
+      ? [bIdx, cIdx - 1]
+      : bIdx > 0
+        ? [bIdx - 1, bible[bIdx - 1].chapters.length - 1]
+        : null;
+  const next = () => nextPos && go(...nextPos);
+  const prev = () => prevPos && go(...prevPos);
+  const refOf = ([b, c]: [number, number]) => `${bible[b].name} ${c + 1}`;
 
   const bodySize = Math.round(18 * fontScale);
   const bodyLine = Math.round(30 * fontScale);
@@ -112,11 +120,26 @@ export default function Read() {
     </Pressable>
   );
 
-  const navBtn = (dir: 'prev' | 'next', enabled: boolean, onPress: () => void, label: string) => (
+  // `disabled` is enough for the *state*: RN's Pressable folds the prop into
+  // accessibilityState, so TalkBack already says "dimmed". What it cannot supply
+  // is the reason — "Previous, button, dimmed" leaves the reader guessing — so a
+  // disabled arrow says it has run out of Bible, and an enabled one says where it
+  // goes rather than just "Previous".
+  const navBtn = (
+    dir: 'prev' | 'next',
+    target: [number, number] | null,
+    onPress: () => void,
+    label: string,
+  ) => (
     <Pressable
-      onPress={enabled ? onPress : undefined}
-      disabled={!enabled}
+      onPress={target ? onPress : undefined}
+      disabled={!target}
       accessibilityRole="button"
+      accessibilityLabel={
+        target
+          ? `${tr(dir === 'prev' ? 'a11y.prevChapter' : 'a11y.nextChapter')}, ${refOf(target)}`
+          : tr(dir === 'prev' ? 'a11y.atBibleStart' : 'a11y.atBibleEnd')
+      }
       style={{
         flex: 1,
         flexDirection: 'row',
@@ -130,7 +153,7 @@ export default function Read() {
         // Padding alone rendered these at 43dp tall; the minimum has to be explicit.
         minHeight: TAP_MIN,
         paddingVertical: 12,
-        opacity: enabled ? 1 : 0.4,
+        opacity: target ? 1 : 0.4,
       }}
     >
       {dir === 'prev' ? <Ionicons name="chevron-back" size={16} color={rt.inkSoft} /> : null}
@@ -307,8 +330,8 @@ export default function Read() {
         }}
         ListFooterComponent={
           <View style={{ flexDirection: 'row', gap: spacing.md, marginTop: spacing.xl }}>
-            {navBtn('prev', hasPrev, prev, tr('read.prev'))}
-            {navBtn('next', hasNext, next, tr('read.next'))}
+            {navBtn('prev', prevPos, prev, tr('read.prev'))}
+            {navBtn('next', nextPos, next, tr('read.next'))}
           </View>
         }
       />
