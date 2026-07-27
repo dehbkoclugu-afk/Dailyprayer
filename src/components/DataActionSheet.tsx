@@ -7,6 +7,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useT } from '@/i18n';
+import { useSheetTitleFocus } from '@/a11y/sheetFocus';
 import {
   collectDataSummary,
   deleteAllUserData,
@@ -39,6 +40,8 @@ export function DataActionSheet({
   const { t: tr } = useT();
   const insets = useSafeAreaInsets();
   const [stage, setStage] = React.useState<1 | 2>(1);
+  // Mounted only while open, so it is visible from its first render.
+  const titleRef = useSheetTitleFocus(true, stage);
   const [summary, setSummary] = React.useState<DataSummary | null>(null);
 
   // Snapshot the counts when the sheet opens so they cannot shift mid-decision.
@@ -132,8 +135,15 @@ export function DataActionSheet({
 
   return (
     <Modal visible transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
-      <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }}>
-        <Pressable style={{ flex: 1 }} onPress={onClose} accessibilityLabel={tr('a11y.close')} />
+      {/* iOS needs telling that the sheet is modal; on Android the Modal is a
+          separate window and TalkBack cannot reach behind it anyway. */}
+      <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }} accessibilityViewIsModal>
+        <Pressable
+          style={{ flex: 1 }}
+          onPress={onClose}
+          importantForAccessibility="no"
+          accessibilityElementsHidden
+        />
         <View
           style={{
             backgroundColor: t.surface,
@@ -160,7 +170,13 @@ export function DataActionSheet({
           />
 
           <ScrollView showsVerticalScrollIndicator={false}>
-            <Text style={{ fontFamily: fonts.serif, fontSize: 22, color: t.ink }}>
+            {/* Focus lands here on open, and again when the second stage
+                replaces the wording — the change is the whole point of stage 2. */}
+            <Text
+              ref={titleRef}
+              accessibilityRole="header"
+              style={{ fontFamily: fonts.serif, fontSize: 22, color: t.ink }}
+            >
               {stage === 2
                 ? tr(deleting ? 'data.deleteFinalTitle' : 'data.restartFinalTitle')
                 : tr(deleting ? 'data.deleteTitle' : 'data.restartTitle')}

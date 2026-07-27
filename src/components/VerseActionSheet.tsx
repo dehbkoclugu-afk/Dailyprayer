@@ -20,6 +20,7 @@ import { useJournalStore } from '@/state/useJournalStore';
 import { toast } from '@/state/useToastStore';
 import { useT } from '@/i18n';
 import { getBibleCredit } from '@/data/bibleFull';
+import { useSheetTitleFocus } from '@/a11y/sheetFocus';
 
 export interface SelectedVerse {
   book: number;
@@ -49,6 +50,9 @@ export function VerseActionSheet({
   const bookmarks = useBookmarkStore((s) => s.bookmarks);
   const toggleBookmark = useBookmarkStore((s) => s.toggle);
   const addJournal = useJournalStore((s) => s.add);
+  // Above the early return: a hook cannot run conditionally. The sheet renders
+  // only when there is a verse, so that is also when it is visible.
+  const titleRef = useSheetTitleFocus(verse != null);
 
   if (!verse) return null;
 
@@ -130,8 +134,15 @@ export function VerseActionSheet({
 
   return (
     <Modal visible transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
-      <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }}>
-        <Pressable style={{ flex: 1 }} onPress={onClose} accessibilityLabel={tr('a11y.close')} />
+      {/* iOS needs telling that the sheet is modal; on Android the Modal is a
+          separate window and TalkBack cannot reach behind it anyway. */}
+      <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }} accessibilityViewIsModal>
+        <Pressable
+          style={{ flex: 1 }}
+          onPress={onClose}
+          importantForAccessibility="no"
+          accessibilityElementsHidden
+        />
         <View
           style={{
             backgroundColor: t.surface,
@@ -157,7 +168,11 @@ export function VerseActionSheet({
           />
 
           {/* the verse itself, so the actions have a subject */}
-          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 12, letterSpacing: 1.5, textTransform: 'uppercase', color: t.gold }}>
+          <Text
+            ref={titleRef}
+            accessibilityRole="header"
+            style={{ fontFamily: fonts.sansSemiBold, fontSize: 12, letterSpacing: 1.5, textTransform: 'uppercase', color: t.gold }}
+          >
             {verse.ref}
           </Text>
           <Text

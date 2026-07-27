@@ -247,8 +247,16 @@ offenders += await measure('Reader · reading settings sheet', '/read', async ()
 await browser.close();
 server.close();
 
+// An uncaught exception means the page being measured is not the page that
+// ships. These used to be printed and ignored; the run that added sheet focus
+// threw `findNodeHandle is not supported on web` on every sheet open, and the
+// note scrolled past under a row of green ticks. It fails the run now.
 if (pageErrors.length) {
-  console.error(`\nPage errors while measuring:\n  ${pageErrors.join('\n  ')}`);
+  console.error(
+    `\nTap-target measurement FAILED — ${pageErrors.length} uncaught page error(s):\n  ` +
+      `${[...new Set(pageErrors)].join('\n  ')}`,
+  );
+  process.exit(1);
 }
 console.log('');
 if (offenders) {

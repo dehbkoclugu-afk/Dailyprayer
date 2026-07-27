@@ -8,6 +8,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
+import { useSheetTitleFocus } from '@/a11y/sheetFocus';
 import { formatTime, parseTime, prefers24Hour, toDate, toStoredTime } from '@/lib/time';
 
 const DEFAULT_TIME = '07:30';
@@ -42,6 +43,7 @@ export function ReminderTimeSheet({
 
   const initial = parseTime(current) ?? parseTime(DEFAULT_TIME)!;
   const [draft, setDraft] = React.useState(initial);
+  const titleRef = useSheetTitleFocus(visible);
   // Only used where no native picker exists; kept as text so a half-typed value
   // does not fight the caret.
   const [typed, setTyped] = React.useState(() => toStoredTime(initial));
@@ -114,8 +116,15 @@ export function ReminderTimeSheet({
 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
-      <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }}>
-        <Pressable style={{ flex: 1 }} onPress={onClose} accessibilityLabel={tr('a11y.close')} />
+      {/* iOS needs telling that the sheet is modal; on Android the Modal is a
+          separate window and TalkBack cannot reach behind it anyway. */}
+      <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }} accessibilityViewIsModal>
+        <Pressable
+          style={{ flex: 1 }}
+          onPress={onClose}
+          importantForAccessibility="no"
+          accessibilityElementsHidden
+        />
         <View
           style={{
             backgroundColor: t.surface,
@@ -140,7 +149,11 @@ export function ReminderTimeSheet({
             }}
           />
 
-          <Text style={{ fontFamily: fonts.serif, fontSize: 22, color: t.ink }}>
+          <Text
+            ref={titleRef}
+            accessibilityRole="header"
+            style={{ fontFamily: fonts.serif, fontSize: 22, color: t.ink }}
+          >
             {tr('profile.reminderTitle')}
           </Text>
           <Text

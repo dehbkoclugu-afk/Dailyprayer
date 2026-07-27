@@ -9,12 +9,14 @@ import { radius, spacing } from '@/theme/tokens';
 import { useReaderTheme } from '@/theme/reading';
 import { useReaderPrefsStore, FONT_MIN, FONT_MAX } from '@/state/useReaderPrefsStore';
 import { useT } from '@/i18n';
+import { useSheetTitleFocus } from '@/a11y/sheetFocus';
 
 export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
   const t = useReaderTheme();
   const { t: tr } = useT();
   const insets = useSafeAreaInsets();
   const { fontScale, paper, bumpFont, togglePaper } = useReaderPrefsStore();
+  const titleRef = useSheetTitleFocus(visible);
 
   const tap = () => Haptics.selectionAsync().catch(() => {});
   const pct = Math.round(fontScale * 100);
@@ -57,8 +59,15 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
-      <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }}>
-        <Pressable style={{ flex: 1 }} onPress={onClose} accessibilityLabel={tr('a11y.close')} />
+      {/* iOS needs telling that the sheet is modal; on Android the Modal is a
+          separate window and TalkBack cannot reach behind it anyway. */}
+      <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }} accessibilityViewIsModal>
+        <Pressable
+          style={{ flex: 1 }}
+          onPress={onClose}
+          importantForAccessibility="no"
+          accessibilityElementsHidden
+        />
         <View
           style={{
             backgroundColor: t.surface,
@@ -83,7 +92,11 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
             }}
           />
 
-          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>
+          <Text
+            ref={titleRef}
+            accessibilityRole="header"
+            style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}
+          >
             {tr('read.settings')}
           </Text>
 

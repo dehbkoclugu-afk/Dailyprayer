@@ -398,8 +398,31 @@ deneyimi, performans ve görsel cila gelir.
     Koruma: her rengin **benzersiz** bir şekli olması, swatch’ın şekli çizmesi, dolu/outline
     ayrımı ve kütüphanenin renk-yalnız şeride dönmemesi. Üç ihlal enjekte edilip yakalandığı
     doğrulandı; ikisi de tarayıcıda ekran görüntüsüyle gözden geçirildi.
-28. **Bottom sheet odak yönetimini tamamla.** Açılışta başlığa odak taşı, TalkBack odağını modal
-    içinde tut ve kapanınca tetikleyen kontrole geri ver.
+28. ✅ **TAMAMLANDI — Bottom sheet odak yönetimini tamamla.** Üç parçanın üçü de eksikti.
+    Sheet yukarı kayarken ekran okuyucu odakları onu açan kontrolde kalıyordu — artık sheet’in
+    altında — yani sheet kaydırarak *aranıyor* ve bir şeyin açıldığına dair hiçbir duyuru olmuyordu.
+    `src/a11y/sheetFocus.ts`: `useSheetTitleFocus` açılışta odağı başlığa taşıyor (slide-in
+    animasyonu bitmeden odaklamak ekran dışındaki bir görünümü hedefler ve platform bunu düşürür,
+    o yüzden gecikme var), `useTriggerFocus` kapanışta odağı tetikleyen kontrole geri veriyor.
+    Altı sheet’in hepsine uygulandı (okuyucu seçicisi, okuma ayarları, ayet aksiyonları, seçenek,
+    veri silme, hatırlatıcı saati) ve dört tetikleyiciye (okuyucuda pasaj + ayarlar, profilde
+    görünüm + dil).
+    **Madde 23’te yazdığım bir ifade yanlıştı ve düzeltildi:** `accessibilityViewIsModal`’ın
+    “TalkBack’i sheet içinde tuttuğu”nu yazmıştım. O prop **yalnızca iOS**. Android’de çevreleme
+    zaten bedava geliyor: RN’in `Modal`’ı bir `Dialog`, yani ayrı bir pencere ve TalkBack arkasındaki
+    pencereye geçmiyor. Yani prop iOS yarısı, Modal Android yarısı. Diğer beş sheet’te prop hiç
+    yoktu — eklendi. Sheet karartmaları da erişilebilirlikten çıkarıldı: dokununca kapanıyor ama
+    söyleyecek bir şeyi yok, odaklanabilir bırakmak okuyucuyla sheet arasına adsız bir kontrol koyar.
+    Veri silme sheet’i iki aşamalı onay kullanıyor ve ikinci aşama başlığı yerinde değiştiriyor —
+    aynı karede farklı bir soru. `useSheetTitleFocus` ikinci bir argümanla o geçişte odağı
+    yeniden taşıyor; duymayan bir okuyucu ilk soruyu yanıtlıyor olurdu.
+    **Ölçüm gerçek bir hata yakaladı:** `findNodeHandle` web’de null döndürmüyor, **fırlatıyor** —
+    her sheet açılışında yakalanmamış bir istisna. `Platform.OS === 'web'` ile erken çıkıldı.
+    Ayrıca `measure-tap-targets.mjs` sayfa hatalarını yazıp **yok sayıyordu**; not bir dizi yeşil
+    onay işaretinin altında kayıp gidiyordu. Artık çalışmayı düşürüyor.
+    Altı kural koruyor (`src/a11y/sheetFocus.test.ts`), üstelik **sheet listesinin kendisi de**
+    denetleniyor — yoksa bir sheet eşleşmeyi bırakınca kurallar ona bakmayarak “geçer”di. Beş
+    ihlal enjekte edilip yakalandığı doğrulandı.
 29. **Modal arka planlarını erişilebilirlik ağacından çıkar.** Görünmez kapatma alanları ayrı
     “Kapat” düğmesi gibi tekrarlanmak yerine modal semantiğiyle yönetilmeli.
 30. **Büyük yazıda sabit yükseklikleri kaldır.** VerseCard, paywall hero ve yatay aksiyonlar

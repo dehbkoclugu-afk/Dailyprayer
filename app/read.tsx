@@ -15,6 +15,7 @@ import { useHighlightStore } from '@/state/useHighlightStore';
 import { ReadingSettingsSheet } from '@/components/ReadingSettingsSheet';
 import { VerseActionSheet, type SelectedVerse } from '@/components/VerseActionSheet';
 import { useT } from '@/i18n';
+import { useSheetTitleFocus, useTriggerFocus } from '@/a11y/sheetFocus';
 import { NotFoundState } from '@/components/NotFoundState';
 
 export default function Read() {
@@ -36,6 +37,13 @@ export default function Read() {
   const [selected, setSelected] = useState<SelectedVerse | null>(null);
   const [flashV, setFlashV] = useState<number | null>(null);
   const listRef = useRef<FlatList>(null);
+
+  // Focus follows the sheets: into the title on open, back to the control that
+  // opened them on close (roadmap item 28). The picker's second argument re-runs
+  // it when the book list becomes the chapter grid — same sheet, new title.
+  const pickerTitleRef = useSheetTitleFocus(picker !== null, picker === 'books');
+  const pickerTriggerRef = useTriggerFocus(picker !== null);
+  const settingsTriggerRef = useTriggerFocus(settings);
 
   // `book`/`chapter` come from the persisted position, which a bad deep link could
   // previously poison with NaN — Math.min(NaN, 65) is NaN, and bible[NaN].chapters
@@ -99,8 +107,14 @@ export default function Read() {
   const bodyLine = Math.round(30 * fontScale);
   const dropCap = Math.round(bodySize * 1.9);
 
-  const iconBtn = (icon: keyof typeof Ionicons.glyphMap, label: string, onPress: () => void) => (
+  const iconBtn = (
+    icon: keyof typeof Ionicons.glyphMap,
+    label: string,
+    onPress: () => void,
+    ref?: React.Ref<View>,
+  ) => (
     <Pressable
+      ref={ref}
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={label}
@@ -199,6 +213,7 @@ export default function Read() {
           <Ionicons name="chevron-back" size={24} color={rt.inkSoft} />
         </Pressable>
         <Pressable
+          ref={pickerTriggerRef}
           onPress={() => setPicker('books')}
           accessibilityRole="button"
           // Without a label this reads as just "Psalms 23, button" — the passage
@@ -224,7 +239,7 @@ export default function Read() {
           <Ionicons name="chevron-down" size={18} color={rt.inkFaint} />
         </Pressable>
         {iconBtn('search', tr('a11y.search'), () => router.push('/search'))}
-        {iconBtn('text', tr('a11y.readingSettings'), () => setSettings(true))}
+        {iconBtn('text', tr('a11y.readingSettings'), () => setSettings(true), settingsTriggerRef)}
       </View>
 
       <FlatList
@@ -391,8 +406,9 @@ export default function Read() {
         onRequestClose={() => setPicker(null)}
         statusBarTranslucent
       >
-        {/* accessibilityViewIsModal keeps TalkBack inside the sheet; without it the
-            reader behind the dim layer is still reachable by swiping. */}
+        {/* accessibilityViewIsModal is the iOS half of containment — VoiceOver
+            would otherwise walk past the sheet into the reader. On Android the
+            Modal is its own window, so TalkBack cannot reach behind it. */}
         <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }} accessibilityViewIsModal>
           {/* The dim area dismisses on tap, but it is not a control a screen
               reader should land on: it has nothing to announce, and the gesture
@@ -454,6 +470,7 @@ export default function Read() {
                 </Pressable>
               ) : null}
               <Text
+                ref={pickerTitleRef}
                 accessibilityRole="header"
                 style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: rt.ink }}
               >

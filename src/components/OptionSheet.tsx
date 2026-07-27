@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
+import { useSheetTitleFocus } from '@/a11y/sheetFocus';
 
 export interface SheetOption<T extends string> {
   value: T;
@@ -36,11 +37,15 @@ export function OptionSheet<T extends string>({
 }: Props<T>) {
   const t = useTheme();
   const insets = useSafeAreaInsets();
+  const titleRef = useSheetTitleFocus(visible);
 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
+      {/* iOS needs telling that the sheet is modal; on Android the Modal is a
+          separate window and TalkBack cannot reach behind it anyway. */}
       <Pressable
         onPress={onClose}
+        accessibilityViewIsModal
         style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)', justifyContent: 'flex-end' }}
       >
         {/* stop propagation so taps inside the sheet don't dismiss it */}
@@ -70,6 +75,8 @@ export function OptionSheet<T extends string>({
             }}
           />
           <Text
+            ref={titleRef}
+            accessibilityRole="header"
             style={{
               fontFamily: fonts.sansSemiBold,
               fontSize: 13,

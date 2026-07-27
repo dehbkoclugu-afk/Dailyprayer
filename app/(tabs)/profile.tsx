@@ -7,6 +7,7 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { OptionSheet, type SheetOption } from '@/components/OptionSheet';
 import { DataActionSheet, type DataAction } from '@/components/DataActionSheet';
 import { ReminderTimeSheet } from '@/components/ReminderTimeSheet';
+import { useTriggerFocus } from '@/a11y/sheetFocus';
 import { formatTime } from '@/lib/time';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
@@ -39,6 +40,10 @@ export default function Profile() {
   const { count, bestCount, totalDays } = useStreakStore();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const [sheet, setSheet] = useState<null | 'appearance' | 'language'>(null);
+  // Closing a sheet used to drop focus to the top of the screen; it goes back to
+  // the row that opened it (roadmap item 28).
+  const appearanceRef = useTriggerFocus(sheet === 'appearance');
+  const languageRef = useTriggerFocus(sheet === 'language');
   // Destructive data actions are confirmed in two stages — see DataActionSheet.
   const [dataAction, setDataAction] = useState<DataAction | null>(null);
   const [permission, setPermission] = useState<NotificationService.PermissionState>('undetermined');
@@ -291,6 +296,7 @@ export default function Profile() {
           label={tr('profile.appearance')}
           value={appearanceLabel}
           onPress={() => setSheet('appearance')}
+          rowRef={appearanceRef}
           first
         />
         <ValueRow
@@ -298,6 +304,7 @@ export default function Profile() {
           label={tr('profile.language')}
           value={languageLabel}
           onPress={() => setSheet('language')}
+          rowRef={languageRef}
         />
       </View>
 
@@ -438,16 +445,20 @@ function ValueRow({
   value,
   onPress,
   first,
+  rowRef,
 }: {
   icon: string;
   label: string;
   value: string;
   onPress: () => void;
   first?: boolean;
+  /** Where accessibility focus returns when the sheet this row opens closes. */
+  rowRef?: React.Ref<View>;
 }) {
   const t = useTheme();
   return (
     <Pressable
+      ref={rowRef}
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={`${label}: ${value}`}
