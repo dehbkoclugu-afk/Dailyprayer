@@ -255,8 +255,27 @@ deneyimi, performans ve görsel cila gelir.
     düğme geri koymak, token’ı düşürmek) enjekte edilerek testin yakaladığı doğrulandı.
     Not: bu sweep 41, 42 ve 44’ün **boyut** kısmını da kapatıyor; o maddelerin görünür hedef alanı,
     tonal arka plan ve odak kaydırma istekleri açık kalıyor.
-22. **Yan yana hedefler arasında en az 8 dp boşluk bırak.** Özellikle okuyucu başlığı ve ayet
-    aksiyon satırı yanlış dokunmayı azaltacak şekilde yeniden ölçülmeli.
+22. ✅ **TAMAMLANDI — Yan yana hedefler arasında en az 8 dp boşluk bırak.** Hedefleri 48’e
+    çıkarmak komşuları birbirine değdirdiği için bu madde ölçümle çözüldü:
+    `scripts/measure-tap-targets.mjs` artık boyutun yanı sıra **komşu hedefler arası boşluğu** da
+    ölçüyor. Bulunan ve düzeltilenler: günlük ayet kartındaki karıştır ↔ paylaş (**0dp**, yan yana),
+    kütüphanedeki iki filtre segmenti (**0dp**), Profile’daki “tanışmayı yeniden başlat” ↔ “tüm
+    verilerimi sil” (**0dp** — biri adı sıfırlıyor, diğeri günlüğü siliyor; bir yanlış dokunuş
+    kadar yakın olamazlar), ve metin kaynağı ekranındaki üst üste iki bağlantı (**0dp**).
+    **Kural körlemesine uygulanmadı.** Ayırıcı çizgiyle ayrılmış üst üste liste satırları — Profile
+    tercihleri gibi — bilinçli olarak muaf: Material’in kendi listelerinde de boşluk yoktur, oraya
+    8dp koymak daha güvenli değil daha kötü tasarım olurdu. Ölçüm sınırda çizilmiş bir kuralı
+    (üsttekinin alt kenarlığı ya da alttakinin üst kenarlığı, ikisi de aynı çizgiyi çiziyor)
+    ayırıcı sayıyor.
+    Ölçüm iki kez kendi hatasını gösterdi ve ikisi de düzeltildi: (1) ayırıcıyı yalnızca
+    `borderBottomWidth`’te arıyordu, oysa `ValueRow` `borderTopWidth` kullanıyor — altı yanlış
+    pozitif; (2) modal açıkken arkadaki erişilemez düğmeleri de karşılaştırıyordu — artık en üstteki
+    katmana daralıyor. Ayrıca rapora **hedef sayısı** eklendi: ayet aksiyon sheet’i ilk denemede
+    hiç açılmamıştı (6 hedef = arkadaki okuyucu) ve sayı olmasa bu sessizce “geçmiş” görünecekti.
+    Ayet satırları `Pressable` değil `<Text onPress>` olduğu için buton rolü taşımıyor — locator
+    metne göre düzeltildi; rol eksikliği madde 25’in konusu.
+    Kapsam 9 ekrandan **11 görünüme** çıktı (ayet aksiyon ve okuma ayarları sheet’leri dahil);
+    hepsinde 0 küçük hedef, 0 dar boşluk.
 23. **Kitap/bölüm seçicisine erişilebilirlik etiketleri ekle.** Başlık seçicisi, kitap satırları,
     bölüm hücreleri ve geri düğmesi TalkBack’te amaç ve seçili durumu söylemeli.
 24. **Bölüm ileri/geri düğmelerinin disabled durumunu seslendir.** `accessibilityState.disabled`

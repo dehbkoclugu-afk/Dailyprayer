@@ -71,6 +71,8 @@ export default function SourceScreen() {
         alignItems: 'center',
         gap: spacing.sm,
         minHeight: TAP_MIN,
+        // Two stacked links with no space between them are one mis-tap apart.
+        marginTop: spacing.sm,
         opacity: pressed ? 0.6 : 1,
       })}
     >

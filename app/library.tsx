@@ -138,6 +138,9 @@ export default function Library() {
       <View
         style={{
           flexDirection: 'row',
+          // The two halves used to meet edge to edge, so a near-miss switched tabs
+          // (roadmap item 22). The active segment still reads as a filled pill.
+          gap: spacing.sm,
           backgroundColor: t.surface,
           borderRadius: radius.pill,
           padding: 4,

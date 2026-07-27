@@ -372,6 +372,9 @@ export default function Profile() {
             gap: spacing.md,
             padding: spacing.lg,
             minHeight: 52,
+            // Clear space from "restart": one resets a name, the other erases a
+            // journal, and they must not be a near-miss apart (roadmap item 22).
+            marginTop: spacing.sm,
             opacity: pressed ? 0.7 : 1,
           })}
         >

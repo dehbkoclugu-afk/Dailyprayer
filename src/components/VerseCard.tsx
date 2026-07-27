@@ -151,7 +151,9 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
                 {credit}
               </Text>
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            {/* 8dp between the two icon buttons so a near-miss does not shuffle
+                the verse when the user meant to share it (roadmap item 22). */}
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
               {onShuffle ? (
                 <Pressable
                   onPress={onShuffle}
