@@ -209,8 +209,31 @@ deneyimi, performans ve görsel cila gelir.
     adlandırılmış güvenli hedef ve (geri gidilecek bir yer varsa) “Geri dön” sunuyor; 16 metin
     altı dile çevrildi. Dört senaryo da tarayıcıda çalıştırıldı: hiçbiri boş değil, konsol hatası
     yok.
-20. **Yayın öncesi metin-doğruluk ekranı oluştur.** Lisans, fiyat, deneme, bildirim ve gizlilik
-    beyanlarının gerçek runtime davranışıyla eşleştiği tek kontrol listesi release şartı olmalı.
+20. ✅ **TAMAMLANDI — Yayın öncesi metin-doğruluk kontrolü oluştur.** `npm run release-claims`
+    (`scripts/check-release-claims.mjs`) beş alanda **17 iddiayı** koda karşı doğruluyor ve her
+    birini onay/ret ile listeliyor:
+    **Lisans** — Terms’teki altı sürüm hak kayıt defteriyle birebir aynı mı, kayıt defterindeki her
+    lisans Terms’te geçiyor mu, toptan “hepsi kamu malı” iddiası var mı.
+    **Fiyat** — paywall’da elle yazılmış tutar var mı, `DEV_PLANS` release’de erişilemez mi,
+    fiyatlar mağaza ürününden mi geliyor.
+    **Deneme** — her deneme metni uygunluk kontrolünün arkasında mı, süre mağaza teklifinden mi
+    geliyor.
+    **Bildirim** — politika “yalnızca cihazda planlanır” diyor, kod uzak push token istemiyor,
+    push sağlayıcı bağımlılığı yok.
+    **Gizlilik** — analitik/izleme bağımlılığı yok, hesap/oturum açma kodu yok, politikanın andığı
+    ödeme sağlayıcısı gerçekten kullanılıyor, HTTP istemcisi yok, uygulama içi iletişim adresi
+    politikaların yayımladığıyla aynı.
+    Bir politika iddiası bir sözdür; kodun tutmadığı bir sözü yayınlamak kusurun kendisidir — bu
+    yüzden kontrol bir belge değil, **çalıştırılabilir** ve başarısızsa sıfırdan farklı çıkıyor.
+    Dört ihlal (paywall’a sabit fiyat, `DEV_PLANS`’ı açığa çıkarmak, analitik bağımlılığı eklemek,
+    Terms’ten bir sürümü düşürmek) enjekte edilerek yakaladığı doğrulandı.
+    **Tek yayın şartı:** `npm run release-check` = `scripture-check` + `release-gate` +
+    `release-claims`. APK iş akışı artık derlemeden **önce** bunu çalıştırıyor; CI ise her push’ta
+    `scripture-check` ve `release-claims` koşuyor (haklar kapısı bilinçli olarak yalnızca yayında,
+    geliştirmeyi durdurmasın diye).
+    Not: madde “ekran” diyor; uygulama içi bir geliştirici ekranı kullanıcıya sevk edilen ölü
+    yük olurdu ve hiçbir şeyi zorlayamazdı. Kontrol listesi, çıktısı okunabilir bir rapor olan ve
+    yayını gerçekten durdurabilen bir komut olarak uygulandı.
 
 ## P1 — Erişilebilirlik ve temel kullanım (21–50)
 

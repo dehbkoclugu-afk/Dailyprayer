@@ -26,3 +26,8 @@ jobs:
       # only place a deliberate change is accepted. Offline and deterministic.
       - name: Scripture integrity
         run: npm run scripture-check
+      # Everything the app claims about licences, prices, trials, notifications
+      # and privacy has to match what the code does. Nothing else re-reads a
+      # policy against the implementation.
+      - name: Copy accuracy
+        run: npm run release-claims

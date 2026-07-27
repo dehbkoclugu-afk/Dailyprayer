@@ -48,10 +48,13 @@ marked **[you]** need a human with accounts/credentials; **[code]** I can do.
 ## 6. Pre-submit QA — [code] mostly done
 - [x] Typecheck clean (`npm run typecheck`).
 - [x] Unit tests pass (`npm test`) incl. scripture-integrity guard.
-- [x] Scripture rights gate passes (`npm run release-gate`) — no bundled edition
-      may ship with unverified rights.
-- [x] Bundled Scripture matches its manifest (`npm run scripture-check`) — also
-      runs in CI and in the APK workflow.
+- [x] **`npm run release-check` passes.** One command, and the release requirement:
+      Scripture integrity + Scripture rights gate + copy accuracy. The APK workflow
+      runs it before building, so none of the three can be skipped.
+      - `scripture-check` — bundled Scripture matches the manifest (also in CI).
+      - `release-gate` — no bundled edition ships with unverified rights.
+      - `release-claims` — the 17 licence/price/trial/notification/privacy claims
+        the app makes are backed by the code (also in CI).
 - [ ] Re-run `npm run scripture-drift` (needs network) right before submitting.
       The Turkish YTC is still under review upstream, so its text drifts; decide
       deliberately whether to re-export before shipping.
@@ -66,6 +69,11 @@ marked **[you]** need a human with accounts/credentials; **[code]** I can do.
 
 ## 7. Post-launch — [you] + [code]
 - [ ] Add analytics (PostHog/Amplitude) to measure the funnel before price tests.
+      **This changes what the app may claim.** The Privacy Policy currently says
+      "We do **not** use third-party advertising or tracking" and "no analytics",
+      so `npm run release-claims` will fail the moment such a dependency lands —
+      by design. Update the policy, the store privacy labels and the claim check
+      together with the SDK, in the same change.
 - [ ] Watch RevenueCat: trial-start %, trial→paid %, churn.
 - [ ] A/B the paywall via RevenueCat Offerings (no app update needed).
 - [ ] Iterate copy/price from real numbers (targets in `docs/monetization.md`).
