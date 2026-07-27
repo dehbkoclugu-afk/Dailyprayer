@@ -47,6 +47,12 @@ test('displays in the locale’s own clock convention', () => {
     assert.match(formatted, /21[:.]00/, `${locale} should stay on a 24-hour clock`);
     assert.doesNotMatch(formatted, /AM|PM/i, `${locale} should have no meridiem`);
   }
+
+  // The locale's own convention, not a pattern we impose: a 24-hour locale pads
+  // the hour, a 12-hour one does not.
+  assert.equal(formatTime('07:30', 'tr-TR'), '07:30');
+  assert.equal(formatTime('07:30', 'de-DE'), '07:30');
+  assert.match(formatTime('07:30', 'en-US') ?? '', /^7:30\u202f?\s?AM$/i);
 });
 
 test('formatting never returns an empty string for a real time', () => {

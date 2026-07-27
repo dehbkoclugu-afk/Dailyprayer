@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, Linking, Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -18,15 +18,13 @@ import {
   type PurchasePlan,
 } from '@/services/purchases';
 import { useT } from '@/i18n';
+import { toast } from '@/state/useToastStore';
+import { SUPPORT_EMAIL, contactSupport as sendSupportEmail } from '@/services/support';
 import {
   resolvePaywallContext,
   type BenefitId,
 } from '@/services/paywallContext.logic';
 
-const configuredSupportEmail = process.env.EXPO_PUBLIC_SUPPORT_EMAIL?.trim() ?? '';
-const supportEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(configuredSupportEmail)
-  ? configuredSupportEmail
-  : null;
 
 export default function Paywall() {
   const t = useTheme();
@@ -123,11 +121,11 @@ export default function Paywall() {
   };
 
   const contactSupport = async () => {
-    if (!supportEmail) return;
-    const url = `mailto:${supportEmail}?subject=${encodeURIComponent(tr('paywall.supportSubject'))}`;
-    try {
-      await Linking.openURL(url);
-    } catch {
+    // Shared with the Profile contact row: opens mail, or copies the address when
+    // the device has no mail client rather than dead-ending (roadmap item 18).
+    const outcome = await sendSupportEmail(tr('paywall.supportSubject'));
+    if (outcome === 'copied') toast(tr('toast.contactCopied'));
+    else if (outcome === 'failed') {
       Alert.alert(tr('paywall.supportErrorTitle'), tr('paywall.supportErrorBody'));
     }
   };
@@ -404,7 +402,7 @@ export default function Paywall() {
               {tr('paywall.retry')}
             </Text>
           </Pressable>
-          {supportEmail ? (
+          {SUPPORT_EMAIL ? (
             <Pressable
               onPress={contactSupport}
               accessibilityRole="button"

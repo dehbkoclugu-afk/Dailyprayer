@@ -18,6 +18,7 @@ import { toast } from '@/state/useToastStore';
 import { useT, translate, SUPPORTED_LOCALES } from '@/i18n';
 import * as NotificationService from '@/services/notifications';
 import { openSubscriptionManagement } from '@/services/purchases';
+import { SUPPORT_EMAIL, contactSupport } from '@/services/support';
 import type { ThemeName } from '@/theme/tokens';
 import type { Locale } from '@/i18n/translations';
 
@@ -119,6 +120,17 @@ export default function Profile() {
   // A real time picker, not three fixed times in an Alert (roadmap item 17).
   const [timeSheet, setTimeSheet] = useState(false);
   const openReminderPicker = () => setTimeSheet(true);
+
+  const openContact = async () => {
+    const outcome = await contactSupport(tr('profile.contactSubject'));
+    if (outcome === 'copied') toast(tr('toast.contactCopied'));
+    else if (outcome === 'failed') {
+      Alert.alert(
+        tr('profile.contactFailedTitle'),
+        tr('profile.contactFailedBody').replace('{email}', SUPPORT_EMAIL),
+      );
+    }
+  };
 
   const manageSubscription = async () => {
     try {
@@ -321,7 +333,15 @@ export default function Profile() {
           label={tr('profile.terms')}
           onPress={() => router.push({ pathname: '/legal', params: { doc: 'terms' } })}
         />
-        <Row icon="mail-outline" label={tr('profile.contact')} />
+        {/* Was a dead row with no onPress. It now opens mail, and when the device
+            has no mail client it copies the address instead of doing nothing
+            (roadmap item 18). The address is shown either way. */}
+        <Row
+          icon="mail-outline"
+          label={tr('profile.contact')}
+          value={SUPPORT_EMAIL}
+          onPress={openContact}
+        />
         {/* Both destructive actions open a two-stage confirmation that itemizes what
             goes and what stays. Restart used to fire on a single tap. */}
         <Pressable
@@ -450,7 +470,18 @@ function ValueRow({
   );
 }
 
-function Row({ icon, label, onPress }: { icon: string; label: string; onPress?: () => void }) {
+function Row({
+  icon,
+  label,
+  value,
+  onPress,
+}: {
+  icon: string;
+  label: string;
+  /** Shown on the right — used so the contact row displays the address itself. */
+  value?: string;
+  onPress?: () => void;
+}) {
   const t = useTheme();
   return (
     <Pressable
@@ -473,6 +504,14 @@ function Row({ icon, label, onPress }: { icon: string; label: string; onPress?: 
       >
         <Ionicons name={icon as never} size={20} color={t.inkSoft} />
         <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink, flex: 1 }}>{label}</Text>
+        {value ? (
+          <Text
+            numberOfLines={1}
+            style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: t.inkFaint, maxWidth: 170 }}
+          >
+            {value}
+          </Text>
+        ) : null}
         <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
       </View>
     </Pressable>

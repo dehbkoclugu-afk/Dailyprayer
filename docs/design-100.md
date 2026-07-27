@@ -170,8 +170,23 @@ deneyimi, performans ve görsel cila gelir.
     (diskteki dosya `.webp`). Bu yüzden `npx expo prebuild` — yani **APK iş akışının ilk adımı** —
     hata veriyordu. Bozuk kopya girdi kaldırıldı, prebuild artık tamamlanıyor. A17 splash görselini
     geri getirmek için `.webp`’nin PNG dışa aktarımı gerekiyor (bu ortamda dönüştürücü yok).
-18. **İletişim satırını çalışır hâle getir.** Profile’daki e-posta satırı adresi açmalı; cihazda
-    e-posta uygulaması yoksa adresi kopyalama seçeneği vermeli.
+18. ✅ **TAMAMLANDI — İletişim satırını çalışır hâle getir.** Satır `<Row icon="mail-outline"
+    label={tr('profile.contact')} />` idi — `onPress` yok, `Row` da onsuz kendini devre dışı
+    bırakıyor, yani satır tamamen ölüydü. Artık dokununca e-posta uygulamasını açıyor;
+    `Linking.canOpenURL` ile gerçekten açılabilirliği kontrol ediyor ve açılamıyorsa adresi panoya
+    kopyalayıp bunu söylüyor. Pano da başarısız olursa adresi içeren bir uyarı gösteriyor — hiçbir
+    yolda sessizce hiçbir şey yapmıyor. Adres ayrıca satırın sağında **yazılı olarak** duruyor,
+    yani hiçbir şey açılmasa bile kullanıcı adresi görebiliyor.
+    **Adres tek kaynağa indirildi:** `CONTACT_EMAIL` artık `src/data/legal.ts`’de tanımlı ve
+    Gizlilik Politikası ile Koşullar onu interpolasyonla kullanıyor; daha önce üç yerde elle
+    yazılmıştı. Paywall’daki kopya e-posta çözümleme mantığı da kaldırılıp ortak
+    `src/services/support.ts`’e bağlandı, böylece iki yüzey aynı adresi ve aynı yedek davranışı
+    paylaşıyor. `EXPO_PUBLIC_SUPPORT_EMAIL` ayarlıysa o kullanılıyor, değilse politikaların vaat
+    ettiği adrese düşülüyor — satırın boş kalmaması için.
+    Bu sırada madde 17’nin biçimlendirmesinde bir kusur da düzeltildi: `hour: 'numeric'` Türkçe’de
+    “7:30” üretiyordu; `timeStyle: 'short'` yerel kanonik biçimi veriyor — tr/de/fr “07:30”,
+    en-US “7:30 AM”. `src/services/support.test.ts` yedi güvenceyi koruyor; üç ihlal enjekte
+    edilerek doğrulandı. Satır web export’ta görsel olarak doğrulandı.
 19. **Bilinmeyen rota/veri hatalarına tasarlanmış durum ekle.** Geçersiz plan, gün veya kitap
     parametresi boş koyu ekran üretmemeli; açıklama ve güvenli geri dönüş sunmalı.
 20. **Yayın öncesi metin-doğruluk ekranı oluştur.** Lisans, fiyat, deneme, bildirim ve gizlilik

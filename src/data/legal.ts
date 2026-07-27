@@ -7,6 +7,13 @@
  * Entity: Umut Ceylan · Contact: dehbkoclugu@gmail.com · Governing law: Turkey.
  * Have a lawyer review before publishing.
  */
+/**
+ * The address the app publishes as its contact. One constant so the policies, the
+ * Terms and the in-app contact row cannot drift apart — a support address that
+ * differs between the store listing and the app is a real support failure.
+ */
+export const CONTACT_EMAIL = 'dehbkoclugu@gmail.com';
+
 export const LEGAL_LAST_UPDATED = '2026-07-24';
 const TERMS_LAST_UPDATED = '2026-07-26';
 
@@ -53,7 +60,7 @@ We do not knowingly collect data from children.
 If this policy changes, we will update the date above and the version in the app.
 
 ## Contact
-Questions about privacy: dehbkoclugu@gmail.com
+Questions about privacy: ${CONTACT_EMAIL}
 Umut Ceylan
 `;
 
@@ -129,6 +136,6 @@ These terms are governed by the laws of Turkey, without regard to
 conflict-of-law rules.
 
 ## Contact
-dehbkoclugu@gmail.com
+${CONTACT_EMAIL}
 Umut Ceylan
 `;

@@ -65,7 +65,9 @@ export function formatTime(value: string | null | undefined, locale?: string): s
   const time = parseTime(value);
   if (!time) return null;
   try {
-    return new Intl.DateTimeFormat(locale, { hour: 'numeric', minute: '2-digit' }).format(
+    // timeStyle gives the locale's own canonical short time — "07:30" in Turkish,
+    // "7:30 AM" in US English — rather than a pattern we impose on every language.
+    return new Intl.DateTimeFormat(locale, { timeStyle: 'short' }).format(
       toDate(time, new Date(2000, 0, 1)),
     );
   } catch {

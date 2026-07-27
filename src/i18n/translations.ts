@@ -312,6 +312,10 @@ export const translations = {
     'toast.reminderOff': 'Reminders turned off',
     'profile.reminderPick': 'Time',
     'profile.reminderSave': 'Save time',
+    'profile.contactSubject': 'Lumen support',
+    'toast.contactCopied': 'Address copied',
+    'profile.contactFailedTitle': 'Could not open mail',
+    'profile.contactFailedBody': 'Write to us at {email}.',
   },
   tr: {
     'tab.today': 'Bugün',
@@ -600,6 +604,10 @@ export const translations = {
     'toast.reminderOff': 'Hatırlatmalar kapatıldı',
     'profile.reminderPick': 'Saat',
     'profile.reminderSave': 'Saati kaydet',
+    'profile.contactSubject': 'Lumen destek',
+    'toast.contactCopied': 'Adres kopyalandı',
+    'profile.contactFailedTitle': 'E-posta açılamadı',
+    'profile.contactFailedBody': 'Bize {email} adresinden yazabilirsin.',
   },
   es: {
     'tab.today': 'Hoy',
@@ -875,6 +883,10 @@ export const translations = {
     'toast.reminderOff': 'Recordatorios desactivados',
     'profile.reminderPick': 'Hora',
     'profile.reminderSave': 'Guardar hora',
+    'profile.contactSubject': 'Soporte de Lumen',
+    'toast.contactCopied': 'Dirección copiada',
+    'profile.contactFailedTitle': 'No se pudo abrir el correo',
+    'profile.contactFailedBody': 'Escríbenos a {email}.',
   },
   pt: {
     'tab.today': 'Hoje',
@@ -1150,6 +1162,10 @@ export const translations = {
     'toast.reminderOff': 'Lembretes desativados',
     'profile.reminderPick': 'Horário',
     'profile.reminderSave': 'Salvar horário',
+    'profile.contactSubject': 'Suporte do Lumen',
+    'toast.contactCopied': 'Endereço copiado',
+    'profile.contactFailedTitle': 'Não foi possível abrir o e-mail',
+    'profile.contactFailedBody': 'Escreva para {email}.',
   },
   fr: {
     'tab.today': 'Aujourd’hui',
@@ -1425,6 +1441,10 @@ export const translations = {
     'toast.reminderOff': 'Rappels désactivés',
     'profile.reminderPick': 'Heure',
     'profile.reminderSave': 'Enregistrer l’heure',
+    'profile.contactSubject': 'Assistance Lumen',
+    'toast.contactCopied': 'Adresse copiée',
+    'profile.contactFailedTitle': 'Impossible d’ouvrir la messagerie',
+    'profile.contactFailedBody': 'Écrivez-nous à {email}.',
   },
   de: {
     'tab.today': 'Heute',
@@ -1700,6 +1720,10 @@ export const translations = {
     'toast.reminderOff': 'Erinnerungen ausgeschaltet',
     'profile.reminderPick': 'Uhrzeit',
     'profile.reminderSave': 'Uhrzeit speichern',
+    'profile.contactSubject': 'Lumen Support',
+    'toast.contactCopied': 'Adresse kopiert',
+    'profile.contactFailedTitle': 'E-Mail konnte nicht geöffnet werden',
+    'profile.contactFailedBody': 'Schreib uns an {email}.',
   },
 } as const;
 
