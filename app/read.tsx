@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, Modal, Pressable, Text, View } from 'react-native';
+import { AccessibilityInfo, FlatList, Modal, Pressable, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
@@ -279,6 +279,48 @@ export default function Read() {
             Haptics.selectionAsync().catch(() => {});
             if (color) clearMark(hKey);
             else setMark(hKey, 'gold');
+            // Haptics are the only confirmation a sighted user needs; a screen
+            // reader gets nothing, and the tint it cannot see is the whole result.
+            AccessibilityInfo.announceForAccessibility(
+              tr(color ? 'verse.highlightRemoved' : 'verse.highlightAdded'),
+            );
+          };
+
+          // Roadmap item 25. Tapping opens a sheet and long-pressing highlights,
+          // neither of which a screen reader can discover — TalkBack announces a
+          // verse as plain text and nothing suggests it does anything.
+          //
+          // These stay Text rather than becoming buttons on purpose: Scripture is
+          // read by swiping verse to verse, and hearing "button" after every verse
+          // of every chapter is noise. `accessibilityActions` puts the two actions
+          // in TalkBack's actions menu instead, which is where an occasional action
+          // on a text element belongs.
+          const verseA11y = {
+            // The visible number is a nested Text, so it is read as a bare numeral
+            // running into the first word; naming it separates the two. The
+            // highlight goes *before* the verse, not after — a long verse takes
+            // twenty seconds to read out, and the state is what the reader is
+            // listening for.
+            accessibilityLabel: color
+              ? `${tr('read.verse')} ${item[0]}, ${tr('a11y.highlighted')}. ${item[1]}`
+              : `${tr('read.verse')} ${item[0]}. ${item[1]}`,
+            accessibilityActions: [
+              { name: 'activate', label: tr('a11y.verseActions') },
+              {
+                name: 'highlight',
+                label: tr(color ? 'verse.removeHighlight' : 'verse.highlight'),
+              },
+            ],
+            onAccessibilityAction: ({
+              nativeEvent: { actionName },
+            }: {
+              nativeEvent: { actionName: string };
+            }) => {
+              if (actionName === 'highlight') quickHighlight();
+              // Declaring `activate` takes over the standard click action on
+              // Android, so onPress no longer runs for a screen reader.
+              else open();
+            },
           };
 
           if (index === 0) {
@@ -289,6 +331,7 @@ export default function Read() {
                 onPress={open}
                 onLongPress={quickHighlight}
                 suppressHighlighting
+                {...verseA11y}
                 style={{
                   fontFamily: fonts.serifLight,
                   fontSize: bodySize,
@@ -310,6 +353,7 @@ export default function Read() {
               onPress={open}
               onLongPress={quickHighlight}
               suppressHighlighting
+              {...verseA11y}
               style={{
                 fontFamily: fonts.serifLight,
                 fontSize: bodySize,

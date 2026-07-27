@@ -4,8 +4,8 @@ import { join } from 'node:path';
 import test from 'node:test';
 
 /**
- * Guards roadmap items 23 and 24: a control has to announce what it is, whether
- * it is the chosen one, and — when it is dimmed — why.
+ * Guards roadmap items 23, 24 and 25: a control has to announce what it is,
+ * whether it is the chosen one, why it is dimmed, and what it can do.
  *
  * The book/chapter picker was the case that prompted this. Its book rows and
  * chapter cells were bare `Pressable`s: no role, no label, and the current book
@@ -13,13 +13,17 @@ import test from 'node:test';
  * and "3" with no indication that either was selected — or, for a chapter cell,
  * which book the number belonged to.
  *
- * Three rules, all readable from source:
+ * Three general rules, all readable from source:
  *
  *  1. An icon-only button has no text to fall back on, so it needs a label.
  *  2. A control that paints itself differently when active is conveying state
  *     visually, and must convey the same state to accessibility.
  *  3. A control that dims itself must be genuinely disabled — the dimming is a
  *     promise that pressing does nothing, and `opacity` alone does not keep it.
+ *
+ * Then three surfaces checked by name, where a general rule cannot see the case:
+ * the picker (item 23), the controls that dim to a limit (item 24), and the verse
+ * rows, whose actions were reachable only by a gesture nobody announced (item 25).
  *
  * None of them can see a label that is *wrong*, only one that is missing — the
  * wording was checked in a browser (`scripts/measure-tap-targets.mjs` renders the
@@ -202,6 +206,42 @@ test('a dimmed control says why it is dimmed', () => {
   assert.ok(back, 'the player’s previous-line button');
   assert.match(back.tag, /accessibilityLabel=\{line === 0 \?/);
   assert.match(back.tag, /a11y\.atFirstLine/);
+});
+
+test('a verse offers its actions instead of hiding them in a long press', () => {
+  // Roadmap item 25. A verse row is a `Text` with onPress and onLongPress: tapping
+  // opens the action sheet, long-pressing highlights, and a screen reader could
+  // discover neither — TalkBack read the verse as plain text with nothing to
+  // suggest it did anything at all.
+  //
+  // They are deliberately still Text, not buttons. Scripture is read by swiping
+  // verse to verse, and hearing "button" after every verse of every chapter is
+  // noise; `accessibilityActions` puts the two actions in TalkBack's actions menu,
+  // which is where an occasional action on a text element belongs.
+  const source = readFileSync(join('app', 'read.tsx'), 'utf8');
+
+  const props = source.match(/const verseA11y = \{[\s\S]*?\n {10}\};/);
+  assert.ok(props, 'expected a shared verse accessibility block');
+  const block = props[0];
+
+  assert.match(block, /accessibilityLabel:/, 'the verse needs a label');
+  assert.match(block, /read\.verse/, 'a bare numeral runs into the first word');
+  // The state has to come before the verse: a long verse takes twenty seconds to
+  // read out, and a trailing "highlighted" arrives after all of it.
+  assert.match(block, /a11y\.highlighted'\)\}\. \$\{item\[1\]\}/, 'the highlight must precede the text');
+  assert.match(block, /name: 'activate'/, 'opening the sheet must be an announced action');
+  assert.match(block, /name: 'highlight'/, 'highlighting must be an announced action');
+  assert.match(block, /verse\.removeHighlight/, 'the action label must follow the current state');
+  assert.match(block, /onAccessibilityAction:/);
+
+  // Both verse branches — the drop-cap first verse and the rest — must carry it.
+  // The first verse renders differently and was the easy one to forget.
+  const spread = [...source.matchAll(/\{\.\.\.verseA11y\}/g)];
+  assert.equal(spread.length, 2, 'both the drop-cap verse and the plain verses');
+
+  // Performing the action has to be confirmed: haptics are the only feedback a
+  // sighted user needs, and a screen reader gets nothing from a tint.
+  assert.match(source, /announceForAccessibility\(\s*\n?\s*tr\(color \? 'verse\.highlightRemoved'/);
 });
 
 test('the book and chapter picker announces purpose and selection', () => {

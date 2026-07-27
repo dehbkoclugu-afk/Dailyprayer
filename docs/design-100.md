@@ -334,8 +334,34 @@ deneyimi, performans ve görsel cila gelir.
     İngilizce dışındaki beş dilde **21–22 anahtar eksik** (tüm oynatıcı ekranı, paywall’ın işlem/
     geri yükleme metinleri, **ve günlük bildirim başlık/gövdeleri**), `lookup()` sessizce
     İngilizce’ye düşüyor. Madde 24’ün konusu değil; ayrı ele alınıyor (aşağıya bakın).
-25. **Ayet satırlarını gerçek erişilebilir eylemlere dönüştür.** TalkBack kullanıcıları “Aç” ve
-    “Vurgula” eylemlerine uzun basmayı keşfetmek zorunda kalmamalı.
+25. ✅ **TAMAMLANDI — Ayet satırlarını gerçek erişilebilir eylemlere dönüştür.** Satırlar
+    `onPress` (aksiyon sheet’ini açar) ve `onLongPress` (yerinde vurgular) taşıyan `<Text>`’ti;
+    TalkBack ayeti düz metin olarak okuyor ve *hiçbir şey* onun bir şey yaptığını sezdirmiyordu.
+    İki eylem artık `accessibilityActions` ile TalkBack’in eylem menüsünde: “Ayet eylemleri” ve
+    duruma göre “Vurgula” / “Vurguyu kaldır” (`verse.*` anahtarları altı dilde zaten vardı,
+    yeniden kullanıldı). `activate` beyan etmek Android’de standart tıklama eylemini devraldığı
+    için `onAccessibilityAction` her iki dalı da ele alıyor.
+    **Bilinçli olarak buton yapılmadılar.** Madde 22’nin notu “eksik buton rolü madde 25’in
+    konusu” diyordu; maddenin kendi metni rolden değil *eylemlerden* söz ediyor ve doğru cevap bu:
+    Kutsal Kitap ayet ayet kaydırılarak okunur, her bölümün her ayetinden sonra “düğme” duymak
+    gürültüdür. Bir metin öğesindeki ara sıra kullanılan eylemin yeri eylem menüsüdür.
+    **Etiket de eksikti.** Ayet numarası iç içe bir `Text` olduğu için çıplak bir sayı olarak ilk
+    kelimeye yapışıyordu; artık “Ayet 1. …” diye adlandırılıyor (`read.verse`, altı dil).
+    Vurgu durumu yalnızca arka plan tonuydu — ekran okuyucu için yok. Artık söyleniyor ve
+    **ayetten önce**: uzun bir ayetin okunması yirmi saniye sürüyor, sonda gelen bir “vurgulu”
+    dinleyicinin beklediği bilgiyi en sona atıyor. Sonuç: “Ayet 2, vurgulu. Beni yeşil
+    çayırlarda…”.
+    **Eylemi yapmanın onayı da yoktu:** hızlı vurgulama yalnızca haptik veriyordu, ekran okuyucu
+    kullanıcısı göremediği bir tondan hiçbir şey öğrenmiyor. `announceForAccessibility` ile
+    “Vurgulandı” / “Vurgu kaldırıldı” eklendi.
+    `src/a11y/labels.test.ts` ikisi de denetliyor; özellikle **iki ayet dalının** (drop-cap ilk
+    ayet ve diğerleri) ikisinin de props’u taşıması — ilk ayet farklı render edildiği için
+    unutulmaya en yakın olan buydu. Dört ihlal enjekte edilip yakalandığı doğrulandı.
+    **Doğrulamanın sınırı:** `accessibilityActions` da yerel (native) bir kanal —
+    react-native-web onu hiçbir DOM niteliğine çevirmiyor (tarayıcıda 0 düğüm). Tarayıcıda
+    doğrulanan: birleştirilmiş etiket Türkçe ve Almanca olarak (“Vers 2, markiert. …”), vurgu
+    durumunun doğru ayette görünmesi, dokunma yolunun hâlâ sheet’i açması ve konsolda hata
+    olmaması. Eylem menüsünün kendisi TalkBack ile cihaz testinde.
 26. **Highlight renk adlarını altı dilde insan diline çevir.** `gold`, `blue` gibi kod anahtarları
     erişilebilirlik etiketinde okunmamalı.
 27. **Renk seçimini yalnız renkle anlatma.** Her highlight swatch içinde farklı simge/desen veya
