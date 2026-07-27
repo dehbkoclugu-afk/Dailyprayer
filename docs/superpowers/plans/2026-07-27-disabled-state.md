@@ -74,14 +74,13 @@ The player's controls read out in **English while the app language was Turkish**
 Measured across the whole dictionary: every non-English locale is missing 21–22 of
 English's 323 keys, and `lookup()` falls back to English silently.
 
-The gaps are not cosmetic:
+The gaps were not cosmetic:
 
 | Surface | Keys | Effect |
 | --- | --- | --- |
 | Player | 12 | every control and the pace label, in five languages |
 | Paywall | 6 | processing, restoring, restore-failure copy |
-| Notifications | 4 | the daily reminder arrives in English for everyone |
-| `bible.credit` | 1 | five languages |
+| Notifications | 4 | the daily reminder arrived in English for everyone |
 
-Handled separately, with a completeness guard — it is a release-quality bug, not
-an accessibility one.
+Fixed in the next commit, with a completeness guard — it is a release-quality bug,
+not an accessibility one. See `2026-07-27-locale-completeness.md`.

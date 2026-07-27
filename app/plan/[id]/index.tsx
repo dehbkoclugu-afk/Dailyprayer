@@ -16,7 +16,7 @@ import { NotFoundState } from '@/components/NotFoundState';
 
 export default function PlanScreen() {
   const t = useTheme();
-  const { t: tr, locale } = useT();
+  const { t: tr, tn, locale } = useT();
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
   const plan = usePlans().find((p) => p.id === id);
@@ -97,7 +97,7 @@ export default function PlanScreen() {
             fontVariant: ['tabular-nums'],
           }}
         >
-          {done.length} / {plan.days} {tr('bible.days')}
+          {done.length} / {plan.days} {tn(plan.days, 'bible.days')}
         </Text>
       </View>
     </View>

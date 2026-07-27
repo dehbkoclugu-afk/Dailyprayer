@@ -499,6 +499,42 @@ deneyimi, performans ve görsel cila gelir.
 100. **Gerçek cihaz görsel kabul testi kur.** 360×640, 390×844, büyük Android, tablet,
     landscape; Vigil/Dawn ve %100/%200 font ölçeğinde ana ekranların ekran görüntüsü karşılaştırılmalı.
 
+## Liste dışında, yol boyunca bulunan hatalar
+
+Bu maddeler 100’lük listede yok; yukarıdaki maddeleri doğrularken çıktılar. Numaralı bir
+maddeymiş gibi sayılmıyorlar, ama düzeltildikleri için kaydı burada.
+
+- ✅ **İngilizce dışındaki beş dil, sözlüğün 21–22 anahtarını hiç taşımıyordu.** Madde 24’ü
+  tarayıcıda doğrularken oynatıcı Türkçe dilde İngilizce okundu. Ölçüm: `player.*` (12 anahtar)
+  ve `notification.*` (4 anahtar) yalnızca İngilizce sözlükte vardı, `paywall.*` 6 anahtar
+  eksikti. `lookup()` sessizce İngilizce’ye düşüyor — çalışma zamanı için doğru davranış (boş
+  etiket yerine İngilizce), ama güvenilecek şey değil: uygulama hiçbir iz bırakmadan İngilizce
+  metin yayınlıyordu. **Hatırlanacak somut sonuç:** hatırlatıcıları açık bir Türk kullanıcı her
+  sabah İngilizce bir bildirim alıyordu.
+  17 kullanılan anahtar beş dile çevrildi. Üç anahtar çevrilmedi, **silindi**: `player.close`,
+  `player.previous` ve `player.next` zaten altı dilde çevrili olan `a11y.closePlayer`,
+  `a11y.prevLine` ve `a11y.nextLine`’ın İngilizce-yalnız kopyalarıydı — oynatıcı artık mevcut
+  olanları kullanıyor. İki ölü anahtar da silindi: `paywall.thenAnnual` (hiç kullanılmıyor ve
+  kopyanın içine sabit `$59.99` fiyat gömüyor) ve `bible.credit` — **hiç kullanılmıyor, bayat, ve
+  `docs/scripture-integrity.md`’nin “hak beyanı yalnız `src/data/scriptureRights.ts`’te durur”
+  kuralını ihlal ediyordu**; üstelik *İngilizce* girdi Türkçe sürümün telifini taşıyordu. Canlı
+  kredi `getBibleCredit()`’ten geliyor.
+  **Koruma:** `src/i18n/completeness.test.ts` — sekiz kural: altı dil; her dilde her anahtar;
+  İngilizce’de olmayan anahtar yok; başka bir dilde İngilizce metin bırakılmamış (kısa ortak
+  sözcükler için 24 karakter eşiği); çeviri içinde kredi satırı yok (`source.conditions.*`
+  kasıtlı olarak muaf — o metinler lisansın bize gösterme yükümlülüğü); tekil biçim eşleşmesi;
+  sayılı adın `tn` ile okunması; ve uygulamanın istediği her anahtarın var olması. Dört ihlal
+  enjekte edilip yakalandığı doğrulandı.
+
+- ✅ **“1 resultados”, “1 días”, “1 min restantes”.** Sayının yanındaki ad her zaman çoğuldu.
+  Bir tanesini bu turda ben eklemiştim; sınıfın tamamı düzeltildi. `useT()` artık sayıya duyarlı
+  bir `tn(count, key)` veriyor: `<key>.one` varsa tam olarak 1 için kullanılıyor. Bilinçli olarak
+  yalnız iki biçim — bu altı dilin hepsi 1’e karşı çoğul ayrımı yapıyor, tam CLDR çoğul
+  kategorileri hiçbirinin ihtiyacı olmayan bir kural için makine olurdu. Dört çağrı yeri
+  (`search`, `player`, `plan/[id]`, `bible`) `tn`’e geçti; `pray.min` değişmedi çünkü “min”/“Min.”
+  altı dilde de değişmez. Tarayıcıda doğrulandı: İspanyolca “1 min restante” ve “1 resultado”,
+  “0 resultados/résultats” çoğul kalıyor.
+
 ## Sabit sınırlar
 
 - Kutsal Kitap metinleri çevrilmez, sadeleştirilmez, özetlenmez veya yeniden yazılmaz.

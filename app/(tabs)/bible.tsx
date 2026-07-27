@@ -18,7 +18,7 @@ import { useT } from '@/i18n';
 
 export default function Bible() {
   const t = useTheme();
-  const { t: tr, locale } = useT();
+  const { t: tr, tn, locale } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const plans = usePlans();
   const { book, chapter } = useReaderStore();
@@ -161,7 +161,7 @@ export default function Bible() {
                         fontVariant: ['tabular-nums'],
                       }}
                     >
-{p.days} {tr('bible.days')}
+{p.days} {tn(p.days, 'bible.days')}
                     </Text>
                   </View>
                 </ArtSlot>

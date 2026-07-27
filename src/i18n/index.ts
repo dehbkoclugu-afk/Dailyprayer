@@ -19,6 +19,21 @@ function lookup(locale: Locale, key: TranslationKey): string {
   return dict[key] ?? translations.en[key];
 }
 
+/**
+ * Count-aware lookup. A counted noun next to "1" was wrong in four places —
+ * "1 resultados", "1 días", "1 min restantes" — because the label was always the
+ * plural. Where a `<key>.one` entry exists it is used for exactly one.
+ *
+ * Deliberately only two forms: the six languages here all inflect on 1 vs. more,
+ * and a full CLDR plural-category system would be machinery for a rule none of
+ * them needs.
+ */
+function lookupCount(locale: Locale, key: TranslationKey, count: number): string {
+  if (count !== 1) return lookup(locale, key);
+  const singular = `${key}.one` as TranslationKey;
+  return singular in translations.en ? lookup(locale, singular) : lookup(locale, key);
+}
+
 /** Reactive translator for components. */
 export function useT() {
   const pref = useUserStore((s) => s.language);
@@ -26,6 +41,8 @@ export function useT() {
   return {
     locale,
     t: (key: TranslationKey) => lookup(locale, key),
+    /** For a label that follows a number: `tn(days, 'bible.days')`. */
+    tn: (count: number, key: TranslationKey) => lookupCount(locale, key, count),
   };
 }
 

@@ -54,7 +54,7 @@ export default function Player() {
 
 function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number] }) {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, tn } = useT();
   const insets = useSafeAreaInsets();
   const reduceMotion = useReducedMotion();
   const completeStep = useStreakStore((s) => s.completeStep);
@@ -117,14 +117,14 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
               {prayer.title}
             </Text>
             <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: '#C9C5B8', marginTop: 2 }}>
-              {tr('player.guidedText')} · {remainingMinutes} {tr('player.minLeft')}
+              {tr('player.guidedText')} · {remainingMinutes} {tn(remainingMinutes, 'player.minLeft')}
             </Text>
           </View>
           <Pressable
             onPress={() => router.back()}
             hitSlop={12}
             accessibilityRole="button"
-            accessibilityLabel={tr('player.close')}
+            accessibilityLabel={tr('a11y.closePlayer')}
             style={{ width: TAP_MIN, height: TAP_MIN, alignItems: 'center', justifyContent: 'center' }}
           >
             <Ionicons name="close" size={24} color="#A9A698" />
@@ -186,7 +186,7 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
               // Same rule as the reader's chapter arrows (roadmap item 24): the
               // dimming is announced by the state, the reason has to be in the
               // label.
-              accessibilityLabel={line === 0 ? tr('a11y.atFirstLine') : tr('player.previous')}
+              accessibilityLabel={line === 0 ? tr('a11y.atFirstLine') : tr('a11y.prevLine')}
               style={{ width: 56, height: 56, alignItems: 'center', justifyContent: 'center', opacity: line === 0 ? 0.35 : 1 }}
             >
               <Ionicons name="play-skip-back" size={24} color="#A9A698" />
@@ -209,7 +209,7 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
             <Pressable
               onPress={() => setLine((l) => Math.min(prayer.script.length - 1, l + 1))}
               accessibilityRole="button"
-              accessibilityLabel={tr('player.next')}
+              accessibilityLabel={tr('a11y.nextLine')}
               style={{ width: 56, height: 56, alignItems: 'center', justifyContent: 'center' }}
             >
               <Ionicons name="play-skip-forward" size={24} color="#A9A698" />

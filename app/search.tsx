@@ -23,7 +23,7 @@ const MAX = 300;
 
 export default function Search() {
   const t = useTheme();
-  const { t: tr, locale } = useT();
+  const { t: tr, tn, locale } = useT();
   const insets = useSafeAreaInsets();
   const [query, setQuery] = useState('');
   const [q, setQ] = useState(''); // debounced
@@ -140,7 +140,7 @@ export default function Search() {
           }}
         >
           {hits.length >= MAX ? `${MAX}+ ` : `${hits.length} `}
-          {tr('read.results')}
+          {tn(hits.length >= MAX ? MAX : hits.length, 'read.results')}
         </Text>
       ) : null}
 
