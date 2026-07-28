@@ -6,7 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useScaledHeight } from '@/theme/textScale';
 import { usePlans } from '@/data/plans';
@@ -71,8 +71,8 @@ export default function PlanScreen() {
             style={{ position: 'absolute', width: '100%', height: '100%' }}
           />
           <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
-            <Text style={{ fontFamily: fonts.serif, fontSize: 24, color: '#F2EEE6' }}>{plan.title}</Text>
-            <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: 'rgba(242,238,230,0.8)', marginTop: spacing.xs }}>
+            <Text style={{ ...type.subtitle, color: '#F2EEE6' }}>{plan.title}</Text>
+            <Text style={{ ...type.callout, color: 'rgba(242,238,230,0.8)', marginTop: spacing.xs }}>
               {plan.tagline}
             </Text>
           </View>
@@ -91,13 +91,9 @@ export default function PlanScreen() {
           />
         </View>
         <Text
-          style={{
-            fontFamily: fonts.sansMedium,
-            fontSize: 13,
-            color: t.inkSoft,
+          style={{ ...type.labelMedium, color: t.inkSoft,
             marginTop: spacing.sm,
-            fontVariant: ['tabular-nums'],
-          }}
+            fontVariant: ['tabular-nums'] }}
         >
           {done.length} / {plan.days} {tn(plan.days, 'bible.days')}
         </Text>
@@ -156,16 +152,16 @@ export default function PlanScreen() {
                 {isDone ? (
                   <Ionicons name="checkmark" size={18} color={t.onGold} />
                 ) : (
-                  <Text style={{ fontFamily: fonts.sansBold, fontSize: 13, color: t.inkSoft, fontVariant: ['tabular-nums'] }}>
+                  <Text style={{ ...type.labelBold, color: t.inkSoft, fontVariant: ['tabular-nums'] }}>
                     {dayIdx + 1}
                   </Text>
                 )}
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: t.ink }}>
+                <Text style={{ ...type.calloutSemi, color: t.ink }}>
                   {tr('plan.dayLabel')} {dayIdx + 1}
                 </Text>
-                <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: isDone ? t.gold : t.inkSoft, marginTop: 2 }}>
+                <Text style={{ ...type.labelMedium, color: isDone ? t.gold : t.inkSoft, marginTop: 2 }}>
                   {readingRef}
                 </Text>
               </View>

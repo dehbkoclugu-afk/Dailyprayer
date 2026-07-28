@@ -7,7 +7,7 @@ import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { Wordmark } from '@/components/Wordmark';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts, type as ty } from '@/theme/typography';
+import { type, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
 
@@ -45,7 +45,7 @@ export default function Welcome() {
           }}
         >
           <Ionicons name="lock-closed-outline" size={13} color={t.inkFaint} />
-          <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkFaint }}>
+          <Text style={{ ...type.label, color: t.inkFaint }}>
             {tr('welcome.trust')}
           </Text>
         </View>

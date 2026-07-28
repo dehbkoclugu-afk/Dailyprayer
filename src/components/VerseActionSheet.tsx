@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { fonts } from '@/theme/typography';
+import { type } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useReaderTheme } from '@/theme/reading';
 import {
@@ -126,7 +126,7 @@ export function VerseActionSheet({
       })}
     >
       <Ionicons name={icon} size={22} color={active ? t.gold : t.inkSoft} />
-      <Text style={{ fontFamily: fonts.sansMedium, fontSize: 12, color: active ? t.gold : t.inkSoft }}>
+      <Text style={{ ...type.labelMedium, color: active ? t.gold : t.inkSoft }}>
         {label}
       </Text>
     </Pressable>
@@ -171,12 +171,12 @@ export function VerseActionSheet({
           <Text
             ref={titleRef}
             accessibilityRole="header"
-            style={{ fontFamily: fonts.sansSemiBold, fontSize: 12, letterSpacing: 1.5, textTransform: 'uppercase', color: t.gold }}
+            style={{ ...type.labelSemi, letterSpacing: 1.5, textTransform: 'uppercase', color: t.gold }}
           >
             {verse.ref}
           </Text>
           <Text
-            style={{ fontFamily: fonts.serifLight, fontSize: 17, lineHeight: 26, color: t.ink, marginTop: spacing.xs }}
+            style={{ ...type.quoteSmall, lineHeight: 26, color: t.ink, marginTop: spacing.xs }}
           >
             {preview(verse.text, 160)}
           </Text>

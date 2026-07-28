@@ -7,7 +7,7 @@ import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts, type as ty } from '@/theme/typography';
+import { type, type as ty } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import {
   loadPlans,
@@ -159,7 +159,7 @@ export default function Paywall() {
     return (
       <Screen scroll={false} style={{ alignItems: 'center', justifyContent: 'center', gap: spacing.md }}>
         <ActivityIndicator color={t.gold} />
-        <Text accessibilityRole="alert" style={[ty.secondary, { color: t.inkSoft, textAlign: 'center' }]}>
+        <Text accessibilityRole="alert" style={[ty.callout, { color: t.inkSoft, textAlign: 'center' }]}>
           {tr('paywall.processing')}
         </Text>
       </Screen>
@@ -208,14 +208,14 @@ export default function Paywall() {
             style={{ position: 'absolute', width: '100%', height: '100%' }}
           />
           <View style={{ flex: 1, justifyContent: 'flex-end', padding: spacing.xl }}>
-            <Text style={{ fontFamily: fonts.serif, fontSize: 27, color: '#F2EEE6' }}>
+            <Text style={{ ...type.title, color: '#F2EEE6' }}>
 {tr(paywallContext.titleKey)}
             </Text>
             <View style={{ gap: spacing.xs, marginTop: spacing.md }}>
               {BENEFITS.map((b) => (
                 <View key={b} style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
                   <Ionicons name="checkmark-circle" size={16} color="#D9A441" />
-                  <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: '#F2EEE6' }}>{b}</Text>
+                  <Text style={{ ...type.callout, color: '#F2EEE6' }}>{b}</Text>
                 </View>
               ))}
             </View>
@@ -253,24 +253,20 @@ export default function Paywall() {
               />
               <View style={{ flex: 1 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
-                  <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 17, color: t.ink }}>
+                  <Text style={{ ...type.bodySemi, color: t.ink }}>
 {PLAN_TITLE[p.id]}
                   </Text>
                 </View>
-                <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
+                <Text style={{ ...type.label, color: t.inkSoft, marginTop: 2 }}>
                   {subcopy(p)}
                 </Text>
               </View>
               <Text
-                style={{
-                  fontFamily: fonts.sansSemiBold,
-                  fontSize: 16,
-                  color: t.ink,
-                  fontVariant: ['tabular-nums'],
-                }}
+                style={{ ...type.bodySemi, color: t.ink,
+                  fontVariant: ['tabular-nums'] }}
               >
                 {p.price}
-                <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft }}>
+                <Text style={{ ...type.label, color: t.inkSoft }}>
 {' '}{PLAN_PERIOD[p.id]}
                 </Text>
               </Text>
@@ -302,7 +298,7 @@ export default function Paywall() {
           style={{ flexDirection: 'row', justifyContent: 'center', gap: spacing.sm, marginTop: spacing.md }}
         >
           <ActivityIndicator color={t.gold} />
-          <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft }}>
+          <Text style={{ ...type.label, color: t.inkSoft }}>
             {tr('paywall.processing')}
           </Text>
         </View>
@@ -318,10 +314,10 @@ export default function Paywall() {
             backgroundColor: t.goldSoft,
           }}
         >
-          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: t.ink, textAlign: 'center' }}>
+          <Text style={{ ...type.calloutSemi, color: t.ink, textAlign: 'center' }}>
             {tr('paywall.pendingTitle')}
           </Text>
-          <Text style={{ fontFamily: fonts.sans, fontSize: 13, lineHeight: 19, color: t.inkSoft, textAlign: 'center', marginTop: spacing.xs }}>
+          <Text style={{ ...type.label, lineHeight: 19, color: t.inkSoft, textAlign: 'center', marginTop: spacing.xs }}>
             {tr('paywall.pendingBody')}
           </Text>
         </View>
@@ -329,7 +325,7 @@ export default function Paywall() {
 
       {selectedPlan?.trialEligible && selectedPlan.trialDays ? (
         <View style={{ marginTop: spacing.md, gap: spacing.xs }}>
-          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, lineHeight: 19, color: t.ink, textAlign: 'center' }}>
+          <Text style={{ ...type.labelMedium, lineHeight: 19, color: t.ink, textAlign: 'center' }}>
             {tr('paywall.trialEnds')}{' '}
             {new Intl.DateTimeFormat(locale, {
               day: 'numeric',
@@ -338,7 +334,7 @@ export default function Paywall() {
             }).format(new Date(Date.now() + selectedPlan.trialDays * 86_400_000))}
             . {selectedPlan.price} {PLAN_PERIOD[selectedPlan.id]}.
           </Text>
-          <Text style={{ fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, color: t.inkSoft, textAlign: 'center' }}>
+          <Text style={{ ...type.label, lineHeight: 18, color: t.inkSoft, textAlign: 'center' }}>
             {tr('paywall.reassure')}
           </Text>
         </View>
@@ -358,7 +354,7 @@ export default function Paywall() {
             opacity: restoreStatus === 'busy' ? 0.5 : pressed ? 0.6 : 1,
           })}
         >
-          <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: t.blue, textAlign: 'center' }}>
+          <Text style={{ ...type.callout, color: t.blue, textAlign: 'center' }}>
             {restoreStatus === 'busy' ? tr('paywall.restoring') : tr('paywall.restore')}
           </Text>
         </Pressable>
@@ -373,17 +369,13 @@ export default function Paywall() {
             backgroundColor: t.surfaceAlt,
           }}
         >
-          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: t.ink }}>
+          <Text style={{ ...type.calloutSemi, color: t.ink }}>
             {tr('paywall.restoreMissingTitle')}
           </Text>
           <Text
-            style={{
-              fontFamily: fonts.sans,
-              fontSize: 13,
-              lineHeight: 19,
+            style={{ ...type.label, lineHeight: 19,
               color: t.inkSoft,
-              marginTop: spacing.xs,
-            }}
+              marginTop: spacing.xs }}
           >
             {tr('paywall.restoreMissing')}
           </Text>
@@ -398,7 +390,7 @@ export default function Paywall() {
               opacity: pressed ? 0.6 : 1,
             })}
           >
-            <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>
+            <Text style={{ ...type.calloutMedium, color: t.blue }}>
               {tr('paywall.retry')}
             </Text>
           </Pressable>
@@ -413,7 +405,7 @@ export default function Paywall() {
                 opacity: pressed ? 0.6 : 1,
               })}
             >
-              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>
+              <Text style={{ ...type.calloutMedium, color: t.blue }}>
                 {tr('paywall.contactSupport')}
               </Text>
             </Pressable>
@@ -421,13 +413,9 @@ export default function Paywall() {
         </View>
       ) : null}
       <Text
-        style={{
-          fontFamily: fonts.sans,
-          fontSize: 12,
-          color: t.inkFaint,
+        style={{ ...type.label, color: t.inkFaint,
           textAlign: 'center',
-          marginTop: spacing.md,
-        }}
+          marginTop: spacing.md }}
       >
 {tr('paywall.legalPrefix')}
       </Text>
@@ -437,7 +425,7 @@ export default function Paywall() {
           accessibilityRole="link"
           style={{ minHeight: TAP_MIN, justifyContent: 'center' }}
         >
-          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: t.blue }}>
+          <Text style={{ ...type.labelMedium, color: t.blue }}>
             {tr('paywall.termsLink')}
           </Text>
         </Pressable>
@@ -446,7 +434,7 @@ export default function Paywall() {
           accessibilityRole="link"
           style={{ minHeight: TAP_MIN, justifyContent: 'center' }}
         >
-          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: t.blue }}>
+          <Text style={{ ...type.labelMedium, color: t.blue }}>
             {tr('paywall.privacyLink')}
           </Text>
         </Pressable>

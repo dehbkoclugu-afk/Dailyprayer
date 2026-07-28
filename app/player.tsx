@@ -10,7 +10,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PillButton } from '@/components/PillButton';
 import { NotFoundState } from '@/components/NotFoundState';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type } from '@/theme/typography';
 import { spacing, TAP_MIN } from '@/theme/tokens';
 import { usePrayers } from '@/data/prayers';
 import { useStreakStore } from '@/state/useStreakStore';
@@ -113,10 +113,10 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
       >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <View style={{ flex: 1 }}>
-            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: '#F2EEE6' }}>
+            <Text style={{ ...type.calloutSemi, color: '#F2EEE6' }}>
               {prayer.title}
             </Text>
-            <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: '#C9C5B8', marginTop: 2 }}>
+            <Text style={{ ...type.label, color: '#C9C5B8', marginTop: 2 }}>
               {tr('player.guidedText')} · {remainingMinutes} {tn(remainingMinutes, 'player.minLeft')}
             </Text>
           </View>
@@ -139,9 +139,7 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
             exiting={reduceMotion ? undefined : FadeOut.duration(250)}
             accessibilityLiveRegion="polite"
             style={{
-              fontFamily: 'Fraunces_400Regular',
-              fontSize: 26,
-              lineHeight: 38,
+              ...type.verse,
               color: '#F2EEE6',
               textAlign: 'center',
             }}
@@ -169,7 +167,7 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
           accessibilityLabel={`${tr('player.pace')}: ${tr(`player.pace.${pace}` as never)}`}
           style={{ minHeight: TAP_MIN, alignSelf: 'center', justifyContent: 'center', marginBottom: spacing.md }}
         >
-          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: '#C9C5B8' }}>
+          <Text style={{ ...type.calloutMedium, color: '#C9C5B8' }}>
             {tr('player.pace')}: {tr(`player.pace.${pace}` as never)}
           </Text>
         </Pressable>

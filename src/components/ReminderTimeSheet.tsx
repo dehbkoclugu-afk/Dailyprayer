@@ -5,7 +5,7 @@ import * as Haptics from 'expo-haptics';
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
 import { useSheetTitleFocus } from '@/a11y/sheetFocus';
@@ -103,11 +103,7 @@ export function ReminderTimeSheet({
       })}
     >
       <Text
-        style={{
-          fontFamily: fonts.sansSemiBold,
-          fontSize: 15,
-          color: tone === 'primary' ? t.onGold : tone === 'danger' ? t.danger : t.ink,
-        }}
+        style={{ ...type.calloutSemi, color: tone === 'primary' ? t.onGold : tone === 'danger' ? t.danger : t.ink }}
       >
         {label}
       </Text>
@@ -152,18 +148,14 @@ export function ReminderTimeSheet({
           <Text
             ref={titleRef}
             accessibilityRole="header"
-            style={{ fontFamily: fonts.serif, fontSize: 22, color: t.ink }}
+            style={{ ...type.heading, color: t.ink }}
           >
             {tr('profile.reminderTitle')}
           </Text>
           <Text
-            style={{
-              fontFamily: fonts.sans,
-              fontSize: 15,
-              lineHeight: 23,
+            style={{ ...type.callout, lineHeight: 23,
               color: t.inkSoft,
-              marginTop: spacing.xs,
-            }}
+              marginTop: spacing.xs }}
           >
             {tr('profile.reminderMsg')}
           </Text>
@@ -189,11 +181,11 @@ export function ReminderTimeSheet({
             >
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
                 <Ionicons name="time-outline" size={20} color={t.inkSoft} />
-                <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.inkSoft }}>
+                <Text style={{ ...type.calloutMedium, color: t.inkSoft }}>
                   {tr('profile.reminderPick')}
                 </Text>
               </View>
-              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 18, color: t.gold }}>
+              <Text style={{ ...type.bodySemi, color: t.gold }}>
                 {formatTime(toStoredTime(draft))}
               </Text>
             </Pressable>
@@ -220,18 +212,14 @@ export function ReminderTimeSheet({
               keyboardType="numbers-and-punctuation"
               maxLength={5}
               accessibilityLabel={tr('profile.reminderPick')}
-              style={{
-                marginTop: spacing.lg,
+              style={{ ...type.bodySemi, marginTop: spacing.lg,
                 minHeight: 56,
                 paddingHorizontal: spacing.lg,
                 borderRadius: radius.inner,
                 backgroundColor: t.surfaceAlt,
                 borderWidth: 1,
                 borderColor: parseTime(typed) ? t.border : t.danger,
-                fontFamily: fonts.sansSemiBold,
-                fontSize: 18,
-                color: t.ink,
-              }}
+                color: t.ink }}
             />
           )}
 

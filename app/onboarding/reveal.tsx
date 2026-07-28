@@ -6,7 +6,7 @@ import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts, type as ty } from '@/theme/typography';
+import { type, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useUserStore } from '@/state/useUserStore';
 import * as NotificationService from '@/services/notifications';
@@ -104,7 +104,7 @@ export default function Reveal() {
               }}
             >
               <Ionicons name={item.icon} size={22} color={t.gold} />
-              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.ink, flex: 1 }}>
+              <Text style={{ ...type.calloutMedium, color: t.ink, flex: 1 }}>
                 {item.text}
               </Text>
             </View>

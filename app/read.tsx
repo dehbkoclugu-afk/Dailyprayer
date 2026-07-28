@@ -4,7 +4,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { fonts } from '@/theme/typography';
+import { fonts, reader, type } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { HIGHLIGHT_LABEL, HIGHLIGHT_TINT, QUICK_HIGHLIGHT } from '@/theme/highlights';
 import { useReaderTheme } from '@/theme/reading';
@@ -103,9 +103,9 @@ export default function Read() {
   const prev = () => prevPos && go(...prevPos);
   const refOf = ([b, c]: [number, number]) => `${bible[b].name} ${c + 1}`;
 
-  const bodySize = Math.round(18 * fontScale);
-  const bodyLine = Math.round(30 * fontScale);
-  const dropCap = Math.round(bodySize * 1.9);
+  const bodySize = Math.round(reader.body * fontScale);
+  const bodyLine = Math.round(reader.line * fontScale);
+  const dropCap = Math.round(bodySize * reader.dropCapRatio);
 
   const iconBtn = (
     icon: keyof typeof Ionicons.glyphMap,
@@ -171,7 +171,7 @@ export default function Read() {
       }}
     >
       {dir === 'prev' ? <Ionicons name="chevron-back" size={16} color={rt.inkSoft} /> : null}
-      <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: rt.inkSoft }}>{label}</Text>
+      <Text style={{ ...type.calloutMedium, color: rt.inkSoft }}>{label}</Text>
       {dir === 'next' ? <Ionicons name="chevron-forward" size={16} color={rt.inkSoft} /> : null}
     </Pressable>
   );
@@ -233,7 +233,7 @@ export default function Read() {
             opacity: pressed ? 0.7 : 1,
           })}
         >
-          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: rt.ink }} numberOfLines={1}>
+          <Text style={{ ...type.bodySemi, color: rt.ink }} numberOfLines={1}>
             {bk.name} {cIdx + 1}
           </Text>
           <Ionicons name="chevron-down" size={18} color={rt.inkFaint} />
@@ -265,17 +265,13 @@ export default function Read() {
         ListHeaderComponent={
           <View style={{ marginBottom: spacing.lg }}>
             <Text
-              style={{
-                fontFamily: fonts.sansSemiBold,
-                fontSize: 11,
-                letterSpacing: 2.5,
+              style={{ ...type.overline, letterSpacing: 2.5,
                 textTransform: 'uppercase',
-                color: rt.gold,
-              }}
+                color: rt.gold }}
             >
               {tr('read.chapter')} {cIdx + 1}
             </Text>
-            <Text style={{ fontFamily: fonts.serif, fontSize: Math.round(30 * fontScale), color: rt.ink, marginTop: 4 }}>
+            <Text style={{ fontFamily: fonts.serif, fontSize: Math.round(reader.chapterTitle * fontScale), color: rt.ink, marginTop: 4 }}>
               {bk.name}
             </Text>
           </View>
@@ -382,7 +378,7 @@ export default function Read() {
                 borderRadius: 6,
               }}
             >
-              <Text style={{ fontFamily: fonts.sansBold, fontSize: Math.round(11 * fontScale), color: rt.gold }}>
+              <Text style={{ fontFamily: fonts.sansBold, fontSize: Math.round(reader.verseNumber * fontScale), color: rt.gold }}>
                 {item[0]}
                 {'  '}
               </Text>
@@ -472,7 +468,7 @@ export default function Read() {
               <Text
                 ref={pickerTitleRef}
                 accessibilityRole="header"
-                style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: rt.ink }}
+                style={{ ...type.bodySemi, color: rt.ink }}
               >
                 {typeof picker === 'number' ? bible[picker].name : tr('read.pickBook')}
               </Text>
@@ -508,8 +504,8 @@ export default function Read() {
                   >
                     <Text
                       style={{
+                        ...type.body,
                         fontFamily: index === bIdx ? fonts.sansSemiBold : fonts.sans,
-                        fontSize: 16,
                         color: index === bIdx ? rt.gold : rt.ink,
                       }}
                     >
@@ -550,12 +546,8 @@ export default function Read() {
                       }}
                     >
                       <Text
-                        style={{
-                          fontFamily: fonts.sansMedium,
-                          fontSize: 15,
-                          color: active ? rt.gold : rt.ink,
-                          fontVariant: ['tabular-nums'],
-                        }}
+                        style={{ ...type.calloutMedium, color: active ? rt.gold : rt.ink,
+                          fontVariant: ['tabular-nums'] }}
                       >
                         {index + 1}
                       </Text>

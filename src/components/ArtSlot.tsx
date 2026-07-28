@@ -3,7 +3,7 @@ import { Image, Text, View, type ViewStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { artRegistry, artSpecs, type AssetId } from '@/assets/registry';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type } from '@/theme/typography';
 import { useScaledHeight } from '@/theme/textScale';
 
 interface Props {
@@ -62,17 +62,13 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, children
         >
           <Ionicons name="image-outline" size={22} color={t.gold} />
           <Text
-            style={{
-              fontFamily: fonts.sansSemiBold,
-              fontSize: 11,
-              color: t.gold,
+            style={{ ...type.overline, color: t.gold,
               marginTop: 6,
-              letterSpacing: 1,
-            }}
+              letterSpacing: 1 }}
           >
             {id}
           </Text>
-          <Text style={{ fontFamily: fonts.sans, fontSize: 10, color: t.inkSoft, marginTop: 2 }}>
+          <Text style={{ ...type.overline, color: t.inkSoft, marginTop: 2 }}>
             {spec.label} · {spec.size}
           </Text>
         </View>

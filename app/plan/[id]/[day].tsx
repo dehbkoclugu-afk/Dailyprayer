@@ -6,7 +6,7 @@ import * as Haptics from 'expo-haptics';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type } from '@/theme/typography';
 import { spacing, TAP_MIN } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
 import { planReading, formatReadingRef } from '@/data/planReadings';
@@ -88,31 +88,23 @@ export default function PlanDay() {
         </Pressable>
 
         <Text
-          style={{
-            fontFamily: fonts.sansSemiBold,
-            fontSize: 12,
-            letterSpacing: 2,
+          style={{ ...type.labelSemi, letterSpacing: 2,
             textTransform: 'uppercase',
             color: t.gold,
-            marginTop: spacing.xl,
-          }}
+            marginTop: spacing.xl }}
         >
           {plan.title} · {tr('plan.dayLabel')} {dayIdx + 1}
         </Text>
 
         {/* the day's reading — a real passage in the bundled Bible */}
-        <Text style={{ fontFamily: fonts.serif, fontSize: 34, color: t.ink, marginTop: spacing.md }}>
+        <Text style={{ ...type.display, color: t.ink, marginTop: spacing.md }}>
           {ref}
         </Text>
         <Text
-          style={{
-            fontFamily: fonts.sansMedium,
-            fontSize: 13,
-            letterSpacing: 1,
+          style={{ ...type.labelMedium, letterSpacing: 1,
             textTransform: 'uppercase',
             color: t.inkFaint,
-            marginTop: spacing.sm,
-          }}
+            marginTop: spacing.sm }}
         >
           {tr('plan.todaysReading')}
         </Text>
@@ -120,26 +112,18 @@ export default function PlanDay() {
         {teaser ? (
           <View style={{ flexDirection: 'row', marginTop: spacing.xl }}>
             <Text
-              style={{
-                fontFamily: fonts.serif,
-                fontSize: 46,
-                lineHeight: 46,
+              style={{ ...type.pullQuote, lineHeight: 46,
                 color: t.gold,
                 marginRight: spacing.sm,
-                marginTop: 2,
-              }}
+                marginTop: 2 }}
             >
               {'“'}
             </Text>
             <Text
-              style={{
-                fontFamily: fonts.serifLight,
-                fontSize: 19,
-                lineHeight: 30,
+              style={{ ...type.quote, lineHeight: 30,
                 color: t.inkSoft,
                 flex: 1,
-                fontStyle: 'italic',
-              }}
+                fontStyle: 'italic' }}
             >
               {teaser}
             </Text>
@@ -160,7 +144,7 @@ export default function PlanDay() {
             }}
           >
             <Ionicons name="checkmark-circle" size={20} color={t.gold} />
-            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.gold }}>
+            <Text style={{ ...type.bodySemi, color: t.gold }}>
               {tr('plan.done')}
             </Text>
           </View>

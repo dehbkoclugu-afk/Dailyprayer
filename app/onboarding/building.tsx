@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
-import { type as ty, fonts } from '@/theme/typography';
+import { fonts, type, type as ty } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
 
@@ -61,8 +61,8 @@ export default function Building() {
               />
               <Text
                 style={{
+                  ...type.body,
                   fontFamily: complete ? fonts.sansMedium : fonts.sans,
-                  fontSize: 16,
                   color: complete ? t.ink : t.inkSoft,
                 }}
               >

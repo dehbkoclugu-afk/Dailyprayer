@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
-
 interface Props {
   size?: number;
   /** override text color; defaults to theme ink (ivory on dark, near-black on light) */

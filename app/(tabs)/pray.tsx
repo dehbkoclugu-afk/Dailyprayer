@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts, type as ty } from '@/theme/typography';
+import { fonts, type, type as ty } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { usePrayers, prayerCategories, type GuidedPrayer } from '@/data/prayers';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
@@ -27,7 +27,7 @@ export default function Pray() {
   return (
     <Screen tabbed>
       <Text style={[ty.title, { color: t.ink }]}>{tr('pray.title')}</Text>
-      <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>
+      <Text style={[ty.callout, { color: t.inkSoft, marginTop: spacing.xs }]}>
 {tr('pray.sub')}
       </Text>
 
@@ -69,8 +69,8 @@ export default function Pray() {
               />
               <Text
                 style={{
+                  ...type.calloutMedium,
                   fontFamily: active ? fonts.sansSemiBold : fonts.sansMedium,
-                  fontSize: 14,
                   color: active ? t.gold : t.inkSoft,
                 }}
               >
@@ -89,7 +89,7 @@ export default function Pray() {
               accessibilityLabel={tr('a11y.showAll')}
               style={{ minHeight: TAP_MIN, justifyContent: 'center' }}
             >
-              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>{tr('pray.showAll')}</Text>
+              <Text style={{ ...type.calloutMedium, color: t.blue }}>{tr('pray.showAll')}</Text>
             </Pressable>
           ) : undefined
         }
@@ -132,8 +132,8 @@ export default function Pray() {
                 />
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>{p.title}</Text>
-                <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
+                <Text style={{ ...type.bodySemi, color: t.ink }}>{p.title}</Text>
+                <Text style={{ ...type.label, color: t.inkSoft, marginTop: 2 }}>
                   {p.minutes} {tr('pray.min')} · {tr(`cat.${p.category}` as never)}
                 </Text>
               </View>
@@ -146,7 +146,7 @@ export default function Pray() {
                     paddingVertical: 3,
                   }}
                 >
-                  <Text style={{ fontFamily: fonts.sansBold, fontSize: 10, color: locked ? t.inkFaint : t.gold }}>
+                  <Text style={{ ...type.overlineBold, color: locked ? t.inkFaint : t.gold }}>
                     PLUS
                   </Text>
                 </View>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, type ViewStyle } from 'react-native';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
 
 export function SectionHeader({
@@ -25,7 +25,7 @@ export function SectionHeader({
         ...style,
       }}
     >
-      <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 20, color: t.ink }}>{title}</Text>
+      <Text style={{ ...type.headingSans, color: t.ink }}>{title}</Text>
       {right}
     </View>
   );

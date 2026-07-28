@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { fonts } from '@/theme/typography';
+import { fonts, type } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useScaledHeight } from '@/theme/textScale';
 import { useReaderTheme } from '@/theme/reading';
@@ -100,13 +100,13 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
           <Text
             ref={titleRef}
             accessibilityRole="header"
-            style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}
+            style={{ ...type.bodySemi, color: t.ink }}
           >
             {tr('read.settings')}
           </Text>
 
           {/* text size */}
-          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: t.inkSoft, marginTop: spacing.lg }}>
+          <Text style={{ ...type.labelMedium, color: t.inkSoft, marginTop: spacing.lg }}>
             {tr('read.textSize')}
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginTop: spacing.sm }}>
@@ -123,7 +123,7 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
                 justifyContent: 'center',
               }}
             >
-              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: t.ink, fontVariant: ['tabular-nums'] }}>
+              <Text style={{ ...type.calloutSemi, color: t.ink, fontVariant: ['tabular-nums'] }}>
                 {pct}%
               </Text>
             </View>
@@ -153,7 +153,7 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
           >
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
               <Ionicons name="sunny-outline" size={20} color={paper ? t.gold : t.inkSoft} />
-              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.ink }}>
+              <Text style={{ ...type.calloutMedium, color: t.ink }}>
                 {tr('read.paperMode')}
               </Text>
             </View>
@@ -199,7 +199,7 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
           >
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, flex: 1 }}>
               <Ionicons name="document-text-outline" size={20} color={t.inkSoft} />
-              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.ink }}>
+              <Text style={{ ...type.calloutMedium, color: t.ink }}>
                 {tr('read.textSource')}
               </Text>
             </View>

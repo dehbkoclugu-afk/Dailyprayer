@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
 import { SUPPORTED_LOCALES, useT } from '@/i18n';
-import { fonts } from '@/theme/typography';
+import { type } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { SCRIPTURE_SOURCES, type ScriptureSource } from '@/data/scriptureRights';
 import type { Locale } from '@/i18n/translations';
@@ -38,23 +38,15 @@ export default function SourceScreen() {
   const row = (label: string, value: string) => (
     <View style={{ marginTop: spacing.md }}>
       <Text
-        style={{
-          fontFamily: fonts.sansSemiBold,
-          fontSize: 12,
-          letterSpacing: 0.6,
-          color: t.inkFaint,
-        }}
+        style={{ ...type.labelSemi, letterSpacing: 0.6,
+          color: t.inkFaint }}
       >
         {label}
       </Text>
       <Text
-        style={{
-          fontFamily: fonts.sans,
-          fontSize: 15,
-          lineHeight: 23,
+        style={{ ...type.callout, lineHeight: 23,
           color: t.ink,
-          marginTop: 2,
-        }}
+          marginTop: 2 }}
       >
         {value}
       </Text>
@@ -77,7 +69,7 @@ export default function SourceScreen() {
       })}
     >
       <Ionicons name="open-outline" size={18} color={t.gold} />
-      <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.gold, flex: 1 }}>
+      <Text style={{ ...type.calloutMedium, color: t.gold, flex: 1 }}>
         {label}
       </Text>
     </Pressable>
@@ -96,22 +88,18 @@ export default function SourceScreen() {
       }}
     >
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm }}>
-        <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 13, color: current ? t.gold : t.inkSoft }}>
+        <Text style={{ ...type.labelSemi, color: current ? t.gold : t.inkSoft }}>
           {LOCALE_LABEL[entry]}
         </Text>
-        <Text style={{ fontFamily: fonts.sansMedium, fontSize: 12, color: t.inkFaint }}>
+        <Text style={{ ...type.labelMedium, color: t.inkFaint }}>
           {source.status === 'public-domain' ? tr('source.publicDomain') : tr('source.licensed')}
         </Text>
       </View>
 
       <Text
-        style={{
-          fontFamily: fonts.serif,
-          fontSize: 20,
-          lineHeight: 28,
+        style={{ ...type.heading, lineHeight: 28,
           color: t.ink,
-          marginTop: spacing.xs,
-        }}
+          marginTop: spacing.xs }}
       >
         {source.edition}
       </Text>
@@ -150,42 +138,30 @@ export default function SourceScreen() {
         <Ionicons name="chevron-back" size={26} color={t.inkSoft} />
       </Pressable>
 
-      <Text style={{ fontFamily: fonts.serif, fontSize: 26, color: t.ink }}>
+      <Text style={{ ...type.title, color: t.ink }}>
         {tr('source.title')}
       </Text>
       <Text
-        style={{
-          fontFamily: fonts.sans,
-          fontSize: 15,
-          lineHeight: 24,
+        style={{ ...type.callout, lineHeight: 24,
           color: t.inkSoft,
-          marginTop: spacing.sm,
-        }}
+          marginTop: spacing.sm }}
       >
         {tr('source.intro')}
       </Text>
 
       <Text
-        style={{
-          fontFamily: fonts.sansSemiBold,
-          fontSize: 12,
-          letterSpacing: 1.4,
+        style={{ ...type.labelSemi, letterSpacing: 1.4,
           color: t.inkFaint,
-          marginTop: spacing.xl,
-        }}
+          marginTop: spacing.xl }}
       >
         {tr('source.current')}
       </Text>
       {card(locale, SCRIPTURE_SOURCES[locale], true)}
 
       <Text
-        style={{
-          fontFamily: fonts.sansSemiBold,
-          fontSize: 12,
-          letterSpacing: 1.4,
+        style={{ ...type.labelSemi, letterSpacing: 1.4,
           color: t.inkFaint,
-          marginTop: spacing.xl,
-        }}
+          marginTop: spacing.xl }}
       >
         {tr('source.otherEditions')}
       </Text>

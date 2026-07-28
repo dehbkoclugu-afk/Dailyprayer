@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
-import { fonts } from '@/theme/typography';
+import { fonts, type } from '@/theme/typography';
 import { spacing, TAP_MIN } from '@/theme/tokens';
 import { PRIVACY_POLICY, TERMS_OF_SERVICE } from '@/data/legal';
 
@@ -24,7 +24,7 @@ function Markdown({ source }: { source: string }) {
           return (
             <Text
               key={key}
-              style={{ fontFamily: fonts.sansSemiBold, fontSize: 18, color: t.ink, marginTop: spacing.xl, marginBottom: spacing.sm }}
+              style={{ ...type.bodySemi, color: t.ink, marginTop: spacing.xl, marginBottom: spacing.sm }}
             >
               {line.slice(3)}
             </Text>
@@ -32,14 +32,14 @@ function Markdown({ source }: { source: string }) {
         }
         if (line.startsWith('# ')) {
           return (
-            <Text key={key} style={{ fontFamily: fonts.serif, fontSize: 26, color: t.ink, marginBottom: spacing.sm }}>
+            <Text key={key} style={{ ...type.title, color: t.ink, marginBottom: spacing.sm }}>
               {line.slice(2)}
             </Text>
           );
         }
         if (line.startsWith('_') && line.endsWith('_')) {
           return (
-            <Text key={key} style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkFaint, marginBottom: spacing.md }}>
+            <Text key={key} style={{ ...type.label, color: t.inkFaint, marginBottom: spacing.md }}>
               {line.slice(1, -1)}
             </Text>
           );
@@ -47,8 +47,8 @@ function Markdown({ source }: { source: string }) {
         if (line.startsWith('- ')) {
           return (
             <View key={key} style={{ flexDirection: 'row', gap: spacing.sm, marginBottom: 6 }}>
-              <Text style={{ color: t.gold, fontSize: 15 }}>•</Text>
-              <Text style={{ fontFamily: fonts.sans, fontSize: 15, lineHeight: 23, color: t.ink, flex: 1 }}>
+              <Text style={{ ...type.callout, color: t.gold }}>•</Text>
+              <Text style={{ ...type.callout, lineHeight: 23, color: t.ink, flex: 1 }}>
                 {renderInline(line.slice(2))}
               </Text>
             </View>
@@ -56,7 +56,7 @@ function Markdown({ source }: { source: string }) {
         }
         if (line.trim() === '') return <View key={key} style={{ height: spacing.sm }} />;
         return (
-          <Text key={key} style={{ fontFamily: fonts.sans, fontSize: 15, lineHeight: 23, color: t.ink, marginBottom: 6 }}>
+          <Text key={key} style={{ ...type.callout, lineHeight: 23, color: t.ink, marginBottom: 6 }}>
             {renderInline(line)}
           </Text>
         );

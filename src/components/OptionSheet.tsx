@@ -3,7 +3,7 @@ import { Modal, Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { fonts, type } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useSheetTitleFocus } from '@/a11y/sheetFocus';
 
@@ -82,14 +82,10 @@ export function OptionSheet<T extends string>({
           <Text
             ref={titleRef}
             accessibilityRole="header"
-            style={{
-              fontFamily: fonts.sansSemiBold,
-              fontSize: 13,
-              letterSpacing: 1.5,
+            style={{ ...type.labelSemi, letterSpacing: 1.5,
               textTransform: 'uppercase',
               color: t.inkFaint,
-              marginBottom: spacing.sm,
-            }}
+              marginBottom: spacing.sm }}
           >
             {title}
           </Text>
@@ -119,15 +115,15 @@ export function OptionSheet<T extends string>({
                 <View style={{ flex: 1 }}>
                   <Text
                     style={{
+                      ...type.body,
                       fontFamily: active ? fonts.sansSemiBold : fonts.sans,
-                      fontSize: 16,
                       color: active ? t.gold : t.ink,
                     }}
                   >
                     {o.label}
                   </Text>
                   {o.hint ? (
-                    <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
+                    <Text style={{ ...type.label, color: t.inkSoft, marginTop: 2 }}>
                       {o.hint}
                     </Text>
                   ) : null}

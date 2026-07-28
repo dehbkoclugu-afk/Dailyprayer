@@ -7,7 +7,7 @@ import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts, type as ty } from '@/theme/typography';
+import { fonts, type, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { getQuizSteps } from '@/data/quiz';
 import { useUserStore } from '@/state/useUserStore';
@@ -103,14 +103,10 @@ export default function Quiz() {
             />
           </View>
           <Text
-            style={{
-              fontFamily: fonts.sansMedium,
-              fontSize: 12,
-              color: t.inkFaint,
+            style={{ ...type.labelMedium, color: t.inkFaint,
               textAlign: 'right',
               marginTop: spacing.sm,
-              fontVariant: ['tabular-nums'],
-            }}
+              fontVariant: ['tabular-nums'] }}
           >
             {step + 1} {tr('quiz.stepOf')} {total}
           </Text>
@@ -128,25 +124,17 @@ export default function Quiz() {
               onFocus={() => setNameFocused(true)}
               onBlur={() => setNameFocused(false)}
               accessibilityLabel={tr('a11y.firstName')}
-              style={{
-                marginTop: spacing.xl,
+              style={{ ...type.body, marginTop: spacing.xl,
                 backgroundColor: t.surface,
                 borderRadius: radius.inner,
                 borderWidth: 1.5,
                 borderColor: nameFocused ? t.gold : t.border,
                 padding: spacing.lg,
-                fontFamily: fonts.sans,
-                fontSize: 18,
-                color: t.ink,
-              }}
+                color: t.ink }}
             />
             <Text
-              style={{
-                fontFamily: fonts.sans,
-                fontSize: 13,
-                color: t.inkFaint,
-                marginTop: spacing.sm,
-              }}
+              style={{ ...type.label, color: t.inkFaint,
+                marginTop: spacing.sm }}
             >
 {tr('quiz.nameNote')}
             </Text>
@@ -158,7 +146,7 @@ export default function Quiz() {
           <View key={current.key}>
             <Text style={[ty.title, { color: t.ink }]}>{current.question}</Text>
             {current.subtitle ? (
-              <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.sm }]}>
+              <Text style={[ty.callout, { color: t.inkSoft, marginTop: spacing.sm }]}>
                 {current.subtitle}
               </Text>
             ) : null}
@@ -201,8 +189,8 @@ export default function Quiz() {
                     />
                     <Text
                       style={{
+                        ...type.body,
                         fontFamily: active ? fonts.sansSemiBold : fonts.sans,
-                        fontSize: 16,
                         color: t.ink,
                         flex: 1,
                       }}

@@ -11,7 +11,7 @@ import { ProgressRing } from '@/components/ProgressRing';
 import { SectionHeader } from '@/components/SectionHeader';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts, type as ty } from '@/theme/typography';
+import { type, type as ty } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useDailyContent } from '@/hooks/useDailyContent';
 import { getVerses, type DailyVerse } from '@/data/verses';
@@ -93,14 +93,10 @@ export default function Today() {
       <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
         <View style={{ flex: 1, paddingRight: spacing.lg }}>
           <Text
-            style={{
-              fontFamily: fonts.sansSemiBold,
-              fontSize: 11,
-              letterSpacing: 2.5,
+            style={{ ...type.overline, letterSpacing: 2.5,
               textTransform: 'uppercase',
               color: t.gold,
-              opacity: 0.85,
-            }}
+              opacity: 0.85 }}
           >
             {dateLine}
           </Text>
@@ -197,17 +193,13 @@ export default function Today() {
             >
               <View style={{ flex: 1 }}>
                 <Text
-                  style={{
-                    fontFamily: fonts.sansSemiBold,
-                    fontSize: 11,
-                    letterSpacing: 2.5,
+                  style={{ ...type.overline, letterSpacing: 2.5,
                     textTransform: 'uppercase',
-                    color: 'rgba(217,164,65,0.85)',
-                  }}
+                    color: 'rgba(217,164,65,0.85)' }}
                 >
 {tr('today.sleepPrayer')}
                 </Text>
-                <Text style={{ fontFamily: fonts.serif, fontSize: 21, color: '#F2EEE6', marginTop: 4 }}>
+                <Text style={{ ...type.heading, color: '#F2EEE6', marginTop: 4 }}>
                   {sleepPrayer.title} · {sleepPrayer.minutes} {tr('pray.min')}
                 </Text>
               </View>
@@ -223,17 +215,13 @@ export default function Today() {
                     ? tr('a11y.unlockSleep')
                     : `${tr('a11y.play')} ${sleepPrayer.title}`
                 }
-                style={{
-                  fontFamily: fonts.sansSemiBold,
-                  fontSize: 14,
-                  color: '#1A1206',
+                style={{ ...type.calloutSemi, color: '#1A1206',
                   backgroundColor: '#D9A441',
                   borderRadius: radius.pill,
                   paddingHorizontal: spacing.lg,
                   paddingVertical: 10,
                   minHeight: TAP_MIN,
-                  overflow: 'hidden',
-                }}
+                  overflow: 'hidden' }}
               >
                 {sleepPrayer.plus && !isPlus ? tr('today.unlock') : tr('today.play')}
               </Text>
@@ -254,7 +242,7 @@ export default function Today() {
                 }}
               >
                 <Ionicons name="lock-closed" size={11} color="#D9A441" />
-                <Text style={{ fontFamily: fonts.sansBold, fontSize: 10, color: '#D9A441' }}>PLUS</Text>
+                <Text style={{ ...type.overlineBold, color: '#D9A441' }}>PLUS</Text>
               </View>
             ) : null}
           </ArtSlot>

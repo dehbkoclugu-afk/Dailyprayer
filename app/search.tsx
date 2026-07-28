@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { fonts, type } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { getBible } from '@/data/bibleFull';
 import { useT } from '@/i18n';
@@ -108,7 +108,7 @@ export default function Search() {
             autoFocus
             returnKeyType="search"
             accessibilityLabel={tr('read.searchScripture')}
-            style={{ flex: 1, fontFamily: fonts.sans, fontSize: 16, color: t.ink, paddingVertical: 0 }}
+            style={{ ...type.body, flex: 1, color: t.ink, paddingVertical: 0 }}
           />
           {query.length > 0 ? (
             <Pressable
@@ -131,13 +131,9 @@ export default function Search() {
 
       {q.length >= 2 ? (
         <Text
-          style={{
-            fontFamily: fonts.sansMedium,
-            fontSize: 13,
-            color: t.inkSoft,
+          style={{ ...type.labelMedium, color: t.inkSoft,
             paddingHorizontal: spacing.xl,
-            marginTop: spacing.lg,
-          }}
+            marginTop: spacing.lg }}
         >
           {hits.length >= MAX ? `${MAX}+ ` : `${hits.length} `}
           {tn(hits.length >= MAX ? MAX : hits.length, 'read.results')}
@@ -162,15 +158,11 @@ export default function Search() {
           <View style={{ alignItems: 'center', paddingTop: spacing.xxxl, paddingHorizontal: spacing.xl }}>
             <Ionicons name={q.length >= 2 ? 'search-outline' : 'book-outline'} size={40} color={t.inkFaint} />
             <Text
-              style={{
-                fontFamily: fonts.serifLight,
-                fontSize: 16,
-                lineHeight: 24,
+              style={{ ...type.quoteSmall, lineHeight: 24,
                 color: t.inkSoft,
                 textAlign: 'center',
                 marginTop: spacing.lg,
-                maxWidth: 280,
-              }}
+                maxWidth: 280 }}
             >
               {q.length >= 2 ? tr('read.searchEmpty') : tr('read.searchPrompt')}
             </Text>
@@ -195,10 +187,10 @@ export default function Search() {
                 opacity: pressed ? 0.85 : 1,
               })}
             >
-              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 13, color: t.gold, marginBottom: spacing.xs }}>
+              <Text style={{ ...type.labelSemi, color: t.gold, marginBottom: spacing.xs }}>
                 {item.ref}
               </Text>
-              <Text style={{ fontFamily: fonts.serifLight, fontSize: 15, lineHeight: 23, color: t.ink }} numberOfLines={3}>
+              <Text style={{ ...type.quoteSmall, lineHeight: 23, color: t.ink }} numberOfLines={3}>
                 {s.pre}
                 <Text style={{ fontFamily: fonts.sansBold, color: t.gold }}>{s.match}</Text>
                 {s.post}

@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { captureRef } from 'react-native-view-shot';
 import * as Sharing from 'expo-sharing';
-import { fonts } from '@/theme/typography';
+import { type } from '@/theme/typography';
 import { radius, shadow, spacing, TAP_MIN } from '@/theme/tokens';
 import { useScaledHeight } from '@/theme/textScale';
 import { artRegistry, type AssetId } from '@/assets/registry';
@@ -100,13 +100,9 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       />
       <View style={{ flex: 1, padding: spacing.xl, paddingTop: spacing.xxl }}>
           <Text
-            style={{
-              fontFamily: fonts.sansSemiBold,
-              fontSize: 11,
-              letterSpacing: 2.5,
+            style={{ ...type.overline, letterSpacing: 2.5,
               textTransform: 'uppercase',
-              color: 'rgba(217,164,65,0.85)',
-            }}
+              color: 'rgba(217,164,65,0.85)' }}
           >
 {tr('today.verseOfDay')}
           </Text>
@@ -121,8 +117,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
             >
               <Text
                 style={{
-                  fontFamily: fonts.serifLight,
-                  fontSize: 25,
+                  ...type.verse,
                   lineHeight: 37,
                   letterSpacing: -0.3,
                   color: '#F2EEE6',
@@ -148,11 +143,11 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
             }}
           >
             <View style={{ flex: 1, paddingRight: spacing.sm }}>
-              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: '#D9A441' }}>
+              <Text style={{ ...type.calloutMedium, color: '#D9A441' }}>
                 {verse.reference}
               </Text>
               {/* required attribution — see scriptureRights.ts */}
-              <Text style={{ fontFamily: fonts.sans, fontSize: 11, lineHeight: 15, color: 'rgba(242,238,230,0.65)', marginTop: 2 }}>
+              <Text style={{ ...type.overline, lineHeight: 15, color: 'rgba(242,238,230,0.65)', marginTop: 2 }}>
                 {credit}
               </Text>
             </View>

@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useT } from '@/i18n';
 import { useSheetTitleFocus } from '@/a11y/sheetFocus';
@@ -109,12 +109,8 @@ export function DataActionSheet({
   const list = (title: string, items: string[], tone: 'remove' | 'keep') => (
     <View style={{ marginTop: spacing.lg }}>
       <Text
-        style={{
-          fontFamily: fonts.sansSemiBold,
-          fontSize: 12,
-          letterSpacing: 1.2,
-          color: t.inkFaint,
-        }}
+        style={{ ...type.labelSemi, letterSpacing: 1.2,
+          color: t.inkFaint }}
       >
         {title}
       </Text>
@@ -125,7 +121,7 @@ export function DataActionSheet({
             size={18}
             color={tone === 'remove' ? t.danger : t.gold}
           />
-          <Text style={{ fontFamily: fonts.sans, fontSize: 15, lineHeight: 22, color: t.ink, flex: 1 }}>
+          <Text style={{ ...type.callout, lineHeight: 22, color: t.ink, flex: 1 }}>
             {item}
           </Text>
         </View>
@@ -175,20 +171,16 @@ export function DataActionSheet({
             <Text
               ref={titleRef}
               accessibilityRole="header"
-              style={{ fontFamily: fonts.serif, fontSize: 22, color: t.ink }}
+              style={{ ...type.heading, color: t.ink }}
             >
               {stage === 2
                 ? tr(deleting ? 'data.deleteFinalTitle' : 'data.restartFinalTitle')
                 : tr(deleting ? 'data.deleteTitle' : 'data.restartTitle')}
             </Text>
             <Text
-              style={{
-                fontFamily: fonts.sans,
-                fontSize: 15,
-                lineHeight: 23,
+              style={{ ...type.callout, lineHeight: 23,
                 color: t.inkSoft,
-                marginTop: spacing.sm,
-              }}
+                marginTop: spacing.sm }}
             >
               {stage === 2
                 ? tr(deleting ? 'data.deleteFinalBody' : 'data.restartFinalBody')
@@ -224,11 +216,7 @@ export function DataActionSheet({
             })}
           >
             <Text
-              style={{
-                fontFamily: fonts.sansSemiBold,
-                fontSize: 15,
-                color: stage === 2 ? t.onGold : t.ink,
-              }}
+              style={{ ...type.calloutSemi, color: stage === 2 ? t.onGold : t.ink }}
             >
               {stage === 2
                 ? tr(deleting ? 'data.deleteConfirm' : 'data.restartConfirm')
@@ -248,7 +236,7 @@ export function DataActionSheet({
               opacity: pressed ? 0.6 : 1,
             })}
           >
-            <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.inkSoft }}>
+            <Text style={{ ...type.calloutMedium, color: t.inkSoft }}>
               {tr('data.cancel')}
             </Text>
           </Pressable>

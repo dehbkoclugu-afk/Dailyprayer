@@ -6,7 +6,7 @@ import * as Haptics from 'expo-haptics';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts, type as ty } from '@/theme/typography';
+import { type, type as ty } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useDailyContent } from '@/hooks/useDailyContent';
 import { useStreakStore } from '@/state/useStreakStore';
@@ -54,7 +54,7 @@ export default function DevotionalScreen() {
         <Ionicons name="chevron-back" size={24} color={t.inkSoft} />
       </Pressable>
 
-      <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 12, letterSpacing: 2, textTransform: 'uppercase', color: t.gold, marginTop: spacing.lg }}>
+      <Text style={{ ...type.labelSemi, letterSpacing: 2, textTransform: 'uppercase', color: t.gold, marginTop: spacing.lg }}>
 {tr('devotional.label')}
       </Text>
       <Text style={[ty.display, { color: t.ink, marginTop: spacing.sm }]}>{devotional.title}</Text>
@@ -67,10 +67,10 @@ export default function DevotionalScreen() {
           marginTop: spacing.xl,
         }}
       >
-        <Text style={{ fontFamily: fonts.serifLight, fontSize: 18, lineHeight: 28, color: t.ink }}>
+        <Text style={{ ...type.quoteSmall, lineHeight: 28, color: t.ink }}>
           “{verse.text}”
         </Text>
-        <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.gold, marginTop: spacing.sm }}>
+        <Text style={{ ...type.calloutMedium, color: t.gold, marginTop: spacing.sm }}>
           {verse.reference}
         </Text>
       </View>
@@ -78,14 +78,10 @@ export default function DevotionalScreen() {
       {/* editorial drop cap on the opening letter */}
       <View style={{ flexDirection: 'row', marginTop: spacing.xl }}>
         <Text
-          style={{
-            fontFamily: fonts.serif,
-            fontSize: 64,
-            lineHeight: 64,
+          style={{ ...type.dropCap, lineHeight: 64,
             color: t.gold,
             marginRight: spacing.sm,
-            marginTop: 2,
-          }}
+            marginTop: 2 }}
         >
           {devotional.body.charAt(0)}
         </Text>
@@ -100,7 +96,7 @@ export default function DevotionalScreen() {
           marginTop: spacing.xl,
         }}
       >
-        <Text style={{ fontFamily: fonts.serifLight, fontSize: 17, lineHeight: 26, color: t.inkSoft, fontStyle: 'italic' }}>
+        <Text style={{ ...type.quoteSmall, lineHeight: 26, color: t.inkSoft, fontStyle: 'italic' }}>
           {devotional.prayer}
         </Text>
       </View>

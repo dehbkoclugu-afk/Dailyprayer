@@ -13,7 +13,7 @@ import Animated, {
   ZoomIn,
 } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
 
@@ -132,8 +132,8 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         <Ionicons name={icon} size={22} color={done ? t.gold : hasArt ? '#F2EEE6' : t.inkSoft} />
       </View>
       <View style={{ flex: 1 }}>
-        <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 17, color: titleColor }}>{title}</Text>
-        <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: subColor, marginTop: 2 }}>
+        <Text style={{ ...type.bodySemi, color: titleColor }}>{title}</Text>
+        <Text style={{ ...type.callout, color: subColor, marginTop: 2 }}>
           {done ? `${tr('today.completed')} · ${tr('today.undo')}` : subtitle}
         </Text>
       </View>

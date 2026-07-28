@@ -12,8 +12,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
-
+import { type } from '@/theme/typography';
 interface Props {
   count: number;
   litToday: boolean;
@@ -62,8 +61,7 @@ export function StreakFlame({ count, litToday }: Props) {
       </Animated.View>
       <Text
         style={{
-          fontFamily: fonts.sansBold,
-          fontSize: 18,
+          ...type.bodyBold,
           color: litToday ? t.gold : t.inkSoft,
           fontVariant: ['tabular-nums'],
         }}

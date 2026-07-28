@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { HIGHLIGHT_ICON, HIGHLIGHT_LABEL, HIGHLIGHT_SWATCH } from '@/theme/highlights';
 import { getBible } from '@/data/bibleFull';
@@ -101,16 +101,12 @@ export default function Library() {
           backgroundColor: active ? t.gold : 'transparent',
         }}
       >
-        <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: active ? t.onGold : t.inkSoft }}>
+        <Text style={{ ...type.calloutSemi, color: active ? t.onGold : t.inkSoft }}>
           {label}
         </Text>
         <Text
-          style={{
-            fontFamily: fonts.sansBold,
-            fontSize: 12,
-            color: active ? t.onGold : t.inkFaint,
-            fontVariant: ['tabular-nums'],
-          }}
+          style={{ ...type.labelBold, color: active ? t.onGold : t.inkFaint,
+            fontVariant: ['tabular-nums'] }}
         >
           {count}
         </Text>
@@ -139,7 +135,7 @@ export default function Library() {
         >
           <Ionicons name="chevron-back" size={24} color={t.inkSoft} />
         </Pressable>
-        <Text style={{ fontFamily: fonts.serif, fontSize: 24, color: t.ink }}>{tr('library.title')}</Text>
+        <Text style={{ ...type.subtitle, color: t.ink }}>{tr('library.title')}</Text>
       </View>
 
       {/* segmented control */}
@@ -179,15 +175,11 @@ export default function Library() {
           <View style={{ alignItems: 'center', paddingTop: spacing.xxxl, paddingHorizontal: spacing.xl }}>
             <Ionicons name={tab === 'bookmarks' ? 'bookmark-outline' : 'color-fill-outline'} size={40} color={t.inkFaint} />
             <Text
-              style={{
-                fontFamily: fonts.serifLight,
-                fontSize: 16,
-                lineHeight: 24,
+              style={{ ...type.quoteSmall, lineHeight: 24,
                 color: t.inkSoft,
                 textAlign: 'center',
                 marginTop: spacing.lg,
-                maxWidth: 280,
-              }}
+                maxWidth: 280 }}
             >
               {tr('library.empty')}
             </Text>
@@ -229,9 +221,9 @@ export default function Library() {
               <Ionicons name="bookmark" size={18} color={t.gold} />
             )}
             <View style={{ flex: 1 }}>
-              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: t.gold }}>{item.ref}</Text>
+              <Text style={{ ...type.calloutSemi, color: t.gold }}>{item.ref}</Text>
               <Text
-                style={{ fontFamily: fonts.serifLight, fontSize: 14, lineHeight: 21, color: t.inkSoft, marginTop: 2 }}
+                style={{ ...type.quoteSmall, lineHeight: 21, color: t.inkSoft, marginTop: 2 }}
                 numberOfLines={2}
               >
                 {item.preview}

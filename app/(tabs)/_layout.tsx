@@ -4,7 +4,7 @@ import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
-import { fonts } from '@/theme/typography';
+import { type } from '@/theme/typography';
 import { CHROME_SCALE_CAP, useScaledHeight } from '@/theme/textScale';
 
 export default function TabsLayout() {
@@ -32,7 +32,7 @@ export default function TabsLayout() {
         },
         tabBarActiveTintColor: t.gold,
         tabBarInactiveTintColor: t.inkFaint,
-        tabBarLabelStyle: { fontFamily: fonts.sansMedium, fontSize: 11 },
+        tabBarLabelStyle: { ...type.overlineMedium },
       }}
     >
       <Tabs.Screen

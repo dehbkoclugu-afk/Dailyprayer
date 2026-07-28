@@ -3,7 +3,7 @@ import { Pressable, Text, View, type ViewStyle } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 
 interface Props {
@@ -36,7 +36,7 @@ export function PillButton({ label, onPress, variant = 'primary', disabled, styl
         minHeight: 54,
       }}
     >
-      <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 17, color, opacity: pressed ? 0.9 : 1 }}>
+      <Text style={{ ...type.bodySemi, color, opacity: pressed ? 0.9 : 1 }}>
         {label}
       </Text>
     </View>

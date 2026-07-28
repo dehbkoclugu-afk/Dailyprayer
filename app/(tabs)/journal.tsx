@@ -7,7 +7,7 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts, type as ty } from '@/theme/typography';
+import { type, type as ty } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useJournalStore, type JournalEntry } from '@/state/useJournalStore';
 import { useStreakStore } from '@/state/useStreakStore';
@@ -51,7 +51,7 @@ export default function Journal() {
   return (
     <Screen tabbed>
       <Text style={[ty.title, { color: t.ink }]}>{tr('journal.title')}</Text>
-      <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>{tr('journal.sub')}</Text>
+      <Text style={[ty.callout, { color: t.inkSoft, marginTop: spacing.xs }]}>{tr('journal.sub')}</Text>
 
       {/* Composer — one calm card with room to breathe: a serif prompt, a
           borderless field, and the save action, spaced generously. */}
@@ -68,27 +68,19 @@ export default function Journal() {
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
           <Ionicons name="leaf-outline" size={16} color={t.gold} />
           <Text
-            style={{
-              fontFamily: fonts.sansSemiBold,
-              fontSize: 11,
-              letterSpacing: 2,
+            style={{ ...type.overline, letterSpacing: 2,
               textTransform: 'uppercase',
-              color: t.gold,
-            }}
+              color: t.gold }}
           >
             {tr('journal.gratitude')}
           </Text>
         </View>
 
         <Text
-          style={{
-            fontFamily: fonts.serifLight,
-            fontSize: 19,
-            lineHeight: 28,
+          style={{ ...type.quote, lineHeight: 28,
             color: t.ink,
             fontStyle: 'italic',
-            marginTop: spacing.md,
-          }}
+            marginTop: spacing.md }}
         >
           {tr('journal.promptGratitude')}
         </Text>
@@ -100,15 +92,11 @@ export default function Journal() {
           placeholderTextColor={t.inkFaint}
           multiline
           accessibilityLabel={tr('a11y.journalEntry')}
-          style={{
-            marginTop: spacing.lg,
+          style={{ ...type.body, marginTop: spacing.lg,
             minHeight: 108,
-            fontFamily: fonts.sans,
-            fontSize: 16,
             lineHeight: 25,
             color: t.ink,
-            textAlignVertical: 'top',
-          }}
+            textAlignVertical: 'top' }}
         />
 
         <PillButton
@@ -129,14 +117,10 @@ export default function Journal() {
             style={{ width: 140, marginBottom: spacing.lg }}
           />
           <Text
-            style={{
-              fontFamily: fonts.serifLight,
-              fontSize: 16,
-              lineHeight: 24,
+            style={{ ...type.quoteSmall, lineHeight: 24,
               color: t.inkSoft,
               textAlign: 'center',
-              maxWidth: 280,
-            }}
+              maxWidth: 280 }}
           >
             {tr('journal.empty')}
           </Text>
@@ -156,26 +140,18 @@ export default function Journal() {
             >
               {e.kind === 'verse' && e.ref ? (
                 <Text
-                  style={{
-                    fontFamily: fonts.sansSemiBold,
-                    fontSize: 12,
-                    letterSpacing: 1.5,
+                  style={{ ...type.labelSemi, letterSpacing: 1.5,
                     textTransform: 'uppercase',
                     color: t.gold,
-                    marginBottom: spacing.sm,
-                  }}
+                    marginBottom: spacing.sm }}
                 >
                   {e.ref}
                 </Text>
               ) : null}
               <Text
-                style={{
-                  fontFamily: fonts.serifLight,
-                  fontSize: 17,
-                  lineHeight: 26,
+                style={{ ...type.quoteSmall, lineHeight: 26,
                   color: t.ink,
-                  fontStyle: e.kind === 'verse' ? 'italic' : 'normal',
-                }}
+                  fontStyle: e.kind === 'verse' ? 'italic' : 'normal' }}
               >
                 {e.text}
               </Text>
@@ -193,7 +169,7 @@ export default function Journal() {
                     size={13}
                     color={t.inkFaint}
                   />
-                  <Text style={{ fontFamily: fonts.sansMedium, fontSize: 12, color: t.inkFaint }}>
+                  <Text style={{ ...type.labelMedium, color: t.inkFaint }}>
                     {e.day}
                   </Text>
                 </View>

@@ -2,8 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import Animated, { ZoomIn } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
-
+import { type } from '@/theme/typography';
 interface Props {
   done: number;
   total: number;
@@ -45,7 +44,7 @@ export function ProgressRing({ done, total, size = 56 }: Props) {
         })}
       </View>
       <Text
-        style={{ fontFamily: fonts.sansBold, fontSize: 15, color: t.ink, fontVariant: ['tabular-nums'] }}
+        style={{ ...type.calloutBold, color: t.ink, fontVariant: ['tabular-nums'] }}
       >
         {done}/{total}
       </Text>

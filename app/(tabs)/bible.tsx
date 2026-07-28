@@ -7,7 +7,7 @@ import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts, type as ty } from '@/theme/typography';
+import { type, type as ty } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useStackedLayout } from '@/theme/textScale';
 import { usePlans } from '@/data/plans';
@@ -52,22 +52,18 @@ export default function Bible() {
             />
             <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
               <Text
-                style={{
-                  fontFamily: fonts.sansSemiBold,
-                  fontSize: 11,
-                  letterSpacing: 2.5,
+                style={{ ...type.overline, letterSpacing: 2.5,
                   textTransform: 'uppercase',
-                  color: 'rgba(217,164,65,0.9)',
-                }}
+                  color: 'rgba(217,164,65,0.9)' }}
               >
                 {tr('read.continue')}
               </Text>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 4 }}>
                 <View style={{ flex: 1, paddingRight: spacing.lg }}>
-                  <Text style={{ fontFamily: fonts.serif, fontSize: 24, color: '#F2EEE6' }}>
+                  <Text style={{ ...type.subtitle, color: '#F2EEE6' }}>
                     {tr('read.openBible')}
                   </Text>
-                  <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: 'rgba(242,238,230,0.82)', marginTop: spacing.xs }}>
+                  <Text style={{ ...type.calloutMedium, color: 'rgba(242,238,230,0.82)', marginTop: spacing.xs }}>
                     {readerBookName} {readerChapter + 1}
                   </Text>
                 </View>
@@ -119,7 +115,7 @@ export default function Bible() {
             })}
           >
             <Ionicons name={a.icon} size={18} color={t.gold} />
-            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: t.ink }}>{a.label}</Text>
+            <Text style={{ ...type.calloutSemi, color: t.ink }}>{a.label}</Text>
           </Pressable>
         ))}
       </View>
@@ -149,22 +145,18 @@ export default function Bible() {
                   />
                   <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Text style={{ fontFamily: fonts.serif, fontSize: 20, color: '#F2EEE6', flex: 1 }}>
+                      <Text style={{ ...type.heading, color: '#F2EEE6', flex: 1 }}>
                         {p.title}
                       </Text>
                       {locked ? <Ionicons name="lock-closed" size={18} color="#D9A441" /> : null}
                     </View>
-                    <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: 'rgba(242,238,230,0.75)', marginTop: spacing.xs }}>
+                    <Text style={{ ...type.callout, color: 'rgba(242,238,230,0.75)', marginTop: spacing.xs }}>
                       {p.tagline}
                     </Text>
                     <Text
-                      style={{
-                        fontFamily: fonts.sansMedium,
-                        fontSize: 12,
-                        color: '#D9A441',
+                      style={{ ...type.labelMedium, color: '#D9A441',
                         marginTop: spacing.sm,
-                        fontVariant: ['tabular-nums'],
-                      }}
+                        fontVariant: ['tabular-nums'] }}
                     >
 {p.days} {tn(p.days, 'bible.days')}
                     </Text>
@@ -191,24 +183,16 @@ export default function Bible() {
         })}
       >
         <Text
-          style={{
-            fontFamily: fonts.sans,
-            fontSize: 12,
-            lineHeight: 18,
+          style={{ ...type.label, lineHeight: 18,
             color: t.inkFaint,
-            textAlign: 'center',
-          }}
+            textAlign: 'center' }}
         >
           {getBibleCredit(locale)}
         </Text>
         <Text
-          style={{
-            fontFamily: fonts.sansMedium,
-            fontSize: 12,
-            color: t.gold,
+          style={{ ...type.labelMedium, color: t.gold,
             textAlign: 'center',
-            marginTop: 2,
-          }}
+            marginTop: 2 }}
         >
           {tr('read.textSource')}
         </Text>

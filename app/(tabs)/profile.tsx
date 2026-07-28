@@ -10,7 +10,7 @@ import { ReminderTimeSheet } from '@/components/ReminderTimeSheet';
 import { useTriggerFocus } from '@/a11y/sheetFocus';
 import { formatTime } from '@/lib/time';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts, type as ty } from '@/theme/typography';
+import { type, type as ty } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useUserStore } from '@/state/useUserStore';
 import { useStreakStore } from '@/state/useStreakStore';
@@ -161,7 +161,7 @@ export default function Profile() {
       <Text style={[ty.title, { color: t.ink }]}>
         {quiz.name ? quiz.name : tr('profile.journey')}
       </Text>
-      <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>
+      <Text style={[ty.callout, { color: t.inkSoft, marginTop: spacing.xs }]}>
         {tr('profile.subtitle')}
       </Text>
 
@@ -193,22 +193,18 @@ export default function Profile() {
           </View>
           <View style={{ flex: 1 }}>
             <Text
-              style={{
-                fontFamily: fonts.sansBold,
-                fontSize: 30,
-                color: t.ink,
-                fontVariant: ['tabular-nums'],
-              }}
+              style={{ ...type.stat, color: t.ink,
+                fontVariant: ['tabular-nums'] }}
             >
               {count}
             </Text>
-            <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
+            <Text style={{ ...type.label, color: t.inkSoft, marginTop: 2 }}>
               {tr('profile.dayStreak')}
             </Text>
           </View>
         </View>
         <View style={{ height: 1, backgroundColor: t.border, marginVertical: spacing.md }} />
-        <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft }}>
+        <Text style={{ ...type.label, color: t.inkSoft }}>
           {tr('profile.bestStreak')} {bestCount} · {tr('profile.totalDays')} {totalDays}
         </Text>
       </View>
@@ -241,10 +237,10 @@ export default function Profile() {
         >
           <Ionicons name={isPlus ? 'star' : 'star-outline'} size={26} color={t.gold} />
           <View style={{ flex: 1 }}>
-            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>
+            <Text style={{ ...type.bodySemi, color: t.ink }}>
               {isPlus ? tr('profile.plusActive') : tr('profile.plusCta')}
             </Text>
-            <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
+            <Text style={{ ...type.label, color: t.inkSoft, marginTop: 2 }}>
               {isPlus ? tr('profile.plusThanks') : tr('profile.plusSub')}
             </Text>
           </View>
@@ -267,12 +263,8 @@ export default function Profile() {
               })}
             >
               <Text
-                style={{
-                  flex: 1,
-                  fontFamily: fonts.sansMedium,
-                  fontSize: 15,
-                  color: t.blue,
-                }}
+                style={{ ...type.calloutMedium, flex: 1,
+                  color: t.blue }}
               >
                 {tr('profile.manageSubscription')}
               </Text>
@@ -365,7 +357,7 @@ export default function Profile() {
           })}
         >
           <Ionicons name="refresh-outline" size={20} color={t.inkSoft} />
-          <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink }}>
+          <Text style={{ ...type.callout, color: t.ink }}>
             {tr('profile.restart')}
           </Text>
         </Pressable>
@@ -386,13 +378,13 @@ export default function Profile() {
           })}
         >
           <Ionicons name="trash-outline" size={20} color={t.danger} />
-          <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.danger }}>
+          <Text style={{ ...type.callout, color: t.danger }}>
             {tr('data.deleteAll')}
           </Text>
         </Pressable>
       </View>
 
-      <Text style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkFaint, textAlign: 'center', marginTop: spacing.xl }}>
+      <Text style={{ ...type.label, color: t.inkFaint, textAlign: 'center', marginTop: spacing.xl }}>
         Lumen v1.0.0
       </Text>
 
@@ -476,8 +468,8 @@ function ValueRow({
         }}
       >
         <Ionicons name={icon as never} size={20} color={t.inkSoft} />
-        <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink, flex: 1 }}>{label}</Text>
-        <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.gold }}>{value}</Text>
+        <Text style={{ ...type.callout, color: t.ink, flex: 1 }}>{label}</Text>
+        <Text style={{ ...type.calloutMedium, color: t.gold }}>{value}</Text>
         <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
       </View>
     </Pressable>
@@ -517,11 +509,11 @@ function Row({
         }}
       >
         <Ionicons name={icon as never} size={20} color={t.inkSoft} />
-        <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink, flex: 1 }}>{label}</Text>
+        <Text style={{ ...type.callout, color: t.ink, flex: 1 }}>{label}</Text>
         {value ? (
           <Text
             numberOfLines={1}
-            style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: t.inkFaint, maxWidth: 170 }}
+            style={{ ...type.labelMedium, color: t.inkFaint, maxWidth: 170 }}
           >
             {value}
           </Text>

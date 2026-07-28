@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useToastStore } from '@/state/useToastStore';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type } from '@/theme/typography';
 import { radius, shadow, spacing, TAP_MIN } from '@/theme/tokens';
 
 /** Minimal gold-trimmed toast. Mount once in the root layout. */
@@ -71,7 +71,7 @@ export function ToastHost() {
         ]}
       >
         <Ionicons name="sparkles" size={15} color={t.gold} />
-        <Text style={{ flexShrink: 1, fontFamily: fonts.sansMedium, fontSize: 14, color: t.ink }}>
+        <Text style={{ ...type.calloutMedium, flexShrink: 1, color: t.ink }}>
           {message}
         </Text>
         {actionLabel && action ? (
@@ -90,7 +90,7 @@ export function ToastHost() {
               opacity: pressed ? 0.6 : 1,
             })}
           >
-            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: t.gold }}>
+            <Text style={{ ...type.calloutSemi, color: t.gold }}>
               {actionLabel}
             </Text>
           </Pressable>

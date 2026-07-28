@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useT } from '@/i18n';
 
@@ -57,26 +57,18 @@ export function NotFoundState({
         </View>
 
         <Text
-          style={{
-            fontFamily: fonts.serif,
-            fontSize: 24,
-            lineHeight: 32,
+          style={{ ...type.subtitle, lineHeight: 32,
             color: t.ink,
             textAlign: 'center',
-            marginTop: spacing.lg,
-          }}
+            marginTop: spacing.lg }}
         >
           {title}
         </Text>
         <Text
-          style={{
-            fontFamily: fonts.sans,
-            fontSize: 15,
-            lineHeight: 23,
+          style={{ ...type.callout, lineHeight: 23,
             color: t.inkSoft,
             textAlign: 'center',
-            marginTop: spacing.sm,
-          }}
+            marginTop: spacing.sm }}
         >
           {body}
         </Text>
@@ -101,7 +93,7 @@ export function NotFoundState({
               opacity: pressed ? 0.6 : 1,
             })}
           >
-            <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.inkSoft }}>
+            <Text style={{ ...type.calloutMedium, color: t.inkSoft }}>
               {tr('notFound.back')}
             </Text>
           </Pressable>
