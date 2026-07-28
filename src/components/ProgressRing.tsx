@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import Animated, { ZoomIn } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
+import { useT } from '@/i18n';
 import { type } from '@/theme/typography';
 interface Props {
   done: number;
@@ -15,10 +16,11 @@ interface Props {
  */
 export function ProgressRing({ done, total, size = 56 }: Props) {
   const t = useTheme();
+  const { tfn } = useT();
   const dots = Array.from({ length: total }, (_, i) => i < done);
   return (
     <View
-      accessibilityLabel={`${done} of ${total} completed today`}
+      accessibilityLabel={tfn(total, 'a11y.ritualProgress', { done, total })}
       style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}
     >
       <View style={{ position: 'absolute', width: size, height: size }}>

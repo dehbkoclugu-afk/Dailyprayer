@@ -35,6 +35,26 @@ function lookupCount(locale: Locale, key: TranslationKey, count: number): string
   return singular in translations.en ? lookup(locale, singular) : lookup(locale, key);
 }
 
+/**
+ * Fill `{name}` placeholders in a translated string (roadmap items 34 and 35).
+ *
+ * Labels used to be assembled at the call site — `${count} ${tr('today.dayStreak')}`
+ * — which hard-codes English word order into every language. Turkish puts the
+ * counted noun and the verb somewhere else entirely: "3 of 4 completed today"
+ * is "bugün 4 adımın 3'ü tamamlandı", where the numbers swap places and the
+ * verb moves to the end. No amount of concatenating translated fragments
+ * produces that; the whole sentence has to be one translatable string with the
+ * values marked in it.
+ *
+ * A missing placeholder is left as written rather than blanked, so the gap is
+ * visible in the label instead of silently changing what the sentence says.
+ */
+function fill(text: string, params: Record<string, string | number>): string {
+  return text.replace(/\{(\w+)\}/g, (whole, name) =>
+    name in params ? String(params[name]) : whole,
+  );
+}
+
 /** Reactive translator for components. */
 export function useT() {
   const pref = useUserStore((s) => s.language);
@@ -50,6 +70,12 @@ export function useT() {
      * same rules as a translated label.
      */
     tu: (text: string) => upper(text, locale),
+    /** A whole sentence with values in it: `tf('a11y.verseOfDay', { ref })`. */
+    tf: (key: TranslationKey, params: Record<string, string | number>) =>
+      fill(lookup(locale, key), params),
+    /** Both at once, for a sentence that also inflects on a count. */
+    tfn: (count: number, key: TranslationKey, params: Record<string, string | number>) =>
+      fill(lookupCount(locale, key, count), { count, ...params }),
   };
 }
 

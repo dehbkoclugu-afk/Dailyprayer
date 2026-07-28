@@ -12,6 +12,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/hooks/useTheme';
+import { useT } from '@/i18n';
 import { type } from '@/theme/typography';
 interface Props {
   count: number;
@@ -21,6 +22,7 @@ interface Props {
 /** Streak flame — breathes gently when lit today (disabled under Reduce Motion). */
 export function StreakFlame({ count, litToday }: Props) {
   const t = useTheme();
+  const { tfn } = useT();
   const scale = useSharedValue(1);
   const prevCount = useRef(count);
 
@@ -53,7 +55,7 @@ export function StreakFlame({ count, litToday }: Props) {
 
   return (
     <View
-      accessibilityLabel={`${count} day streak${litToday ? ', completed today' : ''}`}
+      accessibilityLabel={tfn(count, litToday ? 'a11y.streakLitToday' : 'a11y.streak', {})}
       style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}
     >
       <Animated.View style={style}>

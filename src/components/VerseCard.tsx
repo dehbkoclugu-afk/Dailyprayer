@@ -40,7 +40,7 @@ interface Props {
 }
 
 export function VerseCard({ verse, onRead, onShuffle }: Props) {
-  const { t: tr, locale, tu } = useT();
+  const { t: tr, locale, tu, tf } = useT();
   const cardRef = useRef<View>(null);
   const cardHeight = useScaledHeight(320);
 
@@ -72,7 +72,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       ref={cardRef}
       onPress={onRead}
       accessibilityRole="button"
-      accessibilityLabel={`Verse of the day, ${verse.reference}`}
+      accessibilityLabel={tf('a11y.verseOfDay', { ref: verse.reference })}
       // The frame is constant at default text size, so the layout below it never
       // shifts, and grows with the reader's text setting (roadmap item 30). It
       // used to be a flat 320: at 200% the label, the verse, the reference and

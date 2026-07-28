@@ -20,7 +20,7 @@ import { useT } from '@/i18n';
 export default function Bible() {
   const t = useTheme();
   const stacked = useStackedLayout();
-  const { t: tr, tn, locale, tu } = useT();
+  const { t: tr, tn, locale, tu, tf } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const plans = usePlans();
   const { book, chapter } = useReaderStore();
@@ -132,7 +132,7 @@ export default function Bible() {
                   : router.push({ pathname: '/plan/[id]', params: { id: p.id } })
               }
               accessibilityRole="button"
-              accessibilityLabel={`${p.title}${locked ? ', requires Plus' : ''}`}
+              accessibilityLabel={locked ? tf('a11y.requiresPlus', { title: p.title }) : p.title}
             >
               <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
                 <ArtSlot id={p.art} height={150} radius={radius.card}>

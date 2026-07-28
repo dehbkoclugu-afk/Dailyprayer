@@ -32,7 +32,7 @@ const CARD_W = 360; // approximate; the shimmer just needs to travel past the ed
 
 export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }: Props) {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, tf } = useT();
   // With art, the card is a dark warm scene regardless of the app theme, so the
   // text/icon must be light — theme colors (t.ink) would be dark-on-dark in the
   // light theme and vanish. Fall back to theme colors only when there's no art.
@@ -66,7 +66,13 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={`${title}${done ? `, ${tr('today.undoCompletion')}` : locked ? ', locked' : ''}`}
+      accessibilityLabel={
+        done
+          ? `${title}, ${tr('today.undoCompletion')}`
+          : locked
+            ? tf('a11y.lockedItem', { title })
+            : title
+      }
       accessibilityState={{ disabled: Boolean(locked), selected: done }}
       style={({ pressed }) => ({
         flexDirection: 'row',

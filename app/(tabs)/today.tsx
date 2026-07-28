@@ -38,7 +38,7 @@ function formatDateLine(now: Date, locale: string): string {
 
 export default function Today() {
   const t = useTheme();
-  const { t: tr, locale, tu } = useT();
+  const { t: tr, locale, tu, tfn } = useT();
   const { verse, devotional } = useDailyContent();
   // The verse of the day is fixed by date, but let people browse the pool — a
   // shuffle swaps in another verse without touching the day's read-streak.
@@ -104,7 +104,7 @@ export default function Today() {
           </Text>
         </View>
         <View
-          accessibilityLabel={`${count} ${tr('today.dayStreak')}`}
+          accessibilityLabel={tfn(count, 'a11y.streak', {})}
           style={{
             width: 64,
             height: 64,
