@@ -59,34 +59,62 @@ const seed = {
 const browser = await chromium.launch({
   executablePath: process.env.PW_CHROMIUM ?? chromium.executablePath(),
 });
-const page = await browser.newPage({ viewport: { width: 390, height: 844 }, locale: 'en-US' });
-await page.addInitScript((data) => {
-  for (const [key, value] of Object.entries(data)) localStorage.setItem(key, JSON.stringify(value));
-}, seed);
-
 const screens = [
   ['01-today', '/today'],
   ['02-bible', '/bible'],
   ['03-prayer', '/pray'],
   ['04-journal', '/journal'],
-  ['05-plus', '/paywall'],
 ];
 const errors = [];
-page.on('pageerror', (error) => errors.push(error.message));
 
-for (const [size, viewport] of [
-  ['phone-390x844', { width: 390, height: 844 }],
-  ['qa-360x640', { width: 360, height: 640 }],
-]) {
-  mkdirSync(join(out, size), { recursive: true });
-  await page.setViewportSize(viewport);
+const locales = [
+  ['en-US', 'en', 'A quiet morning and another chance to begin.'],
+  ['tr-TR', 'tr', 'Sakin bir sabah ve yeniden başlamak için bir fırsat.'],
+  ['es-ES', 'es', 'Una mañana tranquila y otra oportunidad para comenzar.'],
+  ['pt-BR', 'pt', 'Uma manhã tranquila e mais uma chance de recomeçar.'],
+  ['fr-FR', 'fr', 'Un matin paisible et une nouvelle chance de commencer.'],
+  ['de-DE', 'de', 'Ein ruhiger Morgen und eine neue Chance, anzufangen.'],
+];
+
+const seedFor = (language, journal) => ({
+  ...seed,
+  'lumen-user': {
+    ...seed['lumen-user'],
+    state: { ...seed['lumen-user'].state, language },
+  },
+  'lumen-journal': {
+    state: {
+      entries: [{
+        ...seed['lumen-journal'].state.entries[0],
+        text: journal,
+      }],
+    },
+    version: 0,
+  },
+});
+
+async function captureSet(folder, viewport, browserLocale, data) {
+  mkdirSync(join(out, folder), { recursive: true });
+  const page = await browser.newPage({ viewport, locale: browserLocale });
+  page.on('pageerror', (error) => errors.push(`${browserLocale}: ${error.message}`));
+  await page.addInitScript((values) => {
+    for (const [key, value] of Object.entries(values)) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+  }, data);
   for (const [name, route] of screens) {
     await page.goto(`http://127.0.0.1:${port}${route}`, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
     await page.waitForTimeout(900);
-    await page.screenshot({ path: join(out, size, `${name}.png`) });
+    await page.screenshot({ path: join(out, folder, `${name}.png`) });
   }
+  await page.close();
 }
+
+for (const [tag, language, journal] of locales) {
+  await captureSet(`localized/${tag}`, { width: 390, height: 844 }, tag, seedFor(language, journal));
+}
+await captureSet('qa-360x640', { width: 360, height: 640 }, 'en-US', seedFor('en', locales[0][2]));
 
 await browser.close();
 server.close();
@@ -94,4 +122,4 @@ if (errors.length) {
   console.error([...new Set(errors)].join('\n'));
   process.exit(1);
 }
-console.log(`Captured ${screens.length * 2} screens in ${out}`);
+console.log(`Captured ${screens.length * (locales.length + 1)} screens in ${out}`);

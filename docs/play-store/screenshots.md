@@ -4,8 +4,10 @@ Capture these from the signed production candidate on a real Android device.
 Do not use mock data that implies unavailable features or offers.
 
 The repository also contains reproducible web-render captures under
-`docs/play-store/assets/screenshots/`. They are suitable for copy/layout review;
-compare them with the final signed Android build before uploading to Play.
+`docs/play-store/assets/screenshots/localized/`: four screens for each of
+English, Turkish, Spanish, Portuguese, French and German. They are suitable for
+copy/layout review; compare them with the final signed Android build before
+uploading to Play.
 The `Play Store screenshots` workflow generates the same set as the
 `play-store-screenshots` Actions artifact for review and download.
 
@@ -18,6 +20,10 @@ The `Play Store screenshots` workflow generates the same set as the
 | 3 | Prayer | Guided prayer library | Prayer for every season |
 | 4 | Journal | Gratitude entry composer | Remember what matters |
 | 5 | Plus | Store-returned price and offer | Go deeper with Lumen Plus |
+
+The first four screenshots are generated now. Capture Plus only after the
+RevenueCat Offering and Play products are connected so every displayed price
+and introductory offer comes from Google Play.
 
 ## Capture matrix
 

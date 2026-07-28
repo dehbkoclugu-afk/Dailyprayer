@@ -2,14 +2,20 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 const text = (path) => readFileSync(path, 'utf8');
+const pngSize = (path) => {
+  const png = readFileSync(path);
+  assert.equal(png.subarray(1, 4).toString(), 'PNG');
+  return [png.readUInt32BE(16), png.readUInt32BE(20)];
+};
 
 const config = JSON.parse(text('app.json'));
 assert.equal(config.expo.android.package, 'com.lumen.dailyprayer');
 
-const feature = readFileSync('docs/play-store/assets/feature-graphic.png');
-assert.equal(feature.subarray(1, 4).toString(), 'PNG');
-assert.equal(feature.readUInt32BE(16), 1024);
-assert.equal(feature.readUInt32BE(20), 500);
+assert.deepEqual(pngSize('docs/play-store/assets/feature-graphic.png'), [1024, 500]);
+for (const name of ['01-today', '02-bible', '03-prayer', '04-journal']) {
+  assert.deepEqual(pngSize(`docs/play-store/assets/screenshots/phone-390x844/${name}.png`), [390, 844]);
+  assert.deepEqual(pngSize(`docs/play-store/assets/screenshots/qa-360x640/${name}.png`), [360, 640]);
+}
 
 const pages = ['index.html', 'privacy.html', 'terms.html', 'support.html']
   .map((name) => text(`docs/public/${name}`));
