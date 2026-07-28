@@ -7,6 +7,7 @@ import type { PurchasesPackage } from 'react-native-purchases';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import {
   classifyPurchaseError,
+  hasActiveEntitlement,
   planIdForPackage,
   type PlanId,
 } from './purchases.logic';
@@ -36,7 +37,7 @@ export type PurchaseResult =
 
 const DEV_PLANS: PurchasePlan[] = [
   { id: 'annual', price: '$59.99', monthlyPrice: '$4.99', trialEligible: true, trialDays: 7 },
-  { id: 'weekly', price: '$9.99', monthlyPrice: null, trialEligible: false, trialDays: null },
+  { id: 'monthly', price: '$9.99', monthlyPrice: '$9.99', trialEligible: false, trialDays: null },
   { id: 'lifetime', price: '$129.99', monthlyPrice: null, trialEligible: false, trialDays: null },
 ];
 
@@ -44,6 +45,19 @@ const apiKey =
   Platform.OS === 'ios'
     ? process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY
     : process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY;
+const configuredEntitlementId =
+  process.env.EXPO_PUBLIC_REVENUECAT_ENTITLEMENT_ID?.trim();
+const entitlementIds = Array.from(
+  new Set(
+    [
+      configuredEntitlementId,
+      'plus',
+      'Lumen Pro',
+      'lumen_pro',
+      'lumen-pro',
+    ].filter((id): id is string => Boolean(id)),
+  ),
+);
 
 let rc: typeof import('react-native-purchases').default | null = null;
 let initPromise: Promise<void> | null = null;
@@ -78,7 +92,9 @@ export function initPurchases(): Promise<void> {
       Purchases.configure({ apiKey });
       rc = Purchases;
       const info = await Purchases.getCustomerInfo();
-      useEntitlementStore.getState().setPlus(Boolean(info.entitlements.active.plus));
+      useEntitlementStore
+        .getState()
+        .setPlus(hasActiveEntitlement(info.entitlements.active, entitlementIds));
     } catch {
       rc = null;
     }
@@ -149,7 +165,10 @@ export async function purchase(planId: PlanId): Promise<PurchaseResult> {
     const pkg = packages.get(planId);
     if (!pkg) return { status: 'unavailable' };
     const { customerInfo } = await rc.purchasePackage(pkg);
-    const active = Boolean(customerInfo.entitlements.active.plus);
+    const active = hasActiveEntitlement(
+      customerInfo.entitlements.active,
+      entitlementIds,
+    );
     useEntitlementStore.getState().setPlus(active);
     return active ? { status: 'purchased' } : { status: 'failed' };
   } catch (error) {
@@ -161,7 +180,7 @@ export async function restore(): Promise<boolean> {
   await initPurchases();
   if (!rc) return __DEV__ && useEntitlementStore.getState().isPlus;
   const info = await rc.restorePurchases();
-  const active = Boolean(info.entitlements.active.plus);
+  const active = hasActiveEntitlement(info.entitlements.active, entitlementIds);
   useEntitlementStore.getState().setPlus(active);
   return active;
 }
