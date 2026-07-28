@@ -9,6 +9,8 @@ android/
 !.env.example
 .DS_Store
 secrets/
+credentials/
+credentials.json
 *.keystore
 *.p8
 *.p12
