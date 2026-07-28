@@ -530,71 +530,71 @@ deneyimi, performans ve görsel cila gelir.
     150 dp tam kart, gündüz 96 dp önizleme gösteriliyor; dua eylemi iki durumda da erişilebilir.
 70. ✅ **TAMAMLANDI — Pray kategorilerini gerçek 2×3 görsel keşif alanına çevir.** Altı A11
     illüstrasyonu iki sütunlu keşif grid’inde; seçili kategori görsel check ve selected semantiği taşıyor.
-71. **Dua listesinde kilit bilgisini metne bağımlı olmayan biçimde göster.** PLUS rozeti,
+71. ✅ **TAMAMLANDI — Dua listesinde kilit bilgisini metne bağımlı olmayan biçimde göster.** PLUS rozeti,
     kilit simgesi ve erişilebilir “Plus gerekir” durumu aynı bileşende birleşmeli.
-72. **Player’da satır geçmişini kontrollü göster.** Tek satırlık boş sahne yerine önceki satır
+72. ✅ **TAMAMLANDI — Player’da satır geçmişini kontrollü göster.** Tek satırlık boş sahne yerine önceki satır
     düşük opacity ile yukarıda kalabilir; odak yine mevcut duada olmalı.
-73. **Player pace seçimini döngüsel gizli düğme olmaktan çıkar.** Slow/Normal/Quick üç seçenekli
+73. ✅ **TAMAMLANDI — Player pace seçimini döngüsel gizli düğme olmaktan çıkar.** Slow/Normal/Quick üç seçenekli
     sheet veya segmented control ile mevcut seçim görünür olmalı.
-74. **Player ilerlemesine bölüm noktaları ekle.** Uzun dualarda başlangıç/orta/kapanış gibi kısa
+74. ✅ **TAMAMLANDI — Player ilerlemesine bölüm noktaları ekle.** Uzun dualarda başlangıç/orta/kapanış gibi kısa
     yapısal işaretler kullanıcıya ne kadar kaldığını anlatmalı.
-75. **Devotional bitişini gerçek bir tamamlanma sahnesi yap.** `✓` karakterine dönüşen düğme
+75. ✅ **TAMAMLANDI — Devotional bitişini gerçek bir tamamlanma sahnesi yap.** `✓` karakterine dönüşen düğme
     yerine kısa “Bugünün düşüncesi tamamlandı” durumu ve geri/Journal eylemi sunulmalı.
-76. **Devotional’dan Journal’a bağlamsal geçiş ekle.** Okunan metni kopyalamadan, yalnız özgün
+76. ✅ **TAMAMLANDI — Devotional’dan Journal’a bağlamsal geçiş ekle.** Okunan metni kopyalamadan, yalnız özgün
     yansıma sorusuyla günlük yazma eylemi verilmeli.
-77. **Journal girişlerini günlere göre grupla.** Uzun kronolojik listede ay başlıkları, sticky
+77. ✅ **TAMAMLANDI — Journal girişlerini günlere göre grupla.** Uzun kronolojik listede ay başlıkları, sticky
     tarihler ve kayıt sayısı görünmeli.
-78. **Journal için düzenleme akışı ekle.** Kaydedilen giriş yalnız silinebilmemeli; tarih ve
+78. ✅ **TAMAMLANDI — Journal için düzenleme akışı ekle.** Kaydedilen giriş yalnız silinebilmemeli; tarih ve
     içerik korunarak düzenlenebilmelidir.
-79. **Journal boş durumunda ilk yazma eylemini görünür yap.** Görsel ve açıklamanın altında input’a
+79. ✅ **TAMAMLANDI — Journal boş durumunda ilk yazma eylemini görünür yap.** Görsel ve açıklamanın altında input’a
     odaklayan “İlk notunu yaz” CTA’sı olmalı.
-80. **Profile istatistiklerini anlamlı eşiklerle açıkla.** Best/total sayıları yalnız rakam
+80. ✅ **TAMAMLANDI — Profile istatistiklerini anlamlı eşiklerle açıkla.** Best/total sayıları yalnız rakam
     olmamalı; “bu hafta 4 gün” gibi yakın dönem bağlamı davranışı desteklemeli.
 
 ## P2 — Performans, adaptasyon ve dayanıklılık (81–90)
 
-81. **Kutsal Kitap aramasını ana JS thread’den çıkar.** Altı tam metinde her tuşta senkron tarama
+81. ✅ **TAMAMLANDI — Kutsal Kitap aramasını ana JS thread’den çıkar.** Altı tam metinde her tuşta senkron tarama
     düşük cihazlarda takılır; önceden hazırlanmış indeks veya worker/native arama kullanılmalı.
-82. **Dil değişiminde büyük JSON yüklerini ölç.** Altı çevirinin aynı bundle’da tutulmasının
+82. ✅ **TAMAMLANDI — Dil değişiminde büyük JSON yüklerini ölç.** Altı çevirinin aynı bundle’da tutulmasının
     açılış süresi ve bellek etkisi profillenip yalnız aktif dilin lazy-load edilmesi sağlanmalı.
-83. **55,8 MB JS bundle için ağırlık bütçesi koy.** Her release’te bundle ve asset boyutu
+83. ✅ **TAMAMLANDI — 55,8 MB JS bundle için ağırlık bütçesi koy.** Her release’te bundle ve asset boyutu
     raporlanmalı; eşik aşımı CI’ı durdurmalı.
-84. **Görsel çözünürlüklerini kullanım alanına göre üret.** 150 px kartta gereksiz büyük bitmap
+84. ✅ **TAMAMLANDI — Görsel çözünürlüklerini kullanım alanına göre üret.** 150 px kartta gereksiz büyük bitmap
     decode edilmemeli; 1×/2× Android yoğunluk varyantları hazırlanmalı.
-85. **VerseCard iç içe scroll davranışını kaldır veya açıklaştır.** Kartın içinde fark edilmeyen
+85. ✅ **TAMAMLANDI — VerseCard iç içe scroll davranışını kaldır veya açıklaştır.** Kartın içinde fark edilmeyen
     dikey kaydırma, ana sayfa scroll’u ile çakışıyor; metin boyuna göre kartı büyütmek tercih edilmeli.
-86. **Landscape ve split-screen için kritik ekranları yeniden akıt.** Player, paywall ve onboarding
+86. ✅ **TAMAMLANDI — Landscape ve split-screen için kritik ekranları yeniden akıt.** Player, paywall ve onboarding
     sabit dikey kompozisyonları kısa yükseklikte kırpılmamalı.
-87. **Klavye/IME test matrisi oluştur.** Quiz name ve Journal input; küçük ekran, landscape ve
+87. ✅ **TAMAMLANDI — Klavye/IME test matrisi oluştur.** Quiz name ve Journal input; küçük ekran, landscape ve
     büyük yazıda CTA’yı klavye arkasında bırakmamalı.
-88. **Foldable hinge alanını hesaba kat.** Expanded layout, katlama çizgisinin üzerine kart veya
+88. ✅ **TAMAMLANDI — Foldable hinge alanını hesaba kat.** Expanded layout, katlama çizgisinin üzerine kart veya
     birincil düğme yerleştirmemeli.
-89. **Bozuk local storage için kurtarma durumları ekle.** Persist edilmiş reader/plan/journal
+89. ✅ **TAMAMLANDI — Bozuk local storage için kurtarma durumları ekle.** Persist edilmiş reader/plan/journal
     verisi parse edilemezse uygulama çökmek yerine ilgili parçayı güvenle sıfırlamalı.
-90. **Tüm boş/yükleniyor/hata durumlarını ekran matrisiyle belgeleyip test et.** Search, Library,
+90. ✅ **TAMAMLANDI — Tüm boş/yükleniyor/hata durumlarını ekran matrisiyle belgeleyip test et.** Search, Library,
     Plan, Paywall, bildirim ve satın alma için her durumun tasarlanmış karşılığı bulunmalı.
 
 ## P3 — Görsel sistem, marka ve son cila (91–100)
 
-91. **Ham renkleri semantic tokenlara taşı.** `#F2EEE6`, `#D9A441`, scrim ve player renkleri
+91. ✅ **TAMAMLANDI — Ham renkleri semantic tokenlara taşı.** `#F2EEE6`, `#D9A441`, scrim ve player renkleri
     ekranlarda tekrarlanmamalı; `onArtwork`, `scrimStrong`, `sacredGold` rolleri kullanılmalı.
-92. **Dawn temasının grain yoğunluğunu ayrı ayarla.** Vigil’de çalışan %4 doku açık temada kirli
+92. ✅ **TAMAMLANDI — Dawn temasının grain yoğunluğunu ayrı ayarla.** Vigil’de çalışan %4 doku açık temada kirli
     görünmemeli; tema bazlı %1–2 kağıt dokusu kullanılmalı.
-93. **Gölgeleri Android tonal elevation ile dengele.** Yüksek `elevation: 8` her kartta aynı
+93. ✅ **TAMAMLANDI — Gölgeleri Android tonal elevation ile dengele.** Yüksek `elevation: 8` her kartta aynı
     kullanılmamalı; hero, standard ve floating yüzey rolleri tanımlanmalı.
-94. **İkon ailesinin stroke ağırlığını normalize et.** Ionicons outline/filled karışımı ekran
+94. ✅ **TAMAMLANDI — İkon ailesinin stroke ağırlığını normalize et.** Ionicons outline/filled karışımı ekran
     içinde rastgele olmamalı; seçili durum dışında aynı aile ve ağırlık korunmalı.
-95. **Kart görsellerinin scrim reçetesini standartlaştır.** Ritual, plan, Tonight ve Bible hero
+95. ✅ **TAMAMLANDI — Kart görsellerinin scrim reçetesini standartlaştır.** Ritual, plan, Tonight ve Bible hero
     için metin konumuna göre üç kontrollü scrim preset’i kullanılmalı.
-96. **Aktif tab göstergesini daha belirgin ama sakin yap.** Yalnız renk değişimine ek olarak kısa
+96. ✅ **TAMAMLANDI — Aktif tab göstergesini daha belirgin ama sakin yap.** Yalnız renk değişimine ek olarak kısa
     alt çizgi/nokta ve erişilebilir selected state kullanılmalı.
-97. **Pressed/focus/disabled görsel durumlarını tokenlaştır.** Her Pressable kendi `0.6/0.7/0.85`
+97. ✅ **TAMAMLANDI — Pressed/focus/disabled görsel durumlarını tokenlaştır.** Her Pressable kendi `0.6/0.7/0.85`
     opacity değerini seçmemeli; platforma uygun ortak etkileşim durumları kullanılmalı.
-98. **Ekran geçişi motion dilini üç kalıba indir.** Shared-axis ileri/geri, fade-through sekme
+98. ✅ **TAMAMLANDI — Ekran geçişi motion dilini üç kalıba indir.** Shared-axis ileri/geri, fade-through sekme
     içeriği ve container transform modal; diğer özel animasyonlar kaldırılmalı.
-99. **Paylaşım kartına marka güvenliği ekle.** Render edilen ayet görselinde metin kaynak/sürüm
+99. ✅ **TAMAMLANDI — Paylaşım kartına marka güvenliği ekle.** Render edilen ayet görselinde metin kaynak/sürüm
     kredisi okunur olmalı; hiçbir zaman ayet metni kırpılmamalı veya yeniden akışta bozulmamalı.
-100. **Gerçek cihaz görsel kabul testi kur.** 360×640, 390×844, büyük Android, tablet,
+100. ✅ **TAMAMLANDI — Gerçek cihaz görsel kabul testi kur.** 360×640, 390×844, büyük Android, tablet,
     landscape; Vigil/Dawn ve %100/%200 font ölçeğinde ana ekranların ekran görüntüsü karşılaştırılmalı.
 
 ## Liste dışında, yol boyunca bulunan hatalar

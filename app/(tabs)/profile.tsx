@@ -207,6 +207,9 @@ export default function Profile() {
         <Text style={{ ...type.label, color: t.inkSoft }}>
           {tr('profile.bestStreak')} {bestCount} · {tr('profile.totalDays')} {totalDays}
         </Text>
+        <Text style={{ ...type.calloutMedium, color: t.goldText, marginTop: spacing.sm }}>
+          {Math.min(count, 7)} / 7 · {tr('profile.dayStreak')}
+        </Text>
       </View>
 
       {/* subscription card */}

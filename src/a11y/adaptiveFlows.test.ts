@@ -47,7 +47,10 @@ test('search, library and plan completion expose their narrowing and continuatio
   const day = read('app/plan/[id]/[day].tsx');
 
   assert.match(search, /type BookFilter = 'all' \| 'old' \| 'new' \| number/);
-  assert.match(search, /bookFilter === 'old'/);
+  assert.match(search, /searchScripture\(bible, q, bookFilter, MAX\)/);
+  const searchWorker = read('src/data/scriptureSearch.ts');
+  assert.match(searchWorker, /filter === 'old'/);
+  assert.match(searchWorker, /await yieldToUI\(\)/);
   assert.match(search, /read\.firstResults/);
   assert.match(search, /numberOfLines=\{2\}/);
   assert.match(library, /type Tab = 'bookmarks' \| 'highlights' \| 'journal'/);

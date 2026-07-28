@@ -15,7 +15,7 @@ import { categoryArt } from '@/assets/registry';
 
 export default function Pray() {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, tf } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const prayers = usePrayers();
   const [cat, setCat] = useState<GuidedPrayer['category'] | 'all'>('all');
@@ -94,7 +94,9 @@ export default function Pray() {
               key={p.id}
               onPress={() => open(p)}
               accessibilityRole="button"
-              accessibilityLabel={`${p.title}, ${p.minutes} ${tr('pray.min')}${p.plus ? ' · Plus' : ''}`}
+              accessibilityLabel={locked
+                ? `${tf('a11y.requiresPlus', { title: p.title })}, ${p.minutes} ${tr('pray.min')}`
+                : `${p.title}, ${p.minutes} ${tr('pray.min')}`}
               style={({ pressed }) => ({
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -138,9 +140,12 @@ export default function Pray() {
                     paddingVertical: 3,
                   }}
                 >
-                  <Text style={{ ...type.overlineBold, color: locked ? t.inkFaint : t.gold }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                  {locked ? <Ionicons name="lock-closed-outline" size={12} color={t.goldText} /> : null}
+                  <Text style={{ ...type.overlineBold, color: locked ? t.goldText : t.gold }}>
                     PLUS
                   </Text>
+                  </View>
                 </View>
               ) : null}
             </Pressable>

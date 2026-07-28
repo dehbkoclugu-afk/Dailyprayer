@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { safeStorage } from './safeStorage';
 import { dayKey } from '@/lib/dates';
 
 export interface JournalEntry {
@@ -19,6 +19,7 @@ interface JournalState {
   add: (kind: JournalEntry['kind'], text: string, ref?: string) => void;
   remove: (id: string) => void;
   restore: (entry: JournalEntry) => void;
+  update: (id: string, text: string) => void;
   /** Wipe every journal entry (see src/state/dataReset.ts). */
   reset: () => void;
 }
@@ -51,7 +52,13 @@ export const useJournalStore = create<JournalState>()(
             (a, b) => b.createdAt - a.createdAt,
           ),
         })),
+      update: (id, text) =>
+        set((s) => ({
+          entries: s.entries.map((entry) =>
+            entry.id === id ? { ...entry, text: text.trim() } : entry,
+          ),
+        })),
     }),
-    { name: 'lumen-journal', storage: createJSONStorage(() => AsyncStorage) },
+    { name: 'lumen-journal', storage: createJSONStorage(() => safeStorage) },
   ),
 );

@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
+import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { useTheme } from '@/hooks/useTheme';
@@ -20,14 +21,12 @@ export default function DevotionalScreen() {
   const completeStep = useStreakStore((s) => s.completeStep);
   const [amened, setAmened] = React.useState(false);
 
-  // Amen morphs to a checkmark for a beat before returning (design-100 #64).
   const finish = () => {
     if (amened) return;
     setAmened(true);
     completeStep('devotional');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     toast(translate('toast.devotional'));
-    setTimeout(() => router.back(), 600);
   };
 
   return (
@@ -83,7 +82,16 @@ export default function DevotionalScreen() {
         </Text>
       </View>
 
-      <PillButton label={amened ? '✓' : tr('devotional.amen')} onPress={finish} style={{ marginTop: spacing.xxl }} />
+      {amened ? (
+        <View accessibilityRole="summary" style={{ backgroundColor: t.surface, borderRadius: radius.card, borderWidth: 1, borderColor: t.gold, padding: spacing.xl, marginTop: spacing.xxl, gap: spacing.md }}>
+          <Ionicons name="checkmark-circle-outline" size={32} color={t.success} />
+          <Text style={[ty.heading, { color: t.ink }]}>{tr('toast.devotional')}</Text>
+          <PillButton label={tr('tab.journal')} onPress={() => router.push({ pathname: '/(tabs)/journal', params: { prompt: devotional.prayer } })} />
+          <PillButton label={tr('a11y.back')} variant="secondary" onPress={() => router.back()} />
+        </View>
+      ) : (
+        <PillButton label={tr('devotional.amen')} onPress={finish} style={{ marginTop: spacing.xxl }} />
+      )}
     </Screen>
   );
 }

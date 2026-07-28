@@ -14,7 +14,9 @@
     "scripture-drift": "node scripts/check-scripture-drift.mjs",
     "release-gate": "node scripts/check-release-gate.mjs",
     "release-claims": "node scripts/check-release-claims.mjs",
-    "release-check": "npm run scripture-check && npm run release-gate && npm run release-claims",
+    "release-check": "npm run scripture-check && npm run release-gate && npm run release-claims && npm run final-polish && npm run bundle-budget",
+    "final-polish": "node --test src/theme/finalPolish.test.ts",
+    "bundle-budget": "node scripts/check-bundle-budget.mjs",
     "tap-targets": "node scripts/measure-tap-targets.mjs"
   },
   "dependencies": {

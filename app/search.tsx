@@ -7,19 +7,10 @@ import { useTheme } from '@/hooks/useTheme';
 import { fonts, type } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { getBible } from '@/data/bibleFull';
+import { searchScripture, type ScriptureHit as Hit } from '@/data/scriptureSearch';
 import { useT } from '@/i18n';
 import { TopAppBar } from '@/components/TopAppBar';
 
-interface Hit {
-  book: number;
-  chapter: number;
-  verse: number;
-  ref: string;
-  text: string;
-  at: number; // match offset in text
-}
-
-const lower = (s: string) => s.toLocaleLowerCase('tr');
 const MAX = 300;
 type BookFilter = 'all' | 'old' | 'new' | number;
 
@@ -30,6 +21,7 @@ export default function Search() {
   const [query, setQuery] = useState('');
   const [q, setQ] = useState(''); // debounced
   const [bookFilter, setBookFilter] = useState<BookFilter>('all');
+  const [hits, setHits] = useState<Hit[]>([]);
   const bible = useMemo(() => getBible(locale), [locale]);
 
   useEffect(() => {
@@ -37,28 +29,16 @@ export default function Search() {
     return () => clearTimeout(id);
   }, [query]);
 
-  const hits = useMemo<Hit[]>(() => {
-    if (q.length < 2) return [];
-    const needle = lower(q);
-    const out: Hit[] = [];
-    for (let b = 0; b < bible.length; b++) {
-      if (typeof bookFilter === 'number' && b !== bookFilter) continue;
-      if (bookFilter === 'old' && b >= 39) continue;
-      if (bookFilter === 'new' && b < 39) continue;
-      const bk = bible[b];
-      for (let c = 0; c < bk.chapters.length; c++) {
-        const ch = bk.chapters[c];
-        for (let v = 0; v < ch.length; v++) {
-          const text = ch[v][1];
-          const at = lower(text).indexOf(needle);
-          if (at !== -1) {
-            out.push({ book: b, chapter: c, verse: v, ref: `${bk.name} ${c + 1}:${ch[v][0]}`, text, at });
-            if (out.length >= MAX) return out;
-          }
-        }
-      }
+  useEffect(() => {
+    let current = true;
+    if (q.length < 2) {
+      setHits([]);
+      return () => { current = false; };
     }
-    return out;
+    searchScripture(bible, q, bookFilter, MAX).then((result) => {
+      if (current) setHits(result);
+    });
+    return () => { current = false; };
   }, [q, bible, bookFilter]);
 
   const snippet = (h: Hit) => {

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { safeStorage } from './safeStorage';
 
 interface PlanState {
   /** planId → completed day indices (0-based) */
@@ -26,6 +26,6 @@ export const usePlanStore = create<PlanState>()(
       isDone: (planId, day) => (get().progress[planId] ?? []).includes(day),
       doneCount: (planId) => (get().progress[planId] ?? []).length,
     }),
-    { name: 'lumen-plans', storage: createJSONStorage(() => AsyncStorage) },
+    { name: 'lumen-plans', storage: createJSONStorage(() => safeStorage) },
   ),
 );

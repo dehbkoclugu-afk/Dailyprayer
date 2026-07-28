@@ -1,11 +1,20 @@
 import React from 'react';
-import { useWindowDimensions } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
 import { type } from '@/theme/typography';
 import { CHROME_SCALE_CAP, useScaledHeight } from '@/theme/textScale';
+
+function TabIcon({ name, selected, color, size }: { name: React.ComponentProps<typeof Ionicons>['name']; selected: boolean; color: string; size: number }) {
+  return (
+    <View style={{ alignItems: 'center' }}>
+      <Ionicons name={name} size={size} color={color} />
+      <View style={{ width: selected ? 12 : 0, height: 2, borderRadius: 1, marginTop: 3, backgroundColor: color }} />
+    </View>
+  );
+}
 
 export default function TabsLayout() {
   const t = useTheme();
@@ -39,35 +48,35 @@ export default function TabsLayout() {
         name="today"
         options={{
           title: tr('tab.today'),
-          tabBarIcon: ({ color, size }) => <Ionicons name="sunny-outline" size={size} color={color} />,
+          tabBarIcon: ({ color, size, focused }) => <TabIcon name={focused ? 'sunny' : 'sunny-outline'} selected={focused} size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="bible"
         options={{
           title: tr('tab.bible'),
-          tabBarIcon: ({ color, size }) => <Ionicons name="book-outline" size={size} color={color} />,
+          tabBarIcon: ({ color, size, focused }) => <TabIcon name={focused ? 'book' : 'book-outline'} selected={focused} size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="pray"
         options={{
           title: tr('tab.pray'),
-          tabBarIcon: ({ color, size }) => <Ionicons name="flame-outline" size={size} color={color} />,
+          tabBarIcon: ({ color, size, focused }) => <TabIcon name={focused ? 'flame' : 'flame-outline'} selected={focused} size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="journal"
         options={{
           title: tr('tab.journal'),
-          tabBarIcon: ({ color, size }) => <Ionicons name="create-outline" size={size} color={color} />,
+          tabBarIcon: ({ color, size, focused }) => <TabIcon name={focused ? 'create' : 'create-outline'} selected={focused} size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: tr('tab.me'),
-          tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
+          tabBarIcon: ({ color, size, focused }) => <TabIcon name={focused ? 'person' : 'person-outline'} selected={focused} size={size} color={color} />,
         }}
       />
     </Tabs>

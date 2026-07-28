@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, ScrollView, useWindowDimensions, View, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
-import { spacing } from '@/theme/tokens';
+import { spacing, themes } from '@/theme/tokens';
 import { artRegistry } from '@/assets/registry';
 
 interface Props {
@@ -16,11 +16,12 @@ interface Props {
 const grain = artRegistry['A3-grain'];
 
 function Grain() {
+  const t = useTheme();
   if (!grain) return null;
   return (
     <View
       pointerEvents="none"
-      style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, opacity: 0.04 }}
+      style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, opacity: t.bg === themes.dawn.bg ? 0.015 : 0.04 }}
     >
       <Image
         source={grain}

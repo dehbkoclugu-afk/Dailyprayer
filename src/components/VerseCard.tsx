@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
-import { Image, Platform, Pressable, ScrollView, Share, Text, View } from 'react-native';
+import { Image, Platform, Pressable, Share, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { captureRef } from 'react-native-view-shot';
 import * as Sharing from 'expo-sharing';
 import { type } from '@/theme/typography';
-import { radius, shadow, spacing, TAP_MIN } from '@/theme/tokens';
+import { artwork, interaction, radius, scrim, shadow, spacing, TAP_MIN } from '@/theme/tokens';
 import { useScaledHeight } from '@/theme/textScale';
 import { artRegistry, type AssetId } from '@/assets/registry';
 import type { DailyVerse } from '@/data/verses';
@@ -79,8 +79,8 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       // the credit all doubled inside a box that did not, and the reference and
       // credit were pushed out of the card entirely.
       style={[
-        { height: cardHeight, borderRadius: radius.hero, overflow: 'hidden' },
-        shadow.card,
+        { minHeight: cardHeight, borderRadius: radius.hero, overflow: 'hidden' },
+        shadow.hero,
       ]}
     >
       {/* Painterly art layer (A5 series, chosen by verse theme) fills the card */}
@@ -93,7 +93,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
         />
       ) : null}
       <LinearGradient
-        colors={['rgba(23,16,46,0.82)', 'rgba(14,18,32,0.97)']}
+        colors={scrim.strong}
         start={{ x: 0.5, y: 0 }}
         end={{ x: 0.5, y: 1 }}
         style={{ position: 'absolute', width: '100%', height: '100%' }}
@@ -101,36 +101,23 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       <View style={{ flex: 1, padding: spacing.xl, paddingTop: spacing.xxl }}>
           <Text
             style={{ ...type.overline, letterSpacing: 2.5,
-              color: '#E4B85B' }}
+              color: artwork.sacredGold }}
           >
 {tu(tr('today.verseOfDay'))}
           </Text>
 
-          {/* the verse gets a flexible middle that scrolls when it's long; a soft
-              bottom fade hints there's more to read without a hard scrollbar */}
-          <View style={{ flex: 1, marginTop: spacing.md }}>
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              nestedScrollEnabled
-              contentContainerStyle={{ paddingBottom: spacing.lg }}
-            >
+          <View style={{ flexGrow: 1, marginTop: spacing.md, paddingBottom: spacing.lg }}>
               <Text
                 style={{
                   ...type.verse,
                   lineHeight: 37,
                   letterSpacing: -0.3,
-                  color: '#F2EEE6',
+                  color: artwork.onArtwork,
                   marginLeft: -2, // hanging opening quote
                 }}
               >
                 “{verse.text}”
               </Text>
-            </ScrollView>
-            <LinearGradient
-              pointerEvents="none"
-              colors={['rgba(14,18,32,0)', 'rgba(14,18,32,0.92)']}
-              style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 24 }}
-            />
           </View>
 
           <View
@@ -142,7 +129,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
             }}
           >
             <View style={{ flex: 1, paddingRight: spacing.sm }}>
-              <Text style={{ ...type.calloutMedium, color: '#D9A441' }}>
+              <Text style={{ ...type.calloutMedium, color: artwork.sacredGold }}>
                 {verse.reference}
               </Text>
               {/* Required attribution — see scriptureRights.ts. A licence term is
@@ -168,10 +155,10 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
                     height: TAP_MIN,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    opacity: pressed ? 0.6 : 1,
+                    opacity: pressed ? interaction.pressed : 1,
                   })}
                 >
-                  <Ionicons name="shuffle" size={22} color="#F2EEE6" />
+                  <Ionicons name="shuffle-outline" size={22} color={artwork.onArtwork} />
                 </Pressable>
               ) : null}
               <Pressable
@@ -184,10 +171,10 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
                   height: TAP_MIN,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  opacity: pressed ? 0.6 : 1,
+                  opacity: pressed ? interaction.pressed : 1,
                 })}
               >
-                <Ionicons name="share-outline" size={22} color="#F2EEE6" />
+                <Ionicons name="share-outline" size={22} color={artwork.onArtwork} />
               </Pressable>
             </View>
           </View>
