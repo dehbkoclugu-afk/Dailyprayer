@@ -105,6 +105,12 @@ export default function Paywall() {
   };
 
   const close = () => {
+    // The onboarding route is replaced by this paywall. Going "back" here can
+    // return to an earlier onboarding screen and trap people in the funnel.
+    if (from === 'onboarding') {
+      router.replace('/(tabs)/today');
+      return;
+    }
     if (router.canGoBack()) router.back();
     else router.replace('/(tabs)/today');
   };
