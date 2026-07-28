@@ -8,6 +8,7 @@ import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
+import { useScaledHeight } from '@/theme/textScale';
 import { usePlans } from '@/data/plans';
 import { planReading, formatReadingRef } from '@/data/planReadings';
 import { usePlanStore } from '@/state/usePlanStore';
@@ -16,6 +17,7 @@ import { NotFoundState } from '@/components/NotFoundState';
 
 export default function PlanScreen() {
   const t = useTheme();
+  const dayBadge = useScaledHeight(34);
   const { t: tr, tn, locale } = useT();
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -140,9 +142,12 @@ export default function PlanScreen() {
             >
               <View
                 style={{
-                  width: 34,
-                  height: 34,
-                  borderRadius: 17,
+                  // The day number lives in this circle, so the circle grows with
+                  // the reader's text setting (roadmap item 30) — at 200% a flat
+                  // 34 clipped two-digit days to a sliver.
+                  width: dayBadge,
+                  height: dayBadge,
+                  borderRadius: dayBadge / 2,
                   backgroundColor: isDone ? t.gold : t.surfaceAlt,
                   alignItems: 'center',
                   justifyContent: 'center',

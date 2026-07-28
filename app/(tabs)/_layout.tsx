@@ -5,12 +5,17 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
 import { fonts } from '@/theme/typography';
+import { CHROME_SCALE_CAP, useScaledHeight } from '@/theme/textScale';
 
 export default function TabsLayout() {
   const t = useTheme();
   const { t: tr } = useT();
   const { width } = useWindowDimensions();
   const expanded = width >= 840;
+  // The bar is chrome, so it grows but is capped (roadmap item 30): at 84 flat,
+  // an enlarged label was clipped mid-word under the icon; grown linearly it
+  // would take a third of the screen away from the content it labels.
+  const barHeight = useScaledHeight(84, CHROME_SCALE_CAP);
   return (
     <Tabs
       screenOptions={{
@@ -18,7 +23,7 @@ export default function TabsLayout() {
         tabBarStyle: {
           backgroundColor: t.chrome,
           borderTopColor: t.border,
-          height: 84,
+          height: barHeight,
           paddingTop: 8,
           width: expanded ? 600 : undefined,
           alignSelf: 'center',

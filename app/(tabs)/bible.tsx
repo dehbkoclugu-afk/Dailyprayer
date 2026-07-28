@@ -9,6 +9,7 @@ import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
+import { useStackedLayout } from '@/theme/textScale';
 import { usePlans } from '@/data/plans';
 import { bookMeta, bookName } from '@/data/bibleMeta';
 import { getBibleCredit } from '@/data/bibleFull';
@@ -18,6 +19,7 @@ import { useT } from '@/i18n';
 
 export default function Bible() {
   const t = useTheme();
+  const stacked = useStackedLayout();
   const { t: tr, tn, locale } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const plans = usePlans();
@@ -100,7 +102,10 @@ export default function Bible() {
             accessibilityLabel={a.label}
             style={({ pressed }) => ({
               flex: 1,
-              flexDirection: 'row',
+              // Icon beside label normally; above it once the text is large
+              // (roadmap item 30), which gives the label the button's full width
+              // instead of the half it keeps after the icon and gap take theirs.
+              flexDirection: stacked ? 'column' : 'row',
               alignItems: 'center',
               justifyContent: 'center',
               gap: spacing.sm,

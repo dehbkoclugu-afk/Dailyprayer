@@ -4,9 +4,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { artRegistry, artSpecs, type AssetId } from '@/assets/registry';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
+import { useScaledHeight } from '@/theme/textScale';
 
 interface Props {
   id: AssetId;
+  /** Height at default text size; grows with the reader's setting when text is laid over it. */
   height: number;
   /** cover fills the frame (hero art); contain floats spot art */
   fit?: 'cover' | 'contain';
@@ -25,8 +27,16 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, children
   const source = artRegistry[id];
   const spec = artSpecs[id];
 
+  // Art with content laid over it is a text box that happens to have a picture
+  // behind it, so it grows with the reader's text setting (roadmap item 30).
+  // Bare art is a picture and keeps the height it was composed at — the paywall
+  // hero was the worst case, where at 200% the title covered the four benefit
+  // lines and the lowest one fell outside the frame.
+  const scaled = useScaledHeight(height);
+  const frameHeight = children ? scaled : height;
+
   return (
-    <View style={[{ height, borderRadius: radius, overflow: 'hidden' }, style]}>
+    <View style={[{ height: frameHeight, borderRadius: radius, overflow: 'hidden' }, style]}>
       {source ? (
         <Image
           source={source}

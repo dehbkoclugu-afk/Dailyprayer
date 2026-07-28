@@ -6,6 +6,7 @@ import { captureRef } from 'react-native-view-shot';
 import * as Sharing from 'expo-sharing';
 import { fonts } from '@/theme/typography';
 import { radius, shadow, spacing, TAP_MIN } from '@/theme/tokens';
+import { useScaledHeight } from '@/theme/textScale';
 import { artRegistry, type AssetId } from '@/assets/registry';
 import type { DailyVerse } from '@/data/verses';
 import { useT } from '@/i18n';
@@ -41,6 +42,7 @@ interface Props {
 export function VerseCard({ verse, onRead, onShuffle }: Props) {
   const { t: tr, locale } = useT();
   const cardRef = useRef<View>(null);
+  const cardHeight = useScaledHeight(320);
 
   // The credit travels with the verse in every direction it can leave the app —
   // rendered onto the shared card and in the text fallback. YTC (CC BY-ND 4.0)
@@ -71,10 +73,13 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       onPress={onRead}
       accessibilityRole="button"
       accessibilityLabel={`Verse of the day, ${verse.reference}`}
-      // A fixed-height hero box: the frame stays constant so the layout below it
-      // never shifts. Long verses scroll gently inside instead of growing the card.
+      // The frame is constant at default text size, so the layout below it never
+      // shifts, and grows with the reader's text setting (roadmap item 30). It
+      // used to be a flat 320: at 200% the label, the verse, the reference and
+      // the credit all doubled inside a box that did not, and the reference and
+      // credit were pushed out of the card entirely.
       style={[
-        { height: 320, borderRadius: radius.hero, overflow: 'hidden' },
+        { height: cardHeight, borderRadius: radius.hero, overflow: 'hidden' },
         shadow.card,
       ]}
     >

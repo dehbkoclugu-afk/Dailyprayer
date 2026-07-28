@@ -6,6 +6,7 @@ import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
+import { useScaledHeight } from '@/theme/textScale';
 import { useReaderTheme } from '@/theme/reading';
 import { useReaderPrefsStore, FONT_MIN, FONT_MAX } from '@/state/useReaderPrefsStore';
 import { useT } from '@/i18n';
@@ -20,6 +21,10 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
 
   const tap = () => Haptics.selectionAsync().catch(() => {});
   const pct = Math.round(fontScale * 100);
+  // The two steppers and the percentage between them share a row and each holds
+  // text, so the row grows with the OS text setting (roadmap item 30). At 200%
+  // the serif "A" and "100%" overflowed a flat 56.
+  const controlSize = useScaledHeight(56);
 
   const stepBtn = (dir: 1 | -1, label: string, size: number, disabled: boolean) => (
     <Pressable
@@ -42,8 +47,8 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
           : label
       }
       style={{
-        width: 56,
-        height: 56,
+        width: controlSize,
+        height: controlSize,
         borderRadius: radius.inner,
         backgroundColor: t.surfaceAlt,
         borderWidth: 1,
@@ -109,7 +114,7 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
             <View
               style={{
                 flex: 1,
-                height: 56,
+                height: controlSize,
                 borderRadius: radius.inner,
                 backgroundColor: t.surfaceAlt,
                 borderWidth: 1,
