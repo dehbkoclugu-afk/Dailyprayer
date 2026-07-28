@@ -50,4 +50,8 @@ test('Google Play release handoff contains no unsupported launch claims', () => 
   assert.match(handoff, /first Google Play submission/);
   assert.match(handoff, /com\.lumen\.dailyprayer/);
   assert.match(handoff, /upload key/);
+
+  assert.match(scripts['release-check'], /play-launch-check/);
+  assert.match(read('scripts/check-play-launch.mjs'), /1024/);
+  assert.match(read('.github/workflows/legal-pages.yml'), /deploy-pages/);
 });

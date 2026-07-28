@@ -12,7 +12,8 @@ marked **[you]** need a human with accounts/credentials; **[code]** I can do.
 ## 1. Art assets
 - [x] A1–A20 are generated and registered.
 - [x] App icon and splash are wired in `app.json`.
-- [ ] Capture signed-release screenshots and a 1024×500 Play feature graphic.
+- [x] 1024×500 Play feature graphic is ready in `docs/play-store/assets/`.
+- [ ] Capture signed-release screenshots using `docs/play-store/screenshots.md`.
 
 ## 2. Monetization — [you] set up, [code] wire
 - [ ] In RevenueCat: create entitlement `plus`; products `lumen.weekly`,
@@ -24,12 +25,14 @@ marked **[you]** need a human with accounts/credentials; **[code]** I can do.
 
 ## 3. Legal — [you] finalize
 - [x] Legal entity, contact and jurisdiction are filled in the in-app and hosted copy.
-- [ ] Host `docs/legal/privacy-policy.md` + `terms-of-service.md` at public URLs.
+- [x] Static Privacy, Terms and Support pages plus GitHub Pages workflow are ready.
+- [ ] Enable GitHub Pages and confirm the deployed public URLs.
 - [ ] Enter the Privacy Policy URL in both store consoles (required).
 - [ ] Have the terms/privacy reviewed by a lawyer.
 
 ## 4. Store listing — [you] paste, [code] provided
 - [x] `docs/store-listing.md` contains accurate copy in six languages.
+- [x] `docs/play-store/play-console-declarations.md` contains the Play answers.
 - [ ] Capture screenshots from the signed real app at required sizes.
 - [ ] Fill Apple privacy "nutrition labels": data NOT collected (we're local-only;
       RevenueCat collects purchase data — declare per their guide).
