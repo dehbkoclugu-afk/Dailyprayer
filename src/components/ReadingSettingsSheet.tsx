@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useReducedMotion } from 'react-native-reanimated';
 import { fonts, type } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useScaledHeight } from '@/theme/textScale';
@@ -14,6 +15,7 @@ import { useSheetTitleFocus } from '@/a11y/sheetFocus';
 
 export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
   const t = useReaderTheme();
+  const reduceMotion = useReducedMotion();
   const { t: tr } = useT();
   const insets = useSafeAreaInsets();
   const { fontScale, paper, bumpFont, togglePaper } = useReaderPrefsStore();
@@ -63,7 +65,13 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
   );
 
   return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
+    <Modal
+      visible={visible}
+      transparent
+      animationType={reduceMotion ? 'none' : 'slide'}
+      onRequestClose={onClose}
+      statusBarTranslucent
+    >
       {/* iOS needs telling that the sheet is modal; on Android the Modal is a
           separate window and TalkBack cannot reach behind it anyway. */}
       <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }} accessibilityViewIsModal>

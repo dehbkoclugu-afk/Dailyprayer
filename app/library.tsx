@@ -11,6 +11,7 @@ import { getBible } from '@/data/bibleFull';
 import { useBookmarkStore } from '@/state/useBookmarkStore';
 import { useHighlightStore } from '@/state/useHighlightStore';
 import { useT } from '@/i18n';
+import { confirmDestructive } from '@/a11y/confirmDestructive';
 import type { TranslationKey } from '@/i18n/translations';
 
 type Tab = 'bookmarks' | 'highlights';
@@ -40,6 +41,17 @@ export default function Library() {
   const removeBookmark = useBookmarkStore((s) => s.remove);
   const marks = useHighlightStore((s) => s.marks);
   const clearMark = useHighlightStore((s) => s.clear);
+  const confirmRemove = (item: Row) =>
+    confirmDestructive({
+      title: tr('library.removeTitle'),
+      message: tr(item.markKey ? 'library.removeHighlightBody' : 'library.removeBookmarkBody'),
+      cancelLabel: tr('data.cancel'),
+      confirmLabel: tr('library.removeConfirm'),
+      onConfirm: () =>
+        item.markKey
+          ? clearMark(item.markKey)
+          : removeBookmark(item.book, item.chapter, item.verse),
+    });
 
   const bookmarkRows = useMemo<Row[]>(
     () =>
@@ -230,9 +242,7 @@ export default function Library() {
               </Text>
             </View>
             <Pressable
-              onPress={() =>
-                item.markKey ? clearMark(item.markKey) : removeBookmark(item.book, item.chapter, item.verse)
-              }
+              onPress={() => confirmRemove(item)}
               accessibilityRole="button"
               accessibilityLabel={item.markKey ? tr('verse.removeHighlight') : tr('verse.removeBookmark')}
               style={{

@@ -4,6 +4,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useReducedMotion } from 'react-native-reanimated';
 import { fonts, reader, type } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { HIGHLIGHT_LABEL, HIGHLIGHT_TINT, QUICK_HIGHLIGHT } from '@/theme/highlights';
@@ -20,6 +21,7 @@ import { NotFoundState } from '@/components/NotFoundState';
 
 export default function Read() {
   const { t: tr, locale, tu } = useT();
+  const reduceMotion = useReducedMotion();
   const insets = useSafeAreaInsets();
   const bible = getBible(locale);
   const { book, chapter, setPos } = useReaderStore();
@@ -397,7 +399,7 @@ export default function Read() {
       <Modal
         visible={picker !== null}
         transparent
-        animationType="slide"
+        animationType={reduceMotion ? 'none' : 'slide'}
         onRequestClose={() => setPicker(null)}
         statusBarTranslucent
       >

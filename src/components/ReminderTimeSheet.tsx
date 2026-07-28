@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useReducedMotion } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
 import { type } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
@@ -38,6 +39,7 @@ export function ReminderTimeSheet({
   onClose: () => void;
 }) {
   const t = useTheme();
+  const reduceMotion = useReducedMotion();
   const { t: tr } = useT();
   const insets = useSafeAreaInsets();
 
@@ -111,7 +113,13 @@ export function ReminderTimeSheet({
   );
 
   return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
+    <Modal
+      visible={visible}
+      transparent
+      animationType={reduceMotion ? 'none' : 'slide'}
+      onRequestClose={onClose}
+      statusBarTranslucent
+    >
       {/* iOS needs telling that the sheet is modal; on Android the Modal is a
           separate window and TalkBack cannot reach behind it anyway. */}
       <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }} accessibilityViewIsModal>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { AccessibilityInfo, Pressable, Text, View } from 'react-native';
-import Animated, { FadeInDown, FadeOutUp } from 'react-native-reanimated';
+import Animated, { FadeInDown, FadeOutUp, useReducedMotion } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useToastStore } from '@/state/useToastStore';
@@ -11,6 +11,7 @@ import { radius, shadow, spacing, TAP_MIN } from '@/theme/tokens';
 /** Minimal gold-trimmed toast. Mount once in the root layout. */
 export function ToastHost() {
   const t = useTheme();
+  const reduceMotion = useReducedMotion();
   const insets = useSafeAreaInsets();
   const { message, actionLabel, action, seq, clear } = useToastStore();
 
@@ -52,8 +53,8 @@ export function ToastHost() {
         pointerEvents={hasAction ? 'auto' : 'none'}
         accessibilityRole="alert"
         accessibilityLiveRegion="polite"
-        entering={FadeInDown.springify().damping(20)}
-        exiting={FadeOutUp.duration(150)}
+        entering={reduceMotion ? undefined : FadeInDown.springify().damping(20)}
+        exiting={reduceMotion ? undefined : FadeOutUp.duration(150)}
         style={[
           {
             flexDirection: 'row',

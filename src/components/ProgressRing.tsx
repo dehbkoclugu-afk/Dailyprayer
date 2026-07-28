@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import Animated, { ZoomIn } from 'react-native-reanimated';
+import Animated, { useReducedMotion, ZoomIn } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
 import { type } from '@/theme/typography';
@@ -16,6 +16,7 @@ interface Props {
  */
 export function ProgressRing({ done, total, size = 56 }: Props) {
   const t = useTheme();
+  const reduceMotion = useReducedMotion();
   const { tfn } = useT();
   const dots = Array.from({ length: total }, (_, i) => i < done);
   return (
@@ -31,7 +32,7 @@ export function ProgressRing({ done, total, size = 56 }: Props) {
             // key includes fill state so a newly-earned dot pops in with a spring
             <Animated.View
               key={`${i}-${filled}`}
-              entering={filled ? ZoomIn.springify().damping(12) : undefined}
+              entering={filled && !reduceMotion ? ZoomIn.springify().damping(12) : undefined}
               style={{
                 position: 'absolute',
                 left: size / 2 + r * Math.cos(angle) - 4,

@@ -5,8 +5,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { artRegistry, type AssetId } from '@/assets/registry';
 import Animated, {
   Easing,
-  ReduceMotion,
   useAnimatedStyle,
+  useReducedMotion,
   useSharedValue,
   withSequence,
   withTiming,
@@ -32,6 +32,7 @@ const CARD_W = 360; // approximate; the shimmer just needs to travel past the ed
 
 export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }: Props) {
   const t = useTheme();
+  const reduceMotion = useReducedMotion();
   const { t: tr, tf } = useT();
   // With art, the card is a dark warm scene regardless of the app theme, so the
   // text/icon must be light — theme colors (t.ink) would be dark-on-dark in the
@@ -45,18 +46,17 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
   const shimmerX = useSharedValue(-CARD_W);
   const prevDone = useRef(done);
   useEffect(() => {
-    if (done && !prevDone.current) {
+    if (done && !prevDone.current && !reduceMotion) {
       shimmerX.value = -CARD_W;
       shimmerX.value = withSequence(
         withTiming(CARD_W, {
           duration: 650,
           easing: Easing.out(Easing.cubic),
-          reduceMotion: ReduceMotion.System,
         }),
       );
     }
     prevDone.current = done;
-  }, [done, shimmerX]);
+  }, [done, reduceMotion, shimmerX]);
 
   const shimmerStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: shimmerX.value }, { rotate: '18deg' }],
@@ -144,7 +144,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         </Text>
       </View>
       {done ? (
-        <Animated.View entering={ZoomIn.springify().damping(12)}>
+        <Animated.View entering={reduceMotion ? undefined : ZoomIn.springify().damping(12)}>
           <Ionicons name="checkmark-circle" size={26} color={t.gold} />
         </Animated.View>
       ) : locked ? (

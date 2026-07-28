@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useReducedMotion } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
 import { fonts, type } from '@/theme/typography';
@@ -37,12 +38,19 @@ export function OptionSheet<T extends string>({
   onClose,
 }: Props<T>) {
   const t = useTheme();
+  const reduceMotion = useReducedMotion();
   const { tu } = useT();
   const insets = useSafeAreaInsets();
   const titleRef = useSheetTitleFocus(visible);
 
   return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
+    <Modal
+      visible={visible}
+      transparent
+      animationType={reduceMotion ? 'none' : 'slide'}
+      onRequestClose={onClose}
+      statusBarTranslucent
+    >
       {/* iOS needs telling that the sheet is modal; on Android the Modal is a
           separate window and TalkBack cannot reach behind it anyway. */}
       <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }} accessibilityViewIsModal>

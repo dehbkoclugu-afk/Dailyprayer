@@ -16,6 +16,7 @@ import {
 } from '@expo-google-fonts/figtree';
 import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { useReducedMotion } from 'react-native-reanimated';
 import { ToastHost } from '@/components/ToastHost';
 import { useTheme } from '@/hooks/useTheme';
 import { useStreakStore } from '@/state/useStreakStore';
@@ -26,6 +27,7 @@ SplashScreen.preventAutoHideAsync().catch(() => {});
 
 export default function RootLayout() {
   const t = useTheme();
+  const reduceMotion = useReducedMotion();
   const scheme = useColorScheme();
   const pref = useUserStore((s) => s.themePreference);
   const [loaded, fontError] = useFonts({
@@ -94,6 +96,7 @@ export default function RootLayout() {
         screenOptions={{
           headerShown: false,
           contentStyle: { backgroundColor: t.bg },
+          animation: reduceMotion ? 'none' : 'default',
         }}
       >
         <Stack.Screen name="paywall" options={{ presentation: 'modal' }} />

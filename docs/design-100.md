@@ -423,30 +423,41 @@ deneyimi, performans ve görsel cila gelir.
     Altı kural koruyor (`src/a11y/sheetFocus.test.ts`), üstelik **sheet listesinin kendisi de**
     denetleniyor — yoksa bir sheet eşleşmeyi bırakınca kurallar ona bakmayarak “geçer”di. Beş
     ihlal enjekte edilip yakalandığı doğrulandı.
-29. **Modal arka planlarını erişilebilirlik ağacından çıkar.** Görünmez kapatma alanları ayrı
+29. ✅ **TAMAMLANDI — Modal arka planlarını erişilebilirlik ağacından çıkar.** Görünmez kapatma alanları ayrı
     “Kapat” düğmesi gibi tekrarlanmak yerine modal semantiğiyle yönetilmeli.
-30. **Büyük yazıda sabit yükseklikleri kaldır.** VerseCard, paywall hero ve yatay aksiyonlar
+30. ✅ **TAMAMLANDI — Büyük yazıda sabit yükseklikleri kaldır.** VerseCard, paywall hero ve yatay aksiyonlar
     200% font ölçeğinde metin kırpmadan büyüyebilmeli.
-31. **Metin rollerini merkezi tipe bağla.** Dağınık 10/11/12/14/16/18/20/21/24/27/30/34/46/64
+31. ✅ **TAMAMLANDI — Metin rollerini merkezi tipe bağla.** Dağınık 10/11/12/14/16/18/20/21/24/27/30/34/46/64
     değerleri semantic display/title/body/label rollerinden çözülmeli.
-32. **En küçük okunabilir metni yükselt.** PLUS rozetleri ve yardımcı etiketler 10–11 sp’de
+32. ✅ **TAMAMLANDI — En küçük okunabilir metni yükselt.** PLUS rozetleri ve yardımcı etiketler 10–11 sp’de
     kalmamalı; kontrast ve font ölçeğiyle en az Material label-small karşılığı sağlanmalı.
-33. **Uppercase dönüşümünü yerel dile göre yap.** Türkçe `i/İ` hataları için render-time
+33. ✅ **TAMAMLANDI — Uppercase dönüşümünü yerel dile göre yap.** Türkçe `i/İ` hataları için render-time
     `textTransform` yerine çevrilmiş doğru biçim kullanılmalı.
-34. **Tüm sabit İngilizce erişilebilirlik metinlerini çeviri anahtarına taşı.** “Verse of the
+34. ✅ **TAMAMLANDI — Tüm sabit İngilizce erişilebilirlik metinlerini çeviri anahtarına taşı.** “Verse of the
     day”, “requires Plus”, “locked”, “day streak” gibi etiketler altı dilde tutarlı olmalı.
-35. **ProgressRing ve StreakFlame etiketlerini yerelleştir.** İngilizce cümle birleştirme yerine
+35. ✅ **TAMAMLANDI — ProgressRing ve StreakFlame etiketlerini yerelleştir.** İngilizce cümle birleştirme yerine
     çoğul kuralları olan tam çeviri anahtarları kullanılmalı.
-36. **Reduce Motion kapsamını bütün uygulamaya genişlet.** Player ve flame dışında onboarding,
-    RitualCard, toast ve ekran giriş animasyonları sistem ayarına uymalı.
-37. **Hareket azaltmada shimmer’ı kaldır.** Tamamlama ödülü statik glow/check’e dönüşmeli;
-    kullanıcının sistem tercihi ritüel animasyonunda da korunmalı.
-38. **Animasyonlu durum değişimlerini seslendir.** Ritüel tamamlandı/geri alındı, plan günü bitti
-    ve dua sona erdi mesajları TalkBack’e tek kez bildirilmelidir.
-39. **PillButton `busy` ile `disabled` durumunu ayır.** Her pasif düğme “meşgul” değildir;
-    yüklenme sırasında spinner ve doğru erişilebilirlik durumu gösterilmeli.
-40. **Silme ve destructive işlemlerde erişilebilir doğrulama kullan.** Native Alert düğme sırası,
-    iptal varsayılanı ve TalkBack açıklaması bütün dillerde kontrol edilmeli.
+36. ✅ **TAMAMLANDI — Reduce Motion kapsamını bütün uygulamaya genişlet.** Player ve flame dışında onboarding,
+    RitualCard, toast ve ekran giriş animasyonları sistem ayarına uymalı. Root Stack geçişleri,
+    altı native sheet, RitualCard onayı, ProgressRing noktaları, toast giriş/çıkışı ve streak
+    artış pop’u artık sistem tercihi açıkken hareket etmiyor. Kaynak koruma testi yeni bir
+    Reanimated giriş/çıkışının veya native Modal geçişinin korumasız eklenmesini engelliyor.
+37. ✅ **TAMAMLANDI — Hareket azaltmada shimmer’ı kaldır.** Tamamlama ödülü statik glow/check’e
+    dönüşüyor; Reduce Motion açıkken shimmer worklet’i hiç başlatılmıyor ve check işareti giriş
+    animasyonu olmadan doğrudan görünüyor.
+38. ✅ **TAMAMLANDI — Animasyonlu durum değişimlerini seslendir.** Ritüel tamamlanmaları mevcut
+    yerelleştirilmiş toast yolundan, geri alma ve plan günü bitişi yeni tam cümle toast’larından
+    TalkBack’e bir kez bildiriliyor. Dua bitişi aynı tek duyuru yolunu koruyor; ayrı ve yinelenen
+    `announceForAccessibility` çağrısı eklenmedi.
+39. ✅ **TAMAMLANDI — PillButton `busy` ile `disabled` durumunu ayır.** `busy` ayrı prop ve yalnız
+    gerçek işlem sırasında `accessibilityState.busy` oluyor; normal form/koşul pasifliği yalnız
+    disabled olarak okunuyor. Meşgul düğme metin yerine spinner gösteriyor ve satın alma CTA’sı
+    yeni durumu kullanıyor.
+40. ✅ **TAMAMLANDI — Silme ve destructive işlemlerde erişilebilir doğrulama kullan.** Geri
+    alınamaz Library vurgu/yer imi kaldırmaları artık native Alert ile doğrulanıyor: iptal ilk ve
+    `cancel` stilli, onay `destructive`, Android geri hareketi iptal edebiliyor. Başlık, açıklama,
+    iptal ve onay metinleri altı dilde tam cümleler; geri alınabilir Journal silmesi Undo akışını,
+    iki aşamalı tüm-veri silme ise ayrıntılı sheet doğrulamasını koruyor.
 41. **Arama temizleme düğmesini 48 dp hedefe çıkar.** Küçük 18 px ikon yalnızca `hitSlop` ile
     bırakılmamalı; görünür/fiziksel hedef alanı sağlanmalı.
 42. **Prayer kategori chip’lerini 48 dp yap.** Mevcut 44 dp minimumu Android hedefinin altında;

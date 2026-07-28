@@ -75,6 +75,10 @@ export default function Today() {
   const sleepPrayer = prayers.find((p) => p.category === 'sleep')!;
   const completeStep = useStreakStore((s) => s.completeStep);
   const uncompleteStep = useStreakStore((s) => s.uncompleteStep);
+  const undoStep = (step: 'devotional' | 'prayer' | 'gratitude') => {
+    uncompleteStep(step);
+    toast(translate('toast.ritualUndone'));
+  };
 
   return (
     <Screen tabbed>
@@ -143,7 +147,7 @@ export default function Today() {
             title={tr('today.devotional')}
             subtitle={`${devotional.title} · 2 ${tr('today.minRead')}`}
             done={isDone('devotional')}
-            onPress={() => isDone('devotional') ? uncompleteStep('devotional') : router.push('/devotional')}
+            onPress={() => isDone('devotional') ? undoStep('devotional') : router.push('/devotional')}
           />,
           <RitualCard
             key="prayer"
@@ -152,7 +156,7 @@ export default function Today() {
             title={tr('today.guidedPrayer')}
             subtitle={`${morningPrayer.title} · ${morningPrayer.minutes} ${tr('pray.min')}`}
             done={isDone('prayer')}
-            onPress={() => isDone('prayer') ? uncompleteStep('prayer') : router.push({ pathname: '/player', params: { id: morningPrayer.id } })}
+            onPress={() => isDone('prayer') ? undoStep('prayer') : router.push({ pathname: '/player', params: { id: morningPrayer.id } })}
           />,
           <RitualCard
             key="gratitude"
@@ -161,7 +165,7 @@ export default function Today() {
             title={tr('today.gratitude')}
             subtitle={tr('today.gratitudeSub')}
             done={isDone('gratitude')}
-            onPress={() => isDone('gratitude') ? uncompleteStep('gratitude') : router.push('/(tabs)/journal')}
+            onPress={() => isDone('gratitude') ? undoStep('gratitude') : router.push('/(tabs)/journal')}
           />,
         ].map((card, i) => (
           <View key={i}>{card}</View>

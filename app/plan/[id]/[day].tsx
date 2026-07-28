@@ -12,8 +12,9 @@ import { usePlans } from '@/data/plans';
 import { planReading, formatReadingRef } from '@/data/planReadings';
 import { getBible } from '@/data/bibleFull';
 import { usePlanStore } from '@/state/usePlanStore';
-import { useT } from '@/i18n';
+import { translate, useT } from '@/i18n';
 import { NotFoundState } from '@/components/NotFoundState';
+import { toast } from '@/state/useToastStore';
 
 export default function PlanDay() {
   const t = useTheme();
@@ -61,7 +62,10 @@ export default function PlanDay() {
 
   const complete = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
-    if (!done) toggleDay(plan.id, dayIdx);
+    if (!done) {
+      toggleDay(plan.id, dayIdx);
+      toast(translate('toast.planDayComplete'));
+    }
     router.back();
   };
 
