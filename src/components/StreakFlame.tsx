@@ -13,8 +13,8 @@ import Animated, {
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
-import { useReduceMotion } from '@/a11y/reduceMotion';
 import { type } from '@/theme/typography';
+import { useReduceMotion } from '@/a11y/reduceMotion';
 interface Props {
   count: number;
   litToday: boolean;
@@ -23,14 +23,12 @@ interface Props {
 /** Streak flame — breathes gently when lit today (disabled under Reduce Motion). */
 export function StreakFlame({ count, litToday }: Props) {
   const t = useTheme();
-  const { tfn } = useT();
   const reduceMotion = useReduceMotion();
+  const { tfn } = useT();
   const scale = useSharedValue(1);
   const prevCount = useRef(count);
 
-  // One-shot pop when the streak ticks up (design-100 #58). This was never gated
-  // at all — the pulse below was, so reduce motion silenced the ambient breathing
-  // and left the sharper of the two animations running (roadmap item 36).
+  // one-shot pop when the streak ticks up (design-100 #58)
   useEffect(() => {
     if (!reduceMotion && count > prevCount.current) {
       scale.value = withSequence(withSpring(1.25, { damping: 12 }), withSpring(1, { damping: 16 }));
@@ -39,15 +37,16 @@ export function StreakFlame({ count, litToday }: Props) {
   }, [count, reduceMotion, scale]);
 
   useEffect(() => {
-    if (reduceMotion || !litToday) return undefined;
+    if (reduceMotion || !litToday) {
+      cancelAnimation(scale);
+      scale.value = 1;
+      return;
+    }
     scale.value = withRepeat(
       withTiming(1.06, { duration: 2000, easing: Easing.inOut(Easing.quad) }),
       -1,
       true,
     );
-    // Depending on reduceMotion is what stops the loop mid-session: turning the
-    // setting on re-runs this effect, and the cleanup cancels the repeat that is
-    // already running. The promise this replaced resolved once and never again.
     return () => {
       cancelAnimation(scale);
       scale.value = 1;

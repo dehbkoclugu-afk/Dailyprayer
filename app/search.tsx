@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { FlatList, Pressable, Text, TextInput, View } from 'react-native';
+import { FlatList, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -7,19 +7,12 @@ import { useTheme } from '@/hooks/useTheme';
 import { fonts, type } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { getBible } from '@/data/bibleFull';
+import { searchScripture, type ScriptureHit as Hit } from '@/data/scriptureSearch';
 import { useT } from '@/i18n';
+import { TopAppBar } from '@/components/TopAppBar';
 
-interface Hit {
-  book: number;
-  chapter: number;
-  verse: number;
-  ref: string;
-  text: string;
-  at: number; // match offset in text
-}
-
-const lower = (s: string) => s.toLocaleLowerCase('tr');
 const MAX = 300;
+type BookFilter = 'all' | 'old' | 'new' | number;
 
 export default function Search() {
   const t = useTheme();
@@ -27,64 +20,43 @@ export default function Search() {
   const insets = useSafeAreaInsets();
   const [query, setQuery] = useState('');
   const [q, setQ] = useState(''); // debounced
+  const [bookFilter, setBookFilter] = useState<BookFilter>('all');
+  const [hits, setHits] = useState<Hit[]>([]);
+  const bible = useMemo(() => getBible(locale), [locale]);
 
   useEffect(() => {
     const id = setTimeout(() => setQ(query.trim()), 220);
     return () => clearTimeout(id);
   }, [query]);
 
-  const hits = useMemo<Hit[]>(() => {
-    if (q.length < 2) return [];
-    const bible = getBible(locale);
-    const needle = lower(q);
-    const out: Hit[] = [];
-    for (let b = 0; b < bible.length; b++) {
-      const bk = bible[b];
-      for (let c = 0; c < bk.chapters.length; c++) {
-        const ch = bk.chapters[c];
-        for (let v = 0; v < ch.length; v++) {
-          const text = ch[v][1];
-          const at = lower(text).indexOf(needle);
-          if (at !== -1) {
-            out.push({ book: b, chapter: c, verse: v, ref: `${bk.name} ${c + 1}:${ch[v][0]}`, text, at });
-            if (out.length >= MAX) return out;
-          }
-        }
-      }
+  useEffect(() => {
+    let current = true;
+    if (q.length < 2) {
+      setHits([]);
+      return () => { current = false; };
     }
-    return out;
-  }, [q, locale]);
+    searchScripture(bible, q, bookFilter, MAX).then((result) => {
+      if (current) setHits(result);
+    });
+    return () => { current = false; };
+  }, [q, bible, bookFilter]);
 
   const snippet = (h: Hit) => {
     const start = Math.max(0, h.at - 40);
     const pre = (start > 0 ? '…' : '') + h.text.slice(start, h.at);
     const match = h.text.slice(h.at, h.at + q.length);
-    const post = h.text.slice(h.at + q.length);
+    const end = Math.min(h.text.length, h.at + q.length + 64);
+    const post = h.text.slice(h.at + q.length, end) + (end < h.text.length ? '…' : '');
     return { pre, match, post };
   };
 
   return (
     <View style={{ flex: 1, backgroundColor: t.bg, paddingTop: insets.top + spacing.md }}>
       {/* search bar */}
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm, paddingHorizontal: spacing.xl }}>
-        <Pressable
-          onPress={() => router.back()}
-          hitSlop={12}
-          accessibilityRole="button"
-          accessibilityLabel={tr('a11y.back')}
-          style={{
-            width: TAP_MIN,
-            height: TAP_MIN,
-            borderRadius: 22,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: t.surface,
-            borderWidth: 1,
-            borderColor: t.border,
-          }}
-        >
-          <Ionicons name="chevron-back" size={24} color={t.inkSoft} />
-        </Pressable>
+      <View style={{ paddingHorizontal: spacing.xl }}>
+        <TopAppBar title={tr('read.search')} />
+      </View>
+      <View style={{ marginTop: spacing.md, paddingHorizontal: spacing.xl }}>
         <View
           style={{
             flex: 1,
@@ -121,6 +93,8 @@ export default function Search() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginRight: -spacing.sm,
+                borderRadius: TAP_MIN / 2,
+                backgroundColor: t.surfaceAlt,
               }}
             >
               <Ionicons name="close-circle" size={18} color={t.inkFaint} />
@@ -129,14 +103,51 @@ export default function Search() {
         </View>
       </View>
 
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        style={{ marginTop: spacing.md }}
+        contentContainerStyle={{ gap: spacing.sm, paddingHorizontal: spacing.xl }}
+      >
+        {[
+          { value: 'all' as const, label: tr('read.allBooks') },
+          { value: 'old' as const, label: tr('read.oldTestament') },
+          { value: 'new' as const, label: tr('read.newTestament') },
+          ...bible.map((book, index) => ({ value: index, label: book.name })),
+        ].map((option) => {
+          const active = bookFilter === option.value;
+          return (
+            <Pressable
+              key={String(option.value)}
+              onPress={() => setBookFilter(option.value)}
+              accessibilityRole="button"
+              accessibilityState={{ selected: active }}
+              style={{
+                minHeight: TAP_MIN,
+                justifyContent: 'center',
+                paddingHorizontal: spacing.lg,
+                borderRadius: radius.pill,
+                backgroundColor: active ? t.goldSoft : t.surface,
+                borderWidth: 1,
+                borderColor: active ? t.gold : t.border,
+              }}
+            >
+              <Text style={{ ...type.labelMedium, color: active ? t.goldText : t.inkSoft }}>{option.label}</Text>
+            </Pressable>
+          );
+        })}
+      </ScrollView>
+
       {q.length >= 2 ? (
         <Text
           style={{ ...type.labelMedium, color: t.inkSoft,
             paddingHorizontal: spacing.xl,
             marginTop: spacing.lg }}
         >
-          {hits.length >= MAX ? `${MAX}+ ` : `${hits.length} `}
-          {tn(hits.length >= MAX ? MAX : hits.length, 'read.results')}
+          {hits.length >= MAX
+            ? tr('read.firstResults')
+            : `${hits.length} ${tn(hits.length, 'read.results')}`}
         </Text>
       ) : null}
 
@@ -190,7 +201,7 @@ export default function Search() {
               <Text style={{ ...type.labelSemi, color: t.goldText, marginBottom: spacing.xs }}>
                 {item.ref}
               </Text>
-              <Text style={{ ...type.quoteSmall, lineHeight: 23, color: t.ink }} numberOfLines={3}>
+              <Text style={{ ...type.quoteSmall, lineHeight: 23, color: t.ink }} numberOfLines={2}>
                 {s.pre}
                 <Text style={{ fontFamily: fonts.sansBold, color: t.goldText }}>{s.match}</Text>
                 {s.post}

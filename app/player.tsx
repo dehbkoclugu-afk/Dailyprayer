@@ -11,7 +11,7 @@ import { PillButton } from '@/components/PillButton';
 import { NotFoundState } from '@/components/NotFoundState';
 import { useTheme } from '@/hooks/useTheme';
 import { type } from '@/theme/typography';
-import { spacing, TAP_MIN } from '@/theme/tokens';
+import { artwork, interaction, scrim, spacing, TAP_MIN } from '@/theme/tokens';
 import { usePrayers } from '@/data/prayers';
 import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
@@ -61,6 +61,7 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
   const completeStep = useStreakStore((s) => s.completeStep);
   const [line, setLine] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [accessibilityReady, setAccessibilityReady] = useState(false);
   const [pace, setPace] = useState<Pace>('normal');
   const lastLine = line >= prayer.script.length - 1;
   const progress = (line + 1) / prayer.script.length;
@@ -72,6 +73,27 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
         60000,
     ),
   );
+
+  useEffect(() => {
+    let mounted = true;
+    AccessibilityInfo.isScreenReaderEnabled()
+      .then((enabled) => {
+        if (!mounted) return;
+        if (enabled) setPaused(true);
+        setAccessibilityReady(true);
+      })
+      .catch(() => {
+        if (mounted) setAccessibilityReady(true);
+      });
+    const subscription = AccessibilityInfo.addEventListener('screenReaderChanged', (enabled) => {
+      if (enabled) setPaused(true);
+      setAccessibilityReady(true);
+    });
+    return () => {
+      mounted = false;
+      subscription.remove();
+    };
+  }, []);
 
   useEffect(() => {
     AsyncStorage.getItem(`lumen-player-${prayer.id}`)
@@ -88,11 +110,11 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
   }, [line, prayer.id, prayer.script]);
 
   useEffect(() => {
-    if (paused || lastLine) return;
+    if (!accessibilityReady || paused || lastLine) return;
     const ms = Math.max(4000, prayer.script[line].length * PACE_FACTOR[pace]);
     const timer = setTimeout(() => setLine((l) => l + 1), ms);
     return () => clearTimeout(timer);
-  }, [line, pace, paused, lastLine, prayer.script]);
+  }, [accessibilityReady, line, pace, paused, lastLine, prayer.script]);
 
   const finish = () => {
     completeStep('prayer');
@@ -113,11 +135,15 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
         }}
       >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-          <View style={{ flex: 1 }}>
-            <Text style={{ ...type.calloutSemi, color: '#F2EEE6' }}>
+          <View
+            style={{ flex: 1 }}
+            accessible
+            accessibilityLabel={`${prayer.title}. ${tr('player.guidedText')}. ${remainingMinutes} ${tn(remainingMinutes, 'player.minLeft')}`}
+          >
+            <Text style={{ ...type.calloutSemi, color: artwork.onArtwork }}>
               {prayer.title}
             </Text>
-            <Text style={{ ...type.label, color: '#C9C5B8', marginTop: 2 }}>
+            <Text style={{ ...type.label, color: artwork.onArtworkSoft, marginTop: 2 }}>
               {tr('player.guidedText')} · {remainingMinutes} {tn(remainingMinutes, 'player.minLeft')}
             </Text>
           </View>
@@ -133,15 +159,25 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
         </View>
 
         <View style={{ flex: 1, justifyContent: 'center' }}>
+          {line > 0 ? (
+            <Text
+              accessibilityElementsHidden
+              importantForAccessibility="no"
+              numberOfLines={2}
+              style={{ ...type.quoteSmall, color: artwork.onArtwork, opacity: 0.32, textAlign: 'center', marginBottom: spacing.xl }}
+            >
+              {prayer.script[line - 1]}
+            </Text>
+          ) : null}
           {/* each line rises gently into place — the "breath" feel */}
           <Animated.Text
             key={line}
             entering={reduceMotion ? undefined : FadeInUp.duration(600)}
             exiting={reduceMotion ? undefined : FadeOut.duration(250)}
-            accessibilityLiveRegion="polite"
+            accessibilityRole="text"
             style={{
               ...type.verse,
-              color: '#F2EEE6',
+              color: artwork.onArtwork,
               textAlign: 'center',
             }}
           >
@@ -155,23 +191,29 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
           style={{
             height: 4,
             borderRadius: 2,
-            backgroundColor: 'rgba(242,238,230,0.2)',
+            backgroundColor: scrim.top[0],
             marginBottom: spacing.md,
             overflow: 'hidden',
           }}
         >
-          <View style={{ width: `${progress * 100}%`, height: '100%', backgroundColor: '#D9A441' }} />
+          <View style={{ width: `${progress * 100}%`, height: '100%', backgroundColor: artwork.sacredGold }} />
         </View>
-        <Pressable
-          onPress={() => setPace((current) => current === 'slow' ? 'normal' : current === 'normal' ? 'quick' : 'slow')}
-          accessibilityRole="button"
-          accessibilityLabel={`${tr('player.pace')}: ${tr(`player.pace.${pace}` as never)}`}
-          style={{ minHeight: TAP_MIN, alignSelf: 'center', justifyContent: 'center', marginBottom: spacing.md }}
-        >
-          <Text style={{ ...type.calloutMedium, color: '#C9C5B8' }}>
-            {tr('player.pace')}: {tr(`player.pace.${pace}` as never)}
-          </Text>
-        </Pressable>
+        <View style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: spacing.sm }}>
+          {(['slow', 'normal', 'quick'] as const).map((value) => (
+            <Pressable key={value} onPress={() => setPace(value)} accessibilityRole="radio"
+              accessibilityState={{ checked: pace === value }}
+              accessibilityLabel={`${tr('player.pace')}: ${tr(`player.pace.${value}` as never)}`}
+              style={({ pressed }) => ({ minHeight: TAP_MIN, justifyContent: 'center', paddingHorizontal: spacing.md, borderBottomWidth: pace === value ? 2 : 0, borderBottomColor: artwork.sacredGold, opacity: pressed ? interaction.pressed : 1 })}>
+              <Text style={{ ...type.labelMedium, color: pace === value ? artwork.onArtwork : artwork.onArtworkSoft }}>{tr(`player.pace.${value}` as never)}</Text>
+            </Pressable>
+          ))}
+        </View>
+        <View accessibilityRole="progressbar" accessibilityValue={{ min: 1, max: 3, now: progress < .34 ? 1 : progress < .75 ? 2 : 3 }}
+          style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: spacing.md }}>
+          {[0.05, 0.5, 0.95].map((point) => (
+            <View key={point} style={{ width: 7, height: 7, borderRadius: 4, backgroundColor: progress >= point ? artwork.sacredGold : artwork.onArtworkSoft, opacity: progress >= point ? 1 : .35 }} />
+          ))}
+        </View>
 
         {lastLine ? (
           <PillButton label={translate('devotional.amen')} onPress={finish} />
@@ -198,12 +240,12 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
                 width: 64,
                 height: 64,
                 borderRadius: 32,
-                backgroundColor: '#D9A441',
+                backgroundColor: artwork.sacredGold,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
-              <Ionicons name={paused ? 'play' : 'pause'} size={28} color="#1A1206" />
+              <Ionicons name={paused ? 'play' : 'pause'} size={28} color={artwork.onSacredGold} />
             </Pressable>
             <Pressable
               onPress={() => setLine((l) => Math.min(prayer.script.length - 1, l + 1))}

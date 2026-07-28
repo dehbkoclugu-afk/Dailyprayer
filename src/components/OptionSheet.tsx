@@ -7,6 +7,7 @@ import { useT } from '@/i18n';
 import { fonts, type } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useSheetTitleFocus } from '@/a11y/sheetFocus';
+import { useReduceMotion } from '@/a11y/reduceMotion';
 
 export interface SheetOption<T extends string> {
   value: T;
@@ -37,12 +38,19 @@ export function OptionSheet<T extends string>({
   onClose,
 }: Props<T>) {
   const t = useTheme();
+  const reduceMotion = useReduceMotion();
   const { tu } = useT();
   const insets = useSafeAreaInsets();
   const titleRef = useSheetTitleFocus(visible);
 
   return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
+    <Modal
+      visible={visible}
+      transparent
+      animationType={reduceMotion ? 'none' : 'slide'}
+      onRequestClose={onClose}
+      statusBarTranslucent
+    >
       {/* iOS needs telling that the sheet is modal; on Android the Modal is a
           separate window and TalkBack cannot reach behind it anyway. */}
       <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }} accessibilityViewIsModal>

@@ -21,6 +21,8 @@ import { toast } from '@/state/useToastStore';
 import { useT } from '@/i18n';
 import { getBibleCredit } from '@/data/bibleFull';
 import { useSheetTitleFocus } from '@/a11y/sheetFocus';
+import { useStackedLayout } from '@/theme/textScale';
+import { useReduceMotion } from '@/a11y/reduceMotion';
 
 export interface SelectedVerse {
   book: number;
@@ -41,8 +43,10 @@ export function VerseActionSheet({
   onClose: () => void;
 }) {
   const t = useReaderTheme();
+  const reduceMotion = useReduceMotion();
   const { t: tr, locale, tu } = useT();
   const insets = useSafeAreaInsets();
+  const stacked = useStackedLayout();
 
   const marks = useHighlightStore((s) => s.marks);
   const setMark = useHighlightStore((s) => s.set);
@@ -114,7 +118,8 @@ export function VerseActionSheet({
       accessibilityLabel={label}
       accessibilityState={{ selected: active }}
       style={({ pressed }) => ({
-        flex: 1,
+        flex: stacked ? undefined : 1,
+        width: stacked ? '100%' : '48%',
         alignItems: 'center',
         gap: 6,
         paddingVertical: spacing.md,
@@ -133,7 +138,13 @@ export function VerseActionSheet({
   );
 
   return (
-    <Modal visible transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
+    <Modal
+      visible
+      transparent
+      animationType={reduceMotion ? 'none' : 'slide'}
+      onRequestClose={onClose}
+      statusBarTranslucent
+    >
       {/* iOS needs telling that the sheet is modal; on Android the Modal is a
           separate window and TalkBack cannot reach behind it anyway. */}
       <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }} accessibilityViewIsModal>
@@ -242,7 +253,7 @@ export function VerseActionSheet({
           </View>
 
           {/* actions */}
-          <View style={{ flexDirection: 'row', gap: spacing.sm, marginTop: spacing.lg }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginTop: spacing.lg }}>
             {action('bookmark', bookmarked ? tr('verse.bookmarked') : tr('verse.bookmark'), onBookmark, bookmarked)}
             {action('copy-outline', tr('verse.copy'), onCopy)}
             {action('share-outline', tr('verse.share'), onShare)}

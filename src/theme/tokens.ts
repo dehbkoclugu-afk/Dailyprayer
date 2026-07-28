@@ -108,11 +108,47 @@ export const radius = {
 } as const;
 
 export const shadow = {
-  card: {
+  standard: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.16,
+    shadowRadius: 10,
+    elevation: 3,
+  },
+  hero: {
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.25,
     shadowRadius: 24,
     elevation: 8,
   },
+  floating: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.3,
+    shadowRadius: 30,
+    elevation: 12,
+  },
+  /** @deprecated Prefer the explicit standard/hero/floating role. */
+  card: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.16,
+    shadowRadius: 10,
+    elevation: 3,
+  },
 } as const;
+
+export const artwork = {
+  onArtwork: '#F2EEE6',
+  onArtworkSoft: '#C9C5B8',
+  sacredGold: '#D9A441',
+  onSacredGold: '#1A1206',
+} as const;
+export const scrim = {
+  top: ['rgba(10,12,24,0.2)', 'rgba(10,12,24,0.78)'] as const,
+  center: ['rgba(23,16,46,0.58)', 'rgba(14,18,32,0.88)'] as const,
+  strong: ['rgba(23,16,46,0.82)', 'rgba(14,18,32,0.97)'] as const,
+} as const;
+export const interaction = { pressed: 0.72, disabled: 0.38, focus: 0.86 } as const;
+export const motion = { sharedAxis: 280, fadeThrough: 180, container: 320 } as const;

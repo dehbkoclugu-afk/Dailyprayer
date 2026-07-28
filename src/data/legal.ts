@@ -14,7 +14,7 @@
  */
 export const CONTACT_EMAIL = 'dehbkoclugu@gmail.com';
 
-export const LEGAL_LAST_UPDATED = '2026-07-24';
+export const LEGAL_LAST_UPDATED = '2026-07-28';
 const TERMS_LAST_UPDATED = '2026-07-26';
 
 export const PRIVACY_POLICY = `# Privacy Policy
@@ -26,7 +26,9 @@ what the app does and does not do with your information.
 
 ## The short version
 - No account is required to use Lumen.
-- We do **not** collect, sell, or share your personal data.
+- We do **not** sell your personal data or share it with advertisers.
+- RevenueCat processes purchase history as described below when subscriptions or
+  lifetime access are purchased or restored.
 - Your journal entries, streaks, preferences, and highlights are stored **only on
   your device**.
 - We do **not** use third-party advertising or tracking.
@@ -44,8 +46,10 @@ Deleting the app removes this data from your device.
 Subscriptions are processed by Apple App Store or Google Play through our
 payments provider, RevenueCat, Inc. We receive anonymized subscription status
 (for example, whether "Plus" is active) so the app can unlock content. We do not
-receive your full payment details. See Apple's, Google's, and RevenueCat's
-privacy policies for how they handle payment data.
+receive your full payment details. RevenueCat collects purchase history for app
+functionality and subscription analytics and encrypts it in transit. See
+Apple's, Google's, and RevenueCat's privacy policies for how they handle payment
+data. Contact us to request deletion of the related RevenueCat customer record.
 
 ## Notifications
 If you enable reminders, notifications are scheduled **locally on your device**.

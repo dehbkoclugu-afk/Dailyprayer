@@ -1,0 +1,43 @@
+name: Android production AAB
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Require EAS credentials
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          test -n "$EXPO_TOKEN" || {
+            echo "::error::Add EXPO_TOKEN to the production GitHub environment."
+            exit 1
+          }
+
+      - run: npm ci
+
+      - name: Source release gates
+        run: npm run release-check
+
+      - name: Queue signed Play Store AAB
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          EXPO_PUBLIC_REVENUECAT_ANDROID_KEY: ${{ secrets.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY }}
+          EXPO_PUBLIC_SUPPORT_EMAIL: ${{ vars.EXPO_PUBLIC_SUPPORT_EMAIL }}
+        run: >
+          npx --yes eas-cli@latest build
+          --platform android
+          --profile production
+          --non-interactive
+          --no-wait

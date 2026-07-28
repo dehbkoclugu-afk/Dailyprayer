@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text, useWindowDimensions, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -12,7 +12,7 @@ import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useStackedLayout } from '@/theme/textScale';
 import { usePlans } from '@/data/plans';
 import { bookMeta, bookName } from '@/data/bibleMeta';
-import { getBibleCredit } from '@/data/bibleFull';
+import { getBible, getBibleCredit } from '@/data/bibleFull';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useReaderStore } from '@/state/useReaderStore';
 import { useT } from '@/i18n';
@@ -23,10 +23,15 @@ export default function Bible() {
   const { t: tr, tn, locale, tu, tf } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const plans = usePlans();
-  const { book, chapter } = useReaderStore();
+  const { width } = useWindowDimensions();
+  const expanded = width >= 840;
+  const { book, chapter, verse } = useReaderStore();
+  const readerVerse = Number.isInteger(verse) && verse >= 0 ? verse : 0;
   const readerBook = bookMeta[book] ?? bookMeta[0];
   const readerBookName = bookName(locale, readerBook.code);
   const readerChapter = chapter;
+  const chapterLength = getBible(locale)[book]?.chapters[chapter]?.length ?? 1;
+  const readerProgress = Math.min(100, Math.round(((readerVerse + 1) / chapterLength) * 100));
 
   return (
     <Screen tabbed>
@@ -37,7 +42,7 @@ export default function Bible() {
       <Pressable
         onPress={() => router.push('/read')}
         accessibilityRole="button"
-        accessibilityLabel={`${tr('read.openBible')} — ${tr('read.continue')} ${readerBookName} ${readerChapter + 1}`}
+        accessibilityLabel={`${tr('read.openBible')} — ${tr('read.continue')} ${readerBookName} ${readerChapter + 1}:${readerVerse + 1}, ${readerProgress}%`}
         style={({ pressed }) => ({ marginTop: spacing.xl, opacity: pressed ? 0.92 : 1 })}
       >
         <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
@@ -63,7 +68,7 @@ export default function Bible() {
                     {tr('read.openBible')}
                   </Text>
                   <Text style={{ ...type.calloutMedium, color: 'rgba(242,238,230,0.82)', marginTop: spacing.xs }}>
-                    {readerBookName} {readerChapter + 1}
+                    {readerBookName} {readerChapter + 1}:{readerVerse + 1} · {readerProgress}%
                   </Text>
                 </View>
                 <View
@@ -120,7 +125,7 @@ export default function Bible() {
       </View>
 
       <SectionHeader title={tr('bible.plans')} />
-      <View style={{ gap: spacing.md }}>
+      <View style={{ gap: spacing.md, flexDirection: expanded ? 'row' : 'column', flexWrap: expanded ? 'wrap' : 'nowrap' }}>
         {plans.map((p) => {
           const locked = p.plus && !isPlus;
           return (
@@ -133,6 +138,7 @@ export default function Bible() {
               }
               accessibilityRole="button"
               accessibilityLabel={locked ? tf('a11y.requiresPlus', { title: p.title }) : p.title}
+              style={{ width: expanded ? '48.8%' : '100%' }}
             >
               <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
                 <ArtSlot id={p.art} height={150} radius={radius.card}>

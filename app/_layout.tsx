@@ -21,11 +21,13 @@ import { useTheme } from '@/hooks/useTheme';
 import { useStreakStore } from '@/state/useStreakStore';
 import { useUserStore } from '@/state/useUserStore';
 import { initPurchases } from '@/services/purchases';
+import { useReduceMotion } from '@/a11y/reduceMotion';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
 export default function RootLayout() {
   const t = useTheme();
+  const reduceMotion = useReduceMotion();
   const scheme = useColorScheme();
   const pref = useUserStore((s) => s.themePreference);
   const [loaded, fontError] = useFonts({
@@ -94,6 +96,7 @@ export default function RootLayout() {
         screenOptions={{
           headerShown: false,
           contentStyle: { backgroundColor: t.bg },
+          animation: reduceMotion ? 'none' : 'default',
         }}
       >
         <Stack.Screen name="paywall" options={{ presentation: 'modal' }} />

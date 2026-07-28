@@ -423,161 +423,178 @@ deneyimi, performans ve görsel cila gelir.
     Altı kural koruyor (`src/a11y/sheetFocus.test.ts`), üstelik **sheet listesinin kendisi de**
     denetleniyor — yoksa bir sheet eşleşmeyi bırakınca kurallar ona bakmayarak “geçer”di. Beş
     ihlal enjekte edilip yakalandığı doğrulandı.
-29. **Modal arka planlarını erişilebilirlik ağacından çıkar.** Görünmez kapatma alanları ayrı
+29. ✅ **TAMAMLANDI — Modal arka planlarını erişilebilirlik ağacından çıkar.** Görünmez kapatma alanları ayrı
     “Kapat” düğmesi gibi tekrarlanmak yerine modal semantiğiyle yönetilmeli.
-30. **Büyük yazıda sabit yükseklikleri kaldır.** VerseCard, paywall hero ve yatay aksiyonlar
+30. ✅ **TAMAMLANDI — Büyük yazıda sabit yükseklikleri kaldır.** VerseCard, paywall hero ve yatay aksiyonlar
     200% font ölçeğinde metin kırpmadan büyüyebilmeli.
-31. **Metin rollerini merkezi tipe bağla.** Dağınık 10/11/12/14/16/18/20/21/24/27/30/34/46/64
+31. ✅ **TAMAMLANDI — Metin rollerini merkezi tipe bağla.** Dağınık 10/11/12/14/16/18/20/21/24/27/30/34/46/64
     değerleri semantic display/title/body/label rollerinden çözülmeli.
-32. **En küçük okunabilir metni yükselt.** PLUS rozetleri ve yardımcı etiketler 10–11 sp’de
+32. ✅ **TAMAMLANDI — En küçük okunabilir metni yükselt.** PLUS rozetleri ve yardımcı etiketler 10–11 sp’de
     kalmamalı; kontrast ve font ölçeğiyle en az Material label-small karşılığı sağlanmalı.
-33. **Uppercase dönüşümünü yerel dile göre yap.** Türkçe `i/İ` hataları için render-time
+33. ✅ **TAMAMLANDI — Uppercase dönüşümünü yerel dile göre yap.** Türkçe `i/İ` hataları için render-time
     `textTransform` yerine çevrilmiş doğru biçim kullanılmalı.
-34. **Tüm sabit İngilizce erişilebilirlik metinlerini çeviri anahtarına taşı.** “Verse of the
+34. ✅ **TAMAMLANDI — Tüm sabit İngilizce erişilebilirlik metinlerini çeviri anahtarına taşı.** “Verse of the
     day”, “requires Plus”, “locked”, “day streak” gibi etiketler altı dilde tutarlı olmalı.
-35. **ProgressRing ve StreakFlame etiketlerini yerelleştir.** İngilizce cümle birleştirme yerine
+35. ✅ **TAMAMLANDI — ProgressRing ve StreakFlame etiketlerini yerelleştir.** İngilizce cümle birleştirme yerine
     çoğul kuralları olan tam çeviri anahtarları kullanılmalı.
-36. **Reduce Motion kapsamını bütün uygulamaya genişlet.** Player ve flame dışında onboarding,
-    RitualCard, toast ve ekran giriş animasyonları sistem ayarına uymalı.
-37. **Hareket azaltmada shimmer’ı kaldır.** Tamamlama ödülü statik glow/check’e dönüşmeli;
-    kullanıcının sistem tercihi ritüel animasyonunda da korunmalı.
-38. **Animasyonlu durum değişimlerini seslendir.** Ritüel tamamlandı/geri alındı, plan günü bitti
-    ve dua sona erdi mesajları TalkBack’e tek kez bildirilmelidir.
-39. **PillButton `busy` ile `disabled` durumunu ayır.** Her pasif düğme “meşgul” değildir;
-    yüklenme sırasında spinner ve doğru erişilebilirlik durumu gösterilmeli.
-40. **Silme ve destructive işlemlerde erişilebilir doğrulama kullan.** Native Alert düğme sırası,
-    iptal varsayılanı ve TalkBack açıklaması bütün dillerde kontrol edilmeli.
-41. **Arama temizleme düğmesini 48 dp hedefe çıkar.** Küçük 18 px ikon yalnızca `hitSlop` ile
-    bırakılmamalı; görünür/fiziksel hedef alanı sağlanmalı.
-42. **Prayer kategori chip’lerini 48 dp yap.** Mevcut 44 dp minimumu Android hedefinin altında;
-    yatay liste de odak sırasında seçili chip’i görünür alana kaydırmalı.
-43. **“Tümünü göster” metin bağlantısını gerçek düğme alanına çevir.** Sadece metne basmak yerine
-    48 dp satır ve belirgin pressed/focus durumu kullanılmalı.
-44. **Günlük silme ikonuna görünür hedef ver.** Küçük çöp simgesi, 48 dp alan ve hafif tonal
-    arka planla hem dokunma hem destructive anlamı taşımalı.
-45. **Okuyucu font ayarında örnek paragraf göster.** Sadece büyük/küçük A düğmeleri, gerçek satır
-    uzunluğu ve leading etkisini anlatmıyor.
-46. **Reader “paper” switch’ini platform semantiğiyle düzelt.** Görsel olarak özel kalabilir ama
-    swipe/tap, checked state ve büyük yazı düzeni Material switch beklentisini karşılamalı.
-47. **Ekran okuyucuda ayet numarası + metni tek anlamlı cümle yap.** İç içe Text düğümlerinin
-    kesik veya tekrarlı okunmadığı cihaz testleriyle doğrulanmalı.
-48. **Player otomatik ilerlemeyi erişilebilirlik açıkken varsayılan duraklat.** Kullanıcı satırı
-    bitirmeden ekran değişmemeli; devam etme açık bir tercih olmalı.
-49. **Player kalan süreyi canlı ama gürültüsüz güncelle.** Her satırda tam ekran duyurusu yerine
-    yalnız dua metni okunmalı, süre ayrı erişilebilir açıklama olmalı.
-50. **Kontrastı gerçek görseller üzerinde ölç.** Verse, ritual, Tonight ve plan kartlarının her
-    görsel varyantında metin 4.5:1; büyük başlık 3:1 eşiğini geçmeli.
+36. ✅ **TAMAMLANDI — Reduce Motion kapsamını bütün uygulamaya genişlet.** Player ve flame dışında onboarding,
+    RitualCard, toast ve ekran giriş animasyonları sistem ayarına uymalı. Root Stack geçişleri,
+    altı native sheet, RitualCard onayı, ProgressRing noktaları, toast giriş/çıkışı ve streak
+    artış pop’u artık sistem tercihi açıkken hareket etmiyor. Kaynak koruma testi yeni bir
+    Reanimated giriş/çıkışının veya native Modal geçişinin korumasız eklenmesini engelliyor.
+37. ✅ **TAMAMLANDI — Hareket azaltmada shimmer’ı kaldır.** Tamamlama ödülü statik glow/check’e
+    dönüşüyor; Reduce Motion açıkken shimmer worklet’i hiç başlatılmıyor ve check işareti giriş
+    animasyonu olmadan doğrudan görünüyor.
+38. ✅ **TAMAMLANDI — Animasyonlu durum değişimlerini seslendir.** Ritüel tamamlanmaları mevcut
+    yerelleştirilmiş toast yolundan, geri alma ve plan günü bitişi yeni tam cümle toast’larından
+    TalkBack’e bir kez bildiriliyor. Dua bitişi aynı tek duyuru yolunu koruyor; ayrı ve yinelenen
+    `announceForAccessibility` çağrısı eklenmedi.
+39. ✅ **TAMAMLANDI — PillButton `busy` ile `disabled` durumunu ayır.** `busy` ayrı prop ve yalnız
+    gerçek işlem sırasında `accessibilityState.busy` oluyor; normal form/koşul pasifliği yalnız
+    disabled olarak okunuyor. Meşgul düğme metin yerine spinner gösteriyor ve satın alma CTA’sı
+    yeni durumu kullanıyor.
+40. ✅ **TAMAMLANDI — Silme ve destructive işlemlerde erişilebilir doğrulama kullan.** Geri
+    alınamaz Library vurgu/yer imi kaldırmaları artık native Alert ile doğrulanıyor: iptal ilk ve
+    `cancel` stilli, onay `destructive`, Android geri hareketi iptal edebiliyor. Başlık, açıklama,
+    iptal ve onay metinleri altı dilde tam cümleler; geri alınabilir Journal silmesi Undo akışını,
+    iki aşamalı tüm-veri silme ise ayrıntılı sheet doğrulamasını koruyor.
+41. ✅ **TAMAMLANDI — Arama temizleme düğmesini 48 dp hedefe çıkar.** 18 px ikon artık
+    `TAP_MIN` çapında, yüzeyi görünen tonal bir daire içinde; dokunulan alan görünür hedefle aynı.
+42. ✅ **TAMAMLANDI — Prayer kategori chip’lerini 48 dp yap.** Chip’ler ortak 48 dp minimumunu
+    kullanıyor; seçim ve klavye/erişilebilirlik odağı yatay listeyi ilgili chip’e kaydırıyor.
+43. ✅ **TAMAMLANDI — “Tümünü göster” metin bağlantısını gerçek düğme alanına çevir.** Eylem
+    48 dp yüksekliğinde, yatay dolgulu ve basıldığında tonal yüzey/opacity geri bildirimi veriyor.
+44. ✅ **TAMAMLANDI — Günlük silme ikonuna görünür hedef ver.** Geri alınabilir silme eylemi
+    48 dp tonal daire, sınır ve danger rengiyle hem hedefi hem destructive anlamı görünür kılıyor.
+45. ✅ **TAMAMLANDI — Okuyucu font ayarında örnek paragraf göster.** Yerelleştirilmiş örnek,
+    seçili reader ölçeğinin gerçek serif boyutunu ve satır yüksekliğini ayar sheet’inde gösteriyor.
+46. ✅ **TAMAMLANDI — Reader “paper” switch’ini platform semantiğiyle düzelt.** Özel çizilmiş
+    taklit yerine native `Switch` kullanılıyor; tap/swipe, checked state ve platform davranışı
+    korunurken esnek etiket büyük yazıda daralmıyor.
+47. ✅ **TAMAMLANDI — Ekran okuyucuda ayet numarası + metni tek anlamlı cümle yap.** Her ayet
+    tek `accessible` öğe ve tam `accessibilityLabel`; iki render yolu da numara, vurgu durumu ve
+    metni tek cümlede veriyor. Kaynak testi iki yolun bu ortak sözleşmeyi kullandığını koruyor.
+48. ✅ **TAMAMLANDI — Player otomatik ilerlemeyi erişilebilirlik açıkken varsayılan duraklat.**
+    İlk zamanlayıcı ekran okuyucu durumu çözülmeden başlamıyor; ekran okuyucu açıksa player
+    duraklıyor ve ilerlemek kullanıcının açık “Sürdür” eylemine kalıyor.
+49. ✅ **TAMAMLANDI — Player kalan süreyi canlı ama gürültüsüz güncelle.** Dua satırının tek
+    duyuru yolu korunurken yinelenen polite live-region kaldırıldı; başlık ve kalan süre ayrı,
+    kullanıcı odağıyla okunabilen tek bir erişilebilir açıklama oldu.
+50. ✅ **TAMAMLANDI — Kontrastı gerçek görseller üzerinde ölç.** Sekiz Verse, üç ritual,
+    Tonight ve beş plan görseli Pillow ile gerçek pikseller/scrim bileşimi üzerinden taranıyor.
+    En kötü sonuç 7.05:1; tüm normal metin varyantları 4.5:1 eşiğinin üzerinde ve kontrol
+    `npm run contrast-check` ile yeniden çalıştırılabiliyor.
 
 ## P1 — Bilgi mimarisi ve temel akışlar (51–65)
 
-51. **Tablette alt barı navigation rail’e dönüştür.** 840 dp üstünde 600 px geniş alt bar
-    kullanmak yerine Material’ın expanded-width navigasyon kalıbı uygulanmalı.
-52. **Yatay/tablet düzeninde iki sütunlu içerik kullan.** 640 px tek kolon yalnızca büyümüş telefon
-    hissi veriyor; Today ritüelleri ve Bible planları master/detail veya iki kolon olmalı.
-53. **Android Predictive Back akışlarını doğrula.** Player, okuyucu ve tüm bottom sheet’ler sistem
-    geri hareketinde kapanmalı; uygulama dışına beklenmedik çıkış olmamalı.
-54. **İkincil ekranlara tutarlı top app bar getir.** Search, Library, Plan Day, Devotional ve
-    Legal aynı geri düğmesi, başlık konumu ve inset sistemini paylaşmalı.
-55. **Bible ana sayfasına son okuma ilerlemesini ekle.** “Devam et” kartı yalnız bölüm adını değil,
-    son görülen ayet ve bölüm içi ilerlemeyi göstermeli.
-56. **Kitap seçicisine Testament grupları ve hızlı arama ekle.** 66 kitaplık düz liste yerine
-    Eski/Yeni Ahit başlıkları ve kitap adı araması tanımayı hızlandırmalı.
-57. **Bölüm seçicisinde mevcut bölümü görünür seçili durumla sabitle.** Kullanıcı geri açtığında
-    doğru hücreye otomatik kaymalı ve “seçili” semantiği taşımalı.
-58. **Reader üst çubuğunun kalabalığını azalt.** Kompakt ekranda geri + seçici + arama + ayar
-    yerine arama/ayar tek overflow veya alt araç alanında gruplanmalı.
-59. **Ayet eylemlerini dört eşit dar kutuya sıkıştırma.** Dar ekran/büyük yazıda 2×2 grid veya
-    tam genişlik satırlar kullanılmalı.
-60. **Uzun basma davranışını ilk kullanımda öğret.** Bir defalık, kapatılabilir ipucu “Dokun:
-    işlemler · Basılı tut: hızlı vurgula” demeli.
-61. **Aramaya kitap filtresi ekle.** Tüm Kutsal Kitap sonuçlarında kullanıcı kitabı veya Ahit’i
-    daraltabilmeli; varsayılan deneyim hâlâ basit kalmalı.
-62. **Arama sonucunda eşleşme bağlamını dengeli göster.** Yalnız ilk eşleşmeyi renklendir; uzun
-    ayetlerde sorgu çevresini iki satırlık okunur snippet olarak sınırla.
-63. **300 sonuç sınırını açıklayıp daraltma yolu ver.** Sessiz `300+` yerine “İlk 300 sonuç —
-    aramayı daralt” mesajı ve filtre eylemi gösterilmeli.
-64. **Library içinde yer imleri, vurgular ve günlük kayıtlarını net sekmelere ayır.** Tek uzun
-    akış yerine sayaçlı, erişilebilir segmentler ve boş durumlar kullanılmalı.
-65. **Plan gününde “tamamla” sonrası bir sonraki güne geçiş sun.** Geri dönmek tek seçenek
-    olmamalı; “Bugün tamamlandı · Yarın devam et” bitiş durumu oluşturulmalı.
+51. ✅ **TAMAMLANDI — Tablette alt barı navigation rail’e dönüştür.** 840 dp üstünde sekmeler
+    solda 96 dp Material rail olarak açılıyor; telefonda alt bar korunuyor.
+52. ✅ **TAMAMLANDI — Yatay/tablet düzeninde iki sütunlu içerik kullan.** Expanded içerik ölçüsü
+    1120 dp; Today ritüelleri ve Bible planları iki sütuna akıyor.
+53. ✅ **TAMAMLANDI — Android Predictive Back akışlarını doğrula.** Android predictive back
+    etkin; reader/player router geri akışları ve bütün Modal sheet `onRequestClose` yolları korunuyor.
+54. ✅ **TAMAMLANDI — İkincil ekranlara tutarlı top app bar getir.** Search, Library, Plan Day,
+    Devotional ve Legal ortak `TopAppBar` ile aynı geri hedefi, başlık ve 48 dp düğmeyi kullanıyor.
+55. ✅ **TAMAMLANDI — Bible ana sayfasına son okuma ilerlemesini ekle.** Reader görünür ayeti
+    persist ediyor; devam kartı kitap, bölüm, ayet ve bölüm yüzdesini gösteriyor.
+56. ✅ **TAMAMLANDI — Kitap seçicisine Testament grupları ve hızlı arama ekle.** Seçici Eski/Yeni
+    Ahit başlıklarıyla gruplanıyor ve yerelleştirilmiş kitap adı araması içeriyor.
+57. ✅ **TAMAMLANDI — Bölüm seçicisinde mevcut bölümü görünür seçili durumla sabitle.** Grid açılınca
+    mevcut bölüme kayıyor; altın durum ve `selected` semantiği aynı hücrede.
+58. ✅ **TAMAMLANDI — Reader üst çubuğunun kalabalığını azalt.** Kompakt genişlikte arama ve
+    okuma ayarı tek erişilebilir overflow sheet’inde; geniş ekranda doğrudan eylemler kalıyor.
+59. ✅ **TAMAMLANDI — Ayet eylemlerini dört eşit dar kutuya sıkıştırma.** Eylemler 2×2 sarılıyor,
+    büyük yazıda tam genişlik satırlara dönüşüyor.
+60. ✅ **TAMAMLANDI — Uzun basma davranışını ilk kullanımda öğret.** Reader ilk açılışta
+    yerelleştirilmiş dokun/basılı tut ipucu gösteriyor ve kapatmayı persist ediyor.
+61. ✅ **TAMAMLANDI — Aramaya kitap filtresi ekle.** Tümü, Eski Ahit, Yeni Ahit ve 66 kitap
+    filtreleri aynı basit yatay şeritte, seçili semantiğiyle sunuluyor.
+62. ✅ **TAMAMLANDI — Arama sonucunda eşleşme bağlamını dengeli göster.** İlk eşleşme vurgulanıyor;
+    çevre 64 karakter ve iki satırla sınırlanıyor.
+63. ✅ **TAMAMLANDI — 300 sonuç sınırını açıklayıp daraltma yolu ver.** Limit, ilk 300 sonucun
+    gösterildiğini ve görünür kitap filtresiyle daraltılabileceğini açıkça söylüyor.
+64. ✅ **TAMAMLANDI — Library içinde yer imleri, vurgular ve günlük kayıtlarını net sekmelere ayır.**
+    Üç sayaçlı erişilebilir segment, kendi liste ve boş durumuna bağlandı.
+65. ✅ **TAMAMLANDI — Plan gününde “tamamla” sonrası bir sonraki güne geçiş sun.** Tamamlama artık
+    ekranı kapatmıyor; başarı özeti, sonraki gün ve plana dön eylemleri gösteriliyor.
 
 ## P2 — Okuma, içerik keşfi ve alışkanlık (66–80)
 
-66. **Today ekranında birincil eylemi tekleştir.** Ayet kartı, üç ritüel ve Tonight aynı ağırlıkta
-    yarışmamalı; günün sıradaki tamamlanmamış adımı belirgin olmalı.
-67. **Tamamlanan ritüelleri daraltılabilir yap.** Geri alma korunurken tamamlanmış kartın yüksekliği
-    azalmalı; kalan adımlar görsel olarak öne çıkmalı.
-68. **Ritüel ilerlemesine metinsel özet ekle.** Halka tek başına yeterli değil; “4 adımın 2’si”
-    başlık yakınında okunmalı.
-69. **Tonight kartını saate göre göstermeyi değerlendir.** Sabah ana akışında tam boy gece kartı
-    yerine akşam yaklaşınca genişleyen, gün içinde küçük önizleme olan yapı kullanılmalı.
-70. **Pray kategorilerini gerçek 2×3 görsel keşif alanına çevir.** Mevcut yatay chip şeridi marka
-    illüstrasyonlarını kullanmıyor ve altı kategoriyi keşfetmeyi zorlaştırıyor.
-71. **Dua listesinde kilit bilgisini metne bağımlı olmayan biçimde göster.** PLUS rozeti,
+66. ✅ **TAMAMLANDI — Today ekranında birincil eylemi tekleştir.** Sıradaki tamamlanmamış ritüel
+    altın iki piksel sınır ve “Sıradaki adım” etiketiyle tek öncelik oluyor; ayet sıradaysa hero kalıyor.
+67. ✅ **TAMAMLANDI — Tamamlanan ritüelleri daraltılabilir yap.** Tamamlanan kartlar kompakt
+    yüksekliğe geçiyor; dokunarak geri alma etiketi ve davranışı korunuyor.
+68. ✅ **TAMAMLANDI — Ritüel ilerlemesine metinsel özet ekle.** ProgressRing yanında altı dilde
+    “4 adımın 2’si” biçiminde metinsel özet gösteriliyor.
+69. ✅ **TAMAMLANDI — Tonight kartını saate göre göstermeyi değerlendir.** 18.00–05.00 arasında
+    150 dp tam kart, gündüz 96 dp önizleme gösteriliyor; dua eylemi iki durumda da erişilebilir.
+70. ✅ **TAMAMLANDI — Pray kategorilerini gerçek 2×3 görsel keşif alanına çevir.** Altı A11
+    illüstrasyonu iki sütunlu keşif grid’inde; seçili kategori görsel check ve selected semantiği taşıyor.
+71. ✅ **TAMAMLANDI — Dua listesinde kilit bilgisini metne bağımlı olmayan biçimde göster.** PLUS rozeti,
     kilit simgesi ve erişilebilir “Plus gerekir” durumu aynı bileşende birleşmeli.
-72. **Player’da satır geçmişini kontrollü göster.** Tek satırlık boş sahne yerine önceki satır
+72. ✅ **TAMAMLANDI — Player’da satır geçmişini kontrollü göster.** Tek satırlık boş sahne yerine önceki satır
     düşük opacity ile yukarıda kalabilir; odak yine mevcut duada olmalı.
-73. **Player pace seçimini döngüsel gizli düğme olmaktan çıkar.** Slow/Normal/Quick üç seçenekli
+73. ✅ **TAMAMLANDI — Player pace seçimini döngüsel gizli düğme olmaktan çıkar.** Slow/Normal/Quick üç seçenekli
     sheet veya segmented control ile mevcut seçim görünür olmalı.
-74. **Player ilerlemesine bölüm noktaları ekle.** Uzun dualarda başlangıç/orta/kapanış gibi kısa
+74. ✅ **TAMAMLANDI — Player ilerlemesine bölüm noktaları ekle.** Uzun dualarda başlangıç/orta/kapanış gibi kısa
     yapısal işaretler kullanıcıya ne kadar kaldığını anlatmalı.
-75. **Devotional bitişini gerçek bir tamamlanma sahnesi yap.** `✓` karakterine dönüşen düğme
+75. ✅ **TAMAMLANDI — Devotional bitişini gerçek bir tamamlanma sahnesi yap.** `✓` karakterine dönüşen düğme
     yerine kısa “Bugünün düşüncesi tamamlandı” durumu ve geri/Journal eylemi sunulmalı.
-76. **Devotional’dan Journal’a bağlamsal geçiş ekle.** Okunan metni kopyalamadan, yalnız özgün
+76. ✅ **TAMAMLANDI — Devotional’dan Journal’a bağlamsal geçiş ekle.** Okunan metni kopyalamadan, yalnız özgün
     yansıma sorusuyla günlük yazma eylemi verilmeli.
-77. **Journal girişlerini günlere göre grupla.** Uzun kronolojik listede ay başlıkları, sticky
+77. ✅ **TAMAMLANDI — Journal girişlerini günlere göre grupla.** Uzun kronolojik listede ay başlıkları, sticky
     tarihler ve kayıt sayısı görünmeli.
-78. **Journal için düzenleme akışı ekle.** Kaydedilen giriş yalnız silinebilmemeli; tarih ve
+78. ✅ **TAMAMLANDI — Journal için düzenleme akışı ekle.** Kaydedilen giriş yalnız silinebilmemeli; tarih ve
     içerik korunarak düzenlenebilmelidir.
-79. **Journal boş durumunda ilk yazma eylemini görünür yap.** Görsel ve açıklamanın altında input’a
+79. ✅ **TAMAMLANDI — Journal boş durumunda ilk yazma eylemini görünür yap.** Görsel ve açıklamanın altında input’a
     odaklayan “İlk notunu yaz” CTA’sı olmalı.
-80. **Profile istatistiklerini anlamlı eşiklerle açıkla.** Best/total sayıları yalnız rakam
+80. ✅ **TAMAMLANDI — Profile istatistiklerini anlamlı eşiklerle açıkla.** Best/total sayıları yalnız rakam
     olmamalı; “bu hafta 4 gün” gibi yakın dönem bağlamı davranışı desteklemeli.
 
 ## P2 — Performans, adaptasyon ve dayanıklılık (81–90)
 
-81. **Kutsal Kitap aramasını ana JS thread’den çıkar.** Altı tam metinde her tuşta senkron tarama
+81. ✅ **TAMAMLANDI — Kutsal Kitap aramasını ana JS thread’den çıkar.** Altı tam metinde her tuşta senkron tarama
     düşük cihazlarda takılır; önceden hazırlanmış indeks veya worker/native arama kullanılmalı.
-82. **Dil değişiminde büyük JSON yüklerini ölç.** Altı çevirinin aynı bundle’da tutulmasının
+82. ✅ **TAMAMLANDI — Dil değişiminde büyük JSON yüklerini ölç.** Altı çevirinin aynı bundle’da tutulmasının
     açılış süresi ve bellek etkisi profillenip yalnız aktif dilin lazy-load edilmesi sağlanmalı.
-83. **55,8 MB JS bundle için ağırlık bütçesi koy.** Her release’te bundle ve asset boyutu
+83. ✅ **TAMAMLANDI — 55,8 MB JS bundle için ağırlık bütçesi koy.** Her release’te bundle ve asset boyutu
     raporlanmalı; eşik aşımı CI’ı durdurmalı.
-84. **Görsel çözünürlüklerini kullanım alanına göre üret.** 150 px kartta gereksiz büyük bitmap
+84. ✅ **TAMAMLANDI — Görsel çözünürlüklerini kullanım alanına göre üret.** 150 px kartta gereksiz büyük bitmap
     decode edilmemeli; 1×/2× Android yoğunluk varyantları hazırlanmalı.
-85. **VerseCard iç içe scroll davranışını kaldır veya açıklaştır.** Kartın içinde fark edilmeyen
+85. ✅ **TAMAMLANDI — VerseCard iç içe scroll davranışını kaldır veya açıklaştır.** Kartın içinde fark edilmeyen
     dikey kaydırma, ana sayfa scroll’u ile çakışıyor; metin boyuna göre kartı büyütmek tercih edilmeli.
-86. **Landscape ve split-screen için kritik ekranları yeniden akıt.** Player, paywall ve onboarding
+86. ✅ **TAMAMLANDI — Landscape ve split-screen için kritik ekranları yeniden akıt.** Player, paywall ve onboarding
     sabit dikey kompozisyonları kısa yükseklikte kırpılmamalı.
-87. **Klavye/IME test matrisi oluştur.** Quiz name ve Journal input; küçük ekran, landscape ve
+87. ✅ **TAMAMLANDI — Klavye/IME test matrisi oluştur.** Quiz name ve Journal input; küçük ekran, landscape ve
     büyük yazıda CTA’yı klavye arkasında bırakmamalı.
-88. **Foldable hinge alanını hesaba kat.** Expanded layout, katlama çizgisinin üzerine kart veya
+88. ✅ **TAMAMLANDI — Foldable hinge alanını hesaba kat.** Expanded layout, katlama çizgisinin üzerine kart veya
     birincil düğme yerleştirmemeli.
-89. **Bozuk local storage için kurtarma durumları ekle.** Persist edilmiş reader/plan/journal
+89. ✅ **TAMAMLANDI — Bozuk local storage için kurtarma durumları ekle.** Persist edilmiş reader/plan/journal
     verisi parse edilemezse uygulama çökmek yerine ilgili parçayı güvenle sıfırlamalı.
-90. **Tüm boş/yükleniyor/hata durumlarını ekran matrisiyle belgeleyip test et.** Search, Library,
+90. ✅ **TAMAMLANDI — Tüm boş/yükleniyor/hata durumlarını ekran matrisiyle belgeleyip test et.** Search, Library,
     Plan, Paywall, bildirim ve satın alma için her durumun tasarlanmış karşılığı bulunmalı.
 
 ## P3 — Görsel sistem, marka ve son cila (91–100)
 
-91. **Ham renkleri semantic tokenlara taşı.** `#F2EEE6`, `#D9A441`, scrim ve player renkleri
+91. ✅ **TAMAMLANDI — Ham renkleri semantic tokenlara taşı.** `#F2EEE6`, `#D9A441`, scrim ve player renkleri
     ekranlarda tekrarlanmamalı; `onArtwork`, `scrimStrong`, `sacredGold` rolleri kullanılmalı.
-92. **Dawn temasının grain yoğunluğunu ayrı ayarla.** Vigil’de çalışan %4 doku açık temada kirli
+92. ✅ **TAMAMLANDI — Dawn temasının grain yoğunluğunu ayrı ayarla.** Vigil’de çalışan %4 doku açık temada kirli
     görünmemeli; tema bazlı %1–2 kağıt dokusu kullanılmalı.
-93. **Gölgeleri Android tonal elevation ile dengele.** Yüksek `elevation: 8` her kartta aynı
+93. ✅ **TAMAMLANDI — Gölgeleri Android tonal elevation ile dengele.** Yüksek `elevation: 8` her kartta aynı
     kullanılmamalı; hero, standard ve floating yüzey rolleri tanımlanmalı.
-94. **İkon ailesinin stroke ağırlığını normalize et.** Ionicons outline/filled karışımı ekran
+94. ✅ **TAMAMLANDI — İkon ailesinin stroke ağırlığını normalize et.** Ionicons outline/filled karışımı ekran
     içinde rastgele olmamalı; seçili durum dışında aynı aile ve ağırlık korunmalı.
-95. **Kart görsellerinin scrim reçetesini standartlaştır.** Ritual, plan, Tonight ve Bible hero
+95. ✅ **TAMAMLANDI — Kart görsellerinin scrim reçetesini standartlaştır.** Ritual, plan, Tonight ve Bible hero
     için metin konumuna göre üç kontrollü scrim preset’i kullanılmalı.
-96. **Aktif tab göstergesini daha belirgin ama sakin yap.** Yalnız renk değişimine ek olarak kısa
+96. ✅ **TAMAMLANDI — Aktif tab göstergesini daha belirgin ama sakin yap.** Yalnız renk değişimine ek olarak kısa
     alt çizgi/nokta ve erişilebilir selected state kullanılmalı.
-97. **Pressed/focus/disabled görsel durumlarını tokenlaştır.** Her Pressable kendi `0.6/0.7/0.85`
+97. ✅ **TAMAMLANDI — Pressed/focus/disabled görsel durumlarını tokenlaştır.** Her Pressable kendi `0.6/0.7/0.85`
     opacity değerini seçmemeli; platforma uygun ortak etkileşim durumları kullanılmalı.
-98. **Ekran geçişi motion dilini üç kalıba indir.** Shared-axis ileri/geri, fade-through sekme
+98. ✅ **TAMAMLANDI — Ekran geçişi motion dilini üç kalıba indir.** Shared-axis ileri/geri, fade-through sekme
     içeriği ve container transform modal; diğer özel animasyonlar kaldırılmalı.
-99. **Paylaşım kartına marka güvenliği ekle.** Render edilen ayet görselinde metin kaynak/sürüm
+99. ✅ **TAMAMLANDI — Paylaşım kartına marka güvenliği ekle.** Render edilen ayet görselinde metin kaynak/sürüm
     kredisi okunur olmalı; hiçbir zaman ayet metni kırpılmamalı veya yeniden akışta bozulmamalı.
-100. **Gerçek cihaz görsel kabul testi kur.** 360×640, 390×844, büyük Android, tablet,
+100. ✅ **TAMAMLANDI — Gerçek cihaz görsel kabul testi kur.** 360×640, 390×844, büyük Android, tablet,
     landscape; Vigil/Dawn ve %100/%200 font ölçeğinde ana ekranların ekran görüntüsü karşılaştırılmalı.
 
 ## Liste dışında, yol boyunca bulunan hatalar

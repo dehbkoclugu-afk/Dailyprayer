@@ -2,9 +2,9 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import Animated, { ZoomIn } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
-import { useReduceMotion } from '@/a11y/reduceMotion';
 import { useT } from '@/i18n';
 import { type } from '@/theme/typography';
+import { useReduceMotion } from '@/a11y/reduceMotion';
 interface Props {
   done: number;
   total: number;
@@ -17,8 +17,8 @@ interface Props {
  */
 export function ProgressRing({ done, total, size = 56 }: Props) {
   const t = useTheme();
-  const { tfn } = useT();
   const reduceMotion = useReduceMotion();
+  const { tfn } = useT();
   const dots = Array.from({ length: total }, (_, i) => i < done);
   return (
     <View
@@ -33,8 +33,6 @@ export function ProgressRing({ done, total, size = 56 }: Props) {
             // key includes fill state so a newly-earned dot pops in with a spring
             <Animated.View
               key={`${i}-${filled}`}
-              // The dot is already gold when it lands; the spring is the reward,
-              // not the information (roadmap item 36).
               entering={filled && !reduceMotion ? ZoomIn.springify().damping(12) : undefined}
               style={{
                 position: 'absolute',

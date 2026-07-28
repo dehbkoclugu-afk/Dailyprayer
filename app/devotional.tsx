@@ -1,17 +1,18 @@
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
+import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { useTheme } from '@/hooks/useTheme';
 import { type, type as ty } from '@/theme/typography';
-import { radius, spacing, TAP_MIN } from '@/theme/tokens';
+import { radius, spacing } from '@/theme/tokens';
 import { useDailyContent } from '@/hooks/useDailyContent';
 import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
 import { useT, translate } from '@/i18n';
+import { TopAppBar } from '@/components/TopAppBar';
 
 export default function DevotionalScreen() {
   const t = useTheme();
@@ -20,39 +21,17 @@ export default function DevotionalScreen() {
   const completeStep = useStreakStore((s) => s.completeStep);
   const [amened, setAmened] = React.useState(false);
 
-  // Amen morphs to a checkmark for a beat before returning (design-100 #64).
   const finish = () => {
     if (amened) return;
     setAmened(true);
     completeStep('devotional');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     toast(translate('toast.devotional'));
-    setTimeout(() => router.back(), 600);
   };
 
   return (
     <Screen>
-      <Pressable
-        onPress={() => router.back()}
-        hitSlop={12}
-        accessibilityRole="button"
-        accessibilityLabel={tr('a11y.back')}
-        // Bordered chip so there's always a visible tap target to leave the
-        // reader — a bare icon becomes an invisible dead corner if the glyph
-        // ever fails to render.
-        style={{
-          width: TAP_MIN,
-          height: TAP_MIN,
-          borderRadius: 22,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: t.surface,
-          borderWidth: 1,
-          borderColor: t.border,
-        }}
-      >
-        <Ionicons name="chevron-back" size={24} color={t.inkSoft} />
-      </Pressable>
+      <TopAppBar title={tr('devotional.label')} />
 
       <Text style={{ ...type.labelSemi, letterSpacing: 2, color: t.goldText, marginTop: spacing.lg }}>
 {tu(tr('devotional.label'))}
@@ -103,7 +82,16 @@ export default function DevotionalScreen() {
         </Text>
       </View>
 
-      <PillButton label={amened ? '✓' : tr('devotional.amen')} onPress={finish} style={{ marginTop: spacing.xxl }} />
+      {amened ? (
+        <View accessibilityRole="summary" style={{ backgroundColor: t.surface, borderRadius: radius.card, borderWidth: 1, borderColor: t.gold, padding: spacing.xl, marginTop: spacing.xxl, gap: spacing.md }}>
+          <Ionicons name="checkmark-circle-outline" size={32} color={t.success} />
+          <Text style={[ty.heading, { color: t.ink }]}>{tr('toast.devotional')}</Text>
+          <PillButton label={tr('tab.journal')} onPress={() => router.push({ pathname: '/(tabs)/journal', params: { prompt: devotional.prayer } })} />
+          <PillButton label={tr('a11y.back')} variant="secondary" onPress={() => router.back()} />
+        </View>
+      ) : (
+        <PillButton label={tr('devotional.amen')} onPress={finish} style={{ marginTop: spacing.xxl }} />
+      )}
     </Screen>
   );
 }

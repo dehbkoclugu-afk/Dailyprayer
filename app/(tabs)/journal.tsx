@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { KeyboardAvoidingView, Platform, Pressable, Text, TextInput, View } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { Screen } from '@/components/Screen';
@@ -17,13 +18,29 @@ import { useT, translate } from '@/i18n';
 export default function Journal() {
   const t = useTheme();
   const { t: tr, tu } = useT();
-  const { entries, add, remove, restore } = useJournalStore();
+  const { prompt } = useLocalSearchParams<{ prompt?: string }>();
+  const { entries, add, remove, restore, update } = useJournalStore();
   const completeStep = useStreakStore((s) => s.completeStep);
   const [text, setText] = useState('');
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const inputRef = useRef<TextInput>(null);
 
   // A single-purpose gratitude journal now. Verses saved from the reader still
   // belong here (they're personal reflections); legacy prayer requests are hidden.
   const shown = entries.filter((e) => e.kind !== 'prayer-request');
+  const groups = useMemo(() => Object.entries(
+    shown.reduce<Record<string, JournalEntry[]>>((result, entry) => {
+      (result[entry.day] ??= []).push(entry);
+      return result;
+    }, {}),
+  ), [shown]);
+
+  useEffect(() => {
+    if (prompt) {
+      setText(prompt);
+      requestAnimationFrame(() => inputRef.current?.focus());
+    }
+  }, [prompt]);
 
   /**
    * Deleting is not permanent on the first tap. The entry is kept in the closure
@@ -41,15 +58,18 @@ export default function Journal() {
 
   const submit = () => {
     if (!text.trim()) return;
-    add('gratitude', text);
+    if (editingId) update(editingId, text);
+    else add('gratitude', text);
     completeStep('gratitude');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     toast(translate('toast.gratitudeSaved'));
     setText('');
+    setEditingId(null);
   };
 
   return (
     <Screen tabbed>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <Text style={[ty.title, { color: t.ink }]}>{tr('journal.title')}</Text>
       <Text style={[ty.callout, { color: t.inkSoft, marginTop: spacing.xs }]}>{tr('journal.sub')}</Text>
 
@@ -85,6 +105,7 @@ export default function Journal() {
         </Text>
 
         <TextInput
+          ref={inputRef}
           value={text}
           onChangeText={setText}
           placeholder={tr('journal.placeholderGratitude')}
@@ -123,10 +144,17 @@ export default function Journal() {
           >
             {tr('journal.empty')}
           </Text>
+          <PillButton label={tr('journal.gratitude')} onPress={() => inputRef.current?.focus()} style={{ marginTop: spacing.lg }} />
         </View>
       ) : (
         <View style={{ gap: spacing.md }}>
-          {shown.map((e) => (
+          {groups.map(([day, dayEntries]) => (
+            <View key={day} style={{ gap: spacing.md }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: spacing.sm }}>
+              <Text style={{ ...type.calloutSemi, color: t.ink }}>{day}</Text>
+              <Text style={{ ...type.label, color: t.inkSoft }}>{dayEntries.length}</Text>
+            </View>
+          {dayEntries.map((e) => (
             <View
               key={e.id}
               style={{
@@ -171,25 +199,43 @@ export default function Journal() {
                     {e.day}
                   </Text>
                 </View>
+                <View style={{ flexDirection: 'row', gap: spacing.sm }}>
+                <Pressable
+                  onPress={() => { setEditingId(e.id); setText(e.text); requestAnimationFrame(() => inputRef.current?.focus()); }}
+                  accessibilityRole="button"
+                  accessibilityLabel={tr('journal.save')}
+                  style={{ width: TAP_MIN, height: TAP_MIN, alignItems: 'center', justifyContent: 'center' }}
+                >
+                  <Ionicons name="create-outline" size={18} color={t.blue} />
+                </Pressable>
                 <Pressable
                   onPress={() => deleteEntry(e)}
                   accessibilityRole="button"
                   accessibilityLabel={tr('a11y.deleteEntry')}
-                  style={{
+                  style={({ pressed }) => ({
                     width: TAP_MIN,
                     height: TAP_MIN,
+                    borderRadius: TAP_MIN / 2,
+                    backgroundColor: t.surfaceAlt,
+                    borderWidth: 1,
+                    borderColor: pressed ? t.danger : t.border,
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginRight: -spacing.md,
-                  }}
+                    opacity: pressed ? 0.72 : 1,
+                  })}
                 >
-                  <Ionicons name="trash-outline" size={18} color={t.inkFaint} />
+                  <Ionicons name="trash-outline" size={18} color={t.danger} />
                 </Pressable>
+                </View>
               </View>
+            </View>
+          ))}
             </View>
           ))}
         </View>
       )}
+      </KeyboardAvoidingView>
     </Screen>
   );
 }

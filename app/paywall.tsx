@@ -288,7 +288,8 @@ export default function Paywall() {
               : tr('paywall.continue')
         }
         onPress={buy}
-        disabled={busy || pending || !selectedPlan}
+        busy={busy}
+        disabled={pending || !selectedPlan}
         style={{ marginTop: spacing.xl }}
       />
       {busy ? (

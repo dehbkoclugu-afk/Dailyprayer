@@ -26,30 +26,25 @@ interface Props {
   onPress: () => void;
   /** optional right-weighted background art (a left→right scrim keeps text legible) */
   art?: AssetId;
+  primary?: boolean;
+  compact?: boolean;
 }
 
 const CARD_W = 360; // approximate; the shimmer just needs to travel past the edge
 
-export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }: Props) {
+export function RitualCard({ icon, title, subtitle, done, locked, onPress, art, primary = false, compact = false }: Props) {
   const t = useTheme();
-  const { t: tr, tf } = useT();
   const reduceMotion = useReduceMotion();
+  const { t: tr, tf } = useT();
   // With art, the card is a dark warm scene regardless of the app theme, so the
   // text/icon must be light — theme colors (t.ink) would be dark-on-dark in the
   // light theme and vanish. Fall back to theme colors only when there's no art.
   const hasArt = !!(art && artRegistry[art]);
   const titleColor = hasArt ? '#F2EEE6' : t.ink;
-  const subColor = done ? t.gold : hasArt ? 'rgba(242,238,230,0.82)' : t.inkSoft;
-  const chevColor = hasArt ? 'rgba(242,238,230,0.7)' : t.inkFaint;
+  const subColor = done ? t.gold : hasArt ? 'rgba(242,238,230,0.94)' : t.inkSoft;
+  const chevColor = hasArt ? 'rgba(242,238,230,0.88)' : t.inkFaint;
 
   // One-time gold shimmer sweep when a card transitions to done (design-100 #57).
-  //
-  // Under reduce motion this does not run at all (roadmap item 37). It used to
-  // carry ReduceMotion.System, which is not the same thing: Reanimated then skips
-  // the tween and assigns the end value, so a 80dp gold band travelled nowhere and
-  // parked itself off the card's right edge — the reward silently became nothing.
-  // The completed card keeps a static gold wash instead, so finishing a ritual
-  // still looks different from not having finished it.
   const shimmerX = useSharedValue(-CARD_W);
   const prevDone = useRef(done);
   useEffect(() => {
@@ -57,7 +52,10 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
     if (done && !prevDone.current) {
       shimmerX.value = -CARD_W;
       shimmerX.value = withSequence(
-        withTiming(CARD_W, { duration: 650, easing: Easing.out(Easing.cubic) }),
+        withTiming(CARD_W, {
+          duration: 650,
+          easing: Easing.out(Easing.cubic),
+        }),
       );
     }
     prevDone.current = done;
@@ -84,9 +82,9 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         alignItems: 'center',
         backgroundColor: t.surface,
         borderRadius: radius.card,
-        borderWidth: 1,
-        borderColor: done ? t.gold : hasArt ? 'rgba(255,255,255,0.10)' : t.border,
-        padding: spacing.lg,
+        borderColor: done || primary ? t.gold : hasArt ? 'rgba(255,255,255,0.10)' : t.border,
+        borderWidth: primary ? 2 : 1,
+        padding: compact ? spacing.md : spacing.lg,
         gap: spacing.lg,
         overflow: 'hidden',
         opacity: pressed ? 0.9 : 1,
@@ -106,7 +104,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
           {/* warm near-black scrim, evened out so the candle glow suffuses the
               whole card (not a flat dark half) while the left stays legible */}
           <LinearGradient
-            colors={['rgba(22,15,8,0.9)', 'rgba(22,15,8,0.66)', 'rgba(22,15,8,0.36)']}
+            colors={['rgba(22,15,8,0.94)', 'rgba(22,15,8,0.86)', 'rgba(22,15,8,0.74)']}
             start={{ x: 0, y: 0.5 }}
             end={{ x: 1, y: 0.5 }}
             style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
@@ -116,7 +114,11 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
 
       {/* The completion reward. Normally a gold band sweeping once across the
           card; under reduce motion a still gold wash that simply sits there
-          (roadmap item 37) — same colour, same meaning, no movement. */}
+          (roadmap item 37) — same colour, same meaning, no movement.
+
+          Gating the sweep alone was not enough: it left a completed card with
+          nothing at all where the reward had been, so the readers who most need
+          a clear state change were the only ones who stopped getting one. */}
       {reduceMotion ? (
         done ? (
           <LinearGradient
@@ -146,8 +148,8 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
 
       <View
         style={{
-          width: 48,
-          height: 48,
+          width: compact ? 36 : 48,
+          height: compact ? 36 : 48,
           borderRadius: radius.inner,
           backgroundColor: done ? t.goldSoft : hasArt ? 'rgba(255,255,255,0.14)' : t.surfaceAlt,
           alignItems: 'center',
@@ -157,10 +159,15 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         <Ionicons name={icon} size={22} color={done ? t.gold : hasArt ? '#F2EEE6' : t.inkSoft} />
       </View>
       <View style={{ flex: 1 }}>
+        {primary ? (
+          <Text style={{ ...type.overlineBold, color: t.goldText, marginBottom: 2 }}>
+            {tr('today.nextStep')}
+          </Text>
+        ) : null}
         <Text style={{ ...type.bodySemi, color: titleColor }}>{title}</Text>
-        <Text style={{ ...type.callout, color: subColor, marginTop: 2 }}>
+        {!compact ? <Text style={{ ...type.callout, color: subColor, marginTop: 2 }}>
           {done ? `${tr('today.completed')} · ${tr('today.undo')}` : subtitle}
-        </Text>
+        </Text> : null}
       </View>
       {done ? (
         <Animated.View entering={reduceMotion ? undefined : ZoomIn.springify().damping(12)}>

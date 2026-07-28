@@ -1,0 +1,38 @@
+name: Play Store screenshots
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - app/**
+      - src/**
+      - assets/**
+      - package.json
+      - package-lock.json
+      - scripts/capture-play-screens.mjs
+      - .github/workflows/play-store-screenshots.yml
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Install Chromium
+        run: node node_modules/playwright-core/cli.js install --with-deps chromium
+      - name: Export web app
+        run: EXPO_NO_TELEMETRY=1 npx expo export --platform web --output-dir dist-play-screens
+      - name: Capture screens
+        run: npm run screenshots:play -- dist-play-screens
+      - uses: actions/upload-artifact@v4
+        with:
+          name: play-store-screenshots
+          path: docs/play-store/assets/screenshots/
+          if-no-files-found: error

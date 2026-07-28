@@ -11,9 +11,12 @@ import { getBible } from '@/data/bibleFull';
 import { useBookmarkStore } from '@/state/useBookmarkStore';
 import { useHighlightStore } from '@/state/useHighlightStore';
 import { useT } from '@/i18n';
+import { confirmDestructive } from '@/a11y/confirmDestructive';
 import type { TranslationKey } from '@/i18n/translations';
+import { TopAppBar } from '@/components/TopAppBar';
+import { useJournalStore } from '@/state/useJournalStore';
 
-type Tab = 'bookmarks' | 'highlights';
+type Tab = 'bookmarks' | 'highlights' | 'journal';
 
 interface Row {
   book: number;
@@ -28,6 +31,7 @@ interface Row {
   /** …and as a shape, for a reader who sees but cannot tell the hues apart. */
   icon?: (typeof HIGHLIGHT_ICON)[keyof typeof HIGHLIGHT_ICON];
   markKey?: string;
+  journalId?: string;
 }
 
 export default function Library() {
@@ -39,7 +43,19 @@ export default function Library() {
   const bookmarks = useBookmarkStore((s) => s.bookmarks);
   const removeBookmark = useBookmarkStore((s) => s.remove);
   const marks = useHighlightStore((s) => s.marks);
+  const journalEntries = useJournalStore((s) => s.entries);
   const clearMark = useHighlightStore((s) => s.clear);
+  const confirmRemove = (item: Row) =>
+    confirmDestructive({
+      title: tr('library.removeTitle'),
+      message: tr(item.markKey ? 'library.removeHighlightBody' : 'library.removeBookmarkBody'),
+      cancelLabel: tr('data.cancel'),
+      confirmLabel: tr('library.removeConfirm'),
+      onConfirm: () =>
+        item.markKey
+          ? clearMark(item.markKey)
+          : removeBookmark(item.book, item.chapter, item.verse),
+    });
 
   const bookmarkRows = useMemo<Row[]>(
     () =>
@@ -79,8 +95,22 @@ export default function Library() {
     }
     return rows;
   }, [marks, locale]);
+  const journalRows = useMemo<Row[]>(
+    () =>
+      journalEntries
+        .filter((entry) => entry.kind !== 'prayer-request')
+        .map((entry) => ({
+          book: -1,
+          chapter: -1,
+          verse: -1,
+          ref: entry.ref ?? entry.day,
+          preview: entry.text,
+          journalId: entry.id,
+        })),
+    [journalEntries],
+  );
 
-  const rows = tab === 'bookmarks' ? bookmarkRows : highlightRows;
+  const rows = tab === 'bookmarks' ? bookmarkRows : tab === 'highlights' ? highlightRows : journalRows;
 
   const segment = (key: Tab, label: string, count: number) => {
     const active = tab === key;
@@ -116,26 +146,8 @@ export default function Library() {
 
   return (
     <View style={{ flex: 1, backgroundColor: t.bg, paddingTop: insets.top + spacing.md }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, paddingHorizontal: spacing.xl }}>
-        <Pressable
-          onPress={() => router.back()}
-          hitSlop={12}
-          accessibilityRole="button"
-          accessibilityLabel={tr('a11y.back')}
-          style={{
-            width: TAP_MIN,
-            height: TAP_MIN,
-            borderRadius: 22,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: t.surface,
-            borderWidth: 1,
-            borderColor: t.border,
-          }}
-        >
-          <Ionicons name="chevron-back" size={24} color={t.inkSoft} />
-        </Pressable>
-        <Text style={{ ...type.subtitle, color: t.ink }}>{tr('library.title')}</Text>
+      <View style={{ paddingHorizontal: spacing.xl }}>
+        <TopAppBar title={tr('library.title')} />
       </View>
 
       {/* segmented control */}
@@ -156,11 +168,12 @@ export default function Library() {
       >
         {segment('bookmarks', tr('library.bookmarks'), bookmarkRows.length)}
         {segment('highlights', tr('library.highlights'), highlightRows.length)}
+        {segment('journal', tr('library.journal'), journalRows.length)}
       </View>
 
       <FlatList
         data={rows}
-        keyExtractor={(r) => `${r.book}|${r.chapter}|${r.verse}`}
+        keyExtractor={(r) => r.journalId ?? `${r.book}|${r.chapter}|${r.verse}`}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingHorizontal: spacing.xl,
@@ -188,7 +201,9 @@ export default function Library() {
         renderItem={({ item }) => (
           <Pressable
             onPress={() =>
-              router.push({ pathname: '/read', params: { b: item.book, c: item.chapter, v: item.verse } })
+              item.journalId
+                ? router.push('/(tabs)/journal')
+                : router.push({ pathname: '/read', params: { b: item.book, c: item.chapter, v: item.verse } })
             }
             accessibilityRole="button"
             // The colour stripe is the only thing telling two highlights apart,
@@ -215,7 +230,9 @@ export default function Library() {
                 highlight from a green one (roadmap item 27). The shape carries
                 it now, in the same slot a bookmark row already uses for its
                 icon — so the two tabs finally look like siblings. */}
-            {item.icon ? (
+            {item.journalId ? (
+              <Ionicons name="create-outline" size={20} color={t.gold} />
+            ) : item.icon ? (
               <Ionicons name={item.icon} size={20} color={item.color} />
             ) : (
               <Ionicons name="bookmark" size={18} color={t.gold} />
@@ -229,10 +246,8 @@ export default function Library() {
                 {item.preview}
               </Text>
             </View>
-            <Pressable
-              onPress={() =>
-                item.markKey ? clearMark(item.markKey) : removeBookmark(item.book, item.chapter, item.verse)
-              }
+            {!item.journalId ? <Pressable
+              onPress={() => confirmRemove(item)}
               accessibilityRole="button"
               accessibilityLabel={item.markKey ? tr('verse.removeHighlight') : tr('verse.removeBookmark')}
               style={{
@@ -243,7 +258,7 @@ export default function Library() {
               }}
             >
               <Ionicons name="close" size={18} color={t.inkFaint} />
-            </Pressable>
+            </Pressable> : null}
           </Pressable>
         )}
       />

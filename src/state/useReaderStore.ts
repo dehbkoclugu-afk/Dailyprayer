@@ -1,12 +1,14 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { safeStorage } from './safeStorage';
 
 interface ReaderState {
   /** last-read position: book index (canonical order) + chapter index (0-based) */
   book: number;
   chapter: number;
-  setPos: (book: number, chapter: number) => void;
+  verse: number;
+  setPos: (book: number, chapter: number, verse?: number) => void;
+  setVerse: (verse: number) => void;
   /** Forget the reading position (see src/state/dataReset.ts). */
   reset: () => void;
 }
@@ -16,9 +18,11 @@ export const useReaderStore = create<ReaderState>()(
     (set) => ({
       book: 0,
       chapter: 0,
-      setPos: (book, chapter) => set({ book, chapter }),
-      reset: () => set({ book: 0, chapter: 0 }),
+      verse: 0,
+      setPos: (book, chapter, verse = 0) => set({ book, chapter, verse }),
+      setVerse: (verse) => set({ verse }),
+      reset: () => set({ book: 0, chapter: 0, verse: 0 }),
     }),
-    { name: 'lumen-reader', storage: createJSONStorage(() => AsyncStorage) },
+    { name: 'lumen-reader', storage: createJSONStorage(() => safeStorage) },
   ),
 );

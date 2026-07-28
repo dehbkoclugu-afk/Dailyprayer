@@ -30,9 +30,19 @@ const LOADERS: Record<Locale, () => BibleData> = {
 };
 
 const cache: Partial<Record<Locale, BibleData>> = {};
+const loadDurations: Partial<Record<Locale, number>> = {};
 
 function load(locale: Locale): BibleData {
-  return (cache[locale] ??= (LOADERS[locale] ?? LOADERS.en)());
+  if (cache[locale]) return cache[locale]!;
+  const started = globalThis.performance?.now?.() ?? Date.now();
+  const data = (LOADERS[locale] ?? LOADERS.en)();
+  loadDurations[locale] = (globalThis.performance?.now?.() ?? Date.now()) - started;
+  return (cache[locale] = data);
+}
+
+/** Dev/release profiling hook; only locales actually opened appear in this map. */
+export function getBibleLoadMetrics(): Readonly<Partial<Record<Locale, number>>> {
+  return { ...loadDurations };
 }
 
 /** The whole Bible for a locale, in canonical order. Lazy + cached. */

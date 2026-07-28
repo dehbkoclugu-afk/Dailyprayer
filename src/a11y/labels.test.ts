@@ -335,7 +335,7 @@ test('the book and chapter picker announces purpose and selection', () => {
   // row's selected flag is written as an index comparison, and both rows carry
   // text, so neither generic rule applies.
   const source = readFileSync(join('app', 'read.tsx'), 'utf8');
-  const inPicker = pressables(source).filter(({ tag }) => /setPicker\(index\)|go\(picker/.test(tag));
+  const inPicker = pressables(source).filter(({ tag }) => /setPicker\(row\.index\)|go\(picker/.test(tag));
   assert.equal(inPicker.length, 2, 'expected the book row and the chapter cell');
   for (const { tag, line } of inPicker) {
     assert.match(tag, /accessibilityRole="button"/, `app/read.tsx:${line} needs a button role`);

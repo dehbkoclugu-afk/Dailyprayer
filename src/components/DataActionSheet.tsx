@@ -8,6 +8,7 @@ import { type } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { useT } from '@/i18n';
 import { useSheetTitleFocus } from '@/a11y/sheetFocus';
+import { useReduceMotion } from '@/a11y/reduceMotion';
 import {
   collectDataSummary,
   deleteAllUserData,
@@ -37,6 +38,7 @@ export function DataActionSheet({
   onDone: (action: DataAction) => void;
 }) {
   const t = useTheme();
+  const reduceMotion = useReduceMotion();
   const { t: tr } = useT();
   const insets = useSafeAreaInsets();
   const [stage, setStage] = React.useState<1 | 2>(1);
@@ -130,7 +132,13 @@ export function DataActionSheet({
   );
 
   return (
-    <Modal visible transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
+    <Modal
+      visible
+      transparent
+      animationType={reduceMotion ? 'none' : 'slide'}
+      onRequestClose={onClose}
+      statusBarTranslucent
+    >
       {/* iOS needs telling that the sheet is modal; on Android the Modal is a
           separate window and TalkBack cannot reach behind it anyway. */}
       <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }} accessibilityViewIsModal>
