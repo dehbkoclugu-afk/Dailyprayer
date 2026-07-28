@@ -1,4 +1,4 @@
-export type PlanId = 'weekly' | 'annual' | 'lifetime';
+export type PlanId = 'monthly' | 'annual' | 'lifetime';
 export type PurchaseFailure = 'cancelled' | 'pending' | 'failed';
 
 const CANCELLED = '1';
@@ -16,12 +16,19 @@ export function classifyPurchaseError(error: unknown): PurchaseFailure {
 
 export function planIdForPackage(packageType: string, identifier: string): PlanId | null {
   if (packageType === 'ANNUAL') return 'annual';
-  if (packageType === 'WEEKLY') return 'weekly';
+  if (packageType === 'MONTHLY') return 'monthly';
   if (packageType === 'LIFETIME') return 'lifetime';
 
   const id = identifier.toLowerCase();
   if (id.includes('annual') || id.includes('yearly')) return 'annual';
-  if (id.includes('weekly')) return 'weekly';
+  if (id.includes('monthly')) return 'monthly';
   if (id.includes('lifetime')) return 'lifetime';
   return null;
+}
+
+export function hasActiveEntitlement(
+  active: Record<string, unknown>,
+  entitlementIds: readonly string[],
+): boolean {
+  return entitlementIds.some((id) => Boolean(active[id]));
 }
