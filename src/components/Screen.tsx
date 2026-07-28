@@ -43,7 +43,9 @@ export function Screen({ children, scroll = true, style, tabbed = false }: Props
   const content: ViewStyle = {
     paddingTop: insets.top + spacing.xl,
     paddingHorizontal: spacing.xl,
-    paddingBottom: (tabbed ? 96 : insets.bottom + spacing.xl) + spacing.xl,
+    // Tab screens already reserve space for the navigator. Adding another
+    // tab-bar-sized inset leaves an obvious empty block under the last card.
+    paddingBottom: tabbed ? spacing.xxl : insets.bottom + spacing.xl,
     // Keep a readable devotional measure while giving large-text/tablet layouts room.
     width: '100%',
     maxWidth: width >= 840 ? 640 : 480,
