@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { AccessibilityInfo, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -13,6 +13,7 @@ import Animated, {
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
+import { useReduceMotion } from '@/a11y/reduceMotion';
 import { type } from '@/theme/typography';
 interface Props {
   count: number;
@@ -23,33 +24,35 @@ interface Props {
 export function StreakFlame({ count, litToday }: Props) {
   const t = useTheme();
   const { tfn } = useT();
+  const reduceMotion = useReduceMotion();
   const scale = useSharedValue(1);
   const prevCount = useRef(count);
 
-  // one-shot pop when the streak ticks up (design-100 #58)
+  // One-shot pop when the streak ticks up (design-100 #58). This was never gated
+  // at all — the pulse below was, so reduce motion silenced the ambient breathing
+  // and left the sharper of the two animations running (roadmap item 36).
   useEffect(() => {
-    if (count > prevCount.current) {
+    if (!reduceMotion && count > prevCount.current) {
       scale.value = withSequence(withSpring(1.25, { damping: 12 }), withSpring(1, { damping: 16 }));
     }
     prevCount.current = count;
-  }, [count, scale]);
+  }, [count, reduceMotion, scale]);
 
   useEffect(() => {
-    let cancelled = false;
-    AccessibilityInfo.isReduceMotionEnabled().then((reduced) => {
-      if (cancelled || reduced || !litToday) return;
-      scale.value = withRepeat(
-        withTiming(1.06, { duration: 2000, easing: Easing.inOut(Easing.quad) }),
-        -1,
-        true,
-      );
-    });
+    if (reduceMotion || !litToday) return undefined;
+    scale.value = withRepeat(
+      withTiming(1.06, { duration: 2000, easing: Easing.inOut(Easing.quad) }),
+      -1,
+      true,
+    );
+    // Depending on reduceMotion is what stops the loop mid-session: turning the
+    // setting on re-runs this effect, and the cleanup cancels the repeat that is
+    // already running. The promise this replaced resolved once and never again.
     return () => {
-      cancelled = true;
       cancelAnimation(scale);
       scale.value = 1;
     };
-  }, [litToday, scale]);
+  }, [litToday, reduceMotion, scale]);
 
   const style = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
 

@@ -5,12 +5,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useToastStore } from '@/state/useToastStore';
 import { useTheme } from '@/hooks/useTheme';
+import { useReduceMotion } from '@/a11y/reduceMotion';
 import { type } from '@/theme/typography';
 import { radius, shadow, spacing, TAP_MIN } from '@/theme/tokens';
 
 /** Minimal gold-trimmed toast. Mount once in the root layout. */
 export function ToastHost() {
   const t = useTheme();
+  const reduceMotion = useReduceMotion();
   const insets = useSafeAreaInsets();
   const { message, actionLabel, action, seq, clear } = useToastStore();
 
@@ -52,8 +54,10 @@ export function ToastHost() {
         pointerEvents={hasAction ? 'auto' : 'none'}
         accessibilityRole="alert"
         accessibilityLiveRegion="polite"
-        entering={FadeInDown.springify().damping(20)}
-        exiting={FadeOutUp.duration(150)}
+        // A toast that slides is the most frequent motion in the app — it fires
+        // on every undo, copy and save (roadmap item 36).
+        entering={reduceMotion ? undefined : FadeInDown.springify().damping(20)}
+        exiting={reduceMotion ? undefined : FadeOutUp.duration(150)}
         style={[
           {
             flexDirection: 'row',

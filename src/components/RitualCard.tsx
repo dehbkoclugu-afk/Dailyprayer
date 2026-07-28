@@ -5,7 +5,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { artRegistry, type AssetId } from '@/assets/registry';
 import Animated, {
   Easing,
-  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withSequence,
@@ -16,6 +15,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { type } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
+import { useReduceMotion } from '@/a11y/reduceMotion';
 
 interface Props {
   icon: keyof typeof Ionicons.glyphMap;
@@ -33,6 +33,7 @@ const CARD_W = 360; // approximate; the shimmer just needs to travel past the ed
 export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }: Props) {
   const t = useTheme();
   const { t: tr, tf } = useT();
+  const reduceMotion = useReduceMotion();
   // With art, the card is a dark warm scene regardless of the app theme, so the
   // text/icon must be light — theme colors (t.ink) would be dark-on-dark in the
   // light theme and vanish. Fall back to theme colors only when there's no art.
@@ -42,21 +43,25 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
   const chevColor = hasArt ? 'rgba(242,238,230,0.7)' : t.inkFaint;
 
   // One-time gold shimmer sweep when a card transitions to done (design-100 #57).
+  //
+  // Under reduce motion this does not run at all (roadmap item 37). It used to
+  // carry ReduceMotion.System, which is not the same thing: Reanimated then skips
+  // the tween and assigns the end value, so a 80dp gold band travelled nowhere and
+  // parked itself off the card's right edge — the reward silently became nothing.
+  // The completed card keeps a static gold wash instead, so finishing a ritual
+  // still looks different from not having finished it.
   const shimmerX = useSharedValue(-CARD_W);
   const prevDone = useRef(done);
   useEffect(() => {
+    if (reduceMotion) return;
     if (done && !prevDone.current) {
       shimmerX.value = -CARD_W;
       shimmerX.value = withSequence(
-        withTiming(CARD_W, {
-          duration: 650,
-          easing: Easing.out(Easing.cubic),
-          reduceMotion: ReduceMotion.System,
-        }),
+        withTiming(CARD_W, { duration: 650, easing: Easing.out(Easing.cubic) }),
       );
     }
     prevDone.current = done;
-  }, [done, shimmerX]);
+  }, [done, reduceMotion, shimmerX]);
 
   const shimmerStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: shimmerX.value }, { rotate: '18deg' }],
@@ -109,21 +114,35 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         </>
       ) : null}
 
-      {/* shimmer overlay — sweeps once on completion, invisible otherwise */}
-      <Animated.View
-        pointerEvents="none"
-        style={[
-          { position: 'absolute', top: -40, bottom: -40, width: 80 },
-          shimmerStyle,
-        ]}
-      >
-        <LinearGradient
-          colors={['rgba(217,164,65,0)', 'rgba(217,164,65,0.35)', 'rgba(217,164,65,0)']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={{ flex: 1 }}
-        />
-      </Animated.View>
+      {/* The completion reward. Normally a gold band sweeping once across the
+          card; under reduce motion a still gold wash that simply sits there
+          (roadmap item 37) — same colour, same meaning, no movement. */}
+      {reduceMotion ? (
+        done ? (
+          <LinearGradient
+            pointerEvents="none"
+            colors={['rgba(217,164,65,0.16)', 'rgba(217,164,65,0.05)']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
+          />
+        ) : null
+      ) : (
+        <Animated.View
+          pointerEvents="none"
+          style={[
+            { position: 'absolute', top: -40, bottom: -40, width: 80 },
+            shimmerStyle,
+          ]}
+        >
+          <LinearGradient
+            colors={['rgba(217,164,65,0)', 'rgba(217,164,65,0.35)', 'rgba(217,164,65,0)']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{ flex: 1 }}
+          />
+        </Animated.View>
+      )}
 
       <View
         style={{
@@ -144,7 +163,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         </Text>
       </View>
       {done ? (
-        <Animated.View entering={ZoomIn.springify().damping(12)}>
+        <Animated.View entering={reduceMotion ? undefined : ZoomIn.springify().damping(12)}>
           <Ionicons name="checkmark-circle" size={26} color={t.gold} />
         </Animated.View>
       ) : locked ? (

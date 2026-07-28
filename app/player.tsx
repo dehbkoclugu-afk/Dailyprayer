@@ -3,7 +3,7 @@ import { AccessibilityInfo, Pressable, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import Animated, { FadeInUp, FadeOut, useReducedMotion } from 'react-native-reanimated';
+import Animated, { FadeInUp, FadeOut } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -16,6 +16,7 @@ import { usePrayers } from '@/data/prayers';
 import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
 import { translate, useT } from '@/i18n';
+import { useReduceMotion } from '@/a11y/reduceMotion';
 
 type Pace = 'slow' | 'normal' | 'quick';
 
@@ -56,7 +57,7 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
   const t = useTheme();
   const { t: tr, tn } = useT();
   const insets = useSafeAreaInsets();
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReduceMotion();
   const completeStep = useStreakStore((s) => s.completeStep);
   const [line, setLine] = useState(0);
   const [paused, setPaused] = useState(false);
