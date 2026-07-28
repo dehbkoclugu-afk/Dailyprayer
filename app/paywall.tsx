@@ -42,12 +42,12 @@ export default function Paywall() {
   const BENEFITS = paywallContext.benefits.map((id) => benefitStrings[id]);
   const PLAN_TITLE: Record<PlanId, string> = {
     annual: tr('paywall.yearly'),
-    weekly: tr('paywall.weekly'),
+    monthly: tr('paywall.monthly'),
     lifetime: tr('paywall.lifetime'),
   };
   const PLAN_PERIOD: Record<PlanId, string> = {
     annual: tr('paywall.perYear'),
-    weekly: tr('paywall.perWeek'),
+    monthly: tr('paywall.perMonth'),
     lifetime: tr('paywall.once'),
   };
   const [selected, setSelected] = useState<PlanId>('annual');
@@ -81,7 +81,7 @@ export default function Paywall() {
         : null;
       return `${plan.monthlyPrice}${tr('paywall.perMonth')}${trialCopy ? ` · ${trialCopy}` : ''}`;
     }
-    return plan.id === 'weekly' ? tr('paywall.weeklySub') : tr('paywall.lifetimeSub');
+    return plan.id === 'monthly' ? tr('paywall.monthlySub') : tr('paywall.lifetimeSub');
   };
 
   const buy = async () => {
@@ -234,7 +234,7 @@ export default function Paywall() {
       <View style={{ gap: spacing.md }}>
         {plans.map((p) => {
           const active = selected === p.id;
-          const quiet = p.id === 'weekly'; // anchor, not the sell
+          const quiet = p.id === 'monthly'; // flexible option, not the primary sell
           return (
             <Pressable
               key={p.id}
