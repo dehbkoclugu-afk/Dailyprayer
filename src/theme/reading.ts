@@ -3,7 +3,7 @@ import { useReaderPrefsStore } from '@/state/useReaderPrefsStore';
 import type { ThemeColors } from '@/theme/tokens';
 
 /**
- * Warm "paper" reading surface — a self-contained palette so the reading mode
+ * Warm "paper" reading surface , a self-contained palette so the reading mode
  * reads like a printed page regardless of the app's light/dark theme.
  */
 export const PAPER: Partial<ThemeColors> = {

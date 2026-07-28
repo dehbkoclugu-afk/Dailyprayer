@@ -10,7 +10,7 @@ interface Props {
 }
 
 /**
- * "Lumen" wordmark — Fraunces serif with a gold tittle over the "e", recreated
+ * "Lumen" wordmark , Fraunces serif with a gold tittle over the "e", recreated
  * from the brand wordmark as live text so it stays crisp at any size and adapts
  * to light/dark themes. (Rasterizing the supplied art was not viable: ivory
  * letters on a neutral checkerboard have no separable color/brightness signal.)

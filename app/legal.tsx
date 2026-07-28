@@ -11,7 +11,7 @@ import { PRIVACY_POLICY, TERMS_OF_SERVICE } from '@/data/legal';
 
 /**
  * Minimal Markdown renderer for our own controlled legal copy (headings, bold,
- * list items, paragraphs). Not a general-purpose parser — just what legal.ts uses.
+ * list items, paragraphs). Not a general-purpose parser , just what legal.ts uses.
  */
 function Markdown({ source }: { source: string }) {
   const t = useTheme();

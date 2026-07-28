@@ -11,18 +11,18 @@ export const devotionals: Devotional[] = [
   {
     title: 'The Gift of Stillness',
     body:
-      'Most of us meet the morning already running — messages, headlines, obligations. ' +
+      'Most of us meet the morning already running , messages, headlines, obligations. ' +
       'Psalm 46 was written in a time of upheaval, yet its center is a whisper: be still. ' +
       'Stillness is not doing nothing; it is remembering who holds everything. ' +
       'For two minutes, let your shoulders drop. The world will keep spinning without ' +
-      'your help — it always has. That is not your failure. That is His faithfulness.',
+      'your help , it always has. That is not your failure. That is His faithfulness.',
     prayer: 'Lord, quiet the noise in me. Help me trust that You are God and I am not. Amen.',
   },
   {
     title: 'Strength That Isn’t Yours',
     body:
       'Paul wrote “I can do all things” from a prison cell, not a summit. The strength he ' +
-      'describes is not self-confidence; it is borrowed strength — the kind that arrives ' +
+      'describes is not self-confidence; it is borrowed strength , the kind that arrives ' +
       'exactly when yours runs out. Whatever today asks of you, you were never meant to ' +
       'carry it alone. Ask. Receive. Walk.',
     prayer: 'Jesus, be my strength where I am weak today. I hand You what feels too heavy. Amen.',
@@ -31,8 +31,8 @@ export const devotionals: Devotional[] = [
     title: 'Led, Not Driven',
     body:
       'A shepherd walks ahead; a driver pushes from behind. Psalm 23 insists that God ' +
-      'leads — to green pastures, beside still waters. If your faith has felt like being ' +
-      'driven — hurried, pressured, afraid — that voice is not the Shepherd’s. ' +
+      'leads , to green pastures, beside still waters. If your faith has felt like being ' +
+      'driven , hurried, pressured, afraid , that voice is not the Shepherd’s. ' +
       'Today, listen for the voice that leads gently, and follow one step at a time.',
     prayer: 'Shepherd of my soul, teach me the sound of Your voice. Lead me today. Amen.',
   },
@@ -41,14 +41,14 @@ export const devotionals: Devotional[] = [
     body:
       'Jesus did not say “come to me, all you who have it together.” He called the tired, ' +
       'the burdened, the ones barely holding on. Rest is not a reward for finishing your ' +
-      'work; it is a gift offered in the middle of it. Come as you are — that is the ' +
+      'work; it is a gift offered in the middle of it. Come as you are , that is the ' +
       'whole invitation.',
     prayer: 'Lord, I come tired. Trade my heaviness for Your rest. Amen.',
   },
   {
     title: 'A Future and a Hope',
     body:
-      'Jeremiah 29:11 was written to exiles — people whose plans had collapsed. God’s ' +
+      'Jeremiah 29:11 was written to exiles , people whose plans had collapsed. God’s ' +
       'promise wasn’t an instant rescue; it was His character: I have not forgotten you. ' +
       'Your setback is not the end of your story. The Author is still writing.',
     prayer: 'Father, when I can’t see the way, help me trust the One who does. Amen.',
@@ -57,7 +57,7 @@ export const devotionals: Devotional[] = [
     title: 'Lean In',
     body:
       'Your own understanding is a fine tool and a terrible master. Proverbs invites us ' +
-      'to trust with all the heart — not because thinking is wrong, but because our view ' +
+      'to trust with all the heart , not because thinking is wrong, but because our view ' +
       'is small. Bring God the decision you keep turning over. Then listen longer than ' +
       'you speak.',
     prayer: 'Lord, I trust You with the decision on my mind right now. Make my path straight. Amen.',
@@ -66,7 +66,7 @@ export const devotionals: Devotional[] = [
     title: 'The Antidote to Anxiety',
     body:
       'Paul’s prescription for anxiety is strangely specific: pray about everything, and ' +
-      'add thanksgiving. Gratitude is not denial — it is widening the frame until God’s ' +
+      'add thanksgiving. Gratitude is not denial , it is widening the frame until God’s ' +
       'past faithfulness is back in the picture. Name three things you’re thankful for. ' +
       'Watch what it does to the fear.',
     prayer: 'God of peace, guard my heart and mind today. I give You my worries, one by one. Amen.',
@@ -77,31 +77,31 @@ export const devotionals: Devotional[] = [
       'John did not promise a life without darkness. He promised that the darkness does ' +
       'not win. A single candle does not argue with the night; it simply burns, and the ' +
       'dark gives way. You do not have to fix everything today. You only have to keep your ' +
-      'small light lit — and trust the One who is Light itself to do the rest.',
+      'small light lit , and trust the One who is Light itself to do the rest.',
     prayer: 'Jesus, Light of the world, shine in the corners of me that feel dark today. Amen.',
   },
   {
     title: 'Enough for Today',
     body:
       'Manna could not be stored. Each morning the people gathered just enough, and tomorrow ' +
-      'they gathered again. God trains us to trust one day at a time — not because He is ' +
+      'they gathered again. God trains us to trust one day at a time , not because He is ' +
       'stingy, but because daily bread makes for a daily relationship. Do not carry tomorrow’s ' +
       'weight into today. Today has enough grace of its own.',
-    prayer: 'Father, give me today my daily bread — and the peace to leave tomorrow with You. Amen.',
+    prayer: 'Father, give me today my daily bread , and the peace to leave tomorrow with You. Amen.',
   },
   {
     title: 'Known and Loved',
     body:
       'Before you formed a single thought this morning, you were already known. Psalm 139 ' +
       'says God knit you together and knows when you sit and when you rise. You are not a ' +
-      'stranger begging for attention. You are a child, fully known and — astonishingly — ' +
+      'stranger begging for attention. You are a child, fully known and , astonishingly , ' +
       'fully loved. Let that be the ground you stand on today.',
     prayer: 'Lord, thank You that I am fully known and still fully loved. Steady me in that. Amen.',
   },
   {
     title: 'The Long Obedience',
     body:
-      'Faithfulness is rarely dramatic. It is mostly showing up — one prayer, one kindness, ' +
+      'Faithfulness is rarely dramatic. It is mostly showing up , one prayer, one kindness, ' +
       'one honest choice at a time. A river carves a canyon not by force but by returning to ' +
       'the same path every day. Your small, repeated yes to God is doing more than you can ' +
       'see. Keep returning.',
@@ -111,8 +111,8 @@ export const devotionals: Devotional[] = [
     title: 'When You Feel Forgotten',
     body:
       'Hagar, alone in the desert, gave God a name: “the God who sees me.” When no one else ' +
-      'noticed her, He did. If today you feel overlooked — by people, by circumstances, even ' +
-      'by your own hopes — hear this: you are seen. Nothing about your life is invisible to ' +
+      'noticed her, He did. If today you feel overlooked , by people, by circumstances, even ' +
+      'by your own hopes , hear this: you are seen. Nothing about your life is invisible to ' +
       'the One who counts the stars and calls them each by name.',
     prayer: 'God who sees me, thank You that I am never truly alone. Meet me here. Amen.',
   },
@@ -120,7 +120,7 @@ export const devotionals: Devotional[] = [
     title: 'The Gift You Didn’t Earn',
     body:
       'Grace is offensive to the part of us that wants to earn its place. But Ephesians is ' +
-      'clear: you are saved by grace, through faith, and this is not from yourself — it is a ' +
+      'clear: you are saved by grace, through faith, and this is not from yourself , it is a ' +
       'gift. You can stop auditioning for love you already have. Rest is not the reward for ' +
       'finishing; it is the gift that lets you begin again.',
     prayer: 'Father, I receive what I could never earn. Thank You for grace. Teach me to rest in it. Amen.',
@@ -128,7 +128,7 @@ export const devotionals: Devotional[] = [
   {
     title: 'Streams in the Desert',
     body:
-      'Isaiah speaks of rivers in the wasteland — water where you would swear nothing could ' +
+      'Isaiah speaks of rivers in the wasteland , water where you would swear nothing could ' +
       'grow. Your dry season is not the end of the story. God specializes in making life ' +
       'spring up in the exact places we had written off. Watch the ground you gave up on. ' +
       'He is not finished there.',
@@ -141,7 +141,7 @@ export const devotionals: Devotional[] = [
       'heavy pack off your shoulders. Why? “Because he cares for you.” Worry pretends to be ' +
       'useful, as if enough turning it over will solve it. It won’t. Prayer moves the weight ' +
       'to the only One strong enough to hold it.',
-    prayer: 'Lord, I cast my worry on You — really, not just in words. Carry what I cannot. Amen.',
+    prayer: 'Lord, I cast my worry on You , really, not just in words. Carry what I cannot. Amen.',
   },
   {
     title: 'The Voice That Calls You Good',
@@ -156,8 +156,8 @@ export const devotionals: Devotional[] = [
     title: 'Do Not Despise Small Beginnings',
     body:
       'Zechariah asks who dares despise the day of small things. We want the finished cathedral; ' +
-      'God delights in the first laid stone. Whatever you are starting — a habit, a healing, a ' +
-      'reconciliation — do not measure it by how little it looks today. Great things almost ' +
+      'God delights in the first laid stone. Whatever you are starting , a habit, a healing, a ' +
+      'reconciliation , do not measure it by how little it looks today. Great things almost ' +
       'always begin embarrassingly small.',
     prayer: 'Lord, bless the small beginning in front of me. Help me be faithful with little. Amen.',
   },
@@ -173,7 +173,7 @@ export const devotionals: Devotional[] = [
   {
     title: 'Love in the Ordinary',
     body:
-      'Paul’s famous description of love is not sentimental — it is practical, almost mundane. ' +
+      'Paul’s famous description of love is not sentimental , it is practical, almost mundane. ' +
       'Patient. Kind. Not easily angered. Keeps no record of wrongs. This is love with its ' +
       'sleeves rolled up, love for Tuesday afternoons and difficult people. Ask not “do I feel ' +
       'love?” but “can I be patient here, kind here, forgiving here?”',
@@ -182,7 +182,7 @@ export const devotionals: Devotional[] = [
   {
     title: 'The Weight of Glory',
     body:
-      'Paul calls his hardships “light and momentary” — and this from a man beaten and ' +
+      'Paul calls his hardships “light and momentary” , and this from a man beaten and ' +
       'imprisoned. He could say it because he measured his troubles against an eternity of ' +
       'glory. Your pain is real; he never pretends otherwise. But it is not the largest thing ' +
       'in view. Something far heavier and far kinder is coming.',
@@ -192,7 +192,7 @@ export const devotionals: Devotional[] = [
     title: 'Return to Me',
     body:
       'The prophets’ most repeated word is not “try harder” but “return.” God is forever ' +
-      'inviting His people back — not with a lecture, but with open arms. If you have drifted, ' +
+      'inviting His people back , not with a lecture, but with open arms. If you have drifted, ' +
       'the way home is shorter than you fear. One honest turn of the heart, and you will find ' +
       'Him already running toward you.',
     prayer: 'Father, I turn back to You today. Thank You for meeting me before I even arrive. Amen.',
@@ -202,7 +202,7 @@ export const devotionals: Devotional[] = [
     body:
       '“Be still, and know that I am God.” The stillness comes first, then the knowing. We try ' +
       'to reason our way to peace and end up more tangled. Sometimes faith is simply ceasing to ' +
-      'strive — letting your hands unclench long enough to remember who is actually holding the ' +
+      'strive , letting your hands unclench long enough to remember who is actually holding the ' +
       'world together. It was never you.',
     prayer: 'God, quiet my striving. Help me be still long enough to remember You are God. Amen.',
   },
@@ -210,7 +210,7 @@ export const devotionals: Devotional[] = [
     title: 'The Friend Who Stays',
     body:
       'Proverbs says there is a friend who sticks closer than a brother. In a world of people ' +
-      'who come and go, Jesus is the one who stays — through the failure, the silence, the long ' +
+      'who come and go, Jesus is the one who stays , through the failure, the silence, the long ' +
       'night. You are not too much for Him, and you are never too far gone. He is not looking ' +
       'for a reason to leave. He is the friend who stays.',
     prayer: 'Jesus, thank You for staying when others could not. Help me rest in Your faithfulness. Amen.',
@@ -226,23 +226,23 @@ export const devotionals: Devotional[] = [
   },
 ];
 
-/** Turkish devotionals — same order/length as the English base (the fallback). */
+/** Turkish devotionals , same order/length as the English base (the fallback). */
 const devotionalsTR: Devotional[] = [
   {
     title: 'Dinginliğin Armağanı',
     body:
-      'Çoğumuz sabaha zaten koşarak başlarız — mesajlar, başlıklar, yükümlülükler. ' +
+      'Çoğumuz sabaha zaten koşarak başlarız , mesajlar, başlıklar, yükümlülükler. ' +
       'Mezmur 46 bir çalkantı döneminde yazıldı, yine de merkezi bir fısıltıdır: sakin ol. ' +
       'Dinginlik hiçbir şey yapmamak değildir; her şeyi kimin tuttuğunu hatırlamaktır. ' +
       'İki dakika boyunca omuzların düşsün. Dünya senin yardımın olmadan da dönmeye ' +
-      'devam edecek — hep etti. Bu senin başarısızlığın değil. Bu O’nun sadakati.',
+      'devam edecek , hep etti. Bu senin başarısızlığın değil. Bu O’nun sadakati.',
     prayer: 'Rab, içimdeki gürültüyü dindir. Senin Tanrı olduğuna, benimse olmadığıma güvenmeme yardım et. Âmin.',
   },
   {
     title: 'Sana Ait Olmayan Güç',
     body:
       'Pavlus “Her şeyi yapabilirim” sözünü bir zirvede değil, bir hapishane hücresinde yazdı. ' +
-      'Anlattığı güç özgüven değildir; ödünç alınmış bir güçtür — tam da seninki tükendiğinde ' +
+      'Anlattığı güç özgüven değildir; ödünç alınmış bir güçtür , tam da seninki tükendiğinde ' +
       'gelen türden. Bugün senden ne isterse istesin, onu asla yalnız taşıman gerekmiyordu. ' +
       'İste. Al. Yürü.',
     prayer: 'İsa, bugün güçsüz olduğum yerde gücüm ol. Ağır gelen şeyi Sana bırakıyorum. Âmin.',
@@ -251,8 +251,8 @@ const devotionalsTR: Devotional[] = [
     title: 'Sürüklenmiş Değil, Yönetilmiş',
     body:
       'Bir çoban önden yürür; bir sürücü arkadan iter. Mezmur 23, Tanrı’nın yönlendirdiğinde ' +
-      'ısrar eder — yeşil çayırlara, durgun suların yanına. İmanın sürüklenmek gibi hissettirdiyse ' +
-      '— telaşlı, baskı altında, korkulu — o ses Çoban’ın değil. ' +
+      'ısrar eder , yeşil çayırlara, durgun suların yanına. İmanın sürüklenmek gibi hissettirdiyse ' +
+      ', telaşlı, baskı altında, korkulu , o ses Çoban’ın değil. ' +
       'Bugün nazikçe yönlendiren sesi dinle ve her seferinde bir adım izle.',
     prayer: 'Canımın Çobanı, sesinin nasıl olduğunu öğret bana. Bugün beni yönlendir. Âmin.',
   },
@@ -261,13 +261,13 @@ const devotionalsTR: Devotional[] = [
     body:
       'İsa “her şeyi yoluna koymuş olanlar, bana gelin” demedi. Yorgunları, yükü ağır olanları, ' +
       'zar zor tutunanları çağırdı. Dinlenme işini bitirmenin bir ödülü değildir; işin tam ' +
-      'ortasında sunulan bir armağandır. Olduğun gibi gel — bütün davet bu.',
+      'ortasında sunulan bir armağandır. Olduğun gibi gel , bütün davet bu.',
     prayer: 'Rab, yorgun geliyorum. Ağırlığımı Senin dinlenmenle değiştir. Âmin.',
   },
   {
     title: 'Bir Gelecek ve Bir Umut',
     body:
-      'Yeremya 29:11 sürgündekilere yazıldı — planları çökmüş insanlara. Tanrı’nın vaadi ' +
+      'Yeremya 29:11 sürgündekilere yazıldı , planları çökmüş insanlara. Tanrı’nın vaadi ' +
       'anında bir kurtuluş değildi; O’nun karakteriydi: seni unutmadım. ' +
       'Aksiliğin hikâyenin sonu değil. Yazar hâlâ yazıyor.',
     prayer: 'Baba, yolu göremediğimde, gören O’na güvenmeme yardım et. Âmin.',
@@ -276,7 +276,7 @@ const devotionalsTR: Devotional[] = [
     title: 'Yaslan',
     body:
       'Kendi anlayışın iyi bir araç, korkunç bir efendidir. Özdeyişler bizi bütün yürekle ' +
-      'güvenmeye çağırır — düşünmek yanlış olduğu için değil, görüşümüz dar olduğu için. ' +
+      'güvenmeye çağırır , düşünmek yanlış olduğu için değil, görüşümüz dar olduğu için. ' +
       'Sürekli evirip çevirdiğin kararı Tanrı’ya getir. Sonra konuştuğundan daha uzun süre dinle.',
     prayer: 'Rab, aklımdaki kararla ilgili Sana güveniyorum. Yolumu düz kıl. Âmin.',
   },
@@ -284,7 +284,7 @@ const devotionalsTR: Devotional[] = [
     title: 'Kaygının Panzehiri',
     body:
       'Pavlus’un kaygı reçetesi tuhaf biçimde nettir: her şey için dua et ve şükran ekle. ' +
-      'Şükran inkâr değildir — çerçeveyi, Tanrı’nın geçmişteki sadakati yeniden görünene dek ' +
+      'Şükran inkâr değildir , çerçeveyi, Tanrı’nın geçmişteki sadakati yeniden görünene dek ' +
       'genişletmektir. Şükrettiğin üç şeyi say. Korkuya ne yaptığını izle.',
     prayer: 'Esenlik Tanrısı, bugün kalbimi ve zihnimi koru. Endişelerimi birer birer Sana veriyorum. Âmin.',
   },
@@ -301,24 +301,24 @@ const devotionalsTR: Devotional[] = [
     title: 'Bugüne Yeter',
     body:
       'Man biriktirilemezdi. Her sabah halk sadece yeterince topladı, ertesi gün yeniden topladı. ' +
-      'Tanrı bizi günü gününe güvenmeye alıştırır — cimri olduğu için değil, günlük ekmek ' +
+      'Tanrı bizi günü gününe güvenmeye alıştırır , cimri olduğu için değil, günlük ekmek ' +
       'günlük bir ilişki kurduğu için. Yarının yükünü bugüne taşıma. ' +
       'Bugünün kendine yetecek lütfu var.',
-    prayer: 'Baba, bugün bana günlük ekmeğimi ver — ve yarını Sana bırakacak huzuru. Âmin.',
+    prayer: 'Baba, bugün bana günlük ekmeğimi ver , ve yarını Sana bırakacak huzuru. Âmin.',
   },
   {
     title: 'Tanınan ve Sevilen',
     body:
       'Bu sabah tek bir düşünce oluşturmadan önce, zaten tanınıyordun. Mezmur 139, ' +
       'Tanrı’nın seni ördüğünü ve ne zaman oturup ne zaman kalktığını bildiğini söyler. ' +
-      'İlgi dilenen bir yabancı değilsin. Tamamen tanınan ve — şaşırtıcı biçimde — ' +
+      'İlgi dilenen bir yabancı değilsin. Tamamen tanınan ve , şaşırtıcı biçimde , ' +
       'tamamen sevilen bir çocuksun. Bugün üzerinde durduğun zemin bu olsun.',
     prayer: 'Rab, tamamen tanındığım halde hâlâ tamamen sevildiğim için teşekkür ederim. Beni bunda sağlam tut. Âmin.',
   },
   {
     title: 'Uzun İtaat',
     body:
-      'Sadakat nadiren çarpıcıdır. Çoğunlukla gelmektir — bir dua, bir iyilik, ' +
+      'Sadakat nadiren çarpıcıdır. Çoğunlukla gelmektir , bir dua, bir iyilik, ' +
       'her seferinde bir dürüst seçim. Bir nehir bir kanyonu güçle değil, her gün aynı yola ' +
       'dönerek oyar. Tanrı’ya küçük, tekrarlanan “evet”in gördüğünden çok daha fazlasını ' +
       'yapıyor. Dönmeye devam et.',
@@ -328,8 +328,8 @@ const devotionalsTR: Devotional[] = [
     title: 'Unutulmuş Hissettiğinde',
     body:
       'Çölde yalnız kalan Hacer, Tanrı’ya bir ad verdi: “beni gören Tanrı.” Başka kimse onu ' +
-      'fark etmezken, O fark etti. Bugün göz ardı edilmiş hissediyorsan — insanlar tarafından, ' +
-      'koşullar tarafından, hatta kendi umutların tarafından — şunu duy: görülüyorsun. ' +
+      'fark etmezken, O fark etti. Bugün göz ardı edilmiş hissediyorsan , insanlar tarafından, ' +
+      'koşullar tarafından, hatta kendi umutların tarafından , şunu duy: görülüyorsun. ' +
       'Yıldızları sayan ve her birini adıyla çağıran O’na, hayatında görünmez hiçbir şey yok.',
     prayer: 'Beni gören Tanrı, asla gerçekten yalnız olmadığım için teşekkür ederim. Burada benimle buluş. Âmin.',
   },
@@ -337,7 +337,7 @@ const devotionalsTR: Devotional[] = [
     title: 'Hak Etmediğin Armağan',
     body:
       'Lütuf, yerini hak etmek isteyen yanımıza aykırı gelir. Ama Efesliler nettir: ' +
-      'iman aracılığıyla, lütufla kurtuldun ve bu senden değil — bir armağandır. ' +
+      'iman aracılığıyla, lütufla kurtuldun ve bu senden değil , bir armağandır. ' +
       'Zaten sahip olduğun sevgi için seçmelere girmeyi bırakabilirsin. Dinlenme, ' +
       'bitirmenin ödülü değildir; yeniden başlamana izin veren armağandır.',
     prayer: 'Baba, asla hak edemeyeceğimi alıyorum. Lütuf için teşekkür ederim. Onda dinlenmeyi öğret bana. Âmin.',
@@ -345,7 +345,7 @@ const devotionalsTR: Devotional[] = [
   {
     title: 'Çölde Irmaklar',
     body:
-      'Yeşaya çorak toprakta ırmaklardan söz eder — hiçbir şeyin büyüyemeyeceğine yemin ' +
+      'Yeşaya çorak toprakta ırmaklardan söz eder , hiçbir şeyin büyüyemeyeceğine yemin ' +
       'edeceğin yerde su. Kurak mevsimin hikâyenin sonu değil. Tanrı, tam da vazgeçtiğimiz ' +
       'yerlerde yaşamı filizlendirmekte uzmandır. Umudunu kestiğin toprağı izle. ' +
       'O orada işini bitirmedi.',
@@ -358,7 +358,7 @@ const devotionalsTR: Devotional[] = [
       'gibi Tanrı’nın üzerine at. Neden? “Çünkü O seni kayırır.” Endişe, üzerinde yeterince ' +
       'düşünürsen çözüleceğiymiş gibi yararlıymış gibi yapar. Çözülmez. Dua, yükü onu ' +
       'tutacak kadar güçlü olan tek O’na taşır.',
-    prayer: 'Rab, kaygımı Sana atıyorum — gerçekten, sadece sözde değil. Taşıyamadığımı Sen taşı. Âmin.',
+    prayer: 'Rab, kaygımı Sana atıyorum , gerçekten, sadece sözde değil. Taşıyamadığımı Sen taşı. Âmin.',
   },
   {
     title: 'Sana İyi Diyen Ses',
@@ -372,8 +372,8 @@ const devotionalsTR: Devotional[] = [
     title: 'Küçük Başlangıçları Küçümseme',
     body:
       'Zekeriya, küçük şeylerin gününü küçümsemeye kimin cesaret edeceğini sorar. Biz bitmiş ' +
-      'katedrali isteriz; Tanrı ilk konan taştan hoşlanır. Ne başlatıyorsan — bir alışkanlık, ' +
-      'bir iyileşme, bir barışma — onu bugün ne kadar küçük göründüğüyle ölçme. ' +
+      'katedrali isteriz; Tanrı ilk konan taştan hoşlanır. Ne başlatıyorsan , bir alışkanlık, ' +
+      'bir iyileşme, bir barışma , onu bugün ne kadar küçük göründüğüyle ölçme. ' +
       'Büyük şeyler neredeyse her zaman utandırıcı derecede küçük başlar.',
     prayer: 'Rab, önümdeki küçük başlangıcı bereketle. Azla sadık olmama yardım et. Âmin.',
   },
@@ -389,7 +389,7 @@ const devotionalsTR: Devotional[] = [
   {
     title: 'Sıradanın İçindeki Sevgi',
     body:
-      'Pavlus’un ünlü sevgi tarifi duygusal değil — pratik, neredeyse sıradandır. ' +
+      'Pavlus’un ünlü sevgi tarifi duygusal değil , pratik, neredeyse sıradandır. ' +
       'Sabırlı. İyiliksever. Kolay öfkelenmez. Kötülüğün hesabını tutmaz. Bu, kolları sıvanmış ' +
       'bir sevgi; salı öğleden sonraları ve zor insanlar için bir sevgi. “Sevgi hissediyor ' +
       'muyum?” diye değil, “burada sabırlı, iyiliksever, bağışlayıcı olabilir miyim?” diye sor.',
@@ -398,7 +398,7 @@ const devotionalsTR: Devotional[] = [
   {
     title: 'Görkemin Ağırlığı',
     body:
-      'Pavlus sıkıntılarına “hafif ve geçici” der — hem de dövülmüş ve hapsedilmiş bir adamdan. ' +
+      'Pavlus sıkıntılarına “hafif ve geçici” der , hem de dövülmüş ve hapsedilmiş bir adamdan. ' +
       'Bunu söyleyebildi, çünkü dertlerini sonsuz bir görkemle ölçtü. Acın gerçek; O bunu asla ' +
       'inkâr etmez. Ama görüşteki en büyük şey o değil. Çok daha ağır ve çok daha iyi bir şey geliyor.',
     prayer: 'Baba, bugün ağır geldiğinde, gözlerimi kalıcı olana kaldır. Beni taşı. Âmin.',
@@ -407,7 +407,7 @@ const devotionalsTR: Devotional[] = [
     title: 'Bana Dönün',
     body:
       'Peygamberlerin en çok tekrarladığı söz “daha çok çabala” değil, “dönün”dür. Tanrı ' +
-      'halkını sürekli geri çağırır — bir vaazla değil, açık kollarla. Uzaklaştıysan, ' +
+      'halkını sürekli geri çağırır , bir vaazla değil, açık kollarla. Uzaklaştıysan, ' +
       'eve giden yol korktuğundan daha kısa. Kalbin dürüst bir dönüşü, ve O’nu çoktan sana ' +
       'doğru koşarken bulacaksın.',
     prayer: 'Baba, bugün Sana geri dönüyorum. Daha varmadan beni karşıladığın için teşekkür ederim. Âmin.',
@@ -417,7 +417,7 @@ const devotionalsTR: Devotional[] = [
     body:
       '“Sakin olun, bilin ki, Tanrı benim.” Önce dinginlik gelir, sonra bilmek. Huzura akıl ' +
       'yürüterek ulaşmaya çalışır ve daha da dolaşırız. Bazen iman, sadece çabalamayı ' +
-      'bırakmaktır — dünyayı gerçekte kimin bir arada tuttuğunu hatırlayacak kadar uzun süre ' +
+      'bırakmaktır , dünyayı gerçekte kimin bir arada tuttuğunu hatırlayacak kadar uzun süre ' +
       'ellerinin gevşemesine izin vermektir. O hiç sen olmadın.',
     prayer: 'Tanrı, çabalamamı dindir. Senin Tanrı olduğunu hatırlayacak kadar sakin olmama yardım et. Âmin.',
   },
@@ -425,7 +425,7 @@ const devotionalsTR: Devotional[] = [
     title: 'Kalan Dost',
     body:
       'Özdeyişler, bir kardeşten daha yakın duran bir dost olduğunu söyler. Gelip geçen ' +
-      'insanların dünyasında, kalan O’dur — başarısızlığın, sessizliğin, uzun gecenin içinde. ' +
+      'insanların dünyasında, kalan O’dur , başarısızlığın, sessizliğin, uzun gecenin içinde. ' +
       'O’na fazla gelmezsin ve asla çok uzağa gitmiş değilsin. O ayrılmak için bahane aramıyor. ' +
       'O, kalan dosttur.',
     prayer: 'İsa, başkaları kalamadığında kaldığın için teşekkür ederim. Senin sadakatinde dinlenmeme yardım et. Âmin.',
@@ -440,7 +440,7 @@ const devotionalsTR: Devotional[] = [
   },
 ];
 
-/** Spanish devotionals — same order/length as the English base (the fallback). */
+/** Spanish devotionals , same order/length as the English base (the fallback). */
 const devotionalsES: Devotional[] = [
   {
     title: 'El Regalo de la Quietud',
@@ -466,7 +466,7 @@ const devotionalsES: Devotional[] = [
     body:
       'Un pastor camina delante; un arriero empuja por detrás. El Salmo 23 insiste en que ' +
       'Dios guía: a verdes praderas, junto a aguas tranquilas. Si tu fe se ha sentido como ' +
-      'ser arreada —apurada, presionada, temerosa—, esa voz no es la del Pastor. ' +
+      'ser arreada ,apurada, presionada, temerosa,, esa voz no es la del Pastor. ' +
       'Hoy, escucha la voz que guía con suavidad, y sigue un paso a la vez.',
     prayer: 'Pastor de mi alma, enséñame el sonido de tu voz. Guíame hoy. Amén.',
   },
@@ -528,7 +528,7 @@ const devotionalsES: Devotional[] = [
     body:
       'Antes de que formaras un solo pensamiento esta mañana, ya eras conocido. El Salmo 139 ' +
       'dice que Dios te tejió y sabe cuándo te sientas y cuándo te levantas. No eres un ' +
-      'extraño mendigando atención. Eres un hijo, plenamente conocido y —asombrosamente— ' +
+      'extraño mendigando atención. Eres un hijo, plenamente conocido y ,asombrosamente, ' +
       'plenamente amado. Que ese sea el suelo en que te pares hoy.',
     prayer: 'Señor, gracias porque soy plenamente conocido y aun así plenamente amado. Afírmame en eso. Amén.',
   },
@@ -545,8 +545,8 @@ const devotionalsES: Devotional[] = [
     title: 'Cuando Te Sientes Olvidado',
     body:
       'Agar, sola en el desierto, le dio a Dios un nombre: “el Dios que me ve.” Cuando nadie ' +
-      'más la notó, Él sí. Si hoy te sientes pasado por alto —por la gente, por las ' +
-      'circunstancias, incluso por tus propias esperanzas—, escucha esto: eres visto. Nada de ' +
+      'más la notó, Él sí. Si hoy te sientes pasado por alto ,por la gente, por las ' +
+      'circunstancias, incluso por tus propias esperanzas,, escucha esto: eres visto. Nada de ' +
       'tu vida es invisible para Aquel que cuenta las estrellas y las llama por nombre.',
     prayer: 'Dios que me ve, gracias porque nunca estoy realmente solo. Encuéntrame aquí. Amén.',
   },
@@ -591,7 +591,7 @@ const devotionalsES: Devotional[] = [
     body:
       'Zacarías pregunta quién se atreve a despreciar el día de las pequeñeces. Queremos la ' +
       'catedral terminada; Dios se deleita en la primera piedra colocada. Sea lo que sea que ' +
-      'estés empezando —un hábito, una sanación, una reconciliación—, no lo midas por lo poco ' +
+      'estés empezando ,un hábito, una sanación, una reconciliación,, no lo midas por lo poco ' +
       'que parece hoy. Las grandes cosas casi siempre empiezan vergonzosamente pequeñas.',
     prayer: 'Señor, bendice el pequeño comienzo frente a mí. Ayúdame a ser fiel con lo poco. Amén.',
   },
@@ -660,7 +660,7 @@ const devotionalsES: Devotional[] = [
   },
 ];
 
-/** Portuguese devotionals — same order/length as the English base (the fallback). */
+/** Portuguese devotionals , same order/length as the English base (the fallback). */
 const devotionalsPT: Devotional[] = [
   {
     title: 'O Presente da Quietude',
@@ -686,7 +686,7 @@ const devotionalsPT: Devotional[] = [
     body:
       'Um pastor caminha à frente; um tocador empurra por trás. O Salmo 23 insiste que Deus ' +
       'guia: a verdes pastos, junto a águas tranquilas. Se a sua fé tem parecido ser ' +
-      'empurrada — apressada, pressionada, com medo —, essa voz não é a do Pastor. ' +
+      'empurrada , apressada, pressionada, com medo ,, essa voz não é a do Pastor. ' +
       'Hoje, escute a voz que guia com doçura, e siga um passo de cada vez.',
     prayer: 'Pastor da minha alma, ensina-me o som da tua voz. Guia-me hoje. Amém.',
   },
@@ -748,7 +748,7 @@ const devotionalsPT: Devotional[] = [
     body:
       'Antes de você formar um único pensamento esta manhã, você já era conhecido. O Salmo 139 ' +
       'diz que Deus o teceu e sabe quando você se senta e quando se levanta. Você não é um ' +
-      'estranho implorando atenção. Você é um filho, plenamente conhecido e — surpreendentemente — ' +
+      'estranho implorando atenção. Você é um filho, plenamente conhecido e , surpreendentemente , ' +
       'plenamente amado. Que esse seja o chão em que você pisa hoje.',
     prayer: 'Senhor, obrigado porque sou plenamente conhecido e ainda assim plenamente amado. Firma-me nisso. Amém.',
   },
@@ -765,8 +765,8 @@ const devotionalsPT: Devotional[] = [
     title: 'Quando Você Se Sente Esquecido',
     body:
       'Agar, sozinha no deserto, deu a Deus um nome: “o Deus que me vê.” Quando ninguém mais a ' +
-      'notou, Ele notou. Se hoje você se sente ignorado — pelas pessoas, pelas circunstâncias, ' +
-      'até pelas suas próprias esperanças —, ouça isto: você é visto. Nada da sua vida é ' +
+      'notou, Ele notou. Se hoje você se sente ignorado , pelas pessoas, pelas circunstâncias, ' +
+      'até pelas suas próprias esperanças ,, ouça isto: você é visto. Nada da sua vida é ' +
       'invisível Àquele que conta as estrelas e as chama pelo nome.',
     prayer: 'Deus que me vê, obrigado porque nunca estou verdadeiramente só. Encontra-me aqui. Amém.',
   },
@@ -811,7 +811,7 @@ const devotionalsPT: Devotional[] = [
     body:
       'Zacarias pergunta quem ousa desprezar o dia das pequenas coisas. Queremos a catedral ' +
       'pronta; Deus se deleita na primeira pedra assentada. Seja o que for que você está ' +
-      'começando — um hábito, uma cura, uma reconciliação —, não o meça pelo pouco que parece ' +
+      'começando , um hábito, uma cura, uma reconciliação ,, não o meça pelo pouco que parece ' +
       'hoje. As grandes coisas quase sempre começam constrangedoramente pequenas.',
     prayer: 'Senhor, abençoa o pequeno começo diante de mim. Ajuda-me a ser fiel com o pouco. Amém.',
   },
@@ -836,7 +836,7 @@ const devotionalsPT: Devotional[] = [
   {
     title: 'O Peso da Glória',
     body:
-      'Paulo chama as suas dificuldades de “leves e momentâneas” — e isto de um homem ' +
+      'Paulo chama as suas dificuldades de “leves e momentâneas” , e isto de um homem ' +
       'espancado e preso. Ele podia dizê-lo porque media as suas aflições contra uma eternidade ' +
       'de glória. A sua dor é real; ele nunca finge o contrário. Mas não é a maior coisa à ' +
       'vista. Algo muito mais pesado e muito mais bondoso está a caminho.',
@@ -879,7 +879,7 @@ const devotionalsPT: Devotional[] = [
   },
 ];
 
-/** French devotionals — same order/length as the English base (the fallback). */
+/** French devotionals , same order/length as the English base (the fallback). */
 const devotionalsFR: Devotional[] = [
   {
     title: 'Le Don du Silence',
@@ -905,7 +905,7 @@ const devotionalsFR: Devotional[] = [
     body:
       'Un berger marche devant ; un meneur pousse par-derrière. Le Psaume 23 affirme que Dieu ' +
       'conduit : vers de verts pâturages, près des eaux paisibles. Si ta foi t’a semblé être ' +
-      'poussée — pressée, sous pression, apeurée —, cette voix n’est pas celle du Berger. ' +
+      'poussée , pressée, sous pression, apeurée ,, cette voix n’est pas celle du Berger. ' +
       'Aujourd’hui, écoute la voix qui conduit avec douceur, et suis un pas à la fois.',
     prayer: 'Berger de mon âme, apprends-moi le son de ta voix. Conduis-moi aujourd’hui. Amen.',
   },
@@ -967,7 +967,7 @@ const devotionalsFR: Devotional[] = [
     body:
       'Avant que tu ne formes une seule pensée ce matin, tu étais déjà connu. Le Psaume 139 dit ' +
       'que Dieu t’a tissé et sait quand tu t’assieds et quand tu te lèves. Tu n’es pas un ' +
-      'étranger quémandant de l’attention. Tu es un enfant, pleinement connu et — étonnamment — ' +
+      'étranger quémandant de l’attention. Tu es un enfant, pleinement connu et , étonnamment , ' +
       'pleinement aimé. Que ce soit le sol où tu te tiens aujourd’hui.',
     prayer: 'Seigneur, merci : je suis pleinement connu et pourtant pleinement aimé. Affermis-moi là-dessus. Amen.',
   },
@@ -984,8 +984,8 @@ const devotionalsFR: Devotional[] = [
     title: 'Quand Tu Te Sens Oublié',
     body:
       'Agar, seule au désert, donna à Dieu un nom : « le Dieu qui me voit. » Quand personne ' +
-      'd’autre ne la remarquait, lui le faisait. Si aujourd’hui tu te sens négligé — par les ' +
-      'gens, par les circonstances, même par tes propres espoirs —, entends ceci : tu es vu. ' +
+      'd’autre ne la remarquait, lui le faisait. Si aujourd’hui tu te sens négligé , par les ' +
+      'gens, par les circonstances, même par tes propres espoirs ,, entends ceci : tu es vu. ' +
       'Rien de ta vie n’est invisible à Celui qui compte les étoiles et les appelle chacune par leur nom.',
     prayer: 'Dieu qui me vois, merci : je ne suis jamais vraiment seul. Rejoins-moi ici. Amen.',
   },
@@ -1029,8 +1029,8 @@ const devotionalsFR: Devotional[] = [
     title: 'Ne Méprise Pas les Petits Commencements',
     body:
       'Zacharie demande qui ose mépriser le jour des petits commencements. Nous voulons la ' +
-      'cathédrale achevée ; Dieu se réjouit de la première pierre posée. Quoi que tu commences — ' +
-      'une habitude, une guérison, une réconciliation —, ne le mesure pas à ce qu’il paraît peu ' +
+      'cathédrale achevée ; Dieu se réjouit de la première pierre posée. Quoi que tu commences , ' +
+      'une habitude, une guérison, une réconciliation ,, ne le mesure pas à ce qu’il paraît peu ' +
       'aujourd’hui. Les grandes choses commencent presque toujours d’une petitesse gênante.',
     prayer: 'Seigneur, bénis le petit commencement devant moi. Aide-moi à être fidèle avec peu. Amen.',
   },
@@ -1055,7 +1055,7 @@ const devotionalsFR: Devotional[] = [
   {
     title: 'Le Poids de la Gloire',
     body:
-      'Paul appelle ses épreuves « légères et momentanées » — et cela d’un homme battu et ' +
+      'Paul appelle ses épreuves « légères et momentanées » , et cela d’un homme battu et ' +
       'emprisonné. Il pouvait le dire parce qu’il mesurait ses détresses à une éternité de ' +
       'gloire. Ta douleur est réelle ; il ne prétend jamais le contraire. Mais ce n’est pas la ' +
       'plus grande chose en vue. Quelque chose de bien plus lourd et de bien plus tendre s’en vient.',
@@ -1083,7 +1083,7 @@ const devotionalsFR: Devotional[] = [
     title: 'L’Ami qui Reste',
     body:
       'Les Proverbes disent qu’il y a un ami plus attaché qu’un frère. Dans un monde de gens qui ' +
-      'vont et viennent, Jésus est celui qui reste — à travers l’échec, le silence, la longue ' +
+      'vont et viennent, Jésus est celui qui reste , à travers l’échec, le silence, la longue ' +
       'nuit. Tu n’es pas trop pour lui, et tu n’es jamais trop loin. Il ne cherche pas une ' +
       'raison de partir. Il est l’ami qui reste.',
     prayer: 'Jésus, merci d’être resté quand d’autres ne le pouvaient pas. Aide-moi à me reposer dans ta fidélité. Amen.',
@@ -1099,7 +1099,7 @@ const devotionalsFR: Devotional[] = [
   },
 ];
 
-/** German devotionals — same order/length as the English base (the fallback). */
+/** German devotionals , same order/length as the English base (the fallback). */
 const devotionalsDE: Devotional[] = [
   {
     title: 'Das Geschenk der Stille',

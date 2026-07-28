@@ -4,11 +4,11 @@ import type { Locale } from '@/i18n/translations';
 /**
  * Maps each reading plan's day to a REAL passage in the bundled Bible, replacing
  * the old placeholder that drew an unrelated verse from the daily pool. Uses only
- * the lightweight book metadata (names + chapter counts) — the 4 MB text is loaded
+ * the lightweight book metadata (names + chapter counts) , the 4 MB text is loaded
  * lazily by the reader when the passage is opened.
  */
 export interface PlanReading {
-  /** entry point — canonical book index + 0-based chapter (where the reader opens) */
+  /** entry point , canonical book index + 0-based chapter (where the reader opens) */
   book: number;
   chapter: number;
   /** inclusive end of the day's reading (same as book/chapter for single chapters) */

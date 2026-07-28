@@ -1,4 +1,4 @@
-/** Onboarding quiz — personalization → plan reveal → paywall (category-proven funnel). */
+/** Onboarding quiz , personalization → plan reveal → paywall (category-proven funnel). */
 import type { Locale } from '@/i18n/translations';
 
 export interface QuizStep {
@@ -11,7 +11,7 @@ export interface QuizStep {
   affirmation?: string;
 }
 
-/** Structure (keys, order, icons) shared across every locale — text lives in `text`. */
+/** Structure (keys, order, icons) shared across every locale , text lives in `text`. */
 interface StepBase {
   key: QuizStep['key'];
   multi: boolean;
@@ -99,7 +99,7 @@ const text: Partial<Record<Locale, StepText[]>> = {
     {
       question: 'What do you hope grows in you?',
       subtitle: 'Choose all that apply.',
-      affirmation: 'You’re in good company — 73% of members joined for the very same reason.',
+      affirmation: 'You’re in good company , 73% of members joined for the very same reason.',
       labels: {
         habit: 'A daily prayer habit',
         closer: 'Feeling closer to God',
@@ -132,7 +132,7 @@ const text: Partial<Record<Locale, StepText[]>> = {
     },
     {
       question: 'When would you like a daily nudge?',
-      subtitle: 'A gentle reminder — never spam.',
+      subtitle: 'A gentle reminder , never spam.',
       labels: {
         '07:30': 'Morning · 7:30',
         '12:30': 'Midday · 12:30',
@@ -156,7 +156,7 @@ const text: Partial<Record<Locale, StepText[]>> = {
     {
       question: 'İçinde neyin büyümesini istiyorsun?',
       subtitle: 'Uygun olanların hepsini seç.',
-      affirmation: 'İyi bir topluluktasın — üyelerin %73’ü tam da aynı sebeple katıldı.',
+      affirmation: 'İyi bir topluluktasın , üyelerin %73’ü tam da aynı sebeple katıldı.',
       labels: {
         habit: 'Günlük bir dua alışkanlığı',
         closer: 'Tanrı’ya daha yakın hissetmek',
@@ -189,7 +189,7 @@ const text: Partial<Record<Locale, StepText[]>> = {
     },
     {
       question: 'Günlük nazik bir hatırlatmayı ne zaman istersin?',
-      subtitle: 'Nazik bir hatırlatma — asla spam değil.',
+      subtitle: 'Nazik bir hatırlatma , asla spam değil.',
       labels: {
         '07:30': 'Sabah · 7:30',
         '12:30': 'Öğle · 12:30',
@@ -270,7 +270,7 @@ const text: Partial<Record<Locale, StepText[]>> = {
     {
       question: 'O que você espera que cresça em você?',
       subtitle: 'Escolha todas as que se aplicam.',
-      affirmation: 'Você está em boa companhia — 73% dos membros entraram pelo mesmo motivo.',
+      affirmation: 'Você está em boa companhia , 73% dos membros entraram pelo mesmo motivo.',
       labels: {
         habit: 'Um hábito diário de oração',
         closer: 'Sentir-me mais perto de Deus',
@@ -303,7 +303,7 @@ const text: Partial<Record<Locale, StepText[]>> = {
     },
     {
       question: 'Quando você gostaria de um lembrete diário?',
-      subtitle: 'Um lembrete gentil — nunca spam.',
+      subtitle: 'Um lembrete gentil , nunca spam.',
       labels: {
         '07:30': 'Manhã · 7:30',
         '12:30': 'Meio-dia · 12:30',
@@ -327,7 +327,7 @@ const text: Partial<Record<Locale, StepText[]>> = {
     {
       question: 'Qu’espères-tu voir grandir en toi ?',
       subtitle: 'Choisis tout ce qui s’applique.',
-      affirmation: 'Tu es en bonne compagnie — 73 % des membres nous ont rejoints pour la même raison.',
+      affirmation: 'Tu es en bonne compagnie , 73 % des membres nous ont rejoints pour la même raison.',
       labels: {
         habit: 'Une habitude de prière quotidienne',
         closer: 'Me sentir plus proche de Dieu',
@@ -360,7 +360,7 @@ const text: Partial<Record<Locale, StepText[]>> = {
     },
     {
       question: 'Quand souhaites-tu un rappel quotidien ?',
-      subtitle: 'Un rappel doux — jamais de spam.',
+      subtitle: 'Un rappel doux , jamais de spam.',
       labels: {
         '07:30': 'Matin · 7:30',
         '12:30': 'Midi · 12:30',
@@ -384,7 +384,7 @@ const text: Partial<Record<Locale, StepText[]>> = {
     {
       question: 'Was soll in dir wachsen?',
       subtitle: 'Wähle alles Zutreffende.',
-      affirmation: 'Du bist in guter Gesellschaft — 73 % der Mitglieder sind aus demselben Grund beigetreten.',
+      affirmation: 'Du bist in guter Gesellschaft , 73 % der Mitglieder sind aus demselben Grund beigetreten.',
       labels: {
         habit: 'Eine tägliche Gebetsgewohnheit',
         closer: 'Gott näher fühlen',
@@ -417,7 +417,7 @@ const text: Partial<Record<Locale, StepText[]>> = {
     },
     {
       question: 'Wann möchtest du eine tägliche Erinnerung?',
-      subtitle: 'Eine sanfte Erinnerung — niemals Spam.',
+      subtitle: 'Eine sanfte Erinnerung , niemals Spam.',
       labels: {
         '07:30': 'Morgens · 7:30',
         '12:30': 'Mittags · 12:30',

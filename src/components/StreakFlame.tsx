@@ -19,7 +19,7 @@ interface Props {
   litToday: boolean;
 }
 
-/** Streak flame — breathes gently when lit today (disabled under Reduce Motion). */
+/** Streak flame , breathes gently when lit today (disabled under Reduce Motion). */
 export function StreakFlame({ count, litToday }: Props) {
   const t = useTheme();
   const scale = useSharedValue(1);

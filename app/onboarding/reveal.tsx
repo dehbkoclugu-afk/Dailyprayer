@@ -35,7 +35,7 @@ const GOAL_LABELS: Partial<Record<Locale, Record<string, string>>> = {
   },
 };
 
-/** Personalized plan reveal — the moment before the paywall. */
+/** Personalized plan reveal , the moment before the paywall. */
 export default function Reveal() {
   const t = useTheme();
   const { t: tr, locale } = useT();

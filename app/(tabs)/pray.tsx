@@ -31,7 +31,7 @@ export default function Pray() {
 {tr('pray.sub')}
       </Text>
 
-      {/* category filter — a single calm chip row (matches the Bible chapter
+      {/* category filter , a single calm chip row (matches the Bible chapter
           picker); tap the active chip again to clear back to the full library */}
       <ScrollView
         horizontal

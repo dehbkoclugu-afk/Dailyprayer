@@ -38,7 +38,7 @@ export default function DevotionalScreen() {
         accessibilityRole="button"
         accessibilityLabel={tr('a11y.back')}
         // Bordered chip so there's always a visible tap target to leave the
-        // reader — a bare icon becomes an invisible dead corner if the glyph
+        // reader , a bare icon becomes an invisible dead corner if the glyph
         // ever fails to render.
         style={{
           width: 44,

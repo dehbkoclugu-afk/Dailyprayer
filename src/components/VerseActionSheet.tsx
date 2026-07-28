@@ -77,13 +77,13 @@ export function VerseActionSheet({
 
   const onCopy = async () => {
     tap();
-    await Clipboard.setStringAsync(`“${verse.text}”\n— ${verse.ref}`).catch(() => {});
+    await Clipboard.setStringAsync(`“${verse.text}”\n, ${verse.ref}`).catch(() => {});
     toast(tr('verse.copied'));
     onClose();
   };
 
   const onShare = () => {
-    Share.share({ message: `“${verse.text}”\n— ${verse.ref}` }).catch(() => {});
+    Share.share({ message: `“${verse.text}”\n, ${verse.ref}` }).catch(() => {});
     onClose();
   };
 

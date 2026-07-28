@@ -21,7 +21,7 @@ export const prayers: GuidedPrayer[] = [
     plus: false,
     script: [
       'Take a slow breath in… and out. Before the day asks anything of you, be here.',
-      'Lord, thank You for this morning — for breath, for another beginning.',
+      'Lord, thank You for this morning , for breath, for another beginning.',
       'I give You the hours ahead: my work, my words, the people I will meet.',
       'Where I am anxious, be my peace. Where I am tired, be my strength.',
       'Let me walk through this day unhurried, aware that You are near. Amen.',
@@ -34,7 +34,7 @@ export const prayers: GuidedPrayer[] = [
     minutes: 4,
     plus: false,
     script: [
-      'Place a hand over your heart. Feel it beat — you are alive, and you are held.',
+      'Place a hand over your heart. Feel it beat , you are alive, and you are held.',
       'Jesus, You slept through a storm and silenced it with a word. Speak to mine.',
       'I name my worry now… and I place it in Your hands.',
       '“Peace, be still.” Let those words settle over my mind like calm water.',
@@ -48,9 +48,9 @@ export const prayers: GuidedPrayer[] = [
     minutes: 3,
     plus: false,
     script: [
-      'Think of one good thing from today — however small. Hold it for a moment.',
+      'Think of one good thing from today , however small. Hold it for a moment.',
       'Father, every good gift comes from You. Thank You.',
-      'Thank You for what I prayed for and received — and for what I was spared.',
+      'Thank You for what I prayed for and received , and for what I was spared.',
       'Teach me to notice grace hiding in ordinary hours.',
       'Let gratitude be the note my day ends on. Amen.',
     ],
@@ -62,7 +62,7 @@ export const prayers: GuidedPrayer[] = [
     minutes: 8,
     plus: true,
     script: [
-      'Let the day end. You have done what you could — and that is enough.',
+      'Let the day end. You have done what you could , and that is enough.',
       'Lord, as I lay down, I release what is unfinished into Your keeping.',
       'Watch over the people I love while we sleep.',
       '“In peace I will both lay myself down and sleep, for You alone make me live in safety.”',
@@ -77,7 +77,7 @@ export const prayers: GuidedPrayer[] = [
     plus: true,
     script: [
       'Bring the faces of your family to mind, one by one.',
-      'Father, bless each one — in health, in heart, in faith.',
+      'Father, bless each one , in health, in heart, in faith.',
       'Heal what is strained between us; soften what has hardened.',
       'Make our home a place of patience and laughter.',
       'Bind us together in Your love. Amen.',
@@ -94,7 +94,7 @@ export const prayers: GuidedPrayer[] = [
       'Lord, You did not give me a spirit of fear, but of power, love, and a sound mind.',
       'Give me courage for the conversation, the task, the step I keep avoiding.',
       'When I falter, remind me: You go before me.',
-      'I will be strong and courageous — not alone, but with You. Amen.',
+      'I will be strong and courageous , not alone, but with You. Amen.',
     ],
   },
   {
@@ -120,7 +120,7 @@ export const prayers: GuidedPrayer[] = [
     script: [
       'Unclench your hands. Let your breath slow with each line.',
       'Shepherd, You lead me beside still waters. Lead me there now.',
-      'The thoughts racing in me — I set them down at Your feet, one by one.',
+      'The thoughts racing in me , I set them down at Your feet, one by one.',
       'You restore my soul. Restore what today has worn thin.',
       'I will not be afraid, for You are with me. Amen.',
     ],
@@ -147,7 +147,7 @@ export const prayers: GuidedPrayer[] = [
     plus: false,
     script: [
       'Place both feet on the ground. You are here. God is here.',
-      'Jesus, You left Your peace with us — not as the world gives, but real and deep.',
+      'Jesus, You left Your peace with us , not as the world gives, but real and deep.',
       'Let that peace guard my heart and mind today like a sentry at the gate.',
       'What I cannot control, I release to You.',
       'Your peace is enough. I rest in it. Amen.',
@@ -176,7 +176,7 @@ export const prayers: GuidedPrayer[] = [
     script: [
       'The day is over. You have done what you could, and it is enough.',
       'Lord, I lay down every unfinished thing into Your keeping.',
-      'The worries I would carry into the dark — I leave them with You.',
+      'The worries I would carry into the dark , I leave them with You.',
       'You give sleep to those You love. Receive me now.',
       'In peace I lie down and sleep, for You alone keep me safe. Amen.',
     ],
@@ -204,7 +204,7 @@ export const prayers: GuidedPrayer[] = [
     script: [
       'Breathe. This one is hard, and God knows it.',
       'Lord, You forgave me at great cost. Give me strength to forgive.',
-      'I bring the name, the memory, the wound — I hold it out to You.',
+      'I bring the name, the memory, the wound , I hold it out to You.',
       'Free me from carrying what was never mine to carry.',
       'Heal what forgiveness opens. Make me whole. Amen.',
     ],
@@ -219,7 +219,7 @@ export const prayers: GuidedPrayer[] = [
       'Feel the weight of the day leave your shoulders.',
       'You who dwell in the shelter of the Most High will rest in His shadow.',
       'Lord, cover me tonight as a bird covers its young.',
-      'No fear of the night, no dread of tomorrow — only Your keeping.',
+      'No fear of the night, no dread of tomorrow , only Your keeping.',
       'I will not be afraid, for You never sleep. Good night, Father. Amen.',
     ],
   },
@@ -232,7 +232,7 @@ export const prayers: GuidedPrayer[] = [
     script: [
       'You do not have to pretend to be strong here.',
       'Lord, You said Your power is made perfect in weakness.',
-      'So here is my weakness — I stop hiding it from You.',
+      'So here is my weakness , I stop hiding it from You.',
       'Be strong in exactly the place I have nothing left.',
       'Your grace is sufficient for me. That is enough. Amen.',
     ],
@@ -245,7 +245,7 @@ export const prayers: GuidedPrayer[] = [
     plus: true,
     script: [
       'This is a harder gratitude. Breathe, and stay honest.',
-      'Father, even now — in this — I look for Your hand.',
+      'Father, even now , in this , I look for Your hand.',
       'Thank You for not leaving me alone in it.',
       'Thank You that this season is not the end of the story.',
       'I choose thanks, not because it is easy, but because You are good. Amen.',
@@ -268,7 +268,7 @@ const TR: Record<string, { title: string; script: string[] }> = {
     title: 'Sabah Işığı',
     script: [
       'Yavaşça bir nefes al… ver. Gün senden bir şey istemeden önce, burada ol.',
-      'Rab, bu sabah için teşekkür ederim — nefes için, yeni bir başlangıç için.',
+      'Rab, bu sabah için teşekkür ederim , nefes için, yeni bir başlangıç için.',
       'Önümdeki saatleri Sana veriyorum: işimi, sözlerimi, karşılaşacağım insanları.',
       'Kaygılı olduğum yerde huzurum ol. Yorgun olduğum yerde gücüm ol.',
       'Bu günü telaşsız, Senin yakın olduğunu bilerek yürümeme izin ver. Âmin.',
@@ -277,7 +277,7 @@ const TR: Record<string, { title: string; script: string[] }> = {
   'calm-the-storm': {
     title: 'Fırtınayı Dindir',
     script: [
-      'Elini kalbinin üzerine koy. Attığını hisset — yaşıyorsun ve tutuluyorsun.',
+      'Elini kalbinin üzerine koy. Attığını hisset , yaşıyorsun ve tutuluyorsun.',
       'İsa, bir fırtınanın içinde uyudun ve onu tek sözle susturdun. Benimkine de söyle.',
       'Endişemi şimdi adlandırıyorum… ve onu Senin ellerine bırakıyorum.',
       '“Sus, sakin ol.” Bu sözler zihnimin üzerine durgun su gibi çöksün.',
@@ -287,9 +287,9 @@ const TR: Record<string, { title: string; script: string[] }> = {
   'grateful-heart': {
     title: 'Şükreden Bir Kalp',
     script: [
-      'Bugünden güzel bir şey düşün — ne kadar küçük olursa olsun. Bir an onu tut.',
+      'Bugünden güzel bir şey düşün , ne kadar küçük olursa olsun. Bir an onu tut.',
       'Baba, her iyi armağan Senden gelir. Teşekkür ederim.',
-      'Dua edip aldıklarım için — ve esirgendiğim şeyler için teşekkür ederim.',
+      'Dua edip aldıklarım için , ve esirgendiğim şeyler için teşekkür ederim.',
       'Sıradan saatlerde saklanan lütfu fark etmeyi öğret bana.',
       'Şükran, günümün bittiği nota olsun. Âmin.',
     ],
@@ -297,7 +297,7 @@ const TR: Record<string, { title: string; script: string[] }> = {
   'into-rest': {
     title: 'Dinlenmeye',
     script: [
-      'Gün bitsin. Elinden geleni yaptın — ve bu yeterli.',
+      'Gün bitsin. Elinden geleni yaptın , ve bu yeterli.',
       'Rab, uzanırken, bitmemiş olanı Senin korumana bırakıyorum.',
       'Biz uyurken sevdiğim insanları koru.',
       '“Esenlik içinde yatar uyurum, çünkü beni güvenlikte yaşatan yalnız Sensin.”',
@@ -308,7 +308,7 @@ const TR: Record<string, { title: string; script: string[] }> = {
     title: 'Aileme Bereket',
     script: [
       'Ailenin yüzlerini birer birer aklına getir.',
-      'Baba, her birini bereketle — sağlıkta, yürekte, imanda.',
+      'Baba, her birini bereketle , sağlıkta, yürekte, imanda.',
       'Aramızda gerginleşeni iyileştir; katılaşanı yumuşat.',
       'Evimizi sabrın ve kahkahanın yeri yap.',
       'Bizi sevginle birbirimize bağla. Âmin.',
@@ -321,7 +321,7 @@ const TR: Record<string, { title: string; script: string[] }> = {
       'Rab, bana korku ruhu değil, güç, sevgi ve sağduyu ruhu verdin.',
       'Sürekli ertelediğim konuşma, görev, adım için bana cesaret ver.',
       'Sendelediğimde bana hatırlat: Sen önümden gidiyorsun.',
-      'Güçlü ve cesur olacağım — yalnız değil, Seninle. Âmin.',
+      'Güçlü ve cesur olacağım , yalnız değil, Seninle. Âmin.',
     ],
   },
   'gratitude-evening': {
@@ -358,7 +358,7 @@ const TR: Record<string, { title: string; script: string[] }> = {
     title: 'Koruyan Huzur',
     script: [
       'İki ayağını da yere bas. Buradasın. Tanrı burada.',
-      'İsa, huzurunu bize bıraktın — dünyanın verdiği gibi değil, gerçek ve derin.',
+      'İsa, huzurunu bize bıraktın , dünyanın verdiği gibi değil, gerçek ve derin.',
       'O huzur bugün kalbimi ve zihnimi kapıdaki bir nöbetçi gibi korusun.',
       'Denetleyemediğimi Sana bırakıyorum.',
       'Senin huzurun yeter. Onda dinleniyorum. Âmin.',
@@ -399,7 +399,7 @@ const TR: Record<string, { title: string; script: string[] }> = {
     script: [
       'Nefes al. Bu zor bir şey ve Tanrı bunu biliyor.',
       'Rab, beni büyük bir bedelle bağışladın. Bana bağışlama gücü ver.',
-      'İsmi, anıyı, yarayı getiriyorum — onu Sana uzatıyorum.',
+      'İsmi, anıyı, yarayı getiriyorum , onu Sana uzatıyorum.',
       'Taşımak bana düşmeyen şeyi taşımaktan beni özgür kıl.',
       'Bağışlamanın açtığını iyileştir. Beni bütün kıl. Âmin.',
     ],
@@ -410,7 +410,7 @@ const TR: Record<string, { title: string; script: string[] }> = {
       'Günün ağırlığının omuzlarından indiğini hisset.',
       'Yüceler Yücesi’nin barınağında oturan, O’nun gölgesinde dinlenecek.',
       'Rab, bir kuşun yavrusunu örttüğü gibi bu gece beni ört.',
-      'Gecenin korkusu yok, yarının kaygısı yok — yalnız Senin korumanda.',
+      'Gecenin korkusu yok, yarının kaygısı yok , yalnız Senin korumanda.',
       'Korkmayacağım, çünkü Sen hiç uyumazsın. İyi geceler, Baba. Âmin.',
     ],
   },
@@ -419,7 +419,7 @@ const TR: Record<string, { title: string; script: string[] }> = {
     script: [
       'Burada güçlü görünmek zorunda değilsin.',
       'Rab, gücünün güçsüzlükte tamamlandığını söyledin.',
-      'İşte güçsüzlüğüm — onu Senden saklamayı bırakıyorum.',
+      'İşte güçsüzlüğüm , onu Senden saklamayı bırakıyorum.',
       'Hiçbir şeyimin kalmadığı yerde tam da orada güçlü ol.',
       'Lütfun bana yeter. Bu yeterli. Âmin.',
     ],
@@ -428,7 +428,7 @@ const TR: Record<string, { title: string; script: string[] }> = {
     title: 'Şimdi Bile, Teşekkürler',
     script: [
       'Bu daha zor bir şükran. Nefes al ve dürüst kal.',
-      'Baba, şimdi bile — bunun içinde — Senin elini arıyorum.',
+      'Baba, şimdi bile , bunun içinde , Senin elini arıyorum.',
       'Beni bunun içinde yalnız bırakmadığın için teşekkür ederim.',
       'Bu dönemin hikâyenin sonu olmadığı için teşekkür ederim.',
       'Şükrü seçiyorum, kolay olduğu için değil, Sen iyi olduğun için. Âmin.',

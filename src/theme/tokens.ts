@@ -4,7 +4,7 @@ export interface ThemeColors {
   bg: string;
   surface: string;
   surfaceAlt: string;
-  /** tab bar / bottom chrome — one step darker than surface */
+  /** tab bar / bottom chrome , one step darker than surface */
   chrome: string;
   ink: string;
   inkSoft: string;

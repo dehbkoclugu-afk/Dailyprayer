@@ -9,7 +9,7 @@ import { type as ty, fonts } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
 
-/** "Building your plan" interstitial — a checklist completing line by line. */
+/** "Building your plan" interstitial , a checklist completing line by line. */
 export default function Building() {
   const t = useTheme();
   const { t: tr } = useT();

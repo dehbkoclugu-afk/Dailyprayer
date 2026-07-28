@@ -11,7 +11,7 @@ interface Props {
 }
 
 /**
- * Daily completion indicator. Rendered as a segmented dot ring —
+ * Daily completion indicator. Rendered as a segmented dot ring ,
  * avoids an SVG dependency while reading clearly at small sizes.
  */
 export function ProgressRing({ done, total, size = 56 }: Props) {

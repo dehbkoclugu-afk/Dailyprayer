@@ -74,7 +74,7 @@ export default function PlanDay() {
           {plan.title} · {tr('plan.dayLabel')} {dayIdx + 1}
         </Text>
 
-        {/* the day's reading — a real passage in the bundled Bible */}
+        {/* the day's reading , a real passage in the bundled Bible */}
         <Text style={{ fontFamily: fonts.serif, fontSize: 34, color: t.ink, marginTop: spacing.md }}>
           {ref}
         </Text>

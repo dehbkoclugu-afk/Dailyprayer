@@ -30,17 +30,17 @@ export default function Bible() {
     <Screen tabbed>
       <Text style={[ty.title, { color: t.ink }]}>{tr('bible.title')}</Text>
 
-      {/* The Scripture reader — the tab's flagship, so it earns a full art hero
+      {/* The Scripture reader , the tab's flagship, so it earns a full art hero
           at least as grand as the plan covers below. Resumes the last position. */}
       <Pressable
         onPress={() => router.push('/read')}
         accessibilityRole="button"
-        accessibilityLabel={`${tr('read.openBible')} — ${tr('read.continue')} ${readerBookName} ${readerChapter + 1}`}
+        accessibilityLabel={`${tr('read.openBible')} , ${tr('read.continue')} ${readerBookName} ${readerChapter + 1}`}
         style={({ pressed }) => ({ marginTop: spacing.xl, opacity: pressed ? 0.92 : 1 })}
       >
         <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
           <ArtSlot id="A18-ritual-reading" height={176} radius={radius.card}>
-            {/* keep the candlelit art bright — only enough darkening at the base
+            {/* keep the candlelit art bright , only enough darkening at the base
                 for the cream title to stay legible */}
             <LinearGradient
               colors={['rgba(26,18,6,0.02)', 'rgba(26,18,6,0.26)', 'rgba(20,14,6,0.78)']}
@@ -170,7 +170,7 @@ export default function Bible() {
         })}
       </View>
 
-      {/* Scripture attribution — each translation carries its own license credit. */}
+      {/* Scripture attribution , each translation carries its own license credit. */}
       <Text
         style={{
           fontFamily: fonts.sans,

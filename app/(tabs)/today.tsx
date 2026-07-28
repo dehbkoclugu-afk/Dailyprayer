@@ -40,7 +40,7 @@ export default function Today() {
   const t = useTheme();
   const { t: tr, locale } = useT();
   const { verse, devotional } = useDailyContent();
-  // The verse of the day is fixed by date, but let people browse the pool — a
+  // The verse of the day is fixed by date, but let people browse the pool , a
   // shuffle swaps in another verse without touching the day's read-streak.
   const [otherVerse, setOtherVerse] = useState<DailyVerse | null>(null);
   const shownVerse = otherVerse ?? verse;
@@ -78,7 +78,7 @@ export default function Today() {
 
   return (
     <Screen tabbed>
-      {/* candle-glow wash behind the header — a soft top-down fade, not a hard
+      {/* candle-glow wash behind the header , a soft top-down fade, not a hard
           disc. The old 340px circle read as an unintentional dark dome; a
           vertical gradient bleeds warmth in without a visible shape edge. */}
       <LinearGradient
@@ -89,7 +89,7 @@ export default function Today() {
         style={{ position: 'absolute', top: -60, left: -40, right: -40, height: 300 }}
       />
 
-      {/* Header — greeting on the left, a square streak badge on the right */}
+      {/* Header , greeting on the left, a square streak badge on the right */}
       <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
         <View style={{ flex: 1, paddingRight: spacing.lg }}>
           <Text

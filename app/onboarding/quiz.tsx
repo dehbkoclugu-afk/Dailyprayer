@@ -152,7 +152,7 @@ export default function Quiz() {
             </Text>
           </View>
         ) : current ? (
-          // Plain View — no reanimated entering/exiting here: on the old
+          // Plain View , no reanimated entering/exiting here: on the old
           // architecture the exiting layout copy lingers over the next step and
           // swallows taps on the option buttons, trapping the user in the quiz.
           <View key={current.key}>

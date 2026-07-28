@@ -29,7 +29,7 @@ export default function RootLayout() {
   const scheme = useColorScheme();
   const pref = useUserStore((s) => s.themePreference);
   const [loaded, fontError] = useFonts({
-    // Ionicons glyph font — without this the icons render blank in release
+    // Ionicons glyph font , without this the icons render blank in release
     // builds (empty buttons, missing chevrons/play controls).
     ...Ionicons.font,
     Fraunces_400Regular,
@@ -43,7 +43,7 @@ export default function RootLayout() {
   // Gate rendering on font readiness, but NEVER hang on the splash: proceed when
   // fonts load, when they error, or after a short failsafe timeout. A release
   // build that stalls loading fonts would otherwise sit on the splash forever
-  // (the emulator smoke test can't catch this — the process stays alive).
+  // (the emulator smoke test can't catch this , the process stays alive).
   const [ready, setReady] = useState(false);
   useEffect(() => {
     if (loaded || fontError) setReady(true);
@@ -58,7 +58,7 @@ export default function RootLayout() {
     // App-open streak tick (YouVersion pattern): opening the app keeps the flame lit.
     const streak = useStreakStore.getState();
     streak.tickToday();
-    // Keep the evening streak-save notification referencing the live count —
+    // Keep the evening streak-save notification referencing the live count ,
     // only for users who opted into reminders.
     const { prayerTime } = useUserStore.getState().quiz;
     if (prayerTime && prayerTime !== 'none') {
@@ -78,7 +78,7 @@ export default function RootLayout() {
   const [mounted, setMounted] = useState(Platform.OS !== 'web');
   useEffect(() => setMounted(true), []);
 
-  // Render marker for the smoke test — a stuck splash never logs this.
+  // Render marker for the smoke test , a stuck splash never logs this.
   useEffect(() => {
     if (ready && mounted) console.log('LUMEN_UI_READY');
   }, [ready, mounted]);

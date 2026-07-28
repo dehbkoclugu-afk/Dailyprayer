@@ -25,7 +25,7 @@ const PACE_FACTOR: Record<Pace, number> = {
 };
 
 /**
- * Guided prayer player — paced text lines with a breathing pause between them.
+ * Guided prayer player , paced text lines with a breathing pause between them.
  * Audio narration slots in here later (expo-audio) without changing the flow.
  */
 export default function Player() {
@@ -111,7 +111,7 @@ export default function Player() {
         </View>
 
         <View style={{ flex: 1, justifyContent: 'center' }}>
-          {/* each line rises gently into place — the "breath" feel */}
+          {/* each line rises gently into place , the "breath" feel */}
           <Animated.Text
             key={line}
             entering={reduceMotion ? undefined : FadeInUp.duration(600)}

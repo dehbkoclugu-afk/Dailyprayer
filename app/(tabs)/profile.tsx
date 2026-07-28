@@ -93,7 +93,7 @@ export default function Profile() {
         {tr('profile.subtitle')}
       </Text>
 
-      {/* streak — the current run is the hero (a flame + one number reads warm,
+      {/* streak , the current run is the hero (a flame + one number reads warm,
           not the hollow "three identical 1s" dashboard); best/total sit below
           as a quiet footnote so the card has hierarchy instead of three peers. */}
       <View
@@ -144,7 +144,7 @@ export default function Profile() {
       {/* subscription card */}
       <View
         style={{
-          // Active Plus previously filled with goldSoft — a muddy olive block on
+          // Active Plus previously filled with goldSoft , a muddy olive block on
           // the dark surface. The gold border + filled star already read as
           // premium, so keep a clean surface fill in both states.
           backgroundColor: t.surface,

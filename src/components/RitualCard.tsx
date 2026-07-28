@@ -34,7 +34,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
   const t = useTheme();
   const { t: tr } = useT();
   // With art, the card is a dark warm scene regardless of the app theme, so the
-  // text/icon must be light — theme colors (t.ink) would be dark-on-dark in the
+  // text/icon must be light , theme colors (t.ink) would be dark-on-dark in the
   // light theme and vanish. Fall back to theme colors only when there's no art.
   const hasArt = !!(art && artRegistry[art]);
   const titleColor = hasArt ? '#F2EEE6' : t.ink;
@@ -103,7 +103,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         </>
       ) : null}
 
-      {/* shimmer overlay — sweeps once on completion, invisible otherwise */}
+      {/* shimmer overlay , sweeps once on completion, invisible otherwise */}
       <Animated.View
         pointerEvents="none"
         style={[

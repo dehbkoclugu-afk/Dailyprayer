@@ -1,7 +1,7 @@
 import type { ImageSourcePropType } from 'react-native';
 
 /**
- * Art asset registry — single connection point for finished artwork.
+ * Art asset registry , single connection point for finished artwork.
  * An ArtSlot renders finished art when its id maps to a require() below,
  * otherwise a labeled placeholder. See docs/asset-briefs.md.
  */
@@ -88,14 +88,14 @@ export const artSpecs: Record<AssetId, { label: string; size: string }> = {
   'A2-wordmark': { label: 'Wordmark', size: '1200×400' },
   'A3-grain': { label: 'Grain tile', size: '512²' },
   'A4-welcome-hero': { label: 'Welcome hero', size: '1170×1000' },
-  'A5-verse-peace': { label: 'Verse — peace', size: '1170×1300' },
-  'A5-verse-strength': { label: 'Verse — strength', size: '1170×1300' },
-  'A5-verse-trust': { label: 'Verse — trust', size: '1170×1300' },
-  'A5-verse-rest': { label: 'Verse — rest', size: '1170×1300' },
-  'A5-verse-hope': { label: 'Verse — hope', size: '1170×1300' },
-  'A5-verse-guidance': { label: 'Verse — guidance', size: '1170×1300' },
-  'A5-verse-joy': { label: 'Verse — joy', size: '1170×1300' },
-  'A5-verse-love': { label: 'Verse — love', size: '1170×1300' },
+  'A5-verse-peace': { label: 'Verse , peace', size: '1170×1300' },
+  'A5-verse-strength': { label: 'Verse , strength', size: '1170×1300' },
+  'A5-verse-trust': { label: 'Verse , trust', size: '1170×1300' },
+  'A5-verse-rest': { label: 'Verse , rest', size: '1170×1300' },
+  'A5-verse-hope': { label: 'Verse , hope', size: '1170×1300' },
+  'A5-verse-guidance': { label: 'Verse , guidance', size: '1170×1300' },
+  'A5-verse-joy': { label: 'Verse , joy', size: '1170×1300' },
+  'A5-verse-love': { label: 'Verse , love', size: '1170×1300' },
   'A6-affirmation-spot': { label: 'Affirmation', size: '600²' },
   'A7-plan-crest': { label: 'Plan crest', size: '720²' },
   'A8-paywall-hero': { label: 'Paywall hero', size: '1170×900' },

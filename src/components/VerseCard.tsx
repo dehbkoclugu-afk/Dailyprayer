@@ -43,7 +43,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
 
   /** Share the rendered card as an image (organic growth); text fallback on web/failure. */
   const share = async () => {
-    const text = `“${verse.text}” — ${verse.reference}\n\nLumen 🕊`;
+    const text = `“${verse.text}” , ${verse.reference}\n\nLumen 🕊`;
     try {
       if (Platform.OS !== 'web' && (await Sharing.isAvailableAsync())) {
         const uri = await captureRef(cardRef, { format: 'png', quality: 1 });

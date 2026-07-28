@@ -22,7 +22,7 @@ interface Props<T extends string> {
 }
 
 /**
- * A calm bottom-sheet picker — the app's own surface, gold accent and a check
+ * A calm bottom-sheet picker , the app's own surface, gold accent and a check
  * on the current choice. Replaces the jarring native Alert for settings that
  * are really single-select lists (theme, language).
  */

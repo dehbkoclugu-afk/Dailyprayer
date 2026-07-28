@@ -70,27 +70,27 @@ Scripture editions listed below. Devotionals and prayers are original devotional
 content and are not a substitute for professional, medical, or pastoral advice.
 
 ## Scripture sources and rights
-- **Turkish — Yorumsuz Türkçe Çeviri (YTC):** copyright © 2023-2025 İsmail
+- **Turkish , Yorumsuz Türkçe Çeviri (YTC):** copyright © 2023-2025 İsmail
   Serinken and eBible.org; CC BY-ND 4.0. Lumen distributes the Scripture text
   verbatim and does not change its words or punctuation. Source:
   https://ebible.org/turytc/copyright.htm. License:
   https://creativecommons.org/licenses/by-nd/4.0/.
-- **English — World English Bible, 2020 stable text edition:** public domain.
+- **English , World English Bible, 2020 stable text edition:** public domain.
   “World English Bible” is an eBible.org trademark and identifies unchanged
   text only. Imported source:
   https://github.com/seven1m/open-bibles/blob/master/eng-web.usfx.xml. Official
   rights notice: https://ebible.org/eng-web/copyright.htm.
-- **Spanish — Reina-Valera 1909:** the upstream Open Bibles source labels
+- **Spanish , Reina-Valera 1909:** the upstream Open Bibles source labels
   \`spa-rv1909.usfx.xml\` public domain. Source:
   https://github.com/seven1m/open-bibles/blob/master/spa-rv1909.usfx.xml.
-- **Portuguese — João Ferreira de Almeida:** the upstream Open Bibles source
+- **Portuguese , João Ferreira de Almeida:** the upstream Open Bibles source
   labels \`por-almeida.usfx.xml\` public domain. Source:
   https://github.com/seven1m/open-bibles/blob/master/por-almeida.usfx.xml.
-- **French — Ostervald 1996:** the upstream Open Bibles source labels
+- **French , Ostervald 1996:** the upstream Open Bibles source labels
   \`fra-ostervald.osis.xml\` public domain; independent rights verification is
   pending before release. Source:
   https://github.com/seven1m/open-bibles/blob/master/fra-ostervald.osis.xml.
-- **German — Luther Bible 1912:** public domain. Source:
+- **German , Luther Bible 1912:** public domain. Source:
   https://github.com/seven1m/open-bibles/blob/master/deu-luther1912.osis.xml.
 
 ## Subscriptions (Lumen Plus)

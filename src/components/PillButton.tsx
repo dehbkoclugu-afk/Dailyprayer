@@ -16,7 +16,7 @@ interface Props {
 
 export function PillButton({ label, onPress, variant = 'primary', disabled, style }: Props) {
   const t = useTheme();
-  // Disabled reads as a flat, clearly-inactive neutral chip — dimming the gold
+  // Disabled reads as a flat, clearly-inactive neutral chip , dimming the gold
   // gradient to 40% instead looks like a muddy/broken button, not "not yet".
   const color = disabled
     ? t.inkFaint

@@ -39,7 +39,7 @@ export default function Journal() {
       <Text style={[ty.title, { color: t.ink }]}>{tr('journal.title')}</Text>
       <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>{tr('journal.sub')}</Text>
 
-      {/* Composer — one calm card with room to breathe: a serif prompt, a
+      {/* Composer , one calm card with room to breathe: a serif prompt, a
           borderless field, and the save action, spaced generously. */}
       <View
         style={{

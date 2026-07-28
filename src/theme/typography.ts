@@ -1,8 +1,8 @@
 export const fonts = {
-  /** Editorial serif — scripture, display headings */
+  /** Editorial serif , scripture, display headings */
   serif: 'Fraunces_600SemiBold',
   serifLight: 'Fraunces_400Regular',
-  /** Humanist sans — UI */
+  /** Humanist sans , UI */
   sans: 'Figtree_400Regular',
   sansMedium: 'Figtree_500Medium',
   sansSemiBold: 'Figtree_600SemiBold',
