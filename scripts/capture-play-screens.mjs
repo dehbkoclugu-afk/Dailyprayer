@@ -61,7 +61,7 @@ const browser = await chromium.launch({
 });
 const screens = [
   ['01-today', '/today'],
-  ['02-bible', '/bible'],
+  ['02-bible', '/read'],
   ['03-prayer', '/pray'],
   ['04-journal', '/journal'],
 ];
