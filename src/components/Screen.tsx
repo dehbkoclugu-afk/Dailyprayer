@@ -46,7 +46,7 @@ export function Screen({ children, scroll = true, style, tabbed = false }: Props
     paddingBottom: (tabbed ? 96 : insets.bottom + spacing.xl) + spacing.xl,
     // Keep a readable devotional measure while giving large-text/tablet layouts room.
     width: '100%',
-    maxWidth: width >= 840 ? 640 : 480,
+    maxWidth: width >= 840 ? 1120 : 480,
     alignSelf: 'center',
   };
   return (

@@ -487,49 +487,49 @@ deneyimi, performans ve görsel cila gelir.
 
 ## P1 — Bilgi mimarisi ve temel akışlar (51–65)
 
-51. **Tablette alt barı navigation rail’e dönüştür.** 840 dp üstünde 600 px geniş alt bar
-    kullanmak yerine Material’ın expanded-width navigasyon kalıbı uygulanmalı.
-52. **Yatay/tablet düzeninde iki sütunlu içerik kullan.** 640 px tek kolon yalnızca büyümüş telefon
-    hissi veriyor; Today ritüelleri ve Bible planları master/detail veya iki kolon olmalı.
-53. **Android Predictive Back akışlarını doğrula.** Player, okuyucu ve tüm bottom sheet’ler sistem
-    geri hareketinde kapanmalı; uygulama dışına beklenmedik çıkış olmamalı.
-54. **İkincil ekranlara tutarlı top app bar getir.** Search, Library, Plan Day, Devotional ve
-    Legal aynı geri düğmesi, başlık konumu ve inset sistemini paylaşmalı.
-55. **Bible ana sayfasına son okuma ilerlemesini ekle.** “Devam et” kartı yalnız bölüm adını değil,
-    son görülen ayet ve bölüm içi ilerlemeyi göstermeli.
-56. **Kitap seçicisine Testament grupları ve hızlı arama ekle.** 66 kitaplık düz liste yerine
-    Eski/Yeni Ahit başlıkları ve kitap adı araması tanımayı hızlandırmalı.
-57. **Bölüm seçicisinde mevcut bölümü görünür seçili durumla sabitle.** Kullanıcı geri açtığında
-    doğru hücreye otomatik kaymalı ve “seçili” semantiği taşımalı.
-58. **Reader üst çubuğunun kalabalığını azalt.** Kompakt ekranda geri + seçici + arama + ayar
-    yerine arama/ayar tek overflow veya alt araç alanında gruplanmalı.
-59. **Ayet eylemlerini dört eşit dar kutuya sıkıştırma.** Dar ekran/büyük yazıda 2×2 grid veya
-    tam genişlik satırlar kullanılmalı.
-60. **Uzun basma davranışını ilk kullanımda öğret.** Bir defalık, kapatılabilir ipucu “Dokun:
-    işlemler · Basılı tut: hızlı vurgula” demeli.
-61. **Aramaya kitap filtresi ekle.** Tüm Kutsal Kitap sonuçlarında kullanıcı kitabı veya Ahit’i
-    daraltabilmeli; varsayılan deneyim hâlâ basit kalmalı.
-62. **Arama sonucunda eşleşme bağlamını dengeli göster.** Yalnız ilk eşleşmeyi renklendir; uzun
-    ayetlerde sorgu çevresini iki satırlık okunur snippet olarak sınırla.
-63. **300 sonuç sınırını açıklayıp daraltma yolu ver.** Sessiz `300+` yerine “İlk 300 sonuç —
-    aramayı daralt” mesajı ve filtre eylemi gösterilmeli.
-64. **Library içinde yer imleri, vurgular ve günlük kayıtlarını net sekmelere ayır.** Tek uzun
-    akış yerine sayaçlı, erişilebilir segmentler ve boş durumlar kullanılmalı.
-65. **Plan gününde “tamamla” sonrası bir sonraki güne geçiş sun.** Geri dönmek tek seçenek
-    olmamalı; “Bugün tamamlandı · Yarın devam et” bitiş durumu oluşturulmalı.
+51. ✅ **TAMAMLANDI — Tablette alt barı navigation rail’e dönüştür.** 840 dp üstünde sekmeler
+    solda 96 dp Material rail olarak açılıyor; telefonda alt bar korunuyor.
+52. ✅ **TAMAMLANDI — Yatay/tablet düzeninde iki sütunlu içerik kullan.** Expanded içerik ölçüsü
+    1120 dp; Today ritüelleri ve Bible planları iki sütuna akıyor.
+53. ✅ **TAMAMLANDI — Android Predictive Back akışlarını doğrula.** Android predictive back
+    etkin; reader/player router geri akışları ve bütün Modal sheet `onRequestClose` yolları korunuyor.
+54. ✅ **TAMAMLANDI — İkincil ekranlara tutarlı top app bar getir.** Search, Library, Plan Day,
+    Devotional ve Legal ortak `TopAppBar` ile aynı geri hedefi, başlık ve 48 dp düğmeyi kullanıyor.
+55. ✅ **TAMAMLANDI — Bible ana sayfasına son okuma ilerlemesini ekle.** Reader görünür ayeti
+    persist ediyor; devam kartı kitap, bölüm, ayet ve bölüm yüzdesini gösteriyor.
+56. ✅ **TAMAMLANDI — Kitap seçicisine Testament grupları ve hızlı arama ekle.** Seçici Eski/Yeni
+    Ahit başlıklarıyla gruplanıyor ve yerelleştirilmiş kitap adı araması içeriyor.
+57. ✅ **TAMAMLANDI — Bölüm seçicisinde mevcut bölümü görünür seçili durumla sabitle.** Grid açılınca
+    mevcut bölüme kayıyor; altın durum ve `selected` semantiği aynı hücrede.
+58. ✅ **TAMAMLANDI — Reader üst çubuğunun kalabalığını azalt.** Kompakt genişlikte arama ve
+    okuma ayarı tek erişilebilir overflow sheet’inde; geniş ekranda doğrudan eylemler kalıyor.
+59. ✅ **TAMAMLANDI — Ayet eylemlerini dört eşit dar kutuya sıkıştırma.** Eylemler 2×2 sarılıyor,
+    büyük yazıda tam genişlik satırlara dönüşüyor.
+60. ✅ **TAMAMLANDI — Uzun basma davranışını ilk kullanımda öğret.** Reader ilk açılışta
+    yerelleştirilmiş dokun/basılı tut ipucu gösteriyor ve kapatmayı persist ediyor.
+61. ✅ **TAMAMLANDI — Aramaya kitap filtresi ekle.** Tümü, Eski Ahit, Yeni Ahit ve 66 kitap
+    filtreleri aynı basit yatay şeritte, seçili semantiğiyle sunuluyor.
+62. ✅ **TAMAMLANDI — Arama sonucunda eşleşme bağlamını dengeli göster.** İlk eşleşme vurgulanıyor;
+    çevre 64 karakter ve iki satırla sınırlanıyor.
+63. ✅ **TAMAMLANDI — 300 sonuç sınırını açıklayıp daraltma yolu ver.** Limit, ilk 300 sonucun
+    gösterildiğini ve görünür kitap filtresiyle daraltılabileceğini açıkça söylüyor.
+64. ✅ **TAMAMLANDI — Library içinde yer imleri, vurgular ve günlük kayıtlarını net sekmelere ayır.**
+    Üç sayaçlı erişilebilir segment, kendi liste ve boş durumuna bağlandı.
+65. ✅ **TAMAMLANDI — Plan gününde “tamamla” sonrası bir sonraki güne geçiş sun.** Tamamlama artık
+    ekranı kapatmıyor; başarı özeti, sonraki gün ve plana dön eylemleri gösteriliyor.
 
 ## P2 — Okuma, içerik keşfi ve alışkanlık (66–80)
 
-66. **Today ekranında birincil eylemi tekleştir.** Ayet kartı, üç ritüel ve Tonight aynı ağırlıkta
-    yarışmamalı; günün sıradaki tamamlanmamış adımı belirgin olmalı.
-67. **Tamamlanan ritüelleri daraltılabilir yap.** Geri alma korunurken tamamlanmış kartın yüksekliği
-    azalmalı; kalan adımlar görsel olarak öne çıkmalı.
-68. **Ritüel ilerlemesine metinsel özet ekle.** Halka tek başına yeterli değil; “4 adımın 2’si”
-    başlık yakınında okunmalı.
-69. **Tonight kartını saate göre göstermeyi değerlendir.** Sabah ana akışında tam boy gece kartı
-    yerine akşam yaklaşınca genişleyen, gün içinde küçük önizleme olan yapı kullanılmalı.
-70. **Pray kategorilerini gerçek 2×3 görsel keşif alanına çevir.** Mevcut yatay chip şeridi marka
-    illüstrasyonlarını kullanmıyor ve altı kategoriyi keşfetmeyi zorlaştırıyor.
+66. ✅ **TAMAMLANDI — Today ekranında birincil eylemi tekleştir.** Sıradaki tamamlanmamış ritüel
+    altın iki piksel sınır ve “Sıradaki adım” etiketiyle tek öncelik oluyor; ayet sıradaysa hero kalıyor.
+67. ✅ **TAMAMLANDI — Tamamlanan ritüelleri daraltılabilir yap.** Tamamlanan kartlar kompakt
+    yüksekliğe geçiyor; dokunarak geri alma etiketi ve davranışı korunuyor.
+68. ✅ **TAMAMLANDI — Ritüel ilerlemesine metinsel özet ekle.** ProgressRing yanında altı dilde
+    “4 adımın 2’si” biçiminde metinsel özet gösteriliyor.
+69. ✅ **TAMAMLANDI — Tonight kartını saate göre göstermeyi değerlendir.** 18.00–05.00 arasında
+    150 dp tam kart, gündüz 96 dp önizleme gösteriliyor; dua eylemi iki durumda da erişilebilir.
+70. ✅ **TAMAMLANDI — Pray kategorilerini gerçek 2×3 görsel keşif alanına çevir.** Altı A11
+    illüstrasyonu iki sütunlu keşif grid’inde; seçili kategori görsel check ve selected semantiği taşıyor.
 71. **Dua listesinde kilit bilgisini metne bağımlı olmayan biçimde göster.** PLUS rozeti,
     kilit simgesi ve erişilebilir “Plus gerekir” durumu aynı bileşende birleşmeli.
 72. **Player’da satır geçmişini kontrollü göster.** Tek satırlık boş sahne yerine önceki satır

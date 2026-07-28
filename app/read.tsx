@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { AccessibilityInfo, FlatList, Modal, Pressable, Text, View } from 'react-native';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { AccessibilityInfo, FlatList, Modal, Pressable, Text, TextInput, useWindowDimensions, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
@@ -23,9 +23,13 @@ export default function Read() {
   const { t: tr, locale, tu } = useT();
   const reduceMotion = useReducedMotion();
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
+  const compact = width < 600;
   const bible = getBible(locale);
-  const { book, chapter, setPos } = useReaderStore();
+  const { book, chapter, setPos, setVerse } = useReaderStore();
   const fontScale = useReaderPrefsStore((s) => s.fontScale);
+  const readerHintSeen = useReaderPrefsStore((s) => s.readerHintSeen);
+  const dismissReaderHint = useReaderPrefsStore((s) => s.dismissReaderHint);
   const marks = useHighlightStore((s) => s.marks);
   const setMark = useHighlightStore((s) => s.set);
   const clearMark = useHighlightStore((s) => s.clear);
@@ -36,9 +40,12 @@ export default function Read() {
 
   const [picker, setPicker] = useState<null | 'books' | number>(null);
   const [settings, setSettings] = useState(false);
+  const [tools, setTools] = useState(false);
+  const [bookQuery, setBookQuery] = useState('');
   const [selected, setSelected] = useState<SelectedVerse | null>(null);
   const [flashV, setFlashV] = useState<number | null>(null);
   const listRef = useRef<FlatList>(null);
+  const chapterRef = useRef<FlatList>(null);
 
   // Focus follows the sheets: into the title on open, back to the control that
   // opened them on close (roadmap item 28). The picker's second argument re-runs
@@ -56,6 +63,18 @@ export default function Read() {
   const bk = bible[bIdx];
   const cIdx = bk ? safeIndex(chapter, bk.chapters.length - 1) : 0;
   const verses = bk?.chapters[cIdx];
+  const bookRows = useMemo(() => {
+    const query = bookQuery.trim().toLocaleLowerCase(locale);
+    const matching = bible
+      .map((item, index) => ({ item, index }))
+      .filter(({ item }) => !query || item.name.toLocaleLowerCase(locale).includes(query));
+    return [
+      { header: tr('read.oldTestament') },
+      ...matching.filter(({ index }) => index < 39),
+      { header: tr('read.newTestament') },
+      ...matching.filter(({ index }) => index >= 39),
+    ];
+  }, [bible, bookQuery, locale, tr]);
 
   // deep-navigation: /read?b=&c=&v= jumps to a verse (from search / saved)
   useEffect(() => {
@@ -67,7 +86,8 @@ export default function Read() {
     if (!Number.isInteger(b) || !Number.isInteger(c)) return;
     if (b < 0 || b >= bible.length) return;
     if (c < 0 || c >= bible[b].chapters.length) return;
-    setPos(b, c);
+    const v = params.v == null ? 0 : Number(params.v);
+    setPos(b, c, Number.isInteger(v) && v >= 0 && v < bible[b].chapters[c].length ? v : 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.b, params.c]);
 
@@ -81,6 +101,12 @@ export default function Read() {
     }, 320);
     return () => clearTimeout(id);
   }, [targetV, bIdx, cIdx]);
+
+  useEffect(() => {
+    if (picker !== bIdx) return;
+    const id = setTimeout(() => chapterRef.current?.scrollToIndex({ index: cIdx, viewPosition: 0.45, animated: false }), 120);
+    return () => clearTimeout(id);
+  }, [picker, bIdx, cIdx]);
 
   const go = (b: number, c: number) => {
     setPos(b, c);
@@ -108,6 +134,12 @@ export default function Read() {
   const bodySize = Math.round(reader.body * fontScale);
   const bodyLine = Math.round(reader.line * fontScale);
   const dropCap = Math.round(bodySize * reader.dropCapRatio);
+  const onViewableItemsChanged = useRef(
+    ({ viewableItems }: { viewableItems: { index: number | null }[] }) => {
+      const first = viewableItems.find((item) => item.index != null)?.index;
+      if (first != null) setVerse(first);
+    },
+  ).current;
 
   const iconBtn = (
     icon: keyof typeof Ionicons.glyphMap,
@@ -240,8 +272,12 @@ export default function Read() {
           </Text>
           <Ionicons name="chevron-down" size={18} color={rt.inkFaint} />
         </Pressable>
-        {iconBtn('search', tr('a11y.search'), () => router.push('/search'))}
-        {iconBtn('text', tr('a11y.readingSettings'), () => setSettings(true), settingsTriggerRef)}
+        {compact
+          ? iconBtn('ellipsis-horizontal', tr('read.tools'), () => setTools(true), settingsTriggerRef)
+          : <>
+              {iconBtn('search', tr('a11y.search'), () => router.push('/search'))}
+              {iconBtn('text', tr('a11y.readingSettings'), () => setSettings(true), settingsTriggerRef)}
+            </>}
       </View>
 
       <FlatList
@@ -250,6 +286,8 @@ export default function Read() {
         data={verses}
         keyExtractor={(_, i) => String(i)}
         showsVerticalScrollIndicator={false}
+        onViewableItemsChanged={onViewableItemsChanged}
+        viewabilityConfig={{ itemVisiblePercentThreshold: 55 }}
         onScrollToIndexFailed={({ index, averageItemLength }) => {
           listRef.current?.scrollToOffset({ offset: index * (averageItemLength || bodyLine * 2), animated: false });
           setTimeout(() => {
@@ -275,6 +313,31 @@ export default function Read() {
             <Text style={{ fontFamily: fonts.serif, fontSize: Math.round(reader.chapterTitle * fontScale), color: rt.ink, marginTop: 4 }}>
               {bk.name}
             </Text>
+            {!readerHintSeen ? (
+              <View
+                style={{
+                  marginTop: spacing.md,
+                  padding: spacing.md,
+                  borderRadius: radius.inner,
+                  backgroundColor: rt.surfaceAlt,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: spacing.sm,
+                }}
+              >
+                <Text style={{ ...type.labelMedium, color: rt.inkSoft, flex: 1 }}>
+                  {tr('read.readerHint')}
+                </Text>
+                <Pressable
+                  onPress={dismissReaderHint}
+                  accessibilityRole="button"
+                  accessibilityLabel={tr('a11y.close')}
+                  style={{ width: TAP_MIN, height: TAP_MIN, alignItems: 'center', justifyContent: 'center' }}
+                >
+                  <Ionicons name="close" size={18} color={rt.inkSoft} />
+                </Pressable>
+              </View>
+            ) : null}
           </View>
         }
         renderItem={({ item, index }) => {
@@ -477,20 +540,42 @@ export default function Read() {
             </View>
 
             {picker === 'books' ? (
+              <>
+              <TextInput
+                value={bookQuery}
+                onChangeText={setBookQuery}
+                placeholder={tr('read.pickBookSearch')}
+                placeholderTextColor={rt.inkFaint}
+                accessibilityLabel={tr('read.pickBookSearch')}
+                style={{
+                  ...type.body,
+                  color: rt.ink,
+                  minHeight: TAP_MIN,
+                  marginHorizontal: spacing.lg,
+                  marginBottom: spacing.sm,
+                  paddingHorizontal: spacing.lg,
+                  borderRadius: radius.pill,
+                  backgroundColor: rt.surfaceAlt,
+                }}
+              />
               <FlatList
-                data={bible}
-                keyExtractor={(b) => b.code}
+                data={bookRows}
+                keyExtractor={(row, index) => 'header' in row ? `h-${row.header}` : row.item.code}
                 contentContainerStyle={{ paddingHorizontal: spacing.lg }}
-                renderItem={({ item, index }) => (
+                renderItem={({ item: row, index: rowIndex }) => 'header' in row ? (
+                  <Text accessibilityRole="header" style={{ ...type.labelSemi, color: rt.goldText, marginTop: spacing.md }}>
+                    {row.header}
+                  </Text>
+                ) : (
                   <Pressable
-                    onPress={() => setPicker(index)}
+                    onPress={() => setPicker(row.index)}
                     accessibilityRole="button"
-                    accessibilityLabel={item.name}
+                    accessibilityLabel={row.item.name}
                     // The row does not open the book, it opens its chapters —
                     // and the current book is marked only by weight and colour,
                     // which a screen reader cannot see.
                     accessibilityHint={tr('a11y.opensChapters')}
-                    accessibilityState={{ selected: index === bIdx }}
+                    accessibilityState={{ selected: row.index === bIdx }}
                     style={({ pressed }) => ({
                       flexDirection: 'row',
                       alignItems: 'center',
@@ -499,7 +584,7 @@ export default function Read() {
                       // only one without a divider adding its pixel back.
                       minHeight: TAP_MIN,
                       paddingVertical: 14,
-                      borderTopWidth: index === 0 ? 0 : 1,
+                      borderTopWidth: rowIndex === 0 ? 0 : 1,
                       borderTopColor: rt.border,
                       opacity: pressed ? 0.6 : 1,
                     })}
@@ -507,22 +592,27 @@ export default function Read() {
                     <Text
                       style={{
                         ...type.body,
-                        fontFamily: index === bIdx ? fonts.sansSemiBold : fonts.sans,
-                        color: index === bIdx ? rt.gold : rt.ink,
+                        fontFamily: row.index === bIdx ? fonts.sansSemiBold : fonts.sans,
+                        color: row.index === bIdx ? rt.gold : rt.ink,
                       }}
                     >
-                      {item.name}
+                      {row.item.name}
                     </Text>
                     <Ionicons name="chevron-forward" size={16} color={rt.inkFaint} />
                   </Pressable>
                 )}
               />
+              </>
             ) : typeof picker === 'number' ? (
               <FlatList
+                ref={chapterRef}
                 key="chapters"
                 data={bible[picker].chapters}
                 keyExtractor={(_, i) => String(i)}
                 numColumns={5}
+                onScrollToIndexFailed={({ index }) =>
+                  chapterRef.current?.scrollToOffset({ offset: Math.floor(index / 5) * 72, animated: false })
+                }
                 contentContainerStyle={{ paddingHorizontal: spacing.lg, gap: spacing.sm }}
                 columnWrapperStyle={{ gap: spacing.sm }}
                 renderItem={({ index }) => {
@@ -564,6 +654,43 @@ export default function Read() {
 
       <ReadingSettingsSheet visible={settings} onClose={() => setSettings(false)} />
       <VerseActionSheet verse={selected} onClose={() => setSelected(null)} />
+      <Modal
+        visible={tools}
+        transparent
+        animationType={reduceMotion ? 'none' : 'slide'}
+        onRequestClose={() => setTools(false)}
+        statusBarTranslucent
+      >
+        <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }} accessibilityViewIsModal>
+          <Pressable style={{ flex: 1 }} onPress={() => setTools(false)} importantForAccessibility="no" accessibilityElementsHidden />
+          <View style={{ backgroundColor: rt.surface, padding: spacing.xl, paddingBottom: insets.bottom + spacing.xl }}>
+            <Text accessibilityRole="header" style={{ ...type.bodySemi, color: rt.ink }}>{tr('read.tools')}</Text>
+            {[
+              { icon: 'search' as const, label: tr('a11y.search'), action: () => router.push('/search') },
+              { icon: 'text' as const, label: tr('a11y.readingSettings'), action: () => setSettings(true) },
+            ].map((item) => (
+              <Pressable
+                key={item.label}
+                onPress={() => {
+                  setTools(false);
+                  item.action();
+                }}
+                accessibilityRole="button"
+                style={({ pressed }) => ({
+                  minHeight: TAP_MIN,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: spacing.md,
+                  opacity: pressed ? 0.7 : 1,
+                })}
+              >
+                <Ionicons name={item.icon} size={20} color={rt.inkSoft} />
+                <Text style={{ ...type.body, color: rt.ink }}>{item.label}</Text>
+              </Pressable>
+            ))}
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }

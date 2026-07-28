@@ -20,15 +20,15 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
+        tabBarPosition: expanded ? 'left' : 'bottom',
+        tabBarVariant: expanded ? 'material' : 'uikit',
         tabBarStyle: {
           backgroundColor: t.chrome,
-          borderTopColor: t.border,
-          height: barHeight,
+          borderTopColor: expanded ? 'transparent' : t.border,
+          borderRightColor: expanded ? t.border : 'transparent',
+          height: expanded ? undefined : barHeight,
           paddingTop: 8,
-          width: expanded ? 600 : undefined,
-          alignSelf: 'center',
-          borderTopLeftRadius: expanded ? 24 : 0,
-          borderTopRightRadius: expanded ? 24 : 0,
+          width: expanded ? 96 : undefined,
         },
         tabBarActiveTintColor: t.gold,
         tabBarInactiveTintColor: t.inkFaint,

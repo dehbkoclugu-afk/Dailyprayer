@@ -11,8 +11,10 @@ interface ReaderPrefsState {
   fontScale: number;
   /** warm "paper" reading surface instead of the app theme */
   paper: boolean;
+  readerHintSeen: boolean;
   bumpFont: (dir: 1 | -1) => void;
   togglePaper: () => void;
+  dismissReaderHint: () => void;
 }
 
 const clamp = (n: number) => Math.min(FONT_MAX, Math.max(FONT_MIN, Math.round(n * 100) / 100));
@@ -22,8 +24,10 @@ export const useReaderPrefsStore = create<ReaderPrefsState>()(
     (set) => ({
       fontScale: 1,
       paper: false,
+      readerHintSeen: false,
       bumpFont: (dir) => set((s) => ({ fontScale: clamp(s.fontScale + dir * STEP) })),
       togglePaper: () => set((s) => ({ paper: !s.paper })),
+      dismissReaderHint: () => set({ readerHintSeen: true }),
     }),
     { name: 'lumen-reader-prefs', storage: createJSONStorage(() => AsyncStorage) },
   ),

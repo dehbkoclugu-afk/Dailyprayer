@@ -26,11 +26,13 @@ interface Props {
   onPress: () => void;
   /** optional right-weighted background art (a left→right scrim keeps text legible) */
   art?: AssetId;
+  primary?: boolean;
+  compact?: boolean;
 }
 
 const CARD_W = 360; // approximate; the shimmer just needs to travel past the edge
 
-export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }: Props) {
+export function RitualCard({ icon, title, subtitle, done, locked, onPress, art, primary = false, compact = false }: Props) {
   const t = useTheme();
   const reduceMotion = useReducedMotion();
   const { t: tr, tf } = useT();
@@ -79,9 +81,9 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         alignItems: 'center',
         backgroundColor: t.surface,
         borderRadius: radius.card,
-        borderWidth: 1,
-        borderColor: done ? t.gold : hasArt ? 'rgba(255,255,255,0.10)' : t.border,
-        padding: spacing.lg,
+        borderColor: done || primary ? t.gold : hasArt ? 'rgba(255,255,255,0.10)' : t.border,
+        borderWidth: primary ? 2 : 1,
+        padding: compact ? spacing.md : spacing.lg,
         gap: spacing.lg,
         overflow: 'hidden',
         opacity: pressed ? 0.9 : 1,
@@ -127,8 +129,8 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
 
       <View
         style={{
-          width: 48,
-          height: 48,
+          width: compact ? 36 : 48,
+          height: compact ? 36 : 48,
           borderRadius: radius.inner,
           backgroundColor: done ? t.goldSoft : hasArt ? 'rgba(255,255,255,0.14)' : t.surfaceAlt,
           alignItems: 'center',
@@ -138,10 +140,15 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         <Ionicons name={icon} size={22} color={done ? t.gold : hasArt ? '#F2EEE6' : t.inkSoft} />
       </View>
       <View style={{ flex: 1 }}>
+        {primary ? (
+          <Text style={{ ...type.overlineBold, color: t.goldText, marginBottom: 2 }}>
+            {tr('today.nextStep')}
+          </Text>
+        ) : null}
         <Text style={{ ...type.bodySemi, color: titleColor }}>{title}</Text>
-        <Text style={{ ...type.callout, color: subColor, marginTop: 2 }}>
+        {!compact ? <Text style={{ ...type.callout, color: subColor, marginTop: 2 }}>
           {done ? `${tr('today.completed')} · ${tr('today.undo')}` : subtitle}
-        </Text>
+        </Text> : null}
       </View>
       {done ? (
         <Animated.View entering={reduceMotion ? undefined : ZoomIn.springify().damping(12)}>

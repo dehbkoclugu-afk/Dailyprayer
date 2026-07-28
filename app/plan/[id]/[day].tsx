@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
@@ -7,7 +7,7 @@ import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { useTheme } from '@/hooks/useTheme';
 import { type } from '@/theme/typography';
-import { spacing, TAP_MIN } from '@/theme/tokens';
+import { spacing } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
 import { planReading, formatReadingRef } from '@/data/planReadings';
 import { getBible } from '@/data/bibleFull';
@@ -15,6 +15,7 @@ import { usePlanStore } from '@/state/usePlanStore';
 import { translate, useT } from '@/i18n';
 import { NotFoundState } from '@/components/NotFoundState';
 import { toast } from '@/state/useToastStore';
+import { TopAppBar } from '@/components/TopAppBar';
 
 export default function PlanDay() {
   const t = useTheme();
@@ -56,6 +57,7 @@ export default function PlanDay() {
   const firstVerse = getBible(locale)[reading.book]?.chapters[reading.chapter]?.[0]?.[1] ?? '';
   const teaser = firstVerse.length > 170 ? `${firstVerse.slice(0, 170).trimEnd()}…` : firstVerse;
   const done = (progress[plan.id] ?? []).includes(dayIdx);
+  const hasNext = dayIdx + 1 < plan.days;
 
   const openReader = () =>
     router.push({ pathname: '/read', params: { b: reading.book, c: reading.chapter } });
@@ -66,30 +68,12 @@ export default function PlanDay() {
       toggleDay(plan.id, dayIdx);
       toast(translate('toast.planDayComplete'));
     }
-    router.back();
   };
 
   return (
     <Screen style={{ justifyContent: 'space-between' }}>
       <View>
-        <Pressable
-          onPress={() => router.back()}
-          hitSlop={12}
-          accessibilityRole="button"
-          accessibilityLabel={tr('a11y.back')}
-          style={{
-            width: TAP_MIN,
-            height: TAP_MIN,
-            borderRadius: 22,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: t.surface,
-            borderWidth: 1,
-            borderColor: t.border,
-          }}
-        >
-          <Ionicons name="chevron-back" size={24} color={t.inkSoft} />
-        </Pressable>
+        <TopAppBar title={`${plan.title} · ${tr('plan.dayLabel')} ${dayIdx + 1}`} />
 
         <Text
           style={{ ...type.labelSemi, letterSpacing: 2,
@@ -138,20 +122,33 @@ export default function PlanDay() {
       <View style={{ gap: spacing.md }}>
         <PillButton label={tr('plan.read')} onPress={openReader} />
         {done ? (
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: spacing.sm,
-              paddingVertical: 14,
-            }}
-          >
-            <Ionicons name="checkmark-circle" size={20} color={t.gold} />
-            <Text style={{ ...type.bodySemi, color: t.goldText }}>
-              {tr('plan.done')}
-            </Text>
-          </View>
+          <>
+            <View
+              accessibilityRole="summary"
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: spacing.sm,
+                paddingVertical: 14,
+              }}
+            >
+              <Ionicons name="checkmark-circle" size={20} color={t.gold} />
+              <Text style={{ ...type.bodySemi, color: t.goldText }}>{tr('plan.done')}</Text>
+            </View>
+            {hasNext ? (
+              <PillButton
+                label={tr('plan.nextDay')}
+                onPress={() =>
+                  router.replace({
+                    pathname: '/plan/[id]/[day]',
+                    params: { id: plan.id, day: dayIdx + 1 },
+                  })
+                }
+              />
+            ) : null}
+            <PillButton label={tr('plan.backToPlan')} onPress={() => router.back()} variant="secondary" />
+          </>
         ) : (
           <PillButton label={tr('plan.complete')} onPress={complete} variant="secondary" />
         )}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, useWindowDimensions, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -38,7 +38,9 @@ function formatDateLine(now: Date, locale: string): string {
 
 export default function Today() {
   const t = useTheme();
-  const { t: tr, locale, tu, tfn } = useT();
+  const { width } = useWindowDimensions();
+  const expanded = width >= 840;
+  const { t: tr, locale, tu, tfn, tf } = useT();
   const { verse, devotional } = useDailyContent();
   // The verse of the day is fixed by date, but let people browse the pool — a
   // shuffle swaps in another verse without touching the day's read-streak.
@@ -63,6 +65,7 @@ export default function Today() {
   const doneCount = doneDay === dayKey() ? doneSteps.length : 0;
 
   const now = new Date();
+  const evening = now.getHours() >= 18 || now.getHours() < 5;
   const dateLine = formatDateLine(now, locale);
   const greeting = greetingFor(now.getHours());
   const greetText =
@@ -70,6 +73,7 @@ export default function Today() {
 
   const isDone = (s: 'verse' | 'devotional' | 'prayer' | 'gratitude') =>
     doneDay === dayKey() && doneSteps.includes(s);
+  const nextStep = (['verse', 'devotional', 'prayer', 'gratitude'] as const).find((step) => !isDone(step));
 
   const morningPrayer = prayers.find((p) => p.category === 'morning')!;
   const sleepPrayer = prayers.find((p) => p.category === 'sleep')!;
@@ -138,7 +142,13 @@ export default function Today() {
       </View>
 
       <SectionHeader title={tr('today.rhythm')} />
-      <View style={{ gap: spacing.md }}>
+      <View
+        style={{
+          gap: spacing.md,
+          flexDirection: expanded ? 'row' : 'column',
+          flexWrap: expanded ? 'wrap' : 'nowrap',
+        }}
+      >
         {[
           <RitualCard
             key="devotional"
@@ -147,6 +157,8 @@ export default function Today() {
             title={tr('today.devotional')}
             subtitle={`${devotional.title} · 2 ${tr('today.minRead')}`}
             done={isDone('devotional')}
+            compact={isDone('devotional')}
+            primary={nextStep === 'devotional'}
             onPress={() => isDone('devotional') ? undoStep('devotional') : router.push('/devotional')}
           />,
           <RitualCard
@@ -156,6 +168,8 @@ export default function Today() {
             title={tr('today.guidedPrayer')}
             subtitle={`${morningPrayer.title} · ${morningPrayer.minutes} ${tr('pray.min')}`}
             done={isDone('prayer')}
+            compact={isDone('prayer')}
+            primary={nextStep === 'prayer'}
             onPress={() => isDone('prayer') ? undoStep('prayer') : router.push({ pathname: '/player', params: { id: morningPrayer.id } })}
           />,
           <RitualCard
@@ -165,22 +179,31 @@ export default function Today() {
             title={tr('today.gratitude')}
             subtitle={tr('today.gratitudeSub')}
             done={isDone('gratitude')}
+            compact={isDone('gratitude')}
+            primary={nextStep === 'gratitude'}
             onPress={() => isDone('gratitude') ? undoStep('gratitude') : router.push('/(tabs)/journal')}
           />,
         ].map((card, i) => (
-          <View key={i}>{card}</View>
+          <View key={i} style={{ width: expanded ? '48.8%' : '100%' }}>{card}</View>
         ))}
       </View>
 
       <SectionHeader
         title={tr('today.tonight')}
         style={{ paddingLeft: spacing.sm }}
-        right={<ProgressRing done={doneCount} total={4} size={52} />}
+        right={
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
+            <Text style={{ ...type.labelMedium, color: t.inkSoft }}>
+              {tf('today.progressSummary', { done: doneCount, total: 4 })}
+            </Text>
+            <ProgressRing done={doneCount} total={4} size={52} />
+          </View>
+        }
       />
       {/* Night shifts the palette: indigo art card, not a standard row */}
       <View>
         <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
-          <ArtSlot id="A10-tonight-night" height={150} radius={radius.card}>
+          <ArtSlot id="A10-tonight-night" height={evening ? 150 : 96} radius={radius.card}>
             <LinearGradient
               colors={['rgba(30,26,58,0.62)', 'rgba(10,12,24,0.96)']}
               style={{ position: 'absolute', width: '100%', height: '100%' }}

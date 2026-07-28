@@ -4,14 +4,14 @@ import test from 'node:test';
 
 const read = (path: string) => readFileSync(path, 'utf8');
 
-test('search, prayer filters, show-all and journal delete expose visible 48dp controls', () => {
+test('search, prayer category grid, show-all and journal delete expose visible controls', () => {
   const search = read('app/search.tsx');
   const pray = read('app/(tabs)/pray.tsx');
   const journal = read('app/(tabs)/journal.tsx');
 
   assert.match(search, /width: TAP_MIN,[\s\S]*?height: TAP_MIN,[\s\S]*?backgroundColor: t\.surfaceAlt/);
-  assert.match(pray, /minHeight: TAP_MIN/);
-  assert.match(pray, /onFocus=\{\(\) =>[\s\S]*?categoryList\.current\?\.scrollTo/);
+  assert.match(pray, /categoryArt\(c\.key\)/);
+  assert.match(pray, /width: '47\.8%'/);
   assert.match(pray, /backgroundColor: pressed \? t\.surfaceAlt : 'transparent'/);
   assert.match(journal, /width: TAP_MIN,[\s\S]*?height: TAP_MIN,[\s\S]*?backgroundColor: t\.surfaceAlt/);
   assert.match(journal, /color=\{t\.danger\}/);

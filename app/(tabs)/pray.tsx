@@ -1,22 +1,23 @@
-import React, { useRef, useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts, type, type as ty } from '@/theme/typography';
+import { type, type as ty } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { usePrayers, prayerCategories, type GuidedPrayer } from '@/data/prayers';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useT } from '@/i18n';
+import { ArtSlot } from '@/components/ArtSlot';
+import { categoryArt } from '@/assets/registry';
 
 export default function Pray() {
   const t = useTheme();
   const { t: tr } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const prayers = usePrayers();
-  const categoryList = useRef<ScrollView>(null);
   const [cat, setCat] = useState<GuidedPrayer['category'] | 'all'>('all');
   const list = cat === 'all' ? prayers : prayers.filter((p) => p.category === cat);
 
@@ -32,62 +33,38 @@ export default function Pray() {
 {tr('pray.sub')}
       </Text>
 
-      {/* category filter — a single calm chip row (matches the Bible chapter
-          picker); tap the active chip again to clear back to the full library */}
-      <ScrollView
-        ref={categoryList}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={{ marginTop: spacing.lg, marginHorizontal: -spacing.xl }}
-        contentContainerStyle={{ gap: spacing.sm, paddingHorizontal: spacing.xl }}
-      >
-        {prayerCategories.map((c, index) => {
+      <Text style={{ ...type.headingSans, color: t.ink, marginTop: spacing.xxl, marginBottom: spacing.md }}>
+        {tr('pray.categories')}
+      </Text>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md }}>
+        {prayerCategories.map((c) => {
           const active = cat === c.key;
+          const art = categoryArt(c.key);
           return (
             <Pressable
               key={c.key}
-              onPress={() => {
-                setCat(active ? 'all' : c.key);
-                categoryList.current?.scrollTo({ x: Math.max(0, index * 124 - spacing.xl), animated: true });
-              }}
-              onFocus={() =>
-                categoryList.current?.scrollTo({ x: Math.max(0, index * 124 - spacing.xl), animated: true })
-              }
+              onPress={() => setCat(active ? 'all' : c.key)}
               accessibilityRole="button"
               accessibilityState={{ selected: active }}
               accessibilityLabel={tr(`cat.${c.key}` as never)}
-              style={({ pressed }) => ({
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 6,
-                backgroundColor: active ? t.goldSoft : t.surface,
-                borderColor: active ? t.gold : t.border,
-                borderWidth: 1,
-                borderRadius: radius.pill,
-                paddingHorizontal: spacing.lg,
-                paddingVertical: spacing.sm,
-                minHeight: TAP_MIN,
-                opacity: pressed ? 0.7 : 1,
-              })}
+              style={({ pressed }) => ({ width: '47.8%', opacity: pressed ? 0.75 : 1 })}
             >
-              <Ionicons
-                name={c.icon as keyof typeof Ionicons.glyphMap}
-                size={16}
-                color={active ? t.gold : t.inkSoft}
-              />
-              <Text
-                style={{
-                  ...type.calloutMedium,
-                  fontFamily: active ? fonts.sansSemiBold : fonts.sansMedium,
-                  color: active ? t.gold : t.inkSoft,
-                }}
-              >
-                {tr(`cat.${c.key}` as never)}
-              </Text>
+              {art ? (
+                <ArtSlot id={art} height={112} radius={radius.inner}>
+                  <View style={{ flex: 1, justifyContent: 'flex-end', padding: spacing.md, backgroundColor: 'rgba(10,12,24,0.72)' }}>
+                    <Text style={{ ...type.calloutSemi, color: '#F2EEE6' }}>{tr(`cat.${c.key}` as never)}</Text>
+                  </View>
+                </ArtSlot>
+              ) : null}
+              {active ? (
+                <View style={{ position: 'absolute', top: spacing.sm, right: spacing.sm, width: 28, height: 28, borderRadius: 14, backgroundColor: t.gold, alignItems: 'center', justifyContent: 'center' }}>
+                  <Ionicons name="checkmark" size={18} color={t.onGold} />
+                </View>
+              ) : null}
             </Pressable>
           );
         })}
-      </ScrollView>
+      </View>
 
       <SectionHeader
         title={cat === 'all' ? tr('pray.library') : tr(`cat.${cat}` as never)}
