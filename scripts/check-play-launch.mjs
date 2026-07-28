@@ -43,5 +43,9 @@ const pagesWorkflow = text('.github/workflows/legal-pages.yml');
 assert.match(pagesWorkflow, /pages: write/);
 assert.match(pagesWorkflow, /id-token: write/);
 assert.match(pagesWorkflow, /path: docs\/public/);
+const screenshotWorkflow = text('.github/workflows/play-store-screenshots.yml');
+assert.match(screenshotWorkflow, /permissions:\n  contents: read/);
+assert.match(screenshotWorkflow, /play-store-screenshots/);
+assert.match(text('scripts/capture-play-screens.mjs'), /page\.screenshot/);
 
 console.log('Google Play launch kit: OK');

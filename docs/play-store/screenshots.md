@@ -3,6 +3,12 @@
 Capture these from the signed production candidate on a real Android device.
 Do not use mock data that implies unavailable features or offers.
 
+The repository also contains reproducible web-render captures under
+`docs/play-store/assets/screenshots/`. They are suitable for copy/layout review;
+compare them with the final signed Android build before uploading to Play.
+The `Play Store screenshots` workflow generates the same set as the
+`play-store-screenshots` Actions artifact for review and download.
+
 ## Primary phone sequence
 
 | Order | Screen | State | Caption |

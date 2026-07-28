@@ -17,6 +17,7 @@
     "release-check": "npm run scripture-check && npm run release-gate && npm run release-claims && npm run play-launch-check && npm run final-polish",
     "release-artifact-check": "npm run bundle-budget",
     "play-launch-check": "node scripts/check-play-launch.mjs",
+    "screenshots:play": "node scripts/capture-play-screens.mjs",
     "final-polish": "node --test src/theme/finalPolish.test.ts",
     "bundle-budget": "node scripts/check-bundle-budget.mjs",
     "tap-targets": "node scripts/measure-tap-targets.mjs"
