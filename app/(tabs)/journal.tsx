@@ -175,15 +175,20 @@ export default function Journal() {
                   onPress={() => deleteEntry(e)}
                   accessibilityRole="button"
                   accessibilityLabel={tr('a11y.deleteEntry')}
-                  style={{
+                  style={({ pressed }) => ({
                     width: TAP_MIN,
                     height: TAP_MIN,
+                    borderRadius: TAP_MIN / 2,
+                    backgroundColor: t.surfaceAlt,
+                    borderWidth: 1,
+                    borderColor: pressed ? t.danger : t.border,
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginRight: -spacing.md,
-                  }}
+                    opacity: pressed ? 0.72 : 1,
+                  })}
                 >
-                  <Ionicons name="trash-outline" size={18} color={t.inkFaint} />
+                  <Ionicons name="trash-outline" size={18} color={t.danger} />
                 </Pressable>
               </View>
             </View>

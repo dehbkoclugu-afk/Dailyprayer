@@ -60,6 +60,7 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
   const completeStep = useStreakStore((s) => s.completeStep);
   const [line, setLine] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [accessibilityReady, setAccessibilityReady] = useState(false);
   const [pace, setPace] = useState<Pace>('normal');
   const lastLine = line >= prayer.script.length - 1;
   const progress = (line + 1) / prayer.script.length;
@@ -71,6 +72,27 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
         60000,
     ),
   );
+
+  useEffect(() => {
+    let mounted = true;
+    AccessibilityInfo.isScreenReaderEnabled()
+      .then((enabled) => {
+        if (!mounted) return;
+        if (enabled) setPaused(true);
+        setAccessibilityReady(true);
+      })
+      .catch(() => {
+        if (mounted) setAccessibilityReady(true);
+      });
+    const subscription = AccessibilityInfo.addEventListener('screenReaderChanged', (enabled) => {
+      if (enabled) setPaused(true);
+      setAccessibilityReady(true);
+    });
+    return () => {
+      mounted = false;
+      subscription.remove();
+    };
+  }, []);
 
   useEffect(() => {
     AsyncStorage.getItem(`lumen-player-${prayer.id}`)
@@ -87,11 +109,11 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
   }, [line, prayer.id, prayer.script]);
 
   useEffect(() => {
-    if (paused || lastLine) return;
+    if (!accessibilityReady || paused || lastLine) return;
     const ms = Math.max(4000, prayer.script[line].length * PACE_FACTOR[pace]);
     const timer = setTimeout(() => setLine((l) => l + 1), ms);
     return () => clearTimeout(timer);
-  }, [line, pace, paused, lastLine, prayer.script]);
+  }, [accessibilityReady, line, pace, paused, lastLine, prayer.script]);
 
   const finish = () => {
     completeStep('prayer');
@@ -112,7 +134,11 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
         }}
       >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-          <View style={{ flex: 1 }}>
+          <View
+            style={{ flex: 1 }}
+            accessible
+            accessibilityLabel={`${prayer.title}. ${tr('player.guidedText')}. ${remainingMinutes} ${tn(remainingMinutes, 'player.minLeft')}`}
+          >
             <Text style={{ ...type.calloutSemi, color: '#F2EEE6' }}>
               {prayer.title}
             </Text>
@@ -137,7 +163,7 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
             key={line}
             entering={reduceMotion ? undefined : FadeInUp.duration(600)}
             exiting={reduceMotion ? undefined : FadeOut.duration(250)}
-            accessibilityLiveRegion="polite"
+            accessibilityRole="text"
             style={{
               ...type.verse,
               color: '#F2EEE6',

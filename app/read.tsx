@@ -311,6 +311,7 @@ export default function Read() {
           // in TalkBack's actions menu instead, which is where an occasional action
           // on a text element belongs.
           const verseA11y = {
+            accessible: true,
             // The visible number is a nested Text, so it is read as a bare numeral
             // running into the first word; naming it separates the two. The
             // highlight goes *before* the verse, not after — a long verse takes

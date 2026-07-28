@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,6 +16,7 @@ export default function Pray() {
   const { t: tr } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const prayers = usePrayers();
+  const categoryList = useRef<ScrollView>(null);
   const [cat, setCat] = useState<GuidedPrayer['category'] | 'all'>('all');
   const list = cat === 'all' ? prayers : prayers.filter((p) => p.category === cat);
 
@@ -34,17 +35,24 @@ export default function Pray() {
       {/* category filter — a single calm chip row (matches the Bible chapter
           picker); tap the active chip again to clear back to the full library */}
       <ScrollView
+        ref={categoryList}
         horizontal
         showsHorizontalScrollIndicator={false}
         style={{ marginTop: spacing.lg, marginHorizontal: -spacing.xl }}
         contentContainerStyle={{ gap: spacing.sm, paddingHorizontal: spacing.xl }}
       >
-        {prayerCategories.map((c) => {
+        {prayerCategories.map((c, index) => {
           const active = cat === c.key;
           return (
             <Pressable
               key={c.key}
-              onPress={() => setCat(active ? 'all' : c.key)}
+              onPress={() => {
+                setCat(active ? 'all' : c.key);
+                categoryList.current?.scrollTo({ x: Math.max(0, index * 124 - spacing.xl), animated: true });
+              }}
+              onFocus={() =>
+                categoryList.current?.scrollTo({ x: Math.max(0, index * 124 - spacing.xl), animated: true })
+              }
               accessibilityRole="button"
               accessibilityState={{ selected: active }}
               accessibilityLabel={tr(`cat.${c.key}` as never)}
@@ -87,7 +95,14 @@ export default function Pray() {
           cat !== 'all' ? (
             <Pressable onPress={() => setCat('all')} accessibilityRole="button"
               accessibilityLabel={tr('a11y.showAll')}
-              style={{ minHeight: TAP_MIN, justifyContent: 'center' }}
+              style={({ pressed }) => ({
+                minHeight: TAP_MIN,
+                paddingHorizontal: spacing.md,
+                borderRadius: radius.pill,
+                justifyContent: 'center',
+                backgroundColor: pressed ? t.surfaceAlt : 'transparent',
+                opacity: pressed ? 0.75 : 1,
+              })}
             >
               <Text style={{ ...type.calloutMedium, color: t.blue }}>{tr('pray.showAll')}</Text>
             </Pressable>

@@ -39,8 +39,8 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
   // light theme and vanish. Fall back to theme colors only when there's no art.
   const hasArt = !!(art && artRegistry[art]);
   const titleColor = hasArt ? '#F2EEE6' : t.ink;
-  const subColor = done ? t.gold : hasArt ? 'rgba(242,238,230,0.82)' : t.inkSoft;
-  const chevColor = hasArt ? 'rgba(242,238,230,0.7)' : t.inkFaint;
+  const subColor = done ? t.gold : hasArt ? 'rgba(242,238,230,0.94)' : t.inkSoft;
+  const chevColor = hasArt ? 'rgba(242,238,230,0.88)' : t.inkFaint;
 
   // One-time gold shimmer sweep when a card transitions to done (design-100 #57).
   const shimmerX = useSharedValue(-CARD_W);
@@ -101,7 +101,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
           {/* warm near-black scrim, evened out so the candle glow suffuses the
               whole card (not a flat dark half) while the left stays legible */}
           <LinearGradient
-            colors={['rgba(22,15,8,0.9)', 'rgba(22,15,8,0.66)', 'rgba(22,15,8,0.36)']}
+            colors={['rgba(22,15,8,0.94)', 'rgba(22,15,8,0.86)', 'rgba(22,15,8,0.74)']}
             start={{ x: 0, y: 0.5 }}
             end={{ x: 1, y: 0.5 }}
             style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}

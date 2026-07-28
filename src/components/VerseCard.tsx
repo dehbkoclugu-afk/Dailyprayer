@@ -93,7 +93,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
         />
       ) : null}
       <LinearGradient
-        colors={['rgba(23,16,46,0.55)', 'rgba(14,18,32,0.92)']}
+        colors={['rgba(23,16,46,0.82)', 'rgba(14,18,32,0.97)']}
         start={{ x: 0.5, y: 0 }}
         end={{ x: 0.5, y: 1 }}
         style={{ position: 'absolute', width: '100%', height: '100%' }}
@@ -101,7 +101,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       <View style={{ flex: 1, padding: spacing.xl, paddingTop: spacing.xxl }}>
           <Text
             style={{ ...type.overline, letterSpacing: 2.5,
-              color: 'rgba(217,164,65,0.85)' }}
+              color: '#E4B85B' }}
           >
 {tu(tr('today.verseOfDay'))}
           </Text>

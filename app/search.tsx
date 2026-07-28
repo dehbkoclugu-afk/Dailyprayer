@@ -121,6 +121,8 @@ export default function Search() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginRight: -spacing.sm,
+                borderRadius: TAP_MIN / 2,
+                backgroundColor: t.surfaceAlt,
               }}
             >
               <Ionicons name="close-circle" size={18} color={t.inkFaint} />

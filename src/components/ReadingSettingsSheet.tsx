@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Pressable, Text, View } from 'react-native';
+import { Modal, Pressable, Switch, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
@@ -138,14 +138,32 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
             {stepBtn(1, tr('a11y.larger'), 26, fontScale >= FONT_MAX - 0.001)}
           </View>
 
-          {/* paper tone */}
-          <Pressable
-            onPress={() => {
-              tap();
-              togglePaper();
+          <View
+            accessible
+            accessibilityLabel={tr('read.preview')}
+            style={{
+              marginTop: spacing.md,
+              padding: spacing.lg,
+              borderRadius: radius.inner,
+              backgroundColor: t.bg,
+              borderWidth: 1,
+              borderColor: t.border,
             }}
-            accessibilityRole="switch"
-            accessibilityState={{ checked: paper }}
+          >
+            <Text
+              style={{
+                fontFamily: fonts.serifLight,
+                fontSize: Math.round(18 * fontScale),
+                lineHeight: Math.round(28 * fontScale),
+                color: t.ink,
+              }}
+            >
+              {tr('read.preview')}
+            </Text>
+          </View>
+
+          {/* paper tone */}
+          <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
@@ -159,25 +177,23 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
               borderColor: paper ? t.gold : t.border,
             }}
           >
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
+            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
               <Ionicons name="sunny-outline" size={20} color={paper ? t.gold : t.inkSoft} />
-              <Text style={{ ...type.calloutMedium, color: t.ink }}>
+              <Text style={{ ...type.calloutMedium, color: t.ink, flex: 1 }}>
                 {tr('read.paperMode')}
               </Text>
             </View>
-            <View
-              style={{
-                width: 46,
-                height: 28,
-                borderRadius: 14,
-                padding: 3,
-                backgroundColor: paper ? t.gold : t.border,
-                alignItems: paper ? 'flex-end' : 'flex-start',
+            <Switch
+              value={paper}
+              onValueChange={() => {
+                tap();
+                togglePaper();
               }}
-            >
-              <View style={{ width: 22, height: 22, borderRadius: 11, backgroundColor: paper ? t.onGold : t.surface }} />
-            </View>
-          </Pressable>
+              accessibilityLabel={tr('read.paperMode')}
+              trackColor={{ false: t.border, true: t.gold }}
+              thumbColor={paper ? t.onGold : t.surface}
+            />
+          </View>
 
           {/* text source — full edition, license and attribution (roadmap item 12).
               Licensed editions require this to be reachable from the reader, not

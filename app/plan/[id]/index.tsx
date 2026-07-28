@@ -65,14 +65,14 @@ export default function PlanScreen() {
       <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
         <ArtSlot id={plan.art} height={170} radius={radius.card}>
           <LinearGradient
-            colors={[`${plan.gradient[0]}CC`, `${plan.gradient[1]}F2`]}
+            colors={[`${plan.gradient[0]}E6`, `${plan.gradient[1]}FA`]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={{ position: 'absolute', width: '100%', height: '100%' }}
           />
           <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
             <Text style={{ ...type.subtitle, color: '#F2EEE6' }}>{plan.title}</Text>
-            <Text style={{ ...type.callout, color: 'rgba(242,238,230,0.8)', marginTop: spacing.xs }}>
+            <Text style={{ ...type.callout, color: 'rgba(242,238,230,0.94)', marginTop: spacing.xs }}>
               {plan.tagline}
             </Text>
           </View>

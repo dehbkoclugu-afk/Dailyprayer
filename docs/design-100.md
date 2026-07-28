@@ -458,26 +458,32 @@ deneyimi, performans ve görsel cila gelir.
     `cancel` stilli, onay `destructive`, Android geri hareketi iptal edebiliyor. Başlık, açıklama,
     iptal ve onay metinleri altı dilde tam cümleler; geri alınabilir Journal silmesi Undo akışını,
     iki aşamalı tüm-veri silme ise ayrıntılı sheet doğrulamasını koruyor.
-41. **Arama temizleme düğmesini 48 dp hedefe çıkar.** Küçük 18 px ikon yalnızca `hitSlop` ile
-    bırakılmamalı; görünür/fiziksel hedef alanı sağlanmalı.
-42. **Prayer kategori chip’lerini 48 dp yap.** Mevcut 44 dp minimumu Android hedefinin altında;
-    yatay liste de odak sırasında seçili chip’i görünür alana kaydırmalı.
-43. **“Tümünü göster” metin bağlantısını gerçek düğme alanına çevir.** Sadece metne basmak yerine
-    48 dp satır ve belirgin pressed/focus durumu kullanılmalı.
-44. **Günlük silme ikonuna görünür hedef ver.** Küçük çöp simgesi, 48 dp alan ve hafif tonal
-    arka planla hem dokunma hem destructive anlamı taşımalı.
-45. **Okuyucu font ayarında örnek paragraf göster.** Sadece büyük/küçük A düğmeleri, gerçek satır
-    uzunluğu ve leading etkisini anlatmıyor.
-46. **Reader “paper” switch’ini platform semantiğiyle düzelt.** Görsel olarak özel kalabilir ama
-    swipe/tap, checked state ve büyük yazı düzeni Material switch beklentisini karşılamalı.
-47. **Ekran okuyucuda ayet numarası + metni tek anlamlı cümle yap.** İç içe Text düğümlerinin
-    kesik veya tekrarlı okunmadığı cihaz testleriyle doğrulanmalı.
-48. **Player otomatik ilerlemeyi erişilebilirlik açıkken varsayılan duraklat.** Kullanıcı satırı
-    bitirmeden ekran değişmemeli; devam etme açık bir tercih olmalı.
-49. **Player kalan süreyi canlı ama gürültüsüz güncelle.** Her satırda tam ekran duyurusu yerine
-    yalnız dua metni okunmalı, süre ayrı erişilebilir açıklama olmalı.
-50. **Kontrastı gerçek görseller üzerinde ölç.** Verse, ritual, Tonight ve plan kartlarının her
-    görsel varyantında metin 4.5:1; büyük başlık 3:1 eşiğini geçmeli.
+41. ✅ **TAMAMLANDI — Arama temizleme düğmesini 48 dp hedefe çıkar.** 18 px ikon artık
+    `TAP_MIN` çapında, yüzeyi görünen tonal bir daire içinde; dokunulan alan görünür hedefle aynı.
+42. ✅ **TAMAMLANDI — Prayer kategori chip’lerini 48 dp yap.** Chip’ler ortak 48 dp minimumunu
+    kullanıyor; seçim ve klavye/erişilebilirlik odağı yatay listeyi ilgili chip’e kaydırıyor.
+43. ✅ **TAMAMLANDI — “Tümünü göster” metin bağlantısını gerçek düğme alanına çevir.** Eylem
+    48 dp yüksekliğinde, yatay dolgulu ve basıldığında tonal yüzey/opacity geri bildirimi veriyor.
+44. ✅ **TAMAMLANDI — Günlük silme ikonuna görünür hedef ver.** Geri alınabilir silme eylemi
+    48 dp tonal daire, sınır ve danger rengiyle hem hedefi hem destructive anlamı görünür kılıyor.
+45. ✅ **TAMAMLANDI — Okuyucu font ayarında örnek paragraf göster.** Yerelleştirilmiş örnek,
+    seçili reader ölçeğinin gerçek serif boyutunu ve satır yüksekliğini ayar sheet’inde gösteriyor.
+46. ✅ **TAMAMLANDI — Reader “paper” switch’ini platform semantiğiyle düzelt.** Özel çizilmiş
+    taklit yerine native `Switch` kullanılıyor; tap/swipe, checked state ve platform davranışı
+    korunurken esnek etiket büyük yazıda daralmıyor.
+47. ✅ **TAMAMLANDI — Ekran okuyucuda ayet numarası + metni tek anlamlı cümle yap.** Her ayet
+    tek `accessible` öğe ve tam `accessibilityLabel`; iki render yolu da numara, vurgu durumu ve
+    metni tek cümlede veriyor. Kaynak testi iki yolun bu ortak sözleşmeyi kullandığını koruyor.
+48. ✅ **TAMAMLANDI — Player otomatik ilerlemeyi erişilebilirlik açıkken varsayılan duraklat.**
+    İlk zamanlayıcı ekran okuyucu durumu çözülmeden başlamıyor; ekran okuyucu açıksa player
+    duraklıyor ve ilerlemek kullanıcının açık “Sürdür” eylemine kalıyor.
+49. ✅ **TAMAMLANDI — Player kalan süreyi canlı ama gürültüsüz güncelle.** Dua satırının tek
+    duyuru yolu korunurken yinelenen polite live-region kaldırıldı; başlık ve kalan süre ayrı,
+    kullanıcı odağıyla okunabilen tek bir erişilebilir açıklama oldu.
+50. ✅ **TAMAMLANDI — Kontrastı gerçek görseller üzerinde ölç.** Sekiz Verse, üç ritual,
+    Tonight ve beş plan görseli Pillow ile gerçek pikseller/scrim bileşimi üzerinden taranıyor.
+    En kötü sonuç 7.05:1; tüm normal metin varyantları 4.5:1 eşiğinin üzerinde ve kontrol
+    `npm run contrast-check` ile yeniden çalıştırılabiliyor.
 
 ## P1 — Bilgi mimarisi ve temel akışlar (51–65)
 

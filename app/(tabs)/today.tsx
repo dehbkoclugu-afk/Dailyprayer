@@ -182,7 +182,7 @@ export default function Today() {
         <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
           <ArtSlot id="A10-tonight-night" height={150} radius={radius.card}>
             <LinearGradient
-              colors={['rgba(30,26,58,0.35)', 'rgba(10,12,24,0.92)']}
+              colors={['rgba(30,26,58,0.62)', 'rgba(10,12,24,0.96)']}
               style={{ position: 'absolute', width: '100%', height: '100%' }}
             />
             <View
@@ -197,7 +197,7 @@ export default function Today() {
               <View style={{ flex: 1 }}>
                 <Text
                   style={{ ...type.overline, letterSpacing: 2.5,
-                    color: 'rgba(217,164,65,0.85)' }}
+                    color: '#E4B85B' }}
                 >
 {tu(tr('today.sleepPrayer'))}
                 </Text>
