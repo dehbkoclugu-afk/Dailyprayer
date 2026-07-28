@@ -17,7 +17,7 @@ import { NotFoundState } from '@/components/NotFoundState';
 
 export default function PlanDay() {
   const t = useTheme();
-  const { t: tr, locale } = useT();
+  const { t: tr, locale, tu } = useT();
   const { id, day } = useLocalSearchParams<{ id: string; day: string }>();
   const plan = usePlans().find((p) => p.id === id);
   // `Number(day) || 0` quietly turned "abc" into day 1 and let day 9999 render a
@@ -89,11 +89,10 @@ export default function PlanDay() {
 
         <Text
           style={{ ...type.labelSemi, letterSpacing: 2,
-            textTransform: 'uppercase',
             color: t.goldText,
             marginTop: spacing.xl }}
         >
-          {plan.title} · {tr('plan.dayLabel')} {dayIdx + 1}
+          {tu(`${plan.title} · ${tr('plan.dayLabel')} ${dayIdx + 1}`)}
         </Text>
 
         {/* the day's reading — a real passage in the bundled Bible */}
@@ -102,11 +101,10 @@ export default function PlanDay() {
         </Text>
         <Text
           style={{ ...type.labelMedium, letterSpacing: 1,
-            textTransform: 'uppercase',
             color: t.inkFaint,
             marginTop: spacing.sm }}
         >
-          {tr('plan.todaysReading')}
+          {tu(tr('plan.todaysReading'))}
         </Text>
 
         {teaser ? (

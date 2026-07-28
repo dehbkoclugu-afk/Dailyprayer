@@ -16,7 +16,7 @@ import { useT, translate } from '@/i18n';
 
 export default function Journal() {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, tu } = useT();
   const { entries, add, remove, restore } = useJournalStore();
   const completeStep = useStreakStore((s) => s.completeStep);
   const [text, setText] = useState('');
@@ -69,10 +69,9 @@ export default function Journal() {
           <Ionicons name="leaf-outline" size={16} color={t.gold} />
           <Text
             style={{ ...type.overline, letterSpacing: 2,
-              textTransform: 'uppercase',
               color: t.goldText }}
           >
-            {tr('journal.gratitude')}
+            {tu(tr('journal.gratitude'))}
           </Text>
         </View>
 
@@ -141,11 +140,10 @@ export default function Journal() {
               {e.kind === 'verse' && e.ref ? (
                 <Text
                   style={{ ...type.labelSemi, letterSpacing: 1.5,
-                    textTransform: 'uppercase',
                     color: t.goldText,
                     marginBottom: spacing.sm }}
                 >
-                  {e.ref}
+                  {tu(e.ref)}
                 </Text>
               ) : null}
               <Text

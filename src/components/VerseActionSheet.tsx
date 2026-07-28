@@ -41,7 +41,7 @@ export function VerseActionSheet({
   onClose: () => void;
 }) {
   const t = useReaderTheme();
-  const { t: tr, locale } = useT();
+  const { t: tr, locale, tu } = useT();
   const insets = useSafeAreaInsets();
 
   const marks = useHighlightStore((s) => s.marks);
@@ -171,9 +171,9 @@ export function VerseActionSheet({
           <Text
             ref={titleRef}
             accessibilityRole="header"
-            style={{ ...type.labelSemi, letterSpacing: 1.5, textTransform: 'uppercase', color: t.goldText }}
+            style={{ ...type.labelSemi, letterSpacing: 1.5, color: t.goldText }}
           >
-            {verse.ref}
+            {tu(verse.ref)}
           </Text>
           <Text
             style={{ ...type.quoteSmall, lineHeight: 26, color: t.ink, marginTop: spacing.xs }}

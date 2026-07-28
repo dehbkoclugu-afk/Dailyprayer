@@ -15,7 +15,7 @@ import { useT, translate } from '@/i18n';
 
 export default function DevotionalScreen() {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, tu } = useT();
   const { verse, devotional } = useDailyContent();
   const completeStep = useStreakStore((s) => s.completeStep);
   const [amened, setAmened] = React.useState(false);
@@ -54,8 +54,8 @@ export default function DevotionalScreen() {
         <Ionicons name="chevron-back" size={24} color={t.inkSoft} />
       </Pressable>
 
-      <Text style={{ ...type.labelSemi, letterSpacing: 2, textTransform: 'uppercase', color: t.goldText, marginTop: spacing.lg }}>
-{tr('devotional.label')}
+      <Text style={{ ...type.labelSemi, letterSpacing: 2, color: t.goldText, marginTop: spacing.lg }}>
+{tu(tr('devotional.label'))}
       </Text>
       <Text style={[ty.display, { color: t.ink, marginTop: spacing.sm }]}>{devotional.title}</Text>
 

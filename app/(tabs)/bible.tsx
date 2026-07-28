@@ -20,7 +20,7 @@ import { useT } from '@/i18n';
 export default function Bible() {
   const t = useTheme();
   const stacked = useStackedLayout();
-  const { t: tr, tn, locale } = useT();
+  const { t: tr, tn, locale, tu } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const plans = usePlans();
   const { book, chapter } = useReaderStore();
@@ -53,10 +53,9 @@ export default function Bible() {
             <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
               <Text
                 style={{ ...type.overline, letterSpacing: 2.5,
-                  textTransform: 'uppercase',
                   color: 'rgba(217,164,65,0.9)' }}
               >
-                {tr('read.continue')}
+                {tu(tr('read.continue'))}
               </Text>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 4 }}>
                 <View style={{ flex: 1, paddingRight: spacing.lg }}>

@@ -40,7 +40,7 @@ interface Props {
 }
 
 export function VerseCard({ verse, onRead, onShuffle }: Props) {
-  const { t: tr, locale } = useT();
+  const { t: tr, locale, tu } = useT();
   const cardRef = useRef<View>(null);
   const cardHeight = useScaledHeight(320);
 
@@ -101,10 +101,9 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       <View style={{ flex: 1, padding: spacing.xl, paddingTop: spacing.xxl }}>
           <Text
             style={{ ...type.overline, letterSpacing: 2.5,
-              textTransform: 'uppercase',
               color: 'rgba(217,164,65,0.85)' }}
           >
-{tr('today.verseOfDay')}
+{tu(tr('today.verseOfDay'))}
           </Text>
 
           {/* the verse gets a flexible middle that scrolls when it's long; a soft

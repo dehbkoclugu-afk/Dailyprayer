@@ -19,7 +19,7 @@ import { useSheetTitleFocus, useTriggerFocus } from '@/a11y/sheetFocus';
 import { NotFoundState } from '@/components/NotFoundState';
 
 export default function Read() {
-  const { t: tr, locale } = useT();
+  const { t: tr, locale, tu } = useT();
   const insets = useSafeAreaInsets();
   const bible = getBible(locale);
   const { book, chapter, setPos } = useReaderStore();
@@ -266,10 +266,9 @@ export default function Read() {
           <View style={{ marginBottom: spacing.lg }}>
             <Text
               style={{ ...type.overline, letterSpacing: 2.5,
-                textTransform: 'uppercase',
                 color: rt.gold }}
             >
-              {tr('read.chapter')} {cIdx + 1}
+              {tu(`${tr('read.chapter')} ${cIdx + 1}`)}
             </Text>
             <Text style={{ fontFamily: fonts.serif, fontSize: Math.round(reader.chapterTitle * fontScale), color: rt.ink, marginTop: 4 }}>
               {bk.name}

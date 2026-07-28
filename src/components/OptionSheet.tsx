@@ -3,6 +3,7 @@ import { Modal, Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
+import { useT } from '@/i18n';
 import { fonts, type } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useSheetTitleFocus } from '@/a11y/sheetFocus';
@@ -36,6 +37,7 @@ export function OptionSheet<T extends string>({
   onClose,
 }: Props<T>) {
   const t = useTheme();
+  const { tu } = useT();
   const insets = useSafeAreaInsets();
   const titleRef = useSheetTitleFocus(visible);
 
@@ -83,11 +85,10 @@ export function OptionSheet<T extends string>({
             ref={titleRef}
             accessibilityRole="header"
             style={{ ...type.labelSemi, letterSpacing: 1.5,
-              textTransform: 'uppercase',
               color: t.inkFaint,
               marginBottom: spacing.sm }}
           >
-            {title}
+            {tu(title)}
           </Text>
           {options.map((o, i) => {
             const active = o.value === selected;

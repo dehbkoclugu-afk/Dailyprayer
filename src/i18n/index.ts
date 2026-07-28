@@ -1,5 +1,6 @@
 import { getLocales } from 'expo-localization';
 import { translations, type Locale, type TranslationKey } from './translations';
+import { upper } from './casing';
 import { useUserStore } from '@/state/useUserStore';
 
 export const SUPPORTED_LOCALES: Locale[] = ['en', 'tr', 'es', 'pt', 'fr', 'de'];
@@ -43,6 +44,12 @@ export function useT() {
     t: (key: TranslationKey) => lookup(locale, key),
     /** For a label that follows a number: `tn(days, 'bible.days')`. */
     tn: (count: number, key: TranslationKey) => lookupCount(locale, key, count),
+    /**
+     * Uppercase in the reader's language (roadmap item 33). Takes text rather
+     * than a key so a date, a verse reference or a book name goes through the
+     * same rules as a translated label.
+     */
+    tu: (text: string) => upper(text, locale),
   };
 }
 
