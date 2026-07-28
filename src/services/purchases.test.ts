@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { classifyPurchaseError, planIdForPackage } from './purchases.logic.ts';
+import {
+  classifyPurchaseError,
+  hasActiveEntitlement,
+  planIdForPackage,
+} from './purchases.logic.ts';
 
 test('classifies RevenueCat cancellation without treating it as a failure', () => {
   assert.equal(classifyPurchaseError({ code: '1' }), 'cancelled');
@@ -17,13 +21,19 @@ test('classifies unknown values as failures', () => {
 
 test('maps RevenueCat package types to Lumen plans', () => {
   assert.equal(planIdForPackage('ANNUAL', '$rc_annual'), 'annual');
-  assert.equal(planIdForPackage('WEEKLY', '$rc_weekly'), 'weekly');
+  assert.equal(planIdForPackage('MONTHLY', '$rc_monthly'), 'monthly');
   assert.equal(planIdForPackage('LIFETIME', '$rc_lifetime'), 'lifetime');
 });
 
 test('maps custom package identifiers conservatively', () => {
   assert.equal(planIdForPackage('CUSTOM', 'lumen_annual_v2'), 'annual');
-  assert.equal(planIdForPackage('CUSTOM', 'premium-weekly'), 'weekly');
+  assert.equal(planIdForPackage('CUSTOM', 'premium-monthly'), 'monthly');
   assert.equal(planIdForPackage('CUSTOM', 'lifetime_access'), 'lifetime');
-  assert.equal(planIdForPackage('CUSTOM', 'monthly'), null);
+  assert.equal(planIdForPackage('CUSTOM', 'premium-weekly'), null);
+});
+
+test('recognizes the configured or legacy Lumen Plus entitlement', () => {
+  const active = { 'Lumen Pro': { identifier: 'Lumen Pro' } };
+  assert.equal(hasActiveEntitlement(active, ['plus', 'Lumen Pro']), true);
+  assert.equal(hasActiveEntitlement(active, ['plus']), false);
 });
