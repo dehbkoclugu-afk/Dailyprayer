@@ -9,59 +9,58 @@ marked **[you]** need a human with accounts/credentials; **[code]** I can do.
 - [ ] RevenueCat account (free to start).
 - [ ] A domain or hosting for the two legal URLs (GitHub Pages works).
 
-## 1. Art assets — [you], then [code] to wire
-- [ ] Generate A1–A17 from `docs/asset-briefs.md`.
-- [ ] Drop into `src/assets/art/`, register in `src/assets/registry.ts`.
-- [ ] App icon (A16) → `assets/icon.png`; splash (A17) → configure in app.json.
+## 1. Art assets
+- [x] A1–A20 are generated and registered.
+- [x] App icon and splash are wired in `app.json`.
+- [ ] Capture signed-release screenshots and a 1024×500 Play feature graphic.
 
 ## 2. Monetization — [you] set up, [code] wire
 - [ ] In RevenueCat: create entitlement `plus`; products `lumen.weekly`,
       `lumen.annual` (with 7-day trial), `lumen.lifetime`.
 - [ ] In App Store Connect + Play Console: create the matching IAP/subscription
       products with the same identifiers and localized prices.
-- [ ] Put RevenueCat public API keys into `src/services/purchases.ts`
-      (`API_KEYS.ios` / `.android`).
+- [ ] Put RevenueCat public SDK keys in EAS/GitHub environment secrets.
 - [ ] Build a dev client and verify a sandbox purchase unlocks `isPlus`.
 
 ## 3. Legal — [you] finalize
-- [ ] Fill `[COMPANY]`, `[CONTACT_EMAIL]`, `[JURISDICTION]` in `src/data/legal.ts`
-      and `docs/legal/*.md`.
+- [x] Legal entity, contact and jurisdiction are filled in the in-app and hosted copy.
 - [ ] Host `docs/legal/privacy-policy.md` + `terms-of-service.md` at public URLs.
 - [ ] Enter the Privacy Policy URL in both store consoles (required).
 - [ ] Have the terms/privacy reviewed by a lawyer.
 
 ## 4. Store listing — [you] paste, [code] provided
-- [ ] Use `docs/store-listing.md` for name/subtitle/keywords/description (6 langs).
-- [ ] Capture screenshots from the real app (after art) at required sizes:
-      iPhone 6.7" + 6.5"; Android phone. Localize per language if possible.
+- [x] `docs/store-listing.md` contains accurate copy in six languages.
+- [ ] Capture screenshots from the signed real app at required sizes.
 - [ ] Fill Apple privacy "nutrition labels": data NOT collected (we're local-only;
       RevenueCat collects purchase data — declare per their guide).
 - [ ] Age rating questionnaire (no objectionable content → 4+ / Everyone).
 
 ## 5. Build & submit — [code] can prep, [you] run with accounts
 - [ ] `npm i -g eas-cli && eas login`
-- [ ] `eas build:configure` (fills the REPLACE_ fields in `eas.json`).
-- [ ] `eas build --platform all --profile production`
+- [ ] Create the Play Console app and confirm `com.lumen.dailyprayer` is available.
+- [ ] Link the EAS project, generate/retain its first Android upload key, and add
+      `EXPO_TOKEN` plus RevenueCat public keys.
+- [ ] Run the `Android production AAB` workflow or
+      `eas build --platform android --profile production`.
 - [ ] `eas submit --platform ios` / `--platform android` (or upload manually).
 - [ ] TestFlight / Play internal testing pass on a real device.
 
 ## 6. Pre-submit QA — [code] mostly done
 - [x] Typecheck clean (`npm run typecheck`).
 - [x] Unit tests pass (`npm test`) incl. scripture-integrity guard.
-- [x] **`npm run release-check` passes.** One command, and the release requirement:
+- [x] **`npm run release-check` passes.** Source release requirement:
       Scripture integrity + Scripture rights gate + copy accuracy. The APK workflow
       runs it before building, so none of the three can be skipped.
       - `scripture-check` — bundled Scripture matches the manifest (also in CI).
       - `release-gate` — no bundled edition ships with unverified rights.
       - `release-claims` — the 17 licence/price/trial/notification/privacy claims
         the app makes are backed by the code (also in CI).
+- [x] Artifact size is a separate post-export gate:
+      `npm run release-artifact-check -- dist-android`.
 - [ ] Re-run `npm run scripture-drift` (needs network) right before submitting.
       The Turkish YTC is still under review upstream, so its text drifts; decide
       deliberately whether to re-export before shipping.
-- [ ] Restore the A17 splash art: `expo-splash-screen` needs a PNG and only
-      `src/assets/art/A17-splash.webp` exists. A duplicate plugin entry pointing at
-      the missing PNG was breaking `expo prebuild` (and so the APK workflow) and
-      has been removed; the app currently falls back to `assets/splash.png`.
+- [x] Expo splash uses the valid `assets/splash.png` release asset.
 - [x] Full flow bug-tested (onboarding → paywall → tabs, EN + TR, dark + light).
 - [ ] Re-run the flow on a physical device once art + purchases are wired.
 - [ ] Verify restore-purchases works.

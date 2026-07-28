@@ -26,3 +26,28 @@ test('performance and recovery release guards exist', () => {
   assert.match(read('scripts/check-bundle-budget.mjs'), /55\.8 MiB/);
   assert.match(read('scripts/generate-art-variants.py'), /480/);
 });
+
+test('Google Play release handoff contains no unsupported launch claims', () => {
+  const scripts = JSON.parse(read('package.json')).scripts as Record<string, string>;
+  assert.doesNotMatch(scripts['release-check'], /bundle-budget/);
+  assert.match(scripts['release-artifact-check'], /bundle-budget/);
+
+  const workflow = read('.github/workflows/android-aab.yml');
+  assert.match(workflow, /EXPO_TOKEN/);
+  assert.match(workflow, /--profile production/);
+  assert.match(workflow, /--platform android/);
+
+  const listing = read('docs/store-listing.md');
+  assert.doesNotMatch(listing, /journal export|günlük dışa aktarma|exportación del diario|exportação do diário|export du journal|Tagebuch-Export/i);
+  assert.doesNotMatch(listing, /helps give Lumen|ücretsiz ulaştırmaya|ayuda a regalar|ajuda a presentear|aide à offrir|jemandem zu schenken/i);
+  assert.doesNotMatch(listing, /free trial is available|Ücretsiz deneme mevcut|Prueba gratuita disponible|Teste grátis disponível|Essai gratuit disponible|Kostenlose Testphase verfügbar/i);
+
+  const privacy = read('docs/legal/privacy-policy.md');
+  assert.doesNotMatch(privacy, /\[(?:COMPANY|CONTACT_EMAIL|JURISDICTION)\]/);
+  assert.match(privacy, /dehbkoclugu@gmail\.com/);
+  const handoff = read('docs/google-play-handoff.md');
+  assert.match(handoff, /Purchase history/);
+  assert.match(handoff, /first Google Play submission/);
+  assert.match(handoff, /com\.lumen\.dailyprayer/);
+  assert.match(handoff, /upload key/);
+});

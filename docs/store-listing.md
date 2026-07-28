@@ -9,8 +9,9 @@ the platform maximums (App Store / Google Play).
 - **Description** (AS: 4000 / GP: 4000).
 - **Promo text** (AS: 170, editable without review) — use for seasonal hooks.
 
-> Fill the developer name, support URL, and privacy URL in the store console.
-> Screenshots come from the real app once art (A1–A17) lands.
+> Developer: Umut Ceylan · Support: dehbkoclugu@gmail.com. Add the final public
+> support and privacy URLs in the store console. Screenshots must come from the
+> signed release candidate on real devices.
 
 ---
 
@@ -37,11 +38,11 @@ Build a streak. Watch your daily rhythm become second nature. Read the Bible off
 Lumen is calm by design — no ads, no noise, no clutter. Just scripture, prayer, and space to breathe.
 
 LUMEN PLUS
-Unlock the full library of guided prayers and sleep prayers, every reading plan, and journal export with a Lumen Plus subscription. A free trial is available. Part of every subscription helps give Lumen free to someone who can't afford it.
+Unlock the full library of guided prayers and sleep prayers and every reading plan with Lumen Plus. If your store account is eligible for an introductory offer, its exact duration and price are shown before purchase.
 
 Subscriptions renew automatically unless cancelled at least 24 hours before the period ends. Manage or cancel anytime in your account settings.
 
-Scripture is from the World English Bible (public domain).
+English Scripture is from the World English Bible (public domain). Other app languages use the credited edition shown inside Lumen.
 
 ---
 
@@ -68,11 +69,11 @@ Bir seri oluştur. Günlük ritminin bir alışkanlığa dönüşmesini izle. İ
 Lumen tasarım gereği sakindir — reklam yok, gürültü yok, karmaşa yok. Yalnızca kutsal metin, dua ve nefes alacak alan.
 
 LUMEN PLUS
-Rehberli duaların ve uyku dualarının tüm kütüphanesini, tüm okuma planlarını ve günlük dışa aktarmayı Lumen Plus aboneliğiyle aç. Ücretsiz deneme mevcut. Her aboneliğin bir kısmı, Lumen'i karşılayamayan birine ücretsiz ulaştırmaya yardım eder.
+Rehberli duaların ve uyku dualarının tüm kütüphanesini ve tüm okuma planlarını Lumen Plus ile aç. Mağaza hesabın bir tanışma teklifine uygunsa kesin süre ve fiyat satın almadan önce gösterilir.
 
 Abonelikler, dönem bitiminden en az 24 saat önce iptal edilmezse otomatik yenilenir. Hesap ayarlarından istediğin zaman yönet veya iptal et.
 
-Kutsal metin World English Bible'dandır (kamu malı).
+Türkçe Kutsal Kitap metni Yorumsuz Türkçe Çeviri’dir (YTC, CC BY-ND 4.0). Kaynak ve lisans bilgisi Lumen içinde gösterilir.
 
 ---
 
@@ -99,9 +100,9 @@ Crea una racha. Lee la Biblia sin conexión, resalta versículos y sigue planes 
 Lumen es sereno por diseño — sin anuncios, sin ruido.
 
 LUMEN PLUS
-Desbloquea toda la biblioteca de oraciones guiadas y para dormir, todos los planes de lectura y la exportación del diario con Lumen Plus. Prueba gratuita disponible. Parte de cada suscripción ayuda a regalar Lumen a alguien que no puede pagarlo.
+Desbloquea toda la biblioteca de oraciones guiadas y para dormir y todos los planes de lectura con Lumen Plus. Si tu cuenta puede acceder a una oferta introductoria, verás su duración y precio exactos antes de comprar.
 
-Las suscripciones se renuevan automáticamente salvo cancelación 24 horas antes del fin del período. Escritura de la World English Bible (dominio público).
+Las suscripciones se renuevan automáticamente salvo cancelación 24 horas antes del fin del período. El texto bíblico en español es Reina-Valera 1909 (dominio público).
 
 ---
 
@@ -128,9 +129,9 @@ Crie uma sequência. Leia a Bíblia offline, destaque versículos e siga planos 
 Lumen é sereno por design — sem anúncios, sem ruído.
 
 LUMEN PLUS
-Desbloqueie toda a biblioteca de orações guiadas e para dormir, todos os planos de leitura e a exportação do diário com o Lumen Plus. Teste grátis disponível. Parte de cada assinatura ajuda a presentear o Lumen a quem não pode pagar.
+Desbloqueie toda a biblioteca de orações guiadas e para dormir e todos os planos de leitura com o Lumen Plus. Se sua conta for elegível para uma oferta introdutória, a duração e o preço exatos aparecem antes da compra.
 
-As assinaturas renovam automaticamente salvo cancelamento 24 horas antes do fim do período. Escritura da World English Bible (domínio público).
+As assinaturas renovam automaticamente salvo cancelamento 24 horas antes do fim do período. O texto bíblico em português é a Bíblia Livre (CC BY 4.0).
 
 ---
 
@@ -157,9 +158,9 @@ Créez une série. Lisez la Bible hors ligne, surlignez des versets et suivez de
 Lumen est apaisant par nature — sans publicité, sans bruit.
 
 LUMEN PLUS
-Débloquez toute la bibliothèque de prières guidées et du soir, tous les plans de lecture et l'export du journal avec Lumen Plus. Essai gratuit disponible. Une partie de chaque abonnement aide à offrir Lumen à quelqu'un qui ne peut pas se le permettre.
+Débloquez toute la bibliothèque de prières guidées et du soir et tous les programmes de lecture avec Lumen Plus. Si votre compte est éligible à une offre de lancement, sa durée et son prix exacts sont affichés avant l’achat.
 
-Les abonnements se renouvellent automatiquement sauf annulation 24 heures avant la fin de la période. Écriture de la World English Bible (domaine public).
+Les abonnements se renouvellent automatiquement sauf annulation 24 heures avant la fin de la période. Le texte biblique français est la Bible Ostervald (domaine public).
 
 ---
 
@@ -186,6 +187,6 @@ Baue eine Serie auf. Lies die Bibel offline, markiere Verse und folge Lesepläne
 Lumen ist von Grund auf ruhig — keine Werbung, kein Lärm.
 
 LUMEN PLUS
-Schalte die vollständige Bibliothek geführter Gebete und Schlafgebete, alle Lesepläne und den Tagebuch-Export mit Lumen Plus frei. Kostenlose Testphase verfügbar. Ein Teil jedes Abos hilft, Lumen jemandem zu schenken, der es sich nicht leisten kann.
+Schalte die vollständige Bibliothek geführter Gebete und Schlafgebete sowie alle Lesepläne mit Lumen Plus frei. Wenn dein Store-Konto für ein Einführungsangebot berechtigt ist, werden Dauer und Preis vor dem Kauf angezeigt.
 
-Abos verlängern sich automatisch, sofern nicht 24 Stunden vor Periodenende gekündigt. Schrift aus der World English Bible (gemeinfrei).
+Abos verlängern sich automatisch, sofern nicht 24 Stunden vor Periodenende gekündigt. Der deutsche Bibeltext ist die Lutherbibel 1912 (gemeinfrei).
