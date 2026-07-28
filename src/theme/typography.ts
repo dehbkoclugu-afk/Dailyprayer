@@ -74,15 +74,31 @@ export const type = {
   labelBold: { fontFamily: fonts.sansBold, fontSize: 13, lineHeight: 18 },
 
   /**
-   * The smallest step: eyebrows, badges, art credits.
+   * The smallest step: eyebrows, badges, tab labels (roadmap item 32).
    *
-   * This is the floor, and it is a low one — roadmap item 32 raises it. It exists
-   * as one step so that raise is one edit rather than twelve.
+   * 12, not the 10 and 11 this replaced. Material's smallest label is 11sp at
+   * medium weight, and 11 was the *ceiling* here — PLUS badges and art credits
+   * sat at 10, below anything Material defines. 12 at semibold clears label-small
+   * on both axes, and the weights below never go under medium: this step is only
+   * ever used for short strings, where weight buys legibility that size alone
+   * would have to pay more for.
+   *
+   * Nothing in the app may be smaller than this. `MIN_TEXT_SIZE` is the rule and
+   * the guard checks the scale against it.
    */
-  overline: { fontFamily: fonts.sansSemiBold, fontSize: 11, lineHeight: 16 },
-  overlineMedium: { fontFamily: fonts.sansMedium, fontSize: 11, lineHeight: 16 },
-  overlineBold: { fontFamily: fonts.sansBold, fontSize: 11, lineHeight: 16 },
+  overline: { fontFamily: fonts.sansSemiBold, fontSize: 12, lineHeight: 17 },
+  overlineMedium: { fontFamily: fonts.sansMedium, fontSize: 12, lineHeight: 17 },
+  overlineBold: { fontFamily: fonts.sansBold, fontSize: 12, lineHeight: 17 },
 } as const;
+
+/**
+ * The smallest text the app is allowed to render (roadmap item 32).
+ *
+ * Material's label-small is 11sp; this sits a step above it because the strings
+ * at this size are also the ones set in gold on artwork, uppercase, and tracked
+ * wide — every one of which costs legibility that the size has to pay back.
+ */
+export const MIN_TEXT_SIZE = 12;
 
 export type TypeRole = keyof typeof type;
 

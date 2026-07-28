@@ -95,7 +95,7 @@ export default function Today() {
           <Text
             style={{ ...type.overline, letterSpacing: 2.5,
               textTransform: 'uppercase',
-              color: t.gold,
+              color: t.goldText,
               opacity: 0.85 }}
           >
             {dateLine}

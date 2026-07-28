@@ -70,7 +70,7 @@ export default function Journal() {
           <Text
             style={{ ...type.overline, letterSpacing: 2,
               textTransform: 'uppercase',
-              color: t.gold }}
+              color: t.goldText }}
           >
             {tr('journal.gratitude')}
           </Text>
@@ -142,7 +142,7 @@ export default function Journal() {
                 <Text
                   style={{ ...type.labelSemi, letterSpacing: 1.5,
                     textTransform: 'uppercase',
-                    color: t.gold,
+                    color: t.goldText,
                     marginBottom: spacing.sm }}
                 >
                   {e.ref}

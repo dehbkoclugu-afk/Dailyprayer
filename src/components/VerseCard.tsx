@@ -146,8 +146,12 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               <Text style={{ ...type.calloutMedium, color: '#D9A441' }}>
                 {verse.reference}
               </Text>
-              {/* required attribution — see scriptureRights.ts */}
-              <Text style={{ ...type.overline, lineHeight: 15, color: 'rgba(242,238,230,0.65)', marginTop: 2 }}>
+              {/* Required attribution — see scriptureRights.ts. A licence term is
+                  not fine print we get to set in the smallest type available: it
+                  sat at the old 11dp floor behind a 0.65 veil, which is the least
+                  legible string on the screen carrying the strongest obligation.
+                  Label step, and opaque enough to read against the art beneath. */}
+              <Text style={{ ...type.label, color: 'rgba(242,238,230,0.88)', marginTop: 2 }}>
                 {credit}
               </Text>
             </View>

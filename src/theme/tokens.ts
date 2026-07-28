@@ -10,6 +10,16 @@ export interface ThemeColors {
   inkSoft: string;
   inkFaint: string;
   gold: string;
+  /**
+   * Gold that passes 4.5:1 as text (roadmap item 32).
+   *
+   * The brand gold is a decorative colour and reads as one: at #B8860B on the
+   * light theme's surfaces it measures 2.79:1, so every gold eyebrow, PLUS badge
+   * and metadata line on Dawn was below the threshold for body text — and those
+   * are the smallest strings in the app. Borders, icons, fills and large display
+   * type keep `gold`; anything that has to be *read* uses this.
+   */
+  goldText: string;
   goldSoft: string;
   onGold: string;
   blue: string;
@@ -29,8 +39,10 @@ export const themes: Record<ThemeName, ThemeColors> = {
     chrome: '#12172A',
     ink: '#F2EEE6',
     inkSoft: '#A9A698',
-    inkFaint: '#8F8D84',
+    inkFaint: '#9A9890',
     gold: '#D9A441',
+    // Already 6.56:1 at worst on the dark surfaces, so text and decoration agree.
+    goldText: '#D9A441',
     goldSoft: '#2E2718',
     onGold: '#1A1206',
     blue: '#7C9CD9',
@@ -47,8 +59,13 @@ export const themes: Record<ThemeName, ThemeColors> = {
     chrome: '#F6F1E7',
     ink: '#221E19',
     inkSoft: '#6E675C',
-    inkFaint: '#756E64',
-    gold: '#B8860B',
+    inkFaint: '#6B6459',
+    // Darkened from #B8860B, which measured 2.79:1 on surfaceAlt — below even the
+    // 3:1 large-text threshold this colour is kept for, so the drop cap and the
+    // gold icons were failing too, not just the copy. 3.45:1 at worst now.
+    gold: '#A67609',
+    // 4.71:1 at worst against surfaceAlt, the darkest of the light surfaces.
+    goldText: '#8A6206',
     goldSoft: '#F5E7C8',
     onGold: '#FFFFFF',
     blue: '#4A6BAA',

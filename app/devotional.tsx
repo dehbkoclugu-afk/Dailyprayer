@@ -54,7 +54,7 @@ export default function DevotionalScreen() {
         <Ionicons name="chevron-back" size={24} color={t.inkSoft} />
       </Pressable>
 
-      <Text style={{ ...type.labelSemi, letterSpacing: 2, textTransform: 'uppercase', color: t.gold, marginTop: spacing.lg }}>
+      <Text style={{ ...type.labelSemi, letterSpacing: 2, textTransform: 'uppercase', color: t.goldText, marginTop: spacing.lg }}>
 {tr('devotional.label')}
       </Text>
       <Text style={[ty.display, { color: t.ink, marginTop: spacing.sm }]}>{devotional.title}</Text>
@@ -70,7 +70,7 @@ export default function DevotionalScreen() {
         <Text style={{ ...type.quoteSmall, lineHeight: 28, color: t.ink }}>
           “{verse.text}”
         </Text>
-        <Text style={{ ...type.calloutMedium, color: t.gold, marginTop: spacing.sm }}>
+        <Text style={{ ...type.calloutMedium, color: t.goldText, marginTop: spacing.sm }}>
           {verse.reference}
         </Text>
       </View>
@@ -79,6 +79,8 @@ export default function DevotionalScreen() {
       <View style={{ flexDirection: 'row', marginTop: spacing.xl }}>
         <Text
           style={{ ...type.dropCap, lineHeight: 64,
+                        // Ornament, not copy: at this size WCAG's 3:1 large-text
+            // threshold applies and the luminous brand gold clears it.
             color: t.gold,
             marginRight: spacing.sm,
             marginTop: 2 }}

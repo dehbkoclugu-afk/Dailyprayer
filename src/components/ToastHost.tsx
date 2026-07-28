@@ -90,7 +90,7 @@ export function ToastHost() {
               opacity: pressed ? 0.6 : 1,
             })}
           >
-            <Text style={{ ...type.calloutSemi, color: t.gold }}>
+            <Text style={{ ...type.calloutSemi, color: t.goldText }}>
               {actionLabel}
             </Text>
           </Pressable>

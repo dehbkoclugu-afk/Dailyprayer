@@ -469,7 +469,7 @@ function ValueRow({
       >
         <Ionicons name={icon as never} size={20} color={t.inkSoft} />
         <Text style={{ ...type.callout, color: t.ink, flex: 1 }}>{label}</Text>
-        <Text style={{ ...type.calloutMedium, color: t.gold }}>{value}</Text>
+        <Text style={{ ...type.calloutMedium, color: t.goldText }}>{value}</Text>
         <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
       </View>
     </Pressable>

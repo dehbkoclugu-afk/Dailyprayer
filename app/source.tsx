@@ -69,7 +69,7 @@ export default function SourceScreen() {
       })}
     >
       <Ionicons name="open-outline" size={18} color={t.gold} />
-      <Text style={{ ...type.calloutMedium, color: t.gold, flex: 1 }}>
+      <Text style={{ ...type.calloutMedium, color: t.goldText, flex: 1 }}>
         {label}
       </Text>
     </Pressable>

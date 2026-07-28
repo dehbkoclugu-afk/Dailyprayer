@@ -171,7 +171,7 @@ export function VerseActionSheet({
           <Text
             ref={titleRef}
             accessibilityRole="header"
-            style={{ ...type.labelSemi, letterSpacing: 1.5, textTransform: 'uppercase', color: t.gold }}
+            style={{ ...type.labelSemi, letterSpacing: 1.5, textTransform: 'uppercase', color: t.goldText }}
           >
             {verse.ref}
           </Text>

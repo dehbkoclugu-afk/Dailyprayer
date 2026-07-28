@@ -221,7 +221,7 @@ export default function Library() {
               <Ionicons name="bookmark" size={18} color={t.gold} />
             )}
             <View style={{ flex: 1 }}>
-              <Text style={{ ...type.calloutSemi, color: t.gold }}>{item.ref}</Text>
+              <Text style={{ ...type.calloutSemi, color: t.goldText }}>{item.ref}</Text>
               <Text
                 style={{ ...type.quoteSmall, lineHeight: 21, color: t.inkSoft, marginTop: 2 }}
                 numberOfLines={2}

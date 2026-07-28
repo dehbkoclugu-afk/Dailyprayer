@@ -62,7 +62,7 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, children
         >
           <Ionicons name="image-outline" size={22} color={t.gold} />
           <Text
-            style={{ ...type.overline, color: t.gold,
+            style={{ ...type.overline, color: t.goldText,
               marginTop: 6,
               letterSpacing: 1 }}
           >

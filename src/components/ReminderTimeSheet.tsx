@@ -185,7 +185,7 @@ export function ReminderTimeSheet({
                   {tr('profile.reminderPick')}
                 </Text>
               </View>
-              <Text style={{ ...type.bodySemi, color: t.gold }}>
+              <Text style={{ ...type.bodySemi, color: t.goldText }}>
                 {formatTime(toStoredTime(draft))}
               </Text>
             </Pressable>

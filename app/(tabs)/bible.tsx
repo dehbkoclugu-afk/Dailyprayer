@@ -190,7 +190,7 @@ export default function Bible() {
           {getBibleCredit(locale)}
         </Text>
         <Text
-          style={{ ...type.labelMedium, color: t.gold,
+          style={{ ...type.labelMedium, color: t.goldText,
             textAlign: 'center',
             marginTop: 2 }}
         >

@@ -47,7 +47,7 @@ function Markdown({ source }: { source: string }) {
         if (line.startsWith('- ')) {
           return (
             <View key={key} style={{ flexDirection: 'row', gap: spacing.sm, marginBottom: 6 }}>
-              <Text style={{ ...type.callout, color: t.gold }}>•</Text>
+              <Text style={{ ...type.callout, color: t.goldText }}>•</Text>
               <Text style={{ ...type.callout, lineHeight: 23, color: t.ink, flex: 1 }}>
                 {renderInline(line.slice(2))}
               </Text>

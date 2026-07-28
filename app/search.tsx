@@ -187,12 +187,12 @@ export default function Search() {
                 opacity: pressed ? 0.85 : 1,
               })}
             >
-              <Text style={{ ...type.labelSemi, color: t.gold, marginBottom: spacing.xs }}>
+              <Text style={{ ...type.labelSemi, color: t.goldText, marginBottom: spacing.xs }}>
                 {item.ref}
               </Text>
               <Text style={{ ...type.quoteSmall, lineHeight: 23, color: t.ink }} numberOfLines={3}>
                 {s.pre}
-                <Text style={{ fontFamily: fonts.sansBold, color: t.gold }}>{s.match}</Text>
+                <Text style={{ fontFamily: fonts.sansBold, color: t.goldText }}>{s.match}</Text>
                 {s.post}
               </Text>
             </Pressable>

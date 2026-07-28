@@ -90,7 +90,7 @@ export default function PlanDay() {
         <Text
           style={{ ...type.labelSemi, letterSpacing: 2,
             textTransform: 'uppercase',
-            color: t.gold,
+            color: t.goldText,
             marginTop: spacing.xl }}
         >
           {plan.title} · {tr('plan.dayLabel')} {dayIdx + 1}
@@ -113,6 +113,8 @@ export default function PlanDay() {
           <View style={{ flexDirection: 'row', marginTop: spacing.xl }}>
             <Text
               style={{ ...type.pullQuote, lineHeight: 46,
+                                // Ornament, not copy: at this size WCAG's 3:1 large-text
+                // threshold applies and the luminous brand gold clears it.
                 color: t.gold,
                 marginRight: spacing.sm,
                 marginTop: 2 }}
@@ -144,7 +146,7 @@ export default function PlanDay() {
             }}
           >
             <Ionicons name="checkmark-circle" size={20} color={t.gold} />
-            <Text style={{ ...type.bodySemi, color: t.gold }}>
+            <Text style={{ ...type.bodySemi, color: t.goldText }}>
               {tr('plan.done')}
             </Text>
           </View>
