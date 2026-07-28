@@ -77,19 +77,37 @@ test('a title that takes focus is a heading', () => {
 });
 
 test('a sheet backdrop is not an accessibility element', () => {
-  // The dim area dismisses on tap but has nothing to announce; leaving it
-  // focusable puts an unnamed control between the reader and the sheet.
+  // Roadmap item 29. The dim area dismisses on tap but has nothing to announce;
+  // leaving it focusable puts an unnamed control between the reader and the sheet
+  // — the modal semantics already cover dismissal, so it should not also appear
+  // as a "Close" button nobody labelled.
   const offenders: string[] = [];
   for (const file of sheets()) {
     const source = readFileSync(file, 'utf8');
-    // A full-bleed Pressable whose only job is onClose.
-    for (const [block] of source.matchAll(/<Pressable\b[^>]*style=\{\{ flex: 1[^>]*?\/>/gs)) {
-      if (/onPress=\{onClose\}|onPress=\{\(\) => set\w+\(null\)\}/.test(block)) {
-        if (!/importantForAccessibility="no"/.test(block)) offenders.push(`${file}: ${block.slice(0, 60)}`);
+    // Every dismiss-on-tap surface, whether it wraps the sheet or sits beside it.
+    for (const [block] of source.matchAll(/<Pressable\b[\s\S]*?(?:\/>|>)/g)) {
+      const dismisses = /onPress=\{onClose\}|onPress=\{\(\) => set\w+\(null\)\}/.test(block);
+      const fullBleed = /flex: 1/.test(block);
+      if (!dismisses || !fullBleed) continue;
+      if (!/importantForAccessibility="no"/.test(block)) {
+        offenders.push(`${file}: ${block.replace(/\s+/g, ' ').slice(0, 70)}`);
       }
     }
   }
   assert.deepEqual(offenders, [], `focusable backdrops:\n${offenders.join('\n')}`);
+});
+
+test('nothing in a sheet exists only to swallow a tap', () => {
+  // A `<Pressable onPress={() => {}}>` wrapped around a sheet's content to stop
+  // taps reaching the backdrop is an unnamed control around everything — and it
+  // is only needed when the backdrop is the parent. With the backdrop as a
+  // sibling it disappears (roadmap item 29).
+  const offenders: string[] = [];
+  for (const file of sheets()) {
+    const source = readFileSync(file, 'utf8');
+    if (/onPress=\{\(\) => \{\}\}/.test(source)) offenders.push(file);
+  }
+  assert.deepEqual(offenders, [], `no-op Pressables wrapping sheet content:\n${offenders.join('\n')}`);
 });
 
 test('setting focus does not throw where there is no focus to set', () => {

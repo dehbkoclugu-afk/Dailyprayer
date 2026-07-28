@@ -43,14 +43,19 @@ export function OptionSheet<T extends string>({
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
       {/* iOS needs telling that the sheet is modal; on Android the Modal is a
           separate window and TalkBack cannot reach behind it anyway. */}
-      <Pressable
-        onPress={onClose}
-        accessibilityViewIsModal
-        style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)', justifyContent: 'flex-end' }}
-      >
-        {/* stop propagation so taps inside the sheet don't dismiss it */}
+      <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }} accessibilityViewIsModal>
+        {/* The dim area dismisses on tap and has nothing to announce. As a
+            sibling rather than a wrapper it can be hidden from accessibility
+            without hiding the sheet — and the sheet no longer needs a Pressable
+            of its own to stop taps propagating, which was a second unnamed
+            control around the whole content (roadmap item 29). */}
         <Pressable
-          onPress={() => {}}
+          style={{ flex: 1 }}
+          onPress={onClose}
+          importantForAccessibility="no"
+          accessibilityElementsHidden
+        />
+        <View
           style={{
             backgroundColor: t.surface,
             borderTopLeftRadius: radius.card,
@@ -131,8 +136,8 @@ export function OptionSheet<T extends string>({
               </Pressable>
             );
           })}
-        </Pressable>
-      </Pressable>
+        </View>
+      </View>
     </Modal>
   );
 }
