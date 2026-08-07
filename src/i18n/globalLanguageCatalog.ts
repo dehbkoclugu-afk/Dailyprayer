@@ -73,6 +73,51 @@ export const RTL_LOCALE_TAGS: GlobalLocaleTag[] = GLOBAL_LANGUAGE_CATALOG
   .filter((item) => item.direction === 'rtl')
   .map((item) => item.tag);
 
+
+/**
+ * Exact eBible translation IDs verified from each edition detail page.
+ * Russian is intentionally absent: the inventory link currently errors, so its
+ * source ID must be re-verified instead of guessed.
+ */
+export const EBIBLE_SOURCE_IDS: Partial<Record<GlobalLocaleTag, string>> = {
+  ar: 'arb-vd',
+  my: 'mya',
+  cek: 'cekak',
+  hlt: 'hltmcsb',
+  'zh-Hans': 'cmn-cu89s',
+  'zh-Hant': 'cmn-cu89t',
+  hr: 'hrv',
+  cs: 'ces1613',
+  nl: 'nld',
+  en: 'engwebp',
+  eo: 'epo',
+  fr: 'fraLSG',
+  de: 'deu1912',
+  ht: 'hat',
+  haw: 'haw1868',
+  it: 'ita1927',
+  ja: 'jpnm',
+  ko: 'kor',
+  kos: 'kos',
+  la: 'latVUC',
+  ulk: 'ulk1902',
+  fa: 'pesOPV',
+  pt: 'porbrbsl',
+  ro: 'ronbtf',
+  'sr-Latn': 'srp1865',
+  'sr-Cyrl': 'srp1868',
+  es: 'spaRV1909',
+  sw: 'swh1850',
+  to: 'ton',
+  uk: 'ukrfb',
+  vi: 'vie1934',
+};
+
+export function getEBibleUsfxUrl(tag: GlobalLocaleTag): string | null {
+  const sourceId = EBIBLE_SOURCE_IDS[tag];
+  return sourceId ? `https://ebible.org/Scriptures/${sourceId}_usfx.zip` : null;
+}
+
 export const RIGHTS_VERIFIED_LOCALE_TAGS: GlobalLocaleTag[] = GLOBAL_LANGUAGE_CATALOG
   .filter((item) => item.rights === 'verified-us-public-domain')
   .map((item) => item.tag);
