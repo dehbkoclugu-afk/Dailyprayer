@@ -3,15 +3,15 @@ import { EBIBLE_PACK_SOURCES } from './ebible-pack-sources.mjs';
 import {
   EBIBLE_SOURCE_IDS,
   GLOBAL_LANGUAGE_CATALOG,
-  RIGHTS_VERIFIED_LOCALE_TAGS,
+  FULL_BIBLE_RIGHTS_VERIFIED_LOCALE_TAGS,
 } from '../src/i18n/globalLanguageCatalog.ts';
 
 const errors = [];
 const buildTags = Object.keys(EBIBLE_PACK_SOURCES).sort();
 const runtimeTags = Object.keys(EBIBLE_SOURCE_IDS).sort();
 
-if (buildTags.length !== 31) errors.push(`expected 31 buildable eBible pins, found ${buildTags.length}`);
-if (runtimeTags.length !== 31) errors.push(`expected 31 runtime eBible pins, found ${runtimeTags.length}`);
+if (buildTags.length !== 29) errors.push(`expected 29 buildable eBible pins, found ${buildTags.length}`);
+if (runtimeTags.length !== 29) errors.push(`expected 29 runtime eBible pins, found ${runtimeTags.length}`);
 
 for (const tag of buildTags) {
   if (EBIBLE_SOURCE_IDS[tag] !== EBIBLE_PACK_SOURCES[tag].id) {
@@ -23,7 +23,7 @@ for (const tag of buildTags) {
   }
 }
 
-const verifiedWithoutSource = RIGHTS_VERIFIED_LOCALE_TAGS.filter((tag) => !EBIBLE_SOURCE_IDS[tag]);
+const verifiedWithoutSource = FULL_BIBLE_RIGHTS_VERIFIED_LOCALE_TAGS.filter((tag) => !EBIBLE_SOURCE_IDS[tag]);
 if (verifiedWithoutSource.join(',') !== 'ru') {
   errors.push(`expected only Russian to lack a verified source ID; got: ${verifiedWithoutSource.join(',') || '(none)'}`);
 }
@@ -33,4 +33,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log('eBible source pins agree: 31 buildable, Russian intentionally blocked pending source-ID verification');
+console.log('eBible source pins agree: 29 buildable full-Bible pins; Russian intentionally blocked pending source-ID verification');
