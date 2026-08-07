@@ -29,6 +29,7 @@ jobs:
       - name: Build and structurally validate public-domain fallbacks
         env:
           BIBLE_PACK_TMPDIR: ${{ runner.temp }}
+          CROSSWIRE_DEBUG: '1'
           LOCALE: ${{ github.event.inputs.locale || 'all' }}
         run: node scripts/build-crosswire-pack.mjs "$LOCALE"
       - name: Show pack checksums
