@@ -180,5 +180,22 @@ if (!requested) {
   process.exit(2);
 }
 
-const locales = requested === 'all' ? Object.keys(EBIBLE_PACK_SOURCES) : [requested];
-for (const locale of locales) await build(locale);
+if (requested !== 'all') {
+  await build(requested);
+} else {
+  const failures = [];
+  for (const locale of Object.keys(EBIBLE_PACK_SOURCES)) {
+    try {
+      await build(locale);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      failures.push({ locale, message });
+      console.error(`[${locale}] BLOCKED: ${message}`);
+    }
+  }
+  if (failures.length) {
+    console.error('\nBible pack build blockers:');
+    for (const failure of failures) console.error(`- ${failure.locale}: ${failure.message}`);
+    process.exitCode = 1;
+  }
+}
