@@ -2,9 +2,7 @@ name: Android Play release
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - agent/lumen-art-apk-preview
+  pull_request:
 
 permissions:
   contents: read
