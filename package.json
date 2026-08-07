@@ -8,7 +8,7 @@
     "ios": "expo start --ios",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --test src/lib/dates.test.ts src/data/verses.test.ts src/data/legal.test.ts src/services/purchases.test.ts src/services/paywallContext.test.ts",
+    "test": "node --experimental-strip-types --test src/lib/dates.test.ts src/data/verses.test.ts src/data/legal.test.ts src/data/biblePack.test.ts src/services/purchases.test.ts src/services/paywallContext.test.ts",
     "bible:pack": "node scripts/build-ebible-pack.mjs",
     "bible:pack:verify": "node --experimental-strip-types scripts/validate-ebible-source-pins.mjs"
   },
