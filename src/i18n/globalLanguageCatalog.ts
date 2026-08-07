@@ -55,7 +55,7 @@ export const GLOBAL_LANGUAGE_CATALOG = [
   { tag: 'fi', language: 'Finnish', nativeName: 'Suomi', direction: 'ltr', edition: 'Finnish Biblia (1776)', source: 'crosswire', rights: 'verified-upstream-public-domain' },
   { tag: 'hu', language: 'Hungarian', nativeName: 'Magyar', direction: 'ltr', edition: 'Revised Károli Bible (1908)', source: 'crosswire', rights: 'verified-upstream-public-domain' },
   { tag: 'lv', language: 'Latvian', nativeName: 'Latviešu', direction: 'ltr', edition: 'Latvian Glück 8th edition', source: 'crosswire', rights: 'verified-upstream-public-domain' },
-  { tag: 'mi', language: 'Māori', nativeName: 'Te reo Māori', direction: 'ltr', edition: 'Māori Bible', source: 'open-bibles', rights: 'candidate-needs-review' },
+  { tag: 'mi', language: 'Māori', nativeName: 'Te reo Māori', direction: 'ltr', edition: 'Māori Bible', source: 'open-bibles+biblegateway', rights: 'verified-upstream-public-domain' },
   { tag: 'no', language: 'Norwegian', nativeName: 'Norsk', direction: 'ltr', edition: 'Bibelen på Norsk (1930)', source: 'crosswire', rights: 'verified-upstream-public-domain' },
   { tag: 'pl', language: 'Polish', nativeName: 'Polski', direction: 'ltr', edition: 'Biblia Gdańska (1881)', source: 'crosswire', rights: 'verified-upstream-public-domain' },
   { tag: 'sv', language: 'Swedish', nativeName: 'Svenska', direction: 'ltr', edition: 'Swedish Bible (1917)', source: 'crosswire', rights: 'verified-upstream-public-domain' },
