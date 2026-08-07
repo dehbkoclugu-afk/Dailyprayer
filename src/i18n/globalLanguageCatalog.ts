@@ -15,7 +15,7 @@
  */
 export const GLOBAL_LANGUAGE_CATALOG = [
   { tag: 'ar', language: 'Arabic', nativeName: 'العربية', direction: 'rtl', edition: 'Arabic Van Dyck Bible', source: 'ebible', rights: 'verified-us-public-domain' },
-  { tag: 'my', language: 'Burmese', nativeName: 'မြန်မာ', direction: 'ltr', edition: 'Burmese Common Language Bible', source: 'ebible', rights: 'verified-us-public-domain' },
+  { tag: 'my', language: 'Burmese', nativeName: 'မြန်မာ', direction: 'ltr', edition: 'Judson Burmese Bible 1840', source: 'ebible', rights: 'verified-us-public-domain' },
   { tag: 'cek', language: 'Chin, Eastern Khumi', nativeName: 'Eastern Khumi Chin', direction: 'ltr', edition: 'Asang Khongca Bible', source: 'ebible', rights: 'verified-us-public-domain' },
   { tag: 'hlt', language: 'Chin, Matu', nativeName: 'Matu Chin', direction: 'ltr', edition: 'Matupi Chin Standard Bible', source: 'ebible', rights: 'verified-us-public-domain' },
   { tag: 'zh-Hans', language: 'Chinese', nativeName: '简体中文', direction: 'ltr', edition: 'Chinese Union Version · Simplified', source: 'ebible', rights: 'verified-us-public-domain' },
@@ -81,7 +81,7 @@ export const RTL_LOCALE_TAGS: GlobalLocaleTag[] = GLOBAL_LANGUAGE_CATALOG
  */
 export const EBIBLE_SOURCE_IDS: Partial<Record<GlobalLocaleTag, string>> = {
   ar: 'arb-vd',
-  my: 'mya',
+  my: 'myajvb',
   cek: 'cekak',
   hlt: 'hltmcsb',
   'zh-Hans': 'cmn-cu89s',
