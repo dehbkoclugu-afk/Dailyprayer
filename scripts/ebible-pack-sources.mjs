@@ -6,7 +6,7 @@
  */
 export const EBIBLE_PACK_SOURCES = {
   ar: { id: 'arb-vd', edition: 'Arabic Van Dyck Bible' },
-  my: { id: 'mya', edition: 'Burmese Common Language Bible' },
+  my: { id: 'myajvb', edition: 'Judson Burmese Bible 1840' },
   cek: { id: 'cekak', edition: 'Asang Khongca Bible' },
   hlt: { id: 'hltmcsb', edition: 'Matupi Chin Standard Bible 2019' },
   'zh-Hans': { id: 'cmn-cu89s', edition: 'Chinese Union Version (simplified)' },
