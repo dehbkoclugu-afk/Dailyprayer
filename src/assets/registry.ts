@@ -82,6 +82,24 @@ export const artRegistry: Record<AssetId, ImageSourcePropType | null> = {
   'A20-ritual-gratitude': require('./art/A20-ritual-gratitude.webp'),
 };
 
+/**
+ * Theme-aware artwork registry, mirroring Neurosound's dark/light art-pair
+ * contract. Lumen intentionally keeps the same painterly source in Vigil and
+ * Dawn; ArtSlot changes the scrim and foreground treatment instead. Individual
+ * Dawn/Vigil files can be swapped in here later without touching consumers.
+ */
+export type ArtworkPair = {
+  vigil: ImageSourcePropType;
+  dawn: ImageSourcePropType;
+};
+
+export const themedArtRegistry = Object.fromEntries(
+  (Object.entries(artRegistry) as [AssetId, ImageSourcePropType | null][]).map(([id, source]) => [
+    id,
+    source ? { vigil: source, dawn: source } : null,
+  ]),
+) as Record<AssetId, ArtworkPair | null>;
+
 /** Placeholder metadata shown inside unfilled slots. */
 export const artSpecs: Record<AssetId, { label: string; size: string }> = {
   'A1-logomark': { label: 'Logomark', size: '512²' },
