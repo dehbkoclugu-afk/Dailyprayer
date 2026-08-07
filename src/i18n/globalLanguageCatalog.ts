@@ -129,13 +129,21 @@ export const RIGHTS_VERIFIED_LOCALE_TAGS: GlobalLocaleTag[] = GLOBAL_LANGUAGE_CA
 export const FULL_BIBLE_RIGHTS_VERIFIED_LOCALE_TAGS: GlobalLocaleTag[] = RIGHTS_VERIFIED_LOCALE_TAGS
   .filter((tag) => !(PARTIAL_SCRIPTURE_LOCALE_TAGS as readonly string[]).includes(tag));
 
+/** Full-Bible locales whose exact chosen source has accepted public-domain evidence. */
+export const RELEASE_CANDIDATE_SCRIPTURE_LOCALE_TAGS: GlobalLocaleTag[] = GLOBAL_LANGUAGE_CATALOG
+  .filter((item) =>
+    item.rights !== 'rejected-source-mismatch' &&
+    !(PARTIAL_SCRIPTURE_LOCALE_TAGS as readonly string[]).includes(item.tag),
+  )
+  .map((item) => item.tag);
+
 /** Existing in-app UI translations. Other catalog entries must fall back to English until reviewed. */
 export const CURRENT_UI_LOCALE_TAGS = ['en', 'tr', 'es', 'pt', 'fr', 'de'] as const;
 
 /**
- * Current Turkish builds still ship YTC (CC BY-ND 4.0). The catalog's Turkish
- * public-domain candidate is a future replacement/additional pack and MUST NOT
- * be confused with the bundled YTC edition.
+ * Current Turkish builds still ship YTC (CC BY-ND 4.0). No public-domain full
+ * Turkish source has passed the rollout gate. This licensed bundled edition
+ * remains separate from the public-domain downloadable-pack catalog.
  */
 export const EXISTING_NON_PD_SCRIPTURE = {
   tag: 'tr',
