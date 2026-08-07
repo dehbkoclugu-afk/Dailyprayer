@@ -16,16 +16,18 @@ import { getBibleCredit } from '@/data/bibleFull';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useReaderStore } from '@/state/useReaderStore';
 import { useT } from '@/i18n';
+import { useScriptureLocale } from '@/i18n/scripture';
 
 export default function Bible() {
   const t = useTheme();
   const artwork = useArtwork();
-  const { t: tr, locale } = useT();
+  const { t: tr } = useT();
+  const scriptureLocale = useScriptureLocale();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const plans = usePlans();
   const { book, chapter } = useReaderStore();
   const readerBook = bookMeta[book] ?? bookMeta[0];
-  const readerBookName = bookName(locale, readerBook.code);
+  const readerBookName = bookName(scriptureLocale, readerBook.code);
   const readerChapter = chapter;
 
   return (
@@ -191,7 +193,7 @@ export default function Bible() {
           marginTop: spacing.xl,
         }}
       >
-        {getBibleCredit(locale)}
+        {getBibleCredit(scriptureLocale)}
       </Text>
     </Screen>
   );
