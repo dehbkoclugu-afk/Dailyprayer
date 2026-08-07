@@ -44,7 +44,7 @@ export default function Journal() {
       {/* Composer , one calm card with room to breathe: a serif prompt, a
           borderless field, and the save action, spaced generously. */}
       <ArtSlot
-        id="A20-ritual-gratitude"
+        id="A22-journal-compose"
         variant="card"
         radius={radius.card}
         style={{
@@ -138,7 +138,7 @@ export default function Journal() {
           {shown.map((e) => (
             <ArtSlot
               key={e.id}
-              id={e.kind === 'verse' ? 'A18-ritual-reading' : 'A20-ritual-gratitude'}
+              id={e.kind === 'verse' ? 'A22-journal-verse' : 'A22-journal-gratitude'}
               variant="card"
               radius={radius.card}
               style={{

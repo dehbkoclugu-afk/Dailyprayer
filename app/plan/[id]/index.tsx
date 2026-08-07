@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArtSlot } from '@/components/ArtSlot';
+import { planRowArt } from '@/assets/registry';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
 import { fonts } from '@/theme/typography';
@@ -125,7 +126,7 @@ export default function PlanScreen() {
                 opacity: pressed ? 0.9 : 1,
               })}
             >
-              <ArtSlot id={plan.art} variant="row" radius={radius.card} style={{ width: '100%' }}>
+              <ArtSlot id={planRowArt(plan.id, dayIdx)} variant="row" radius={radius.card} style={{ width: '100%' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, padding: spacing.lg, minHeight: 72 }}>
                   <View
                     style={{

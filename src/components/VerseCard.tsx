@@ -8,7 +8,6 @@ import { fonts } from '@/theme/typography';
 import { radius, shadow, spacing } from '@/theme/tokens';
 import { type AssetId } from '@/assets/registry';
 import { ArtSlot } from '@/components/ArtSlot';
-import { useArtwork } from '@/hooks/useArtwork';
 import type { DailyVerse } from '@/data/verses';
 import { useT } from '@/i18n';
 
@@ -41,7 +40,6 @@ interface Props {
 
 export function VerseCard({ verse, onRead, onShuffle }: Props) {
   const { t: tr } = useT();
-  const artwork = useArtwork();
   const cardRef = useRef<View>(null);
 
   /** Share the rendered card as an image (organic growth); text fallback on web/failure. */
@@ -100,7 +98,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
                   fontSize: 25,
                   lineHeight: 37,
                   letterSpacing: -0.3,
-                  color: artwork.foreground.primary,
+                  color: '#F2EEE6',
                   marginLeft: -2, // hanging opening quote
                 }}
               >
@@ -109,11 +107,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
             </ScrollView>
             <LinearGradient
               pointerEvents="none"
-              colors={
-                artwork.scheme === 'vigil'
-                  ? ['rgba(14,18,32,0)', 'rgba(14,18,32,0.92)']
-                  : ['rgba(251,247,240,0)', 'rgba(251,247,240,0.94)']
-              }
+              colors={['rgba(14,18,32,0)', 'rgba(14,18,32,0.92)']}
               style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 24 }}
             />
           </View>
@@ -144,7 +138,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
                     opacity: pressed ? 0.6 : 1,
                   })}
                 >
-                  <Ionicons name="shuffle" size={22} color={artwork.foreground.primary} />
+                  <Ionicons name="shuffle" size={22} color="#F2EEE6" />
                 </Pressable>
               ) : null}
               <Pressable
@@ -160,7 +154,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
                   opacity: pressed ? 0.6 : 1,
                 })}
               >
-                <Ionicons name="share-outline" size={22} color={artwork.foreground.primary} />
+                <Ionicons name="share-outline" size={22} color="#F2EEE6" />
               </Pressable>
             </View>
           </View>

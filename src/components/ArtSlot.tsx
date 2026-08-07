@@ -20,18 +20,18 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const SCRIMS = {
-  vigil: {
-    row: ['rgba(14,18,32,0.96)', 'rgba(14,18,32,0.80)', 'rgba(14,18,32,0.24)'],
-    card: ['rgba(14,18,32,0.93)', 'rgba(14,18,32,0.68)', 'rgba(14,18,32,0.18)'],
-    hero: ['rgba(14,18,32,0.14)', 'rgba(14,18,32,0.34)', 'rgba(14,18,32,0.94)'],
-  },
-  dawn: {
-    row: ['rgba(251,247,240,0.97)', 'rgba(251,247,240,0.84)', 'rgba(251,247,240,0.24)'],
-    card: ['rgba(251,247,240,0.94)', 'rgba(251,247,240,0.70)', 'rgba(251,247,240,0.18)'],
-    hero: ['rgba(251,247,240,0.12)', 'rgba(251,247,240,0.34)', 'rgba(251,247,240,0.96)'],
-  },
+const DARK_SCRIMS = {
+  row: ['rgba(14,18,32,0.96)', 'rgba(14,18,32,0.80)', 'rgba(14,18,32,0.24)'],
+  card: ['rgba(14,18,32,0.93)', 'rgba(14,18,32,0.68)', 'rgba(14,18,32,0.18)'],
+  hero: ['rgba(14,18,32,0.10)', 'rgba(14,18,32,0.38)', 'rgba(14,18,32,0.94)'],
 } as const;
+
+const DAWN_SURFACE_SCRIM = [
+  '#FFFFFF',
+  '#FFFFFF',
+  'rgba(255,255,255,0.84)',
+  'rgba(255,255,255,0.04)',
+] as const;
 
 /**
  * Art slot: renders finished artwork when registered in artRegistry, otherwise
@@ -42,15 +42,32 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
   const artwork = useArtwork();
   const source = artwork.source(id);
   const spec = artSpecs[id];
-  const scrim = variant === 'bare' ? null : SCRIMS[artwork.scheme][variant];
+  const dawnSurface = artwork.scheme === 'dawn' && (variant === 'row' || variant === 'card');
+  const scrim =
+    variant === 'bare'
+      ? null
+      : dawnSurface
+        ? DAWN_SURFACE_SCRIM
+        : DARK_SCRIMS[variant];
 
   return (
-    <View style={[{ height, borderRadius: radius, overflow: 'hidden' }, style]}>
+    <View
+      style={[
+        { height, borderRadius: radius, overflow: 'hidden' },
+        dawnSurface ? { backgroundColor: t.surface } : null,
+        style,
+      ]}
+    >
       {source ? (
         <Image
           source={source}
           resizeMode={fit}
-          style={{ position: 'absolute', width: '100%', height: '100%' }}
+          style={{
+            position: 'absolute',
+            right: 0,
+            width: dawnSurface ? '62%' : '100%',
+            height: '100%',
+          }}
           accessibilityIgnoresInvertColors
         />
       ) : (
@@ -89,7 +106,7 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
       {scrim ? (
         <LinearGradient
           colors={scrim}
-          locations={[0, 0.56, 1]}
+          locations={dawnSurface ? [0, 0.5, 0.72, 1] : [0, 0.56, 1]}
           start={variant === 'hero' ? { x: 0.5, y: 0 } : { x: 0, y: 0.5 }}
           end={variant === 'hero' ? { x: 0.5, y: 1 } : { x: 1, y: 0.5 }}
           pointerEvents="none"

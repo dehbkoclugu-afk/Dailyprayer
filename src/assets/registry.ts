@@ -41,7 +41,24 @@ export type AssetId =
   | 'A17-splash'
   | 'A18-ritual-reading'
   | 'A19-ritual-prayer'
-  | 'A20-ritual-gratitude';
+  | 'A20-ritual-gratitude'
+  | 'A21-prayer-morning'
+  | 'A21-prayer-anxiety'
+  | 'A21-prayer-gratitude'
+  | 'A21-prayer-sleep'
+  | 'A21-prayer-family'
+  | 'A21-prayer-strength'
+  | 'A22-journal-compose'
+  | 'A22-journal-gratitude'
+  | 'A22-journal-verse'
+  | 'A23-plan-row-01'
+  | 'A23-plan-row-02'
+  | 'A23-plan-row-03'
+  | 'A23-plan-row-04'
+  | 'A23-plan-row-05'
+  | 'A23-plan-row-06'
+  | 'A23-plan-row-07'
+  | 'A23-plan-row-08';
 
 export const artRegistry: Record<AssetId, ImageSourcePropType | null> = {
   'A1-logomark': require('./art/A1-logomark.webp'),
@@ -80,6 +97,23 @@ export const artRegistry: Record<AssetId, ImageSourcePropType | null> = {
   'A18-ritual-reading': require('./art/A18-ritual-reading.webp'),
   'A19-ritual-prayer': require('./art/A19-ritual-prayer.webp'),
   'A20-ritual-gratitude': require('./art/A20-ritual-gratitude.webp'),
+  'A21-prayer-morning': require('./art/A21-prayer-morning.webp'),
+  'A21-prayer-anxiety': require('./art/A21-prayer-anxiety.webp'),
+  'A21-prayer-gratitude': require('./art/A21-prayer-gratitude.webp'),
+  'A21-prayer-sleep': require('./art/A21-prayer-sleep.webp'),
+  'A21-prayer-family': require('./art/A21-prayer-family.webp'),
+  'A21-prayer-strength': require('./art/A21-prayer-strength.webp'),
+  'A22-journal-compose': require('./art/A22-journal-compose.webp'),
+  'A22-journal-gratitude': require('./art/A22-journal-gratitude.webp'),
+  'A22-journal-verse': require('./art/A22-journal-verse.webp'),
+  'A23-plan-row-01': require('./art/A23-plan-row-01.webp'),
+  'A23-plan-row-02': require('./art/A23-plan-row-02.webp'),
+  'A23-plan-row-03': require('./art/A23-plan-row-03.webp'),
+  'A23-plan-row-04': require('./art/A23-plan-row-04.webp'),
+  'A23-plan-row-05': require('./art/A23-plan-row-05.webp'),
+  'A23-plan-row-06': require('./art/A23-plan-row-06.webp'),
+  'A23-plan-row-07': require('./art/A23-plan-row-07.webp'),
+  'A23-plan-row-08': require('./art/A23-plan-row-08.webp'),
 };
 
 /**
@@ -138,6 +172,23 @@ export const artSpecs: Record<AssetId, { label: string; size: string }> = {
   'A18-ritual-reading': { label: 'Ritual: reading', size: '1980×800' },
   'A19-ritual-prayer': { label: 'Ritual: prayer', size: '1980×800' },
   'A20-ritual-gratitude': { label: 'Ritual: gratitude', size: '1980×800' },
+  'A21-prayer-morning': { label: 'Prayer: morning', size: '1440×810' },
+  'A21-prayer-anxiety': { label: 'Prayer: anxiety', size: '1440×810' },
+  'A21-prayer-gratitude': { label: 'Prayer: gratitude', size: '1440×810' },
+  'A21-prayer-sleep': { label: 'Prayer: sleep', size: '1440×810' },
+  'A21-prayer-family': { label: 'Prayer: family', size: '1440×810' },
+  'A21-prayer-strength': { label: 'Prayer: strength', size: '1440×810' },
+  'A22-journal-compose': { label: 'Journal: compose', size: '1440×810' },
+  'A22-journal-gratitude': { label: 'Journal: gratitude', size: '1440×810' },
+  'A22-journal-verse': { label: 'Journal: verse', size: '1440×810' },
+  'A23-plan-row-01': { label: 'Plan day: desert path', size: '1440×810' },
+  'A23-plan-row-02': { label: 'Plan day: stream', size: '1440×810' },
+  'A23-plan-row-03': { label: 'Plan day: stone steps', size: '1440×810' },
+  'A23-plan-row-04': { label: 'Plan day: starlight', size: '1440×810' },
+  'A23-plan-row-05': { label: 'Plan day: Galilee', size: '1440×810' },
+  'A23-plan-row-06': { label: 'Plan day: wheat path', size: '1440×810' },
+  'A23-plan-row-07': { label: 'Plan day: ravine', size: '1440×810' },
+  'A23-plan-row-08': { label: 'Plan day: study', size: '1440×810' },
 };
 
 /** Verse-card background art keyed by verse theme; falls back to peace. */
@@ -165,12 +216,12 @@ export function verseArt(theme: string): AssetId {
 /** Prayer-category tile art keyed by category. */
 export function categoryArt(cat: string): AssetId | null {
   const map: Record<string, AssetId> = {
-    morning: 'A11-morning',
-    anxiety: 'A11-anxiety',
-    gratitude: 'A11-gratitude',
-    sleep: 'A11-sleep',
-    family: 'A11-family',
-    strength: 'A11-strength',
+    morning: 'A21-prayer-morning',
+    anxiety: 'A21-prayer-anxiety',
+    gratitude: 'A21-prayer-gratitude',
+    sleep: 'A21-prayer-sleep',
+    family: 'A21-prayer-family',
+    strength: 'A21-prayer-strength',
   };
   return map[cat] ?? null;
 }
@@ -185,4 +236,29 @@ export function planArt(planId: string): AssetId {
     'bible-365': 'A13-bible365',
   };
   return map[planId] ?? 'A13-plan-cover';
+}
+
+/** Reading-plan day rows rotate through distinct scenes instead of repeating the cover. */
+const planRowArtIds: AssetId[] = [
+  'A23-plan-row-01',
+  'A23-plan-row-02',
+  'A23-plan-row-03',
+  'A23-plan-row-04',
+  'A23-plan-row-05',
+  'A23-plan-row-06',
+  'A23-plan-row-07',
+  'A23-plan-row-08',
+];
+
+const planRowOffsets: Record<string, number> = {
+  'peace-7': 0,
+  'gratitude-7': 2,
+  'psalms-30': 4,
+  'gospels-90': 6,
+  'bible-365': 1,
+};
+
+export function planRowArt(planId: string, dayIndex: number): AssetId {
+  const offset = planRowOffsets[planId] ?? 0;
+  return planRowArtIds[(dayIndex + offset) % planRowArtIds.length];
 }
