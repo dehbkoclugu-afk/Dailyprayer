@@ -62,6 +62,9 @@ function parseOsis(xml) {
       const milestone = /<verse\s+[^>]*(?:sID|osisID)=["']([^"']+)["'][^>]*\/?>([\s\S]*?)(?=<verse\s+[^>]*(?:eID|sID|osisID)=|<\/chapter>|<\/div>)/g;
       while ((verse = milestone.exec(book[2]))) add(verse[1], verse[2]);
     }
+    if (code === 'GEN' && !chapters[1]) {
+      console.error(`[diagnostic] GEN export sample: ${book[2].slice(0, 1800).replace(/\s+/g, ' ')}`);
+    }
     result[code] = { name: code, chapters };
   }
   return result;
