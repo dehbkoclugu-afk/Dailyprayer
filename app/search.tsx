@@ -4,6 +4,8 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
+import { useArtwork } from '@/hooks/useArtwork';
+import { ArtSlot } from '@/components/ArtSlot';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { getBible } from '@/data/bibleFull';
@@ -23,6 +25,7 @@ const MAX = 300;
 
 export default function Search() {
   const t = useTheme();
+  const artwork = useArtwork();
   const { t: tr, locale } = useT();
   const insets = useSafeAreaInsets();
   const [query, setQuery] = useState('');
@@ -179,19 +182,23 @@ export default function Search() {
                 borderRadius: radius.card,
                 borderWidth: 1,
                 borderColor: t.border,
-                padding: spacing.lg,
+                overflow: 'hidden',
                 marginBottom: spacing.md,
                 opacity: pressed ? 0.85 : 1,
               })}
             >
-              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 13, color: t.gold, marginBottom: spacing.xs }}>
-                {item.ref}
-              </Text>
-              <Text style={{ fontFamily: fonts.serifLight, fontSize: 15, lineHeight: 23, color: t.ink }} numberOfLines={3}>
-                {s.pre}
-                <Text style={{ fontFamily: fonts.sansBold, color: t.gold }}>{s.match}</Text>
-                {s.post}
-              </Text>
+              <ArtSlot id="A18-ritual-reading" variant="row" radius={radius.card} style={{ width: '100%' }}>
+                <View style={{ padding: spacing.lg, minHeight: 88 }}>
+                  <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 13, color: t.gold, marginBottom: spacing.xs }}>
+                    {item.ref}
+                  </Text>
+                  <Text style={{ fontFamily: fonts.serifLight, fontSize: 15, lineHeight: 23, color: artwork.foreground.primary }} numberOfLines={3}>
+                    {s.pre}
+                    <Text style={{ fontFamily: fonts.sansBold, color: t.gold }}>{s.match}</Text>
+                    {s.post}
+                  </Text>
+                </View>
+              </ArtSlot>
             </Pressable>
           );
         }}
