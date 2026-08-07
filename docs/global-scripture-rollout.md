@@ -107,11 +107,17 @@ as public domain just to increase language count.
 Production registry URLs require exact source identity, rights basis, source hash,
 structural validation, released-pack hash and jurisdiction review.
 
+## Runtime status
+
+- schema v2 validates both `protestant-66` and `catholic-73` profiles;
+- Croatian real-source CI passes at 73 books / 35,448 parsed verses;
+- the offline installer uses HTTPS, released SHA-256 verification, schema/locale/canon validation and atomic replacement;
+- `scriptureLocale` is persisted independently from the UI language;
+- the current six bundled Bible editions can already be switched independently in Profile, reader and search.
+
 ## Next implementation slice
 
-- publish a versioned production pack registry (release URL + released SHA-256);
+- publish a versioned production pack registry (release URL + released SHA-256) for the 40 validated locale variants;
+- connect the 34 additional downloadable locales to the Bible-language picker;
 - continue searching for defensible full public-domain Bulgarian, Thai and Turkish sources;
-- add downloaded-pack persistence + checksum verification;
-- decouple `scriptureLocale` from UI `locale`;
-- expose Bible-language management in Bible/Profile;
 - then localize UI, prayer and devotional content with visual QA.
