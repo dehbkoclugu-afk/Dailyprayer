@@ -21,6 +21,9 @@ import { useTheme } from '@/hooks/useTheme';
 import { useStreakStore } from '@/state/useStreakStore';
 import { useUserStore } from '@/state/useUserStore';
 import { initPurchases } from '@/services/purchases';
+import { loadInstalledBiblePack } from '@/services/biblePacks';
+import { registerDownloadedBiblePack } from '@/data/bibleFull';
+import { isBundledScriptureLocale } from '@/i18n/scripture';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -45,6 +48,7 @@ export default function RootLayout() {
   // build that stalls loading fonts would otherwise sit on the splash forever
   // (the emulator smoke test can't catch this , the process stays alive).
   const [ready, setReady] = useState(false);
+  const [scriptureReady, setScriptureReady] = useState(false);
   useEffect(() => {
     if (loaded || fontError) setReady(true);
   }, [loaded, fontError]);
@@ -54,6 +58,20 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
+    const user = useUserStore.getState();
+    const scripture = user.scriptureLocale;
+    if (scripture === 'system' || isBundledScriptureLocale(scripture)) {
+      setScriptureReady(true);
+    } else {
+      loadInstalledBiblePack(scripture)
+        .then((pack) => {
+          if (pack) registerDownloadedBiblePack(pack);
+          else user.setScriptureLocale('system');
+        })
+        .catch(() => user.setScriptureLocale('system'))
+        .finally(() => setScriptureReady(true));
+    }
+
     initPurchases();
     // App-open streak tick (YouVersion pattern): opening the app keeps the flame lit.
     const streak = useStreakStore.getState();
@@ -83,7 +101,7 @@ export default function RootLayout() {
     if (ready && mounted) console.log('LUMEN_UI_READY');
   }, [ready, mounted]);
 
-  if (!ready || !mounted) return null;
+  if (!ready || !mounted || !scriptureReady) return null;
 
   const dark = pref === 'system' ? scheme !== 'light' : pref === 'vigil';
 
@@ -100,7 +118,8 @@ export default function RootLayout() {
         <Stack.Screen name="player" options={{ presentation: 'modal' }} />
         <Stack.Screen name="devotional" options={{ presentation: 'card' }} />
         <Stack.Screen name="legal" options={{ presentation: 'card' }} />
-        <Stack.Screen name="plan" options={{ presentation: 'card' }} />
+<Stack.Screen name="plan" options={{ presentation: 'card' }} />
+        <Stack.Screen name="scripture-language" options={{ presentation: 'card' }} />
       </Stack>
       <ToastHost />
     </GestureHandlerRootView>
