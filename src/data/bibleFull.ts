@@ -1,4 +1,6 @@
 import type { Locale } from '@/i18n/translations';
+import type { GlobalLocaleTag } from '@/i18n/globalLanguageCatalog';
+import type { BiblePack } from '@/data/biblePack';
 
 /** A chapter is an ordered list of [verseLabel, text] pairs (labels keep ranges). */
 export type Chapter = [string, string][];
@@ -28,17 +30,32 @@ const LOADERS: Record<Locale, () => BibleData> = {
 };
 
 const cache: Partial<Record<Locale, BibleData>> = {};
+const downloaded: Partial<Record<GlobalLocaleTag, BibleData>> = {};
 
-function load(locale: Locale): BibleData {
-  return (cache[locale] ??= (LOADERS[locale] ?? LOADERS.en)());
+function isBundledLocale(locale: GlobalLocaleTag): locale is Locale {
+  return Object.prototype.hasOwnProperty.call(LOADERS, locale);
 }
 
-/** The whole Bible for a locale, in canonical order. Lazy + cached. */
-export function getBible(locale: Locale): FullBook[] {
+function load(locale: GlobalLocaleTag): BibleData {
+  const remote = downloaded[locale];
+  if (remote) return remote;
+  if (isBundledLocale(locale)) return (cache[locale] ??= LOADERS[locale]());
+  // Startup/picker guarantees remote preferences are registered before use.
+  // English is a defensive fallback for a deleted/corrupt pack.
+  return (cache.en ??= LOADERS.en());
+}
+
+/** Register a checksum + schema validated offline pack for synchronous reader use. */
+export function registerDownloadedBiblePack(pack: BiblePack): void {
+  downloaded[pack.locale] = { credit: pack.credit, books: pack.books };
+}
+
+/** The whole Bible for a locale, in source-defined canon/order. Lazy + cached. */
+export function getBible(locale: GlobalLocaleTag): FullBook[] {
   return load(locale).books;
 }
 
 /** Per-translation attribution line (required by each source's license). */
-export function getBibleCredit(locale: Locale): string {
+export function getBibleCredit(locale: GlobalLocaleTag): string {
   return load(locale).credit;
 }
