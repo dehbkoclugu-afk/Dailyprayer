@@ -1,5 +1,5 @@
 import * as Crypto from 'expo-crypto';
-import * as FileSystem from 'expo-file-system/legacy';
+import * as FileSystem from 'expo-file-system';
 import { GLOBAL_LOCALE_TAGS, type GlobalLocaleTag } from '@/i18n/globalLanguageCatalog';
 import { type BiblePack, type BiblePackRelease, validateBiblePack } from '@/data/biblePack';
 
