@@ -125,15 +125,27 @@ function generatedAt() {
   return epoch ? new Date(Number(epoch) * 1000).toISOString() : new Date().toISOString();
 }
 
+async function downloadSource(url, locale) {
+  let lastStatus = 0;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    const response = await fetch(url, { redirect: 'follow' });
+    lastStatus = response.status;
+    if (response.ok) return Buffer.from(await response.arrayBuffer());
+    const retryable = response.status === 429 || response.status >= 500;
+    if (!retryable || attempt === 3) break;
+    console.warn(`[${locale}] HTTP ${response.status}; retrying source download (${attempt}/3)`);
+    await new Promise((resolve) => setTimeout(resolve, attempt * 1000));
+  }
+  throw new Error(`[${locale}] source download failed after retries: HTTP ${lastStatus}`);
+}
+
 async function build(locale) {
   const source = EBIBLE_PACK_SOURCES[locale];
   if (!source) throw new Error(`No verified eBible source pin for locale: ${locale}`);
 
   const url = ebibleUsfxUrl(source.id);
   console.log(`[${locale}] downloading ${url}`);
-  const response = await fetch(url, { redirect: 'follow' });
-  if (!response.ok) throw new Error(`[${locale}] source download failed: HTTP ${response.status}`);
-  const zipBytes = Buffer.from(await response.arrayBuffer());
+  const zipBytes = await downloadSource(url, locale);
   const sourceSha256 = sha256(zipBytes);
 
   const tempRoot = process.env.BIBLE_PACK_TMPDIR ?? tmpdir();
