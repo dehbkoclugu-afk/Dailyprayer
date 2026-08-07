@@ -31,6 +31,9 @@ jobs:
         with:
           node-version: 22
 
+      - name: Verify source-pin catalog
+        run: node --experimental-strip-types scripts/validate-ebible-source-pins.mjs
+
       - name: Build source-pinned Bible pack
         run: node scripts/build-ebible-pack.mjs "$PACK_LOCALE"
 
