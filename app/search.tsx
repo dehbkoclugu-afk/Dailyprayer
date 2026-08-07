@@ -21,7 +21,7 @@ interface Hit {
   at: number; // match offset in text
 }
 
-const lower = (s: string) => s.toLocaleLowerCase('tr');
+const lower = (s: string, locale: string) => s.toLocaleLowerCase(locale);
 const MAX = 300;
 
 export default function Search() {
@@ -41,7 +41,7 @@ export default function Search() {
   const hits = useMemo<Hit[]>(() => {
     if (q.length < 2) return [];
     const bible = getBible(scriptureLocale);
-    const needle = lower(q);
+    const needle = lower(q, scriptureLocale);
     const out: Hit[] = [];
     for (let b = 0; b < bible.length; b++) {
       const bk = bible[b];
@@ -49,7 +49,7 @@ export default function Search() {
         const ch = bk.chapters[c];
         for (let v = 0; v < ch.length; v++) {
           const text = ch[v][1];
-          const at = lower(text).indexOf(needle);
+          const at = lower(text, scriptureLocale).indexOf(needle);
           if (at !== -1) {
             out.push({ book: b, chapter: c, verse: v, ref: `${bk.name} ${c + 1}:${ch[v][0]}`, text, at });
             if (out.length >= MAX) return out;
