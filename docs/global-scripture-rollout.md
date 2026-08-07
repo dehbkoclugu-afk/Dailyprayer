@@ -113,11 +113,11 @@ structural validation, released-pack hash and jurisdiction review.
 - Croatian real-source CI passes at 73 books / 35,448 parsed verses;
 - the offline installer uses HTTPS, released SHA-256 verification, schema/locale/canon validation and atomic replacement;
 - `scriptureLocale` is persisted independently from the UI language;
-- the current six bundled Bible editions can already be switched independently in Profile, reader and search.
+- Profile now opens a 41-edition Scripture manager: 40 accepted public-domain source locales plus the separately licensed bundled Turkish YTC; 35 non-bundled locales install on demand.
 
 ## Next implementation slice
 
 - publish a versioned production pack registry (release URL + released SHA-256) for the 40 validated locale variants;
-- connect the 34 additional downloadable locales to the Bible-language picker;
+- publish the validated `bible-packs-v1` GitHub Release so the 35 additional downloadable locales are live in the picker;
 - continue searching for defensible full public-domain Bulgarian, Thai and Turkish sources;
 - then localize UI, prayer and devotional content with visual QA.
