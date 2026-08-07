@@ -5,7 +5,7 @@ import {
 import type { BiblePackRelease } from '@/data/biblePack';
 
 export const LATEST_BIBLE_PACK_MANIFEST_URL =
-  'https://github.com/dehbkoclugu-afk/Dailyprayer/releases/latest/download/manifest.json';
+  'https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/bible-packs-v1/manifest.json';
 
 export interface BiblePackManifest {
   schemaVersion: 1;
