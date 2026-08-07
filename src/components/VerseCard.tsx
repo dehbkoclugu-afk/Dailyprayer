@@ -1,12 +1,14 @@
 import React, { useRef } from 'react';
-import { Image, Platform, Pressable, ScrollView, Share, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, Share, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { captureRef } from 'react-native-view-shot';
 import * as Sharing from 'expo-sharing';
 import { fonts } from '@/theme/typography';
 import { radius, shadow, spacing } from '@/theme/tokens';
-import { artRegistry, type AssetId } from '@/assets/registry';
+import { type AssetId } from '@/assets/registry';
+import { ArtSlot } from '@/components/ArtSlot';
+import { useArtwork } from '@/hooks/useArtwork';
 import type { DailyVerse } from '@/data/verses';
 import { useT } from '@/i18n';
 
@@ -39,6 +41,7 @@ interface Props {
 
 export function VerseCard({ verse, onRead, onShuffle }: Props) {
   const { t: tr } = useT();
+  const artwork = useArtwork();
   const cardRef = useRef<View>(null);
 
   /** Share the rendered card as an image (organic growth); text fallback on web/failure. */
@@ -56,8 +59,6 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
     Share.share({ message: text }).catch(() => {});
   };
 
-  const artSource = artRegistry[VERSE_ART[verse.theme]];
-
   return (
     <Pressable
       ref={cardRef}
@@ -71,21 +72,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
         shadow.card,
       ]}
     >
-      {/* Painterly art layer (A5 series, chosen by verse theme) fills the card */}
-      {artSource ? (
-        <Image
-          source={artSource}
-          resizeMode="cover"
-          style={{ position: 'absolute', width: '100%', height: '100%' }}
-          accessibilityIgnoresInvertColors
-        />
-      ) : null}
-      <LinearGradient
-        colors={['rgba(23,16,46,0.55)', 'rgba(14,18,32,0.92)']}
-        start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-        style={{ position: 'absolute', width: '100%', height: '100%' }}
-      />
+      <ArtSlot id={VERSE_ART[verse.theme]} height={320} radius={radius.hero} variant="hero">
       <View style={{ flex: 1, padding: spacing.xl, paddingTop: spacing.xxl }}>
           <Text
             style={{
@@ -113,7 +100,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
                   fontSize: 25,
                   lineHeight: 37,
                   letterSpacing: -0.3,
-                  color: '#F2EEE6',
+                  color: artwork.foreground.primary,
                   marginLeft: -2, // hanging opening quote
                 }}
               >
@@ -122,7 +109,11 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
             </ScrollView>
             <LinearGradient
               pointerEvents="none"
-              colors={['rgba(14,18,32,0)', 'rgba(14,18,32,0.92)']}
+              colors={
+                artwork.scheme === 'vigil'
+                  ? ['rgba(14,18,32,0)', 'rgba(14,18,32,0.92)']
+                  : ['rgba(251,247,240,0)', 'rgba(251,247,240,0.94)']
+              }
               style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 24 }}
             />
           </View>
@@ -153,7 +144,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
                     opacity: pressed ? 0.6 : 1,
                   })}
                 >
-                  <Ionicons name="shuffle" size={22} color="#F2EEE6" />
+                  <Ionicons name="shuffle" size={22} color={artwork.foreground.primary} />
                 </Pressable>
               ) : null}
               <Pressable
@@ -169,11 +160,12 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
                   opacity: pressed ? 0.6 : 1,
                 })}
               >
-                <Ionicons name="share-outline" size={22} color="#F2EEE6" />
+                <Ionicons name="share-outline" size={22} color={artwork.foreground.primary} />
               </Pressable>
             </View>
           </View>
         </View>
+      </ArtSlot>
     </Pressable>
   );
 }
