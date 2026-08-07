@@ -6,6 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
+import { useArtwork } from '@/hooks/useArtwork';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
@@ -15,6 +16,7 @@ import { useT } from '@/i18n';
 
 export default function PlanScreen() {
   const t = useTheme();
+  const artwork = useArtwork();
   const { t: tr, locale } = useT();
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -114,45 +116,46 @@ export default function PlanScreen() {
               onPress={() => router.push({ pathname: '/plan/[id]/[day]', params: { id: plan.id, day: dayIdx } })}
               accessibilityRole="button"
               style={({ pressed }) => ({
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: spacing.md,
                 backgroundColor: t.surface,
                 borderRadius: radius.card,
                 borderWidth: 1,
                 borderColor: isDone ? t.gold : t.border,
-                padding: spacing.lg,
+                overflow: 'hidden',
                 marginBottom: spacing.md,
                 opacity: pressed ? 0.9 : 1,
               })}
             >
-              <View
-                style={{
-                  width: 34,
-                  height: 34,
-                  borderRadius: 17,
-                  backgroundColor: isDone ? t.gold : t.surfaceAlt,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                {isDone ? (
-                  <Ionicons name="checkmark" size={18} color={t.onGold} />
-                ) : (
-                  <Text style={{ fontFamily: fonts.sansBold, fontSize: 13, color: t.inkSoft, fontVariant: ['tabular-nums'] }}>
-                    {dayIdx + 1}
-                  </Text>
-                )}
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: t.ink }}>
-                  {tr('plan.dayLabel')} {dayIdx + 1}
-                </Text>
-                <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: isDone ? t.gold : t.inkSoft, marginTop: 2 }}>
-                  {readingRef}
-                </Text>
-              </View>
-              <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
+              <ArtSlot id={plan.art} variant="row" radius={radius.card} style={{ width: '100%' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, padding: spacing.lg, minHeight: 72 }}>
+                  <View
+                    style={{
+                      width: 34,
+                      height: 34,
+                      borderRadius: 17,
+                      backgroundColor: isDone ? t.gold : artwork.foreground.badge,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {isDone ? (
+                      <Ionicons name="checkmark" size={18} color={t.onGold} />
+                    ) : (
+                      <Text style={{ fontFamily: fonts.sansBold, fontSize: 13, color: artwork.foreground.secondary, fontVariant: ['tabular-nums'] }}>
+                        {dayIdx + 1}
+                      </Text>
+                    )}
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: artwork.foreground.primary }}>
+                      {tr('plan.dayLabel')} {dayIdx + 1}
+                    </Text>
+                    <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: isDone ? t.gold : artwork.foreground.secondary, marginTop: 2 }}>
+                      {readingRef}
+                    </Text>
+                  </View>
+                  <Ionicons name="chevron-forward" size={18} color={artwork.foreground.tertiary} />
+                </View>
+              </ArtSlot>
             </Pressable>
           );
         }}
