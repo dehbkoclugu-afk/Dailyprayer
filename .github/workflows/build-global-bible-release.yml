@@ -7,13 +7,14 @@ on:
         description: 'Immutable Bible pack release tag/version'
         required: true
         default: 'bible-packs-v1'
-      base_url:
-        description: 'HTTPS base URL that will host manifest pack files'
+      publish:
+        description: 'Publish/update the GitHub Release after validation'
+        type: boolean
         required: true
-        default: 'https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/bible-packs-v1'
+        default: false
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -32,7 +33,7 @@ jobs:
         env:
           BIBLE_PACK_TMPDIR: ${{ runner.temp }}
           BIBLE_PACK_RELEASE_VERSION: ${{ inputs.version }}
-          BIBLE_PACK_BASE_URL: ${{ inputs.base_url }}
+          BIBLE_PACK_BASE_URL: ${{ github.server_url }}/${{ github.repository }}/releases/download/${{ inputs.version }}
         run: node scripts/build-global-bible-release.mjs
       - name: Verify bundle size and manifest
         run: |
@@ -44,3 +45,13 @@ jobs:
           path: dist/bible-packs/
           if-no-files-found: error
           retention-days: 14
+      - name: Publish immutable Bible pack release
+        if: inputs.publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          gh release view "$VERSION" >/dev/null 2>&1 || \
+            gh release create "$VERSION" --title "Lumen Bible packs $VERSION" \
+              --notes "Checksum-pinned Scripture language packs built from the validated source registry."
+          gh release upload "$VERSION" dist/bible-packs/*.json dist/bible-packs/*.sha256 --clobber
