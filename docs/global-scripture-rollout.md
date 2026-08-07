@@ -27,10 +27,10 @@ Primary references:
 We now have accepted public-domain evidence for **40 full-Bible locale variants /
 38 languages**.
 
-Of those, **39 locale variants / 37 languages** already fit and pass the current
-Protestant-66 pack gate. Croatian is the extra language: its Šarić Bible is explicitly
-Public Domain and complete, but uses a Catholic canon, so it needs canon-aware runtime
-support instead of a fake 66-book remap.
+All **40 locale variants / 38 languages** now have a structurally validated pack path.
+The Croatian Šarić Bible stays Catholic: Lumen schema v2 records a `catholic-73` canon
+instead of remapping it to Protestant 66. Its real eBible archive passes with 73 books
+and 35,448 parsed verses.
 
 The three target languages with no accepted full public-domain source are currently:
 
@@ -45,7 +45,7 @@ The three target languages with no accepted full public-domain source are curren
 - 27 direct archives pass the 66-book gate.
 - Korean's eBible/Open Bibles corpus is missing 1 Peter 5, but CrossWire `KorRV` passes.
 - Russian Synodal fallback passes: 66 books / 31,225 parsed verses.
-- Croatian Šarić is complete + Public Domain but requires canon-aware pack support.
+- Croatian Šarić is complete + Public Domain and now passes the `catholic-73` schema-v2 gate: 73 books / 35,448 parsed verses.
 - Meriam and historic Swahili are partial and are not counted as full-Bible targets.
 
 ## CrossWire public-domain sources — 10/10 validated
@@ -109,7 +109,7 @@ structural validation, released-pack hash and jurisdiction review.
 
 ## Next implementation slice
 
-- add canon-aware pack validation for Croatian;
+- publish a versioned production pack registry (release URL + released SHA-256);
 - continue searching for defensible full public-domain Bulgarian, Thai and Turkish sources;
 - add downloaded-pack persistence + checksum verification;
 - decouple `scriptureLocale` from UI `locale`;
