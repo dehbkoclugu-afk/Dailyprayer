@@ -15,7 +15,7 @@ import {
   openBiblesRawUrl,
 } from './openbibles-pack-sources.mjs';
 
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
 const CODES = [
   'GEN','EXO','LEV','NUM','DEU','JOS','JDG','RUT','1SA','2SA','1KI','2KI','1CH','2CH',
   'EZR','NEH','EST','JOB','PSA','PRO','ECC','SNG','ISA','JER','LAM','EZK','DAN','HOS',
@@ -152,6 +152,7 @@ async function build(locale) {
   const pack = {
     schemaVersion: SCHEMA_VERSION,
     locale,
+    canon: 'protestant-66',
     edition: source.edition,
     credit: `${source.edition} · Public Domain candidate · seven1m/open-bibles`,
     sourceUrl,
