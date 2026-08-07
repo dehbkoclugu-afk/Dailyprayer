@@ -7,6 +7,7 @@ import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
+import { useArtwork } from '@/hooks/useArtwork';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
@@ -18,6 +19,7 @@ import { useT } from '@/i18n';
 
 export default function Bible() {
   const t = useTheme();
+  const artwork = useArtwork();
   const { t: tr, locale } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const plans = usePlans();
@@ -90,8 +92,8 @@ export default function Bible() {
       {/* quick access to Scripture search and the reader's saved verses */}
       <View style={{ flexDirection: 'row', gap: spacing.md, marginTop: spacing.md }}>
         {[
-          { icon: 'search' as const, label: tr('read.search'), onPress: () => router.push('/search') },
-          { icon: 'bookmark-outline' as const, label: tr('library.title'), onPress: () => router.push('/library') },
+          { icon: 'search' as const, art: 'A14-bible-etching' as const, label: tr('read.search'), onPress: () => router.push('/search') },
+          { icon: 'bookmark-outline' as const, art: 'A18-ritual-reading' as const, label: tr('library.title'), onPress: () => router.push('/library') },
         ].map((a) => (
           <Pressable
             key={a.label}
@@ -100,20 +102,29 @@ export default function Bible() {
             accessibilityLabel={a.label}
             style={({ pressed }) => ({
               flex: 1,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: spacing.sm,
               backgroundColor: t.surface,
               borderRadius: radius.inner,
               borderWidth: 1,
               borderColor: t.border,
-              paddingVertical: spacing.md,
+              overflow: 'hidden',
               opacity: pressed ? 0.85 : 1,
             })}
           >
-            <Ionicons name={a.icon} size={18} color={t.gold} />
-            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: t.ink }}>{a.label}</Text>
+            <ArtSlot id={a.art} variant="card" radius={radius.inner} style={{ width: '100%' }}>
+              <View
+                style={{
+                  minHeight: 48,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: spacing.sm,
+                  paddingVertical: spacing.md,
+                }}
+              >
+                <Ionicons name={a.icon} size={18} color={t.gold} />
+                <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: artwork.foreground.primary }}>{a.label}</Text>
+              </View>
+            </ArtSlot>
           </Pressable>
         ))}
       </View>
