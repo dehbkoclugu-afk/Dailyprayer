@@ -1,6 +1,13 @@
 name: Build Bible language packs
 
 on:
+  pull_request:
+    paths:
+      - "scripts/build-ebible-pack.mjs"
+      - "scripts/ebible-pack-sources.mjs"
+      - "src/data/biblePack.ts"
+      - "src/i18n/globalLanguageCatalog.ts"
+      - ".github/workflows/build-bible-packs.yml"
   workflow_dispatch:
     inputs:
       locale:
@@ -15,6 +22,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 90
+    env:
+      PACK_LOCALE: ${{ github.event_name == 'workflow_dispatch' && inputs.locale || 'en' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -23,16 +32,14 @@ jobs:
           node-version: 22
 
       - name: Build source-pinned Bible pack
-        env:
-          SOURCE_DATE_EPOCH: "1786147200"
-        run: node scripts/build-ebible-pack.mjs "${{ inputs.locale }}"
+        run: node scripts/build-ebible-pack.mjs "$PACK_LOCALE"
 
       - name: List pack checksums
-        run: find dist/bible-packs -name '*.sha256' -type f -maxdepth 1 -print -exec cat {} \;
+        run: find dist/bible-packs -maxdepth 1 -type f -name '*.sha256' -print -exec cat {} \;
 
       - uses: actions/upload-artifact@v4
         with:
-          name: lumen-bible-pack-${{ inputs.locale }}
+          name: lumen-bible-pack-${{ env.PACK_LOCALE }}
           path: dist/bible-packs/
           if-no-files-found: error
           retention-days: 14
