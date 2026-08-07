@@ -1,0 +1,42 @@
+name: Build CrossWire Bible fallbacks
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/build-crosswire-pack.mjs'
+      - 'scripts/crosswire-pack-sources.mjs'
+      - 'src/data/bible-books.json'
+      - '.github/workflows/build-crosswire-packs.yml'
+  workflow_dispatch:
+    inputs:
+      locale:
+        description: 'Locale tag or all'
+        required: true
+        default: all
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install SWORD export tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y libsword-utils unzip
+      - name: Build and structurally validate public-domain fallbacks
+        env:
+          BIBLE_PACK_TMPDIR: ${{ runner.temp }}
+          LOCALE: ${{ github.event.inputs.locale || 'all' }}
+        run: node scripts/build-crosswire-pack.mjs "$LOCALE"
+      - name: Show pack checksums
+        run: sha256sum dist/bible-packs/*.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lumen-crosswire-bible-packs
+          path: |
+            dist/bible-packs/*.json
+            dist/bible-packs/*.sha256
+          retention-days: 14
