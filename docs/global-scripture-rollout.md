@@ -1,124 +1,116 @@
 # Global Scripture rollout
 
 Lumen's catalog contains **45 locale tags**. Chinese has Simplified/Traditional variants
-and Serbian has Latin/Cyrillic variants. Meriam and the historic Swahili source only have
-partial public-domain Scripture in the exact sources we verified, so the current
-**full-Bible target is 43 locale variants / 41 languages**.
+and Serbian has Latin/Cyrillic variants. Meriam and the historic Swahili source are only
+partial Scripture in the exact public-domain sources we verified, leaving a
+**full-Bible target of 43 locale variants / 41 languages**.
 
 ## Non-negotiable Scripture rule
 
-Bible text is never machine-translated. Every pack is built from a named source edition,
-keeps the upstream Scripture text, records source URL + SHA-256, and must pass the
-canonical structure gate before release.
+Bible text is never machine-translated. A pack is built from a named source edition,
+keeps the upstream Scripture text, records source URL + SHA-256, and passes a real
+book/chapter structure gate before release.
 
-"Public domain" is jurisdiction-sensitive. An upstream PD declaration is evidence, not an
-automatic worldwide store-distribution clearance.
+"Public domain" remains jurisdiction-sensitive. Upstream PD evidence does not replace
+jurisdiction review for worldwide store distribution.
 
 Primary references:
 
 - eBible PD explanation: https://ebible.org/publicdomain.htm
 - eBible copyright inventory: https://ebible.org/Scriptures/copyright.php
-- eBible legal policy: https://ebible.org/legal.php
 - Open Bibles inventory: https://github.com/seven1m/open-bibles
 - CrossWire Bible modules: https://www.crosswire.org/sword/modules/ModDisp.jsp?modType=Bibles
 - Current Turkish YTC rights: https://ebible.org/turytc/copyright.htm
 
-## What the real-file gate found
+## Verified coverage
 
-Source titles and README labels are not trusted by themselves. Builders parse the exact
-upstream files and require every chapter of all 66 canonical Protestant books.
+We now have accepted public-domain evidence for **40 full-Bible locale variants /
+38 languages**.
 
-### eBible inventory
+Of those, **39 locale variants / 37 languages** already fit and pass the current
+Protestant-66 pack gate. Croatian is the extra language: its Šarić Bible is explicitly
+Public Domain and complete, but uses a Catholic canon, so it needs canon-aware runtime
+support instead of a fake 66-book remap.
+
+The three target languages with no accepted full public-domain source are currently:
+
+- **Bulgarian**
+- **Thai**
+- **Turkish**
+
+## eBible results
 
 - 30 full-Bible locale variants are in the eBible rights-verified set.
 - 29 have direct eBible archive pins; Russian uses a separately tested Synodal fallback.
 - 27 direct archives pass the 66-book gate.
-- Korean's eBible/Open Bibles corpus is missing 1 Peter 5, but the CrossWire `KorRV`
-  public-domain fallback passes.
+- Korean's eBible/Open Bibles corpus is missing 1 Peter 5, but CrossWire `KorRV` passes.
 - Russian Synodal fallback passes: 66 books / 31,225 parsed verses.
-- Croatian Šarić is explicitly Public Domain and is a complete Catholic-canon Bible, but
-  it does not fit the current Protestant-66 schema. We will add canon-aware pack support;
-  we will not fake Esther mappings just to satisfy the current validator.
-- Meriam and historic Swahili are partial Scripture and are not full-Bible targets.
+- Croatian Šarić is complete + Public Domain but requires canon-aware pack support.
+- Meriam and historic Swahili are partial and are not counted as full-Bible targets.
 
-### Open Bibles candidate set
+## CrossWire public-domain sources — 10/10 validated
 
-Seven exact files pass the full 66-book structure gate:
+Every module below is explicitly marked Public Domain by CrossWire and passes Lumen's
+exact SWORD ZIP -> `mod2osis` -> 66-book/chapter gate:
 
-Albanian, Bulgarian, Finnish, Hungarian, Māori, Tagalog and Thai.
-
-Their Open Bibles PD labels still need independent rights corroboration before worldwide
-production release.
-
-Six Open Bibles files failed structural validation. Five are replaced by independently
-declared CrossWire public-domain sources. The sixth, Turkish, is **rejected**: its text
-matches the modern Kutsal Kitap Yeni Çeviri wording that CrossWire identifies as
-copyrighted, and the XML also lacks Obadiah. It must not ship as a public-domain Bible.
-
-### CrossWire public-domain fallbacks — validated
-
-All six pinned CrossWire SWORD modules are explicitly marked **Public Domain** by
-CrossWire and all six pass Lumen's real export + 66-book/chapter gate:
-
-- Danish `DaOT1871NT1907` — 30,997 parsed verses
+- Albanian `Alb` — 31,036 parsed verses
+- Finnish `FinBiblia` — 31,038
+- Hungarian `HunKar` — 31,060
+- Tagalog `TagAngBiblia` — 31,102
+- Danish `DaOT1871NT1907` — 30,997
 - Latvian `LvGluck8` — 31,036
 - Norwegian Bokmål `Norsk` — 31,035
 - Polish `PolGdanska` — 31,073
 - Swedish `Swe1917` — 31,003
 - Korean `KorRV` — 31,018
 
-The CI path is exact raw ZIP -> SWORD `mod2osis` export -> canonical parser -> chapter
-gate -> source/final SHA-256 -> artifact. No Scripture text is translated or synthesized.
+The build records source/final SHA-256 and produces a checksum-pinned artifact.
 
-## Current coverage
+## Māori
 
-- **41 locale variants** already have a structurally compatible full-Bible source file.
-- Those represent **39 languages**.
-- Of those, eBible/CrossWire give independent upstream PD evidence for 34 locale variants;
-  the seven Open Bibles-only candidates remain rights-review gated.
-- Croatian has a complete independently PD source but needs a canon-aware runtime schema.
-- Turkish is the only current full-Bible target with no accepted public-domain source.
+The exact Open Bibles Māori file passes the 66-book gate. Its text matches the Māori
+Bible version that BibleGateway states is public domain in the United States. It remains
+subject to the same worldwide jurisdiction review as the other US-PD claims.
 
-So the remaining engineering/source problems are intentionally narrow: add Croatian
-canon support and find a defensible Turkish full-Bible source (or keep the existing
-licensed YTC for Turkish rather than pretending it is public domain).
+## Rejected “public-domain” candidates
+
+Open Bibles' README label is not treated as proof. Three full-Bible candidates were
+rejected after comparing the actual text/rights evidence:
+
+- **Bulgarian** — XML wording matches Veren's contemporary edition; CrossWire marks that
+  edition copyrighted and non-commercially distributable in SWORD form, not public domain.
+- **Thai** — XML wording matches Thai KJV; CrossWire marks Thai KJV copyrighted with free
+  distribution permission, not public domain.
+- **Turkish** — XML wording matches modern Kutsal Kitap Yeni Çeviri; CrossWire marks that
+  edition copyrighted, and this XML also lacks Obadiah.
+
+These files stay blocked even though their repository README calls them Public Domain.
 
 ## Existing Turkish bundle
 
 Current Turkish builds ship **Yorumsuz Türkçe Çeviri (YTC)**. YTC is not public domain;
 it is © 2023–2025 İsmail Serinken and eBible.org under CC BY-ND 4.0.
 
-CrossWire's HADI and New Turkish Bible modules are also copyrighted. The mislabeled Open
-Bibles Turkish XML is blocked and must never be substituted for YTC as “public domain.”
+CrossWire's HADI and New Turkish Bible modules are also copyrighted. None are relabeled
+as public domain just to increase language count.
 
 ## Delivery architecture
 
-Global Lumen uses downloadable Scripture language packs:
-
-1. App ships UI/content plus a small locale/edition manifest.
-2. User selects a Scripture language.
+1. App ships a locale/edition manifest.
+2. User selects a Scripture language independently from UI language.
 3. Lumen downloads the exact versioned pack.
-4. Download layer verifies the released SHA-256.
-5. `validateBiblePack` checks schema, locale, canon and verse shape.
-6. Validated pack is cached for offline reading.
-7. Attribution remains visible from the reader.
+4. Download layer verifies released SHA-256.
+5. Runtime validates schema, locale, canon and verse shape.
+6. Pack is cached for offline reading.
+7. Attribution stays visible from the reader.
 
-No production registry URL is published until exact source, rights basis, source hash,
-structural validation and released-pack hash are recorded.
-
-## UI/content localization
-
-Scripture language and UI language are separate preferences. Prayer/devotional/UI
-localization is a later content layer and never modifies Scripture.
-
-RTL support is required for Arabic and Persian. CJK, Burmese, Thai and other scripts need
-font-coverage and layout QA before their UI locales are enabled.
+Production registry URLs require exact source identity, rights basis, source hash,
+structural validation, released-pack hash and jurisdiction review.
 
 ## Next implementation slice
 
-- add canon-aware pack validation for the Croatian public-domain edition;
-- independently rights-verify the seven structurally complete Open Bibles candidates;
-- continue searching for a defensible full public-domain Turkish Bible;
+- add canon-aware pack validation for Croatian;
+- continue searching for defensible full public-domain Bulgarian, Thai and Turkish sources;
 - add downloaded-pack persistence + checksum verification;
 - decouple `scriptureLocale` from UI `locale`;
 - expose Bible-language management in Bible/Profile;
