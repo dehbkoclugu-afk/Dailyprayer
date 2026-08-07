@@ -23,9 +23,13 @@ for (const tag of buildTags) {
   }
 }
 
-const verifiedWithoutSource = FULL_BIBLE_RIGHTS_VERIFIED_LOCALE_TAGS.filter((tag) => !EBIBLE_SOURCE_IDS[tag]);
-if (verifiedWithoutSource.join(',') !== 'ru') {
-  errors.push(`expected only Russian to lack a verified source ID; got: ${verifiedWithoutSource.join(',') || '(none)'}`);
+const verifiedWithoutEBibleSource = FULL_BIBLE_RIGHTS_VERIFIED_LOCALE_TAGS.filter(
+  (tag) => !EBIBLE_SOURCE_IDS[tag],
+);
+if (verifiedWithoutEBibleSource.join(',') !== 'ru') {
+  errors.push(
+    `expected only Russian to lack a direct eBible source ID; got: ${verifiedWithoutEBibleSource.join(',') || '(none)'}`,
+  );
 }
 
 if (errors.length) {
@@ -33,4 +37,6 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log('eBible source pins agree: 29 buildable full-Bible pins; Russian intentionally blocked pending source-ID verification');
+console.log(
+  'eBible source pins agree: 29 direct full-Bible pins; Russian uses the separately validated Open Bibles fallback',
+);
