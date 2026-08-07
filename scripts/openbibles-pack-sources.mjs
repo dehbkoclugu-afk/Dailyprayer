@@ -13,7 +13,7 @@ export const OPEN_BIBLES_PACK_SOURCES = {
   sv: { file: 'swe-swedish.osis.xml', format: 'osis', edition: 'Swedish Bible', rights: 'candidate-needs-review', structuralStatus: 'blocked', blocker: 'missing 1 Peter 4; use CrossWire PD fallback' },
   tl: { file: 'tgl-tagalog.osis.xml', format: 'osis', edition: 'Ang Dating Biblia', rights: 'candidate-needs-review', structuralStatus: 'pass' },
   th: { file: 'tha-thai.osis.xml', format: 'osis', edition: 'Thai Bible', rights: 'candidate-needs-review', structuralStatus: 'pass' },
-  tr: { file: 'tur-turkish.osis.xml', format: 'osis', edition: 'Turkish Bible public-domain candidate', rights: 'candidate-needs-review', structuralStatus: 'blocked', blocker: 'missing Obadiah; no verified PD fallback yet' },
+  tr: { file: 'tur-turkish.osis.xml', format: 'osis', edition: 'Rejected Turkish source', rights: 'rejected-source-mismatch', structuralStatus: 'blocked', blocker: 'text matches copyrighted modern Kutsal Kitap Yeni Çeviri and also lacks Obadiah' },
   ru: { file: 'rus-synodal.zefania.xml', format: 'zefania', edition: 'Russian Synodal Translation', rights: 'verified-us-public-domain', structuralStatus: 'pass' },
 };
 
