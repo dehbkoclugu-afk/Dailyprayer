@@ -62,9 +62,6 @@ function parseOsis(xml) {
       const milestone = /<verse\s+[^>]*(?:sID|osisID)=["']([^"']+)["'][^>]*\/?>([\s\S]*?)(?=<verse\s+[^>]*(?:eID|sID|osisID)=|<\/chapter>|<\/div>)/g;
       while ((verse = milestone.exec(book[2]))) add(verse[1], verse[2]);
     }
-    if (code === 'GEN' && !chapters[1]) {
-      console.error(`[diagnostic] GEN export sample: ${book[2].slice(0, 1800).replace(/\s+/g, ' ')}`);
-    }
     const previousChapterCount = result[code] ? Object.keys(result[code].chapters).length : -1;
     if (Object.keys(chapters).length > previousChapterCount) {
       result[code] = { name: code, chapters };
@@ -120,9 +117,6 @@ async function build(locale) {
   });
   if (exported.error) throw exported.error;
   if (exported.status !== 0) throw new Error(`mod2osis failed: ${exported.stderr || exported.stdout}`);
-  if (process.env.CROSSWIRE_DEBUG === '1' && locale === 'da') {
-    console.error(`[diagnostic] raw OSIS head: ${exported.stdout.slice(0, 5000).replace(/\s+/g, ' ')}`);
-  }
   const books = assemble(parseOsis(exported.stdout));
   const verseCount = books.reduce((n, b) => n + b.chapters.reduce((m, c) => m + c.length, 0), 0);
   const pack = {
