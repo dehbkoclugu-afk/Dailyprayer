@@ -49,18 +49,18 @@ export const GLOBAL_LANGUAGE_CATALOG = [
 
   // These are strong public-domain candidates in seven1m/open-bibles, but are
   // intentionally blocked from release until independently re-verified.
-  { tag: 'sq', language: 'Albanian', nativeName: 'Shqip', direction: 'ltr', edition: 'Albanian Bible', source: 'open-bibles', rights: 'candidate-needs-review' },
-  { tag: 'bg', language: 'Bulgarian', nativeName: 'Български', direction: 'ltr', edition: 'Bulgarian Bible', source: 'open-bibles', rights: 'candidate-needs-review' },
+  { tag: 'sq', language: 'Albanian', nativeName: 'Shqip', direction: 'ltr', edition: 'Albanian Bible', source: 'crosswire', rights: 'verified-upstream-public-domain' },
+  { tag: 'bg', language: 'Bulgarian', nativeName: 'Български', direction: 'ltr', edition: 'No verified public-domain full Bible', source: 'blocked', rights: 'rejected-source-mismatch' },
   { tag: 'da', language: 'Danish', nativeName: 'Dansk', direction: 'ltr', edition: 'Danish OT 1871 + NT 1907', source: 'crosswire', rights: 'verified-upstream-public-domain' },
-  { tag: 'fi', language: 'Finnish', nativeName: 'Suomi', direction: 'ltr', edition: 'Finnish Bible', source: 'open-bibles', rights: 'candidate-needs-review' },
-  { tag: 'hu', language: 'Hungarian', nativeName: 'Magyar', direction: 'ltr', edition: 'Károli Bible', source: 'open-bibles', rights: 'candidate-needs-review' },
+  { tag: 'fi', language: 'Finnish', nativeName: 'Suomi', direction: 'ltr', edition: 'Finnish Biblia (1776)', source: 'crosswire', rights: 'verified-upstream-public-domain' },
+  { tag: 'hu', language: 'Hungarian', nativeName: 'Magyar', direction: 'ltr', edition: 'Revised Károli Bible (1908)', source: 'crosswire', rights: 'verified-upstream-public-domain' },
   { tag: 'lv', language: 'Latvian', nativeName: 'Latviešu', direction: 'ltr', edition: 'Latvian Glück 8th edition', source: 'crosswire', rights: 'verified-upstream-public-domain' },
   { tag: 'mi', language: 'Māori', nativeName: 'Te reo Māori', direction: 'ltr', edition: 'Māori Bible', source: 'open-bibles', rights: 'candidate-needs-review' },
   { tag: 'no', language: 'Norwegian', nativeName: 'Norsk', direction: 'ltr', edition: 'Bibelen på Norsk (1930)', source: 'crosswire', rights: 'verified-upstream-public-domain' },
   { tag: 'pl', language: 'Polish', nativeName: 'Polski', direction: 'ltr', edition: 'Biblia Gdańska (1881)', source: 'crosswire', rights: 'verified-upstream-public-domain' },
   { tag: 'sv', language: 'Swedish', nativeName: 'Svenska', direction: 'ltr', edition: 'Swedish Bible (1917)', source: 'crosswire', rights: 'verified-upstream-public-domain' },
-  { tag: 'tl', language: 'Tagalog', nativeName: 'Tagalog', direction: 'ltr', edition: 'Ang Dating Biblia', source: 'open-bibles', rights: 'candidate-needs-review' },
-  { tag: 'th', language: 'Thai', nativeName: 'ไทย', direction: 'ltr', edition: 'Thai Bible', source: 'open-bibles', rights: 'candidate-needs-review' },
+  { tag: 'tl', language: 'Tagalog', nativeName: 'Tagalog', direction: 'ltr', edition: 'Ang Dating Biblia (1905)', source: 'crosswire', rights: 'verified-upstream-public-domain' },
+  { tag: 'th', language: 'Thai', nativeName: 'ไทย', direction: 'ltr', edition: 'No verified public-domain full Bible', source: 'blocked', rights: 'rejected-source-mismatch' },
   { tag: 'tr', language: 'Turkish', nativeName: 'Türkçe', direction: 'ltr', edition: 'No verified public-domain full Bible', source: 'blocked', rights: 'rejected-source-mismatch' },
 ] as const;
 
