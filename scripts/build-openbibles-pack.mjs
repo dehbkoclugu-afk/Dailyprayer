@@ -52,10 +52,11 @@ function clean(text) {
 
 function parseOsis(xml) {
   const result = {};
-  const bookRe = /<div\s+type=['"]book['"]\s+osisID=['"]([A-Za-z0-9]+)['"][^>]*>([\s\S]*?)(?=<div\s+type=['"]book['"]|<\/osisText>)/g;
+  const bookRe = /<div\s+([^>]*\btype=['"]book['"][^>]*)>([\s\S]*?)(?=<div\s+[^>]*\btype=['"]book['"]|<\/osisText>)/g;
   let book;
   while ((book = bookRe.exec(xml))) {
-    const code = OSIS_TO_CODE[book[1]];
+    const sourceId = book[1].match(/\bosisID=['"]([^'"]+)['"]/)?.[1];
+    const code = sourceId ? OSIS_TO_CODE[sourceId] : undefined;
     if (!code) continue;
     const chapters = {};
     const verseRe = /<verse\s+osisID=['"]([^'"]+)['"][^>]*>([\s\S]*?)<\/verse>/g;
