@@ -10,6 +10,7 @@ import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { getBible } from '@/data/bibleFull';
 import { useT } from '@/i18n';
+import { useScriptureLocale } from '@/i18n/scripture';
 
 interface Hit {
   book: number;
@@ -26,7 +27,8 @@ const MAX = 300;
 export default function Search() {
   const t = useTheme();
   const artwork = useArtwork();
-  const { t: tr, locale } = useT();
+  const { t: tr } = useT();
+  const scriptureLocale = useScriptureLocale();
   const insets = useSafeAreaInsets();
   const [query, setQuery] = useState('');
   const [q, setQ] = useState(''); // debounced
@@ -38,7 +40,7 @@ export default function Search() {
 
   const hits = useMemo<Hit[]>(() => {
     if (q.length < 2) return [];
-    const bible = getBible(locale);
+    const bible = getBible(scriptureLocale);
     const needle = lower(q);
     const out: Hit[] = [];
     for (let b = 0; b < bible.length; b++) {
@@ -56,7 +58,7 @@ export default function Search() {
       }
     }
     return out;
-  }, [q, locale]);
+  }, [q, scriptureLocale]);
 
   const snippet = (h: Hit) => {
     const start = Math.max(0, h.at - 40);
