@@ -1,6 +1,6 @@
 import * as Crypto from 'expo-crypto';
 import * as FileSystem from 'expo-file-system/legacy';
-import type { GlobalLocaleTag } from '@/i18n/globalLanguageCatalog';
+import { GLOBAL_LOCALE_TAGS, type GlobalLocaleTag } from '@/i18n/globalLanguageCatalog';
 import { type BiblePack, type BiblePackRelease, validateBiblePack } from '@/data/biblePack';
 
 const PACK_DIR_NAME = 'lumen-bible-packs-v2';
@@ -71,4 +71,16 @@ export async function removeInstalledBiblePack(locale: GlobalLocaleTag): Promise
 
 export async function isBiblePackInstalled(locale: GlobalLocaleTag): Promise<boolean> {
   return (await FileSystem.getInfoAsync(packUri(locale))).exists;
+}
+
+export async function listInstalledBiblePacks(): Promise<GlobalLocaleTag[]> {
+  const root = rootDirectory();
+  const info = await FileSystem.getInfoAsync(root);
+  if (!info.exists) return [];
+  const allowed = new Set<string>(GLOBAL_LOCALE_TAGS);
+  const files = await FileSystem.readDirectoryAsync(root);
+  return files
+    .filter((file) => file.endsWith('.json'))
+    .map((file) => file.slice(0, -5))
+    .filter((tag): tag is GlobalLocaleTag => allowed.has(tag));
 }
