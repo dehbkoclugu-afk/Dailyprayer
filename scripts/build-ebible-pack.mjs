@@ -136,7 +136,9 @@ async function build(locale) {
   const zipBytes = Buffer.from(await response.arrayBuffer());
   const sourceSha256 = sha256(zipBytes);
 
-  const work = mkdtempSync(join(tmpdir(), 'lumen-bible-pack-'));
+  const tempRoot = process.env.BIBLE_PACK_TMPDIR ?? tmpdir();
+  if (!existsSync(tempRoot)) mkdirSync(tempRoot, { recursive: true });
+  const work = mkdtempSync(join(tempRoot, 'lumen-bible-pack-'));
   try {
     const zipPath = join(work, `${source.id}.zip`);
     writeFileSync(zipPath, zipBytes);
