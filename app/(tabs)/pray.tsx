@@ -4,15 +4,19 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
+import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
+import { useArtwork } from '@/hooks/useArtwork';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { usePrayers, prayerCategories, type GuidedPrayer } from '@/data/prayers';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useT } from '@/i18n';
+import { categoryArt } from '@/assets/registry';
 
 export default function Pray() {
   const t = useTheme();
+  const artwork = useArtwork();
   const { t: tr } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const prayers = usePrayers();
@@ -101,53 +105,67 @@ export default function Pray() {
               accessibilityRole="button"
               accessibilityLabel={`${p.title}, ${p.minutes} ${tr('pray.min')}${p.plus ? ' · Plus' : ''}`}
               style={({ pressed }) => ({
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: spacing.lg,
                 backgroundColor: t.surface,
                 borderRadius: radius.card,
                 borderWidth: 1,
                 borderColor: t.border,
-                padding: spacing.lg,
+                overflow: 'hidden',
                 opacity: pressed ? 0.9 : 1,
               })}
             >
-              <View
-                style={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: 24,
-                  backgroundColor: t.surfaceAlt,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
+              <ArtSlot
+                id={categoryArt(p.category) ?? 'A19-ritual-prayer'}
+                variant="row"
+                radius={radius.card}
+                style={{ width: '100%' }}
               >
-                <Ionicons
-                  name={locked ? 'lock-closed-outline' : 'play'}
-                  size={20}
-                  color={locked ? t.inkFaint : t.gold}
-                />
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>{p.title}</Text>
-                <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
-                  {p.minutes} {tr('pray.min')} · {tr(`cat.${p.category}` as never)}
-                </Text>
-              </View>
-              {p.plus ? (
                 <View
                   style={{
-                    backgroundColor: locked ? t.surfaceAlt : t.goldSoft,
-                    borderRadius: radius.pill,
-                    paddingHorizontal: spacing.sm,
-                    paddingVertical: 3,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: spacing.lg,
+                    padding: spacing.lg,
+                    minHeight: 82,
                   }}
                 >
-                  <Text style={{ fontFamily: fonts.sansBold, fontSize: 10, color: locked ? t.inkFaint : t.gold }}>
-                    PLUS
-                  </Text>
+                  <View
+                    style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 24,
+                      backgroundColor: artwork.foreground.badge,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Ionicons
+                      name={locked ? 'lock-closed-outline' : 'play'}
+                      size={20}
+                      color={locked ? artwork.foreground.tertiary : t.gold}
+                    />
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: artwork.foreground.primary }}>{p.title}</Text>
+                    <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: artwork.foreground.secondary, marginTop: 2 }}>
+                      {p.minutes} {tr('pray.min')} · {tr(`cat.${p.category}` as never)}
+                    </Text>
+                  </View>
+                  {p.plus ? (
+                    <View
+                      style={{
+                        backgroundColor: locked ? artwork.foreground.badge : t.goldSoft,
+                        borderRadius: radius.pill,
+                        paddingHorizontal: spacing.sm,
+                        paddingVertical: 3,
+                      }}
+                    >
+                      <Text style={{ fontFamily: fonts.sansBold, fontSize: 10, color: locked ? artwork.foreground.tertiary : t.gold }}>
+                        PLUS
+                      </Text>
+                    </View>
+                  ) : null}
                 </View>
-              ) : null}
+              </ArtSlot>
             </Pressable>
           );
         })}
