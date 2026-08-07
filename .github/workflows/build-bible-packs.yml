@@ -37,6 +37,10 @@ jobs:
       - name: Build source-pinned Bible pack
         run: node scripts/build-ebible-pack.mjs "$PACK_LOCALE"
 
+      - name: Validate Croatian Catholic-canon pack
+        if: github.event_name == 'pull_request'
+        run: node scripts/build-ebible-pack.mjs hr
+
       - name: List pack checksums
         run: find dist/bible-packs -maxdepth 1 -type f -name '*.sha256' -print -exec cat {} \;
 
