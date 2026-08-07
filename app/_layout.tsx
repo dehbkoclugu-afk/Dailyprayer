@@ -58,20 +58,37 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
-    const user = useUserStore.getState();
-    const scripture = user.scriptureLocale;
-    if (scripture === 'system' || isBundledScriptureLocale(scripture)) {
-      setScriptureReady(true);
-    } else {
+    let active = true;
+    let unsubscribe = () => {};
+
+    const restoreScripture = () => {
+      const user = useUserStore.getState();
+      const scripture = user.scriptureLocale;
+      if (scripture === 'system' || isBundledScriptureLocale(scripture)) {
+        if (active) setScriptureReady(true);
+        return;
+      }
       loadInstalledBiblePack(scripture)
         .then((pack) => {
           if (pack) registerDownloadedBiblePack(pack);
           else user.setScriptureLocale('system');
         })
         .catch(() => user.setScriptureLocale('system'))
-        .finally(() => setScriptureReady(true));
-    }
+        .finally(() => {
+          if (active) setScriptureReady(true);
+        });
+    };
 
+    if (useUserStore.persist.hasHydrated()) restoreScripture();
+    else unsubscribe = useUserStore.persist.onFinishHydration(restoreScripture);
+
+    return () => {
+      active = false;
+      unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
     initPurchases();
     // App-open streak tick (YouVersion pattern): opening the app keeps the flame lit.
     const streak = useStreakStore.getState();
