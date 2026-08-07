@@ -11,8 +11,7 @@ import { useArtwork } from '@/hooks/useArtwork';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
-import { bookMeta, bookName } from '@/data/bibleMeta';
-import { getBibleCredit } from '@/data/bibleFull';
+import { getBible, getBibleCredit } from '@/data/bibleFull';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useReaderStore } from '@/state/useReaderStore';
 import { useT } from '@/i18n';
@@ -26,8 +25,9 @@ export default function Bible() {
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const plans = usePlans();
   const { book, chapter } = useReaderStore();
-  const readerBook = bookMeta[book] ?? bookMeta[0];
-  const readerBookName = bookName(scriptureLocale, readerBook.code);
+  const bible = getBible(scriptureLocale);
+  const readerBook = bible[book] ?? bible[0];
+  const readerBookName = readerBook.name;
   const readerChapter = chapter;
 
   return (
