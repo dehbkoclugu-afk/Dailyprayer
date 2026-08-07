@@ -100,14 +100,12 @@ export const EBIBLE_SOURCE_IDS: Partial<Record<GlobalLocaleTag, string>> = {
   ko: 'kor',
   kos: 'kos',
   la: 'latVUC',
-  ulk: 'ulk1902',
   fa: 'pesOPV',
   pt: 'porbrbsl',
   ro: 'ronbtf',
   'sr-Latn': 'srp1865',
   'sr-Cyrl': 'srp1868',
   es: 'spaRV1909',
-  sw: 'swh1850',
   to: 'ton',
   uk: 'ukrfb',
   vi: 'vie1934',
@@ -118,9 +116,18 @@ export function getEBibleUsfxUrl(tag: GlobalLocaleTag): string | null {
   return sourceId ? `https://ebible.org/Scriptures/${sourceId}_usfx.zip` : null;
 }
 
+export const PARTIAL_SCRIPTURE_LOCALE_TAGS = ['ulk', 'sw'] as const satisfies readonly GlobalLocaleTag[];
+
+export const FULL_BIBLE_LOCALE_TAGS: GlobalLocaleTag[] = GLOBAL_LANGUAGE_CATALOG
+  .filter((item) => !(PARTIAL_SCRIPTURE_LOCALE_TAGS as readonly string[]).includes(item.tag))
+  .map((item) => item.tag);
+
 export const RIGHTS_VERIFIED_LOCALE_TAGS: GlobalLocaleTag[] = GLOBAL_LANGUAGE_CATALOG
   .filter((item) => item.rights === 'verified-us-public-domain')
   .map((item) => item.tag);
+
+export const FULL_BIBLE_RIGHTS_VERIFIED_LOCALE_TAGS: GlobalLocaleTag[] = RIGHTS_VERIFIED_LOCALE_TAGS
+  .filter((tag) => !(PARTIAL_SCRIPTURE_LOCALE_TAGS as readonly string[]).includes(tag));
 
 /** Existing in-app UI translations. Other catalog entries must fall back to English until reviewed. */
 export const CURRENT_UI_LOCALE_TAGS = ['en', 'tr', 'es', 'pt', 'fr', 'de'] as const;
