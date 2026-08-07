@@ -34,7 +34,7 @@ const CATHOLIC_73_CODES = [
   '1TI','2TI','TIT','PHM','HEB','JAS','1PE','2PE','1JN','2JN','3JN','JUD','REV',
 ];
 const EXTRA_CATHOLIC_CHAPTERS = {
-  DAN: 14, JOL: 4, TOB: 14, JDT: 16, ESG: 10, WIS: 19, SIR: 51, BAR: 6, '1MA': 16, '2MA': 15,
+  DAN: 14, JOL: 4, MAL: 3, TOB: 14, JDT: 16, ESG: 10, WIS: 19, SIR: 51, BAR: 6, '1MA': 16, '2MA': 15,
 };
 const ALL_CODES = new Set([...CODES, ...CATHOLIC_73_CODES]);
 
