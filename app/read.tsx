@@ -15,11 +15,13 @@ import { useHighlightStore } from '@/state/useHighlightStore';
 import { ReadingSettingsSheet } from '@/components/ReadingSettingsSheet';
 import { VerseActionSheet, type SelectedVerse } from '@/components/VerseActionSheet';
 import { useT } from '@/i18n';
+import { useScriptureLocale } from '@/i18n/scripture';
 
 export default function Read() {
-  const { t: tr, locale } = useT();
+  const { t: tr } = useT();
+  const scriptureLocale = useScriptureLocale();
   const insets = useSafeAreaInsets();
-  const bible = getBible(locale);
+  const bible = getBible(scriptureLocale);
   const { book, chapter, setPos } = useReaderStore();
   const fontScale = useReaderPrefsStore((s) => s.fontScale);
   const marks = useHighlightStore((s) => s.marks);
