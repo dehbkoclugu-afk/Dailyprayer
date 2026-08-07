@@ -19,6 +19,7 @@ import * as NotificationService from '@/services/notifications';
 import { openSubscriptionManagement } from '@/services/purchases';
 import type { ThemeName } from '@/theme/tokens';
 import type { Locale } from '@/i18n/translations';
+import { BUNDLED_SCRIPTURE_LOCALES } from '@/i18n/scripture';
 
 const LOCALE_LABELS: Record<Locale, string> = {
   en: 'English',
@@ -33,11 +34,13 @@ export default function Profile() {
   const t = useTheme();
   const artwork = useArtwork();
   const { t: tr } = useT();
-  const { quiz, themePreference, setThemePreference, language, setLanguage, setQuiz, reset } =
-    useUserStore();
+  const {
+    quiz, themePreference, setThemePreference, language, setLanguage,
+    scriptureLocale, setScriptureLocale, setQuiz, reset,
+  } = useUserStore();
   const { count, bestCount, totalDays } = useStreakStore();
   const isPlus = useEntitlementStore((s) => s.isPlus);
-  const [sheet, setSheet] = useState<null | 'appearance' | 'language'>(null);
+  const [sheet, setSheet] = useState<null | 'appearance' | 'language' | 'scripture'>(null);
 
   const appearanceOptions: SheetOption<ThemeName | 'system'>[] = [
     { value: 'system', label: tr('profile.auto') },
@@ -48,10 +51,16 @@ export default function Profile() {
     { value: 'system', label: tr('profile.auto') },
     ...SUPPORTED_LOCALES.map((l) => ({ value: l, label: LOCALE_LABELS[l] })),
   ];
+  const scriptureOptions: SheetOption<Locale | 'system'>[] = [
+    { value: 'system', label: tr('profile.auto') },
+    ...BUNDLED_SCRIPTURE_LOCALES.map((l) => ({ value: l, label: LOCALE_LABELS[l] })),
+  ];
   const appearanceLabel =
     appearanceOptions.find((o) => o.value === themePreference)?.label ?? tr('profile.auto');
   const languageLabel =
     language === 'system' ? tr('profile.auto') : LOCALE_LABELS[language as Locale];
+  const scriptureLabel =
+    scriptureLocale === 'system' ? tr('profile.auto') : LOCALE_LABELS[scriptureLocale as Locale] ?? String(scriptureLocale);
 
   const setReminder = (time: string | null) => {
     setQuiz({ prayerTime: time ?? 'none' });
@@ -241,6 +250,12 @@ export default function Profile() {
           value={languageLabel}
           onPress={() => setSheet('language')}
         />
+        <ValueRow
+          icon="book-outline"
+          label={tr('profile.scriptureLanguage')}
+          value={scriptureLabel}
+          onPress={() => setSheet('scripture')}
+        />
       </View>
 
       <SectionHeader title={tr('profile.about')} />
@@ -308,6 +323,14 @@ export default function Profile() {
         options={languageOptions}
         selected={language}
         onSelect={setLanguage}
+        onClose={() => setSheet(null)}
+      />
+      <OptionSheet
+        visible={sheet === 'scripture'}
+        title={tr('profile.scriptureLanguage')}
+        options={scriptureOptions}
+        selected={scriptureLocale === 'system' || BUNDLED_SCRIPTURE_LOCALES.includes(scriptureLocale as Locale) ? scriptureLocale as Locale | 'system' : 'system'}
+        onSelect={setScriptureLocale}
         onClose={() => setSheet(null)}
       />
     </Screen>
