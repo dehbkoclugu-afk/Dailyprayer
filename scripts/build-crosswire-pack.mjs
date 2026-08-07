@@ -65,7 +65,10 @@ function parseOsis(xml) {
     if (code === 'GEN' && !chapters[1]) {
       console.error(`[diagnostic] GEN export sample: ${book[2].slice(0, 1800).replace(/\s+/g, ' ')}`);
     }
-    result[code] = { name: code, chapters };
+    const previousChapterCount = result[code] ? Object.keys(result[code].chapters).length : -1;
+    if (Object.keys(chapters).length > previousChapterCount) {
+      result[code] = { name: code, chapters };
+    }
   }
   return result;
 }
