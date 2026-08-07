@@ -17,7 +17,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { EBIBLE_PACK_SOURCES, ebibleDetailsUrl, ebibleUsfxUrl } from './ebible-pack-sources.mjs';
 
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
 const CODES = [
   'GEN','EXO','LEV','NUM','DEU','JOS','JDG','RUT','1SA','2SA','1KI','2KI','1CH','2CH',
   'EZR','NEH','EST','JOB','PSA','PRO','ECC','SNG','ISA','JER','LAM','EZK','DAN','HOS',
@@ -25,6 +25,18 @@ const CODES = [
   'JHN','ACT','ROM','1CO','2CO','GAL','EPH','PHP','COL','1TH','2TH','1TI','2TI','TIT',
   'PHM','HEB','JAS','1PE','2PE','1JN','2JN','3JN','JUD','REV',
 ];
+const CATHOLIC_73_CODES = [
+  'GEN','EXO','LEV','NUM','DEU','JOS','JDG','RUT','1SA','2SA','1KI','2KI','1CH','2CH',
+  'EZR','NEH','JOB','PSA','PRO','ECC','SNG','ISA','JER','LAM','EZK','DAN','HOS','JOL',
+  'AMO','OBA','JON','MIC','NAM','HAB','ZEP','HAG','ZEC','MAL',
+  'TOB','JDT','ESG','WIS','SIR','BAR','1MA','2MA',
+  'MAT','MRK','LUK','JHN','ACT','ROM','1CO','2CO','GAL','EPH','PHP','COL','1TH','2TH',
+  '1TI','2TI','TIT','PHM','HEB','JAS','1PE','2PE','1JN','2JN','3JN','JUD','REV',
+];
+const EXTRA_CATHOLIC_CHAPTERS = {
+  DAN: 14, JOL: 4, TOB: 14, JDT: 16, ESG: 10, WIS: 19, SIR: 51, BAR: 6, '1MA': 16, '2MA': 15,
+};
+const ALL_CODES = new Set([...CODES, ...CATHOLIC_73_CODES]);
 
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 
@@ -50,7 +62,7 @@ function parseUsfx(xml) {
 
   while ((bookMatch = bookRe.exec(xml))) {
     const code = bookMatch[1];
-    if (!CODES.includes(code)) continue;
+    if (!ALL_CODES.has(code)) continue;
     const body = bookMatch[2];
     const heading = body.match(/<h[^>]*>([\s\S]*?)<\/h>/);
     const name = heading ? cleanTransportMarkup(heading[1]) : code;
@@ -78,16 +90,21 @@ function parseUsfx(xml) {
   return result;
 }
 
-function canonicalMeta() {
+function canonicalMeta(canon) {
   const metaPath = new URL('../src/data/bible-books.json', import.meta.url);
   const meta = JSON.parse(readFileSync(metaPath, 'utf8'));
   if (!Array.isArray(meta) || meta.length !== CODES.length) throw new Error('Invalid canonical Bible metadata');
-  return new Map(meta.map((book) => [book.code, book.chapters]));
+  const expected = new Map(meta.map((book) => [book.code, book.chapters]));
+  if (canon === 'catholic-73') {
+    for (const [code, chapters] of Object.entries(EXTRA_CATHOLIC_CHAPTERS)) expected.set(code, chapters);
+  }
+  return expected;
 }
 
-function assemble(parsed) {
-  const expected = canonicalMeta();
-  return CODES.map((code) => {
+function assemble(parsed, canon) {
+  const expected = canonicalMeta(canon);
+  const codes = canon === 'catholic-73' ? CATHOLIC_73_CODES : CODES;
+  return codes.map((code) => {
     const sourceBook = parsed[code];
     if (!sourceBook) throw new Error(`Source is missing canonical book ${code}`);
     const expectedChapters = expected.get(code);
@@ -155,7 +172,8 @@ async function build(locale) {
     const zipPath = join(work, `${source.id}.zip`);
     writeFileSync(zipPath, zipBytes);
     const xml = extractXml(zipPath, work);
-    const books = assemble(parseUsfx(xml));
+    const canon = locale === 'hr' ? 'catholic-73' : 'protestant-66';
+    const books = assemble(parseUsfx(xml), canon);
     const verseCount = books.reduce(
       (total, book) => total + book.chapters.reduce((n, chapter) => n + chapter.length, 0),
       0,
@@ -164,6 +182,7 @@ async function build(locale) {
     const pack = {
       schemaVersion: SCHEMA_VERSION,
       locale,
+      canon,
       edition: source.edition,
       credit: `${source.edition} · Public Domain · eBible.org`,
       sourceUrl: url,
