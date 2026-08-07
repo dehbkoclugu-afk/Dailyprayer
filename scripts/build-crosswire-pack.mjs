@@ -117,6 +117,9 @@ async function build(locale) {
   });
   if (exported.error) throw exported.error;
   if (exported.status !== 0) throw new Error(`mod2osis failed: ${exported.stderr || exported.stdout}`);
+  if (process.env.CROSSWIRE_DEBUG === '1' && locale === 'da') {
+    console.error(`[diagnostic] raw OSIS head: ${exported.stdout.slice(0, 5000).replace(/\s+/g, ' ')}`);
+  }
   const books = assemble(parseOsis(exported.stdout));
   const verseCount = books.reduce((n, b) => n + b.chapters.reduce((m, c) => m + c.length, 0), 0);
   const pack = {
