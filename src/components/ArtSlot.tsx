@@ -57,9 +57,10 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
           resizeMode={fit}
           style={{
             position: 'absolute',
+            top: 0,
             right: 0,
+            bottom: 0,
             width: dawnSurface ? '44%' : '100%',
-            height: '100%',
           }}
           accessibilityIgnoresInvertColors
         />
