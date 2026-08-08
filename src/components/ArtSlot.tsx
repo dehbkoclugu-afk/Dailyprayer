@@ -16,6 +16,8 @@ interface Props {
   style?: StyleProp<ViewStyle>;
   /** Theme-aware scrim. Bare preserves the original artwork untouched. */
   variant?: 'bare' | 'row' | 'card' | 'hero';
+  /** Keep square/portrait spot art intact at the trailing edge of a wide card. */
+  placement?: 'fill' | 'trailing';
   /** rendered above the art (e.g. scrims, text) */
   children?: React.ReactNode;
 }
@@ -30,7 +32,7 @@ const DARK_SCRIMS = {
  * Art slot: renders finished artwork when registered in artRegistry, otherwise
  * an elegant labeled placeholder so the layout is final before art exists.
  */
-export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant = 'bare', children }: Props) {
+export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant = 'bare', placement = 'fill', children }: Props) {
   const t = useTheme();
   const artwork = useArtwork();
   const source = artwork.source(id);
@@ -59,7 +61,11 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
           // ArtSlot consumers carry their content padding on the slot itself;
           // percentage sizing then resolves against that padded content box
           // and leaves an exposed strip at the trailing edge.
-          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
+          style={
+            placement === 'trailing'
+              ? { position: 'absolute', top: 0, right: 0, bottom: 0, width: '44%' }
+              : { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }
+          }
           accessibilityIgnoresInvertColors
         />
       ) : (
