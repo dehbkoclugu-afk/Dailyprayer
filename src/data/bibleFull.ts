@@ -1,4 +1,3 @@
-import type { Locale } from '@/i18n/translations';
 import type { GlobalLocaleTag } from '@/i18n/globalLanguageCatalog';
 import type { BiblePack } from '@/data/biblePack';
 
@@ -20,7 +19,9 @@ interface BibleData {
 // evaluation — a locale's JSON is parsed only the first time its reader opens,
 // then cached. Turkish is the bundled Yorumsuz Türkçe Çeviri; the rest are
 // public-domain translations (see scripts/build-bible-i18n.mjs).
-const LOADERS: Record<Locale, () => BibleData> = {
+type BundledBibleLocale = 'en' | 'tr' | 'es' | 'pt' | 'fr' | 'de';
+
+const LOADERS: Record<BundledBibleLocale, () => BibleData> = {
   tr: () => require('./bible-full.tr.json'),
   en: () => require('./bible-full.en.json'),
   es: () => require('./bible-full.es.json'),
@@ -29,10 +30,10 @@ const LOADERS: Record<Locale, () => BibleData> = {
   de: () => require('./bible-full.de.json'),
 };
 
-const cache: Partial<Record<Locale, BibleData>> = {};
+const cache: Partial<Record<BundledBibleLocale, BibleData>> = {};
 const downloaded: Partial<Record<GlobalLocaleTag, BibleData>> = {};
 
-function isBundledLocale(locale: GlobalLocaleTag): locale is Locale {
+function isBundledLocale(locale: GlobalLocaleTag): locale is BundledBibleLocale {
   return Object.prototype.hasOwnProperty.call(LOADERS, locale);
 }
 

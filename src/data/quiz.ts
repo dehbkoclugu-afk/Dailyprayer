@@ -426,6 +426,13 @@ const text: Partial<Record<Locale, StepText[]>> = {
       },
     },
   ],
+  it: [
+    { question: 'Quale tradizione senti più vicina a casa?', subtitle: 'Adatteremo le tue preghiere e i tuoi piani a questa scelta.', labels: { catholic: 'Cattolica', protestant: 'Protestante', orthodox: 'Ortodossa', nondenominational: 'Non confessionale', exploring: 'Sto solo esplorando' } },
+    { question: 'Cosa speri cresca dentro di te?', subtitle: 'Scegli tutte le opzioni che senti tue.', affirmation: 'Sei in buona compagnia: il 73% dei membri è qui per lo stesso motivo.', labels: { habit: 'Un’abitudine quotidiana di preghiera', closer: 'Sentirmi più vicino a Dio', peace: 'Più pace e meno ansia', sleep: 'Dormire meglio', bible: 'Comprendere la Bibbia', gratitude: 'Un cuore riconoscente' } },
+    { question: 'Cosa ti pesa di più ultimamente?', subtitle: 'La tua risposta resta privata e aiuta a dare forma al tuo piano.', affirmation: 'Grazie per la fiducia. La Scrittura incontra le persone proprio qui.', labels: { anxiety: 'Ansia o preoccupazione', loneliness: 'Solitudine', grief: 'Lutto o perdita', direction: 'Trovare una direzione', consistency: 'Essere costante', none: 'Sto bene' } },
+    { question: 'Quanto ti è familiare la preghiera?', labels: { new: 'Sto appena iniziando', returning: 'Sto tornando dopo un periodo', regular: 'Prego regolarmente' } },
+    { question: 'Quando vorresti un piccolo promemoria quotidiano?', subtitle: 'Un promemoria discreto, mai spam.', labels: { '07:30': 'Mattina · 7:30', '12:30': 'Mezzogiorno · 12:30', '21:00': 'Sera · 21:00', none: 'Nessun promemoria' } },
+  ],
 };
 
 /** Localized quiz steps for the active locale, falling back to English. */
