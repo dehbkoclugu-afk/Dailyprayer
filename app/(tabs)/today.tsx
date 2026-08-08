@@ -15,6 +15,7 @@ import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useDailyContent } from '@/hooks/useDailyContent';
 import { getVerses, type DailyVerse } from '@/data/verses';
+import { useScriptureLocale } from '@/i18n/scripture';
 import { useStreakStore } from '@/state/useStreakStore';
 import { useUserStore } from '@/state/useUserStore';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
@@ -39,13 +40,14 @@ function formatDateLine(now: Date, locale: string): string {
 export default function Today() {
   const t = useTheme();
   const { t: tr, locale } = useT();
+  const scriptureLocale = useScriptureLocale();
   const { verse, devotional } = useDailyContent();
   // The verse of the day is fixed by date, but let people browse the pool , a
   // shuffle swaps in another verse without touching the day's read-streak.
   const [otherVerse, setOtherVerse] = useState<DailyVerse | null>(null);
   const shownVerse = otherVerse ?? verse;
   const shuffleVerse = () => {
-    const pool = getVerses(locale);
+    const pool = getVerses(scriptureLocale);
     if (pool.length < 2) return;
     let next = shownVerse;
     while (next.reference === shownVerse.reference) {
@@ -54,7 +56,7 @@ export default function Today() {
     setOtherVerse(next);
   };
   // Drop a shuffled pick when the language changes so it doesn't show stale text.
-  useEffect(() => setOtherVerse(null), [locale]);
+  useEffect(() => setOtherVerse(null), [scriptureLocale]);
   const prayers = usePrayers();
   const name = useUserStore((s) => s.quiz.name);
   const isPlus = useEntitlementStore((s) => s.isPlus);

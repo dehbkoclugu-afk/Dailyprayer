@@ -2,7 +2,7 @@ import { getLocales } from 'expo-localization';
 import { translations, type Locale, type TranslationKey } from './translations';
 import { useUserStore } from '@/state/useUserStore';
 
-export const SUPPORTED_LOCALES: Locale[] = ['en', 'tr', 'es', 'pt', 'fr', 'de'];
+export const SUPPORTED_LOCALES: Locale[] = ['en', 'tr', 'es', 'pt', 'fr', 'de', 'it'];
 
 export function resolveLocale(pref: Locale | 'system'): Locale {
   if (pref !== 'system') return pref;

@@ -118,12 +118,21 @@ const DE: Record<string, { title: string; tagline: string }> = {
   'bible-365': { title: 'Die Bibel in einem Jahr', tagline: 'Die ganze Geschichte, 20 Minuten am Tag.' },
 };
 
+const IT: Record<string, { title: string; tagline: string }> = {
+  'peace-7': { title: 'Sette Giorni di Pace', tagline: 'Per i periodi di ansia: un brano rasserenante al giorno.' },
+  'gratitude-7': { title: 'La Settimana della Gratitudine', tagline: 'Allena lo sguardo a riconoscere la grazia ovunque.' },
+  'psalms-30': { title: '30 Giorni nei Salmi', tagline: 'Il libro di preghiera della Bibbia, un salmo alla volta.' },
+  'gospels-90': { title: 'La Vita di Gesù in 90 Giorni', tagline: 'Attraversa tutti e quattro i Vangeli.' },
+  'bible-365': { title: 'La Bibbia in un Anno', tagline: 'L’intera storia, 20 minuti al giorno.' },
+};
+
 const OVERLAYS: Partial<Record<Locale, Record<string, { title: string; tagline: string }>>> = {
   tr: TR,
   es: ES,
   pt: PT,
   fr: FR,
   de: DE,
+  it: IT,
 };
 
 /** Reading plans localized to the active locale (English fallback). */

@@ -33,6 +33,11 @@ const GOAL_LABELS: Partial<Record<Locale, Record<string, string>>> = {
     gratitude: 'şükreden bir kalp',
     default: 'daha derin bir dua hayatı',
   },
+  it: {
+    habit: 'un’abitudine quotidiana stabile', closer: 'vicinanza a Dio', peace: 'pace al posto dell’ansia',
+    sleep: 'un sonno sereno', bible: 'comprendere la Scrittura', gratitude: 'un cuore riconoscente',
+    default: 'una vita di preghiera più profonda',
+  },
 };
 
 /** Personalized plan reveal , the moment before the paywall. */

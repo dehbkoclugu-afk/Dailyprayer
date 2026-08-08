@@ -28,6 +28,7 @@ const LOCALE_LABELS: Record<Locale, string> = {
   pt: 'Português',
   fr: 'Français',
   de: 'Deutsch',
+  it: 'Italiano',
 };
 
 export default function Profile() {
