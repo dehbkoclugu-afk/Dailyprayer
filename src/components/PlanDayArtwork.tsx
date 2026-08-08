@@ -21,22 +21,17 @@ export function PlanDayArtwork({ planId, dayIndex, radius, height, variant = 'ro
   const dawn = artwork.scheme === 'dawn';
   const source = planDayArtSource(planId, dayIndex, artwork.scheme);
 
+  const rowScrim = dawn
+    ? ['rgba(251,247,240,0.97)', 'rgba(251,247,240,0.84)', 'rgba(251,247,240,0.24)'] as const
+    : ['rgba(14,18,32,0.96)', 'rgba(14,18,32,0.80)', 'rgba(14,18,32,0.24)'] as const;
+
   return (
     <View style={[{ height, borderRadius: radius, overflow: 'hidden', backgroundColor: t.surface }, style]}>
       {source ? <Image source={source} resizeMode="cover" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} accessibilityIgnoresInvertColors /> : null}
-      {dawn && variant === 'row' && source ? (
+      {variant === 'row' && source ? (
         <LinearGradient
           pointerEvents="none"
-          colors={[t.surface, t.surface, `${t.surface}F2`, `${t.surface}8A`, `${t.surface}0A`]}
-          locations={[0, 0.30, 0.50, 0.74, 1]}
-          start={{ x: 0, y: 0.5 }}
-          end={{ x: 1, y: 0.5 }}
-          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
-        />
-      ) : !dawn ? (
-        <LinearGradient
-          pointerEvents="none"
-          colors={['rgba(14,18,32,0.92)', 'rgba(14,18,32,0.72)', 'rgba(14,18,32,0.16)']}
+          colors={rowScrim}
           locations={[0, 0.56, 1]}
           start={{ x: 0, y: 0.5 }}
           end={{ x: 1, y: 0.5 }}
