@@ -4,6 +4,8 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
+import { useArtwork } from '@/hooks/useArtwork';
+import { ArtSlot } from '@/components/ArtSlot';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { HIGHLIGHT_SWATCH } from '@/theme/highlights';
@@ -26,6 +28,7 @@ interface Row {
 
 export default function Library() {
   const t = useTheme();
+  const artwork = useArtwork();
   const { t: tr, locale } = useT();
   const insets = useSafeAreaInsets();
   const [tab, setTab] = useState<Tab>('bookmarks');
@@ -189,42 +192,43 @@ export default function Library() {
             accessibilityRole="button"
             accessibilityLabel={item.ref}
             style={({ pressed }) => ({
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: spacing.md,
               backgroundColor: t.surface,
               borderRadius: radius.card,
               borderWidth: 1,
               borderColor: t.border,
-              padding: spacing.lg,
+              overflow: 'hidden',
               marginBottom: spacing.md,
               opacity: pressed ? 0.85 : 1,
             })}
           >
-            {item.color ? (
-              <View style={{ width: 6, alignSelf: 'stretch', borderRadius: 3, backgroundColor: item.color }} />
-            ) : (
-              <Ionicons name="bookmark" size={18} color={t.gold} />
-            )}
-            <View style={{ flex: 1 }}>
-              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: t.gold }}>{item.ref}</Text>
-              <Text
-                style={{ fontFamily: fonts.serifLight, fontSize: 14, lineHeight: 21, color: t.inkSoft, marginTop: 2 }}
-                numberOfLines={2}
-              >
-                {item.preview}
-              </Text>
-            </View>
-            <Pressable
-              onPress={() =>
-                item.markKey ? clearMark(item.markKey) : removeBookmark(item.book, item.chapter, item.verse)
-              }
-              hitSlop={10}
-              accessibilityRole="button"
-              accessibilityLabel={item.markKey ? tr('verse.removeHighlight') : tr('verse.bookmarkRemoved')}
-            >
-              <Ionicons name="close" size={18} color={t.inkFaint} />
-            </Pressable>
+            <ArtSlot id="A18-ritual-reading" variant="row" radius={radius.card} style={{ width: '100%' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, padding: spacing.lg, minHeight: 84 }}>
+                {item.color ? (
+                  <View style={{ width: 6, alignSelf: 'stretch', borderRadius: 3, backgroundColor: item.color }} />
+                ) : (
+                  <Ionicons name="bookmark" size={18} color={t.gold} />
+                )}
+                <View style={{ flex: 1 }}>
+                  <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: t.gold }}>{item.ref}</Text>
+                  <Text
+                    style={{ fontFamily: fonts.serifLight, fontSize: 14, lineHeight: 21, color: artwork.foreground.secondary, marginTop: 2 }}
+                    numberOfLines={2}
+                  >
+                    {item.preview}
+                  </Text>
+                </View>
+                <Pressable
+                  onPress={() =>
+                    item.markKey ? clearMark(item.markKey) : removeBookmark(item.book, item.chapter, item.verse)
+                  }
+                  hitSlop={10}
+                  accessibilityRole="button"
+                  accessibilityLabel={item.markKey ? tr('verse.removeHighlight') : tr('verse.bookmarkRemoved')}
+                >
+                  <Ionicons name="close" size={18} color={artwork.foreground.tertiary} />
+                </Pressable>
+              </View>
+            </ArtSlot>
           </Pressable>
         )}
       />

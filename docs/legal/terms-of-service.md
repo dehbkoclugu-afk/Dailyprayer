@@ -1,6 +1,6 @@
 # Terms of Service
 
-_Last updated: 2026-07-26_
+_Last updated: 2026-08-08_
 
 > Source of truth is `src/data/legal.ts` (shown in-app). Keep this hosted copy in
 > sync and have a lawyer review before publishing.
@@ -9,33 +9,36 @@ By using Lumen ("the app") you agree to these terms.
 
 ## The service
 Lumen provides daily Bible verses, devotionals, guided prayers, reading plans,
-and a personal journal. The Bible reader uses one of six separately sourced
-Scripture editions listed below. Devotionals and prayers are original devotional
-content and are not a substitute for professional, medical, or pastoral advice.
+and a personal journal. The Bible reader offers separately sourced Scripture
+editions through an edition manager. Scripture language is independent from the
+app interface language. Devotionals and prayers are original devotional content
+and are not a substitute for professional, medical, or pastoral advice.
 
 ## Scripture sources and rights
+Lumen's production Scripture catalog contains 40 checksum-pinned source
+editions that passed the project's public-domain source-evidence gate, plus the
+separately licensed Turkish edition below. Public-domain status can depend on
+jurisdiction; the catalog therefore preserves each edition's identity and
+upstream rights evidence rather than treating all Scripture as one license.
+
+Public-domain packs are built from exact, named editions supplied by eBible.org,
+CrossWire SWORD, or the independently checked Open Bibles source used by the
+release registry. Downloaded packs are integrity-checked before installation and
+are not machine/model translations. The edition name displayed in Lumen's Bible
+language manager identifies the source text currently selected.
+
 - **Turkish — Yorumsuz Türkçe Çeviri (YTC):** copyright © 2023-2025 İsmail
-  Serinken and eBible.org; CC BY-ND 4.0. Lumen distributes the Scripture text
-  verbatim and does not change its words or punctuation. Source:
-  https://ebible.org/turytc/copyright.htm. License:
+  Serinken and eBible.org; CC BY-ND 4.0. This edition is not public domain. Lumen
+  distributes the Scripture text without creating a derivative translation.
+  Source and rights notice: https://ebible.org/turytc/copyright.htm. License:
   https://creativecommons.org/licenses/by-nd/4.0/.
-- **English — World English Bible, 2020 stable text edition:** public domain.
-  “World English Bible” is an eBible.org trademark and identifies unchanged
-  text only. Imported source:
-  https://github.com/seven1m/open-bibles/blob/master/eng-web.usfx.xml. Official
-  rights notice: https://ebible.org/eng-web/copyright.htm.
-- **Spanish — Reina-Valera 1909:** the upstream Open Bibles source labels
-  `spa-rv1909.usfx.xml` public domain. Source:
-  https://github.com/seven1m/open-bibles/blob/master/spa-rv1909.usfx.xml.
-- **Portuguese — João Ferreira de Almeida:** the upstream Open Bibles source
-  labels `por-almeida.usfx.xml` public domain. Source:
-  https://github.com/seven1m/open-bibles/blob/master/por-almeida.usfx.xml.
-- **French — Ostervald 1996:** the upstream Open Bibles source labels
-  `fra-ostervald.osis.xml` public domain; independent rights verification is
-  pending before release. Source:
-  https://github.com/seven1m/open-bibles/blob/master/fra-ostervald.osis.xml.
-- **German — Luther Bible 1912:** public domain. Source:
-  https://github.com/seven1m/open-bibles/blob/master/deu-luther1912.osis.xml.
+- **eBible.org source editions:** edition-specific source and rights information
+  is published by eBible.org at https://ebible.org/find/.
+- **CrossWire SWORD source editions:** edition-specific module information and
+  rights notices are published at https://www.crosswire.org/sword/modules/.
+- **Open Bibles source used by the release registry:**
+  https://github.com/seven1m/open-bibles. Lumen's release gate rejects a source
+  when its claimed identity/rights do not match the text being packaged.
 
 ## Subscriptions (Lumen Plus)
 - Lumen offers auto-renewable subscriptions that unlock additional content.

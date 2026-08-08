@@ -8,7 +8,9 @@
     "ios": "expo start --ios",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --test src/lib/dates.test.ts src/data/verses.test.ts src/data/legal.test.ts src/services/purchases.test.ts src/services/paywallContext.test.ts"
+    "test": "node --experimental-strip-types --test src/lib/dates.test.ts src/data/verses.test.ts src/data/legal.test.ts src/data/biblePack.test.ts src/i18n/translations.test.ts src/services/purchases.test.ts src/services/paywallContext.test.ts",
+    "bible:pack": "node scripts/build-ebible-pack.mjs",
+    "bible:pack:verify": "node --experimental-strip-types scripts/validate-ebible-source-pins.mjs"
   },
   "dependencies": {
     "@expo-google-fonts/figtree": "^0.2.3",
@@ -21,6 +23,8 @@
     "expo-blur": "~14.1.4",
     "expo-clipboard": "~7.1.5",
     "expo-constants": "~17.1.6",
+    "expo-crypto": "~14.1.5",
+    "expo-file-system": "~18.1.11",
     "expo-font": "~13.3.1",
     "expo-haptics": "~14.1.4",
     "expo-linear-gradient": "~14.1.4",

@@ -21,6 +21,9 @@ import { useTheme } from '@/hooks/useTheme';
 import { useStreakStore } from '@/state/useStreakStore';
 import { useUserStore } from '@/state/useUserStore';
 import { initPurchases } from '@/services/purchases';
+import { loadInstalledBiblePack } from '@/services/biblePacks';
+import { registerDownloadedBiblePack } from '@/data/bibleFull';
+import { isBundledScriptureLocale } from '@/i18n/scripture';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -45,12 +48,44 @@ export default function RootLayout() {
   // build that stalls loading fonts would otherwise sit on the splash forever
   // (the emulator smoke test can't catch this , the process stays alive).
   const [ready, setReady] = useState(false);
+  const [scriptureReady, setScriptureReady] = useState(false);
   useEffect(() => {
     if (loaded || fontError) setReady(true);
   }, [loaded, fontError]);
   useEffect(() => {
     const timer = setTimeout(() => setReady(true), 3000);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    let unsubscribe = () => {};
+
+    const restoreScripture = () => {
+      const user = useUserStore.getState();
+      const scripture = user.scriptureLocale;
+      if (scripture === 'system' || isBundledScriptureLocale(scripture)) {
+        if (active) setScriptureReady(true);
+        return;
+      }
+      loadInstalledBiblePack(scripture)
+        .then((pack) => {
+          if (pack) registerDownloadedBiblePack(pack);
+          else user.setScriptureLocale('system');
+        })
+        .catch(() => user.setScriptureLocale('system'))
+        .finally(() => {
+          if (active) setScriptureReady(true);
+        });
+    };
+
+    if (useUserStore.persist.hasHydrated()) restoreScripture();
+    else unsubscribe = useUserStore.persist.onFinishHydration(restoreScripture);
+
+    return () => {
+      active = false;
+      unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
@@ -83,7 +118,7 @@ export default function RootLayout() {
     if (ready && mounted) console.log('LUMEN_UI_READY');
   }, [ready, mounted]);
 
-  if (!ready || !mounted) return null;
+  if (!ready || !mounted || !scriptureReady) return null;
 
   const dark = pref === 'system' ? scheme !== 'light' : pref === 'vigil';
 
@@ -100,7 +135,8 @@ export default function RootLayout() {
         <Stack.Screen name="player" options={{ presentation: 'modal' }} />
         <Stack.Screen name="devotional" options={{ presentation: 'card' }} />
         <Stack.Screen name="legal" options={{ presentation: 'card' }} />
-        <Stack.Screen name="plan" options={{ presentation: 'card' }} />
+<Stack.Screen name="plan" options={{ presentation: 'card' }} />
+        <Stack.Screen name="scripture-language" options={{ presentation: 'card' }} />
       </Stack>
       <ToastHost />
     </GestureHandlerRootView>

@@ -4,10 +4,13 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
+import { useArtwork } from '@/hooks/useArtwork';
+import { ArtSlot } from '@/components/ArtSlot';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { getBible } from '@/data/bibleFull';
 import { useT } from '@/i18n';
+import { useScriptureLocale } from '@/i18n/scripture';
 
 interface Hit {
   book: number;
@@ -18,12 +21,14 @@ interface Hit {
   at: number; // match offset in text
 }
 
-const lower = (s: string) => s.toLocaleLowerCase('tr');
+const lower = (s: string, locale: string) => s.toLocaleLowerCase(locale);
 const MAX = 300;
 
 export default function Search() {
   const t = useTheme();
-  const { t: tr, locale } = useT();
+  const artwork = useArtwork();
+  const { t: tr } = useT();
+  const scriptureLocale = useScriptureLocale();
   const insets = useSafeAreaInsets();
   const [query, setQuery] = useState('');
   const [q, setQ] = useState(''); // debounced
@@ -35,8 +40,8 @@ export default function Search() {
 
   const hits = useMemo<Hit[]>(() => {
     if (q.length < 2) return [];
-    const bible = getBible(locale);
-    const needle = lower(q);
+    const bible = getBible(scriptureLocale);
+    const needle = lower(q, scriptureLocale);
     const out: Hit[] = [];
     for (let b = 0; b < bible.length; b++) {
       const bk = bible[b];
@@ -44,7 +49,7 @@ export default function Search() {
         const ch = bk.chapters[c];
         for (let v = 0; v < ch.length; v++) {
           const text = ch[v][1];
-          const at = lower(text).indexOf(needle);
+          const at = lower(text, scriptureLocale).indexOf(needle);
           if (at !== -1) {
             out.push({ book: b, chapter: c, verse: v, ref: `${bk.name} ${c + 1}:${ch[v][0]}`, text, at });
             if (out.length >= MAX) return out;
@@ -53,7 +58,7 @@ export default function Search() {
       }
     }
     return out;
-  }, [q, locale]);
+  }, [q, scriptureLocale]);
 
   const snippet = (h: Hit) => {
     const start = Math.max(0, h.at - 40);
@@ -179,19 +184,23 @@ export default function Search() {
                 borderRadius: radius.card,
                 borderWidth: 1,
                 borderColor: t.border,
-                padding: spacing.lg,
+                overflow: 'hidden',
                 marginBottom: spacing.md,
                 opacity: pressed ? 0.85 : 1,
               })}
             >
-              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 13, color: t.gold, marginBottom: spacing.xs }}>
-                {item.ref}
-              </Text>
-              <Text style={{ fontFamily: fonts.serifLight, fontSize: 15, lineHeight: 23, color: t.ink }} numberOfLines={3}>
-                {s.pre}
-                <Text style={{ fontFamily: fonts.sansBold, color: t.gold }}>{s.match}</Text>
-                {s.post}
-              </Text>
+              <ArtSlot id="A18-ritual-reading" variant="row" radius={radius.card} style={{ width: '100%' }}>
+                <View style={{ padding: spacing.lg, minHeight: 88 }}>
+                  <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 13, color: t.gold, marginBottom: spacing.xs }}>
+                    {item.ref}
+                  </Text>
+                  <Text style={{ fontFamily: fonts.serifLight, fontSize: 15, lineHeight: 23, color: artwork.foreground.primary }} numberOfLines={3}>
+                    {s.pre}
+                    <Text style={{ fontFamily: fonts.sansBold, color: t.gold }}>{s.match}</Text>
+                    {s.post}
+                  </Text>
+                </View>
+              </ArtSlot>
             </Pressable>
           );
         }}

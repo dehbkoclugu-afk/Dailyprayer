@@ -5,7 +5,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { OptionSheet, type SheetOption } from '@/components/OptionSheet';
+import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
+import { useArtwork } from '@/hooks/useArtwork';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useUserStore } from '@/state/useUserStore';
@@ -17,6 +19,7 @@ import * as NotificationService from '@/services/notifications';
 import { openSubscriptionManagement } from '@/services/purchases';
 import type { ThemeName } from '@/theme/tokens';
 import type { Locale } from '@/i18n/translations';
+import { GLOBAL_LANGUAGE_CATALOG } from '@/i18n/globalLanguageCatalog';
 
 const LOCALE_LABELS: Record<Locale, string> = {
   en: 'English',
@@ -29,9 +32,12 @@ const LOCALE_LABELS: Record<Locale, string> = {
 
 export default function Profile() {
   const t = useTheme();
+  const artwork = useArtwork();
   const { t: tr } = useT();
-  const { quiz, themePreference, setThemePreference, language, setLanguage, setQuiz, reset } =
-    useUserStore();
+  const {
+    quiz, themePreference, setThemePreference, language, setLanguage,
+    scriptureLocale, setQuiz, reset,
+  } = useUserStore();
   const { count, bestCount, totalDays } = useStreakStore();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const [sheet, setSheet] = useState<null | 'appearance' | 'language'>(null);
@@ -49,6 +55,10 @@ export default function Profile() {
     appearanceOptions.find((o) => o.value === themePreference)?.label ?? tr('profile.auto');
   const languageLabel =
     language === 'system' ? tr('profile.auto') : LOCALE_LABELS[language as Locale];
+  const scriptureLabel =
+    scriptureLocale === 'system'
+      ? tr('profile.auto')
+      : GLOBAL_LANGUAGE_CATALOG.find((item) => item.tag === scriptureLocale)?.nativeName ?? String(scriptureLocale);
 
   const setReminder = (time: string | null) => {
     setQuiz({ prayerTime: time ?? 'none' });
@@ -96,7 +106,10 @@ export default function Profile() {
       {/* streak , the current run is the hero (a flame + one number reads warm,
           not the hollow "three identical 1s" dashboard); best/total sit below
           as a quiet footnote so the card has hierarchy instead of three peers. */}
-      <View
+      <ArtSlot
+        id="A15-building-candle"
+        variant="card"
+        radius={radius.card}
         style={{
           backgroundColor: t.surface,
           borderRadius: radius.card,
@@ -112,7 +125,7 @@ export default function Profile() {
               width: 52,
               height: 52,
               borderRadius: 26,
-              backgroundColor: t.goldSoft,
+              backgroundColor: artwork.foreground.badge,
               alignItems: 'center',
               justifyContent: 'center',
             }}
@@ -124,25 +137,28 @@ export default function Profile() {
               style={{
                 fontFamily: fonts.sansBold,
                 fontSize: 30,
-                color: t.ink,
+                color: artwork.foreground.primary,
                 fontVariant: ['tabular-nums'],
               }}
             >
               {count}
             </Text>
-            <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
+            <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: artwork.foreground.secondary, marginTop: 2 }}>
               {tr('profile.dayStreak')}
             </Text>
           </View>
         </View>
-        <View style={{ height: 1, backgroundColor: t.border, marginVertical: spacing.md }} />
-        <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft }}>
+        <View style={{ height: 1, backgroundColor: artwork.foreground.badge, marginVertical: spacing.md }} />
+        <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: artwork.foreground.secondary }}>
           {tr('profile.bestStreak')} {bestCount} · {tr('profile.totalDays')} {totalDays}
         </Text>
-      </View>
+      </ArtSlot>
 
       {/* subscription card */}
-      <View
+      <ArtSlot
+        id="A8-paywall-hero"
+        variant="card"
+        radius={radius.card}
         style={{
           // Active Plus previously filled with goldSoft , a muddy olive block on
           // the dark surface. The gold border + filled star already read as
@@ -169,18 +185,18 @@ export default function Profile() {
         >
           <Ionicons name={isPlus ? 'star' : 'star-outline'} size={26} color={t.gold} />
           <View style={{ flex: 1 }}>
-            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>
+            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: artwork.foreground.primary }}>
               {isPlus ? tr('profile.plusActive') : tr('profile.plusCta')}
             </Text>
-            <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
+            <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: artwork.foreground.secondary, marginTop: 2 }}>
               {isPlus ? tr('profile.plusThanks') : tr('profile.plusSub')}
             </Text>
           </View>
-          {!isPlus ? <Ionicons name="chevron-forward" size={20} color={t.inkFaint} /> : null}
+          {!isPlus ? <Ionicons name="chevron-forward" size={20} color={artwork.foreground.tertiary} /> : null}
         </Pressable>
         {isPlus ? (
           <>
-            <View style={{ height: 1, backgroundColor: t.border, marginTop: spacing.lg }} />
+            <View style={{ height: 1, backgroundColor: artwork.foreground.badge, marginTop: spacing.lg }} />
             <Pressable
               onPress={manageSubscription}
               accessibilityRole="button"
@@ -208,7 +224,7 @@ export default function Profile() {
             </Pressable>
           </>
         ) : null}
-      </View>
+      </ArtSlot>
 
       <SectionHeader title={tr('profile.preferences')} />
       <View
@@ -231,6 +247,12 @@ export default function Profile() {
           label={tr('profile.language')}
           value={languageLabel}
           onPress={() => setSheet('language')}
+        />
+        <ValueRow
+          icon="book-outline"
+          label={tr('profile.scriptureLanguage')}
+          value={scriptureLabel}
+          onPress={() => router.push('/scripture-language')}
         />
       </View>
 

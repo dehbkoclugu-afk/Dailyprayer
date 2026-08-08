@@ -1,0 +1,52 @@
+name: Build Bible language packs
+
+on:
+  pull_request:
+    paths:
+      - "scripts/build-ebible-pack.mjs"
+      - "scripts/ebible-pack-sources.mjs"
+      - "src/data/biblePack.ts"
+      - "src/i18n/globalLanguageCatalog.ts"
+      - ".github/workflows/build-bible-packs.yml"
+  workflow_dispatch:
+    inputs:
+      locale:
+        description: "Locale tag to build (for example ar, ja, zh-Hans), or all"
+        required: true
+        default: "en"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      PACK_LOCALE: ${{ github.event_name == 'workflow_dispatch' && inputs.locale || 'en' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify source-pin catalog
+        run: node --experimental-strip-types scripts/validate-ebible-source-pins.mjs
+
+      - name: Build source-pinned Bible pack
+        run: node scripts/build-ebible-pack.mjs "$PACK_LOCALE"
+
+      - name: Validate Croatian Catholic-canon pack
+        if: github.event_name == 'pull_request'
+        run: node scripts/build-ebible-pack.mjs hr
+
+      - name: List pack checksums
+        run: find dist/bible-packs -maxdepth 1 -type f -name '*.sha256' -print -exec cat {} \;
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lumen-bible-pack-${{ env.PACK_LOCALE }}
+          path: dist/bible-packs/
+          if-no-files-found: error
+          retention-days: 14

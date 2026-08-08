@@ -1,12 +1,13 @@
 import React, { useRef } from 'react';
-import { Image, Platform, Pressable, ScrollView, Share, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, Share, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { captureRef } from 'react-native-view-shot';
 import * as Sharing from 'expo-sharing';
 import { fonts } from '@/theme/typography';
 import { radius, shadow, spacing } from '@/theme/tokens';
-import { artRegistry, type AssetId } from '@/assets/registry';
+import { type AssetId } from '@/assets/registry';
+import { ArtSlot } from '@/components/ArtSlot';
 import type { DailyVerse } from '@/data/verses';
 import { useT } from '@/i18n';
 
@@ -56,8 +57,6 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
     Share.share({ message: text }).catch(() => {});
   };
 
-  const artSource = artRegistry[VERSE_ART[verse.theme]];
-
   return (
     <Pressable
       ref={cardRef}
@@ -71,21 +70,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
         shadow.card,
       ]}
     >
-      {/* Painterly art layer (A5 series, chosen by verse theme) fills the card */}
-      {artSource ? (
-        <Image
-          source={artSource}
-          resizeMode="cover"
-          style={{ position: 'absolute', width: '100%', height: '100%' }}
-          accessibilityIgnoresInvertColors
-        />
-      ) : null}
-      <LinearGradient
-        colors={['rgba(23,16,46,0.55)', 'rgba(14,18,32,0.92)']}
-        start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-        style={{ position: 'absolute', width: '100%', height: '100%' }}
-      />
+      <ArtSlot id={VERSE_ART[verse.theme]} height={320} radius={radius.hero} variant="hero">
       <View style={{ flex: 1, padding: spacing.xl, paddingTop: spacing.xxl }}>
           <Text
             style={{
@@ -174,6 +159,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
             </View>
           </View>
         </View>
+      </ArtSlot>
     </Pressable>
   );
 }
