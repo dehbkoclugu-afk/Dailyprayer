@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArtSlot } from '@/components/ArtSlot';
-import { planRowArt } from '@/assets/registry';
+import { PlanDayArtwork } from '@/components/PlanDayArtwork';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
 import { fonts } from '@/theme/typography';
@@ -18,6 +18,7 @@ import { useT } from '@/i18n';
 export default function PlanScreen() {
   const t = useTheme();
   const artwork = useArtwork();
+  const dawn = artwork.scheme === 'dawn';
   const { t: tr, locale } = useT();
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -52,16 +53,18 @@ export default function PlanScreen() {
       </Pressable>
 
       <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
-        <ArtSlot id={plan.art} height={170} radius={radius.card}>
-          <LinearGradient
-            colors={[`${plan.gradient[0]}CC`, `${plan.gradient[1]}F2`]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={{ position: 'absolute', width: '100%', height: '100%' }}
-          />
-          <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
-            <Text style={{ fontFamily: fonts.serif, fontSize: 24, color: '#F2EEE6' }}>{plan.title}</Text>
-            <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: 'rgba(242,238,230,0.8)', marginTop: spacing.xs }}>
+        <ArtSlot id={plan.art} height={170} radius={radius.card} variant={dawn ? 'card' : 'bare'}>
+          {!dawn ? (
+            <LinearGradient
+              colors={[`${plan.gradient[0]}CC`, `${plan.gradient[1]}F2`]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{ position: 'absolute', width: '100%', height: '100%' }}
+            />
+          ) : null}
+          <View style={{ flex: 1, width: dawn ? '64%' : '100%', padding: spacing.xl, justifyContent: 'flex-end' }}>
+            <Text style={{ fontFamily: fonts.serif, fontSize: 24, color: dawn ? t.ink : '#F2EEE6' }}>{plan.title}</Text>
+            <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: dawn ? t.inkSoft : 'rgba(242,238,230,0.8)', marginTop: spacing.xs }}>
               {plan.tagline}
             </Text>
           </View>
@@ -126,7 +129,7 @@ export default function PlanScreen() {
                 opacity: pressed ? 0.9 : 1,
               })}
             >
-              <ArtSlot id={planRowArt(plan.id, dayIdx)} variant="row" radius={radius.card} style={{ width: '100%' }}>
+              <PlanDayArtwork planId={plan.id} dayIndex={dayIdx} radius={radius.card} style={{ width: '100%' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, padding: spacing.lg, minHeight: 72 }}>
                   <View
                     style={{
@@ -146,7 +149,7 @@ export default function PlanScreen() {
                       </Text>
                     )}
                   </View>
-                  <View style={{ flex: 1 }}>
+                  <View style={{ flex: 1, paddingRight: dawn ? '30%' : 0 }}>
                     <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: artwork.foreground.primary }}>
                       {tr('plan.dayLabel')} {dayIdx + 1}
                     </Text>
@@ -156,7 +159,7 @@ export default function PlanScreen() {
                   </View>
                   <Ionicons name="chevron-forward" size={18} color={artwork.foreground.tertiary} />
                 </View>
-              </ArtSlot>
+              </PlanDayArtwork>
             </Pressable>
           );
         }}

@@ -119,7 +119,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
       >
         <Ionicons name={icon} size={22} color={done ? t.gold : hasArt ? artwork.foreground.primary : t.inkSoft} />
       </View>
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, paddingRight: hasArt && artwork.scheme === 'dawn' ? '30%' : 0 }}>
         <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 17, color: titleColor }}>{title}</Text>
         <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: subColor, marginTop: 2 }}>
           {done ? `${tr('today.completed')} · ${tr('today.undo')}` : subtitle}
@@ -132,7 +132,15 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
       ) : locked ? (
         <Ionicons name="lock-closed-outline" size={22} color={chevColor} />
       ) : (
-        <Ionicons name="chevron-forward" size={22} color={chevColor} />
+        <View
+          style={
+            hasArt && artwork.scheme === 'dawn'
+              ? { width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(255,255,255,0.86)', alignItems: 'center', justifyContent: 'center' }
+              : undefined
+          }
+        >
+          <Ionicons name="chevron-forward" size={22} color={chevColor} />
+        </View>
       )}
     </Pressable>
   );

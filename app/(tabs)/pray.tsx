@@ -12,7 +12,7 @@ import { radius, spacing } from '@/theme/tokens';
 import { usePrayers, prayerCategories, type GuidedPrayer } from '@/data/prayers';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useT } from '@/i18n';
-import { categoryArt } from '@/assets/registry';
+import { prayerArt } from '@/assets/registry';
 
 export default function Pray() {
   const t = useTheme();
@@ -114,7 +114,7 @@ export default function Pray() {
               })}
             >
               <ArtSlot
-                id={categoryArt(p.category) ?? 'A19-ritual-prayer'}
+                id={prayerArt(p.id)}
                 variant="row"
                 radius={radius.card}
                 style={{ width: '100%' }}
@@ -144,7 +144,7 @@ export default function Pray() {
                       color={locked ? artwork.foreground.tertiary : t.gold}
                     />
                   </View>
-                  <View style={{ flex: 1 }}>
+                  <View style={{ flex: 1, paddingRight: artwork.scheme === 'dawn' ? '30%' : 0 }}>
                     <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: artwork.foreground.primary }}>{p.title}</Text>
                     <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: artwork.foreground.secondary, marginTop: 2 }}>
                       {p.minutes} {tr('pray.min')} · {tr(`cat.${p.category}` as never)}
@@ -153,8 +153,15 @@ export default function Pray() {
                   {p.plus ? (
                     <View
                       style={{
-                        backgroundColor: locked ? artwork.foreground.badge : t.goldSoft,
+                        backgroundColor:
+                          artwork.scheme === 'dawn'
+                            ? 'rgba(255,255,255,0.92)'
+                            : locked
+                              ? artwork.foreground.badge
+                              : t.goldSoft,
                         borderRadius: radius.pill,
+                        borderWidth: artwork.scheme === 'dawn' ? 1 : 0,
+                        borderColor: t.border,
                         paddingHorizontal: spacing.sm,
                         paddingVertical: 3,
                       }}

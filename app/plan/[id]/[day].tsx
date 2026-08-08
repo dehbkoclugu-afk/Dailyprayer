@@ -5,18 +5,22 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
+import { PlanDayArtwork } from '@/components/PlanDayArtwork';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
-import { spacing } from '@/theme/tokens';
+import { radius, spacing } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
 import { planReading, formatReadingRef } from '@/data/planReadings';
 import { getBible } from '@/data/bibleFull';
+import { bookMeta } from '@/data/bibleMeta';
 import { usePlanStore } from '@/state/usePlanStore';
 import { useT } from '@/i18n';
+import { useScriptureLocale } from '@/i18n/scripture';
 
 export default function PlanDay() {
   const t = useTheme();
   const { t: tr, locale } = useT();
+  const scriptureLocale = useScriptureLocale();
   const { id, day } = useLocalSearchParams<{ id: string; day: string }>();
   const plan = usePlans().find((p) => p.id === id);
   const dayIdx = Number(day) || 0;
@@ -26,12 +30,16 @@ export default function PlanDay() {
 
   const reading = planReading(plan.id, dayIdx);
   const ref = formatReadingRef(reading, locale);
-  const firstVerse = getBible(locale)[reading.book]?.chapters[reading.chapter]?.[0]?.[1] ?? '';
+  const bible = getBible(scriptureLocale);
+  const readingCode = bookMeta[reading.book]?.code;
+  const matchingBookIndex = readingCode ? bible.findIndex((book) => book.code === readingCode) : -1;
+  const readerBookIndex = matchingBookIndex >= 0 ? matchingBookIndex : reading.book;
+  const firstVerse = bible[readerBookIndex]?.chapters[reading.chapter]?.[0]?.[1] ?? '';
   const teaser = firstVerse.length > 170 ? `${firstVerse.slice(0, 170).trimEnd()}…` : firstVerse;
   const done = (progress[plan.id] ?? []).includes(dayIdx);
 
   const openReader = () =>
-    router.push({ pathname: '/read', params: { b: reading.book, c: reading.chapter } });
+    router.push({ pathname: '/read', params: { b: readerBookIndex, c: reading.chapter } });
 
   const complete = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
@@ -40,7 +48,7 @@ export default function PlanDay() {
   };
 
   return (
-    <Screen style={{ justifyContent: 'space-between' }}>
+    <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
       <View>
         <Pressable
           onPress={() => router.back()}
@@ -61,6 +69,14 @@ export default function PlanDay() {
           <Ionicons name="chevron-back" size={24} color={t.inkSoft} />
         </Pressable>
 
+        <PlanDayArtwork
+          planId={plan.id}
+          dayIndex={dayIdx}
+          height={138}
+          radius={radius.card}
+          style={{ marginTop: spacing.lg, borderWidth: 1, borderColor: t.border }}
+        />
+
         <Text
           style={{
             fontFamily: fonts.sansSemiBold,
@@ -68,7 +84,7 @@ export default function PlanDay() {
             letterSpacing: 2,
             textTransform: 'uppercase',
             color: t.gold,
-            marginTop: spacing.xl,
+            marginTop: spacing.lg,
           }}
         >
           {plan.title} · {tr('plan.dayLabel')} {dayIdx + 1}
