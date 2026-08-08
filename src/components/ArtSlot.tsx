@@ -16,56 +16,45 @@ interface Props {
   style?: StyleProp<ViewStyle>;
   /** Theme-aware scrim. Bare preserves the original artwork untouched. */
   variant?: 'bare' | 'row' | 'card' | 'hero';
-  /** Keep square/portrait spot art intact at the trailing edge of a wide card. */
-  placement?: 'fill' | 'trailing';
   /** rendered above the art (e.g. scrims, text) */
   children?: React.ReactNode;
 }
 
-const DARK_SCRIMS = {
-  row: ['rgba(14,18,32,0.96)', 'rgba(14,18,32,0.80)', 'rgba(14,18,32,0.24)'],
-  card: ['rgba(14,18,32,0.93)', 'rgba(14,18,32,0.68)', 'rgba(14,18,32,0.18)'],
-  hero: ['rgba(14,18,32,0.10)', 'rgba(14,18,32,0.38)', 'rgba(14,18,32,0.94)'],
+// Keep the original Neurosound-inspired treatment: the artwork always fills
+// the whole frame and the copy is protected by a translucent theme scrim.
+// Do not replace the Dawn colors with opaque surface tokens: that visually
+// turns a full-frame image back into a narrow trailing crop.
+const SCRIMS = {
+  vigil: {
+    row: ['rgba(14,18,32,0.96)', 'rgba(14,18,32,0.80)', 'rgba(14,18,32,0.24)'],
+    card: ['rgba(14,18,32,0.93)', 'rgba(14,18,32,0.68)', 'rgba(14,18,32,0.18)'],
+    hero: ['rgba(14,18,32,0.14)', 'rgba(14,18,32,0.34)', 'rgba(14,18,32,0.94)'],
+  },
+  dawn: {
+    row: ['rgba(251,247,240,0.97)', 'rgba(251,247,240,0.84)', 'rgba(251,247,240,0.24)'],
+    card: ['rgba(251,247,240,0.94)', 'rgba(251,247,240,0.70)', 'rgba(251,247,240,0.18)'],
+    hero: ['rgba(251,247,240,0.12)', 'rgba(251,247,240,0.34)', 'rgba(251,247,240,0.96)'],
+  },
 } as const;
 
 /**
  * Art slot: renders finished artwork when registered in artRegistry, otherwise
  * an elegant labeled placeholder so the layout is final before art exists.
  */
-export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant = 'bare', placement = 'fill', children }: Props) {
+export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant = 'bare', children }: Props) {
   const t = useTheme();
   const artwork = useArtwork();
   const source = artwork.source(id);
   const spec = artSpecs[id];
-  const dawnSurface = artwork.scheme === 'dawn' && (variant === 'row' || variant === 'card');
-  const scrim =
-    variant === 'bare'
-      ? null
-      : dawnSurface
-        ? null
-        : DARK_SCRIMS[variant];
+  const scrim = variant === 'bare' ? null : SCRIMS[artwork.scheme][variant];
 
   return (
-    <View
-      style={[
-        { height, borderRadius: radius, overflow: 'hidden' },
-        dawnSurface ? { backgroundColor: t.surface } : null,
-        style,
-      ]}
-    >
+    <View style={[{ height, borderRadius: radius, overflow: 'hidden' }, style]}>
       {source ? (
         <Image
           source={source}
           resizeMode={fit}
-          // Pin to every edge instead of using percentage width/height. Some
-          // ArtSlot consumers carry their content padding on the slot itself;
-          // percentage sizing then resolves against that padded content box
-          // and leaves an exposed strip at the trailing edge.
-          style={
-            placement === 'trailing'
-              ? { position: 'absolute', top: 0, right: 0, bottom: 0, width: '44%' }
-              : { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }
-          }
+          style={{ position: 'absolute', width: '100%', height: '100%' }}
           accessibilityIgnoresInvertColors
         />
       ) : (
@@ -101,19 +90,6 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
           </Text>
         </View>
       )}
-      {dawnSurface && source ? (
-        <LinearGradient
-          // Dawn artwork stays full-width. A soft surface veil protects copy on
-          // the left without throwing away most of a landscape image in a tiny
-          // right-hand crop.
-          colors={[t.surface, t.surface, `${t.surface}F2`, `${t.surface}8A`, `${t.surface}0A`]}
-          locations={[0, 0.30, 0.50, 0.74, 1]}
-          start={{ x: 0, y: 0.5 }}
-          end={{ x: 1, y: 0.5 }}
-          pointerEvents="none"
-          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
-        />
-      ) : null}
       {scrim ? (
         <LinearGradient
           colors={scrim}
