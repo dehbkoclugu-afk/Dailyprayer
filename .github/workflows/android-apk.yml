@@ -192,6 +192,38 @@ jobs:
             ! grep -q "FATAL EXCEPTION" logcat.txt
             adb shell pidof com.lumen.dailyprayer
 
+            mkdir -p visual-smoke
+            capture_screen() {
+              route="$1"
+              name="$2"
+              adb shell am start -W -a android.intent.action.VIEW -d "lumen://${route}" -p com.lumen.dailyprayer >/dev/null
+              sleep 2
+              adb exec-out screencap -p > "visual-smoke/${theme}-${name}.png"
+            }
+
+            for theme in dawn vigil; do
+              if [ "$theme" = "dawn" ]; then
+                adb shell cmd uimode night no
+              else
+                adb shell cmd uimode night yes
+              fi
+              adb shell am force-stop com.lumen.dailyprayer
+              sleep 1
+
+              capture_screen "today" "today"
+              capture_screen "bible" "bible"
+              capture_screen "plan/peace-7" "plan-list"
+              capture_screen "plan/peace-7/0" "plan-reading"
+              capture_screen "pray" "pray"
+              capture_screen "player?id=morning-light" "player"
+              capture_screen "journal" "journal"
+              capture_screen "profile" "profile"
+              capture_screen "paywall" "paywall"
+            done
+
+            adb logcat -d > logcat.txt
+            ! grep -q "FATAL EXCEPTION" logcat.txt
+
       - name: Upload logcat
         if: always()
         uses: actions/upload-artifact@v4
@@ -199,3 +231,11 @@ jobs:
           name: daily-prayer-logcat
           path: logcat.txt
           if-no-files-found: ignore
+
+      - name: Upload visual smoke screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lumen-visual-smoke
+          path: visual-smoke/*.png
+          if-no-files-found: error
