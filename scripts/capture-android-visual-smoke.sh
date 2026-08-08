@@ -5,12 +5,24 @@ package="com.lumen.dailyprayer"
 output_dir="visual-smoke"
 mkdir -p "$output_dir"
 
+# Match the narrow Android layout we actually care about while keeping the
+# headless emulator's framebuffer modest. The default Pixel 6 1080x2400
+# surface proved unnecessarily heavy during repeated screencaps on hosted
+# runners, and it also missed the ~360dp layout that exposed the card bug.
+adb shell wm size 720x1600
+adb shell wm density 320
+sleep 2
+
 capture_screen() {
   local route="$1"
   local name="$2"
+  local target="${output_dir}/${theme}-${name}.png"
+  local pending="${target}.pending"
   adb shell am start -W -a android.intent.action.VIEW -d "lumen://${route}" -p "$package" >/dev/null
   sleep 2
-  adb exec-out screencap -p > "${output_dir}/${theme}-${name}.png"
+  adb exec-out screencap -p > "$pending"
+  test -s "$pending"
+  mv "$pending" "$target"
 }
 
 for theme in dawn vigil; do
