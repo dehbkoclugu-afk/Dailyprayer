@@ -433,6 +433,13 @@ const text: Partial<Record<Locale, StepText[]>> = {
     { question: 'Quanto ti è familiare la preghiera?', labels: { new: 'Sto appena iniziando', returning: 'Sto tornando dopo un periodo', regular: 'Prego regolarmente' } },
     { question: 'Quando vorresti un piccolo promemoria quotidiano?', subtitle: 'Un promemoria discreto, mai spam.', labels: { '07:30': 'Mattina · 7:30', '12:30': 'Mezzogiorno · 12:30', '21:00': 'Sera · 21:00', none: 'Nessun promemoria' } },
   ],
+  nl: [
+    { question: 'Welke traditie voelt voor jou als thuis?', subtitle: 'We stemmen je gebeden en plannen daarop af.', labels: { catholic: 'Katholiek', protestant: 'Protestants', orthodox: 'Orthodox', nondenominational: 'Niet-confessioneel', exploring: 'Ik verken het gewoon' } },
+    { question: 'Wat hoop je dat in jou groeit?', subtitle: 'Kies alles wat bij je past.', affirmation: 'Je bent in goed gezelschap: 73% van de leden kwam om dezelfde reden.', labels: { habit: 'Een dagelijkse gebedsgewoonte', closer: 'Dichter bij God zijn', peace: 'Meer vrede en minder angst', sleep: 'Beter slapen', bible: 'De Bijbel begrijpen', gratitude: 'Een dankbaar hart' } },
+    { question: 'Wat weegt de laatste tijd op je?', subtitle: 'Je antwoord blijft privé en helpt je plan vorm te geven.', affirmation: 'Dank je voor je vertrouwen. De Schrift ontmoet mensen juist hier.', labels: { anxiety: 'Angst of zorgen', loneliness: 'Eenzaamheid', grief: 'Rouw of verlies', direction: 'Richting vinden', consistency: 'Volhouden', none: 'Het gaat goed met me' } },
+    { question: 'Hoe vertrouwd is gebed voor jou?', labels: { new: 'Ik begin net', returning: 'Ik kom na een tijd terug', regular: 'Ik bid regelmatig' } },
+    { question: 'Wanneer wil je een dagelijkse herinnering?', subtitle: 'Een zachte herinnering, nooit spam.', labels: { '07:30': 'Ochtend · 7:30', '12:30': 'Middag · 12:30', '21:00': 'Avond · 21:00', none: 'Geen herinneringen' } },
+  ],
 };
 
 /** Localized quiz steps for the active locale, falling back to English. */
