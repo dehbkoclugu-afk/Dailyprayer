@@ -111,8 +111,6 @@ export default function Profile() {
       <ArtSlot
         id="A15-building-candle"
         variant="card"
-        placement="trailing"
-        fit="contain"
         radius={radius.card}
         style={{
           backgroundColor: t.surface,
@@ -163,8 +161,6 @@ export default function Profile() {
       <ArtSlot
         id="A8-paywall-hero"
         variant="card"
-        placement="trailing"
-        fit="contain"
         radius={radius.card}
         style={{
           // Active Plus previously filled with goldSoft , a muddy olive block on
