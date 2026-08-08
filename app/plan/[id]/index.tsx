@@ -62,7 +62,7 @@ export default function PlanScreen() {
               style={{ position: 'absolute', width: '100%', height: '100%' }}
             />
           ) : null}
-          <View style={{ flex: 1, width: dawn ? '64%' : '100%', padding: spacing.xl, justifyContent: 'flex-end' }}>
+          <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
             <Text style={{ fontFamily: fonts.serif, fontSize: 24, color: dawn ? t.ink : '#F2EEE6' }}>{plan.title}</Text>
             <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: dawn ? t.inkSoft : 'rgba(242,238,230,0.8)', marginTop: spacing.xs }}>
               {plan.tagline}
@@ -130,7 +130,7 @@ export default function PlanScreen() {
               })}
             >
               <PlanDayArtwork planId={plan.id} dayIndex={dayIdx} radius={radius.card} style={{ width: '100%' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, padding: spacing.lg, minHeight: 72 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, paddingLeft: spacing.lg, paddingVertical: spacing.lg, paddingRight: spacing.lg, minHeight: 80 }}>
                   <View
                     style={{
                       width: 34,
@@ -149,7 +149,7 @@ export default function PlanScreen() {
                       </Text>
                     )}
                   </View>
-                  <View style={{ flex: 1, paddingRight: dawn ? '30%' : 0 }}>
+                  <View style={{ flex: 1 }}>
                     <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: artwork.foreground.primary }}>
                       {tr('plan.dayLabel')} {dayIdx + 1}
                     </Text>

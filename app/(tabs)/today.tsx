@@ -199,11 +199,9 @@ export default function Today() {
             <View
               style={{
                 flex: 1,
-                width: dawn ? '64%' : '100%',
                 padding: spacing.xl,
-                flexDirection: 'row',
-                alignItems: 'flex-end',
-                justifyContent: 'space-between',
+                paddingRight: 96,
+                justifyContent: 'flex-end',
               }}
             >
               <View style={{ flex: 1 }}>
@@ -235,6 +233,9 @@ export default function Today() {
                     : `${tr('a11y.play')} ${sleepPrayer.title}`
                 }
                 style={{
+                  position: 'absolute',
+                  right: dawn ? 24 : spacing.xl,
+                  bottom: spacing.xl,
                   fontFamily: fonts.sansSemiBold,
                   fontSize: 14,
                   color: t.onGold,

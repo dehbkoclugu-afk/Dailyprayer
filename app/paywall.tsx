@@ -220,7 +220,7 @@ export default function Paywall() {
               style={{ position: 'absolute', width: '100%', height: '100%' }}
             />
           ) : null}
-          <View style={{ flex: 1, width: dawn ? '64%' : '100%', justifyContent: 'flex-end', padding: spacing.xl }}>
+          <View style={{ flex: 1, justifyContent: 'flex-end', padding: spacing.xl }}>
             <Text style={{ fontFamily: fonts.serif, fontSize: 27, color: dawn ? t.ink : '#F2EEE6' }}>
 {tr(paywallContext.titleKey)}
             </Text>

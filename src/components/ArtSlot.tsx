@@ -16,6 +16,8 @@ interface Props {
   style?: StyleProp<ViewStyle>;
   /** Theme-aware scrim. Bare preserves the original artwork untouched. */
   variant?: 'bare' | 'row' | 'card' | 'hero';
+  /** Keep square/portrait spot art intact at the trailing edge of a wide card. */
+  placement?: 'fill' | 'trailing';
   /** rendered above the art (e.g. scrims, text) */
   children?: React.ReactNode;
 }
@@ -30,7 +32,7 @@ const DARK_SCRIMS = {
  * Art slot: renders finished artwork when registered in artRegistry, otherwise
  * an elegant labeled placeholder so the layout is final before art exists.
  */
-export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant = 'bare', children }: Props) {
+export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant = 'bare', placement = 'fill', children }: Props) {
   const t = useTheme();
   const artwork = useArtwork();
   const source = artwork.source(id);
@@ -55,13 +57,15 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
         <Image
           source={source}
           resizeMode={fit}
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            width: dawnSurface ? '44%' : '100%',
-          }}
+          // Pin to every edge instead of using percentage width/height. Some
+          // ArtSlot consumers carry their content padding on the slot itself;
+          // percentage sizing then resolves against that padded content box
+          // and leaves an exposed strip at the trailing edge.
+          style={
+            placement === 'trailing'
+              ? { position: 'absolute', top: 0, right: 0, bottom: 0, width: '44%' }
+              : { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }
+          }
           accessibilityIgnoresInvertColors
         />
       ) : (
@@ -98,18 +102,16 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
         </View>
       )}
       {dawnSurface && source ? (
-        <View
+        <LinearGradient
+          // Dawn artwork stays full-width. A soft surface veil protects copy on
+          // the left without throwing away most of a landscape image in a tiny
+          // right-hand crop.
+          colors={[t.surface, t.surface, `${t.surface}F2`, `${t.surface}8A`, `${t.surface}0A`]}
+          locations={[0, 0.30, 0.50, 0.74, 1]}
+          start={{ x: 0, y: 0.5 }}
+          end={{ x: 1, y: 0.5 }}
           pointerEvents="none"
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            width: '44%',
-            backgroundColor: 'rgba(251,247,240,0.10)',
-            borderLeftWidth: 1,
-            borderLeftColor: t.border,
-          }}
+          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
         />
       ) : null}
       {scrim ? (

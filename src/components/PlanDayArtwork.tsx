@@ -19,32 +19,19 @@ export function PlanDayArtwork({ planId, dayIndex, radius, height, variant = 'ro
   const t = useTheme();
   const artwork = useArtwork();
   const dawn = artwork.scheme === 'dawn';
-  const splitDawn = dawn && variant === 'row';
   const source = planDayArtSource(planId, dayIndex, artwork.scheme);
 
   return (
     <View style={[{ height, borderRadius: radius, overflow: 'hidden', backgroundColor: t.surface }, style]}>
-      {source ? (
-        <Image
-          source={source}
-          resizeMode="cover"
-          style={{ position: 'absolute', right: 0, width: splitDawn ? '44%' : '100%', height: '100%' }}
-          accessibilityIgnoresInvertColors
-        />
-      ) : null}
-      {splitDawn ? (
-        <View
+      {source ? <Image source={source} resizeMode="cover" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} accessibilityIgnoresInvertColors /> : null}
+      {dawn && variant === 'row' && source ? (
+        <LinearGradient
           pointerEvents="none"
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            width: '44%',
-            borderLeftWidth: 1,
-            borderLeftColor: t.border,
-            backgroundColor: 'rgba(251,247,240,0.08)',
-          }}
+          colors={[t.surface, t.surface, `${t.surface}F2`, `${t.surface}8A`, `${t.surface}0A`]}
+          locations={[0, 0.30, 0.50, 0.74, 1]}
+          start={{ x: 0, y: 0.5 }}
+          end={{ x: 1, y: 0.5 }}
+          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
         />
       ) : !dawn ? (
         <LinearGradient

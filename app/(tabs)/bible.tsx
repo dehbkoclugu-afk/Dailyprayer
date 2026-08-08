@@ -43,10 +43,8 @@ export default function Bible() {
         accessibilityLabel={`${tr('read.openBible')} , ${tr('read.continue')} ${readerBookName} ${readerChapter + 1}`}
         style={({ pressed }) => ({ marginTop: spacing.xl, opacity: pressed ? 0.92 : 1 })}
       >
-        <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
+        <View style={{ borderRadius: radius.card, overflow: 'hidden', backgroundColor: t.surface, borderWidth: dawn ? 1 : 0, borderColor: t.border }}>
           <ArtSlot id="A18-ritual-reading" height={176} radius={radius.card} variant={dawn ? 'card' : 'bare'}>
-            {/* keep the candlelit art bright , only enough darkening at the base
-                for the cream title to stay legible */}
             {!dawn ? (
               <LinearGradient
                 colors={['rgba(26,18,6,0.02)', 'rgba(26,18,6,0.26)', 'rgba(20,14,6,0.78)']}
@@ -55,37 +53,20 @@ export default function Bible() {
                 style={{ position: 'absolute', width: '100%', height: '100%' }}
               />
             ) : null}
-            <View style={{ flex: 1, width: dawn ? '64%' : '100%', padding: spacing.xl, justifyContent: 'flex-end' }}>
-              <Text
-                style={{
-                  fontFamily: fonts.sansSemiBold,
-                  fontSize: 11,
-                  letterSpacing: 2.5,
-                  textTransform: 'uppercase',
-                  color: t.gold,
-                }}
-              >
+            <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
+              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 11, letterSpacing: 2.5, textTransform: 'uppercase', color: t.gold }}>
                 {tr('read.continue')}
               </Text>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 4 }}>
                 <View style={{ flex: 1, paddingRight: spacing.lg }}>
-                  <Text style={{ fontFamily: fonts.serif, fontSize: 24, color: dawn ? t.ink : '#F2EEE6' }}>
+                  <Text numberOfLines={2} style={{ fontFamily: fonts.serif, fontSize: 24, color: dawn ? t.ink : '#F2EEE6' }}>
                     {tr('read.openBible')}
                   </Text>
                   <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: dawn ? t.inkSoft : 'rgba(242,238,230,0.82)', marginTop: spacing.xs }}>
                     {readerBookName} {readerChapter + 1}
                   </Text>
                 </View>
-                <View
-                  style={{
-                    width: 48,
-                    height: 48,
-                    borderRadius: 24,
-                    backgroundColor: t.gold,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
+                <View style={{ width: 48, height: 48, borderRadius: 24, backgroundColor: t.gold, alignItems: 'center', justifyContent: 'center' }}>
                   <Ionicons name="arrow-forward" size={22} color={t.onGold} />
                 </View>
               </View>
@@ -97,8 +78,8 @@ export default function Bible() {
       {/* quick access to Scripture search and the reader's saved verses */}
       <View style={{ flexDirection: 'row', gap: spacing.md, marginTop: spacing.md }}>
         {[
-          { icon: 'search' as const, art: 'A14-bible-etching' as const, label: tr('read.search'), onPress: () => router.push('/search') },
-          { icon: 'bookmark-outline' as const, art: 'A18-ritual-reading' as const, label: tr('library.title'), onPress: () => router.push('/library') },
+          { icon: 'search' as const, label: tr('read.search'), onPress: () => router.push('/search') },
+          { icon: 'bookmark-outline' as const, label: tr('library.title'), onPress: () => router.push('/library') },
         ].map((a) => (
           <Pressable
             key={a.label}
@@ -115,22 +96,19 @@ export default function Bible() {
               opacity: pressed ? 0.85 : 1,
             })}
           >
-            <ArtSlot id={a.art} variant="card" radius={radius.inner} style={{ width: '100%' }}>
-              <View
-                style={{
-                  minHeight: 48,
-                  width: dawn ? '64%' : '100%',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: spacing.sm,
-                  paddingVertical: spacing.md,
-                }}
-              >
-                <Ionicons name={a.icon} size={18} color={t.gold} />
-                <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: artwork.foreground.primary }}>{a.label}</Text>
-              </View>
-            </ArtSlot>
+            <View
+              style={{
+                minHeight: 52,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: spacing.sm,
+                paddingVertical: spacing.md,
+              }}
+            >
+              <Ionicons name={a.icon} size={19} color={t.gold} />
+              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: t.ink }}>{a.label}</Text>
+            </View>
           </Pressable>
         ))}
       </View>
@@ -150,7 +128,7 @@ export default function Bible() {
               accessibilityRole="button"
               accessibilityLabel={`${p.title}${locked ? ', requires Plus' : ''}`}
             >
-              <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
+              <View style={{ borderRadius: radius.card, overflow: 'hidden', backgroundColor: t.surface, borderWidth: dawn ? 1 : 0, borderColor: t.border }}>
                 <ArtSlot id={p.art} height={150} radius={radius.card} variant={dawn ? 'card' : 'bare'}>
                   {!dawn ? (
                     <LinearGradient
@@ -160,14 +138,14 @@ export default function Bible() {
                       style={{ position: 'absolute', width: '100%', height: '100%' }}
                     />
                   ) : null}
-                  <View style={{ flex: 1, width: dawn ? '64%' : '100%', padding: spacing.xl, justifyContent: 'flex-end' }}>
+                  <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Text style={{ fontFamily: fonts.serif, fontSize: 20, color: dawn ? t.ink : '#F2EEE6', flex: 1 }}>
+                      <Text numberOfLines={2} style={{ fontFamily: fonts.serif, fontSize: 20, color: dawn ? t.ink : '#F2EEE6', flex: 1 }}>
                         {p.title}
                       </Text>
                       {locked ? <Ionicons name="lock-closed" size={18} color="#D9A441" /> : null}
                     </View>
-                    <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: dawn ? t.inkSoft : 'rgba(242,238,230,0.75)', marginTop: spacing.xs }}>
+                    <Text numberOfLines={2} style={{ fontFamily: fonts.sans, fontSize: 14, color: dawn ? t.inkSoft : 'rgba(242,238,230,0.75)', marginTop: spacing.xs }}>
                       {p.tagline}
                     </Text>
                     <Text
