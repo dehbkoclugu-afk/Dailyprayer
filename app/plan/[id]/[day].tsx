@@ -49,7 +49,7 @@ export default function PlanDay() {
 
   return (
     <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
-      <View>
+      <View style={{ flex: 1 }}>
         <Pressable
           onPress={() => router.back()}
           hitSlop={12}
@@ -109,7 +109,21 @@ export default function PlanDay() {
         </Text>
 
         {teaser ? (
-          <View style={{ flexDirection: 'row', marginTop: spacing.xl }}>
+          <View
+            style={{
+              flex: 1,
+              minHeight: 150,
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginTop: spacing.xl,
+              marginBottom: spacing.xl,
+              padding: spacing.lg,
+              backgroundColor: t.surface,
+              borderWidth: 1,
+              borderColor: t.border,
+              borderRadius: radius.card,
+            }}
+          >
             <Text
               style={{
                 fontFamily: fonts.serif,
@@ -117,7 +131,6 @@ export default function PlanDay() {
                 lineHeight: 46,
                 color: t.gold,
                 marginRight: spacing.sm,
-                marginTop: 2,
               }}
             >
               {'“'}
