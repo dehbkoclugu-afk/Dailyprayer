@@ -38,6 +38,11 @@ const GOAL_LABELS: Partial<Record<Locale, Record<string, string>>> = {
     sleep: 'un sonno sereno', bible: 'comprendere la Scrittura', gratitude: 'un cuore riconoscente',
     default: 'una vita di preghiera più profonda',
   },
+  nl: {
+    habit: 'een vast dagelijks ritme', closer: 'dichter bij God zijn', peace: 'vrede in plaats van angst',
+    sleep: 'rustige slaap', bible: 'de Schrift begrijpen', gratitude: 'een dankbaar hart',
+    default: 'een dieper gebedsleven',
+  },
 };
 
 /** Personalized plan reveal , the moment before the paywall. */
