@@ -200,7 +200,7 @@ export default function Today() {
               style={{
                 flex: 1,
                 padding: spacing.xl,
-                paddingRight: dawn ? 150 : 96,
+                paddingRight: 96,
                 justifyContent: 'flex-end',
               }}
             >

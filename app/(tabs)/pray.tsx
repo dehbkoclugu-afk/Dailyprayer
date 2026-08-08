@@ -126,7 +126,7 @@ export default function Pray() {
                     gap: spacing.lg,
                     paddingLeft: spacing.lg,
                     paddingVertical: spacing.md,
-                    paddingRight: artwork.scheme === 'dawn' ? 104 : p.plus ? 72 : spacing.lg,
+                    paddingRight: p.plus ? 72 : spacing.lg,
                     minHeight: 88,
                   }}
                 >

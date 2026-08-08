@@ -45,7 +45,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
   const t = useTheme();
   const artwork = useArtwork();
   const dawn = artwork.scheme === 'dawn';
-  const cardHeight = dawn ? 360 : 320;
+  const cardHeight = dawn ? 340 : 320;
   const cardRef = useRef<View>(null);
 
   /** Share the rendered card as an image (organic growth); text fallback on web/failure. */
@@ -67,9 +67,9 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
     <View
       style={{
         flex: 1,
+        width: dawn ? '82%' : '100%',
         padding: dawn ? spacing.lg : spacing.xl,
-        paddingTop: dawn ? spacing.lg : spacing.xxl,
-        backgroundColor: dawn ? t.surface : undefined,
+        paddingTop: dawn ? spacing.xl : spacing.xxl,
       }}
     >
       <Text
@@ -155,18 +155,9 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
         shadow.card,
       ]}
     >
-      {dawn ? (
-        <View style={{ flex: 1, backgroundColor: t.surface }}>
-          <View style={{ borderBottomWidth: 1, borderBottomColor: t.border }}>
-            <ArtSlot id={VERSE_ART[verse.theme]} height={96} variant="bare" />
-          </View>
-          {content}
-        </View>
-      ) : (
-        <ArtSlot id={VERSE_ART[verse.theme]} height={cardHeight} radius={radius.hero} variant="hero">
-          {content}
-        </ArtSlot>
-      )}
+      <ArtSlot id={VERSE_ART[verse.theme]} height={cardHeight} radius={radius.hero} variant={dawn ? 'card' : 'hero'}>
+        {content}
+      </ArtSlot>
     </Pressable>
   );
 }

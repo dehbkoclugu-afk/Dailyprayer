@@ -36,9 +36,6 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
   const source = artwork.source(id);
   const spec = artSpecs[id];
   const dawnSurface = artwork.scheme === 'dawn' && (variant === 'row' || variant === 'card');
-  const dawnInset = variant === 'row'
-    ? { top: 8, right: 8, bottom: 8, width: 88, radius: Math.max(12, radius - 8) }
-    : { top: 10, right: 10, bottom: 10, width: 124, radius: Math.max(14, radius - 10) };
   const scrim =
     variant === 'bare'
       ? null
@@ -54,32 +51,11 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
         style,
       ]}
     >
-      {source ? dawnSurface ? (
-        <View
-          pointerEvents="none"
-          style={{
-            position: 'absolute',
-            top: dawnInset.top,
-            right: dawnInset.right,
-            bottom: dawnInset.bottom,
-            width: dawnInset.width,
-            borderRadius: dawnInset.radius,
-            overflow: 'hidden',
-            backgroundColor: t.surfaceAlt,
-          }}
-        >
-          <Image
-            source={source}
-            resizeMode={fit}
-            style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '135%', height: '100%' }}
-            accessibilityIgnoresInvertColors
-          />
-        </View>
-      ) : (
+      {source ? (
         <Image
           source={source}
           resizeMode={fit}
-          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '100%' }}
+          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
           accessibilityIgnoresInvertColors
         />
       ) : (
@@ -115,6 +91,19 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
           </Text>
         </View>
       )}
+      {dawnSurface && source ? (
+        <LinearGradient
+          // Dawn artwork stays full-width. A soft surface veil protects copy on
+          // the left without throwing away most of a landscape image in a tiny
+          // right-hand crop.
+          colors={[t.surface, t.surface, `${t.surface}F2`, `${t.surface}8A`, `${t.surface}0A`]}
+          locations={[0, 0.30, 0.50, 0.74, 1]}
+          start={{ x: 0, y: 0.5 }}
+          end={{ x: 1, y: 0.5 }}
+          pointerEvents="none"
+          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
+        />
+      ) : null}
       {scrim ? (
         <LinearGradient
           colors={scrim}

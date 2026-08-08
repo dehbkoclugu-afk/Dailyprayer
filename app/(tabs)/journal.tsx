@@ -41,7 +41,11 @@ export default function Journal() {
 
       {/* Composer , one calm card with room to breathe: a serif prompt, a
           borderless field, and the save action, spaced generously. */}
-      <View
+      <ArtSlot
+        id="A22-journal-compose"
+        height={310}
+        radius={radius.card}
+        variant="card"
         style={{
           backgroundColor: t.surface,
           borderRadius: radius.card,
@@ -51,8 +55,7 @@ export default function Journal() {
           overflow: 'hidden',
         }}
       >
-        <ArtSlot id="A22-journal-compose" height={136} variant="bare" />
-        <View style={{ padding: spacing.lg }}>
+        <View style={{ flex: 1, padding: spacing.lg }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
             <Ionicons name="leaf-outline" size={16} color={t.gold} />
             <Text
@@ -90,7 +93,8 @@ export default function Journal() {
             accessibilityLabel={tr('a11y.journalEntry')}
             style={{
               marginTop: spacing.lg,
-              minHeight: 68,
+              minHeight: 64,
+              flex: 1,
               fontFamily: fonts.sans,
               fontSize: 16,
               lineHeight: 25,
@@ -103,10 +107,10 @@ export default function Journal() {
             label={tr('journal.save')}
             onPress={submit}
             disabled={!text.trim()}
-            style={{ marginTop: spacing.md }}
+            style={{ marginTop: spacing.sm }}
           />
         </View>
-      </View>
+      </ArtSlot>
 
       <SectionHeader title={tr('journal.entries')} />
       {shown.length === 0 ? (
