@@ -74,6 +74,7 @@ export default function PlanDay() {
           dayIndex={dayIdx}
           height={138}
           radius={radius.card}
+          variant="hero"
           style={{ marginTop: spacing.lg, borderWidth: 1, borderColor: t.border }}
         />
 

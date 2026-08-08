@@ -10,14 +10,16 @@ interface Props {
   dayIndex: number;
   radius: number;
   height?: number;
+  variant?: 'row' | 'hero';
   style?: StyleProp<ViewStyle>;
   children?: React.ReactNode;
 }
 
-export function PlanDayArtwork({ planId, dayIndex, radius, height, style, children }: Props) {
+export function PlanDayArtwork({ planId, dayIndex, radius, height, variant = 'row', style, children }: Props) {
   const t = useTheme();
   const artwork = useArtwork();
   const dawn = artwork.scheme === 'dawn';
+  const splitDawn = dawn && variant === 'row';
   const source = planDayArtSource(planId, dayIndex, artwork.scheme);
 
   return (
@@ -26,11 +28,11 @@ export function PlanDayArtwork({ planId, dayIndex, radius, height, style, childr
         <Image
           source={source}
           resizeMode="cover"
-          style={{ position: 'absolute', right: 0, width: dawn ? '44%' : '100%', height: '100%' }}
+          style={{ position: 'absolute', right: 0, width: splitDawn ? '44%' : '100%', height: '100%' }}
           accessibilityIgnoresInvertColors
         />
       ) : null}
-      {dawn ? (
+      {splitDawn ? (
         <View
           pointerEvents="none"
           style={{
@@ -44,7 +46,7 @@ export function PlanDayArtwork({ planId, dayIndex, radius, height, style, childr
             backgroundColor: 'rgba(251,247,240,0.08)',
           }}
         />
-      ) : (
+      ) : !dawn ? (
         <LinearGradient
           pointerEvents="none"
           colors={['rgba(14,18,32,0.92)', 'rgba(14,18,32,0.72)', 'rgba(14,18,32,0.16)']}
@@ -53,7 +55,7 @@ export function PlanDayArtwork({ planId, dayIndex, radius, height, style, childr
           end={{ x: 1, y: 0.5 }}
           style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
         />
-      )}
+      ) : null}
       {children}
     </View>
   );

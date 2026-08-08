@@ -45,6 +45,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
   const t = useTheme();
   const artwork = useArtwork();
   const dawn = artwork.scheme === 'dawn';
+  const cardHeight = dawn ? 360 : 320;
   const cardRef = useRef<View>(null);
 
   /** Share the rendered card as an image (organic growth); text fallback on web/failure. */
@@ -71,12 +72,22 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       // A fixed-height hero box: the frame stays constant so the layout below it
       // never shifts. Long verses scroll gently inside instead of growing the card.
       style={[
-        { height: 320, borderRadius: radius.hero, overflow: 'hidden' },
+        { height: cardHeight, borderRadius: radius.hero, overflow: 'hidden' },
         shadow.card,
       ]}
     >
-      <ArtSlot id={VERSE_ART[verse.theme]} height={320} radius={radius.hero} variant={dawn ? 'card' : 'hero'}>
-      <View style={{ flex: 1, width: dawn ? '64%' : '100%', padding: spacing.xl, paddingTop: spacing.xxl }}>
+      <ArtSlot id={VERSE_ART[verse.theme]} height={cardHeight} radius={radius.hero} variant={dawn ? 'card' : 'hero'}>
+        <View
+          style={{
+            flex: 1,
+            width: dawn ? '72%' : '100%',
+            padding: dawn ? spacing.lg : spacing.xl,
+            paddingTop: dawn ? spacing.xl : spacing.xxl,
+            backgroundColor: dawn ? t.surface : undefined,
+            borderRightWidth: dawn ? 1 : 0,
+            borderRightColor: t.border,
+          }}
+        >
           <Text
             style={{
               fontFamily: fonts.sansSemiBold,
@@ -86,7 +97,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               color: t.gold,
             }}
           >
-{tr('today.verseOfDay')}
+            {tr('today.verseOfDay')}
           </Text>
 
           {/* the verse gets a flexible middle that scrolls when it's long; a soft
@@ -100,8 +111,8 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               <Text
                 style={{
                   fontFamily: fonts.serifLight,
-                  fontSize: 25,
-                  lineHeight: 37,
+                  fontSize: dawn ? 22 : 25,
+                  lineHeight: dawn ? 32 : 37,
                   letterSpacing: -0.3,
                   color: dawn ? t.ink : '#F2EEE6',
                   marginLeft: -2, // hanging opening quote
