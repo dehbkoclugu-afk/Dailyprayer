@@ -55,7 +55,11 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
         <Image
           source={source}
           resizeMode={fit}
-          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+          // Pin to every edge instead of using percentage width/height. Some
+          // ArtSlot consumers carry their content padding on the slot itself;
+          // percentage sizing then resolves against that padded content box
+          // and leaves an exposed strip at the trailing edge.
+          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
           accessibilityIgnoresInvertColors
         />
       ) : (
