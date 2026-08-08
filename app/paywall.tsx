@@ -358,3 +358,112 @@ export default function Paywall() {
       ) : null}
 
       {restoreStatus !== 'missing' ? (
+        <Pressable
+          onPress={restorePurchase}
+          disabled={restoreStatus === 'busy'}
+          accessibilityRole="button"
+          accessibilityState={{ busy: restoreStatus === 'busy', disabled: restoreStatus === 'busy' }}
+          accessibilityLabel={tr('paywall.restore')}
+          style={({ pressed }) => ({
+            marginTop: spacing.lg,
+            minHeight: 48,
+            justifyContent: 'center',
+            opacity: restoreStatus === 'busy' ? 0.5 : pressed ? 0.6 : 1,
+          })}
+        >
+          <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: t.blue, textAlign: 'center' }}>
+            {restoreStatus === 'busy' ? tr('paywall.restoring') : tr('paywall.restore')}
+          </Text>
+        </Pressable>
+      ) : null}
+      {restoreStatus === 'missing' ? (
+        <View
+          accessibilityRole="alert"
+          style={{
+            marginTop: spacing.lg,
+            padding: spacing.lg,
+            borderRadius: radius.inner,
+            backgroundColor: t.surfaceAlt,
+          }}
+        >
+          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: t.ink }}>
+            {tr('paywall.restoreMissingTitle')}
+          </Text>
+          <Text
+            style={{
+              fontFamily: fonts.sans,
+              fontSize: 13,
+              lineHeight: 19,
+              color: t.inkSoft,
+              marginTop: spacing.xs,
+            }}
+          >
+            {tr('paywall.restoreMissing')}
+          </Text>
+          <Pressable
+            onPress={restorePurchase}
+            accessibilityRole="button"
+            accessibilityLabel={tr('paywall.retry')}
+            style={({ pressed }) => ({
+              minHeight: 48,
+              justifyContent: 'center',
+              marginTop: spacing.sm,
+              opacity: pressed ? 0.6 : 1,
+            })}
+          >
+            <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>
+              {tr('paywall.retry')}
+            </Text>
+          </Pressable>
+          {supportEmail ? (
+            <Pressable
+              onPress={contactSupport}
+              accessibilityRole="button"
+              accessibilityLabel={tr('paywall.contactSupport')}
+              style={({ pressed }) => ({
+                minHeight: 48,
+                justifyContent: 'center',
+                opacity: pressed ? 0.6 : 1,
+              })}
+            >
+              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>
+                {tr('paywall.contactSupport')}
+              </Text>
+            </Pressable>
+          ) : null}
+        </View>
+      ) : null}
+      <Text
+        style={{
+          fontFamily: fonts.sans,
+          fontSize: 12,
+          color: t.inkFaint,
+          textAlign: 'center',
+          marginTop: spacing.md,
+        }}
+      >
+{tr('paywall.legalPrefix')}
+      </Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'center', gap: spacing.lg, marginTop: 6 }}>
+        <Pressable
+          onPress={() => router.push({ pathname: '/legal', params: { doc: 'terms' } })}
+          accessibilityRole="link"
+          style={{ minHeight: 48, justifyContent: 'center' }}
+        >
+          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: t.blue }}>
+            {tr('paywall.termsLink')}
+          </Text>
+        </Pressable>
+        <Pressable
+          onPress={() => router.push({ pathname: '/legal', params: { doc: 'privacy' } })}
+          accessibilityRole="link"
+          style={{ minHeight: 48, justifyContent: 'center' }}
+        >
+          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: t.blue }}>
+            {tr('paywall.privacyLink')}
+          </Text>
+        </Pressable>
+      </View>
+    </Screen>
+  );
+}
