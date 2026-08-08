@@ -130,7 +130,7 @@ export default function PlanScreen() {
               })}
             >
               <PlanDayArtwork planId={plan.id} dayIndex={dayIdx} radius={radius.card} style={{ width: '100%' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, paddingLeft: spacing.lg, paddingVertical: spacing.lg, paddingRight: dawn ? 118 : spacing.lg, minHeight: 80 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, paddingLeft: spacing.lg, paddingVertical: spacing.lg, paddingRight: dawn ? 104 : spacing.lg, minHeight: 80 }}>
                   <View
                     style={{
                       width: 34,

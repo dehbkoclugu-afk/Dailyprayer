@@ -37,7 +37,7 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
   const spec = artSpecs[id];
   const dawnSurface = artwork.scheme === 'dawn' && (variant === 'row' || variant === 'card');
   const dawnInset = variant === 'row'
-    ? { top: 8, right: 8, bottom: 8, width: 96, radius: Math.max(12, radius - 8) }
+    ? { top: 8, right: 8, bottom: 8, width: 88, radius: Math.max(12, radius - 8) }
     : { top: 10, right: 10, bottom: 10, width: 124, radius: Math.max(14, radius - 10) };
   const scrim =
     variant === 'bare'

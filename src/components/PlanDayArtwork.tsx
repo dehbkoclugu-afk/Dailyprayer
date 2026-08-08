@@ -26,7 +26,7 @@ export function PlanDayArtwork({ planId, dayIndex, radius, height, variant = 'ro
     <View style={[{ height, borderRadius: radius, overflow: 'hidden', backgroundColor: t.surface }, style]}>
       {source ? (
         insetDawn ? (
-          <View style={{ position: 'absolute', top: 8, right: 8, bottom: 8, width: 96, borderRadius: 14, overflow: 'hidden' }}>
+          <View style={{ position: 'absolute', top: 8, right: 8, bottom: 8, width: 88, borderRadius: 14, overflow: 'hidden' }}>
             <Image
               source={source}
               resizeMode="cover"

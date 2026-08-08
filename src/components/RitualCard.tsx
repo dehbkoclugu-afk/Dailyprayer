@@ -77,7 +77,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         borderColor: done ? t.gold : t.border,
         paddingLeft: spacing.lg,
         paddingVertical: spacing.lg,
-        paddingRight: hasArt && artwork.scheme === 'dawn' ? 118 : 52,
+        paddingRight: hasArt && artwork.scheme === 'dawn' ? 104 : 52,
         gap: spacing.lg,
         overflow: 'hidden',
         opacity: pressed ? 0.9 : 1,
