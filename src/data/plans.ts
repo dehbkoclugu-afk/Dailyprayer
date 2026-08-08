@@ -126,6 +126,14 @@ const IT: Record<string, { title: string; tagline: string }> = {
   'bible-365': { title: 'La Bibbia in un Anno', tagline: 'L’intera storia, 20 minuti al giorno.' },
 };
 
+const NL: Record<string, { title: string; tagline: string }> = {
+  'peace-7': { title: 'Zeven Dagen van Vrede', tagline: 'Voor onrustige tijden: elke dag één kalmerend gedeelte.' },
+  'gratitude-7': { title: 'De Dankbare Week', tagline: 'Train je blik om overal genade te zien.' },
+  'psalms-30': { title: '30 Dagen in de Psalmen', tagline: 'Het gebedenboek van de Bijbel, één psalm tegelijk.' },
+  'gospels-90': { title: 'Het Leven van Jezus in 90 Dagen', tagline: 'Lees door alle vier de evangeliën.' },
+  'bible-365': { title: 'De Bijbel in een Jaar', tagline: 'Het hele verhaal, 20 minuten per dag.' },
+};
+
 const OVERLAYS: Partial<Record<Locale, Record<string, { title: string; tagline: string }>>> = {
   tr: TR,
   es: ES,
@@ -133,6 +141,7 @@ const OVERLAYS: Partial<Record<Locale, Record<string, { title: string; tagline: 
   fr: FR,
   de: DE,
   it: IT,
+  nl: NL,
 };
 
 /** Reading plans localized to the active locale (English fallback). */
