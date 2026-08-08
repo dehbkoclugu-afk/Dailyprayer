@@ -1,6 +1,9 @@
 name: Build global Bible release bundle
 
 on:
+  push:
+    branches:
+      - claude/bible-app-monetization-design-n3uiqr
   workflow_dispatch:
     inputs:
       version:
@@ -8,7 +11,7 @@ on:
         required: true
         default: 'bible-packs-v1'
       publish:
-        description: 'Publish/update the GitHub Release after validation'
+        description: 'Publish the GitHub Release after validation (never overwrites an existing release)'
         type: boolean
         required: true
         default: false
@@ -32,8 +35,8 @@ jobs:
       - name: Build 40 structurally validated Scripture packs
         env:
           BIBLE_PACK_TMPDIR: ${{ runner.temp }}
-          BIBLE_PACK_RELEASE_VERSION: ${{ inputs.version }}
-          BIBLE_PACK_BASE_URL: ${{ github.server_url }}/${{ github.repository }}/releases/download/${{ inputs.version }}
+          BIBLE_PACK_RELEASE_VERSION: ${{ github.event_name == 'workflow_dispatch' && inputs.version || 'bible-packs-v1' }}
+          BIBLE_PACK_BASE_URL: ${{ github.server_url }}/${{ github.repository }}/releases/download/${{ github.event_name == 'workflow_dispatch' && inputs.version || 'bible-packs-v1' }}
         run: node scripts/build-global-bible-release.mjs
       - name: Verify bundle size and manifest
         run: |
@@ -41,17 +44,20 @@ jobs:
           node -e "const m=require('./dist/bible-packs/manifest.json'); if(m.releases.length!==40) process.exit(1)"
       - uses: actions/upload-artifact@v4
         with:
-          name: lumen-global-bible-release-${{ inputs.version }}
+          name: lumen-global-bible-release-${{ github.event_name == 'workflow_dispatch' && inputs.version || 'bible-packs-v1' }}
           path: dist/bible-packs/
           if-no-files-found: error
           retention-days: 14
       - name: Publish immutable Bible pack release
-        if: inputs.publish
+        if: github.event_name == 'push' || inputs.publish
         env:
           GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ inputs.version }}
+          VERSION: ${{ github.event_name == 'workflow_dispatch' && inputs.version || 'bible-packs-v1' }}
         run: |
-          gh release view "$VERSION" >/dev/null 2>&1 || \
-            gh release create "$VERSION" --title "Lumen Bible packs $VERSION" \
-              --notes "Checksum-pinned Scripture language packs built from the validated source registry."
-          gh release upload "$VERSION" dist/bible-packs/*.json dist/bible-packs/*.sha256 --clobber
+          if gh release view "$VERSION" >/dev/null 2>&1; then
+            echo "Release $VERSION already exists; refusing to mutate immutable Scripture assets."
+            exit 0
+          fi
+          gh release create "$VERSION" --title "Lumen Bible packs $VERSION" \
+            --notes "Checksum-pinned Scripture language packs built from the validated source registry."
+          gh release upload "$VERSION" dist/bible-packs/*.json dist/bible-packs/*.sha256

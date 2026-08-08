@@ -13,7 +13,7 @@ import {
   RELEASE_CANDIDATE_SCRIPTURE_LOCALE_TAGS,
   type GlobalLocaleTag,
 } from '@/i18n/globalLanguageCatalog';
-import { BUNDLED_SCRIPTURE_LOCALES, isBundledScriptureLocale } from '@/i18n/scripture';
+import { BUNDLED_SCRIPTURE_LOCALES, isBundledScriptureLocale, useScriptureLocale } from '@/i18n/scripture';
 import { useUserStore } from '@/state/useUserStore';
 import { useReaderStore } from '@/state/useReaderStore';
 import {
@@ -32,7 +32,8 @@ const languages = GLOBAL_LANGUAGE_CATALOG.filter(
 
 export default function ScriptureLanguage() {
   const t = useTheme();
-  const { t: tr, locale: uiLocale } = useT();
+  const { t: tr } = useT();
+  const effectiveScriptureLocale = useScriptureLocale();
   const scriptureLocale = useUserStore((s) => s.scriptureLocale);
   const setScriptureLocale = useUserStore((s) => s.setScriptureLocale);
   const [installed, setInstalled] = useState<Set<GlobalLocaleTag>>(
@@ -41,7 +42,7 @@ export default function ScriptureLanguage() {
   const [releases, setReleases] = useState<Map<GlobalLocaleTag, BiblePackRelease>>(new Map());
   const [downloading, setDownloading] = useState<GlobalLocaleTag | null>(null);
 
-  const selected = scriptureLocale === 'system' ? uiLocale : scriptureLocale;
+  const selected = effectiveScriptureLocale;
 
   useEffect(() => {
     let active = true;
@@ -181,12 +182,12 @@ export default function ScriptureLanguage() {
               })}
             >
               <View style={{ flex: 1 }}>
-                <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>
+                <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}>
                   {item.nativeName}
                 </Text>
                 <Text
                   numberOfLines={1}
-                  style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkSoft, marginTop: 3 }}
+                  style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkSoft, marginTop: 3, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}
                 >
                   {edition}
                 </Text>

@@ -16,10 +16,12 @@ import { ReadingSettingsSheet } from '@/components/ReadingSettingsSheet';
 import { VerseActionSheet, type SelectedVerse } from '@/components/VerseActionSheet';
 import { useT } from '@/i18n';
 import { useScriptureLocale } from '@/i18n/scripture';
+import { RTL_LOCALE_TAGS } from '@/i18n/globalLanguageCatalog';
 
 export default function Read() {
   const { t: tr } = useT();
   const scriptureLocale = useScriptureLocale();
+  const scriptureRtl = RTL_LOCALE_TAGS.includes(scriptureLocale);
   const insets = useSafeAreaInsets();
   const bible = getBible(scriptureLocale);
   const { book, chapter, setPos } = useReaderStore();
@@ -204,11 +206,13 @@ export default function Read() {
                 letterSpacing: 2.5,
                 textTransform: 'uppercase',
                 color: rt.gold,
+                textAlign: scriptureRtl ? 'right' : 'left',
+                writingDirection: scriptureRtl ? 'rtl' : 'ltr',
               }}
             >
               {tr('read.chapter')} {cIdx + 1}
             </Text>
-            <Text style={{ fontFamily: fonts.serif, fontSize: Math.round(30 * fontScale), color: rt.ink, marginTop: 4 }}>
+            <Text style={{ fontFamily: fonts.serif, fontSize: Math.round(30 * fontScale), color: rt.ink, marginTop: 4, textAlign: scriptureRtl ? 'right' : 'left', writingDirection: scriptureRtl ? 'rtl' : 'ltr' }}>
               {bk.name}
             </Text>
           </View>
@@ -245,6 +249,8 @@ export default function Read() {
                   marginBottom: spacing.sm,
                   backgroundColor: flashed ? rt.goldSoft : tint,
                   borderRadius: 6,
+                  textAlign: scriptureRtl ? 'right' : 'left',
+                  writingDirection: scriptureRtl ? 'rtl' : 'ltr',
                 }}
               >
                 <Text style={{ fontFamily: fonts.serif, fontSize: dropCap, color: rt.gold }}>{first}</Text>
@@ -266,6 +272,8 @@ export default function Read() {
                 marginBottom: spacing.sm,
                 backgroundColor: flashed ? rt.goldSoft : tint,
                 borderRadius: 6,
+                textAlign: scriptureRtl ? 'right' : 'left',
+                writingDirection: scriptureRtl ? 'rtl' : 'ltr',
               }}
             >
               <Text style={{ fontFamily: fonts.sansBold, fontSize: Math.round(11 * fontScale), color: rt.gold }}>

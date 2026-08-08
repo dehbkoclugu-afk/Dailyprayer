@@ -22,7 +22,7 @@ export const plans: ReadingPlan[] = [
     plus: false,
     tagline: 'For anxious seasons , one calming passage a day.',
     gradient: ['#2B4C7E', '#0E1220'],
-    art: 'A13-plan-cover',
+    art: 'A13-peace7',
   },
   {
     id: 'gratitude-7',
@@ -86,11 +86,52 @@ const TR: Record<string, { title: string; tagline: string }> = {
   },
 };
 
+const ES: Record<string, { title: string; tagline: string }> = {
+  'peace-7': { title: 'Siete días de paz', tagline: 'Para tiempos de ansiedad: un pasaje sereno cada día.' },
+  'gratitude-7': { title: 'La semana de la gratitud', tagline: 'Aprende a reconocer la gracia en todas partes.' },
+  'psalms-30': { title: '30 días en los Salmos', tagline: 'El libro de oración de la Biblia, un salmo cada día.' },
+  'gospels-90': { title: 'La vida de Jesús en 90 días', tagline: 'Recorre los cuatro Evangelios.' },
+  'bible-365': { title: 'La Biblia en un año', tagline: 'Toda la historia, 20 minutos al día.' },
+};
+
+const PT: Record<string, { title: string; tagline: string }> = {
+  'peace-7': { title: 'Sete dias de paz', tagline: 'Para tempos de ansiedade: uma passagem serena por dia.' },
+  'gratitude-7': { title: 'A semana da gratidão', tagline: 'Treine seus olhos para reconhecer a graça em toda parte.' },
+  'psalms-30': { title: '30 dias nos Salmos', tagline: 'O livro de oração da Bíblia, um salmo por dia.' },
+  'gospels-90': { title: 'A vida de Jesus em 90 dias', tagline: 'Percorra os quatro Evangelhos.' },
+  'bible-365': { title: 'A Bíblia em um ano', tagline: 'Toda a história, 20 minutos por dia.' },
+};
+
+const FR: Record<string, { title: string; tagline: string }> = {
+  'peace-7': { title: 'Sept jours de paix', tagline: 'Pour les périodes d’anxiété : un passage apaisant par jour.' },
+  'gratitude-7': { title: 'La semaine de gratitude', tagline: 'Apprenez à reconnaître la grâce partout autour de vous.' },
+  'psalms-30': { title: '30 jours dans les Psaumes', tagline: 'Le livre de prière de la Bible, un psaume par jour.' },
+  'gospels-90': { title: 'La vie de Jésus en 90 jours', tagline: 'Parcourez les quatre Évangiles.' },
+  'bible-365': { title: 'La Bible en un an', tagline: 'Toute l’histoire, 20 minutes par jour.' },
+};
+
+const DE: Record<string, { title: string; tagline: string }> = {
+  'peace-7': { title: 'Sieben Tage Frieden', tagline: 'Für unruhige Zeiten: jeden Tag ein beruhigender Abschnitt.' },
+  'gratitude-7': { title: 'Eine Woche Dankbarkeit', tagline: 'Übe, Gottes Gnade überall wahrzunehmen.' },
+  'psalms-30': { title: '30 Tage in den Psalmen', tagline: 'Das Gebetbuch der Bibel, jeden Tag ein Psalm.' },
+  'gospels-90': { title: 'Das Leben Jesu in 90 Tagen', tagline: 'Gehe durch alle vier Evangelien.' },
+  'bible-365': { title: 'Die Bibel in einem Jahr', tagline: 'Die ganze Geschichte, 20 Minuten am Tag.' },
+};
+
+const OVERLAYS: Partial<Record<Locale, Record<string, { title: string; tagline: string }>>> = {
+  tr: TR,
+  es: ES,
+  pt: PT,
+  fr: FR,
+  de: DE,
+};
+
 /** Reading plans localized to the active locale (English fallback). */
 export function getPlans(locale: Locale): ReadingPlan[] {
   if (locale === 'en') return plans;
+  const overlay = OVERLAYS[locale];
   return plans.map((p) => {
-    const o = locale === 'tr' ? TR[p.id] : undefined;
+    const o = overlay?.[p.id];
     return o ? { ...p, title: o.title, tagline: o.tagline } : p;
   });
 }
@@ -100,4 +141,3 @@ export function usePlans(): ReadingPlan[] {
   const { locale } = useT();
   return getPlans(locale);
 }
-

@@ -73,6 +73,30 @@ export const RTL_LOCALE_TAGS: GlobalLocaleTag[] = GLOBAL_LANGUAGE_CATALOG
   .filter((item) => item.direction === 'rtl')
   .map((item) => item.tag);
 
+const GLOBAL_TAG_SET = new Set<string>(GLOBAL_LOCALE_TAGS);
+
+/** Resolve a BCP-47 device locale to the closest Scripture locale we ship. */
+export function resolveGlobalLocale(languageTag?: string | null, languageCode?: string | null): GlobalLocaleTag {
+  const raw = (languageTag ?? '').replace('_', '-');
+  const lower = raw.toLowerCase();
+
+  if (lower.startsWith('zh')) {
+    // Traditional Chinese is standard in Taiwan/Hong Kong/Macau and when an
+    // explicit Hant script is requested; all other zh locales use Simplified.
+    return /(?:^|-)hant(?:-|$)|-(?:tw|hk|mo)(?:-|$)/i.test(raw) ? 'zh-Hant' : 'zh-Hans';
+  }
+  if (lower.startsWith('sr')) {
+    return /(?:^|-)latn(?:-|$)/i.test(raw) ? 'sr-Latn' : 'sr-Cyrl';
+  }
+
+  const exact = GLOBAL_LOCALE_TAGS.find((tag) => tag.toLowerCase() === lower);
+  if (exact) return exact;
+
+  const code = (languageCode ?? raw.split('-')[0] ?? '').toLowerCase();
+  if (GLOBAL_TAG_SET.has(code)) return code as GlobalLocaleTag;
+  return 'en';
+}
+
 
 /**
  * Exact eBible translation IDs verified from each edition detail page.
