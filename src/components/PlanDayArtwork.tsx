@@ -22,8 +22,8 @@ export function PlanDayArtwork({ planId, dayIndex, radius, height, variant = 'ro
   const source = planDayArtSource(planId, dayIndex, artwork.scheme);
 
   const rowScrim = dawn
-    ? ['rgba(251,247,240,0.97)', 'rgba(251,247,240,0.84)', 'rgba(251,247,240,0.24)'] as const
-    : ['rgba(14,18,32,0.96)', 'rgba(14,18,32,0.80)', 'rgba(14,18,32,0.24)'] as const;
+    ? ['rgba(251,247,240,0.90)', 'rgba(251,247,240,0.70)', 'rgba(251,247,240,0.16)'] as const
+    : ['rgba(14,18,32,0.90)', 'rgba(14,18,32,0.68)', 'rgba(14,18,32,0.16)'] as const;
 
   return (
     <View style={[{ height, borderRadius: radius, overflow: 'hidden', backgroundColor: t.surface }, style]}>
