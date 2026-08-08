@@ -7,6 +7,7 @@ import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
+import { useArtwork } from '@/hooks/useArtwork';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import {
@@ -30,6 +31,8 @@ const supportEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(configuredSupportEmail)
 
 export default function Paywall() {
   const t = useTheme();
+  const artwork = useArtwork();
+  const dawn = artwork.scheme === 'dawn';
   const { t: tr, locale } = useT();
   const { from } = useLocalSearchParams<{ from?: string | string[] }>();
   const paywallContext = resolvePaywallContext(from);
@@ -210,20 +213,22 @@ export default function Paywall() {
 
       {/* Hero: sunrise-through-arch artwork with scrim + copy */}
       <View style={{ borderRadius: radius.hero, overflow: 'hidden', marginBottom: spacing.md }}>
-        <ArtSlot id={paywallContext.hero} height={260} radius={radius.hero}>
-          <LinearGradient
-            colors={['rgba(14,18,32,0.15)', 'rgba(14,18,32,0.9)']}
-            style={{ position: 'absolute', width: '100%', height: '100%' }}
-          />
-          <View style={{ flex: 1, justifyContent: 'flex-end', padding: spacing.xl }}>
-            <Text style={{ fontFamily: fonts.serif, fontSize: 27, color: '#F2EEE6' }}>
+        <ArtSlot id={paywallContext.hero} height={260} radius={radius.hero} variant={dawn ? 'card' : 'bare'}>
+          {!dawn ? (
+            <LinearGradient
+              colors={['rgba(14,18,32,0.15)', 'rgba(14,18,32,0.9)']}
+              style={{ position: 'absolute', width: '100%', height: '100%' }}
+            />
+          ) : null}
+          <View style={{ flex: 1, width: dawn ? '64%' : '100%', justifyContent: 'flex-end', padding: spacing.xl }}>
+            <Text style={{ fontFamily: fonts.serif, fontSize: 27, color: dawn ? t.ink : '#F2EEE6' }}>
 {tr(paywallContext.titleKey)}
             </Text>
             <View style={{ gap: spacing.xs, marginTop: spacing.md }}>
               {BENEFITS.map((b) => (
                 <View key={b} style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
-                  <Ionicons name="checkmark-circle" size={16} color="#D9A441" />
-                  <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: '#F2EEE6' }}>{b}</Text>
+                  <Ionicons name="checkmark-circle" size={16} color={t.gold} />
+                  <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: dawn ? t.inkSoft : '#F2EEE6', flex: 1 }}>{b}</Text>
                 </View>
               ))}
             </View>

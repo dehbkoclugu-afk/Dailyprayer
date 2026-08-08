@@ -42,23 +42,26 @@ export type AssetId =
   | 'A18-ritual-reading'
   | 'A19-ritual-prayer'
   | 'A20-ritual-gratitude'
-  | 'A21-prayer-morning'
-  | 'A21-prayer-anxiety'
-  | 'A21-prayer-gratitude'
-  | 'A21-prayer-sleep'
-  | 'A21-prayer-family'
-  | 'A21-prayer-strength'
   | 'A22-journal-compose'
   | 'A22-journal-gratitude'
   | 'A22-journal-verse'
-  | 'A23-plan-row-01'
-  | 'A23-plan-row-02'
-  | 'A23-plan-row-03'
-  | 'A23-plan-row-04'
-  | 'A23-plan-row-05'
-  | 'A23-plan-row-06'
-  | 'A23-plan-row-07'
-  | 'A23-plan-row-08';
+  | 'A24-prayer-morning-light'
+  | 'A24-prayer-calm-the-storm'
+  | 'A24-prayer-grateful-heart'
+  | 'A24-prayer-into-rest'
+  | 'A24-prayer-bless-my-family'
+  | 'A24-prayer-courage-for-today'
+  | 'A24-prayer-gratitude-evening'
+  | 'A24-prayer-still-waters'
+  | 'A24-prayer-morning-surrender'
+  | 'A24-prayer-peace-of-christ'
+  | 'A24-prayer-gratitude-morning'
+  | 'A24-prayer-rest-for-the-weary'
+  | 'A24-prayer-for-my-children'
+  | 'A24-prayer-strength-to-forgive'
+  | 'A24-prayer-sleep-psalm'
+  | 'A24-prayer-when-i-am-weak'
+  | 'A24-prayer-thankful-in-hard-times';
 
 export const artRegistry: Record<AssetId, ImageSourcePropType | null> = {
   'A1-logomark': require('./art/A1-logomark.webp'),
@@ -97,42 +100,65 @@ export const artRegistry: Record<AssetId, ImageSourcePropType | null> = {
   'A18-ritual-reading': require('./art/A18-ritual-reading.webp'),
   'A19-ritual-prayer': require('./art/A19-ritual-prayer.webp'),
   'A20-ritual-gratitude': require('./art/A20-ritual-gratitude.webp'),
-  'A21-prayer-morning': require('./art/A21-prayer-morning.webp'),
-  'A21-prayer-anxiety': require('./art/A21-prayer-anxiety.webp'),
-  'A21-prayer-gratitude': require('./art/A21-prayer-gratitude.webp'),
-  'A21-prayer-sleep': require('./art/A21-prayer-sleep.webp'),
-  'A21-prayer-family': require('./art/A21-prayer-family.webp'),
-  'A21-prayer-strength': require('./art/A21-prayer-strength.webp'),
   'A22-journal-compose': require('./art/A22-journal-compose.webp'),
   'A22-journal-gratitude': require('./art/A22-journal-gratitude.webp'),
   'A22-journal-verse': require('./art/A22-journal-verse.webp'),
-  'A23-plan-row-01': require('./art/A23-plan-row-01.webp'),
-  'A23-plan-row-02': require('./art/A23-plan-row-02.webp'),
-  'A23-plan-row-03': require('./art/A23-plan-row-03.webp'),
-  'A23-plan-row-04': require('./art/A23-plan-row-04.webp'),
-  'A23-plan-row-05': require('./art/A23-plan-row-05.webp'),
-  'A23-plan-row-06': require('./art/A23-plan-row-06.webp'),
-  'A23-plan-row-07': require('./art/A23-plan-row-07.webp'),
-  'A23-plan-row-08': require('./art/A23-plan-row-08.webp'),
+  'A24-prayer-morning-light': require('./art/A24-prayer-morning-light-dawn.webp'),
+  'A24-prayer-calm-the-storm': require('./art/A24-prayer-calm-the-storm-dawn.webp'),
+  'A24-prayer-grateful-heart': require('./art/A24-prayer-grateful-heart-dawn.webp'),
+  'A24-prayer-into-rest': require('./art/A24-prayer-into-rest-dawn.webp'),
+  'A24-prayer-bless-my-family': require('./art/A24-prayer-bless-my-family-dawn.webp'),
+  'A24-prayer-courage-for-today': require('./art/A24-prayer-courage-for-today-dawn.webp'),
+  'A24-prayer-gratitude-evening': require('./art/A24-prayer-gratitude-evening-dawn.webp'),
+  'A24-prayer-still-waters': require('./art/A24-prayer-still-waters-dawn.webp'),
+  'A24-prayer-morning-surrender': require('./art/A24-prayer-morning-surrender-dawn.webp'),
+  'A24-prayer-peace-of-christ': require('./art/A24-prayer-peace-of-christ-dawn.webp'),
+  'A24-prayer-gratitude-morning': require('./art/A24-prayer-gratitude-morning-dawn.webp'),
+  'A24-prayer-rest-for-the-weary': require('./art/A24-prayer-rest-for-the-weary-dawn.webp'),
+  'A24-prayer-for-my-children': require('./art/A24-prayer-for-my-children-dawn.webp'),
+  'A24-prayer-strength-to-forgive': require('./art/A24-prayer-strength-to-forgive-dawn.webp'),
+  'A24-prayer-sleep-psalm': require('./art/A24-prayer-sleep-psalm-dawn.webp'),
+  'A24-prayer-when-i-am-weak': require('./art/A24-prayer-when-i-am-weak-dawn.webp'),
+  'A24-prayer-thankful-in-hard-times': require('./art/A24-prayer-thankful-in-hard-times-dawn.webp'),
 };
 
 /**
  * Theme-aware artwork registry, mirroring Neurosound's dark/light art-pair
- * contract. Lumen intentionally keeps the same painterly source in Vigil and
- * Dawn; ArtSlot changes the scrim and foreground treatment instead. Individual
- * Dawn/Vigil files can be swapped in here later without touching consumers.
+ * contract. Legacy slots share one source where appropriate; newer content art
+ * can provide separately lit Dawn/Vigil files without changing consumers.
  */
 export type ArtworkPair = {
   vigil: ImageSourcePropType;
   dawn: ImageSourcePropType;
 };
 
-export const themedArtRegistry = Object.fromEntries(
+const baseThemedArtRegistry = Object.fromEntries(
   (Object.entries(artRegistry) as [AssetId, ImageSourcePropType | null][]).map(([id, source]) => [
     id,
     source ? { vigil: source, dawn: source } : null,
   ]),
 ) as Record<AssetId, ArtworkPair | null>;
+
+export const themedArtRegistry: Record<AssetId, ArtworkPair | null> = {
+  ...baseThemedArtRegistry,
+  'A24-prayer-morning-light': { dawn: require('./art/A24-prayer-morning-light-dawn.webp'), vigil: require('./art/A24-prayer-morning-light-vigil.webp') },
+  'A24-prayer-calm-the-storm': { dawn: require('./art/A24-prayer-calm-the-storm-dawn.webp'), vigil: require('./art/A24-prayer-calm-the-storm-vigil.webp') },
+  'A24-prayer-grateful-heart': { dawn: require('./art/A24-prayer-grateful-heart-dawn.webp'), vigil: require('./art/A24-prayer-grateful-heart-vigil.webp') },
+  'A24-prayer-into-rest': { dawn: require('./art/A24-prayer-into-rest-dawn.webp'), vigil: require('./art/A24-prayer-into-rest-vigil.webp') },
+  'A24-prayer-bless-my-family': { dawn: require('./art/A24-prayer-bless-my-family-dawn.webp'), vigil: require('./art/A24-prayer-bless-my-family-vigil.webp') },
+  'A24-prayer-courage-for-today': { dawn: require('./art/A24-prayer-courage-for-today-dawn.webp'), vigil: require('./art/A24-prayer-courage-for-today-vigil.webp') },
+  'A24-prayer-gratitude-evening': { dawn: require('./art/A24-prayer-gratitude-evening-dawn.webp'), vigil: require('./art/A24-prayer-gratitude-evening-vigil.webp') },
+  'A24-prayer-still-waters': { dawn: require('./art/A24-prayer-still-waters-dawn.webp'), vigil: require('./art/A24-prayer-still-waters-vigil.webp') },
+  'A24-prayer-morning-surrender': { dawn: require('./art/A24-prayer-morning-surrender-dawn.webp'), vigil: require('./art/A24-prayer-morning-surrender-vigil.webp') },
+  'A24-prayer-peace-of-christ': { dawn: require('./art/A24-prayer-peace-of-christ-dawn.webp'), vigil: require('./art/A24-prayer-peace-of-christ-vigil.webp') },
+  'A24-prayer-gratitude-morning': { dawn: require('./art/A24-prayer-gratitude-morning-dawn.webp'), vigil: require('./art/A24-prayer-gratitude-morning-vigil.webp') },
+  'A24-prayer-rest-for-the-weary': { dawn: require('./art/A24-prayer-rest-for-the-weary-dawn.webp'), vigil: require('./art/A24-prayer-rest-for-the-weary-vigil.webp') },
+  'A24-prayer-for-my-children': { dawn: require('./art/A24-prayer-for-my-children-dawn.webp'), vigil: require('./art/A24-prayer-for-my-children-vigil.webp') },
+  'A24-prayer-strength-to-forgive': { dawn: require('./art/A24-prayer-strength-to-forgive-dawn.webp'), vigil: require('./art/A24-prayer-strength-to-forgive-vigil.webp') },
+  'A24-prayer-sleep-psalm': { dawn: require('./art/A24-prayer-sleep-psalm-dawn.webp'), vigil: require('./art/A24-prayer-sleep-psalm-vigil.webp') },
+  'A24-prayer-when-i-am-weak': { dawn: require('./art/A24-prayer-when-i-am-weak-dawn.webp'), vigil: require('./art/A24-prayer-when-i-am-weak-vigil.webp') },
+  'A24-prayer-thankful-in-hard-times': { dawn: require('./art/A24-prayer-thankful-in-hard-times-dawn.webp'), vigil: require('./art/A24-prayer-thankful-in-hard-times-vigil.webp') },
+};
 
 /** Placeholder metadata shown inside unfilled slots. */
 export const artSpecs: Record<AssetId, { label: string; size: string }> = {
@@ -172,23 +198,26 @@ export const artSpecs: Record<AssetId, { label: string; size: string }> = {
   'A18-ritual-reading': { label: 'Ritual: reading', size: '1980×800' },
   'A19-ritual-prayer': { label: 'Ritual: prayer', size: '1980×800' },
   'A20-ritual-gratitude': { label: 'Ritual: gratitude', size: '1980×800' },
-  'A21-prayer-morning': { label: 'Prayer: morning', size: '1440×810' },
-  'A21-prayer-anxiety': { label: 'Prayer: anxiety', size: '1440×810' },
-  'A21-prayer-gratitude': { label: 'Prayer: gratitude', size: '1440×810' },
-  'A21-prayer-sleep': { label: 'Prayer: sleep', size: '1440×810' },
-  'A21-prayer-family': { label: 'Prayer: family', size: '1440×810' },
-  'A21-prayer-strength': { label: 'Prayer: strength', size: '1440×810' },
   'A22-journal-compose': { label: 'Journal: compose', size: '1440×810' },
   'A22-journal-gratitude': { label: 'Journal: gratitude', size: '1440×810' },
   'A22-journal-verse': { label: 'Journal: verse', size: '1440×810' },
-  'A23-plan-row-01': { label: 'Plan day: desert path', size: '1440×810' },
-  'A23-plan-row-02': { label: 'Plan day: stream', size: '1440×810' },
-  'A23-plan-row-03': { label: 'Plan day: stone steps', size: '1440×810' },
-  'A23-plan-row-04': { label: 'Plan day: starlight', size: '1440×810' },
-  'A23-plan-row-05': { label: 'Plan day: Galilee', size: '1440×810' },
-  'A23-plan-row-06': { label: 'Plan day: wheat path', size: '1440×810' },
-  'A23-plan-row-07': { label: 'Plan day: ravine', size: '1440×810' },
-  'A23-plan-row-08': { label: 'Plan day: study', size: '1440×810' },
+  'A24-prayer-morning-light': { label: 'Prayer: Morning Light', size: '960×640' },
+  'A24-prayer-calm-the-storm': { label: 'Prayer: Calm the Storm', size: '960×640' },
+  'A24-prayer-grateful-heart': { label: 'Prayer: Grateful Heart', size: '960×640' },
+  'A24-prayer-into-rest': { label: 'Prayer: Into Rest', size: '960×640' },
+  'A24-prayer-bless-my-family': { label: 'Prayer: Bless My Family', size: '960×640' },
+  'A24-prayer-courage-for-today': { label: 'Prayer: Courage for Today', size: '960×640' },
+  'A24-prayer-gratitude-evening': { label: 'Prayer: Gratitude Evening', size: '960×640' },
+  'A24-prayer-still-waters': { label: 'Prayer: Still Waters', size: '960×640' },
+  'A24-prayer-morning-surrender': { label: 'Prayer: Morning Surrender', size: '960×640' },
+  'A24-prayer-peace-of-christ': { label: 'Prayer: Peace of Christ', size: '960×640' },
+  'A24-prayer-gratitude-morning': { label: 'Prayer: Gratitude Morning', size: '960×640' },
+  'A24-prayer-rest-for-the-weary': { label: 'Prayer: Rest for the Weary', size: '960×640' },
+  'A24-prayer-for-my-children': { label: 'Prayer: For My Children', size: '960×640' },
+  'A24-prayer-strength-to-forgive': { label: 'Prayer: Strength to Forgive', size: '960×640' },
+  'A24-prayer-sleep-psalm': { label: 'Prayer: Sleep Psalm', size: '960×640' },
+  'A24-prayer-when-i-am-weak': { label: 'Prayer: When I Am Weak', size: '960×640' },
+  'A24-prayer-thankful-in-hard-times': { label: 'Prayer: Thankful in Hard Times', size: '960×640' },
 };
 
 /** Verse-card background art keyed by verse theme; falls back to peace. */
@@ -213,17 +242,28 @@ export function verseArt(theme: string): AssetId {
   return verseArtByTheme[theme] ?? 'A5-verse-peace';
 }
 
-/** Prayer-category tile art keyed by category. */
-export function categoryArt(cat: string): AssetId | null {
+/** Every guided prayer owns a distinct Dawn/Vigil art pair; no category reuse. */
+export function prayerArt(prayerId: string): AssetId {
   const map: Record<string, AssetId> = {
-    morning: 'A21-prayer-morning',
-    anxiety: 'A21-prayer-anxiety',
-    gratitude: 'A21-prayer-gratitude',
-    sleep: 'A21-prayer-sleep',
-    family: 'A21-prayer-family',
-    strength: 'A21-prayer-strength',
+    'morning-light': 'A24-prayer-morning-light',
+    'calm-the-storm': 'A24-prayer-calm-the-storm',
+    'grateful-heart': 'A24-prayer-grateful-heart',
+    'into-rest': 'A24-prayer-into-rest',
+    'bless-my-family': 'A24-prayer-bless-my-family',
+    'courage-for-today': 'A24-prayer-courage-for-today',
+    'gratitude-evening': 'A24-prayer-gratitude-evening',
+    'still-waters': 'A24-prayer-still-waters',
+    'morning-surrender': 'A24-prayer-morning-surrender',
+    'peace-of-christ': 'A24-prayer-peace-of-christ',
+    'gratitude-morning': 'A24-prayer-gratitude-morning',
+    'rest-for-the-weary': 'A24-prayer-rest-for-the-weary',
+    'for-my-children': 'A24-prayer-for-my-children',
+    'strength-to-forgive': 'A24-prayer-strength-to-forgive',
+    'sleep-psalm': 'A24-prayer-sleep-psalm',
+    'when-i-am-weak': 'A24-prayer-when-i-am-weak',
+    'thankful-in-hard-times': 'A24-prayer-thankful-in-hard-times',
   };
-  return map[cat] ?? null;
+  return map[prayerId] ?? 'A19-ritual-prayer';
 }
 
 /** Reading-plan cover art keyed by plan id; falls back to the generic cover. */
@@ -236,29 +276,4 @@ export function planArt(planId: string): AssetId {
     'bible-365': 'A13-bible365',
   };
   return map[planId] ?? 'A13-plan-cover';
-}
-
-/** Reading-plan day rows rotate through distinct scenes instead of repeating the cover. */
-const planRowArtIds: AssetId[] = [
-  'A23-plan-row-01',
-  'A23-plan-row-02',
-  'A23-plan-row-03',
-  'A23-plan-row-04',
-  'A23-plan-row-05',
-  'A23-plan-row-06',
-  'A23-plan-row-07',
-  'A23-plan-row-08',
-];
-
-const planRowOffsets: Record<string, number> = {
-  'peace-7': 0,
-  'gratitude-7': 2,
-  'psalms-30': 4,
-  'gospels-90': 6,
-  'bible-365': 1,
-};
-
-export function planRowArt(planId: string, dayIndex: number): AssetId {
-  const offset = planRowOffsets[planId] ?? 0;
-  return planRowArtIds[(dayIndex + offset) % planRowArtIds.length];
 }

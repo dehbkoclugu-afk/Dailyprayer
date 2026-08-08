@@ -7,7 +7,6 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
-import { useArtwork } from '@/hooks/useArtwork';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useJournalStore } from '@/state/useJournalStore';
@@ -17,7 +16,6 @@ import { useT, translate } from '@/i18n';
 
 export default function Journal() {
   const t = useTheme();
-  const artwork = useArtwork();
   const { t: tr } = useT();
   const { entries, add, remove } = useJournalStore();
   const completeStep = useStreakStore((s) => s.completeStep);
@@ -43,18 +41,17 @@ export default function Journal() {
 
       {/* Composer , one calm card with room to breathe: a serif prompt, a
           borderless field, and the save action, spaced generously. */}
-      <ArtSlot
-        id="A22-journal-compose"
-        variant="card"
-        radius={radius.card}
+      <View
         style={{
           backgroundColor: t.surface,
           borderRadius: radius.card,
           borderWidth: 1,
           borderColor: t.border,
           marginTop: spacing.xl,
+          overflow: 'hidden',
         }}
       >
+        <ArtSlot id="A22-journal-compose" height={112} variant="bare" />
         <View style={{ padding: spacing.xl }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
             <Ionicons name="leaf-outline" size={16} color={t.gold} />
@@ -76,7 +73,7 @@ export default function Journal() {
               fontFamily: fonts.serifLight,
               fontSize: 19,
               lineHeight: 28,
-              color: artwork.foreground.primary,
+              color: t.ink,
               fontStyle: 'italic',
               marginTop: spacing.md,
             }}
@@ -88,7 +85,7 @@ export default function Journal() {
             value={text}
             onChangeText={setText}
             placeholder={tr('journal.placeholderGratitude')}
-            placeholderTextColor={artwork.foreground.tertiary}
+            placeholderTextColor={t.inkFaint}
             multiline
             accessibilityLabel={tr('a11y.journalEntry')}
             style={{
@@ -97,7 +94,7 @@ export default function Journal() {
               fontFamily: fonts.sans,
               fontSize: 16,
               lineHeight: 25,
-              color: artwork.foreground.primary,
+              color: t.ink,
               textAlignVertical: 'top',
             }}
           />
@@ -109,7 +106,7 @@ export default function Journal() {
             style={{ marginTop: spacing.lg }}
           />
         </View>
-      </ArtSlot>
+      </View>
 
       <SectionHeader title={tr('journal.entries')} />
       {shown.length === 0 ? (
@@ -136,11 +133,8 @@ export default function Journal() {
       ) : (
         <View style={{ gap: spacing.md }}>
           {shown.map((e) => (
-            <ArtSlot
+            <View
               key={e.id}
-              id={e.kind === 'verse' ? 'A22-journal-verse' : 'A22-journal-gratitude'}
-              variant="card"
-              radius={radius.card}
               style={{
                 backgroundColor: t.surface,
                 borderRadius: radius.card,
@@ -168,7 +162,7 @@ export default function Journal() {
                     fontFamily: fonts.serifLight,
                     fontSize: 17,
                     lineHeight: 26,
-                    color: artwork.foreground.primary,
+                    color: t.ink,
                     fontStyle: e.kind === 'verse' ? 'italic' : 'normal',
                   }}
                 >
@@ -186,9 +180,9 @@ export default function Journal() {
                     <Ionicons
                       name={e.kind === 'verse' ? 'bookmark' : 'leaf'}
                       size={13}
-                      color={artwork.foreground.tertiary}
+                      color={t.inkFaint}
                     />
-                    <Text style={{ fontFamily: fonts.sansMedium, fontSize: 12, color: artwork.foreground.tertiary }}>
+                    <Text style={{ fontFamily: fonts.sansMedium, fontSize: 12, color: t.inkFaint }}>
                       {e.day}
                     </Text>
                   </View>
@@ -198,11 +192,11 @@ export default function Journal() {
                     accessibilityRole="button"
                     accessibilityLabel={tr('a11y.deleteEntry')}
                   >
-                    <Ionicons name="trash-outline" size={18} color={artwork.foreground.tertiary} />
+                    <Ionicons name="trash-outline" size={18} color={t.inkFaint} />
                   </Pressable>
                 </View>
               </View>
-            </ArtSlot>
+            </View>
           ))}
         </View>
       )}

@@ -11,6 +11,7 @@ import { ProgressRing } from '@/components/ProgressRing';
 import { SectionHeader } from '@/components/SectionHeader';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
+import { useArtwork } from '@/hooks/useArtwork';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useDailyContent } from '@/hooks/useDailyContent';
@@ -21,6 +22,7 @@ import { useUserStore } from '@/state/useUserStore';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { greetingFor, dayKey } from '@/lib/dates';
 import { usePrayers } from '@/data/prayers';
+import { prayerArt } from '@/assets/registry';
 import { toast } from '@/state/useToastStore';
 import { useT, translate } from '@/i18n';
 
@@ -39,6 +41,8 @@ function formatDateLine(now: Date, locale: string): string {
 
 export default function Today() {
   const t = useTheme();
+  const artwork = useArtwork();
+  const dawn = artwork.scheme === 'dawn';
   const { t: tr, locale } = useT();
   const scriptureLocale = useScriptureLocale();
   const { verse, devotional } = useDailyContent();
@@ -83,13 +87,15 @@ export default function Today() {
       {/* candle-glow wash behind the header , a soft top-down fade, not a hard
           disc. The old 340px circle read as an unintentional dark dome; a
           vertical gradient bleeds warmth in without a visible shape edge. */}
-      <LinearGradient
-        pointerEvents="none"
-        colors={['rgba(217,164,65,0.10)', 'rgba(217,164,65,0.0)']}
-        start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-        style={{ position: 'absolute', top: -60, left: -40, right: -40, height: 300 }}
-      />
+      {!dawn ? (
+        <LinearGradient
+          pointerEvents="none"
+          colors={['rgba(217,164,65,0.10)', 'rgba(217,164,65,0.0)']}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 1 }}
+          style={{ position: 'absolute', top: -60, left: -40, right: -40, height: 300 }}
+        />
+      ) : null}
 
       {/* Header , greeting on the left, a square streak badge on the right */}
       <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
@@ -155,7 +161,7 @@ export default function Today() {
           <RitualCard
             key="prayer"
             icon="flame-outline"
-            art="A19-ritual-prayer"
+            art={prayerArt(morningPrayer.id)}
             title={tr('today.guidedPrayer')}
             subtitle={`${morningPrayer.title} · ${morningPrayer.minutes} ${tr('pray.min')}`}
             done={isDone('prayer')}
@@ -183,14 +189,17 @@ export default function Today() {
       {/* Night shifts the palette: indigo art card, not a standard row */}
       <View>
         <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
-          <ArtSlot id="A10-tonight-night" height={150} radius={radius.card}>
-            <LinearGradient
-              colors={['rgba(30,26,58,0.35)', 'rgba(10,12,24,0.92)']}
-              style={{ position: 'absolute', width: '100%', height: '100%' }}
-            />
+          <ArtSlot id={prayerArt(sleepPrayer.id)} height={150} radius={radius.card} variant={dawn ? 'card' : 'bare'}>
+            {!dawn ? (
+              <LinearGradient
+                colors={['rgba(30,26,58,0.35)', 'rgba(10,12,24,0.92)']}
+                style={{ position: 'absolute', width: '100%', height: '100%' }}
+              />
+            ) : null}
             <View
               style={{
                 flex: 1,
+                width: dawn ? '64%' : '100%',
                 padding: spacing.xl,
                 flexDirection: 'row',
                 alignItems: 'flex-end',
@@ -204,12 +213,12 @@ export default function Today() {
                     fontSize: 11,
                     letterSpacing: 2.5,
                     textTransform: 'uppercase',
-                    color: 'rgba(217,164,65,0.85)',
+                    color: t.gold,
                   }}
                 >
 {tr('today.sleepPrayer')}
                 </Text>
-                <Text style={{ fontFamily: fonts.serif, fontSize: 21, color: '#F2EEE6', marginTop: 4 }}>
+                <Text style={{ fontFamily: fonts.serif, fontSize: 21, color: dawn ? t.ink : '#F2EEE6', marginTop: 4 }}>
                   {sleepPrayer.title} · {sleepPrayer.minutes} {tr('pray.min')}
                 </Text>
               </View>
@@ -228,8 +237,8 @@ export default function Today() {
                 style={{
                   fontFamily: fonts.sansSemiBold,
                   fontSize: 14,
-                  color: '#1A1206',
-                  backgroundColor: '#D9A441',
+                  color: t.onGold,
+                  backgroundColor: t.gold,
                   borderRadius: radius.pill,
                   paddingHorizontal: spacing.lg,
                   paddingVertical: 10,
@@ -248,14 +257,14 @@ export default function Today() {
                   flexDirection: 'row',
                   alignItems: 'center',
                   gap: 4,
-                  backgroundColor: 'rgba(14,18,32,0.7)',
+                  backgroundColor: dawn ? t.goldSoft : 'rgba(14,18,32,0.7)',
                   borderRadius: radius.pill,
                   paddingHorizontal: spacing.sm,
                   paddingVertical: 4,
                 }}
               >
-                <Ionicons name="lock-closed" size={11} color="#D9A441" />
-                <Text style={{ fontFamily: fonts.sansBold, fontSize: 10, color: '#D9A441' }}>PLUS</Text>
+                <Ionicons name="lock-closed" size={11} color={t.gold} />
+                <Text style={{ fontFamily: fonts.sansBold, fontSize: 10, color: t.gold }}>PLUS</Text>
               </View>
             ) : null}
           </ArtSlot>

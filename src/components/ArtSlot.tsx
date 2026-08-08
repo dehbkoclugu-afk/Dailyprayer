@@ -26,13 +26,6 @@ const DARK_SCRIMS = {
   hero: ['rgba(14,18,32,0.10)', 'rgba(14,18,32,0.38)', 'rgba(14,18,32,0.94)'],
 } as const;
 
-const DAWN_SURFACE_SCRIM = [
-  '#FFFFFF',
-  'rgba(255,255,255,0.96)',
-  'rgba(255,255,255,0.38)',
-  'rgba(255,255,255,0.04)',
-] as const;
-
 /**
  * Art slot: renders finished artwork when registered in artRegistry, otherwise
  * an elegant labeled placeholder so the layout is final before art exists.
@@ -47,7 +40,7 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
     variant === 'bare'
       ? null
       : dawnSurface
-        ? DAWN_SURFACE_SCRIM
+        ? null
         : DARK_SCRIMS[variant];
 
   return (
@@ -64,9 +57,10 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
           resizeMode={fit}
           style={{
             position: 'absolute',
+            top: 0,
             right: 0,
-            width: dawnSurface ? '62%' : '100%',
-            height: '100%',
+            bottom: 0,
+            width: dawnSurface ? '44%' : '100%',
           }}
           accessibilityIgnoresInvertColors
         />
@@ -103,10 +97,25 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
           </Text>
         </View>
       )}
+      {dawnSurface && source ? (
+        <View
+          pointerEvents="none"
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            width: '44%',
+            backgroundColor: 'rgba(251,247,240,0.10)',
+            borderLeftWidth: 1,
+            borderLeftColor: t.border,
+          }}
+        />
+      ) : null}
       {scrim ? (
         <LinearGradient
           colors={scrim}
-          locations={dawnSurface ? [0, 0.38, 0.68, 1] : [0, 0.56, 1]}
+          locations={[0, 0.56, 1]}
           start={variant === 'hero' ? { x: 0.5, y: 0 } : { x: 0, y: 0.5 }}
           end={variant === 'hero' ? { x: 0.5, y: 1 } : { x: 1, y: 0.5 }}
           pointerEvents="none"

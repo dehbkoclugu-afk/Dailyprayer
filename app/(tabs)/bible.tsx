@@ -20,6 +20,7 @@ import { useScriptureLocale } from '@/i18n/scripture';
 export default function Bible() {
   const t = useTheme();
   const artwork = useArtwork();
+  const dawn = artwork.scheme === 'dawn';
   const { t: tr } = useT();
   const scriptureLocale = useScriptureLocale();
   const isPlus = useEntitlementStore((s) => s.isPlus);
@@ -43,33 +44,35 @@ export default function Bible() {
         style={({ pressed }) => ({ marginTop: spacing.xl, opacity: pressed ? 0.92 : 1 })}
       >
         <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
-          <ArtSlot id="A18-ritual-reading" height={176} radius={radius.card}>
+          <ArtSlot id="A18-ritual-reading" height={176} radius={radius.card} variant={dawn ? 'card' : 'bare'}>
             {/* keep the candlelit art bright , only enough darkening at the base
                 for the cream title to stay legible */}
-            <LinearGradient
-              colors={['rgba(26,18,6,0.02)', 'rgba(26,18,6,0.26)', 'rgba(20,14,6,0.78)']}
-              start={{ x: 0.3, y: 0 }}
-              end={{ x: 0.5, y: 1 }}
-              style={{ position: 'absolute', width: '100%', height: '100%' }}
-            />
-            <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
+            {!dawn ? (
+              <LinearGradient
+                colors={['rgba(26,18,6,0.02)', 'rgba(26,18,6,0.26)', 'rgba(20,14,6,0.78)']}
+                start={{ x: 0.3, y: 0 }}
+                end={{ x: 0.5, y: 1 }}
+                style={{ position: 'absolute', width: '100%', height: '100%' }}
+              />
+            ) : null}
+            <View style={{ flex: 1, width: dawn ? '64%' : '100%', padding: spacing.xl, justifyContent: 'flex-end' }}>
               <Text
                 style={{
                   fontFamily: fonts.sansSemiBold,
                   fontSize: 11,
                   letterSpacing: 2.5,
                   textTransform: 'uppercase',
-                  color: 'rgba(217,164,65,0.9)',
+                  color: t.gold,
                 }}
               >
                 {tr('read.continue')}
               </Text>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 4 }}>
                 <View style={{ flex: 1, paddingRight: spacing.lg }}>
-                  <Text style={{ fontFamily: fonts.serif, fontSize: 24, color: '#F2EEE6' }}>
+                  <Text style={{ fontFamily: fonts.serif, fontSize: 24, color: dawn ? t.ink : '#F2EEE6' }}>
                     {tr('read.openBible')}
                   </Text>
-                  <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: 'rgba(242,238,230,0.82)', marginTop: spacing.xs }}>
+                  <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: dawn ? t.inkSoft : 'rgba(242,238,230,0.82)', marginTop: spacing.xs }}>
                     {readerBookName} {readerChapter + 1}
                   </Text>
                 </View>
@@ -78,12 +81,12 @@ export default function Bible() {
                     width: 48,
                     height: 48,
                     borderRadius: 24,
-                    backgroundColor: '#D9A441',
+                    backgroundColor: t.gold,
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
                 >
-                  <Ionicons name="arrow-forward" size={22} color="#1A1206" />
+                  <Ionicons name="arrow-forward" size={22} color={t.onGold} />
                 </View>
               </View>
             </View>
@@ -116,6 +119,7 @@ export default function Bible() {
               <View
                 style={{
                   minHeight: 48,
+                  width: dawn ? '64%' : '100%',
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -147,28 +151,30 @@ export default function Bible() {
               accessibilityLabel={`${p.title}${locked ? ', requires Plus' : ''}`}
             >
               <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
-                <ArtSlot id={p.art} height={150} radius={radius.card}>
-                  <LinearGradient
-                    colors={[`${p.gradient[0]}CC`, `${p.gradient[1]}F2`]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 1 }}
-                    style={{ position: 'absolute', width: '100%', height: '100%' }}
-                  />
-                  <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
+                <ArtSlot id={p.art} height={150} radius={radius.card} variant={dawn ? 'card' : 'bare'}>
+                  {!dawn ? (
+                    <LinearGradient
+                      colors={[`${p.gradient[0]}CC`, `${p.gradient[1]}F2`]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 1 }}
+                      style={{ position: 'absolute', width: '100%', height: '100%' }}
+                    />
+                  ) : null}
+                  <View style={{ flex: 1, width: dawn ? '64%' : '100%', padding: spacing.xl, justifyContent: 'flex-end' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Text style={{ fontFamily: fonts.serif, fontSize: 20, color: '#F2EEE6', flex: 1 }}>
+                      <Text style={{ fontFamily: fonts.serif, fontSize: 20, color: dawn ? t.ink : '#F2EEE6', flex: 1 }}>
                         {p.title}
                       </Text>
                       {locked ? <Ionicons name="lock-closed" size={18} color="#D9A441" /> : null}
                     </View>
-                    <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: 'rgba(242,238,230,0.75)', marginTop: spacing.xs }}>
+                    <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: dawn ? t.inkSoft : 'rgba(242,238,230,0.75)', marginTop: spacing.xs }}>
                       {p.tagline}
                     </Text>
                     <Text
                       style={{
                         fontFamily: fonts.sansMedium,
                         fontSize: 12,
-                        color: '#D9A441',
+                        color: t.gold,
                         marginTop: spacing.sm,
                         fontVariant: ['tabular-nums'],
                       }}

@@ -10,6 +10,8 @@ import { type AssetId } from '@/assets/registry';
 import { ArtSlot } from '@/components/ArtSlot';
 import type { DailyVerse } from '@/data/verses';
 import { useT } from '@/i18n';
+import { useArtwork } from '@/hooks/useArtwork';
+import { useTheme } from '@/hooks/useTheme';
 
 /**
  * Verse theme → A5 background. Eight themes have dedicated art; the remaining
@@ -40,6 +42,10 @@ interface Props {
 
 export function VerseCard({ verse, onRead, onShuffle }: Props) {
   const { t: tr } = useT();
+  const t = useTheme();
+  const artwork = useArtwork();
+  const dawn = artwork.scheme === 'dawn';
+  const cardHeight = dawn ? 360 : 320;
   const cardRef = useRef<View>(null);
 
   /** Share the rendered card as an image (organic growth); text fallback on web/failure. */
@@ -66,22 +72,32 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       // A fixed-height hero box: the frame stays constant so the layout below it
       // never shifts. Long verses scroll gently inside instead of growing the card.
       style={[
-        { height: 320, borderRadius: radius.hero, overflow: 'hidden' },
+        { height: cardHeight, borderRadius: radius.hero, overflow: 'hidden' },
         shadow.card,
       ]}
     >
-      <ArtSlot id={VERSE_ART[verse.theme]} height={320} radius={radius.hero} variant="hero">
-      <View style={{ flex: 1, padding: spacing.xl, paddingTop: spacing.xxl }}>
+      <ArtSlot id={VERSE_ART[verse.theme]} height={cardHeight} radius={radius.hero} variant={dawn ? 'card' : 'hero'}>
+        <View
+          style={{
+            flex: 1,
+            width: dawn ? '72%' : '100%',
+            padding: dawn ? spacing.lg : spacing.xl,
+            paddingTop: dawn ? spacing.xl : spacing.xxl,
+            backgroundColor: dawn ? t.surface : undefined,
+            borderRightWidth: dawn ? 1 : 0,
+            borderRightColor: t.border,
+          }}
+        >
           <Text
             style={{
               fontFamily: fonts.sansSemiBold,
               fontSize: 11,
               letterSpacing: 2.5,
               textTransform: 'uppercase',
-              color: 'rgba(217,164,65,0.85)',
+              color: t.gold,
             }}
           >
-{tr('today.verseOfDay')}
+            {tr('today.verseOfDay')}
           </Text>
 
           {/* the verse gets a flexible middle that scrolls when it's long; a soft
@@ -95,10 +111,10 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               <Text
                 style={{
                   fontFamily: fonts.serifLight,
-                  fontSize: 25,
-                  lineHeight: 37,
+                  fontSize: dawn ? 22 : 25,
+                  lineHeight: dawn ? 32 : 37,
                   letterSpacing: -0.3,
-                  color: '#F2EEE6',
+                  color: dawn ? t.ink : '#F2EEE6',
                   marginLeft: -2, // hanging opening quote
                 }}
               >
@@ -107,7 +123,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
             </ScrollView>
             <LinearGradient
               pointerEvents="none"
-              colors={['rgba(14,18,32,0)', 'rgba(14,18,32,0.92)']}
+              colors={dawn ? ['rgba(255,255,255,0)', t.surface] : ['rgba(14,18,32,0)', 'rgba(14,18,32,0.92)']}
               style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 24 }}
             />
           </View>
@@ -120,7 +136,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               marginTop: spacing.md,
             }}
           >
-            <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: '#D9A441' }}>
+            <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.gold }}>
               {verse.reference}
             </Text>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -138,7 +154,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
                     opacity: pressed ? 0.6 : 1,
                   })}
                 >
-                  <Ionicons name="shuffle" size={22} color="#F2EEE6" />
+                  <Ionicons name="shuffle" size={22} color={dawn ? t.inkSoft : '#F2EEE6'} />
                 </Pressable>
               ) : null}
               <Pressable
@@ -154,7 +170,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
                   opacity: pressed ? 0.6 : 1,
                 })}
               >
-                <Ionicons name="share-outline" size={22} color="#F2EEE6" />
+                <Ionicons name="share-outline" size={22} color={dawn ? t.inkSoft : '#F2EEE6'} />
               </Pressable>
             </View>
           </View>
