@@ -55,7 +55,7 @@ export default function Bible() {
                 style={{ position: 'absolute', width: '100%', height: '100%' }}
               />
             ) : null}
-            <View style={{ flex: 1, width: dawn ? '64%' : '100%', padding: spacing.xl, justifyContent: 'flex-end' }}>
+            <View style={{ flex: 1, padding: spacing.xl, paddingRight: dawn ? 150 : spacing.xl, justifyContent: 'flex-end' }}>
               <Text
                 style={{
                   fontFamily: fonts.sansSemiBold,
@@ -97,8 +97,8 @@ export default function Bible() {
       {/* quick access to Scripture search and the reader's saved verses */}
       <View style={{ flexDirection: 'row', gap: spacing.md, marginTop: spacing.md }}>
         {[
-          { icon: 'search' as const, art: 'A14-bible-etching' as const, label: tr('read.search'), onPress: () => router.push('/search') },
-          { icon: 'bookmark-outline' as const, art: 'A18-ritual-reading' as const, label: tr('library.title'), onPress: () => router.push('/library') },
+          { icon: 'search' as const, label: tr('read.search'), onPress: () => router.push('/search') },
+          { icon: 'bookmark-outline' as const, label: tr('library.title'), onPress: () => router.push('/library') },
         ].map((a) => (
           <Pressable
             key={a.label}
@@ -115,22 +115,19 @@ export default function Bible() {
               opacity: pressed ? 0.85 : 1,
             })}
           >
-            <ArtSlot id={a.art} variant="card" radius={radius.inner} style={{ width: '100%' }}>
-              <View
-                style={{
-                  minHeight: 48,
-                  width: dawn ? '64%' : '100%',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: spacing.sm,
-                  paddingVertical: spacing.md,
-                }}
-              >
-                <Ionicons name={a.icon} size={18} color={t.gold} />
-                <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: artwork.foreground.primary }}>{a.label}</Text>
-              </View>
-            </ArtSlot>
+            <View
+              style={{
+                minHeight: 52,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: spacing.sm,
+                paddingVertical: spacing.md,
+              }}
+            >
+              <Ionicons name={a.icon} size={19} color={t.gold} />
+              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: t.ink }}>{a.label}</Text>
+            </View>
           </Pressable>
         ))}
       </View>
@@ -160,7 +157,7 @@ export default function Bible() {
                       style={{ position: 'absolute', width: '100%', height: '100%' }}
                     />
                   ) : null}
-                  <View style={{ flex: 1, width: dawn ? '64%' : '100%', padding: spacing.xl, justifyContent: 'flex-end' }}>
+                  <View style={{ flex: 1, padding: spacing.xl, paddingRight: dawn ? 150 : spacing.xl, justifyContent: 'flex-end' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                       <Text style={{ fontFamily: fonts.serif, fontSize: 20, color: dawn ? t.ink : '#F2EEE6', flex: 1 }}>
                         {p.title}

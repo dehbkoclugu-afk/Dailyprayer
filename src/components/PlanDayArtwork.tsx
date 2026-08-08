@@ -19,34 +19,26 @@ export function PlanDayArtwork({ planId, dayIndex, radius, height, variant = 'ro
   const t = useTheme();
   const artwork = useArtwork();
   const dawn = artwork.scheme === 'dawn';
-  const splitDawn = dawn && variant === 'row';
+  const insetDawn = dawn && variant === 'row';
   const source = planDayArtSource(planId, dayIndex, artwork.scheme);
 
   return (
     <View style={[{ height, borderRadius: radius, overflow: 'hidden', backgroundColor: t.surface }, style]}>
       {source ? (
-        <Image
-          source={source}
-          resizeMode="cover"
-          style={{ position: 'absolute', right: 0, width: splitDawn ? '44%' : '100%', height: '100%' }}
-          accessibilityIgnoresInvertColors
-        />
+        insetDawn ? (
+          <View style={{ position: 'absolute', top: 8, right: 8, bottom: 8, width: 96, borderRadius: 14, overflow: 'hidden' }}>
+            <Image
+              source={source}
+              resizeMode="cover"
+              style={{ position: 'absolute', top: 0, right: 0, width: '135%', height: '100%' }}
+              accessibilityIgnoresInvertColors
+            />
+          </View>
+        ) : (
+          <Image source={source} resizeMode="cover" style={{ position: 'absolute', right: 0, width: '100%', height: '100%' }} accessibilityIgnoresInvertColors />
+        )
       ) : null}
-      {splitDawn ? (
-        <View
-          pointerEvents="none"
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            width: '44%',
-            borderLeftWidth: 1,
-            borderLeftColor: t.border,
-            backgroundColor: 'rgba(251,247,240,0.08)',
-          }}
-        />
-      ) : !dawn ? (
+      {!dawn ? (
         <LinearGradient
           pointerEvents="none"
           colors={['rgba(14,18,32,0.92)', 'rgba(14,18,32,0.72)', 'rgba(14,18,32,0.16)']}

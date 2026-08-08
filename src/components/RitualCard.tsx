@@ -75,7 +75,9 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         borderRadius: radius.card,
         borderWidth: 1,
         borderColor: done ? t.gold : t.border,
-        padding: spacing.lg,
+        paddingLeft: spacing.lg,
+        paddingVertical: spacing.lg,
+        paddingRight: hasArt && artwork.scheme === 'dawn' ? 118 : 52,
         gap: spacing.lg,
         overflow: 'hidden',
         opacity: pressed ? 0.9 : 1,
@@ -119,25 +121,30 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
       >
         <Ionicons name={icon} size={22} color={done ? t.gold : hasArt ? artwork.foreground.primary : t.inkSoft} />
       </View>
-      <View style={{ flex: 1, paddingRight: hasArt && artwork.scheme === 'dawn' ? '30%' : 0 }}>
-        <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 17, color: titleColor }}>{title}</Text>
+      <View style={{ flex: 1 }}>
+        <Text numberOfLines={2} style={{ fontFamily: fonts.sansSemiBold, fontSize: 17, lineHeight: 21, color: titleColor }}>{title}</Text>
         <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: subColor, marginTop: 2 }}>
           {done ? `${tr('today.completed')} · ${tr('today.undo')}` : subtitle}
         </Text>
       </View>
       {done ? (
-        <Animated.View entering={ZoomIn.springify().damping(12)}>
+        <Animated.View entering={ZoomIn.springify().damping(12)} style={{ position: 'absolute', right: spacing.lg }}>
           <Ionicons name="checkmark-circle" size={26} color={t.gold} />
         </Animated.View>
       ) : locked ? (
-        <Ionicons name="lock-closed-outline" size={22} color={chevColor} />
+        <Ionicons name="lock-closed-outline" size={22} color={chevColor} style={{ position: 'absolute', right: spacing.lg }} />
       ) : (
         <View
-          style={
-            hasArt && artwork.scheme === 'dawn'
-              ? { width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(255,255,255,0.86)', alignItems: 'center', justifyContent: 'center' }
-              : undefined
-          }
+          style={{
+            position: 'absolute',
+            right: hasArt && artwork.scheme === 'dawn' ? 39 : spacing.lg,
+            width: 34,
+            height: 34,
+            borderRadius: 17,
+            backgroundColor: hasArt && artwork.scheme === 'dawn' ? 'rgba(255,255,255,0.90)' : 'transparent',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
           <Ionicons name="chevron-forward" size={22} color={chevColor} />
         </View>

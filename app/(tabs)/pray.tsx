@@ -124,8 +124,10 @@ export default function Pray() {
                     flexDirection: 'row',
                     alignItems: 'center',
                     gap: spacing.lg,
-                    padding: spacing.lg,
-                    minHeight: 82,
+                    paddingLeft: spacing.lg,
+                    paddingVertical: spacing.md,
+                    paddingRight: artwork.scheme === 'dawn' ? 118 : p.plus ? 72 : spacing.lg,
+                    minHeight: 88,
                   }}
                 >
                   <View
@@ -144,8 +146,8 @@ export default function Pray() {
                       color={locked ? artwork.foreground.tertiary : t.gold}
                     />
                   </View>
-                  <View style={{ flex: 1, paddingRight: artwork.scheme === 'dawn' ? '30%' : 0 }}>
-                    <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: artwork.foreground.primary }}>{p.title}</Text>
+                  <View style={{ flex: 1 }}>
+                    <Text numberOfLines={2} style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, lineHeight: 20, color: artwork.foreground.primary }}>{p.title}</Text>
                     <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: artwork.foreground.secondary, marginTop: 2 }}>
                       {p.minutes} {tr('pray.min')} · {tr(`cat.${p.category}` as never)}
                     </Text>
@@ -153,6 +155,9 @@ export default function Pray() {
                   {p.plus ? (
                     <View
                       style={{
+                        position: 'absolute',
+                        right: artwork.scheme === 'dawn' ? 14 : spacing.lg,
+                        top: 14,
                         backgroundColor:
                           artwork.scheme === 'dawn'
                             ? 'rgba(255,255,255,0.92)'

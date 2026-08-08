@@ -36,6 +36,9 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
   const source = artwork.source(id);
   const spec = artSpecs[id];
   const dawnSurface = artwork.scheme === 'dawn' && (variant === 'row' || variant === 'card');
+  const dawnInset = variant === 'row'
+    ? { top: 8, right: 8, bottom: 8, width: 96, radius: Math.max(12, radius - 8) }
+    : { top: 10, right: 10, bottom: 10, width: 124, radius: Math.max(14, radius - 10) };
   const scrim =
     variant === 'bare'
       ? null
@@ -51,17 +54,32 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
         style,
       ]}
     >
-      {source ? (
+      {source ? dawnSurface ? (
+        <View
+          pointerEvents="none"
+          style={{
+            position: 'absolute',
+            top: dawnInset.top,
+            right: dawnInset.right,
+            bottom: dawnInset.bottom,
+            width: dawnInset.width,
+            borderRadius: dawnInset.radius,
+            overflow: 'hidden',
+            backgroundColor: t.surfaceAlt,
+          }}
+        >
+          <Image
+            source={source}
+            resizeMode={fit}
+            style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '135%', height: '100%' }}
+            accessibilityIgnoresInvertColors
+          />
+        </View>
+      ) : (
         <Image
           source={source}
           resizeMode={fit}
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            width: dawnSurface ? '44%' : '100%',
-          }}
+          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '100%' }}
           accessibilityIgnoresInvertColors
         />
       ) : (
@@ -97,21 +115,6 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
           </Text>
         </View>
       )}
-      {dawnSurface && source ? (
-        <View
-          pointerEvents="none"
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            width: '44%',
-            backgroundColor: 'rgba(251,247,240,0.10)',
-            borderLeftWidth: 1,
-            borderLeftColor: t.border,
-          }}
-        />
-      ) : null}
       {scrim ? (
         <LinearGradient
           colors={scrim}

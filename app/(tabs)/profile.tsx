@@ -121,7 +121,7 @@ export default function Profile() {
           padding: spacing.lg,
         }}
       >
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.lg, width: artwork.scheme === 'dawn' ? '64%' : '100%' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.lg, paddingRight: artwork.scheme === 'dawn' ? 132 : 0 }}>
           <View
             style={{
               width: 52,
@@ -150,8 +150,8 @@ export default function Profile() {
             </Text>
           </View>
         </View>
-        <View style={{ height: 1, width: artwork.scheme === 'dawn' ? '64%' : '100%', backgroundColor: artwork.foreground.badge, marginVertical: spacing.md }} />
-        <Text style={{ width: artwork.scheme === 'dawn' ? '64%' : '100%', fontFamily: fonts.sans, fontSize: 13, color: artwork.foreground.secondary }}>
+        <View style={{ height: 1, marginRight: artwork.scheme === 'dawn' ? 132 : 0, backgroundColor: artwork.foreground.badge, marginVertical: spacing.md }} />
+        <Text style={{ paddingRight: artwork.scheme === 'dawn' ? 132 : 0, fontFamily: fonts.sans, fontSize: 13, color: artwork.foreground.secondary }}>
           {tr('profile.bestStreak')} {bestCount} · {tr('profile.totalDays')} {totalDays}
         </Text>
       </ArtSlot>
@@ -182,7 +182,7 @@ export default function Profile() {
             flexDirection: 'row',
             alignItems: 'center',
             gap: spacing.lg,
-            width: artwork.scheme === 'dawn' ? '64%' : '100%',
+            paddingRight: artwork.scheme === 'dawn' ? 132 : 0,
             opacity: pressed ? 0.7 : 1,
           })}
         >
@@ -199,14 +199,14 @@ export default function Profile() {
         </Pressable>
         {isPlus ? (
           <>
-            <View style={{ height: 1, width: artwork.scheme === 'dawn' ? '64%' : '100%', backgroundColor: artwork.foreground.badge, marginTop: spacing.lg }} />
+            <View style={{ height: 1, marginRight: artwork.scheme === 'dawn' ? 132 : 0, backgroundColor: artwork.foreground.badge, marginTop: spacing.lg }} />
             <Pressable
               onPress={manageSubscription}
               accessibilityRole="button"
               accessibilityLabel={tr('profile.manageSubscription')}
               style={({ pressed }) => ({
                 minHeight: 48,
-                width: artwork.scheme === 'dawn' ? '64%' : '100%',
+                marginRight: artwork.scheme === 'dawn' ? 132 : 0,
                 paddingTop: spacing.md,
                 flexDirection: 'row',
                 alignItems: 'center',

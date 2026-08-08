@@ -51,8 +51,8 @@ export default function Journal() {
           overflow: 'hidden',
         }}
       >
-        <ArtSlot id="A22-journal-compose" height={112} variant="bare" />
-        <View style={{ padding: spacing.xl }}>
+        <ArtSlot id="A22-journal-compose" height={136} variant="bare" />
+        <View style={{ padding: spacing.lg }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
             <Ionicons name="leaf-outline" size={16} color={t.gold} />
             <Text
@@ -71,8 +71,8 @@ export default function Journal() {
           <Text
             style={{
               fontFamily: fonts.serifLight,
-              fontSize: 19,
-              lineHeight: 28,
+              fontSize: 18,
+              lineHeight: 26,
               color: t.ink,
               fontStyle: 'italic',
               marginTop: spacing.md,
@@ -90,7 +90,7 @@ export default function Journal() {
             accessibilityLabel={tr('a11y.journalEntry')}
             style={{
               marginTop: spacing.lg,
-              minHeight: 108,
+              minHeight: 68,
               fontFamily: fonts.sans,
               fontSize: 16,
               lineHeight: 25,
@@ -103,28 +103,38 @@ export default function Journal() {
             label={tr('journal.save')}
             onPress={submit}
             disabled={!text.trim()}
-            style={{ marginTop: spacing.lg }}
+            style={{ marginTop: spacing.md }}
           />
         </View>
       </View>
 
       <SectionHeader title={tr('journal.entries')} />
       {shown.length === 0 ? (
-        <View style={{ alignItems: 'center', paddingVertical: spacing.xxl }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: spacing.lg,
+            backgroundColor: t.surface,
+            borderWidth: 1,
+            borderColor: t.border,
+            borderRadius: radius.card,
+            padding: spacing.lg,
+          }}
+        >
           <ArtSlot
             id="A12-journal-empty"
-            height={140}
+            height={92}
             fit="contain"
-            style={{ width: 140, marginBottom: spacing.lg }}
+            style={{ width: 92 }}
           />
           <Text
             style={{
               fontFamily: fonts.serifLight,
-              fontSize: 16,
-              lineHeight: 24,
+              fontSize: 15,
+              lineHeight: 22,
               color: t.inkSoft,
-              textAlign: 'center',
-              maxWidth: 280,
+              flex: 1,
             }}
           >
             {tr('journal.empty')}
