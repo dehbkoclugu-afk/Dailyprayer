@@ -18,6 +18,11 @@ capture_screen() {
   local name="$2"
   local target="${output_dir}/${theme}-${name}.png"
   local pending="${target}.pending"
+  # Each route gets a fresh app process. Keeping nine image-heavy routes on the
+  # same navigation stack made the headless emulator progressively exhaust its
+  # graphics budget even though the app itself never raised a fatal exception.
+  adb shell am force-stop "$package"
+  sleep 1
   adb shell am start -W -a android.intent.action.VIEW -d "lumen://${route}" -p "$package" >/dev/null
   sleep 2
   adb exec-out screencap -p > "$pending"
