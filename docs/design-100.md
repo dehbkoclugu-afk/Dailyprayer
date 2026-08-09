@@ -488,8 +488,26 @@ deneyimi, performans ve görsel cila gelir.
     dosyanın onu ham değerlerden yeniden kurmadığını denetliyor. İki ihlal enjekte edilip
     yakalandığı doğrulandı. Tarayıcıda beş yerin de doğru boyut/harf aralığı/büyük harfle VE
     her birinin kendi rengiyle render ettiği doğrulandı — sıfır görsel fark.
-32. **En küçük okunabilir metni yükselt.** PLUS rozetleri ve yardımcı etiketler 10–11 sp’de
-    kalmamalı; kontrast ve font ölçeğiyle en az Material label-small karşılığı sağlanmalı.
+32. 🟡 **KISMEN TAMAMLANDI — En küçük okunabilir metni yükselt.** Madde iki ölçüt adlandırıyor:
+    boyut ve kontrast. Boyut tamamlandı, kontrast’ta gerçek ve önemli bir bulgu var ama
+    düzeltilmedi — nedeni aşağıda.
+    **Boyut:** tam olarak üç yer 10sp’de kalmıştı — Today’nin kilitli uyku duası “PLUS” rozeti,
+    Pray’in kilitli kategori satırlarındaki “PLUS” rozeti, ve `ArtSlot`’un sadece geliştirme
+    sırasında görünen (sanat kaydı olmadığında gösterilen) yer tutucu altyazısı. Material’in
+    label-small tabanı 11sp; üçü de 11’e çıkarıldı. `src/theme/minTextSize.test.ts` tüm
+    uygulamada 11sp altı `fontSize` kalmadığını denetliyor; bir ihlal enjekte edilip yakalandığı
+    doğrulandı.
+    **Kontrast — bulundu, düzeltilmedi:** Pray’in PLUS rozeti `t.gold` metni `t.goldSoft`
+    zeminde gösteriyor; WCAG oranı hesaplandı: **Dawn (açık) temada 2,66:1** — küçük metin için
+    gereken 4,5:1’in çok altında. Aynı renk çifti `VerseActionSheet`’in vurgula/yer imle
+    eylemlerinde de kullanılıyor, yani izole bir kaza değil, tekrarlayan bir kalıp. Var olan
+    `t.onGold` token’ı bunun çözümü değil — o, düz `gold` zemin için kalibre edilmiş ve
+    `goldSoft`’a karşı denendiğinde durumu **kötüleştiriyor** (1,22:1). Yani bu “yanlış token
+    kullanılmış” hatası değil, **yeni bir renk kararı** gerektiriyor — hangi tonun hem markanın
+    altın vurgusunu koruyup hem 4,5:1’i geçeceğine karar vermek, madde 27’nin ayet tonu ve
+    madde 31’in geri kalan 150 `fontSize`’ı gibi, gözden geçirilmeden otomatik sürülecek bir
+    şey değil. Sayılar ve tam konumlar not edildi; renk kararı ayrı ele alınmalı.
+    Tarayıcıda doğrulandı: her iki PLUS rozeti de 11px render ediyor.
 33. **Uppercase dönüşümünü yerel dile göre yap.** Türkçe `i/İ` hataları için render-time
     `textTransform` yerine çevrilmiş doğru biçim kullanılmalı.
 34. **Tüm sabit İngilizce erişilebilirlik metinlerini çeviri anahtarına taşı.** “Verse of the

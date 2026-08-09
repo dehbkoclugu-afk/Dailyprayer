@@ -242,7 +242,9 @@ export default function Today() {
                 }}
               >
                 <Ionicons name="lock-closed" size={11} color="#D9A441" />
-                <Text style={{ fontFamily: fonts.sansBold, fontSize: 10, color: '#D9A441' }}>PLUS</Text>
+                {/* 11sp is Material's label-small floor; this badge sat below
+                    it at 10sp (roadmap item 32). */}
+                <Text style={{ fontFamily: fonts.sansBold, fontSize: 11, color: '#D9A441' }}>PLUS</Text>
               </View>
             ) : null}
           </ArtSlot>

@@ -146,7 +146,11 @@ export default function Pray() {
                     paddingVertical: 3,
                   }}
                 >
-                  <Text style={{ fontFamily: fonts.sansBold, fontSize: 10, color: locked ? t.inkFaint : t.gold }}>
+                  {/* 11sp is Material's label-small floor; this badge sat below
+                      it at 10sp (roadmap item 32). Its gold-on-goldSoft colour
+                      pair has its own contrast problem in the Dawn theme —
+                      documented, not fixed here; see the item's plan doc. */}
+                  <Text style={{ fontFamily: fonts.sansBold, fontSize: 11, color: locked ? t.inkFaint : t.gold }}>
                     PLUS
                   </Text>
                 </View>

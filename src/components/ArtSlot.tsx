@@ -67,7 +67,10 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, children
           >
             {id}
           </Text>
-          <Text style={{ fontFamily: fonts.sans, fontSize: 10, color: t.inkSoft, marginTop: 2 }}>
+          {/* Dev-only — shown when art isn't registered yet, never in a release
+              build. Still raised to 11sp (roadmap item 32); no reason for
+              anyone reading it to strain either. */}
+          <Text style={{ fontFamily: fonts.sans, fontSize: 11, color: t.inkSoft, marginTop: 2 }}>
             {spec.label} · {spec.size}
           </Text>
         </View>
