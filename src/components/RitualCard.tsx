@@ -42,6 +42,13 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
   const chevColor = hasArt ? 'rgba(242,238,230,0.7)' : t.inkFaint;
 
   // One-time gold shimmer sweep when a card transitions to done (design-100 #57).
+  // Under reduced motion (roadmap item 37) this jumps straight from -CARD_W to
+  // CARD_W with no animated frames — both positions are off-card, so the
+  // shimmer is simply never seen, rather than a fast version of the same sweep.
+  // The "completion reward" the item asks for doesn't depend on this
+  // animation at all: the gold border, gold icon badge and "Completed" text
+  // below are all driven by the plain `done` boolean and render identically
+  // whether or not the shimmer plays.
   const shimmerX = useSharedValue(-CARD_W);
   const prevDone = useRef(done);
   useEffect(() => {
@@ -51,6 +58,8 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         withTiming(CARD_W, {
           duration: 650,
           easing: Easing.out(Easing.cubic),
+          // Explicit even though it's also react-native-reanimated's default,
+          // so this reads as a deliberate choice rather than an oversight.
           reduceMotion: ReduceMotion.System,
         }),
       );

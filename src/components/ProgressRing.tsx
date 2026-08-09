@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import Animated, { ZoomIn } from 'react-native-reanimated';
+import Animated, { useReducedMotion, ZoomIn } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { useT } from '@/i18n';
@@ -18,6 +18,15 @@ interface Props {
 export function ProgressRing({ done, total, size = 56 }: Props) {
   const t = useTheme();
   const { t: tr } = useT();
+  // roadmap item 36: Reanimated's ZoomIn already defaults to
+  // ReduceMotion.System (it snaps to its end state with zero animated frames
+  // when the system setting is on — confirmed empirically for the same
+  // mechanism via ToastHost's entering/exiting), so this was never actually
+  // broken. Made explicit anyway: a reader of this file had no way to know it
+  // was covered, and an implicit dependency on a third-party default is a
+  // fragile thing to leave undocumented next to `player.tsx`'s and
+  // `StreakFlame.tsx`'s explicit versions of the same check.
+  const reduceMotion = useReducedMotion();
   const dots = Array.from({ length: total }, (_, i) => i < done);
   return (
     <View
@@ -37,7 +46,7 @@ export function ProgressRing({ done, total, size = 56 }: Props) {
             // key includes fill state so a newly-earned dot pops in with a spring
             <Animated.View
               key={`${i}-${filled}`}
-              entering={filled ? ZoomIn.springify().damping(12) : undefined}
+              entering={filled && !reduceMotion ? ZoomIn.springify().damping(12) : undefined}
               style={{
                 position: 'absolute',
                 left: size / 2 + r * Math.cos(angle) - 4,

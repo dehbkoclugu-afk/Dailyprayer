@@ -563,10 +563,40 @@ deneyimi, performans ve görsel cila gelir.
     denetliyor. Üç ihlal enjekte edilip yakalandığı doğrulandı. Tarayıcıda Türkçe/Almanca/
     Fransızca’da hem seri rozeti hem ilerleme halkası hem kilitli plan/dua etiketleri okundu;
     konsol temiz.
-36. **Reduce Motion kapsamını bütün uygulamaya genişlet.** Player ve flame dışında onboarding,
-    RitualCard, toast ve ekran giriş animasyonları sistem ayarına uymalı.
-37. **Hareket azaltmada shimmer’ı kaldır.** Tamamlama ödülü statik glow/check’e dönüşmeli;
-    kullanıcının sistem tercihi ritüel animasyonunda da korunmalı.
+36. ✅ **TAMAMLANDI — Reduce Motion kapsamını bütün uygulamaya genişlet.** Beklenenden farklı
+    bir bulgu: `react-native-reanimated`’ın `withTiming`/`withSpring`/`withRepeat` ve her
+    layout-animasyon builder’ı (`FadeIn`, `ZoomIn`, …) **zaten** `ReduceMotion.System`’a
+    varsayılan olarak geliyor — kütüphane kaynağında doğrulandı
+    (`getReduceMotionFromConfig`), ve tarayıcıda `prefers-reduced-motion: reduce` ile de
+    ampirik olarak kanıtlandı: `ToastHost`’un `FadeInDown`/`FadeOutUp`’ı azaltılmış hareket
+    açıkken **sıfır animasyonlu kare** ile render ediyor (opacity doğrudan 1, transform yok),
+    kapalıyken kademeli render ediyor. Uygulamada hiçbir yerde `ReduceMotion.Never` yok, yani
+    beş animasyonlu dosyanın (`player.tsx`, `StreakFlame`, `RitualCard`, `ProgressRing`,
+    `ToastHost`) hepsi zaten sistem ayarına uyuyordu — “yalnız player ve flame uyuyor”
+    öncülü güncel değildi.
+    **“Zaten doğru” yeterli değil — sessiz bir üçüncü taraf varsayılığına dayanmak kırılgan.**
+    İkisi (`player.tsx`, `StreakFlame`) bunu zaten açıkça yazıyordu; üçü (`ProgressRing`,
+    `ToastHost`, `RitualCard`’ın shimmer’ı) hiçbir şey söylemeden kütüphanenin varsayılanına
+    güveniyordu — gelecekte bir düzenleme ya da kütüphane sürümü bunu fark etmeden bozabilirdi.
+    Beşi de artık kendi kaynağında açık: `ProgressRing` ve `ToastHost`’a `useReducedMotion()`
+    eklendi ve `entering`/`exiting` buna göre koşullandırıldı (davranış **değişmedi** —
+    tarayıcıda önce/sonra aynı sıfır-kare sonucu doğrulandı); `RitualCard`’ın zaten var olan
+    `reduceMotion: ReduceMotion.System`’ı artık “kütüphane varsayılanı da bu ama bilerek
+    yazıldı” diye yorumlanıyor.
+    Onboarding’de kontrol edildi, **hiç animasyon yok** — madde onu önden anıyor ama şu an
+    düzeltilecek bir şey değil.
+37. ✅ **TAMAMLANDI — Hareket azaltmada shimmer’ı kaldır.** `RitualCard`’ın shimmer’ı
+    `-CARD_W`’dan `CARD_W`’a kayıyor — ikisi de kartın **dışında**. Azaltılmış harekette
+    animasyon sıfır kareyle direkt `CARD_W`’a atlıyor, yani shimmer’ın “hızlı versiyonu” değil,
+    **hiç görünmeyen hâli** oluyor. Maddenin istediği statik ödül zaten vardı ve animasyona
+    bağlı değildi: altın kenarlık, altın ikon rozeti ve “Tamamlandı” metni hepsi düz `done`
+    boolean’ına bağlı, shimmer çalışsın ya da çalışmasın aynı render ediyor.
+    Koruma (`src/a11y/reduceMotion.test.ts`, beş kural): animasyonlu dosya kümesinin
+    değişmediği (yoksa yeni bir dosya sessizce kapsam dışı kalır), her animasyonlu dosyanın
+    kendi kaynağında bir reduce-motion referansı taşıdığı, hiçbir yerde `ReduceMotion.Never`
+    olmadığı, `ProgressRing`/`ToastHost`’un yalnızca *bildirmediği* — gerçekten ternary’de
+    *kullandığı*, ve ritüel ödülünün shimmer’a bağlı olmadığı. Dört ihlal enjekte edilip
+    yakalandığı doğrulandı.
 38. **Animasyonlu durum değişimlerini seslendir.** Ritüel tamamlandı/geri alındı, plan günü bitti
     ve dua sona erdi mesajları TalkBack’e tek kez bildirilmelidir.
 39. **PillButton `busy` ile `disabled` durumunu ayır.** Her pasif düğme “meşgul” değildir;

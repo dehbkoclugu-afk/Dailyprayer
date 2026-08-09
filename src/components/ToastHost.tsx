@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { AccessibilityInfo, Pressable, Text, View } from 'react-native';
-import Animated, { FadeInDown, FadeOutUp } from 'react-native-reanimated';
+import Animated, { FadeInDown, FadeOutUp, useReducedMotion } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useToastStore } from '@/state/useToastStore';
@@ -13,6 +13,13 @@ export function ToastHost() {
   const t = useTheme();
   const insets = useSafeAreaInsets();
   const { message, actionLabel, action, seq, clear } = useToastStore();
+  // roadmap item 36: FadeInDown/FadeOutUp already default to
+  // ReduceMotion.System — confirmed empirically, in a browser with reduced
+  // motion emulated, that this toast appears and disappears with zero
+  // animated frames rather than sliding. Made explicit anyway, matching
+  // `player.tsx`'s pattern, rather than leaving every future reader to
+  // rediscover that this file's silence on the subject is safe.
+  const reduceMotion = useReducedMotion();
 
   const hasAction = Boolean(actionLabel && action);
 
@@ -52,8 +59,8 @@ export function ToastHost() {
         pointerEvents={hasAction ? 'auto' : 'none'}
         accessibilityRole="alert"
         accessibilityLiveRegion="polite"
-        entering={FadeInDown.springify().damping(20)}
-        exiting={FadeOutUp.duration(150)}
+        entering={reduceMotion ? undefined : FadeInDown.springify().damping(20)}
+        exiting={reduceMotion ? undefined : FadeOutUp.duration(150)}
         style={[
           {
             flexDirection: 'row',
