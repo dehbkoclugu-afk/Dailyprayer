@@ -124,7 +124,10 @@ export default function Bible() {
                   : router.push({ pathname: '/plan/[id]', params: { id: p.id } })
               }
               accessibilityRole="button"
-              accessibilityLabel={`${p.title}${locked ? ', requires Plus' : ''}`}
+              // roadmap item 34: was hardcoded English; "Plus" itself stays as
+              // the brand name in every locale (translations.ts never
+              // translates it either), only the surrounding sentence is.
+              accessibilityLabel={`${p.title}${locked ? tr('a11y.requiresPlus') : ''}`}
             >
               <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
                 <ArtSlot id={p.art} height={150} radius={radius.card}>

@@ -533,10 +533,36 @@ deneyimi, performans ve görsel cila gelir.
     dilin diğer beşinde davranışın değişmediğini, on iki bilinen render yerinin `up()`
     kullandığını, ve yeni bir `textTransform:'uppercase'` eklenirse listeye eklenmediği takdirde
     testin bunu söylediğini denetliyor. İki ihlal enjekte edilip yakalandığı doğrulandı.
-34. **Tüm sabit İngilizce erişilebilirlik metinlerini çeviri anahtarına taşı.** “Verse of the
-    day”, “requires Plus”, “locked”, “day streak” gibi etiketler altı dilde tutarlı olmalı.
-35. **ProgressRing ve StreakFlame etiketlerini yerelleştir.** İngilizce cümle birleştirme yerine
-    çoğul kuralları olan tam çeviri anahtarları kullanılmalı.
+34. ✅ **TAMAMLANDI — Tüm sabit İngilizce erişilebilirlik metinlerini çeviri anahtarına taşı.**
+    Maddenin adlandırdığı dördü de bulundu ve düzeltildi: `VerseCard`’ın “Verse of the day”
+    etiketi, `bible.tsx`’in “requires Plus”u, `pray.tsx`’in kendi ayrı yazılmış “· Plus”u,
+    `RitualCard`’ın “locked”u — ve madde 35 ile aynı bulguda çıkan `StreakFlame`’in “day streak”i.
+    “Verse of the day” için yeni anahtar gerekmedi: `today.verseOfDay` zaten vardı (kartın kendi
+    üst etiketinde), erişilebilirlik etiketi olarak da doğal okunuyor. “Plus”ın kendisi hiçbir
+    dilde çevrilmiyor — kayıt defterinde marka adı olarak kalıyor (`data.keepPlus` gibi yerlerde
+    de aynı kural) — yalnızca cümlenin çevresi çevrildi: `a11y.requiresPlus`, `a11y.locked`.
+    `bible.tsx` ve `pray.tsx`’in **iki farklı ifadesi** (“, requires Plus” / “· Plus”) tek ortak
+    anahtarda birleştirildi; ekran okuyucu için tutarlı, tam bir cümle iki farklı kısaltılmış
+    biçimden daha iyi.
+    **`StreakFlame` çevrilmedi, kaldırıldı.** Kendi etiketi çeviri eksikliği değildi — Today’nin
+    zaten doğru etiketlediği aynı seri rozetinin **içinde**, onunla çakışan ikinci bir duyuruydu.
+    Doğru çözüm: `StreakFlame`’i erişilebilirlikten tamamen çıkarmak (`importantForAccessibility="no"`
+    + `accessibilityElementsHidden`), `litToday` bilgisini dışarıdaki tek etikete taşımak.
+35. ✅ **TAMAMLANDI — ProgressRing ve StreakFlame etiketlerini yerelleştir.** `ProgressRing`’in
+    “3 of 4 completed today” tümcesi hiç `useT()` kullanmıyordu; sayılar rakam olarak kalıyor
+    (`${done}/${total}`), yalnızca “completed today” çevrildi (`today.completedToday`, altı dil) —
+    uygulamadaki her sayılı etiketin zaten izlediği aynı `${sayı} ${tr(anahtar)}` kalıbı.
+    **Yol boyunca bulunan, ayrı bir hata:** `today.tsx`’in seri rozeti `${count} ${tr('today.dayStreak')}`
+    kullanıyordu — sayılı bir adın düz çeviriciyle okunması, `bible.days`/`read.results`/
+    `player.minLeft` için zaten düzeltilmiş “1 días seguidos” hatasının **aynısı**, bu tek yerde
+    gözden kaçmış. `today.dayStreak.one` eklendi; tarayıcıda doğrulandı: Almanca “1 Tag in Folge”
+    (çoğul “Tage” değil), Fransızca “1 jour de suite” (çoğul “jours” değil).
+    Koruma: `src/a11y/hardcodedText.test.ts` — altı bilinen sabit-İngilizce etiketin gittiğini,
+    yeni anahtarların gerçekten kullanıldığını, `StreakFlame`’in artık kendi etiketini
+    taşımadığını, ve Today’nin seri etiketinin hem sayıyı hem `litToday` durumunu taşıdığını
+    denetliyor. Üç ihlal enjekte edilip yakalandığı doğrulandı. Tarayıcıda Türkçe/Almanca/
+    Fransızca’da hem seri rozeti hem ilerleme halkası hem kilitli plan/dua etiketleri okundu;
+    konsol temiz.
 36. **Reduce Motion kapsamını bütün uygulamaya genişlet.** Player ve flame dışında onboarding,
     RitualCard, toast ve ekran giriş animasyonları sistem ayarına uymalı.
 37. **Hareket azaltmada shimmer’ı kaldır.** Tamamlama ödülü statik glow/check’e dönüşmeli;

@@ -53,8 +53,15 @@ export function StreakFlame({ count, litToday }: Props) {
   const style = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
 
   return (
+    // roadmap item 34/35: this used to carry its own hardcoded-English label
+    // ("5 day streak, completed today") — a second, conflicting announcement
+    // nested inside Today's own streak badge, which already labels the same
+    // information (count, and now `litToday` too) correctly in six languages.
+    // Hidden from accessibility rather than translated: the flame and the
+    // number are decorative once the parent already says everything.
     <View
-      accessibilityLabel={`${count} day streak${litToday ? ', completed today' : ''}`}
+      importantForAccessibility="no"
+      accessibilityElementsHidden
       style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}
     >
       <Animated.View style={style}>

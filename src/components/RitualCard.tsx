@@ -66,7 +66,10 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={`${title}${done ? `, ${tr('today.undoCompletion')}` : locked ? ', locked' : ''}`}
+      // roadmap item 34: the `locked` branch was hardcoded English; the `done`
+      // branch next to it was already correctly translated, which is exactly
+      // the kind of inconsistency the item is about.
+      accessibilityLabel={`${title}${done ? `, ${tr('today.undoCompletion')}` : locked ? tr('a11y.locked') : ''}`}
       accessibilityState={{ disabled: Boolean(locked), selected: done }}
       style={({ pressed }) => ({
         flexDirection: 'row',

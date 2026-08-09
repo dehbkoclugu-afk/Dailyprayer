@@ -38,7 +38,7 @@ function formatDateLine(now: Date, locale: string): string {
 
 export default function Today() {
   const t = useTheme();
-  const { t: tr, up, locale } = useT();
+  const { t: tr, tn, up, locale } = useT();
   const { verse, devotional } = useDailyContent();
   // The verse of the day is fixed by date, but let people browse the pool — a
   // shuffle swaps in another verse without touching the day's read-streak.
@@ -100,7 +100,13 @@ export default function Today() {
           </Text>
         </View>
         <View
-          accessibilityLabel={`${count} ${tr('today.dayStreak')}`}
+          // roadmap item 34/35: this read the day count with the plain
+          // translator, not tn() — the same "1 días seguidos" shape already
+          // fixed for bible.days/read.results/player.minLeft, missed here.
+          // `litToday` is now folded in too, so this one label carries
+          // everything StreakFlame's own (hardcoded-English, redundant) label
+          // used to — see below.
+          accessibilityLabel={`${count} ${tn(count, 'today.dayStreak')}${litToday ? `, ${tr('today.completedToday')}` : ''}`}
           // min, not fixed (roadmap item 30): StreakFlame lays the flame icon and
           // the day count side by side with no overflow:hidden here, so a fixed
           // 64×64 box just let a three-digit streak at a large system font size

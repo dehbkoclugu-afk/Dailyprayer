@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import Animated, { ZoomIn } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
+import { useT } from '@/i18n';
 
 interface Props {
   done: number;
@@ -16,10 +17,16 @@ interface Props {
  */
 export function ProgressRing({ done, total, size = 56 }: Props) {
   const t = useTheme();
+  const { t: tr } = useT();
   const dots = Array.from({ length: total }, (_, i) => i < done);
   return (
     <View
-      accessibilityLabel={`${done} of ${total} completed today`}
+      // roadmap item 34/35: was a hardcoded English sentence
+      // ("3 of 4 completed today") with no path to any of the other five
+      // languages. The numbers stay language-invariant digits; only the
+      // surrounding words are translated, the same convention every other
+      // counted label in the app already follows (`${count} ${tr(key)}`).
+      accessibilityLabel={`${done}/${total} ${tr('today.completedToday')}`}
       style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}
     >
       <View style={{ position: 'absolute', width: size, height: size }}>

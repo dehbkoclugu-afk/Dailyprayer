@@ -70,7 +70,10 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       ref={cardRef}
       onPress={onRead}
       accessibilityRole="button"
-      accessibilityLabel={`Verse of the day, ${verse.reference}`}
+      // roadmap item 34: was a hardcoded English label; `today.verseOfDay`
+      // already exists (used for the card's own overline text) and reads just
+      // as naturally as an accessibility label prefix.
+      accessibilityLabel={`${tr('today.verseOfDay')}, ${verse.reference}`}
       // minHeight, not height (roadmap item 30): the verse itself already scrolls
       // inside its own ScrollView, but the label above it and the reference/credit/
       // icon row below it do not — at a large system font size those two rows alone
