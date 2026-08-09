@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Platform, Pressable, ScrollView, Share, Text, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { captureRef } from 'react-native-view-shot';
 import * as Sharing from 'expo-sharing';
@@ -34,11 +33,18 @@ const VERSE_ART: Record<DailyVerse['theme'], AssetId> = {
 };
 
 const VERSE_TEXT_STYLES = [
-  { fontSize: 26, lineHeight: 38 },
-  { fontSize: 23, lineHeight: 34 },
-  { fontSize: 20, lineHeight: 30 },
+  { fontSize: 24, lineHeight: 35 },
+  { fontSize: 21, lineHeight: 31 },
   { fontSize: 18, lineHeight: 27 },
+  { fontSize: 16, lineHeight: 24 },
 ] as const;
+
+function initialVerseFontStep(text: string) {
+  if (text.length > 180) return 3;
+  if (text.length > 125) return 2;
+  if (text.length > 80) return 1;
+  return 0;
+}
 
 interface Props {
   verse: DailyVerse;
@@ -53,8 +59,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
   const artwork = useArtwork();
   const dawn = artwork.scheme === 'dawn';
   const cardHeight = 340;
-  const initialFontStep = verse.text.length > 220 ? 2 : verse.text.length > 140 ? 1 : 0;
-  const [fontStep, setFontStep] = useState(initialFontStep);
+  const [fontStep, setFontStep] = useState(() => initialVerseFontStep(verse.text));
   const [viewportHeight, setViewportHeight] = useState(0);
   const [contentHeight, setContentHeight] = useState(0);
   const cardRef = useRef<View>(null);
@@ -63,7 +68,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
   const hasOverflow = fontStep === lastFontStep && viewportHeight > 0 && contentHeight > viewportHeight + 2;
 
   useEffect(() => {
-    setFontStep(verse.text.length > 220 ? 2 : verse.text.length > 140 ? 1 : 0);
+    setFontStep(initialVerseFontStep(verse.text));
     setViewportHeight(0);
     setContentHeight(0);
   }, [verse.reference, verse.text]);
@@ -93,9 +98,9 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
     <View
       style={{
         flex: 1,
-        width: dawn ? '82%' : '100%',
-        padding: dawn ? spacing.lg : spacing.xl,
-        paddingTop: dawn ? spacing.xl : spacing.xxl,
+        width: '100%',
+        padding: spacing.lg,
+        paddingTop: spacing.xl,
       }}
     >
       <Text
@@ -112,10 +117,12 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
 
       <View style={{ flex: 1, marginTop: spacing.sm }}>
         <ScrollView
+          key={`${verse.reference}:${fontStep}`}
           onLayout={(event) => setViewportHeight(event.nativeEvent.layout.height)}
           onContentSizeChange={(_, height) => setContentHeight(height)}
-          scrollEnabled={hasOverflow}
+          scrollEnabled
           showsVerticalScrollIndicator={hasOverflow}
+          persistentScrollbar={hasOverflow}
           nestedScrollEnabled
           contentContainerStyle={{ paddingBottom: spacing.sm }}
         >
@@ -135,19 +142,30 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
         {hasOverflow ? (
           <View
             pointerEvents="none"
-            style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 30, alignItems: 'center', justifyContent: 'flex-end' }}
+            style={{
+              position: 'absolute',
+              right: 2,
+              bottom: 2,
+              width: 28,
+              height: 28,
+              borderRadius: 14,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: dawn ? 'rgba(255,255,255,0.84)' : 'rgba(14,18,32,0.84)',
+            }}
           >
-            <LinearGradient
-              colors={dawn ? ['rgba(255,255,255,0)', 'rgba(255,255,255,0.86)'] : ['rgba(14,18,32,0)', 'rgba(14,18,32,0.92)']}
-              style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
-            />
             <Ionicons name="chevron-down" size={16} color={dawn ? t.ink : '#F2EEE6'} />
           </View>
         ) : null}
       </View>
 
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: spacing.sm }}>
-        <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.gold }}>
+        <Text
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.75}
+          style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.gold, flexShrink: 1, maxWidth: '62%' }}
+        >
           {verse.reference}
         </Text>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -182,8 +200,8 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       onPress={onRead}
       accessibilityRole="button"
       accessibilityLabel={`Verse of the day, ${verse.reference}`}
-      // A fixed-height hero box: the frame stays constant so the layout below it
-      // never shifts. Long verses scroll gently inside instead of growing the card.
+      // The hero frame stays stable. Header and source/actions remain fixed while
+      // the middle verse region scales down, then scrolls for exceptionally long text.
       style={[
         { height: cardHeight, borderRadius: radius.hero, overflow: 'hidden' },
         shadow.card,
