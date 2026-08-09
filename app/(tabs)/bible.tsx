@@ -59,10 +59,10 @@ export default function Bible() {
               </Text>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 4 }}>
                 <View style={{ flex: 1, paddingRight: spacing.lg }}>
-                  <Text numberOfLines={2} style={{ fontFamily: fonts.serif, fontSize: 24, color: dawn ? t.ink : '#F2EEE6' }}>
+                  <Text numberOfLines={2} style={{ fontFamily: fonts.serif, fontSize: 24, color: '#F2EEE6', textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>
                     {tr('read.openBible')}
                   </Text>
-                  <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: dawn ? t.inkSoft : 'rgba(242,238,230,0.82)', marginTop: spacing.xs }}>
+                  <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: 'rgba(242,238,230,0.88)', marginTop: spacing.xs, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
                     {readerBookName} {readerChapter + 1}
                   </Text>
                 </View>
@@ -140,12 +140,12 @@ export default function Bible() {
                   ) : null}
                   <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Text numberOfLines={2} style={{ fontFamily: fonts.serif, fontSize: 20, color: dawn ? t.ink : '#F2EEE6', flex: 1 }}>
+                      <Text numberOfLines={2} style={{ fontFamily: fonts.serif, fontSize: 20, color: '#F2EEE6', flex: 1, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>
                         {p.title}
                       </Text>
                       {locked ? <Ionicons name="lock-closed" size={18} color="#D9A441" /> : null}
                     </View>
-                    <Text numberOfLines={2} style={{ fontFamily: fonts.sans, fontSize: 14, color: dawn ? t.inkSoft : 'rgba(242,238,230,0.75)', marginTop: spacing.xs }}>
+                    <Text numberOfLines={2} style={{ fontFamily: fonts.sans, fontSize: 14, color: 'rgba(242,238,230,0.86)', marginTop: spacing.xs, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
                       {p.tagline}
                     </Text>
                     <Text

@@ -63,8 +63,8 @@ export default function PlanScreen() {
             />
           ) : null}
           <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
-            <Text style={{ fontFamily: fonts.serif, fontSize: 24, color: dawn ? t.ink : '#F2EEE6' }}>{plan.title}</Text>
-            <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: dawn ? t.inkSoft : 'rgba(242,238,230,0.8)', marginTop: spacing.xs }}>
+            <Text style={{ fontFamily: fonts.serif, fontSize: 24, color: '#F2EEE6', textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>{plan.title}</Text>
+            <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: 'rgba(242,238,230,0.88)', marginTop: spacing.xs, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
               {plan.tagline}
             </Text>
           </View>
