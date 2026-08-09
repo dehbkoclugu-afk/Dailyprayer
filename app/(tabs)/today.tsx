@@ -26,17 +26,21 @@ import { prayerArt } from '@/assets/registry';
 import { toast } from '@/state/useToastStore';
 import { useT, translate } from '@/i18n';
 
-const MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const DAYS_EN = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-const MONTHS_TR = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
-const DAYS_TR = ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
-
-/** Locale-aware date line: "Wednesday, July 22" (en) · "22 Temmuz Çarşamba" (tr) */
+/** Locale-aware date line using the locale's native order, month, and weekday. */
 function formatDateLine(now: Date, locale: string): string {
-  if (locale === 'tr') {
-    return `${now.getDate()} ${MONTHS_TR[now.getMonth()]} ${DAYS_TR[now.getDay()]}`;
+  try {
+    return new Intl.DateTimeFormat(locale, {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+    }).format(now);
+  } catch {
+    return new Intl.DateTimeFormat('en', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+    }).format(now);
   }
-  return `${DAYS_EN[now.getDay()]}, ${MONTHS_EN[now.getMonth()]} ${now.getDate()}`;
 }
 
 export default function Today() {
@@ -156,7 +160,7 @@ export default function Today() {
           icon="book-outline"
           art="A18-ritual-reading"
           title={tr('today.devotional')}
-          subtitle={`${devotional.title} · 2 ${locale === 'tr' ? 'dk' : tr('today.minRead')}`}
+          subtitle={`${devotional.title} · ${tr('today.twoMinuteRead')}`}
           done={isDone('devotional')}
           onPress={() => isDone('devotional') ? uncompleteStep('devotional') : router.push('/devotional')}
         />
