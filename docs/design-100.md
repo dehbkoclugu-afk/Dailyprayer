@@ -741,8 +741,27 @@ deneyimi, performans ve görsel cila gelir.
     `getComputedStyle(el).opacity` `1`’den `0.6`’ya düşüyor; düzeltme geri alınan derlemede aynı
     ölçüm `1`’den `1`’e kalıyor (test anlamlı, ayırt ediyor). Detaylar:
     `docs/superpowers/plans/2026-08-09-showall-pressed-state.md`.
-44. **Günlük silme ikonuna görünür hedef ver.** Küçük çöp simgesi, 48 dp alan ve hafif tonal
-    arka planla hem dokunma hem destructive anlamı taşımalı.
+44. ✅ **TAMAMLANDI — Günlük silme ikonuna görünür hedef ver.** Küçük çöp simgesi, 48 dp alan ve
+    hafif tonal arka planla hem dokunma hem destructive anlamı taşımalı.
+    48 dp kutu zaten vardı (`width/height: TAP_MIN`); eksik olan görünürlüktü — 18 px `inkFaint`
+    ikon tamamen şeffaf bir zemindeydi, dekorasyon gibi okunuyordu, destructive bir kontrol gibi
+    değil. Arka plana `` `${t.danger}26` `` eklendi — yeni bir isimli renk **değil**, mevcut
+    `danger` token’ının hex alfa ekiyle (yaklaşık %15 opaklık) soluk hâli; madde 32’nin
+    gold-on-goldSoft kontrast boşluğu gibi yeni tam hex değerleri seçmek bu oturumun tek başına
+    vereceği bir tasarım kararı olurdu, mevcut onaylı rengin şeffaf bir türevi ise mekanik ve
+    savunulabilir bir dilim. `borderRadius: TAP_MIN / 2` ile tam bir daire; ikonun kendisi de
+    `t.danger`’a boyandı (arka planın taşıdığı “destructive” anlamını ikonla da güçlendiriyor).
+    Yol boyunca bulunan bir eksik daha: bu dosyadaki diğer her Pressable’ın basılı-durum
+    geri bildirimi vardı, bu ikincisi yoktu — `opacity: pressed ? 0.7 : 1` eklendi.
+    Koruma (`src/a11y/journalDeleteTarget.test.ts`), iki ihlal enjekte edilip yakalandığı
+    doğrulandı. `npm test` (167/167), typecheck, lint, release-check, tap-targets (13 görünüm,
+    değişmedi), Android export temiz.
+    Tarayıcıda doğrulandı: gerçek bir kayıt canlı composer üzerinden oluşturuldu (madde 38’in
+    bulduğu Zustand hydration yarışını atlamak için, `localStorage`’a doğrudan yazmak yerine).
+    Silme düğmesi ölçüldü: `48×48px`, `border-radius: 24px`, `background-color: rgba(176, 73,
+    47, 0.15)` — Dawn temasının `danger` değeri beklenen opaklıkta. Düzeltme geri alınan
+    derlemede aynı ölçüm `background-color: rgba(0, 0, 0, 0)` (tamamen şeffaf) veriyor — test
+    ayırt ediyor. Detaylar: `docs/superpowers/plans/2026-08-09-journal-delete-target.md`.
 45. **Okuyucu font ayarında örnek paragraf göster.** Sadece büyük/küçük A düğmeleri, gerçek satır
     uzunluğu ve leading etkisini anlatmıyor.
 46. **Reader “paper” switch’ini platform semantiğiyle düzelt.** Görsel olarak özel kalabilir ama

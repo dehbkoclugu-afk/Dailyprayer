@@ -201,15 +201,22 @@ export default function Journal() {
                   onPress={() => deleteEntry(e)}
                   accessibilityRole="button"
                   accessibilityLabel={tr('a11y.deleteEntry')}
-                  style={{
+                  style={({ pressed }) => ({
                     width: TAP_MIN,
                     height: TAP_MIN,
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginRight: -spacing.md,
-                  }}
+                    // A light danger-tinted circle carries both "this is
+                    // tappable" and "this is destructive" without inventing a
+                    // new named color — the existing danger token, just less
+                    // opaque (roadmap item 44).
+                    backgroundColor: `${t.danger}26`,
+                    borderRadius: TAP_MIN / 2,
+                    opacity: pressed ? 0.7 : 1,
+                  })}
                 >
-                  <Ionicons name="trash-outline" size={18} color={t.inkFaint} />
+                  <Ionicons name="trash-outline" size={18} color={t.danger} />
                 </Pressable>
               </View>
             </View>
