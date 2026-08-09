@@ -3,6 +3,8 @@
  * content task, not here , see docs/architecture.md.
  * Keys are flat; `en` is the source of truth and the fallback.
  */
+import type { AppLocale } from './applicationLocales.ts';
+
 export const translations = {
   en: {
     'tab.today': 'Today',
@@ -1647,7 +1649,7 @@ export const translations = {
     'notification.eveningTitle': 'Komm zurück, wenn du bereit bist',
     'notification.eveningBody': 'Heute ist noch Raum für eine stille Minute.',
   },
-} as const;
+} as const satisfies Record<AppLocale, Record<string, string>>;
 
-export type Locale = keyof typeof translations;
+export type Locale = AppLocale;
 export type TranslationKey = keyof (typeof translations)['en'];

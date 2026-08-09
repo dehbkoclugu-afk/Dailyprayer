@@ -162,7 +162,7 @@ export const RELEASE_CANDIDATE_SCRIPTURE_LOCALE_TAGS: GlobalLocaleTag[] = GLOBAL
   .map((item) => item.tag);
 
 /** Existing in-app UI translations. Other catalog entries must fall back to English until reviewed. */
-export const CURRENT_UI_LOCALE_TAGS = ['en', 'tr', 'es', 'pt', 'fr', 'de'] as const;
+export { SUPPORTED_LOCALES as CURRENT_UI_LOCALE_TAGS } from './applicationLocales.ts';
 
 /**
  * Current Turkish builds still ship YTC (CC BY-ND 4.0). No public-domain full

@@ -1,14 +1,21 @@
 import { getLocales } from 'expo-localization';
 import { translations, type Locale, type TranslationKey } from './translations';
+import { resolveApplicationLocale } from './applicationLocales.ts';
 import { useUserStore } from '@/state/useUserStore';
 
-export const SUPPORTED_LOCALES: Locale[] = ['en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'nl'];
+export {
+  APPLICATION_LOCALES,
+  RTL_APPLICATION_LOCALES,
+  SUPPORTED_LOCALES,
+  getApplicationLocale,
+  resolveApplicationLocale,
+} from './applicationLocales.ts';
 
 export function resolveLocale(pref: Locale | 'system'): Locale {
   if (pref !== 'system') return pref;
   try {
-    const device = getLocales()[0]?.languageCode ?? 'en';
-    return (SUPPORTED_LOCALES as string[]).includes(device) ? (device as Locale) : 'en';
+    const device = getLocales()[0];
+    return resolveApplicationLocale(device?.languageTag, device?.languageCode);
   } catch {
     return 'en';
   }

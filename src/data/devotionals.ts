@@ -1372,11 +1372,11 @@ const devotionalsNL: Devotional[] = [
   { title: 'Vreugde Komt met de Morgen', body: 'Psalm 30 ontkent de tranen van de nacht niet, maar geeft de nacht ook niet het laatste woord. Verdriet is echt zonder eeuwig te zijn. God verliest geen van je tranen uit het oog terwijl je op een nieuwe morgen wacht. Houd vol: de nacht is niet het hele verhaal.', prayer: 'Heer, help mij in mijn nacht te vertrouwen op de morgen die komt. Bewaar mijn tranen. Amen.' },
 ];
 
-const DEVOTIONALS: Partial<Record<Locale, Devotional[]>> = {
+const DEVOTIONALS: Record<Exclude<Locale, 'en'>, Devotional[]> = {
   tr: devotionalsTR, es: devotionalsES, pt: devotionalsPT, fr: devotionalsFR, de: devotionalsDE, it: devotionalsIT, nl: devotionalsNL,
 };
 
 /** Devotionals localized to the active locale (English fallback). */
 export function getDevotionals(locale: Locale): Devotional[] {
-  return DEVOTIONALS[locale] ?? devotionals;
+  return locale === 'en' ? devotionals : DEVOTIONALS[locale];
 }

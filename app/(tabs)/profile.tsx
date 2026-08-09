@@ -14,23 +14,11 @@ import { useUserStore } from '@/state/useUserStore';
 import { useStreakStore } from '@/state/useStreakStore';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { toast } from '@/state/useToastStore';
-import { useT, translate, SUPPORTED_LOCALES } from '@/i18n';
+import { APPLICATION_LOCALES, useT, translate } from '@/i18n';
 import * as NotificationService from '@/services/notifications';
 import { openSubscriptionManagement } from '@/services/purchases';
 import type { ThemeName } from '@/theme/tokens';
-import type { Locale } from '@/i18n/translations';
 import { GLOBAL_LANGUAGE_CATALOG } from '@/i18n/globalLanguageCatalog';
-
-const LOCALE_LABELS: Record<Locale, string> = {
-  en: 'English',
-  tr: 'Türkçe',
-  es: 'Español',
-  pt: 'Português',
-  fr: 'Français',
-  de: 'Deutsch',
-  it: 'Italiano',
-  nl: 'Nederlands',
-};
 
 export default function Profile() {
   const t = useTheme();
@@ -49,14 +37,16 @@ export default function Profile() {
     { value: 'vigil', label: tr('profile.vigil') },
     { value: 'dawn', label: tr('profile.dawn') },
   ];
-  const languageOptions: SheetOption<Locale | 'system'>[] = [
+  const languageOptions: SheetOption<(typeof APPLICATION_LOCALES)[number]['tag'] | 'system'>[] = [
     { value: 'system', label: tr('profile.auto') },
-    ...SUPPORTED_LOCALES.map((l) => ({ value: l, label: LOCALE_LABELS[l] })),
+    ...APPLICATION_LOCALES.map((locale) => ({ value: locale.tag, label: locale.nativeName })),
   ];
   const appearanceLabel =
     appearanceOptions.find((o) => o.value === themePreference)?.label ?? tr('profile.auto');
   const languageLabel =
-    language === 'system' ? tr('profile.auto') : LOCALE_LABELS[language as Locale];
+    language === 'system'
+      ? tr('profile.auto')
+      : APPLICATION_LOCALES.find((locale) => locale.tag === language)?.nativeName ?? language;
   const scriptureLabel =
     scriptureLocale === 'system'
       ? tr('profile.auto')
