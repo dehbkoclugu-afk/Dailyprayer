@@ -686,8 +686,18 @@ deneyimi, performans ve görsel cila gelir.
     aynı sonucu veriyor. Bu kusur yalnız native’de (Android/iOS) var; web’de platformun kendisi
     zaten yapıyor, tarayıcı test bunu ayırt edemiyor. Doğrulama Task 4’teki statik testlerle
     yapıldı. Detaylar: `docs/superpowers/plans/2026-08-09-destructive-confirm-focus-return.md`.
-41. **Arama temizleme düğmesini 48 dp hedefe çıkar.** Küçük 18 px ikon yalnızca `hitSlop` ile
-    bırakılmamalı; görünür/fiziksel hedef alanı sağlanmalı.
+41. ✅ **TAMAMLANDI — Arama temizleme düğmesini 48 dp hedefe çıkar.** Küçük 18 px ikon yalnızca
+    `hitSlop` ile bırakılmamalı; görünür/fiziksel hedef alanı sağlanmalı.
+    Bu, bu oturumdan önceki bir işte (`f46bea8`, o zamanki numaralandırmayla “madde 21”) zaten
+    yapılmış: `app/search.tsx`’teki temizleme `Pressable`’ı artık `hitSlop` değil,
+    `width: TAP_MIN, height: TAP_MIN` (48×48) gerçek bir kutuya sahip; geri düğmesi de aynı
+    kutuya kavuşmuş, üstüne `hitSlop={12}` yalnızca ekstra pay için kalmış (kendi 48 dp’si zaten
+    var, tek başına dayanmıyor). Kod hâlâ bu hâlde, yeni bir değişiklik gerekmedi — sadece
+    doğrulandı ve işaretlendi. Kanıt: `src/theme/tapTargets.test.ts`’teki genel kural (“an icon
+    button is not left with only hitSlop”) `search.tsx` dâhil tüm kaynağı tarıyor ve boyutsuz +
+    hitSlop’lu hiçbir Pressable bulamıyor; bu oturumda madde 40 doğrulaması sırasında yeniden
+    çalıştırılan `npm run tap-targets`, “Search (typed)” görünümünde 18 hedefin hepsinin 48 dp’nin
+    üstünde olduğunu ölçtü (0 under 48dp).
 42. **Prayer kategori chip’lerini 48 dp yap.** Mevcut 44 dp minimumu Android hedefinin altında;
     yatay liste de odak sırasında seçili chip’i görünür alana kaydırmalı.
 43. **“Tümünü göster” metin bağlantısını gerçek düğme alanına çevir.** Sadece metne basmak yerine
