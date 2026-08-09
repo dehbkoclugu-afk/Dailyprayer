@@ -97,8 +97,9 @@ export default function Today() {
         />
       ) : null}
 
-      {/* Header , greeting on the left, a square streak badge on the right */}
-      <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+      {/* A calm editorial masthead: the date and greeting lead; streak stays a
+          compact ritual marker instead of looking like a settings tile. */}
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <View style={{ flex: 1, paddingRight: spacing.lg }}>
           <Text
             style={{
@@ -112,17 +113,17 @@ export default function Today() {
           >
             {dateLine}
           </Text>
-          <Text style={[ty.title, { color: t.ink, marginTop: spacing.xs }]}>
+          <Text style={[ty.display, { color: t.ink, fontSize: 34, lineHeight: 40, marginTop: spacing.xs }]}>
             {greetText}{name ? `, ${name}` : ''}
           </Text>
         </View>
         <View
           accessibilityLabel={`${count} ${tr('today.dayStreak')}`}
           style={{
-            width: 64,
-            height: 64,
-            borderRadius: radius.inner,
-            backgroundColor: t.surface,
+            width: 68,
+            height: 68,
+            borderRadius: 34,
+            backgroundColor: litToday ? t.goldSoft : t.surface,
             borderColor: litToday ? t.gold : t.border,
             borderWidth: 1,
             alignItems: 'center',
@@ -146,45 +147,39 @@ export default function Today() {
         />
       </View>
 
-      <SectionHeader title={tr('today.rhythm')} />
+      <SectionHeader
+        title={tr('today.rhythm')}
+        right={<ProgressRing done={doneCount} total={4} size={46} />}
+      />
       <View style={{ gap: spacing.md }}>
-        {[
-          <RitualCard
-            key="devotional"
-            icon="book-outline"
-            art="A18-ritual-reading"
-            title={tr('today.devotional')}
-            subtitle={`${devotional.title} · 2 ${tr('today.minRead')}`}
-            done={isDone('devotional')}
-            onPress={() => isDone('devotional') ? uncompleteStep('devotional') : router.push('/devotional')}
-          />,
-          <RitualCard
-            key="prayer"
-            icon="flame-outline"
-            art={prayerArt(morningPrayer.id)}
-            title={tr('today.guidedPrayer')}
-            subtitle={`${morningPrayer.title} · ${morningPrayer.minutes} ${tr('pray.min')}`}
-            done={isDone('prayer')}
-            onPress={() => isDone('prayer') ? uncompleteStep('prayer') : router.push({ pathname: '/player', params: { id: morningPrayer.id } })}
-          />,
-          <RitualCard
-            key="gratitude"
-            icon="heart-outline"
-            art="A20-ritual-gratitude"
-            title={tr('today.gratitude')}
-            subtitle={tr('today.gratitudeSub')}
-            done={isDone('gratitude')}
-            onPress={() => isDone('gratitude') ? uncompleteStep('gratitude') : router.push('/(tabs)/journal')}
-          />,
-        ].map((card, i) => (
-          <View key={i}>{card}</View>
-        ))}
+        <RitualCard
+          icon="book-outline"
+          art="A18-ritual-reading"
+          title={tr('today.devotional')}
+          subtitle={`${devotional.title} · 2 ${locale === 'tr' ? 'dk' : tr('today.minRead')}`}
+          done={isDone('devotional')}
+          onPress={() => isDone('devotional') ? uncompleteStep('devotional') : router.push('/devotional')}
+        />
+        <RitualCard
+          icon="flame-outline"
+          art={prayerArt(morningPrayer.id)}
+          title={tr('today.guidedPrayer')}
+          subtitle={`${morningPrayer.title} · ${morningPrayer.minutes} ${tr('pray.min')}`}
+          done={isDone('prayer')}
+          onPress={() => isDone('prayer') ? uncompleteStep('prayer') : router.push({ pathname: '/player', params: { id: morningPrayer.id } })}
+        />
+        <RitualCard
+          icon="heart-outline"
+          art="A20-ritual-gratitude"
+          title={tr('today.gratitude')}
+          subtitle={tr('today.gratitudeSub')}
+          done={isDone('gratitude')}
+          onPress={() => isDone('gratitude') ? uncompleteStep('gratitude') : router.push('/(tabs)/journal')}
+        />
       </View>
 
       <SectionHeader
         title={tr('today.tonight')}
-        style={{ paddingLeft: spacing.sm }}
-        right={<ProgressRing done={doneCount} total={4} size={52} />}
       />
       {/* Night shifts the palette: indigo art card, not a standard row */}
       <View>
@@ -216,7 +211,17 @@ export default function Today() {
                 >
 {tr('today.sleepPrayer')}
                 </Text>
-                <Text style={{ fontFamily: fonts.serif, fontSize: 21, color: dawn ? t.ink : '#F2EEE6', marginTop: 4 }}>
+                <Text
+                  style={{
+                    fontFamily: fonts.serif,
+                    fontSize: 21,
+                    color: '#F2EEE6',
+                    marginTop: 4,
+                    textShadowColor: 'rgba(0,0,0,0.72)',
+                    textShadowOffset: { width: 0, height: 1 },
+                    textShadowRadius: 7,
+                  }}
+                >
                   {sleepPrayer.title} · {sleepPrayer.minutes} {tr('pray.min')}
                 </Text>
               </View>

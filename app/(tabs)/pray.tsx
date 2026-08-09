@@ -121,34 +121,60 @@ export default function Pray() {
               >
                 <View
                   style={{
-                    flexDirection: 'row',
                     alignItems: 'center',
-                    gap: spacing.lg,
-                    paddingLeft: spacing.lg,
-                    paddingVertical: spacing.md,
-                    paddingRight: p.plus ? 72 : spacing.lg,
-                    minHeight: 88,
+                    justifyContent: 'center',
+                    paddingHorizontal: spacing.xl,
+                    paddingVertical: spacing.xl,
+                    minHeight: 176,
                   }}
                 >
                   <View
                     style={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: 24,
-                      backgroundColor: artwork.foreground.badge,
+                      width: 46,
+                      height: 46,
+                      borderRadius: 23,
+                      backgroundColor: 'rgba(14,18,32,0.36)',
                       alignItems: 'center',
                       justifyContent: 'center',
+                      marginBottom: spacing.md,
+                      borderWidth: 1,
+                      borderColor: 'rgba(255,255,255,0.24)',
                     }}
                   >
                     <Ionicons
                       name={locked ? 'lock-closed-outline' : 'play'}
                       size={20}
-                      color={locked ? artwork.foreground.tertiary : t.gold}
+                      color={locked ? artwork.foreground.tertiary : '#FFFFFF'}
                     />
                   </View>
-                  <View style={{ flex: 1 }}>
-                    <Text numberOfLines={2} style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, lineHeight: 20, color: artwork.foreground.primary }}>{p.title}</Text>
-                    <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: artwork.foreground.secondary, marginTop: 2 }}>
+                  <View style={{ alignItems: 'center', maxWidth: 280 }}>
+                    <Text
+                      numberOfLines={2}
+                      style={{
+                        fontFamily: fonts.serif,
+                        fontSize: 21,
+                        lineHeight: 26,
+                        color: '#FFFFFF',
+                        textAlign: 'center',
+                        textShadowColor: 'rgba(0,0,0,0.78)',
+                        textShadowOffset: { width: 0, height: 1 },
+                        textShadowRadius: 8,
+                      }}
+                    >
+                      {p.title}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: fonts.sansMedium,
+                        fontSize: 13,
+                        color: 'rgba(255,255,255,0.90)',
+                        marginTop: spacing.xs,
+                        textAlign: 'center',
+                        textShadowColor: 'rgba(0,0,0,0.78)',
+                        textShadowOffset: { width: 0, height: 1 },
+                        textShadowRadius: 6,
+                      }}
+                    >
                       {p.minutes} {tr('pray.min')} · {tr(`cat.${p.category}` as never)}
                     </Text>
                   </View>
@@ -156,22 +182,17 @@ export default function Pray() {
                     <View
                       style={{
                         position: 'absolute',
-                        right: artwork.scheme === 'dawn' ? 14 : spacing.lg,
+                        right: spacing.md,
                         top: 14,
-                        backgroundColor:
-                          artwork.scheme === 'dawn'
-                            ? 'rgba(255,255,255,0.92)'
-                            : locked
-                              ? artwork.foreground.badge
-                              : t.goldSoft,
+                        backgroundColor: 'rgba(14,18,32,0.50)',
                         borderRadius: radius.pill,
-                        borderWidth: artwork.scheme === 'dawn' ? 1 : 0,
-                        borderColor: t.border,
+                        borderWidth: 1,
+                        borderColor: 'rgba(255,255,255,0.22)',
                         paddingHorizontal: spacing.sm,
                         paddingVertical: 3,
                       }}
                     >
-                      <Text style={{ fontFamily: fonts.sansBold, fontSize: 10, color: locked ? artwork.foreground.tertiary : t.gold }}>
+                      <Text style={{ fontFamily: fonts.sansBold, fontSize: 10, color: locked ? artwork.foreground.tertiary : '#FFFFFF' }}>
                         PLUS
                       </Text>
                     </View>

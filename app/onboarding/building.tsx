@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { ArtSlot } from '@/components/ArtSlot';
+import { OnboardingBackdrop } from '@/components/OnboardingBackdrop';
 import { useTheme } from '@/hooks/useTheme';
 import { type as ty, fonts } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
@@ -37,6 +38,7 @@ export default function Building() {
 
   return (
     <Screen scroll={false} style={{ justifyContent: 'center' }}>
+      <OnboardingBackdrop />
       <ArtSlot
         id="A15-building-candle"
         height={140}

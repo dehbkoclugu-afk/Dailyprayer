@@ -144,16 +144,16 @@ export default function PlanScreen() {
                     {isDone ? (
                       <Ionicons name="checkmark" size={18} color={t.onGold} />
                     ) : (
-                      <Text style={{ fontFamily: fonts.sansBold, fontSize: 13, color: artwork.foreground.secondary, fontVariant: ['tabular-nums'] }}>
+                      <Text style={{ fontFamily: fonts.sansBold, fontSize: 13, color: artwork.foreground.secondary, fontVariant: ['tabular-nums'], textShadowColor: 'rgba(0,0,0,0.72)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 5 }}>
                         {dayIdx + 1}
                       </Text>
                     )}
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: artwork.foreground.primary }}>
+                    <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: artwork.foreground.primary, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
                       {tr('plan.dayLabel')} {dayIdx + 1}
                     </Text>
-                    <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: isDone ? t.gold : artwork.foreground.secondary, marginTop: 2 }}>
+                    <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: isDone ? t.gold : artwork.foreground.secondary, marginTop: 2, textShadowColor: 'rgba(0,0,0,0.72)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 5 }}>
                       {readingRef}
                     </Text>
                   </View>

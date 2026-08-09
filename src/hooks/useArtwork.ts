@@ -10,10 +10,10 @@ const VIGIL_FOREGROUND = {
 } as const;
 
 const DAWN_FOREGROUND = {
-  primary: '#221E19',
-  secondary: 'rgba(34,30,25,0.76)',
-  tertiary: 'rgba(34,30,25,0.58)',
-  badge: 'rgba(34,30,25,0.10)',
+  primary: '#FFFFFF',
+  secondary: 'rgba(255,255,255,0.88)',
+  tertiary: 'rgba(255,255,255,0.74)',
+  badge: 'rgba(14,18,32,0.34)',
 } as const;
 
 /** Theme-resolved artwork source + contrast-safe foreground palette. */
