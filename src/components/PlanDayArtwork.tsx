@@ -20,7 +20,7 @@ export function PlanDayArtwork({ planId, dayIndex, radius, height, variant = 'ro
   const dawn = artwork.scheme === 'dawn';
   const source = planDayArtSource(planId, dayIndex, artwork.scheme);
 
-  const rowOverlay = dawn ? 'rgba(255,255,255,0.16)' : 'rgba(14,18,32,0.30)';
+  const rowOverlay = dawn ? 'rgba(255,255,255,0.32)' : 'rgba(14,18,32,0.30)';
 
   return (
     <View style={[{ height, borderRadius: radius, overflow: 'hidden', backgroundColor: t.surface }, style]}>
