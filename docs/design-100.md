@@ -874,8 +874,32 @@ deneyimi, performans ve görsel cila gelir.
     mount’ta “Pause” gösteriyor (zaten oynatılıyor) ve satır 8. saniyede kayboluyor — tam olarak
     bu maddenin tarif ettiği kusur. Detaylar:
     `docs/superpowers/plans/2026-08-09-player-screenreader-pause.md`.
-49. **Player kalan süreyi canlı ama gürültüsüz güncelle.** Her satırda tam ekran duyurusu yerine
-    yalnız dua metni okunmalı, süre ayrı erişilebilir açıklama olmalı.
+49. ✅ **TAMAMLANDI — Player kalan süreyi canlı ama gürültüsüz güncelle.** Her satırda tam ekran
+    duyurusu yerine yalnız dua metni okunmalı, süre ayrı erişilebilir açıklama olmalı.
+    Ayet metninin `Animated.Text`’i hem açık `AccessibilityInfo.announceForAccessibility(prayer
+    .script[line])` çağrısını HEM de kendi `accessibilityLiveRegion="polite"`’ını taşıyordu —
+    iki sorun bir arada: bir canlı bölgenin doğru çalışması için içeriğin YERİNDE değişmesi
+    gerekir, bu öğe her satırda yeniden mount ediliyor (`key={line}`), canlı bölge için
+    güvenilmez bir mekanizma; ayrıca ateşlediği yerlerde aynı satırın iki kez okunması riski var
+    (bir açık çağrıdan, bir de canlı bölgenin yeni içeriğe tepkisinden). Kalan süre metninin ise
+    hiçbir erişilebilirlik işlemi yoktu — ne canlı bölge ne açık etiket, yani ekran okuyucu
+    kullanıcısı için asla kendi kendine güncellenmiyordu.
+    Ayet metninden `accessibilityLiveRegion` kaldırıldı — açık `announceForAccessibility` çağrısı
+    zaten bu metni tam olarak, tek sefer okuyor. Kalan süre metnine kendi
+    `accessibilityLiveRegion="polite"` ve açık bir `accessibilityLabel` (“Guided text prayer, 1
+    min left” — görsel “·” yerine virgül) eklendi; “polite” TalkBack/VoiceOver’ın söylediğini
+    kesmek yerine sıraya giriyor, artık ayet duyurusundan bağımsız kendi başına güncelleniyor.
+    Koruma (`src/a11y/playerLiveRegion.test.ts`), üç ihlal enjekte edilip yakalandığı doğrulandı.
+    `npm test` (178/178), typecheck, lint, release-check, tap-targets (13 görünüm, değişmedi),
+    Android export temiz.
+    Tarayıcıda yol boyunca gerçek bir yanlış-pozitif bulundu: ilk kontrol `textContent.includes`
+    ile öğe arıyordu, bu da metni içeren en dıştaki atayı (tüm sayfayı) eşleştirip canlı bölge
+    açıkça VARKEN “yok” raporluyordu. `[aria-live]` seçicisiyle doğrudan sorgulamaya geçilince
+    fark netleşti: düzeltmeli derlemede tam bir canlı bölge var, kalan süre metninde
+    (`aria-live="polite"`, etiket “Guided text prayer, 1 min left”), ayet metninde yok. Her iki
+    değişiklik geri alınan derlemede tam tersi: tek canlı bölge ayet metninde, kalan sürede yok —
+    kontrolün her iki yönde de anlamlı olduğu doğrulandı. Detaylar:
+    `docs/superpowers/plans/2026-08-09-player-live-region-split.md`.
 50. **Kontrastı gerçek görseller üzerinde ölç.** Verse, ritual, Tonight ve plan kartlarının her
     görsel varyantında metin 4.5:1; büyük başlık 3:1 eşiğini geçmeli.
 

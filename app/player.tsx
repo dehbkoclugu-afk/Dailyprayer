@@ -147,7 +147,16 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
             <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: '#F2EEE6' }}>
               {prayer.title}
             </Text>
-            <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: '#C9C5B8', marginTop: 2 }}>
+            {/* Its own quiet live region, separate from the verse announcement
+                below — "polite" queues behind whatever TalkBack/VoiceOver is
+                already saying instead of interrupting it, and update-in-place
+                (no remount) is what makes a live region fire correctly at all
+                (roadmap item 49). */}
+            <Text
+              accessibilityLiveRegion="polite"
+              accessibilityLabel={`${tr('player.guidedText')}, ${remainingMinutes} ${tn(remainingMinutes, 'player.minLeft')}`}
+              style={{ fontFamily: fonts.sans, fontSize: 13, color: '#C9C5B8', marginTop: 2 }}
+            >
               {tr('player.guidedText')} · {remainingMinutes} {tn(remainingMinutes, 'player.minLeft')}
             </Text>
           </View>
@@ -163,12 +172,17 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
         </View>
 
         <View style={{ flex: 1, justifyContent: 'center' }}>
-          {/* each line rises gently into place — the "breath" feel */}
+          {/* each line rises gently into place — the "breath" feel.
+              No `accessibilityLiveRegion` here: `key={line}` remounts this
+              node on every line rather than updating it in place, which a
+              live region needs to fire correctly — and the explicit
+              `announceForAccessibility` below already reads exactly this
+              text, once, on its own. Keeping both risked the same line
+              being read twice (roadmap item 49). */}
           <Animated.Text
             key={line}
             entering={reduceMotion ? undefined : FadeInUp.duration(600)}
             exiting={reduceMotion ? undefined : FadeOut.duration(250)}
-            accessibilityLiveRegion="polite"
             style={{
               fontFamily: 'Fraunces_400Regular',
               fontSize: 26,
