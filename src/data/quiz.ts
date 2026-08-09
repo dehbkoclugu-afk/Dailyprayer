@@ -83,7 +83,7 @@ interface StepText {
 }
 
 /** `en` is the source of truth and the fallback for any locale not listed. */
-const text: Partial<Record<Locale, StepText[]>> = {
+const text: Record<Locale, StepText[]> = {
   en: [
     {
       question: 'Which tradition feels like home?',
@@ -444,7 +444,7 @@ const text: Partial<Record<Locale, StepText[]>> = {
 
 /** Localized quiz steps for the active locale, falling back to English. */
 export function getQuizSteps(locale: Locale): QuizStep[] {
-  const tx = text[locale] ?? text.en!;
+  const tx = text[locale];
   return base.map((b, i) => {
     const s = tx[i] ?? text.en![i];
     return {

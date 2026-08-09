@@ -134,7 +134,7 @@ const NL: Record<string, { title: string; tagline: string }> = {
   'bible-365': { title: 'De Bijbel in een Jaar', tagline: 'Het hele verhaal, 20 minuten per dag.' },
 };
 
-const OVERLAYS: Partial<Record<Locale, Record<string, { title: string; tagline: string }>>> = {
+const OVERLAYS: Record<Exclude<Locale, 'en'>, Record<string, { title: string; tagline: string }>> = {
   tr: TR,
   es: ES,
   pt: PT,
