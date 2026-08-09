@@ -698,8 +698,31 @@ deneyimi, performans ve görsel cila gelir.
     hitSlop’lu hiçbir Pressable bulamıyor; bu oturumda madde 40 doğrulaması sırasında yeniden
     çalıştırılan `npm run tap-targets`, “Search (typed)” görünümünde 18 hedefin hepsinin 48 dp’nin
     üstünde olduğunu ölçtü (0 under 48dp).
-42. **Prayer kategori chip’lerini 48 dp yap.** Mevcut 44 dp minimumu Android hedefinin altında;
-    yatay liste de odak sırasında seçili chip’i görünür alana kaydırmalı.
+42. ✅ **TAMAMLANDI — Prayer kategori chip’lerini 48 dp yap.** Mevcut 44 dp minimumu Android
+    hedefinin altında; yatay liste de odak sırasında seçili chip’i görünür alana kaydırmalı.
+    Yükseklik yarısı zaten yapılmıştı: chip’ler `minHeight: TAP_MIN` (48 dp) taşıyor, `tap-targets`
+    ölçümü “Pray” için 0 hedefin 48 dp’nin altında olduğunu doğruluyor. Asıl eksik kaydırmaydı.
+    Altı kategori (`prayers.ts`) 390 px’lik bir ekrana sığmıyor — son chip (“Strength”) `x: 582`’de,
+    tamamen ekranın dışında. Bir chip’i seçmek (dokunarak veya önceden seçili gelerek) onu ekran
+    kenarında kırpılmış bırakıyordu, kaydırmadan aktif olduğunu bile anlamak mümkün değildi.
+    Her chip’in kendi `onLayout`’u konumunu bir map’e yazıyor; `ScrollView`’ın kendi `onLayout`/
+    `onScroll`’u görünür genişliği ve kaydırma konumunu takip ediyor; `cat` değiştiğinde bir
+    `useEffect` — chip görünür pencerenin solunda veya sağında taşıyorsa — onu tam görünür kılacak
+    **en az** miktarda kaydırıyor (ortalamıyor, her seçimde kayıtsız şartsız kaydırmıyor).
+    `useReducedMotion()` (madde 36/37’nin eklediği kanca) OS azaltılmış hareket istediğinde
+    kaydırmanın kendi animasyonunu kapatıyor.
+    Koruma (`src/a11y/chipScrollIntoView.test.ts`, dört kural), dört ihlal enjekte edilip
+    yakalandığı doğrulandı. `npm test` (165/165), typecheck, lint, release-check, tap-targets
+    (13 görünüm, değişmedi), Android export temiz.
+    **Tarayıcı doğrulamasında gerçek bir tuzak bulundu ve düzeltildi:** ilk Playwright betiği
+    hedef chip’e `.click()` yapıyordu — Playwright’ın kendi actionability kontrolü tıklamadan
+    önce hedefi zaten görünür alana kaydırıyor, uygulamanın kodundan tamamen bağımsız. Bu yüzden
+    betik, düzeltmesiz derlemeyi de (scrollTo çağrısı yorum satırına alınmış) “çalışıyor” olarak
+    raporladı. `elementHandle.evaluate(el => el.click())` ile ham DOM tıklamasına geçilince
+    (Playwright’ın kaydırma adımını atlıyor) fark netleşti: düzeltmesiz derlemede “Strength”
+    `x: 582`’de kalıyor (390 px görünümde ekran dışı); düzeltmeli derlemede `x: 254`’e taşınıp
+    tamamen görünür oluyor. Detaylar:
+    `docs/superpowers/plans/2026-08-09-prayer-chip-scroll-into-view.md`.
 43. **“Tümünü göster” metin bağlantısını gerçek düğme alanına çevir.** Sadece metne basmak yerine
     48 dp satır ve belirgin pressed/focus durumu kullanılmalı.
 44. **Günlük silme ikonuna görünür hedef ver.** Küçük çöp simgesi, 48 dp alan ve hafif tonal

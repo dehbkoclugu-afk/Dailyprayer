@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useReducedMotion } from 'react-native-reanimated';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { useTheme } from '@/hooks/useTheme';
@@ -19,6 +20,30 @@ export default function Pray() {
   const [cat, setCat] = useState<GuidedPrayer['category'] | 'all'>('all');
   const list = cat === 'all' ? prayers : prayers.filter((p) => p.category === cat);
 
+  // The chip row scrolls to keep the selected chip in view (roadmap item 42).
+  // Selecting one near either edge — by tap, or by a category arriving
+  // pre-selected — used to leave it clipped by the screen edge with no way to
+  // tell it was even the active one without scrolling manually.
+  const chipScrollRef = useRef<ScrollView>(null);
+  const chipLayouts = useRef<Partial<Record<GuidedPrayer['category'], { x: number; width: number }>>>({});
+  const viewport = useRef({ x: 0, width: 0 });
+  const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (cat === 'all') return;
+    const chip = chipLayouts.current[cat];
+    if (!chip) return;
+    const { x: scrollX, width: viewportW } = viewport.current;
+    if (viewportW === 0) return;
+    let target: number | null = null;
+    if (chip.x < scrollX + spacing.xl) {
+      target = Math.max(0, chip.x - spacing.xl);
+    } else if (chip.x + chip.width > scrollX + viewportW - spacing.xl) {
+      target = chip.x + chip.width - viewportW + spacing.xl;
+    }
+    if (target != null) chipScrollRef.current?.scrollTo({ x: target, animated: !reduceMotion });
+  }, [cat, reduceMotion]);
+
   const open = (p: GuidedPrayer) => {
     if (p.plus && !isPlus) router.push('/paywall?from=prayer');
     else router.push({ pathname: '/player', params: { id: p.id } });
@@ -34,10 +59,18 @@ export default function Pray() {
       {/* category filter — a single calm chip row (matches the Bible chapter
           picker); tap the active chip again to clear back to the full library */}
       <ScrollView
+        ref={chipScrollRef}
         horizontal
         showsHorizontalScrollIndicator={false}
         style={{ marginTop: spacing.lg, marginHorizontal: -spacing.xl }}
         contentContainerStyle={{ gap: spacing.sm, paddingHorizontal: spacing.xl }}
+        onLayout={(e) => {
+          viewport.current.width = e.nativeEvent.layout.width;
+        }}
+        onScroll={(e) => {
+          viewport.current.x = e.nativeEvent.contentOffset.x;
+        }}
+        scrollEventThrottle={16}
       >
         {prayerCategories.map((c) => {
           const active = cat === c.key;
@@ -45,6 +78,9 @@ export default function Pray() {
             <Pressable
               key={c.key}
               onPress={() => setCat(active ? 'all' : c.key)}
+              onLayout={(e) => {
+                chipLayouts.current[c.key] = { x: e.nativeEvent.layout.x, width: e.nativeEvent.layout.width };
+              }}
               accessibilityRole="button"
               accessibilityState={{ selected: active }}
               accessibilityLabel={tr(`cat.${c.key}` as never)}
