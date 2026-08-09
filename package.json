@@ -15,7 +15,8 @@
     "release-claims": "node scripts/check-release-claims.mjs",
     "release-check": "npm run scripture-check && npm run release-gate && npm run release-claims",
     "tap-targets": "node scripts/measure-tap-targets.mjs",
-    "verse-a11y": "node scripts/check-verse-accessibility.mjs"
+    "verse-a11y": "node scripts/check-verse-accessibility.mjs",
+    "card-contrast": "node scripts/check-card-contrast.mjs"
   },
   "dependencies": {
     "@expo-google-fonts/figtree": "^0.2.3",
@@ -56,6 +57,7 @@
     "eslint": "^9.0.0",
     "eslint-config-expo": "~9.2.0",
     "playwright-core": "^1.61.1",
+    "pngjs": "^3.4.0",
     "typescript": "~5.8.3"
   },
   "overrides": {

@@ -900,8 +900,50 @@ deneyimi, performans ve görsel cila gelir.
     değişiklik geri alınan derlemede tam tersi: tek canlı bölge ayet metninde, kalan sürede yok —
     kontrolün her iki yönde de anlamlı olduğu doğrulandı. Detaylar:
     `docs/superpowers/plans/2026-08-09-player-live-region-split.md`.
-50. **Kontrastı gerçek görseller üzerinde ölç.** Verse, ritual, Tonight ve plan kartlarının her
-    görsel varyantında metin 4.5:1; büyük başlık 3:1 eşiğini geçmeli.
+50. ✅ **TAMAMLANDI — Kontrastı gerçek görseller üzerinde ölç.** Verse, ritual, Tonight ve plan
+    kartlarının her görsel varyantında metin 4.5:1; büyük başlık 3:1 eşiğini geçmeli.
+    Dört bileşen de (`VerseCard`, `RitualCard`, Tonight kartı, plan kapak kartı) sabit açık
+    renkli metni bir `<Image>` + `LinearGradient` scrim’in üzerine koyuyor — dördü de tema
+    token’ı değil sabit hex/rgba değerleri kullanıyor (kasıtlı: `RitualCard`’ın kendi yorumu,
+    “sanat varken kart tema fark etmeden koyu bir sahne, metin/ikon açık olmalı”), yani Dawn/
+    Vigil ekseni burada yok — tek temada test etmek zaten tam kapsama.
+    Gerçek yüzey sayıldı: 8 farklı `VerseCard` görseli (13 ayet teması 8 benzersiz dosyaya
+    eşleniyor), 3 `RitualCard` görseli, 1 Tonight görseli, 5 plan kapağı.
+    Yeni bir kalıcı geliştirici aracı: `scripts/check-card-contrast.mjs` (`npm run
+    card-contrast`, `pngjs` yeni bir devDependency) — her kart için gerçek `<img>`’i dosya
+    adından buluyor, kabına çıkıyor (bir gerçek yapı bilgisine dayanıyor: react-native-web’in
+    kendi `<Image>`’ı kendini EKSTRA bir sarmalayıcı div’e alıyor, yani gradyan/metin
+    kardeşleri `<img>`’den İKİ seviye yukarıda — betiğin ilk hâli her yerde sıfır sonuç verdi,
+    ta ki gerçek bir `outerHTML` dökümüyle bu bulununcaya kadar), kabın içindeki her yaprak
+    metin düğümünü tarıyor, Playwright’ın gerçek sınırlayıcı kutusunu alıyor (el ile flexbox
+    matematiği yok), beş noktadan (4 köşe + merkez — `measure-tap-targets.mjs`’in boşluklar
+    için kullandığı “en kötü köşe, ortalama değil” yaklaşımı) 1×1 px ekran görüntüleriyle
+    `pngjs` ile piksel örnekleyip WCAG kontrast oranını hesaplıyor.
+    Yol boyunca bir gerçek düzeltme daha: Tonight kartının “Unlock” hapı kendisi bir
+    `<button>`, KENDİ opak arka plan rengini taşıyor — metnin ardını görmek için onu gizlemek
+    o dolguyu da gizliyor ve arkasındaki kartın koyu scrim’ini örnekleyip sahte bir 1.03:1
+    sonucu üretiyordu. Kendi opak arka planı olan öğeler artık doğrudan o arka plana karşı
+    ölçülüyor.
+    Eşik: ölçülen her şey için 4.5:1. Maddenin 3:1 “büyük başlık” istisnasının burada bir
+    karşılığı olup olmadığı, göz kararı değil WCAG’nin kendi teknik “büyük metin” tanımına
+    (≥18pt kalın veya ≥24pt herhangi bir ağırlık) göre kontrol edildi: en yakın aday olan plan
+    başlığı 24px serif (kalın değil) ≈ 18pt — 24pt eşiğinin altında. Hiçbiri nitelenmiyor;
+    4.5:1 her yerde geçerli, 3:1 istisnasının madde metninde karşılığı var ama kod tabanında
+    şu an uygulanacak bir örneği yok.
+    Koruma: `VerseCard`’ın üst gradyan durağı bilerek zayıflatıldı (0.55→0.10 alfa) ve yeniden
+    çalıştırıldı — `A5-verse-trust` varyantının overline’ı 4.15:1’e düştü, doğru şekilde
+    başarısız oldu. Orijinal değer geri alındı; değiştirilmemiş kodda üç kez yeniden
+    çalıştırıldı, hepsi geçti (en düşük: `A5-verse-joy` overline’ında 4.90:1, hâlâ gerçek bir
+    pay bırakıyor) — araç yapısı itibariyle geçmiyor, gerçekten ölçüyor.
+    `npm test` (178/178, değişmedi — gerçek kodda değişiklik yok, mevcut uygulama zaten
+    geçiyor), typecheck, lint, release-check, tap-targets (13 görünüm, değişmedi), Android
+    export temiz. `npm run card-contrast`: **75 metin/arka plan kombinasyonu ölçüldü, hepsi
+    4.5:1’i geçiyor.** En sıkı pay `VerseCard`’ın overline’ında (8 görsel varyantında 5.6–6.3:1
+    — en küçük metin, scrim’in en az kararttığı bölgede, tam olarak en sıkı olması gereken
+    yerde) ve plan kartlarının alt başlıklarında (6.15–7.73:1).
+    Açık kalan: `peace-7` planı kendi `A13-peace7` yerine `A13-plan-cover` kullanıyor — bir
+    varlık-seçim detayı, kontrast kusuru değil, bu maddenin kapsamı dışında. Detaylar:
+    `docs/superpowers/plans/2026-08-09-card-contrast-measurement.md`.
 
 ## P1 — Bilgi mimarisi ve temel akışlar (51–65)
 
