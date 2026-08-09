@@ -947,8 +947,33 @@ deneyimi, performans ve görsel cila gelir.
 
 ## P1 — Bilgi mimarisi ve temel akışlar (51–65)
 
-51. **Tablette alt barı navigation rail’e dönüştür.** 840 dp üstünde 600 px geniş alt bar
-    kullanmak yerine Material’ın expanded-width navigasyon kalıbı uygulanmalı.
+51. ✅ **TAMAMLANDI — Tablette alt barı navigation rail’e dönüştür.** 840 dp üstünde 600 px geniş
+    alt bar kullanmak yerine Material’ın expanded-width navigasyon kalıbı uygulanmalı.
+    840 dp üstünde bar hâlâ ekranın ALTINDA duruyordu — sadece 600 px’e ortalanmış, yuvarlak üst
+    köşeli, gerilmiş bir telefon kalıbıydı, Material’ın bu kırılma noktası için kendi rail
+    rehberliği değil.
+    Bir şey inşa etmeden önce kurulu `@react-navigation/bottom-tabs` (7.18.13) sürümü kontrol
+    edildi: `BottomTabView`/`BottomTabBar` zaten birinci-taraf `tabBarPosition` (`'bottom' |
+    'top' | 'left' | 'right'`) ve `tabBarVariant` (`'uikit' | 'material'`) seçeneklerini
+    destekliyor — `tabBarPosition: 'left'` ekranın kendi kabını satır (row) düzenine çeviriyor
+    (içerik barın ALTINDA değil YANINDA), `'material'` varyantı da tam bu konum için
+    belgelenmiş. Kendi başına bir rail inşa etmeye gerek yoktu.
+    `_layout.tsx`: `tabBarPosition: expanded ? 'left' : 'bottom'`, `tabBarVariant: expanded ?
+    'material' : 'uikit'`. Eski sabit-600-genişlik/ortalama/yuvarlak-köşe stili kaldırıldı — bu,
+    aynı kırılma noktasının önceki, eksik cevabıydı, gerçek düzeltmenin yanında kalması aynı
+    soruya iki rakip cevap olurdu. Kapsam bilerek sadece nav kalıbıyla sınırlı — madde 52 (iki
+    sütunlu içerik) ayrı bir madde, buraya karıştırılmadı.
+    Koruma (`src/theme/navigationRail.test.ts`): eski koda tam olarak geri dönülüp (iki yeni
+    seçenek kaldırılıp eski stil geri getirilip) her iki iddianın da yakaladığı doğrulandı,
+    geri alındı. `npm test` (180/180), typecheck, lint, release-check, tap-targets (13 telefon
+    genişliği görünümü, değişmedi), Android export temiz.
+    Tarayıcıda iki görünümde doğrulandı: **900 px’te (≥840 dp)** beş `role="tab"` öğesinin
+    hepsi `x: 12`’de dikey olarak istifleniyor (solda bir rail), her biri 54 px yüksekliğinde —
+    48 dp minimumunun rahat üstünde; bir ekran görüntüsü görsel olarak da doğruluyor: gerçek bir
+    Material rail, aktif öge altın renkte hap şeklinde, içerik dar ortalanmış bir sütun değil
+    kalan tüm genişliği kaplıyor. **400 px’te (<840 dp)** değişmedi: beş sekme hâlâ altta yatay
+    bir sırada (`y: 725`, hepsi aynı `y`). Detaylar:
+    `docs/superpowers/plans/2026-08-09-navigation-rail.md`.
 52. **Yatay/tablet düzeninde iki sütunlu içerik kullan.** 640 px tek kolon yalnızca büyümüş telefon
     hissi veriyor; Today ritüelleri ve Bible planları master/detail veya iki kolon olmalı.
 53. **Android Predictive Back akışlarını doğrula.** Player, okuyucu ve tüm bottom sheet’ler sistem

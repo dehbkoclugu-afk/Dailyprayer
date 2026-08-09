@@ -15,15 +15,21 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
+        // A centered 600px bottom bar above 840dp was still a bottom bar —
+        // wider, but the same phone pattern stretched out, not Material's
+        // own expanded-width guidance for this breakpoint (roadmap item 51).
+        // `tabBarPosition`/`tabBarVariant` are @react-navigation/bottom-tabs'
+        // own, first-party navigation-rail support: 'left' moves the whole
+        // bar to a vertical sidebar (and switches the screen's own layout to
+        // a row, content beside it, not underneath it) and the 'material'
+        // variant is documented as being for exactly this position.
+        tabBarPosition: expanded ? 'left' : 'bottom',
+        tabBarVariant: expanded ? 'material' : 'uikit',
         tabBarStyle: {
           backgroundColor: t.chrome,
           borderTopColor: t.border,
-          height: 84,
-          paddingTop: 8,
-          width: expanded ? 600 : undefined,
-          alignSelf: 'center',
-          borderTopLeftRadius: expanded ? 24 : 0,
-          borderTopRightRadius: expanded ? 24 : 0,
+          borderRightColor: t.border,
+          ...(expanded ? {} : { height: 84, paddingTop: 8 }),
         },
         tabBarActiveTintColor: t.gold,
         tabBarInactiveTintColor: t.inkFaint,
