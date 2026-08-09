@@ -86,6 +86,26 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
     AccessibilityInfo.announceForAccessibility(prayer.script[line]);
   }, [line, prayer.id, prayer.script]);
 
+  // Auto-advance assumes a sighted reader who can see the next line arrive.
+  // A screen-reader user is often still partway through hearing the current
+  // one — TalkBack/VoiceOver's own reading pace has nothing to do with
+  // PACE_FACTOR — so the screen should not move until they ask it to
+  // (roadmap item 48). Checked once on mount and again on any live toggle;
+  // never auto-resumed if the user turns their screen reader back off.
+  useEffect(() => {
+    let cancelled = false;
+    AccessibilityInfo.isScreenReaderEnabled().then((enabled) => {
+      if (!cancelled && enabled) setPaused(true);
+    });
+    const sub = AccessibilityInfo.addEventListener('screenReaderChanged', (enabled: boolean) => {
+      if (enabled) setPaused(true);
+    });
+    return () => {
+      cancelled = true;
+      sub.remove();
+    };
+  }, []);
+
   // roadmap item 38: reaching the last line swaps the prev/pause/next row for
   // the Amen button — a purely visual cue. Announced separately from the line
   // text above, keyed on `lastLine` alone so it fires once when the state is

@@ -848,8 +848,32 @@ deneyimi, performans ve görsel cila gelir.
     gördüğünü kanıtlıyor: görünen DOM çıplak rakamı taşımaya devam ediyor, erişilebilir ad ise
     onu doğru şekilde tekrarlamadan atlıyor. Detaylar:
     `docs/superpowers/plans/2026-08-09-verse-a11y-device-check.md`.
-48. **Player otomatik ilerlemeyi erişilebilirlik açıkken varsayılan duraklat.** Kullanıcı satırı
-    bitirmeden ekran değişmemeli; devam etme açık bir tercih olmalı.
+48. ✅ **TAMAMLANDI — Player otomatik ilerlemeyi erişilebilirlik açıkken varsayılan duraklat.**
+    Kullanıcı satırı bitirmeden ekran değişmemeli; devam etme açık bir tercih olmalı.
+    `paused` koşulsuz `false` başlıyordu. Otomatik ilerleme zamanlayıcısı (`Math.max(4000,
+    satır.length * PACE_FACTOR[pace])`) görsel bir okuma hızına göre ayarlı; TalkBack/
+    VoiceOver’ın kendi okuma hızıyla hiçbir ilgisi yok, ekran okuyucu kullanan biri hâlâ mevcut
+    satırı dinlerken ekran değişebiliyordu.
+    Yeni bir efekt, mount’ta `AccessibilityInfo.isScreenReaderEnabled()`’ı kontrol ediyor ve
+    `true` dönerse `setPaused(true)` çağırıyor — `StreakFlame.tsx`’in kendi
+    `isReduceMotionEnabled()` kontrolü için kullandığı `cancelled` bayrağı deseniyle aynı.
+    `screenReaderChanged`’a da abone oluyor, yani player açıkken ekran okuyucu açılırsa da
+    duraklıyor. Kasıtlı olarak tek yönlü: hiçbir dal `setPaused(false)` çağırmıyor — ekran
+    okuyucuyu kapatmak otomatik ilerlemeyi sessizce yeniden başlatmamalı.
+    Koruma (`src/a11y/playerAutoAdvance.test.ts`), dört ihlal enjekte edilip yakalandığı
+    doğrulandı — biri özellikle “değişkenle otomatik devam ettirme” (`setPaused(enabled)`),
+    biri de “gerçek `setPaused(false)` dalı” olmak üzere iki farklı otomatik-devam şeklini ayrı
+    ayrı kontrol etti. `npm test` (175/175), typecheck, lint, release-check, tap-targets
+    (13 görünüm, değişmedi), Android export temiz.
+    Tarayıcıda ilginç bir gerçek bulundu: react-native-web’in `isScreenReaderEnabled()`’ı hep
+    `true` döner (web’de gerçek bir ekran okuyucuyu güvenilir şekilde algılamanın yolu yok) —
+    yani düzeltmeyle her tarayıcı derlemesi player’ı duraklatılmış açar; bu da kontrolü
+    kolaylaştırdı. `/player?id=morning-light` açıldı: düzeltmeli derleme mount’ta hemen “Resume”
+    gösteriyor (“Pause” değil) ve ilk satır 8 saniye sonra hâlâ ekranda — normal hızda ilk satırın
+    kendi zamanlayıcısının ihtiyaç duyacağı ~7.2 saniyeyi aşıyor. Düzeltme kaldırılan derlemede:
+    mount’ta “Pause” gösteriyor (zaten oynatılıyor) ve satır 8. saniyede kayboluyor — tam olarak
+    bu maddenin tarif ettiği kusur. Detaylar:
+    `docs/superpowers/plans/2026-08-09-player-screenreader-pause.md`.
 49. **Player kalan süreyi canlı ama gürültüsüz güncelle.** Her satırda tam ekran duyurusu yerine
     yalnız dua metni okunmalı, süre ayrı erişilebilir açıklama olmalı.
 50. **Kontrastı gerçek görseller üzerinde ölç.** Verse, ritual, Tonight ve plan kartlarının her
