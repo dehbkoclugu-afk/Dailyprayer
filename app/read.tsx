@@ -4,7 +4,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { fonts } from '@/theme/typography';
+import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing, TAP_MIN } from '@/theme/tokens';
 import { HIGHLIGHT_LABEL, HIGHLIGHT_TINT, QUICK_HIGHLIGHT } from '@/theme/highlights';
 import { useReaderTheme } from '@/theme/reading';
@@ -264,15 +264,7 @@ export default function Read() {
         }}
         ListHeaderComponent={
           <View style={{ marginBottom: spacing.lg }}>
-            <Text
-              style={{
-                fontFamily: fonts.sansSemiBold,
-                fontSize: 11,
-                letterSpacing: 2.5,
-                textTransform: 'uppercase',
-                color: rt.gold,
-              }}
-            >
+            <Text style={[ty.overline, { color: rt.gold }]}>
               {tr('read.chapter')} {cIdx + 1}
             </Text>
             <Text style={{ fontFamily: fonts.serif, fontSize: Math.round(30 * fontScale), color: rt.ink, marginTop: 4 }}>

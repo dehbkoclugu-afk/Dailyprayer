@@ -49,15 +49,7 @@ export default function Bible() {
               style={{ position: 'absolute', width: '100%', height: '100%' }}
             />
             <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
-              <Text
-                style={{
-                  fontFamily: fonts.sansSemiBold,
-                  fontSize: 11,
-                  letterSpacing: 2.5,
-                  textTransform: 'uppercase',
-                  color: 'rgba(217,164,65,0.9)',
-                }}
-              >
+              <Text style={[ty.overline, { color: 'rgba(217,164,65,0.9)' }]}>
                 {tr('read.continue')}
               </Text>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 4 }}>

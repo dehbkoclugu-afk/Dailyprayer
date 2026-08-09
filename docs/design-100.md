@@ -465,8 +465,29 @@ deneyimi, performans ve görsel cila gelir.
     yaşamadığı — bir yüzde-yükseklik döngüsü belirtisi gösterdi. Gerçekçi (yalnız font-size,
     2×) testler temizdi; aşırı test gerçek bir OS ayarını değil, testin kendi CSS enjeksiyonunun
     aşırılığını yansıtıyor — yine de not edildi, cihazda asla gözlenmezse bile.
-31. **Metin rollerini merkezi tipe bağla.** Dağınık 10/11/12/14/16/18/20/21/24/27/30/34/46/64
-    değerleri semantic display/title/body/label rollerinden çözülmeli.
+31. 🟡 **KISMEN TAMAMLANDI — Metin rollerini merkezi tipe bağla.** Maddenin tam kapsamı —
+    uygulamadaki **160 satır içi `fontSize` kullanımının** tümünü adlandırılmış bir role
+    bağlamak — bilerek tamamlanmadı; nedeni not edilecek kadar önemli.
+    **Yapılan kısım, kesin ve tartışmasız olan:** beş dosyada (`VerseCard`, `read.tsx`,
+    `today.tsx` ×2, `bible.tsx`) tam olarak aynı dört değer — `fontSize: 11`,
+    `letterSpacing: 2.5`, `textTransform: 'uppercase'`, `fontFamily: fonts.sansSemiBold` —
+    birbirinden habersiz beş kez yazılmıştı (kahraman kartının üstündeki küçük büyük harf
+    etiketi: “GÜNÜN AYETİ”, “OKUMAYA DEVAM ET”, “BÖLÜM 23”…). Hiçbir şey bunları senkron
+    tutmuyordu. `src/theme/typography.ts`’e `type.overline` eklendi; renk role’ün dışında
+    tutuldu — her çağıran kendi rengini veriyor, yalnızca şekil paylaşılıyor. Beş yer de
+    taşındı.
+    **Yapılmayan kısım, kasıtlı:** kalan ~150 kullanım arasında aynı piksel değerini
+    paylaşan ama **bağlama göre gerçekten farklı roller** olan çoğu — örneğin 15sp `sans`
+    Profile’da bir satırda, paywall’da başka bir satırda — otomatik olarak birleştirilmedi.
+    Hangi 14 ham değerin hangi yeni semantic role’e ait olduğuna, ve piksel değeri
+    çakışan ama bağlamı farklı metinlerin gerçekten aynı role mi ait olduğuna karar vermek
+    tasarım kararı — ~150 yerde görsel regresyonu insan onayı olmadan otomatik sürmek yanlış
+    olurdu. Yalnızca **tam, bağlamsız, harfi harfine tekrar eden** küme dokunuldu; bu saf
+    tekilleştirme, yeni bir tasarım kararı değil.
+    `src/theme/typography.test.ts`: role’ün beş çağıran yerde kullanıldığını ve hiçbir
+    dosyanın onu ham değerlerden yeniden kurmadığını denetliyor. İki ihlal enjekte edilip
+    yakalandığı doğrulandı. Tarayıcıda beş yerin de doğru boyut/harf aralığı/büyük harfle VE
+    her birinin kendi rengiyle render ettiği doğrulandı — sıfır görsel fark.
 32. **En küçük okunabilir metni yükselt.** PLUS rozetleri ve yardımcı etiketler 10–11 sp’de
     kalmamalı; kontrast ve font ölçeğiyle en az Material label-small karşılığı sağlanmalı.
 33. **Uppercase dönüşümünü yerel dile göre yap.** Türkçe `i/İ` hataları için render-time

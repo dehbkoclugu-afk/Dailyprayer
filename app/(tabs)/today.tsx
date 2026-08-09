@@ -92,16 +92,7 @@ export default function Today() {
       {/* Header — greeting on the left, a square streak badge on the right */}
       <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
         <View style={{ flex: 1, paddingRight: spacing.lg }}>
-          <Text
-            style={{
-              fontFamily: fonts.sansSemiBold,
-              fontSize: 11,
-              letterSpacing: 2.5,
-              textTransform: 'uppercase',
-              color: t.gold,
-              opacity: 0.85,
-            }}
-          >
+          <Text style={[ty.overline, { color: t.gold, opacity: 0.85 }]}>
             {dateLine}
           </Text>
           <Text style={[ty.title, { color: t.ink, marginTop: spacing.xs }]}>
@@ -201,15 +192,7 @@ export default function Today() {
               }}
             >
               <View style={{ flex: 1 }}>
-                <Text
-                  style={{
-                    fontFamily: fonts.sansSemiBold,
-                    fontSize: 11,
-                    letterSpacing: 2.5,
-                    textTransform: 'uppercase',
-                    color: 'rgba(217,164,65,0.85)',
-                  }}
-                >
+                <Text style={[ty.overline, { color: 'rgba(217,164,65,0.85)' }]}>
 {tr('today.sleepPrayer')}
                 </Text>
                 <Text style={{ fontFamily: fonts.serif, fontSize: 21, color: '#F2EEE6', marginTop: 4 }}>

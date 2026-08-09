@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { captureRef } from 'react-native-view-shot';
 import * as Sharing from 'expo-sharing';
-import { fonts } from '@/theme/typography';
+import { fonts, type as ty } from '@/theme/typography';
 import { radius, shadow, spacing, TAP_MIN } from '@/theme/tokens';
 import { artRegistry, type AssetId } from '@/assets/registry';
 import type { DailyVerse } from '@/data/verses';
@@ -97,15 +97,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
         style={{ position: 'absolute', width: '100%', height: '100%' }}
       />
       <View style={{ flex: 1, padding: spacing.xl, paddingTop: spacing.xxl }}>
-          <Text
-            style={{
-              fontFamily: fonts.sansSemiBold,
-              fontSize: 11,
-              letterSpacing: 2.5,
-              textTransform: 'uppercase',
-              color: 'rgba(217,164,65,0.85)',
-            }}
-          >
+          <Text style={[ty.overline, { color: 'rgba(217,164,65,0.85)' }]}>
 {tr('today.verseOfDay')}
           </Text>
 
