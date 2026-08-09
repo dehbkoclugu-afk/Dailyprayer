@@ -14,7 +14,8 @@
     "release-gate": "node --experimental-strip-types scripts/check-release-gate.mjs",
     "release-claims": "node scripts/check-release-claims.mjs",
     "release-check": "npm run scripture-check && npm run release-gate && npm run release-claims",
-    "tap-targets": "node scripts/measure-tap-targets.mjs"
+    "tap-targets": "node scripts/measure-tap-targets.mjs",
+    "verse-a11y": "node scripts/check-verse-accessibility.mjs"
   },
   "dependencies": {
     "@expo-google-fonts/figtree": "^0.2.3",

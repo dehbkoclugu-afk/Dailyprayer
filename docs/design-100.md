@@ -814,8 +814,40 @@ deneyimi, performans ve görsel cila gelir.
     `x: 272`’de, satırın içinde kalıyor. Düzeltme geri alınan derlemede: satır 54px’de düz kalıyor
     (sarılmıyor), track `x: 686.6`’ya itiliyor — 360 px’lik ekranın sağ kenarının tamamen dışında.
     Detaylar: `docs/superpowers/plans/2026-08-09-paper-switch-material-semantics.md`.
-47. **Ekran okuyucuda ayet numarası + metni tek anlamlı cümle yap.** İç içe Text düğümlerinin
-    kesik veya tekrarlı okunmadığı cihaz testleriyle doğrulanmalı.
+47. ✅ **TAMAMLANDI — Ekran okuyucuda ayet numarası + metni tek anlamlı cümle yap.** İç içe Text
+    düğümlerinin kesik veya tekrarlı okunmadığı cihaz testleriyle doğrulanmalı.
+    Kod zaten doğruydu: madde 25 her ayete tam olarak bu yüzden açık bir `accessibilityLabel`
+    (`${tr('read.verse')} ${item[0]}. ${item[1]}`) vermişti — görünen rakam iç içe bir `Text`,
+    açık etiket olmadan çıplak bir sayı ilk kelimeye yapışık okunurdu. `src/a11y/labels.test.ts`
+    bunun kaynak kodda doğru bildirildiğini (dropcap ve düz ayet dalının ikisinde de) zaten
+    kanıtlıyordu. Eksik olan: gerçek bir render’ın bunu temiz mi ortaya çıkardığı, yoksa
+    tarayıcının/erişilebilirlik ağacının kendisinin tam bu maddenin uyardığı parçalanma/tekrarı
+    mı yarattığı — hiç kontrol edilmemişti. Bu ortamda gerçek bir TalkBack/VoiceOver cihazı yok;
+    madde 47’nin “cihaz testi” isteğinin en yakın karşılığı, gerçek bir tarayıcı derlemesinin
+    erişilebilirlik ağacı.
+    Yeni bir kalıcı geliştirici aracı: `scripts/check-verse-accessibility.mjs`
+    (`npm run verse-a11y`) — Mezmur 23’e (İngilizce) tohumlanmış `/read` sayfasında ilk iki ayeti
+    (dropcap ve düz dal) okuyor, `aria-label`’ı `Verse N. <kuyruk>` şeklinde ayrıştırıyor, sayının
+    kuyruğun başında tekrar etmediğini, kuyruğun kesik görünmediğini ve içindeki hiçbir iç
+    öğenin kendi `aria-label`’ı olmadığını (bu, ekran okuyucuya tek isim yerine iki isim verirdi)
+    doğruluyor. `tap-targets` ve Scripture drift kontrolüyle aynı düzenleme — tarayıcı gerektiği
+    için CI kapısı değil, geliştirici aracı.
+    İki ihlal enjekte edilip yakalandığı doğrulandı: `accessibilityLabel`’ı tamamen kaldırmak
+    (kontrol beklenen öğeyi hiç bulamayıp doğru şekilde başarısız oldu — açık etiket olmadan
+    tarayıcının varsayılan erişilebilir-ad algoritması tam bu maddenin tarif ettiği parçalı
+    okumaya dönerdi) ve etiketin metin yarısını ayet numarasıyla değiştirmek (`${item[0]}.
+    ${item[0]}`, kesik/tekrarlı bir etiketin yerine geçen bir test — hem tekrar hem kesiklik
+    kontrolü her iki ayette de yakaladı).
+    `npm test` (172/172, değişmedi — bu madde yeni bir birim testi eklemedi, çünkü asıl
+    düzeltme zaten vardı ve zaten `labels.test.ts` tarafından korunuyordu), typecheck, lint,
+    release-check, tap-targets (13 görünüm, değişmedi), Android export temiz.
+    Gerçek derlemede `npm run verse-a11y` geçti: Ayet 1 `aria-label: "Verse 1. Yahweh is my
+    shepherd: I shall lack nothing."` — temiz. Ayet 2 `aria-label: "Verse 2. He makes me lie
+    down..."` iken **görünen** `textContent`’in hâlâ `"2  He makes me lie down..."` (iç içe
+    Text’ten gelen çıplak rakam + iki boşluk) olduğu doğrulandı — etiketin gerçekten iş
+    gördüğünü kanıtlıyor: görünen DOM çıplak rakamı taşımaya devam ediyor, erişilebilir ad ise
+    onu doğru şekilde tekrarlamadan atlıyor. Detaylar:
+    `docs/superpowers/plans/2026-08-09-verse-a11y-device-check.md`.
 48. **Player otomatik ilerlemeyi erişilebilirlik açıkken varsayılan duraklat.** Kullanıcı satırı
     bitirmeden ekran değişmemeli; devam etme açık bir tercih olmalı.
 49. **Player kalan süreyi canlı ama gürültüsüz güncelle.** Her satırda tam ekran duyurusu yerine
