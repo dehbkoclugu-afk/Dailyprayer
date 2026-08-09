@@ -121,9 +121,17 @@ export default function Pray() {
         title={cat === 'all' ? tr('pray.library') : tr(`cat.${cat}` as never)}
         right={
           cat !== 'all' ? (
-            <Pressable onPress={() => setCat('all')} accessibilityRole="button"
+            <Pressable
+              onPress={() => setCat('all')}
+              accessibilityRole="button"
               accessibilityLabel={tr('a11y.showAll')}
-              style={{ minHeight: TAP_MIN, justifyContent: 'center' }}
+              style={({ pressed }) => ({
+                minHeight: TAP_MIN,
+                justifyContent: 'center',
+                paddingHorizontal: spacing.sm,
+                marginRight: -spacing.sm,
+                opacity: pressed ? 0.6 : 1,
+              })}
             >
               <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>{tr('pray.showAll')}</Text>
             </Pressable>

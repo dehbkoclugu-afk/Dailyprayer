@@ -723,8 +723,24 @@ deneyimi, performans ve görsel cila gelir.
     `x: 582`’de kalıyor (390 px görünümde ekran dışı); düzeltmeli derlemede `x: 254`’e taşınıp
     tamamen görünür oluyor. Detaylar:
     `docs/superpowers/plans/2026-08-09-prayer-chip-scroll-into-view.md`.
-43. **“Tümünü göster” metin bağlantısını gerçek düğme alanına çevir.** Sadece metne basmak yerine
-    48 dp satır ve belirgin pressed/focus durumu kullanılmalı.
+43. ✅ **TAMAMLANDI — “Tümünü göster” metin bağlantısını gerçek düğme alanına çevir.** Sadece
+    metne basmak yerine 48 dp satır ve belirgin pressed/focus durumu kullanılmalı.
+    48 dp satır zaten vardı (`minHeight: TAP_MIN`). Eksik olan, basılı durumdu: `style` sabit bir
+    nesneydi, `pressed`’in fonksiyonu değil — bu dosyadaki her chip ve satır basılıyken 0.6–0.7
+    opaklığa iniyor, bu tek kontrol basılı tutulurken bile tam opaklıkta kalıyordu; dokunulabilir
+    bir düğme değil, altı çizili gibi görünen düz metin gibi okunuyordu. `style` artık
+    `({ pressed }) => ({ ..., opacity: pressed ? 0.6 : 1 })`; dokunma alanı da `paddingHorizontal`
+    ile metnin kenarlarının biraz ötesine taşındı (görünen metin aynı yerde kalsın diye negatif
+    `marginRight` eşleniyor). Focus durumu zaten platformun varsayılan halkasıyla ücretsizdi —
+    kod tabanında hiçbir yerde `outlineStyle: 'none'` yok, yani klavye/switch-control odağı
+    zaten görünür.
+    Koruma (`src/a11y/pressedFeedback.test.ts`), iki ihlal (tam eski hâle dönüş; sadece `opacity`
+    satırının silinmesi) enjekte edilip yakalandığı doğrulandı. `npm test` (166/166), typecheck,
+    lint, release-check, tap-targets (13 görünüm, değişmedi), Android export temiz. Tarayıcıda
+    doğrulandı: bir kategori seçilip “Show all” göründükten sonra mouse basılı tutulunca
+    `getComputedStyle(el).opacity` `1`’den `0.6`’ya düşüyor; düzeltme geri alınan derlemede aynı
+    ölçüm `1`’den `1`’e kalıyor (test anlamlı, ayırt ediyor). Detaylar:
+    `docs/superpowers/plans/2026-08-09-showall-pressed-state.md`.
 44. **Günlük silme ikonuna görünür hedef ver.** Küçük çöp simgesi, 48 dp alan ve hafif tonal
     arka planla hem dokunma hem destructive anlamı taşımalı.
 45. **Okuyucu font ayarında örnek paragraf göster.** Sadece büyük/küçük A düğmeleri, gerçek satır
