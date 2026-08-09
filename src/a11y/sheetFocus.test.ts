@@ -126,7 +126,7 @@ test('closing a sheet gives focus back to what opened it', () => {
   // back to where they were.
   const triggers: [string, number][] = [
     ['app/read.tsx', 2], // the passage picker and the reading settings
-    ['app/(tabs)/profile.tsx', 2], // appearance and language
+    ['app/(tabs)/profile.tsx', 4], // appearance, language, restart, delete (roadmap item 40)
   ];
   for (const [file, count] of triggers) {
     const source = readFileSync(file, 'utf8');

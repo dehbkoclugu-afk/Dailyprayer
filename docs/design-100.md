@@ -651,8 +651,41 @@ deneyimi, performans ve görsel cila gelir.
     ile **`aria-busy` hiç yok** (öncesinde `"true"` olurdu) — react-native-web’in
     `aria-busy`’i gerçekten desteklediği de bağımsız olarak doğrulandı, yani bu “native-only”
     bir sınır değil.
-40. **Silme ve destructive işlemlerde erişilebilir doğrulama kullan.** Native Alert düğme sırası,
-    iptal varsayılanı ve TalkBack açıklaması bütün dillerde kontrol edilmeli.
+40. ✅ **TAMAMLANDI — Silme ve destructive işlemlerde erişilebilir doğrulama kullan.** Native Alert
+    düğme sırası, iptal varsayılanı ve TalkBack açıklaması bütün dillerde kontrol edilmeli.
+    Uygulamadaki 7 `Alert.alert` çağrısı tek tek tarandı: hiçbiri silme/destructive onayı değil
+    (paywall’da 4’ü satın alma hatası/destek, profile’da 2’si hata, 1’i de hatırlatma izni
+    engellendiğinde çıkan basit Cancel/Ayarlar’a git seçimi — destructive değil ama tek gerçek
+    iki seçenekli Alert olduğu için sırası da kontrol edildi: `[Cancel, Aç Ayarlar]`, Android’in
+    negatif/pozitif eşlemesiyle ve iOS’un “cancel solda” alışkanlığıyla uyumlu). Gerçek destructive
+    onayı zaten `DataActionSheet` (madde 14) — native Alert değil, özel iki aşamalı bir sheet.
+    Üç ölçüte karşı denetlendi: **düğme sırası** — Confirm üstte, Cancel en altta, bu iOS action
+    sheet alışkanlığı (destructive eylem üstte, Cancel her zaman sabit çıkış), yatay Alert
+    alışkanlığıyla aynı olmak zorunda değil, ikisi de kendi bileşeninde doğru. **İptal
+    varsayılanı** — `onRequestClose={onClose}` donanım/gesture geri tuşunu zaten Cancel’a bağlıyor.
+    **TalkBack açıklaması, altı dilde** — `data.deleteTitle/Body/FinalTitle/FinalBody/Confirm`,
+    `data.restart*`, `data.cancel`, `data.continue` altı dilde de eksiksiz, aşamaya göre ayrı ve
+    son aşamanın metni her dilde “geri alınamaz”ı açıkça söylüyor (“There is no undo.” / “Geri
+    alma yok.” / “No hay vuelta atrás.” / “Não há como desfazer.” / “Aucun retour possible.” /
+    “Es gibt kein Zurück.”). Confirm düğmesinin `t.danger` (kırmızı) rengi de yalnız 2. aşamada
+    geliyor — 1. aşamada nötr “Continue”.
+    **Asıl bulunan kusur bunların hiçbiri değildi:** sheet kapanınca (Cancel, backdrop veya
+    işlemi tamamlama) erişilebilirlik odağı onu açan satıra geri dönmüyordu. `useTriggerFocus`
+    (madde 28’in kancası, tam bunun için yazılmış) profile.tsx’te appearance/language sheet’leri
+    için bağlıydı ama uygulamanın **tek geri alınamaz eylemini** açan “Restart onboarding” ve
+    “Delete all my data” satırları için hiç bağlanmamıştı. İkisine de kendi `dataAction`
+    değerine bağlı birer `useTriggerFocus` ref’i eklendi.
+    Koruma: yeni `src/a11y/destructiveConfirm.test.ts` (ref’lerin varlığı ve doğru satıra bağlı
+    olması, `onRequestClose`, aşamalı `t.danger`, Alert sırası, altı dilde `deleteFinalBody`
+    varlığı) + madde 28’in `sheetFocus.test.ts`’teki “2 sheet” sayımı 4’e güncellendi (satır
+    listesi büyüdü, gevşetilmedi). Altı ihlal tek tek enjekte edilip yakalandığı doğrulandı.
+    `npm test` (161/161), typecheck, lint, release-check, tap-targets (13 görünüm, değişmedi),
+    Android export temiz. **Tarayıcı doğrulaması denendi ve bu düzeltme için anlamsız çıktı:**
+    react-native-web’in kendi `<Modal>`’ı `document.activeElement`’i açılışta kaydedip
+    kapanışta zaten geri yüklüyor (`ModalFocusTrap.js`) — `useTriggerFocus` olmadan da web’de
+    aynı sonucu veriyor. Bu kusur yalnız native’de (Android/iOS) var; web’de platformun kendisi
+    zaten yapıyor, tarayıcı test bunu ayırt edemiyor. Doğrulama Task 4’teki statik testlerle
+    yapıldı. Detaylar: `docs/superpowers/plans/2026-08-09-destructive-confirm-focus-return.md`.
 41. **Arama temizleme düğmesini 48 dp hedefe çıkar.** Küçük 18 px ikon yalnızca `hitSlop` ile
     bırakılmamalı; görünür/fiziksel hedef alanı sağlanmalı.
 42. **Prayer kategori chip’lerini 48 dp yap.** Mevcut 44 dp minimumu Android hedefinin altında;

@@ -45,7 +45,13 @@ export default function Profile() {
   const appearanceRef = useTriggerFocus(sheet === 'appearance');
   const languageRef = useTriggerFocus(sheet === 'language');
   // Destructive data actions are confirmed in two stages — see DataActionSheet.
+  // These two triggers were missed when item 28 wired up the sheet-focus hooks:
+  // closing DataActionSheet (Cancel, backdrop, or completing the action) left
+  // focus wherever the sheet last put it instead of returning it here (roadmap
+  // item 40).
   const [dataAction, setDataAction] = useState<DataAction | null>(null);
+  const restartRef = useTriggerFocus(dataAction === 'restart');
+  const deleteRef = useTriggerFocus(dataAction === 'delete');
   const [permission, setPermission] = useState<NotificationService.PermissionState>('undetermined');
 
   // Re-read on focus: someone can leave for the system settings, allow
@@ -352,6 +358,7 @@ export default function Profile() {
         {/* Both destructive actions open a two-stage confirmation that itemizes what
             goes and what stays. Restart used to fire on a single tap. */}
         <Pressable
+          ref={restartRef}
           onPress={() => setDataAction('restart')}
           accessibilityRole="button"
           accessibilityLabel={tr('profile.restart')}
@@ -370,6 +377,7 @@ export default function Profile() {
           </Text>
         </Pressable>
         <Pressable
+          ref={deleteRef}
           onPress={() => setDataAction('delete')}
           accessibilityRole="button"
           accessibilityLabel={tr('data.deleteAll')}
