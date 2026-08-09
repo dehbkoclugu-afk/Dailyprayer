@@ -124,7 +124,11 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
           showsVerticalScrollIndicator={hasOverflow}
           persistentScrollbar={hasOverflow}
           nestedScrollEnabled
-          contentContainerStyle={{ paddingBottom: spacing.sm }}
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: hasOverflow ? 'flex-start' : 'center',
+            paddingBottom: spacing.sm,
+          }}
         >
           <Text
             style={{
@@ -132,8 +136,8 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               fontSize: verseType.fontSize,
               lineHeight: verseType.lineHeight,
               letterSpacing: -0.3,
+              textAlign: hasOverflow ? 'left' : 'center',
               color: dawn ? t.ink : '#F2EEE6',
-              marginLeft: -2,
             }}
           >
             “{verse.text}”
