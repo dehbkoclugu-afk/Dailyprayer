@@ -156,7 +156,7 @@ export default function Today() {
           icon="book-outline"
           art="A18-ritual-reading"
           title={tr('today.devotional')}
-          subtitle={`${devotional.title} · 2 ${locale === 'tr' ? 'dk' : tr('today.minRead')}`}
+          subtitle={`${devotional.title} · ${tr('today.twoMinuteRead')}`}
           done={isDone('devotional')}
           onPress={() => isDone('devotional') ? uncompleteStep('devotional') : router.push('/devotional')}
         />
