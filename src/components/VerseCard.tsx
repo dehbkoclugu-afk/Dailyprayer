@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Platform, Pressable, ScrollView, Share, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -33,6 +33,13 @@ const VERSE_ART: Record<DailyVerse['theme'], AssetId> = {
   forgiveness: 'A5-verse-love', // reaching hands
 };
 
+const VERSE_TEXT_STYLES = [
+  { fontSize: 26, lineHeight: 38 },
+  { fontSize: 23, lineHeight: 34 },
+  { fontSize: 20, lineHeight: 30 },
+  { fontSize: 18, lineHeight: 27 },
+] as const;
+
 interface Props {
   verse: DailyVerse;
   onRead?: () => void;
@@ -45,8 +52,27 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
   const t = useTheme();
   const artwork = useArtwork();
   const dawn = artwork.scheme === 'dawn';
-  const cardHeight = dawn ? 340 : 320;
+  const cardHeight = 340;
+  const initialFontStep = verse.text.length > 220 ? 2 : verse.text.length > 140 ? 1 : 0;
+  const [fontStep, setFontStep] = useState(initialFontStep);
+  const [viewportHeight, setViewportHeight] = useState(0);
+  const [contentHeight, setContentHeight] = useState(0);
   const cardRef = useRef<View>(null);
+  const verseType = VERSE_TEXT_STYLES[fontStep];
+  const lastFontStep = VERSE_TEXT_STYLES.length - 1;
+  const hasOverflow = fontStep === lastFontStep && viewportHeight > 0 && contentHeight > viewportHeight + 2;
+
+  useEffect(() => {
+    setFontStep(verse.text.length > 220 ? 2 : verse.text.length > 140 ? 1 : 0);
+    setViewportHeight(0);
+    setContentHeight(0);
+  }, [verse.reference, verse.text]);
+
+  useEffect(() => {
+    if (viewportHeight > 0 && contentHeight > viewportHeight + 2 && fontStep < lastFontStep) {
+      setFontStep((step) => Math.min(step + 1, lastFontStep));
+    }
+  }, [contentHeight, fontStep, lastFontStep, viewportHeight]);
 
   /** Share the rendered card as an image (organic growth); text fallback on web/failure. */
   const share = async () => {
@@ -86,15 +112,18 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
 
       <View style={{ flex: 1, marginTop: spacing.sm }}>
         <ScrollView
-          showsVerticalScrollIndicator={false}
+          onLayout={(event) => setViewportHeight(event.nativeEvent.layout.height)}
+          onContentSizeChange={(_, height) => setContentHeight(height)}
+          scrollEnabled={hasOverflow}
+          showsVerticalScrollIndicator={hasOverflow}
           nestedScrollEnabled
           contentContainerStyle={{ paddingBottom: spacing.sm }}
         >
           <Text
             style={{
               fontFamily: fonts.serifLight,
-              fontSize: dawn ? 20 : 25,
-              lineHeight: dawn ? 29 : 37,
+              fontSize: verseType.fontSize,
+              lineHeight: verseType.lineHeight,
               letterSpacing: -0.3,
               color: dawn ? t.ink : '#F2EEE6',
               marginLeft: -2,
@@ -103,12 +132,17 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
             “{verse.text}”
           </Text>
         </ScrollView>
-        {!dawn ? (
-          <LinearGradient
+        {hasOverflow ? (
+          <View
             pointerEvents="none"
-            colors={['rgba(14,18,32,0)', 'rgba(14,18,32,0.92)']}
-            style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 24 }}
-          />
+            style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 30, alignItems: 'center', justifyContent: 'flex-end' }}
+          >
+            <LinearGradient
+              colors={dawn ? ['rgba(255,255,255,0)', 'rgba(255,255,255,0.86)'] : ['rgba(14,18,32,0)', 'rgba(14,18,32,0.92)']}
+              style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
+            />
+            <Ionicons name="chevron-down" size={16} color={dawn ? t.ink : '#F2EEE6'} />
+          </View>
         ) : null}
       </View>
 
@@ -125,7 +159,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               accessibilityLabel={tr('a11y.anotherVerse')}
               style={({ pressed }) => ({ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
             >
-              <Ionicons name="shuffle" size={21} color={dawn ? t.inkSoft : '#F2EEE6'} />
+              <Ionicons name="shuffle" size={21} color={dawn ? t.ink : '#F2EEE6'} />
             </Pressable>
           ) : null}
           <Pressable
@@ -135,7 +169,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
             accessibilityLabel={tr('a11y.shareVerse')}
             style={({ pressed }) => ({ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
           >
-            <Ionicons name="share-outline" size={21} color={dawn ? t.inkSoft : '#F2EEE6'} />
+            <Ionicons name="share-outline" size={21} color={dawn ? t.ink : '#F2EEE6'} />
           </Pressable>
         </View>
       </View>
