@@ -630,8 +630,27 @@ deneyimi, performans ve görsel cila gelir.
     doğrulandı: plan günü tamamlama tostu (“Gün tamamlandı”), oturum içinde canlı tamamlanan
     bir ritüeli geri alma tostu (“Geri alındı”, etiket doğru “Şükran”a döndü), ve oynatıcının
     son satıra ulaşınca Amin düğmesinin doğru anda belirmesi.
-39. **PillButton `busy` ile `disabled` durumunu ayır.** Her pasif düğme “meşgul” değildir;
-    yüklenme sırasında spinner ve doğru erişilebilirlik durumu gösterilmeli.
+39. ✅ **TAMAMLANDI — PillButton `busy` ile `disabled` durumunu ayır.**
+    `accessibilityState={{ disabled: Boolean(disabled), busy: Boolean(disabled) }}` — `disabled`
+    ne zaman true olursa `busy` da true oluyordu, tek bir prop’tan ikisi birden. Uygulamadaki
+    **her iki gerçek çağrı yeri de** (quiz’in “Devam”ı ad boşken, günlüğün “Kaydet”i metin
+    boşken) yükleme değil — form eksik — yine de her ikisi TalkBack’e “meşgul” diyordu.
+    Ayrı bir `busy?: boolean` prop’u eklendi: `inactive = disabled || busy` görsel/native
+    devre-dışı durumunu veriyor, ama `accessibilityState.busy` artık **yalnız** kendi prop’undan
+    geliyor. Meşgulken düğme içinde bir `ActivityIndicator` da beliriyor (madde “spinner
+    gösterilmeli” diyordu).
+    Paywall’ın satın alma düğmesi — bileşenin **tek gerçek meşgul** çağrısı — `disabled`’ı
+    (üç nedeni de kapsayan hâliyle: meşgul, bekleyen işlem, seçili plan yok) korurken artık
+    ayrıca `busy={busy}` veriyor, yani yalnız GERÇEKTEN süren işlem TalkBack’e “meşgul” diyor.
+    **Yan yolda bulunan, aynı kusurun bir örneği daha:** paywall’ın “Satın alımları geri
+    yükle” düğmesi görünür metni “Geri yükleniyor…”ya değişirken erişilebilirlik etiketi hep
+    sabit “Satın alımları geri yükle” kalıyordu — `busy` durumu doğru taşınıyordu ama etiket
+    ekrandakiyle uyuşmuyordu. Etiket artık aynı koşula bağlı.
+    Koruma (`src/a11y/busyState.test.ts`, dört kural), dört ihlal enjekte edilip yakalandığı
+    doğrulandı. Tarayıcıda doğrulandı: quiz ve günlük düğmeleri artık `aria-disabled="true"`
+    ile **`aria-busy` hiç yok** (öncesinde `"true"` olurdu) — react-native-web’in
+    `aria-busy`’i gerçekten desteklediği de bağımsız olarak doğrulandı, yani bu “native-only”
+    bir sınır değil.
 40. **Silme ve destructive işlemlerde erişilebilir doğrulama kullan.** Native Alert düğme sırası,
     iptal varsayılanı ve TalkBack açıklaması bütün dillerde kontrol edilmeli.
 41. **Arama temizleme düğmesini 48 dp hedefe çıkar.** Küçük 18 px ikon yalnızca `hitSlop` ile

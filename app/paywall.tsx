@@ -292,7 +292,13 @@ export default function Paywall() {
               : tr('paywall.continue')
         }
         onPress={buy}
+        // roadmap item 39: `disabled` still blocks a tap for any of the three
+        // reasons, but only `busy` is actually in-progress work — `pending` and
+        // an unselected plan are "not ready yet", not "loading". PillButton
+        // used to report every one of these three as accessibilityState.busy;
+        // now only the real one does.
         disabled={busy || pending || !selectedPlan}
+        busy={busy}
         style={{ marginTop: spacing.xl }}
       />
       {busy ? (
@@ -350,7 +356,11 @@ export default function Paywall() {
           disabled={restoreStatus === 'busy'}
           accessibilityRole="button"
           accessibilityState={{ busy: restoreStatus === 'busy', disabled: restoreStatus === 'busy' }}
-          accessibilityLabel={tr('paywall.restore')}
+          // roadmap item 39: the visible text already swaps to "Restoring…"
+          // while busy; the label was frozen on "Restore purchases" regardless,
+          // so accessibilityState.busy carried the loading state but the label
+          // read out did not match what was on screen.
+          accessibilityLabel={restoreStatus === 'busy' ? tr('paywall.restoring') : tr('paywall.restore')}
           style={({ pressed }) => ({
             marginTop: spacing.lg,
             minHeight: TAP_MIN,
