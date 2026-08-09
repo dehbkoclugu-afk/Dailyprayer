@@ -762,8 +762,27 @@ deneyimi, performans ve görsel cila gelir.
     47, 0.15)` — Dawn temasının `danger` değeri beklenen opaklıkta. Düzeltme geri alınan
     derlemede aynı ölçüm `background-color: rgba(0, 0, 0, 0)` (tamamen şeffaf) veriyor — test
     ayırt ediyor. Detaylar: `docs/superpowers/plans/2026-08-09-journal-delete-target.md`.
-45. **Okuyucu font ayarında örnek paragraf göster.** Sadece büyük/küçük A düğmeleri, gerçek satır
-    uzunluğu ve leading etkisini anlatmıyor.
+45. ✅ **TAMAMLANDI — Okuyucu font ayarında örnek paragraf göster.** Sadece büyük/küçük A
+    düğmeleri, gerçek satır uzunluğu ve leading etkisini anlatmıyor.
+    `ReadingSettingsSheet`’e `read.tsx`’in gerçek ayet metni için kullandığı **aynı** formülle
+    (`fontFamily: fonts.serifLight`, `fontSize: Math.round(18 * fontScale)`,
+    `lineHeight: Math.round(30 * fontScale)`) bir örnek paragraf kartı eklendi — yaklaşık bir
+    değer değil, okuyucunun gerçekten göstereceği boyut. Örnek metin Kutsal Kitap değil, yeni bir
+    arayüz cümlesi (“This is how a page of Scripture will look at this size and spacing.” ve beş
+    dil daha) — önizlemeyi *tanımlıyor*, kendisi önizlenen içerik değil, yani “Kutsal Kitap metni
+    asla yeniden yazılmaz” sınırına dokunmuyor. Önizleme ekran okuyucudan gizlendi
+    (`accessibilityElementsHidden` + `importantForAccessibility="no-hide-descendants"`) — satır
+    kaydırmanın görsel bir gösterimi göremeyen birine bir şey söylemiyor, yanındaki yüzde zaten
+    sayıyı veriyor.
+    Koruma (`src/theme/readerPreview.test.ts`), üç ihlal enjekte edilip yakalandığı doğrulandı —
+    biri özellikle `read.tsx`’in kendi `bodySize` formülünü değiştirip önizlemenin **gerçek
+    kaynağı okuduğunu**, sabit bir kopya olmadığını kanıtladı. `npm test` (170/170), typecheck,
+    lint, release-check, tap-targets (13 görünüm, değişmedi), Android export temiz.
+    Tarayıcıda doğrulandı: sheet açılıp önizleme örnek metniyle bulunarak (rol/isimle
+    ulaşılamıyor, kasıtlı olarak erişilebilirlikten gizli) %100’de `font-size: 18px` okundu;
+    “Larger text” üç kez dokunulunca `23px`’e çıktı (`Math.round(18 * 1.3)` ile eşleşiyor).
+    Önizleme bloğu tamamen kaldırılmış bir derlemede test zaman aşımına uğrayıp doğru şekilde
+    başarısız oldu. Detaylar: `docs/superpowers/plans/2026-08-09-reader-size-preview.md`.
 46. **Reader “paper” switch’ini platform semantiğiyle düzelt.** Görsel olarak özel kalabilir ama
     swipe/tap, checked state ve büyük yazı düzeni Material switch beklentisini karşılamalı.
 47. **Ekran okuyucuda ayet numarası + metni tek anlamlı cümle yap.** İç içe Text düğümlerinin

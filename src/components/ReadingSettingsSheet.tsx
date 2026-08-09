@@ -125,6 +125,36 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
             {stepBtn(1, tr('a11y.larger'), 26, fontScale >= FONT_MAX - 0.001)}
           </View>
 
+          {/* A live sample at the reader's own size/leading formula — the two
+              "A" buttons and a percentage say how much bigger, not what a real
+              paragraph will look like at that size (roadmap item 45). Same
+              font family and the same `18 * fontScale` / `30 * fontScale` math
+              read.tsx uses for verse text, so this is what the reader will
+              actually show, not an approximation of it. */}
+          <View
+            style={{
+              marginTop: spacing.md,
+              padding: spacing.lg,
+              borderRadius: radius.inner,
+              backgroundColor: t.surfaceAlt,
+              borderWidth: 1,
+              borderColor: t.border,
+            }}
+          >
+            <Text
+              accessibilityElementsHidden
+              importantForAccessibility="no-hide-descendants"
+              style={{
+                fontFamily: fonts.serifLight,
+                fontSize: Math.round(18 * fontScale),
+                lineHeight: Math.round(30 * fontScale),
+                color: t.ink,
+              }}
+            >
+              {tr('read.sizePreview')}
+            </Text>
+          </View>
+
           {/* paper tone */}
           <Pressable
             onPress={() => {
