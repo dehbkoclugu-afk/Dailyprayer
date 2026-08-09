@@ -7,6 +7,7 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
+import { useArtwork } from '@/hooks/useArtwork';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useJournalStore } from '@/state/useJournalStore';
@@ -16,6 +17,7 @@ import { useT, translate } from '@/i18n';
 
 export default function Journal() {
   const t = useTheme();
+  const artwork = useArtwork();
   const { t: tr } = useT();
   const { entries, add, remove } = useJournalStore();
   const completeStep = useStreakStore((s) => s.completeStep);
@@ -76,9 +78,12 @@ export default function Journal() {
               fontFamily: fonts.serifLight,
               fontSize: 18,
               lineHeight: 26,
-              color: t.ink,
+              color: artwork.foreground.primary,
               fontStyle: 'italic',
               marginTop: spacing.md,
+              textShadowColor: 'rgba(0,0,0,0.78)',
+              textShadowOffset: { width: 0, height: 1 },
+              textShadowRadius: 6,
             }}
           >
             {tr('journal.promptGratitude')}
@@ -88,7 +93,7 @@ export default function Journal() {
             value={text}
             onChangeText={setText}
             placeholder={tr('journal.placeholderGratitude')}
-            placeholderTextColor={t.inkFaint}
+            placeholderTextColor={artwork.foreground.tertiary}
             multiline
             accessibilityLabel={tr('a11y.journalEntry')}
             style={{
@@ -98,7 +103,10 @@ export default function Journal() {
               fontFamily: fonts.sans,
               fontSize: 16,
               lineHeight: 25,
-              color: t.ink,
+              color: artwork.foreground.primary,
+              textShadowColor: 'rgba(0,0,0,0.72)',
+              textShadowOffset: { width: 0, height: 1 },
+              textShadowRadius: 5,
               textAlignVertical: 'top',
             }}
           />

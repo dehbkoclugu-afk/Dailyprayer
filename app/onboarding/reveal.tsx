@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
+import { OnboardingBackdrop } from '@/components/OnboardingBackdrop';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
@@ -83,6 +84,7 @@ export default function Reveal() {
 
   return (
     <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
+      <OnboardingBackdrop />
       <View>
         <View>
           <ArtSlot

@@ -28,9 +28,9 @@ const OVERLAYS = {
     hero: 'rgba(14,18,32,0.32)',
   },
   dawn: {
-    row: 'rgba(255,255,255,0.32)',
-    card: 'rgba(255,255,255,0.30)',
-    hero: 'rgba(255,255,255,0.24)',
+    row: 'transparent',
+    card: 'transparent',
+    hero: 'transparent',
   },
 } as const;
 
@@ -87,7 +87,7 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
           </Text>
         </View>
       )}
-      {source && overlay ? (
+      {source && overlay && overlay !== 'transparent' ? (
         <View
           pointerEvents="none"
           style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: overlay }}

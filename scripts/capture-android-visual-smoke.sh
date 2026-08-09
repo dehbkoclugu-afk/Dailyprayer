@@ -18,7 +18,7 @@ capture_screen() {
   local name="$2"
   local target="${output_dir}/${theme}-${name}.png"
   local pending="${target}.pending"
-  # Each route gets a fresh app process. Keeping nine image-heavy routes on the
+  # Each route gets a fresh app process. Keeping many image-heavy routes on the
   # same navigation stack made the headless emulator progressively exhaust its
   # graphics budget even though the app itself never raised a fatal exception.
   adb shell am force-stop "$package"
@@ -41,6 +41,8 @@ for theme in dawn vigil; do
   sleep 1
 
   capture_screen "today" "today"
+  capture_screen "onboarding" "onboarding-welcome"
+  capture_screen "onboarding/quiz" "onboarding-quiz"
   capture_screen "bible" "bible"
   capture_screen "plan/peace-7" "plan-list"
   capture_screen "plan/peace-7/0" "plan-reading"

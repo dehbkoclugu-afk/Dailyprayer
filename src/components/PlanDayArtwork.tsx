@@ -20,12 +20,12 @@ export function PlanDayArtwork({ planId, dayIndex, radius, height, variant = 'ro
   const dawn = artwork.scheme === 'dawn';
   const source = planDayArtSource(planId, dayIndex, artwork.scheme);
 
-  const rowOverlay = dawn ? 'rgba(255,255,255,0.32)' : 'rgba(14,18,32,0.30)';
+  const rowOverlay = dawn ? 'transparent' : 'rgba(14,18,32,0.30)';
 
   return (
     <View style={[{ height, borderRadius: radius, overflow: 'hidden', backgroundColor: t.surface }, style]}>
       {source ? <Image source={source} resizeMode="cover" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} accessibilityIgnoresInvertColors /> : null}
-      {variant === 'row' && source ? (
+      {variant === 'row' && source && !dawn ? (
         <View
           pointerEvents="none"
           style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: rowOverlay }}

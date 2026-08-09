@@ -6,6 +6,7 @@ import * as Haptics from 'expo-haptics';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
+import { OnboardingBackdrop } from '@/components/OnboardingBackdrop';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
@@ -66,7 +67,16 @@ export default function Quiz() {
   if (affirmation) {
     return (
       <Screen scroll={false} style={{ justifyContent: 'center' }}>
-        <View>
+        <OnboardingBackdrop />
+        <View
+          style={{
+            backgroundColor: t.surface,
+            borderRadius: radius.hero,
+            borderWidth: 1,
+            borderColor: t.border,
+            padding: spacing.lg,
+          }}
+        >
           <ArtSlot
             id="A6-affirmation-spot"
             height={120}
@@ -82,6 +92,7 @@ export default function Quiz() {
 
   return (
     <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
+      <OnboardingBackdrop />
       <View>
         {/* progress bar + step counter */}
         <View style={{ marginBottom: spacing.xxl }}>
@@ -116,6 +127,15 @@ export default function Quiz() {
           </Text>
         </View>
 
+        <View
+          style={{
+            backgroundColor: t.surface,
+            borderRadius: radius.hero,
+            borderWidth: 1,
+            borderColor: t.border,
+            padding: spacing.lg,
+          }}
+        >
         {step === 0 ? (
           <View key="name">
             <Text style={[ty.title, { color: t.ink }]}>{tr('quiz.namePrompt')}</Text>
@@ -130,7 +150,7 @@ export default function Quiz() {
               accessibilityLabel={tr('a11y.firstName')}
               style={{
                 marginTop: spacing.xl,
-                backgroundColor: t.surface,
+                backgroundColor: t.surfaceAlt,
                 borderRadius: radius.inner,
                 borderWidth: 1.5,
                 borderColor: nameFocused ? t.gold : t.border,
@@ -162,7 +182,7 @@ export default function Quiz() {
                 {current.subtitle}
               </Text>
             ) : null}
-            <View style={{ gap: spacing.md, marginTop: spacing.xl }}>
+            <View style={{ gap: spacing.sm, marginTop: spacing.lg }}>
               {current.options.map((o) => {
                 const active = selected.includes(o.value);
                 return (
@@ -176,12 +196,13 @@ export default function Quiz() {
                       flexDirection: 'row',
                       alignItems: 'center',
                       gap: spacing.md,
-                      backgroundColor: active ? t.goldSoft : t.surface,
+                      backgroundColor: active ? t.goldSoft : t.surfaceAlt,
                       borderColor: active ? t.gold : t.border,
                       borderWidth: 1,
                       borderRadius: radius.inner,
-                      padding: spacing.lg,
-                      minHeight: 60,
+                      paddingHorizontal: spacing.lg,
+                      paddingVertical: spacing.md,
+                      minHeight: 52,
                       // selected options glow like embers (design-100 #14)
                       ...(active
                         ? {
@@ -216,6 +237,7 @@ export default function Quiz() {
             </View>
           </View>
         ) : null}
+        </View>
       </View>
 
       <PillButton

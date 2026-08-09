@@ -137,7 +137,10 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               lineHeight: verseType.lineHeight,
               letterSpacing: -0.3,
               textAlign: hasOverflow ? 'left' : 'center',
-              color: dawn ? t.ink : '#F2EEE6',
+              color: '#F7F1E7',
+              textShadowColor: 'rgba(0,0,0,0.72)',
+              textShadowOffset: { width: 0, height: 1 },
+              textShadowRadius: 8,
             }}
           >
             “{verse.text}”
@@ -155,10 +158,10 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               borderRadius: 14,
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: dawn ? 'rgba(255,255,255,0.84)' : 'rgba(14,18,32,0.84)',
+              backgroundColor: 'rgba(14,18,32,0.66)',
             }}
           >
-            <Ionicons name="chevron-down" size={16} color={dawn ? t.ink : '#F2EEE6'} />
+            <Ionicons name="chevron-down" size={16} color="#F2EEE6" />
           </View>
         ) : null}
       </View>
@@ -181,7 +184,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               accessibilityLabel={tr('a11y.anotherVerse')}
               style={({ pressed }) => ({ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
             >
-              <Ionicons name="shuffle" size={21} color={dawn ? t.ink : '#F2EEE6'} />
+              <Ionicons name="shuffle" size={21} color="#F2EEE6" />
             </Pressable>
           ) : null}
           <Pressable
@@ -191,7 +194,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
             accessibilityLabel={tr('a11y.shareVerse')}
             style={({ pressed }) => ({ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
           >
-            <Ionicons name="share-outline" size={21} color={dawn ? t.ink : '#F2EEE6'} />
+            <Ionicons name="share-outline" size={21} color="#F2EEE6" />
           </Pressable>
         </View>
       </View>
