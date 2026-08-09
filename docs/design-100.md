@@ -597,8 +597,39 @@ deneyimi, performans ve görsel cila gelir.
     olmadığı, `ProgressRing`/`ToastHost`’un yalnızca *bildirmediği* — gerçekten ternary’de
     *kullandığı*, ve ritüel ödülünün shimmer’a bağlı olmadığı. Dört ihlal enjekte edilip
     yakalandığı doğrulandı.
-38. **Animasyonlu durum değişimlerini seslendir.** Ritüel tamamlandı/geri alındı, plan günü bitti
-    ve dua sona erdi mesajları TalkBack’e tek kez bildirilmelidir.
+38. ✅ **TAMAMLANDI — Animasyonlu durum değişimlerini seslendir.** Maddenin adlandırdığı üç
+    geçişten biri (“tamamlandı”) zaten bildiriliyordu: her tamamlama zaten `toast(...)`
+    çağırıyor, her toast da zaten `ToastHost` üzerinden `announceForAccessibility` ile
+    duyuruluyor (madde 24’ün altyapısı). Eksik olan **“geri alındı”**, **“plan günü bitti”** ve
+    **“dua sona erdi”** yarısıydı — üçü de yalnız görsel bir değişimdi.
+    **Ritüel geri alındı:** `today.tsx`’in üç `uncompleteStep(...)` çağrısı hiçbir şey
+    duyurmuyordu; tamamlanmış bir kartı tekrar dokunmak kartın kendi etiketini değiştiriyordu
+    ama TalkBack’e bunu söyleyen hiçbir şey yoktu. `undo()` sarmalayıcısı eklendi:
+    `uncompleteStep` + `toast(tr('today.undone'))`.
+    **Plan günü bitti:** `plan/[id]/[day].tsx`’in `complete()`’i haptik verip **hemen**
+    `router.back()` çağırıyordu — ekran okuyucuya “gün tamamlandı” diyen hiçbir şey yoktu.
+    `toast(tr('plan.dayCompletedToast'))` eklendi; zaten var olan `!done` koruması altında,
+    yani tamamlanmış bir günü tekrar “Bugünü tamamla”ya basmak sahte bir onay duyurmuyor.
+    **Dua sona erdi:** `player.tsx` her satırı zaten duyuruyordu (`AccessibilityInfo.
+    announceForAccessibility(prayer.script[line])`), ama son satıra ulaşınca prev/pause/next
+    satırının yerini Amin düğmesinin aldığını — tamamen görsel bir geçişi — hiçbir şey
+    söylemiyordu. `lastLine`’a (satıra değil) bağlı ayrı bir `useEffect` eklendi, durumu
+    girildiğinde bir kez duyuruyor.
+    Üç yeni anahtar altı dilde (`today.undone`, `plan.dayCompletedToast`,
+    `player.prayerEnded`).
+    **Doğrulama sırasında bulunan, madde 38’in dışında kalan gerçek bir hata:**
+    `useStreakStore`’un `_layout.tsx`’teki `tickToday()` çağrısı, Zustand’ın `persist`
+    ara katmanının **asenkron** `AsyncStorage`’dan yeniden hidrasyonunu beklemiyor —
+    `getState()` mount anında henüz varsayılan (boş) durumu döndürüyorsa `tickToday()` o güne
+    ait `doneDay`/`doneSteps`’i sıfırdan hesaplayıp storage’a geri yazıyor, gerçek kayıtlı
+    veriyle **yarışıyor**. Tarayıcıda doğrulanırken doğrudan gözlemlendi: seed edilen
+    `doneSteps` sayfa yüklenince sıfırlanıyordu. Web’e özgü değil — `AsyncStorage` native’de de
+    asenkron, aynı yarış her cold start’ta olası. Madde 38’in konusu değil, ayrı ele alınmalı.
+    Koruma (`src/a11y/announcedTransitions.test.ts`): üç yerin de doğru anahtarla doğru
+    koşulda duyurduğunu denetliyor. Üç ihlal enjekte edilip yakalandığı doğrulandı. Tarayıcıda
+    doğrulandı: plan günü tamamlama tostu (“Gün tamamlandı”), oturum içinde canlı tamamlanan
+    bir ritüeli geri alma tostu (“Geri alındı”, etiket doğru “Şükran”a döndü), ve oynatıcının
+    son satıra ulaşınca Amin düğmesinin doğru anda belirmesi.
 39. **PillButton `busy` ile `disabled` durumunu ayır.** Her pasif düğme “meşgul” değildir;
     yüklenme sırasında spinner ve doğru erişilebilirlik durumu gösterilmeli.
 40. **Silme ve destructive işlemlerde erişilebilir doğrulama kullan.** Native Alert düğme sırası,

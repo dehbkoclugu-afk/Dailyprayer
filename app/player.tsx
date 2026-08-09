@@ -86,6 +86,17 @@ function PlayerScreen({ prayer }: { prayer: ReturnType<typeof usePrayers>[number
     AccessibilityInfo.announceForAccessibility(prayer.script[line]);
   }, [line, prayer.id, prayer.script]);
 
+  // roadmap item 38: reaching the last line swaps the prev/pause/next row for
+  // the Amen button — a purely visual cue. Announced separately from the line
+  // text above, keyed on `lastLine` alone so it fires once when the state is
+  // entered rather than on every subsequent re-render while it holds — `tr`
+  // itself is a fresh closure every render (useT() returns a new object each
+  // time) and would defeat that if it were a dependency here too.
+  useEffect(() => {
+    if (lastLine) AccessibilityInfo.announceForAccessibility(tr('player.prayerEnded'));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastLine]);
+
   useEffect(() => {
     if (paused || lastLine) return;
     const ms = Math.max(4000, prayer.script[line].length * PACE_FACTOR[pace]);

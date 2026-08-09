@@ -12,6 +12,7 @@ import { usePlans } from '@/data/plans';
 import { planReading, formatReadingRef } from '@/data/planReadings';
 import { getBible } from '@/data/bibleFull';
 import { usePlanStore } from '@/state/usePlanStore';
+import { toast } from '@/state/useToastStore';
 import { useT } from '@/i18n';
 import { NotFoundState } from '@/components/NotFoundState';
 
@@ -61,7 +62,15 @@ export default function PlanDay() {
 
   const complete = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
-    if (!done) toggleDay(plan.id, dayIdx);
+    // roadmap item 38: this only had a haptic buzz and the implicit visual
+    // change of navigating back to an updated plan list — nothing told a
+    // screen-reader user the day was actually marked complete. Guarded by the
+    // same `!done` check as the toggle, so re-pressing an already-complete day
+    // doesn't announce a completion that didn't happen.
+    if (!done) {
+      toggleDay(plan.id, dayIdx);
+      toast(tr('plan.dayCompletedToast'));
+    }
     router.back();
   };
 
