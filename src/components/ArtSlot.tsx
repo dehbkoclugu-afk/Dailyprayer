@@ -1,7 +1,6 @@
 import React from 'react';
 import { Image, Text, View, type StyleProp, type ViewStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { artSpecs, type AssetId } from '@/assets/registry';
 import { useArtwork } from '@/hooks/useArtwork';
 import { useTheme } from '@/hooks/useTheme';
@@ -20,20 +19,18 @@ interface Props {
   children?: React.ReactNode;
 }
 
-// Keep the original Neurosound-inspired treatment: the artwork always fills
-// the whole frame and the copy is protected by a translucent theme scrim.
-// Do not replace the Dawn colors with opaque surface tokens: that visually
-// turns a full-frame image back into a narrow trailing crop.
-const SCRIMS = {
+// Artwork always stays full-frame. A flat, low-opacity veil protects copy
+// without the vertical grey wall produced by directional gradients.
+const OVERLAYS = {
   vigil: {
-    row: ['rgba(14,18,32,0.90)', 'rgba(14,18,32,0.68)', 'rgba(14,18,32,0.16)'],
-    card: ['rgba(14,18,32,0.87)', 'rgba(14,18,32,0.57)', 'rgba(14,18,32,0.12)'],
-    hero: ['rgba(14,18,32,0.14)', 'rgba(14,18,32,0.34)', 'rgba(14,18,32,0.94)'],
+    row: 'rgba(14,18,32,0.30)',
+    card: 'rgba(14,18,32,0.26)',
+    hero: 'rgba(14,18,32,0.32)',
   },
   dawn: {
-    row: ['rgba(255,255,255,0.74)', 'rgba(255,255,255,0.52)', 'rgba(255,255,255,0.26)', 'rgba(255,255,255,0.09)'],
-    card: ['rgba(255,255,255,0.70)', 'rgba(255,255,255,0.46)', 'rgba(255,255,255,0.22)', 'rgba(255,255,255,0.07)'],
-    hero: ['rgba(251,247,240,0.12)', 'rgba(251,247,240,0.34)', 'rgba(251,247,240,0.96)'],
+    row: 'rgba(255,255,255,0.32)',
+    card: 'rgba(255,255,255,0.30)',
+    hero: 'rgba(255,255,255,0.24)',
   },
 } as const;
 
@@ -46,11 +43,7 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
   const artwork = useArtwork();
   const source = artwork.source(id);
   const spec = artSpecs[id];
-  const scrim = variant === 'bare' ? null : SCRIMS[artwork.scheme][variant];
-  const scrimLocations =
-    artwork.scheme === 'dawn' && (variant === 'row' || variant === 'card')
-      ? [0, 0.32, 0.68, 1] as const
-      : [0, 0.56, 1] as const;
+  const overlay = variant === 'bare' ? null : OVERLAYS[artwork.scheme][variant];
 
   return (
     <View style={[{ height, borderRadius: radius, overflow: 'hidden' }, style]}>
@@ -94,20 +87,10 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
           </Text>
         </View>
       )}
-      {source && artwork.scheme === 'dawn' && variant !== 'bare' ? (
+      {source && overlay ? (
         <View
           pointerEvents="none"
-          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(255,255,255,0.06)' }}
-        />
-      ) : null}
-      {scrim ? (
-        <LinearGradient
-          colors={scrim}
-          locations={scrimLocations}
-          start={variant === 'hero' ? { x: 0.5, y: 0 } : { x: 0, y: 0.5 }}
-          end={variant === 'hero' ? { x: 0.5, y: 1 } : { x: 1, y: 0.5 }}
-          pointerEvents="none"
-          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
+          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: overlay }}
         />
       ) : null}
       {children}
