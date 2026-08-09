@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AccessibilityInfo, Pressable, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { FadeInUp, FadeOut, useReducedMotion } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
@@ -9,9 +10,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
-import { useArtwork } from '@/hooks/useArtwork';
 import { fonts } from '@/theme/typography';
-import { radius, shadow, spacing } from '@/theme/tokens';
+import { spacing } from '@/theme/tokens';
 import { prayerArt } from '@/assets/registry';
 import { usePrayers } from '@/data/prayers';
 import { useStreakStore } from '@/state/useStreakStore';
@@ -32,7 +32,6 @@ const PACE_FACTOR: Record<Pace, number> = {
  */
 export default function Player() {
   const t = useTheme();
-  const artwork = useArtwork();
   const { t: tr } = useT();
   const insets = useSafeAreaInsets();
   const reduceMotion = useReducedMotion();
@@ -83,11 +82,24 @@ export default function Player() {
     router.back();
   };
 
-  const muted = artwork.scheme === 'dawn' ? t.inkSoft : artwork.foreground.secondary;
-  const quiet = artwork.scheme === 'dawn' ? t.inkFaint : artwork.foreground.tertiary;
+  const foreground = '#FFFFFF';
+  const muted = 'rgba(255,255,255,0.84)';
+  const quiet = 'rgba(255,255,255,0.76)';
+  const textShadow = {
+    textShadowColor: 'rgba(0,0,0,0.82)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 9,
+  } as const;
 
   return (
-    <View style={{ flex: 1, backgroundColor: t.bg }}>
+    <View style={{ flex: 1, backgroundColor: '#0E1220' }}>
+      <StatusBar style="light" />
+      <ArtSlot
+        id={prayerArt(prayer.id)}
+        fit="cover"
+        variant="bare"
+        style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
+      />
       <View
         style={{
           flex: 1,
@@ -98,10 +110,10 @@ export default function Player() {
       >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <View style={{ flex: 1 }}>
-            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: t.ink }}>
+            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: foreground, ...textShadow }}>
               {prayer.title}
             </Text>
-            <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: muted, marginTop: 2 }}>
+            <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: muted, marginTop: 2, ...textShadow }}>
               {tr('player.guidedText')} · {remainingMinutes} {tr('player.minLeft')}
             </Text>
           </View>
@@ -110,21 +122,23 @@ export default function Player() {
             hitSlop={12}
             accessibilityRole="button"
             accessibilityLabel={tr('player.close')}
-            style={{ width: 48, height: 48, alignItems: 'center', justifyContent: 'center' }}
+            style={({ pressed }) => ({
+              width: 44,
+              height: 44,
+              borderRadius: 22,
+              backgroundColor: 'rgba(14,18,32,0.34)',
+              borderWidth: 1,
+              borderColor: 'rgba(255,255,255,0.18)',
+              alignItems: 'center',
+              justifyContent: 'center',
+              opacity: pressed ? 0.68 : 1,
+            })}
           >
-            <Ionicons name="close" size={24} color={quiet} />
+            <Ionicons name="close" size={24} color={foreground} />
           </Pressable>
         </View>
 
-        <ArtSlot
-          id={prayerArt(prayer.id)}
-          height={190}
-          radius={radius.card}
-          variant="bare"
-          style={{ marginTop: spacing.lg, borderWidth: 1, borderColor: t.border, ...shadow.card }}
-        />
-
-        <View style={{ flex: 1, justifyContent: 'center' }}>
+        <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: spacing.sm }}>
           {/* each line rises gently into place , the "breath" feel */}
           <Animated.Text
             key={line}
@@ -133,10 +147,11 @@ export default function Player() {
             accessibilityLiveRegion="polite"
             style={{
               fontFamily: 'Fraunces_400Regular',
-              fontSize: 26,
-              lineHeight: 38,
-              color: t.ink,
+              fontSize: 30,
+              lineHeight: 43,
+              color: foreground,
               textAlign: 'center',
+              ...textShadow,
             }}
           >
             {prayer.script[line]}
@@ -149,7 +164,7 @@ export default function Player() {
           style={{
             height: 4,
             borderRadius: 2,
-            backgroundColor: t.surfaceAlt,
+            backgroundColor: 'rgba(255,255,255,0.26)',
             marginBottom: spacing.md,
             overflow: 'hidden',
           }}
@@ -162,7 +177,7 @@ export default function Player() {
           accessibilityLabel={`${tr('player.pace')}: ${tr(`player.pace.${pace}` as never)}`}
           style={{ minHeight: 48, alignSelf: 'center', justifyContent: 'center', marginBottom: spacing.md }}
         >
-          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: muted }}>
+          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: muted, ...textShadow }}>
             {tr('player.pace')}: {tr(`player.pace.${pace}` as never)}
           </Text>
         </Pressable>
@@ -177,7 +192,17 @@ export default function Player() {
               accessibilityRole="button"
               accessibilityState={{ disabled: line === 0 }}
               accessibilityLabel={tr('player.previous')}
-              style={{ width: 56, height: 56, alignItems: 'center', justifyContent: 'center', opacity: line === 0 ? 0.35 : 1 }}
+              style={({ pressed }) => ({
+                width: 56,
+                height: 56,
+                borderRadius: 28,
+                backgroundColor: 'rgba(14,18,32,0.28)',
+                borderWidth: 1,
+                borderColor: 'rgba(255,255,255,0.16)',
+                alignItems: 'center',
+                justifyContent: 'center',
+                opacity: line === 0 ? 0.35 : pressed ? 0.65 : 1,
+              })}
             >
               <Ionicons name="play-skip-back" size={24} color={quiet} />
             </Pressable>
@@ -200,7 +225,17 @@ export default function Player() {
               onPress={() => setLine((l) => Math.min(prayer.script.length - 1, l + 1))}
               accessibilityRole="button"
               accessibilityLabel={tr('player.next')}
-              style={{ width: 56, height: 56, alignItems: 'center', justifyContent: 'center' }}
+              style={({ pressed }) => ({
+                width: 56,
+                height: 56,
+                borderRadius: 28,
+                backgroundColor: 'rgba(14,18,32,0.28)',
+                borderWidth: 1,
+                borderColor: 'rgba(255,255,255,0.16)',
+                alignItems: 'center',
+                justifyContent: 'center',
+                opacity: pressed ? 0.65 : 1,
+              })}
             >
               <Ionicons name="play-skip-forward" size={24} color={quiet} />
             </Pressable>
