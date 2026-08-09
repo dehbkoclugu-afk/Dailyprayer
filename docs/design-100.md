@@ -783,8 +783,37 @@ deneyimi, performans ve görsel cila gelir.
     “Larger text” üç kez dokunulunca `23px`’e çıktı (`Math.round(18 * 1.3)` ile eşleşiyor).
     Önizleme bloğu tamamen kaldırılmış bir derlemede test zaman aşımına uğrayıp doğru şekilde
     başarısız oldu. Detaylar: `docs/superpowers/plans/2026-08-09-reader-size-preview.md`.
-46. **Reader “paper” switch’ini platform semantiğiyle düzelt.** Görsel olarak özel kalabilir ama
-    swipe/tap, checked state ve büyük yazı düzeni Material switch beklentisini karşılamalı.
+46. 🟡 **KISMEN TAMAMLANDI — Reader “paper” switch’ini platform semantiğiyle düzelt.** Görsel
+    olarak özel kalabilir ama swipe/tap, checked state ve büyük yazı düzeni Material switch
+    beklentisini karşılamalı.
+    Üç ölçüt ayrı ayrı denetlendi, üçü de farklı bir sonuç verdi. **Checked state** zaten
+    doğruydu: `accessibilityRole="switch"` + `accessibilityState={{ checked: paper }}` — native
+    erişilebilirlik köprüsünün TalkBack/VoiceOver’a “switch, açık/kapalı” dedirten standart RN
+    API’si. Taze bir web derlemesinde ampirik olarak da kontrol edildi: `aria-checked` hem
+    açmadan önce hem açtıktan sonra `null` kalıyor — ama bu bileşenin kusuru değil, kurulu
+    `react-native-web` paketinin **tamamında** `accessibilityState.`’in herhangi bir alt alanını
+    (checked, busy, selected, expanded — hiçbiri) hiçbir bileşen için hiçbir DOM özniteliğine
+    bağlamadığı `grep -rn "accessibilityState\." dist/` ile doğrulandı; native zaten çalışıyor,
+    tarayıcı sadece göremiyor — bu geçişte birkaç maddenin tersinden yaşadığı aynı sınır.
+    **Büyük yazı düzeni** gerçek bir kusurdu: etiketin kapsayıcısında `flex`/`minWidth: 0` yoktu,
+    bu yüzden büyük sistem yazı boyutunda etiketin sarılacak genişliği yoktu — switch’in üstüne
+    binmek yerine onu ekran kenarına itiyordu. `flex: 1, minWidth: 0` ve `flexShrink: 1`/`0`
+    eklendi; normal (kısa etiket) durumda görsel değişiklik yok.
+    **Swipe/drag jesti** uygulanmadı: gerçek bir sürükle-bırak eşiği/animasyonu inşa etmek mekanik
+    bir düzeltme değil, bu geçişin dışında tutulan tasarım kararlarına (yeni renk, yeni tip rolü)
+    daha yakın yeni bir etkileşim özelliği eklemek. Satırın kendi dokunma alanı zaten kartın
+    tamamı — Material’ın 48 dp minimumunu çok aşıyor ve native bir switch’in thumb-sürükleme
+    alanından daha büyük/kolay bir hedef; dokunma zaten sürüklemenin başlayacağı her pikseli
+    kapsıyor. Tasarım incelemesi olmadan inşa edilmedi, açık bırakıldı.
+    Koruma (`src/theme/paperSwitchLayout.test.ts`), iki ihlal enjekte edilip yakalandığı
+    doğrulandı. `npm test` (172/172), typecheck, lint, release-check, tap-targets (13 görünüm,
+    değişmedi), Android export temiz.
+    Tarayıcıda doğrulandı (360 px dar görünüm): etiketin metin düğümü çok daha uzun bir metinle
+    değiştirildi (büyük sistem yazı boyutunun aynı metne yapacağının yerine geçen bir test).
+    Düzeltmeli derleme: satır 54px’den 98px’e büyüyor (iki satıra sarılıyor), switch track
+    `x: 272`’de, satırın içinde kalıyor. Düzeltme geri alınan derlemede: satır 54px’de düz kalıyor
+    (sarılmıyor), track `x: 686.6`’ya itiliyor — 360 px’lik ekranın sağ kenarının tamamen dışında.
+    Detaylar: `docs/superpowers/plans/2026-08-09-paper-switch-material-semantics.md`.
 47. **Ekran okuyucuda ayet numarası + metni tek anlamlı cümle yap.** İç içe Text düğümlerinin
     kesik veya tekrarlı okunmadığı cihaz testleriyle doğrulanmalı.
 48. **Player otomatik ilerlemeyi erişilebilirlik açıkken varsayılan duraklat.** Kullanıcı satırı

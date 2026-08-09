@@ -176,14 +176,19 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
               borderColor: paper ? t.gold : t.border,
             }}
           >
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
+            {/* `flex: 1` + `minWidth: 0` so the label actually wraps under a large
+                system font size instead of pushing the track off to the side —
+                without them a flex row's text child won't shrink below its own
+                intrinsic (unwrapped) width (roadmap item 46). */}
+            <View style={{ flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
               <Ionicons name="sunny-outline" size={20} color={paper ? t.gold : t.inkSoft} />
-              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.ink }}>
+              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.ink, flexShrink: 1 }}>
                 {tr('read.paperMode')}
               </Text>
             </View>
             <View
               style={{
+                flexShrink: 0,
                 width: 46,
                 height: 28,
                 borderRadius: 14,
