@@ -442,8 +442,29 @@ deneyimi, performans ve görsel cila gelir.
     `src/a11y/sheetFocus.test.ts`’teki “sheet backdrop is not an accessibility element” ve
     “nothing in a sheet exists only to swallow a tap” kuralları artık altı sheet’in hepsinde
     geçiyor; iki ihlal enjekte edilip yakalandığı doğrulandı.
-30. **Büyük yazıda sabit yükseklikleri kaldır.** VerseCard, paywall hero ve yatay aksiyonlar
-    200% font ölçeğinde metin kırpmadan büyüyebilmeli.
+30. ✅ **TAMAMLANDI — Büyük yazıda sabit yükseklikleri kaldır.** Aynı kusur üç yerde: `height`
+    (sabit) + `overflow:'hidden'` birlikte kullanılmış, üstüne metin bindirilmişti. Büyük sistem
+    yazı boyutunda metin kutuyu büyütecek yeri bulamıyor, `overflow:'hidden'` de taşanı kesiyordu.
+    **`ArtSlot`** — paywall hero’sunun, her plan kartının, İncil sekmesinin “okumaya devam et”
+    kahramanının ve Tonight kartının **tek ortak bileşeni** — `height` prop’unu doğrudan sabit
+    yüksekliğe geçiriyordu; tek satır değişiklikle (`minHeight: height`) hepsi birden düzeldi.
+    **`VerseCard`**’ın ayet metni kendi `ScrollView`’ında kayıyor, ama üstündeki etiket ve
+    altındaki referans/kredi/ikon satırı kaymıyor — büyük yazıda bu iki satır tek başına kartın
+    sabit 320dp’sine yaklaşabiliyor. **Bugünün seri (streak) rozeti** aynı kusurun
+    `overflow:'hidden'` içermeyen hâliydi: sabit 64×64 kutu üç haneli bir seriyi (`999` gibi)
+    kenarlıktan taşırıyordu; kutu artık `minWidth`/`minHeight` ile genişliyor.
+    Üçünün de düzeltmesi aynı tek kelime: `height` yerine `minHeight` (satır ise `minWidth`).
+    Taban, tasarımın olağan boyutunu korur; büyümeyi yalnız yer darlığı tetikler, o da içeriğin
+    gerçekten istediği kadar.
+    `src/theme/textGrowth.test.ts` üç kuralı da adıyla denetliyor; üç ihlal enjekte edilip
+    (eski `height` satırı geri konarak) yakalandığı doğrulandı. Tarayıcıda 2× yazı boyutuyla
+    doğrulandı: İncil sekmesinin kahraman kartı ve beş plan kartı, hepsi `min-height` DOM
+    stiliyle render edip **0 kırpma** gösterdi.
+    **Doğrulamanın bir sınırı not edildi:** aşırı (3×, ayrıca `line-height`’ı da genel CSS
+    seçiciyle ezen) bir tarayıcı testi, react-native-web’e özgü — Yoga’nın native’de hiç
+    yaşamadığı — bir yüzde-yükseklik döngüsü belirtisi gösterdi. Gerçekçi (yalnız font-size,
+    2×) testler temizdi; aşırı test gerçek bir OS ayarını değil, testin kendi CSS enjeksiyonunun
+    aşırılığını yansıtıyor — yine de not edildi, cihazda asla gözlenmezse bile.
 31. **Metin rollerini merkezi tipe bağla.** Dağınık 10/11/12/14/16/18/20/21/24/27/30/34/46/64
     değerleri semantic display/title/body/label rollerinden çözülmeli.
 32. **En küçük okunabilir metni yükselt.** PLUS rozetleri ve yardımcı etiketler 10–11 sp’de

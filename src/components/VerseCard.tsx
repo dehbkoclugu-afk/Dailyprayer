@@ -71,10 +71,13 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       onPress={onRead}
       accessibilityRole="button"
       accessibilityLabel={`Verse of the day, ${verse.reference}`}
-      // A fixed-height hero box: the frame stays constant so the layout below it
-      // never shifts. Long verses scroll gently inside instead of growing the card.
+      // minHeight, not height (roadmap item 30): the verse itself already scrolls
+      // inside its own ScrollView, but the label above it and the reference/credit/
+      // icon row below it do not — at a large system font size those two rows alone
+      // can approach 320dp, and a fixed height + overflow:hidden would clip them
+      // instead of the card growing to fit.
       style={[
-        { height: 320, borderRadius: radius.hero, overflow: 'hidden' },
+        { minHeight: 320, borderRadius: radius.hero, overflow: 'hidden' },
         shadow.card,
       ]}
     >

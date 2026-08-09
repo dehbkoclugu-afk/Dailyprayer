@@ -26,7 +26,12 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, children
   const spec = artSpecs[id];
 
   return (
-    <View style={[{ height, borderRadius: radius, overflow: 'hidden' }, style]}>
+    // minHeight, not height: several call sites overlay text on this art (hero
+    // titles, taglines, benefit lists), and a fixed height combined with
+    // overflow:hidden clips that text at large system font sizes instead of
+    // letting the card grow (roadmap item 30). The absolutely-positioned image
+    // below still fills whatever height the box ends up with.
+    <View style={[{ minHeight: height, borderRadius: radius, overflow: 'hidden' }, style]}>
       {source ? (
         <Image
           source={source}

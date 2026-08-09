@@ -110,9 +110,14 @@ export default function Today() {
         </View>
         <View
           accessibilityLabel={`${count} ${tr('today.dayStreak')}`}
+          // min, not fixed (roadmap item 30): StreakFlame lays the flame icon and
+          // the day count side by side with no overflow:hidden here, so a fixed
+          // 64×64 box just let a three-digit streak at a large system font size
+          // spill past the border instead of the badge widening to fit it.
           style={{
-            width: 64,
-            height: 64,
+            minWidth: 64,
+            minHeight: 64,
+            paddingHorizontal: spacing.xs,
             borderRadius: radius.inner,
             backgroundColor: t.surface,
             borderColor: litToday ? t.gold : t.border,
