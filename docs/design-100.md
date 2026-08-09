@@ -423,8 +423,25 @@ deneyimi, performans ve görsel cila gelir.
     Altı kural koruyor (`src/a11y/sheetFocus.test.ts`), üstelik **sheet listesinin kendisi de**
     denetleniyor — yoksa bir sheet eşleşmeyi bırakınca kurallar ona bakmayarak “geçer”di. Beş
     ihlal enjekte edilip yakalandığı doğrulandı.
-29. **Modal arka planlarını erişilebilirlik ağacından çıkar.** Görünmez kapatma alanları ayrı
-    “Kapat” düğmesi gibi tekrarlanmak yerine modal semantiğiyle yönetilmeli.
+29. ✅ **TAMAMLANDI — Modal arka planlarını erişilebilirlik ağacından çıkar.** Beş sheet’te
+    karartma alanı `<Pressable onPress={onClose}>` idi: adsız, odaklanabilir, ekran okuyucuya
+    “düğme” diyen ama neyi kapattığını söylemeyen bir kontrol. `OptionSheet`’te bundan daha
+    kötüsü vardı — karartma sheet’in **sarmalayıcısıydı** ve içeriği ayrı bir
+    `<Pressable onPress={() => {}}>` ile dokunuşu yutarak korumak zorundaydı; yani tek bir
+    kapatma alanı için iki adsız kontrol.
+    `OptionSheet` karartmayı sarmalayıcıdan **kardeşe** çevrildi (madde 28’in beş sheet’inde
+    zaten kullanılan yapı): karartma artık `accessibilityElementsHidden` +
+    `importantForAccessibility="no"` ile gizlenebiliyor, sheet’i de gizlemeden — ve dokunuşu
+    yutan `Pressable` tamamen gereksiz kaldı, silindi.
+    **Doğrulama sırasında bulunan gerçek sınır:** react-native-web bu iki prop’u hiç
+    desteklemiyor (pakette arattım, tanımlı değiller); web’de karartma hâlâ `tabindex="0"`
+    taşıyan odaklanabilir bir `<div>`. Bu yeni bir bozulma değil — karartma zaten adsızdı — ama
+    tarayıcı harness’i burada *doğrulayamıyor*, yalnızca native tarafın (iOS
+    `accessibilityElementsHidden`, Android `importantForAccessibility`) doğru API’yi
+    kullandığını garanti ediyor. TalkBack/VoiceOver cihaz testi yayın öncesi listede.
+    `src/a11y/sheetFocus.test.ts`’teki “sheet backdrop is not an accessibility element” ve
+    “nothing in a sheet exists only to swallow a tap” kuralları artık altı sheet’in hepsinde
+    geçiyor; iki ihlal enjekte edilip yakalandığı doğrulandı.
 30. **Büyük yazıda sabit yükseklikleri kaldır.** VerseCard, paywall hero ve yatay aksiyonlar
     200% font ölçeğinde metin kırpmadan büyüyebilmeli.
 31. **Metin rollerini merkezi tipe bağla.** Dağınık 10/11/12/14/16/18/20/21/24/27/30/34/46/64
