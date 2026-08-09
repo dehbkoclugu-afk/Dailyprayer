@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ScrollView, useWindowDimensions, View, type ViewStyle } from 'react-native';
+import { Image, Platform, ScrollView, StatusBar, useWindowDimensions, View, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 import { spacing } from '@/theme/tokens';
@@ -36,12 +36,16 @@ export function Screen({ children, scroll = true, style, tabbed = false }: Props
   const t = useTheme();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
+  const safeTop = Math.max(
+    insets.top,
+    Platform.OS === 'android' ? StatusBar.currentHeight ?? 0 : 0,
+  );
   const base: ViewStyle = {
     flex: 1,
     backgroundColor: t.bg,
   };
   const content: ViewStyle = {
-    paddingTop: insets.top + spacing.xl,
+    paddingTop: spacing.xl,
     paddingHorizontal: spacing.xl,
     // Tab screens already reserve space for the navigator. Adding another
     // tab-bar-sized inset leaves an obvious empty block under the last card.
@@ -56,14 +60,14 @@ export function Screen({ children, scroll = true, style, tabbed = false }: Props
       <Grain />
       {scroll ? (
         <ScrollView
-          style={{ flex: 1 }}
+          style={{ flex: 1, marginTop: safeTop }}
           contentContainerStyle={[content, style]}
           showsVerticalScrollIndicator={false}
         >
           {children}
         </ScrollView>
       ) : (
-        <View style={[content, { flex: 1 }, style]}>{children}</View>
+        <View style={[content, { flex: 1, marginTop: safeTop }, style]}>{children}</View>
       )}
     </View>
   );
