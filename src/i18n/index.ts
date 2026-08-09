@@ -1,6 +1,7 @@
 import { getLocales } from 'expo-localization';
 import { translations, type Locale, type TranslationKey } from './translations';
 import { useUserStore } from '@/state/useUserStore';
+import { localeUpper } from '@/lib/text';
 
 export const SUPPORTED_LOCALES: Locale[] = ['en', 'tr', 'es', 'pt', 'fr', 'de'];
 
@@ -43,6 +44,8 @@ export function useT() {
     t: (key: TranslationKey) => lookup(locale, key),
     /** For a label that follows a number: `tn(days, 'bible.days')`. */
     tn: (count: number, key: TranslationKey) => lookupCount(locale, key, count),
+    /** For text a style renders in caps: `up(tr('today.sleepPrayer'))`. */
+    up: (text: string) => localeUpper(text, locale),
   };
 }
 

@@ -39,7 +39,7 @@ interface Props {
 }
 
 export function VerseCard({ verse, onRead, onShuffle }: Props) {
-  const { t: tr, locale } = useT();
+  const { t: tr, up, locale } = useT();
   const cardRef = useRef<View>(null);
 
   // The credit travels with the verse in every direction it can leave the app —
@@ -98,7 +98,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       />
       <View style={{ flex: 1, padding: spacing.xl, paddingTop: spacing.xxl }}>
           <Text style={[ty.overline, { color: 'rgba(217,164,65,0.85)' }]}>
-{tr('today.verseOfDay')}
+{up(tr('today.verseOfDay'))}
           </Text>
 
           {/* the verse gets a flexible middle that scrolls when it's long; a soft

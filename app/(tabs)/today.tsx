@@ -38,7 +38,7 @@ function formatDateLine(now: Date, locale: string): string {
 
 export default function Today() {
   const t = useTheme();
-  const { t: tr, locale } = useT();
+  const { t: tr, up, locale } = useT();
   const { verse, devotional } = useDailyContent();
   // The verse of the day is fixed by date, but let people browse the pool — a
   // shuffle swaps in another verse without touching the day's read-streak.
@@ -93,7 +93,7 @@ export default function Today() {
       <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
         <View style={{ flex: 1, paddingRight: spacing.lg }}>
           <Text style={[ty.overline, { color: t.gold, opacity: 0.85 }]}>
-            {dateLine}
+            {up(dateLine)}
           </Text>
           <Text style={[ty.title, { color: t.ink, marginTop: spacing.xs }]}>
             {greetText}{name ? `, ${name}` : ''}
@@ -193,7 +193,7 @@ export default function Today() {
             >
               <View style={{ flex: 1 }}>
                 <Text style={[ty.overline, { color: 'rgba(217,164,65,0.85)' }]}>
-{tr('today.sleepPrayer')}
+{up(tr('today.sleepPrayer'))}
                 </Text>
                 <Text style={{ fontFamily: fonts.serif, fontSize: 21, color: '#F2EEE6', marginTop: 4 }}>
                   {sleepPrayer.title} · {sleepPrayer.minutes} {tr('pray.min')}

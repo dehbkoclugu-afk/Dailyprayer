@@ -18,7 +18,7 @@ import { useT } from '@/i18n';
 
 export default function Bible() {
   const t = useTheme();
-  const { t: tr, tn, locale } = useT();
+  const { t: tr, tn, up, locale } = useT();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const plans = usePlans();
   const { book, chapter } = useReaderStore();
@@ -50,7 +50,7 @@ export default function Bible() {
             />
             <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
               <Text style={[ty.overline, { color: 'rgba(217,164,65,0.9)' }]}>
-                {tr('read.continue')}
+                {up(tr('read.continue'))}
               </Text>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 4 }}>
                 <View style={{ flex: 1, paddingRight: spacing.lg }}>

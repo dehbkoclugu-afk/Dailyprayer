@@ -508,8 +508,31 @@ deneyimi, performans ve görsel cila gelir.
     madde 31’in geri kalan 150 `fontSize`’ı gibi, gözden geçirilmeden otomatik sürülecek bir
     şey değil. Sayılar ve tam konumlar not edildi; renk kararı ayrı ele alınmalı.
     Tarayıcıda doğrulandı: her iki PLUS rozeti de 11px render ediyor.
-33. **Uppercase dönüşümünü yerel dile göre yap.** Türkçe `i/İ` hataları için render-time
-    `textTransform` yerine çevrilmiş doğru biçim kullanılmalı.
+33. ✅ **TAMAMLANDI — Uppercase dönüşümünü yerel dile göre yap.** `textTransform: 'uppercase'`
+    platformun **yerel dile duyarsız** büyütme kuralını kullanıyor: iOS’ta `-uppercaseString`
+    Apple’ın kendi belgelerine göre lokalize değil; Android’de `Locale.getDefault()` **cihazın**
+    sistem dilini kullanıyor, uygulamanın kendi dil ayarını değil — yani telefonu İngilizce,
+    uygulama dili Türkçe olan bir kullanıcıda ikisi de yanlış sonuç veriyordu. Türkçe’nin
+    kuralı: küçük noktalı `i`, büyütülünce noktalı `İ` olur, düz ASCII `I` değil.
+    **Somut, o anda canlı hata:** Bugün ekranının tarih satırı ay adını büyük harfle gösteriyor;
+    “Nisan” her Nisan ayında “NİSAN” değil **“NISAN”** olarak render ediliyordu. Tarayıcıda saat
+    9 Nisan 2026’ya sabitlenip doğrulandı: düzeltmeden önceki kural altında bu satır “NİSAN”
+    yerine yanlış biçimi üretirdi; düzeltmeden sonra “9 NİSAN PERŞEMBE” doğru render ediyor.
+    `String.prototype.toLocaleUpperCase(locale)` bu istisnayı doğru uyguluyor —
+    `'nisan'.toLocaleUpperCase('tr')` → `'NİSAN'`, `.toUpperCase()` ise yanlış `'NISAN'` veriyor.
+    `src/lib/text.ts`’e `localeUpper()` eklendi, `useT()` üzerinden `up()` olarak sunuluyor.
+    Halihazırda tam olarak yedi ekran metnini büyük harfe çeviren yer vardı (biri
+    `type.overline` role’ü üzerinden beş kez, ikisi ayrı ayrı) — hepsinin içeriği artık `up()`
+    ile geçiriliyor: bugünün tarih satırı, “Günün ayeti”, “Uyku duası”, “Okumaya devam et”,
+    bölüm etiketi, plan günü başlığı ×2, devotional etiketi, günlük şükran etiketi, günlük ayet
+    referansı, seçenek sheet’inin başlığı, ayet aksiyon sheet’inin referansı. `style`’lardaki
+    `textTransform:'uppercase'` **kaldırılmadı** — zaten doğru büyütülmüş bir Türkçe `İ`’yi
+    tekrar büyütmek etkisiz (no-op), yani stil değişmeden kalabildi, yalnızca içerik önden
+    doğru büyütüldü.
+    `src/i18n/localeCase.test.ts`: `localeUpper`’ın Türkçe istisnayı doğru uyguladığını, altı
+    dilin diğer beşinde davranışın değişmediğini, on iki bilinen render yerinin `up()`
+    kullandığını, ve yeni bir `textTransform:'uppercase'` eklenirse listeye eklenmediği takdirde
+    testin bunu söylediğini denetliyor. İki ihlal enjekte edilip yakalandığı doğrulandı.
 34. **Tüm sabit İngilizce erişilebilirlik metinlerini çeviri anahtarına taşı.** “Verse of the
     day”, “requires Plus”, “locked”, “day streak” gibi etiketler altı dilde tutarlı olmalı.
 35. **ProgressRing ve StreakFlame etiketlerini yerelleştir.** İngilizce cümle birleştirme yerine

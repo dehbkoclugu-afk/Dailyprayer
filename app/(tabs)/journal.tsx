@@ -16,7 +16,7 @@ import { useT, translate } from '@/i18n';
 
 export default function Journal() {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, up } = useT();
   const { entries, add, remove, restore } = useJournalStore();
   const completeStep = useStreakStore((s) => s.completeStep);
   const [text, setText] = useState('');
@@ -76,7 +76,7 @@ export default function Journal() {
               color: t.gold,
             }}
           >
-            {tr('journal.gratitude')}
+            {up(tr('journal.gratitude'))}
           </Text>
         </View>
 
@@ -165,7 +165,7 @@ export default function Journal() {
                     marginBottom: spacing.sm,
                   }}
                 >
-                  {e.ref}
+                  {up(e.ref)}
                 </Text>
               ) : null}
               <Text

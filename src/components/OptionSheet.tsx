@@ -6,6 +6,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useSheetTitleFocus } from '@/a11y/sheetFocus';
+import { useT } from '@/i18n';
 
 export interface SheetOption<T extends string> {
   value: T;
@@ -38,6 +39,10 @@ export function OptionSheet<T extends string>({
   const t = useTheme();
   const insets = useSafeAreaInsets();
   const titleRef = useSheetTitleFocus(visible);
+  // `title` is a translated string from the caller (roadmap item 33): rendered
+  // in caps below, so it needs the app's own locale, not the device's, and not
+  // the plain ASCII casing textTransform would apply to a Turkish "i".
+  const { up } = useT();
 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
@@ -91,7 +96,7 @@ export function OptionSheet<T extends string>({
               marginBottom: spacing.sm,
             }}
           >
-            {title}
+            {up(title)}
           </Text>
           {options.map((o, i) => {
             const active = o.value === selected;
