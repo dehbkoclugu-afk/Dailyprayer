@@ -1,4 +1,6 @@
 import type { Locale } from '@/i18n/translations';
+import { DEVOTIONAL_CONTENT_IDS } from '@/data/applicationContentPack';
+import { getRegisteredApplicationContentPack } from '@/i18n/applicationContent';
 
 /** 2-minute daily devotionals, rotate by day-of-year. Expand toward 365. */
 export interface Devotional {
@@ -1378,5 +1380,13 @@ const DEVOTIONALS: Record<Exclude<Locale, 'en'>, Devotional[]> = {
 
 /** Devotionals localized to the active locale (English fallback). */
 export function getDevotionals(locale: Locale): Devotional[] {
+  const pack = getRegisteredApplicationContentPack(locale);
+  if (pack) {
+    const localized = new Map(pack.devotionals.map((devotional) => [devotional.id, devotional]));
+    return devotionals.map((_, index) => {
+      const content = localized.get(DEVOTIONAL_CONTENT_IDS[index]!)!;
+      return { title: content.title, body: content.body, prayer: content.prayer };
+    });
+  }
   return locale === 'en' ? devotionals : DEVOTIONALS[locale];
 }

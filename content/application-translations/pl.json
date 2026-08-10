@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "locale": "pl",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "Która tradycja kościelna jest Ci najbliższa?",
+      "subtitle": "Dopasujemy do niej Twoje modlitwy i plany.",
+      "options": [
+        {
+          "value": "catholic",
+          "label": "Katolicka"
+        },
+        {
+          "value": "protestant",
+          "label": "Protestancka"
+        },
+        {
+          "value": "orthodox",
+          "label": "Prawosławna"
+        },
+        {
+          "value": "nondenominational",
+          "label": "Bezwyznaniowa"
+        },
+        {
+          "value": "exploring",
+          "label": "Dopiero poznaję"
+        }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "Co ma wzrastać w Twoim wnętrzu?",
+      "subtitle": "Wybierz wszystkie pasujące odpowiedzi.",
+      "affirmation": "Jesteś w dobrym gronie – 73% członków dołączyło dokładnie z tego samego powodu.",
+      "options": [
+        {
+          "value": "habit",
+          "label": "Codzienny nawyk modlitwy"
+        },
+        {
+          "value": "closer",
+          "label": "Większa bliskość z Bogiem"
+        },
+        {
+          "value": "peace",
+          "label": "Więcej pokoju i mniej lęku"
+        },
+        {
+          "value": "sleep",
+          "label": "Lepszy sen"
+        },
+        {
+          "value": "bible",
+          "label": "Lepsze rozumienie Biblii"
+        },
+        {
+          "value": "gratitude",
+          "label": "Wdzięczne serce"
+        }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "Co ostatnio najbardziej Ci ciąży?",
+      "subtitle": "Twoja odpowiedź pozostanie prywatna i pomoże ułożyć plan.",
+      "affirmation": "Dziękujemy za zaufanie. Słowo Boże spotyka człowieka właśnie w tym miejscu.",
+      "options": [
+        {
+          "value": "anxiety",
+          "label": "Lęk lub zmartwienie"
+        },
+        {
+          "value": "loneliness",
+          "label": "Samotność"
+        },
+        {
+          "value": "grief",
+          "label": "Żałoba lub strata"
+        },
+        {
+          "value": "direction",
+          "label": "Poszukiwanie kierunku"
+        },
+        {
+          "value": "consistency",
+          "label": "Wytrwałość"
+        },
+        {
+          "value": "none",
+          "label": "Radzę sobie"
+        }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "Jak dobrze znasz modlitwę?",
+      "options": [
+        {
+          "value": "new",
+          "label": "Dopiero zaczynam"
+        },
+        {
+          "value": "returning",
+          "label": "Wracam po przerwie"
+        },
+        {
+          "value": "regular",
+          "label": "Modlę się regularnie"
+        }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "Kiedy chcesz otrzymywać codzienne przypomnienie?",
+      "subtitle": "Łagodne przypomnienie, nigdy spam.",
+      "options": [
+        {
+          "value": "07:30",
+          "label": "Rano · 7:30"
+        },
+        {
+          "value": "12:30",
+          "label": "W południe · 12:30"
+        },
+        {
+          "value": "21:00",
+          "label": "Wieczorem · 21:00"
+        },
+        {
+          "value": "none",
+          "label": "Bez przypomnień"
+        }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Poranne światło",
+      "script": [
+        "Weź powolny wdech… i wydech. Zanim dzień czegokolwiek od Ciebie zażąda, zatrzymaj się tutaj.",
+        "Panie, dziękuję Ci za ten poranek, za oddech i kolejny początek.",
+        "Oddaję Ci nadchodzące godziny: moją pracę, słowa i ludzi, których spotkam.",
+        "Gdy się niepokoję, bądź moim pokojem. Gdy jestem zmęczony, bądź moją siłą.",
+        "Pozwól mi przejść przez ten dzień bez pośpiechu, ze świadomością, że jesteś blisko. Amen."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "Ucisz burzę",
+      "script": [
+        "Połóż dłoń na sercu. Poczuj jego bicie – żyjesz i jesteś podtrzymywany.",
+        "Jezu, spałeś pośród burzy i uciszyłeś ją jednym słowem. Przemów także do mojej.",
+        "Nazywam teraz swoje zmartwienie… i składam je w Twoje ręce.",
+        "„Milcz, ucisz się”. Niech te słowa osiądą na moich myślach jak spokojna woda.",
+        "Dziś strach mnie nie poniesie. To Ty mnie niesiesz. Amen."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "Wdzięczne serce",
+      "script": [
+        "Przypomnij sobie jedną dobrą rzecz z dzisiejszego dnia, choćby najmniejszą. Zatrzymaj ją przez chwilę.",
+        "Ojcze, każdy dobry dar pochodzi od Ciebie. Dziękuję.",
+        "Dziękuję za to, o co prosiłem i co otrzymałem, oraz za to, przed czym mnie uchroniłeś.",
+        "Naucz mnie dostrzegać łaskę ukrytą w zwyczajnych godzinach.",
+        "Niech wdzięczność będzie nutą, którą kończy się mój dzień. Amen."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "Ku odpoczynkowi",
+      "script": [
+        "Pozwól dniu się skończyć. Zrobiłeś tyle, ile mogłeś, i to wystarczy.",
+        "Panie, gdy się kładę, powierzam Twojej opiece wszystko, co niedokończone.",
+        "Czuwaj nad ludźmi, których kocham, gdy śpimy.",
+        "„W pokoju się położę i zasnę, bo tylko Ty pozwalasz mi mieszkać bezpiecznie”.",
+        "Spowolnij mój oddech… ucisz myśli… i trzymaj mnie aż do rana. Amen."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Pobłogosław moją rodzinę",
+      "script": [
+        "Przywołaj w myślach twarze bliskich, jedną po drugiej.",
+        "Ojcze, pobłogosław każdego zdrowiem, sercem i wiarą.",
+        "Ulecz to, co między nami napięte; zmiękcz to, co stwardniało.",
+        "Uczyń nasz dom miejscem cierpliwości i śmiechu.",
+        "Połącz nas w swojej miłości. Amen."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Odwaga na dzisiaj",
+      "script": [
+        "Wyprostuj się na chwilę. Oddychaj głęboko.",
+        "Panie, nie dałeś mi ducha lęku, lecz mocy, miłości i trzeźwego myślenia.",
+        "Daj mi odwagę do rozmowy, zadania i kroku, którego ciągle unikam.",
+        "Gdy się zachwieję, przypomnij mi, że idziesz przede mną.",
+        "Będę silny i odważny – nie sam, lecz z Tobą. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "Liczenie darów",
+      "script": [
+        "Pozwól dniu opaść. Wydychaj to, czego od Ciebie wymagał.",
+        "Ojcze, zanim wymienię to, czego mi brakuje, pozwól mi nazwać to, co otrzymałem.",
+        "Dziękuję za zwyczajne łaski, obok których dziś prawie przeszedłem.",
+        "Dziękuję za ludzi, którzy ogrzewają moje życie.",
+        "Wdzięczne serce jest pełnym sercem. Napełnij moje tej nocy. Amen."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Spokojne wody",
+      "script": [
+        "Rozluźnij dłonie. Niech oddech zwalnia z każdym zdaniem.",
+        "Pasterzu, prowadzisz mnie nad spokojne wody. Zaprowadź mnie tam teraz.",
+        "Pędzące myśli składam u Twoich stóp, jedną po drugiej.",
+        "Ty odnawiasz moją duszę. Odnów to, co dzisiejszy dzień zużył.",
+        "Nie będę się bać, bo jesteś ze mną. Amen."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "Przed rozpoczęciem dnia",
+      "script": [
+        "Dzień nie został jeszcze wykorzystany. Spotkaj go tutaj, z Bogiem, przed wszystkim innym.",
+        "Panie, ten dzień należy do Ciebie, zanim stanie się mój.",
+        "Idź przede mną do każdego miejsca, do którego wejdę, i w każde słowo, które wypowiem.",
+        "Gdy kusi mnie pośpiech, naucz mnie iść spokojnie.",
+        "Uporządkuj moje godziny i trzymaj moje serce blisko swojego. Amen."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "Pokój, który strzeże",
+      "script": [
+        "Postaw obie stopy na ziemi. Jesteś tutaj. Bóg jest tutaj.",
+        "Jezu, zostawiłeś nam swój pokój – nie taki, jaki daje świat, lecz prawdziwy i głęboki.",
+        "Niech ten pokój strzeże dziś mojego serca i umysłu jak wartownik u bramy.",
+        "To, czego nie mogę kontrolować, oddaję Tobie.",
+        "Twój pokój wystarczy. W nim odpoczywam. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "Najpierw podziękowanie",
+      "script": [
+        "Przed listą zadań zatrzymaj się. Jeden oddech wdzięczności.",
+        "Ojcze, dziękuję, że obudziłeś mnie na kolejny dzień łaski.",
+        "Dziękuję za oddech, światło i nową stronę.",
+        "Niech wdzięczność, a nie pośpiech, nada ton mojemu porankowi.",
+        "Zaczynam ten dzień z wdzięcznością. Amen."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Odłóż ciężar",
+      "script": [
+        "Dzień się skończył. Zrobiłeś tyle, ile mogłeś, i to wystarczy.",
+        "Panie, składam w Twojej opiece wszystko, co niedokończone.",
+        "Zmartwienia, które zabrałbym w ciemność, zostawiam u Ciebie.",
+        "Dajesz sen tym, których kochasz. Przyjmij mnie teraz.",
+        "Kładę się i zasypiam w pokoju, bo tylko Ty strzeżesz mnie bezpiecznie. Amen."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "Nad tymi, których kocham",
+      "script": [
+        "Przywołaj każdą ukochaną osobę. Zatrzymaj na chwilę jej twarz w myślach.",
+        "Ojcze, czuwaj nad tymi, których mi powierzyłeś.",
+        "Strzeż ich wyjścia i powrotu.",
+        "Gdy ich zawodzę, niech Twoja łaska wypełni brak.",
+        "Trzymaj ich w swojej dłoni bliżej, niż ja kiedykolwiek zdołam. Amen."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Siła do przebaczenia",
+      "script": [
+        "Oddychaj. To jest trudne i Bóg o tym wie.",
+        "Panie, przebaczyłeś mi za wielką cenę. Daj mi siłę przebaczyć.",
+        "Przynoszę imię, wspomnienie i ranę – wyciągam je ku Tobie.",
+        "Uwolnij mnie od noszenia tego, co nigdy nie było moim ciężarem.",
+        "Ulecz to, co otwiera przebaczenie. Uczyń mnie całym. Amen."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "Pod Jego skrzydłami",
+      "script": [
+        "Poczuj, jak ciężar dnia opuszcza Twoje ramiona.",
+        "Kto mieszka w ukryciu Najwyższego, odpocznie w Jego cieniu.",
+        "Panie, okryj mnie tej nocy jak ptak swoje pisklęta.",
+        "Bez lęku przed nocą i trwogi przed jutrem – tylko Twoja opieka.",
+        "Nie będę się bać, bo Ty nigdy nie śpisz. Dobranoc, Ojcze. Amen."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "Kiedy jestem słaby",
+      "script": [
+        "Tutaj nie musisz udawać silnego.",
+        "Panie, powiedziałeś, że Twoja moc doskonali się w słabości.",
+        "Oto moja słabość – przestaję ją przed Tobą ukrywać.",
+        "Bądź silny dokładnie tam, gdzie nic mi już nie zostało.",
+        "Twoja łaska mi wystarcza. To dosyć. Amen."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "Nawet teraz dziękuję",
+      "script": [
+        "To trudniejsza wdzięczność. Oddychaj i pozostań szczery.",
+        "Ojcze, nawet teraz, pośród tego, szukam Twojej dłoni.",
+        "Dziękuję, że nie zostawiasz mnie w tym samego.",
+        "Dziękuję, że ten czas nie jest końcem historii.",
+        "Wybieram wdzięczność nie dlatego, że jest łatwo, lecz dlatego, że Ty jesteś dobry. Amen."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "Dar ciszy",
+      "body": "Większość z nas wchodzi w poranek już w biegu – wiadomości, nagłówki, obowiązki. Psalm 46 powstał w czasie zamętu, a jednak w jego centrum jest szept: zatrzymaj się. Cisza nie jest bezczynnością; to pamięć o Tym, który podtrzymuje wszystko. Opuść ramiona na dwie minuty. Świat będzie obracał się bez Twojej pomocy, jak zawsze. To nie Twoja porażka, lecz Jego wierność.",
+      "prayer": "Panie, ucisz hałas we mnie. Pomóż mi zaufać, że Ty jesteś Bogiem, a ja nie. Amen."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Siła, która nie jest Twoja",
+      "body": "Paweł napisał „wszystko mogę” z więziennej celi, nie ze szczytu. Siła, którą opisuje, nie jest pewnością siebie, lecz siłą otrzymaną – taką, która przychodzi właśnie wtedy, gdy Twoja się kończy. Czegokolwiek zażąda dziś życie, nie miałeś nieść tego sam. Proś. Przyjmij. Idź.",
+      "prayer": "Jezu, bądź dziś moją siłą tam, gdzie jestem słaby. Oddaję Ci to, co wydaje się zbyt ciężkie. Amen."
+    },
+    {
+      "id": "devotional-003",
+      "title": "Prowadzony, nie pędzony",
+      "body": "Pasterz idzie z przodu; poganiacz popycha od tyłu. Psalm 23 mówi, że Bóg prowadzi – na zielone pastwiska i nad spokojne wody. Jeśli wiara przypominała Ci pędzenie, nacisk, pośpiech lub strach, ten głos nie należy do Pasterza. Dziś słuchaj głosu, który prowadzi łagodnie, i podążaj krok po kroku.",
+      "prayer": "Pasterzu mojej duszy, naucz mnie rozpoznawać Twój głos. Prowadź mnie dzisiaj. Amen."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Odpoczynek dla zmęczonych",
+      "body": "Jezus nie powiedział: „Przyjdźcie do mnie wszyscy, którzy macie wszystko pod kontrolą”. Wezwał zmęczonych, obciążonych i ledwie wytrzymujących. Odpoczynek nie jest nagrodą za ukończenie pracy; to dar ofiarowany w samym jej środku. Przyjdź takim, jakim jesteś – na tym polega całe zaproszenie.",
+      "prayer": "Panie, przychodzę zmęczony. Zamień mój ciężar na Twój odpoczynek. Amen."
+    },
+    {
+      "id": "devotional-005",
+      "title": "Przyszłość i nadzieja",
+      "body": "Jeremiasza 29:11 napisano do wygnańców, których plany legły w gruzach. Obietnica Boga nie była natychmiastowym ratunkiem, lecz objawieniem Jego charakteru: nie zapomniałem o was. Niepowodzenie nie kończy Twojej historii. Autor nadal pisze.",
+      "prayer": "Ojcze, gdy nie widzę drogi, pomóż mi zaufać Temu, który ją widzi. Amen."
+    },
+    {
+      "id": "devotional-006",
+      "title": "Oprzyj się na Bogu",
+      "body": "Własny rozum jest dobrym narzędziem, ale złym panem. Księga Przysłów zaprasza do ufności całym sercem – nie dlatego, że myślenie jest złe, lecz dlatego, że widzimy niewiele. Przynieś Bogu decyzję, którą ciągle obracasz w myślach. Potem słuchaj dłużej, niż mówisz.",
+      "prayer": "Panie, powierzam Ci decyzję, która jest teraz w moich myślach. Prostuj moją drogę. Amen."
+    },
+    {
+      "id": "devotional-007",
+      "title": "Lekarstwo na lęk",
+      "body": "Wskazanie Pawła na lęk jest zaskakująco konkretne: módl się o wszystko i dodawaj wdzięczność. Wdzięczność nie jest zaprzeczeniem – poszerza kadr, aż znów widać dawną wierność Boga. Nazwij trzy rzeczy, za które dziękujesz, i zobacz, co stanie się ze strachem.",
+      "prayer": "Boże pokoju, strzeż dziś mojego serca i umysłu. Oddaję Ci moje troski, jedną po drugiej. Amen."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Światło w ciemności",
+      "body": "Jan nie obiecał życia bez ciemności. Obiecał, że ciemność nie zwycięży. Jedna świeca nie spiera się z nocą; po prostu płonie, a mrok ustępuje. Nie musisz dziś naprawiać wszystkiego. Podtrzymuj małe światło i ufaj Temu, który sam jest Światłem, że zrobi resztę.",
+      "prayer": "Jezu, Światłości świata, rozjaśnij dziś te zakątki we mnie, które wydają się ciemne. Amen."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Dosyć na dzisiaj",
+      "body": "Manny nie można było przechowywać. Każdego ranka lud zbierał tyle, ile potrzebował, a następnego dnia wracał. Bóg uczy nas ufać dzień po dniu – nie dlatego, że jest skąpy, lecz dlatego, że codzienny chleb buduje codzienną relację. Nie przenoś ciężaru jutra na dziś. Dzisiejszy dzień ma własną, wystarczającą łaskę.",
+      "prayer": "Ojcze, daj mi dzisiaj chleba powszedniego i pokoju, by zostawić jutro Tobie. Amen."
+    },
+    {
+      "id": "devotional-010",
+      "title": "Znany i kochany",
+      "body": "Zanim pojawiła się dziś pierwsza myśl, byłeś już znany. Psalm 139 mówi, że Bóg Cię utkał i wie, kiedy siadasz i wstajesz. Nie jesteś obcym proszącym o uwagę. Jesteś dzieckiem, w pełni znanym i – zdumiewająco – w pełni kochanym. Niech to będzie gruntem pod Twoimi stopami.",
+      "prayer": "Panie, dziękuję, że znasz mnie całkowicie i nadal całkowicie kochasz. Umocnij mnie w tym. Amen."
+    },
+    {
+      "id": "devotional-011",
+      "title": "Długie posłuszeństwo",
+      "body": "Wierność rzadko jest widowiskowa. Najczęściej to pojawianie się ponownie: jedna modlitwa, jeden gest dobroci, jeden uczciwy wybór. Rzeka rzeźbi kanion nie siłą, ale codziennym powrotem na tę samą drogę. Twoje małe, powtarzane „tak” Bogu czyni więcej, niż widzisz. Wracaj dalej.",
+      "prayer": "Panie, uczyń mnie dziś wiernym w małych rzeczach, gdy powierzam Ci kształt całości. Amen."
+    },
+    {
+      "id": "devotional-012",
+      "title": "Kiedy czujesz się zapomniany",
+      "body": "Hagar, samotna na pustyni, nazwała Boga „Bogiem, który mnie widzi”. Gdy nikt inny jej nie zauważał, On widział. Jeśli dziś czujesz się pominięty przez ludzi, okoliczności, a nawet własne nadzieje, usłysz: jesteś widziany. Nic w Twoim życiu nie jest niewidzialne dla Tego, który liczy gwiazdy i każdą woła po imieniu.",
+      "prayer": "Boże, który mnie widzisz, dziękuję, że nigdy nie jestem naprawdę sam. Spotkaj mnie tutaj. Amen."
+    },
+    {
+      "id": "devotional-013",
+      "title": "Dar, na który nie zasłużyłeś",
+      "body": "Łaska razi tę część nas, która chce zasłużyć na swoje miejsce. List do Efezjan mówi jasno: jesteś zbawiony łaską przez wiarę, nie z siebie – to dar. Możesz przestać zabiegać o miłość, którą już masz. Odpoczynek nie jest nagrodą za ukończenie; to dar pozwalający zacząć na nowo.",
+      "prayer": "Ojcze, przyjmuję to, na co nigdy nie mógłbym zasłużyć. Dziękuję za łaskę. Naucz mnie w niej odpoczywać. Amen."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Strumienie na pustyni",
+      "body": "Izajasz mówi o rzekach na pustkowiu – wodzie tam, gdzie przysiągłbyś, że nic nie urośnie. Sucha pora nie jest końcem historii. Bóg sprawia, że życie wyrasta dokładnie tam, gdzie już zrezygnowaliśmy. Spójrz na ziemię, którą porzuciłeś. On jeszcze tam nie skończył.",
+      "prayer": "Panie, sprowadź strumienie do suchych miejsc we mnie. Ufam, że czynisz wszystko nowe. Amen."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Zrzucać, nie nosić",
+      "body": "Piotr używa słowa pełnego ruchu: zrzuć. Zrzuć lęk na Boga tak, jak ciężki plecak z ramion. Dlaczego? „Bo Jemu zależy na was”. Zmartwienie udaje pożyteczne, jakby kolejne rozważanie miało coś rozwiązać. Nie rozwiąże. Modlitwa przenosi ciężar na Jedynego dość silnego, by go unieść.",
+      "prayer": "Panie, naprawdę zrzucam na Ciebie swoją troskę, nie tylko w słowach. Nieś to, czego ja nie mogę. Amen."
+    },
+    {
+      "id": "devotional-016",
+      "title": "Głos, który nazywa Cię umiłowanym",
+      "body": "Zanim Jezus dokonał choć jednego cudu, Ojciec powiedział: „To jest mój Syn umiłowany, w którym mam upodobanie”. Miłość była pierwsza, nie jako zapłata za pracę. Z Tobą jest tak samo. Nie musisz osiągnięciami zdobywać miłości. Możesz działać z miłości, a nie dla niej.",
+      "prayer": "Ojcze, pozwól mi usłyszeć, jak nazywasz mnie umiłowanym, zanim dziś cokolwiek zrobię. Amen."
+    },
+    {
+      "id": "devotional-017",
+      "title": "Nie lekceważ małych początków",
+      "body": "Zachariasz pyta, kto śmie lekceważyć dzień małych rzeczy. My chcemy gotowej katedry; Bóg cieszy się z pierwszego kamienia. Cokolwiek zaczynasz – nawyk, uzdrowienie, pojednanie – nie mierz tego dzisiejszą małością. Wielkie rzeczy prawie zawsze zaczynają się zawstydzająco skromnie.",
+      "prayer": "Panie, pobłogosław mały początek przede mną. Pomóż mi być wiernym w niewielu rzeczach. Amen."
+    },
+    {
+      "id": "devotional-018",
+      "title": "On odnawia",
+      "body": "Pasterz z Psalmu 23 nie pędzi owiec dalej, gdy są wyczerpane. Pozwala im się położyć, prowadzi nad spokojne wody i odnawia duszę. Jeśli biegniesz już bez sił, najświętszą rzeczą może być zatrzymanie się. Odnowa nie jest lenistwem, lecz posłuszeństwem Bogu, który stworzył Cię z potrzebą odpoczynku.",
+      "prayer": "Pasterzu, prowadź mnie dziś nad spokojne wody. Odnów to, co we mnie się zużyło. Amen."
+    },
+    {
+      "id": "devotional-019",
+      "title": "Miłość w codzienności",
+      "body": "Słynny opis miłości Pawła nie jest sentymentalny, lecz praktyczny, niemal zwyczajny. Cierpliwa. Łaskawa. Nieskora do gniewu. Nie pamięta złego. To miłość z podwiniętymi rękawami, na wtorkowe popołudnia i trudnych ludzi. Nie pytaj „czy czuję miłość?”, lecz „czy mogę tu być cierpliwy, łaskawy i przebaczający?”.",
+      "prayer": "Panie, uczyń mnie dziś cierpliwym i łaskawym, zwłaszcza tam, gdzie coś mnie to kosztuje. Amen."
+    },
+    {
+      "id": "devotional-020",
+      "title": "Ciężar chwały",
+      "body": "Paweł nazywa swoje cierpienia „lekkimi i chwilowymi” – człowiek bity i więziony. Mógł tak powiedzieć, bo mierzył kłopoty wiecznością chwały. Twój ból jest prawdziwy; on nigdy temu nie zaprzecza. Nie jest jednak największą rzeczą w polu widzenia. Nadchodzi coś znacznie cięższego i o wiele łagodniejszego.",
+      "prayer": "Ojcze, gdy dzisiaj jest ciężko, podnieś moje oczy ku temu, co trwa. Przeprowadź mnie. Amen."
+    },
+    {
+      "id": "devotional-021",
+      "title": "Wróć do mnie",
+      "body": "Najczęściej powtarzanym słowem proroków nie jest „staraj się bardziej”, lecz „wróć”. Bóg nieustannie zaprasza swój lud z powrotem – nie wykładem, ale otwartymi ramionami. Jeśli się oddaliłeś, droga do domu jest krótsza, niż się boisz. Jeden szczery zwrot serca, a odkryjesz, że On już biegnie ku Tobie.",
+      "prayer": "Ojcze, wracam dziś do Ciebie. Dziękuję, że spotykasz mnie, zanim jeszcze dotrę. Amen."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Zatrzymaj się",
+      "body": "„Zatrzymajcie się i poznajcie, że Ja jestem Bogiem”. Najpierw przychodzi cisza, potem poznanie. Próbujemy rozumowaniem dojść do pokoju i wikłamy się bardziej. Czasem wiara to po prostu zaprzestanie zmagań, rozluźnienie dłoni na tyle długo, by przypomnieć sobie, kto naprawdę trzyma świat. Nigdy nie byłeś to Ty.",
+      "prayer": "Boże, ucisz moje zmaganie. Pomóż mi zatrzymać się na tyle długo, by pamiętać, że Ty jesteś Bogiem. Amen."
+    },
+    {
+      "id": "devotional-023",
+      "title": "Przyjaciel, który zostaje",
+      "body": "Księga Przysłów mówi o przyjacielu bliższym niż brat. W świecie ludzi, którzy przychodzą i odchodzą, Jezus zostaje – przez porażkę, ciszę i długą noc. Nie jesteś dla Niego zbyt wielkim ciężarem ani nigdy zbyt daleko. On nie szuka powodu, by odejść. Jest Przyjacielem, który zostaje.",
+      "prayer": "Jezu, dziękuję, że zostałeś, gdy inni nie mogli. Pomóż mi odpocząć w Twojej wierności. Amen."
+    },
+    {
+      "id": "devotional-024",
+      "title": "Radość przychodzi o poranku",
+      "body": "Psalmista nie zaprzecza płaczowi; mówi, że może trwać przez noc. Noc jest prawdziwa, ale nie jest wieczna. Po drugiej stronie smutku jest poranek, a Bóg, który przechowuje Twoje łzy, nie zgubił ani jednej. Wytrwaj. Poranek jest obietnicą, nie możliwością.",
+      "prayer": "Panie, w mojej nocy pomóż mi zaufać obiecanemu porankowi. Zachowaj moje łzy. Amen."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "Siedem dni pokoju",
+      "tagline": "Na czas niepokoju – jeden kojący fragment dziennie."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "Tydzień wdzięczności",
+      "tagline": "Ucz swoje oczy dostrzegać łaskę wszędzie."
+    },
+    {
+      "id": "psalms-30",
+      "title": "Trzydzieści dni w Psalmach",
+      "tagline": "Modlitewnik Biblii, jeden psalm naraz."
+    },
+    {
+      "id": "gospels-90",
+      "title": "Życie Jezusa w dziewięćdziesiąt dni",
+      "tagline": "Przejdź przez wszystkie cztery Ewangelie."
+    },
+    {
+      "id": "bible-365",
+      "title": "Biblia w rok",
+      "tagline": "Cała historia, dwadzieścia minut dziennie."
+    }
+  ]
+}

@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "locale": "la",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "Quae traditio ecclesialis tibi quasi domus videtur?",
+      "subtitle": "Preces consiliaque tua ad eam accommodabimus.",
+      "options": [
+        {
+          "value": "catholic",
+          "label": "Catholica"
+        },
+        {
+          "value": "protestant",
+          "label": "Protestantica"
+        },
+        {
+          "value": "orthodox",
+          "label": "Orthodoxa"
+        },
+        {
+          "value": "nondenominational",
+          "label": "Sine denominatione"
+        },
+        {
+          "value": "exploring",
+          "label": "Adhuc exploro"
+        }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "Quid in te crescere speras?",
+      "subtitle": "Elige omnia quae ad te pertinent.",
+      "affirmation": "In bona societate es: 73% sodalium eadem ipsa causa se coniunxerunt.",
+      "options": [
+        {
+          "value": "habit",
+          "label": "Consuetudo cotidiana orandi"
+        },
+        {
+          "value": "closer",
+          "label": "Deo propius me sentire"
+        },
+        {
+          "value": "peace",
+          "label": "Pax maior et minor anxietas"
+        },
+        {
+          "value": "sleep",
+          "label": "Somnus melior"
+        },
+        {
+          "value": "bible",
+          "label": "Sacras Scripturas intellegere"
+        },
+        {
+          "value": "gratitude",
+          "label": "Cor gratum"
+        }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "Quid his diebus animum tuum gravat?",
+      "subtitle": "Responsum tuum secretum manet atque consilium tuum format.",
+      "affirmation": "Gratias quod nobis confidis. Verbum Dei homines hoc ipso loco convenit.",
+      "options": [
+        {
+          "value": "anxiety",
+          "label": "Anxietas vel sollicitudo"
+        },
+        {
+          "value": "loneliness",
+          "label": "Solitudo"
+        },
+        {
+          "value": "grief",
+          "label": "Luctus vel amissio"
+        },
+        {
+          "value": "direction",
+          "label": "Viam invenire"
+        },
+        {
+          "value": "consistency",
+          "label": "Constanter pergere"
+        },
+        {
+          "value": "none",
+          "label": "Bene valeo"
+        }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "Quam familiaris tibi est oratio?",
+      "options": [
+        {
+          "value": "new",
+          "label": "Nunc incipio"
+        },
+        {
+          "value": "returning",
+          "label": "Post aliquod tempus redeo"
+        },
+        {
+          "value": "regular",
+          "label": "Assidue oro"
+        }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "Quando cotidianam admonitionem accipere vis?",
+      "subtitle": "Admonitio lenis, numquam molesta.",
+      "options": [
+        {
+          "value": "07:30",
+          "label": "Mane · 7:30"
+        },
+        {
+          "value": "12:30",
+          "label": "Meridie · 12:30"
+        },
+        {
+          "value": "21:00",
+          "label": "Vespere · 21:00"
+        },
+        {
+          "value": "none",
+          "label": "Nullae admonitiones"
+        }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Lux matutina",
+      "script": [
+        "Lente inspira… deinde exspira. Antequam dies quidquam a te poscat, hic ades.",
+        "Domine, gratias tibi ago pro hoc mane, pro spiritu vitae, pro novo initio.",
+        "Horas futuras tibi trado: laborem, verba, homines quos conveniam.",
+        "Ubi sollicitus sum, pax mea esto; ubi fessus sum, fortitudo mea esto.",
+        "Fac me hodie sine festinatione ambulare, sciens te prope adesse. Amen."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "Tempestatem seda",
+      "script": [
+        "Manum super cor pone. Sentias illud pulsare: vivis atque sustineris.",
+        "Iesu, in tempestate dormivisti eamque uno verbo sedavisti. Loquere etiam tempestati meae.",
+        "Nunc sollicitudinem meam nomino… atque in manus tuas pono.",
+        "«Tace, obmutesce.» Haec verba super mentem meam velut aqua tranquilla considant.",
+        "Hodie timor me non auferet; tu me portas. Amen."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "Cor gratum",
+      "script": [
+        "Unam rem bonam huius diei cogita, quamvis parvam. Paulisper eam retine.",
+        "Pater, omne donum bonum a te venit. Gratias tibi ago.",
+        "Gratias pro eo quod petivi et accepi, atque pro eo a quo servatus sum.",
+        "Doce me gratiam in horis communibus latentem animadvertere.",
+        "Gratitudo sit nota qua dies meus finitur. Amen."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "In requiem",
+      "script": [
+        "Diem finiri sine. Fecisti quod potuisti, idque satis est.",
+        "Domine, cum decumbo, omnia imperfecta curae tuae committo.",
+        "Custodi eos quos amo dum dormimus.",
+        "«In pace cubabo et dormiam, quoniam tu solus me in securitate habitare facis.»",
+        "Respirationem meam tarda… cogitationes seda… meque usque ad mane tene. Amen."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Familiam meam benedic",
+      "script": [
+        "Vultus familiarum tuorum singillatim in mentem revoca.",
+        "Pater, unumquemque in salute, corde fideque benedic.",
+        "Sana quod inter nos contentionibus laesum est; emolli quod induruit.",
+        "Domum nostram locum patientiae risusque fac.",
+        "Nos in caritate tua coniunge. Amen."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Animus ad hunc diem",
+      "script": [
+        "Paululum rectus sta. Alte respira.",
+        "Domine, non spiritum timoris mihi dedisti, sed virtutis, caritatis et prudentiae.",
+        "Da mihi animum ad colloquium, opus, gradum quem semper fugio.",
+        "Cum vacillo, mone me te ante me ire.",
+        "Fortis animosusque ero, non solus, sed tecum. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "Dona numerare",
+      "script": [
+        "Diem consistere sine. Quidquid a te postulavit exspira.",
+        "Pater, antequam dicam quid mihi desit, dicere me sine quid acceperim.",
+        "Gratias pro misericordiis communibus quas hodie paene praeterii.",
+        "Gratias pro hominibus qui vitam meam calidiorem reddunt.",
+        "Cor gratum cor plenum est. Meum hac nocte imple. Amen."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Aquae quietae",
+      "script": [
+        "Manus solve. Cum singulis versibus respiratio tua tardior fiat.",
+        "Pastor, ad aquas quietas me ducis. Nunc illuc me duc.",
+        "Cogitationes in me currentes ad pedes tuos singillatim depono.",
+        "Animam meam reficis. Refice quod hodiernus dies attrivit.",
+        "Non timebo, quoniam mecum es. Amen."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "Ante diem",
+      "script": [
+        "Dies nondum consumptus est. Hic cum Deo, ante omnia alia, ei occurre.",
+        "Domine, hic dies tuus est antequam meus sit.",
+        "Praecede me in omnem locum quem intrabo et in omne verbum quod dicam.",
+        "Ubi festinare temptor, doce me ambulare.",
+        "Horas meas ordina corque meum prope tuum serva. Amen."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "Pax quae custodit",
+      "script": [
+        "Utrumque pedem in terra pone. Hic es. Deus hic est.",
+        "Iesu, pacem tuam nobis reliquisti, non sicut mundus dat, sed veram profundamque.",
+        "Haec pax hodie cor mentemque meam velut custos ad portam tueatur.",
+        "Quod regere non possum tibi trado.",
+        "Pax tua sufficit. In ea requiesco. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "Prima gratiarum actio",
+      "script": [
+        "Ante indicem operum, paulisper consiste. Uno spiritu gratias age.",
+        "Pater, gratias quod me ad alium gratiae diem excitavisti.",
+        "Gratias pro spiritu, luce, pagina nova.",
+        "Gratitudo, non festinatio, colorem matutino meo det.",
+        "Hunc diem gratus incipio. Amen."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Depone",
+      "script": [
+        "Dies finitus est. Fecisti quod potuisti, idque satis est.",
+        "Domine, omnia imperfecta curae tuae depono.",
+        "Sollicitudines quas in tenebras ferrem apud te relinquo.",
+        "Somnum das dilectis tuis. Nunc me accipe.",
+        "In pace cubo et dormio, quoniam tu solus me tutum servas. Amen."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "Super eos quos amo",
+      "script": [
+        "Unumquemque quem amas in mentem revoca. Vultum eius paulisper retine.",
+        "Pater, custodi eos qui mihi commissi sunt.",
+        "Exitum eorum et introitum custodi.",
+        "Ubi eis desum, gratia tua quod deest suppleat.",
+        "In manu tua eos tene, propius quam ego umquam possim. Amen."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Virtus ad ignoscendum",
+      "script": [
+        "Respira. Hoc difficile est, et Deus scit.",
+        "Domine, magno pretio mihi ignovisti. Da mihi virtutem ignoscendi.",
+        "Nomen, memoriam, vulnus ad te fero atque tibi porrigo.",
+        "Libera me ne feram quod numquam meum onus fuit.",
+        "Sana quod venia aperit. Integrum me fac. Amen."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "Sub alis eius",
+      "script": [
+        "Pondus diei umeros tuos relinquere sentias.",
+        "Qui in protectione Altissimi habitat sub umbra eius requiescet.",
+        "Domine, hac nocte me tege, sicut avis pullos suos tegit.",
+        "Nullus timor noctis, nulla crastini formido; sola custodia tua.",
+        "Non timebo, quia numquam dormis. Bonam noctem, Pater. Amen."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "Cum infirmus sum",
+      "script": [
+        "Hic fortem te simulare non debes.",
+        "Domine, dixisti virtutem tuam in infirmitate perfici.",
+        "Ecce infirmitas mea; eam a te occultare desino.",
+        "Fortis esto eo ipso loco ubi mihi nihil reliquum est.",
+        "Gratia tua mihi sufficit. Hoc satis est. Amen."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "Etiam nunc, gratias",
+      "script": [
+        "Haec gratitudo difficilior est. Respira et sincerus mane.",
+        "Pater, etiam nunc, in his ipsis rebus, manum tuam quaero.",
+        "Gratias quod me in eis solum non relinquis.",
+        "Gratias quod hoc tempus finis historiae non est.",
+        "Gratias agere eligo, non quia facile est, sed quia bonus es. Amen."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "Donum quietis",
+      "body": "Plerique nostrum mane iam currentes occurrimus: nuntii, tituli, officia. Psalmus 46 tempore tumultus scriptus est, sed in medio eius susurrus est: quiesce. Quies non est nihil agere; est meminisse quis omnia sustineat. Per duo minuta umeros remitte. Mundus sine auxilio tuo pergat, sicut semper perrexit. Hoc non est defectus tuus, sed fidelitas eius.",
+      "prayer": "Domine, strepitum in me seda. Adiuva me credere te Deum esse, me autem non esse. Amen."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Virtus quae tua non est",
+      "body": "Paulus «omnia possum» e carcere scripsit, non e montis culmine. Virtus quam describit non fiducia sui est, sed virtus accepta, quae tum advenit cum tua deficit. Quidquid hic dies a te poscit, numquam destinatus es ut solus feras. Pete. Accipe. Ambula.",
+      "prayer": "Iesu, hodie virtus mea esto ubi infirmus sum. Tibi trado quod nimis grave videtur. Amen."
+    },
+    {
+      "id": "devotional-003",
+      "title": "Ductus, non compulsus",
+      "body": "Pastor antecedit; exactor a tergo impellit. Psalmus 23 Deum ducere affirmat, ad pascua virentia et aquas quietas. Si fides tibi visa est velut impetus, festinatio, pressio aut timor, illa vox Pastoris non est. Hodie vocem leniter ducentem audi atque gradatim sequere.",
+      "prayer": "Pastor animae meae, doce me vocem tuam agnoscere. Hodie me duc. Amen."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Requies fessis",
+      "body": "Iesus non dixit: «Venite ad me, omnes qui omnia composuistis.» Lassos, oneratos, vix resistentes vocavit. Requies non est praemium operis perfecti; donum est in medio opere oblatum. Veni qualis es: haec est tota invitatio.",
+      "prayer": "Domine, fessus venio. Gravitatem meam pro requie tua commuta. Amen."
+    },
+    {
+      "id": "devotional-005",
+      "title": "Futurum et spes",
+      "body": "Ieremias 29:11 exsulibus scriptus est, hominibus quorum consilia corruerant. Promissio Dei non statim liberatio fuit, sed indoles eius: non vos oblitus sum. Impedimentum tuum finis historiae non est. Auctor adhuc scribit.",
+      "prayer": "Pater, cum viam videre non possum, adiuva me Ei credere qui videt. Amen."
+    },
+    {
+      "id": "devotional-006",
+      "title": "Innixus Deo",
+      "body": "Intellectus tuus instrumentum bonum est, dominus malus. Proverbia nos invitant toto corde confidere, non quia cogitare malum est, sed quia prospectus noster angustus est. Deo affer consilium quod iterum atque iterum versas. Deinde diutius audi quam loquaris.",
+      "prayer": "Domine, tibi confido consilium quod nunc in mente habeo. Semitam meam dirige. Amen."
+    },
+    {
+      "id": "devotional-007",
+      "title": "Remedium anxietatis",
+      "body": "Praeceptum Pauli contra anxietatem mirum in modum certum est: de omnibus ora et gratiarum actionem adde. Gratitudo negatio non est; prospectum dilatat donec prior Dei fidelitas rursus appareat. Tria nomina pro quibus gratus es, et vide quid timori fiat.",
+      "prayer": "Deus pacis, cor mentemque meam hodie custodi. Sollicitudines tibi singillatim trado. Amen."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Lux in tenebris",
+      "body": "Ioannes vitam sine tenebris non promisit. Promisit tenebras non vincere. Una candela cum nocte non disputat; ardet tantum, et tenebrae cedunt. Non debes omnia hodie reparare. Parvam lucem tuam accensam serva et Ei qui ipsa Lux est confide ut cetera faciat.",
+      "prayer": "Iesu, Lux mundi, in angulis meis qui hodie obscuri videntur luce. Amen."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Satis hodie",
+      "body": "Manna servari non poterat. Singulis matutinis populus quantum satis erat colligebat, et cras iterum. Deus nos docet diem post diem confidere, non quia parcus est, sed quia panis cotidianus cotidianam necessitudinem facit. Pondus crastinum in hodiernum diem ne feras. Hodie gratiam suam sufficientem habet.",
+      "prayer": "Pater, panem cotidianum hodie mihi da, pacemque ut crastinum apud te relinquam. Amen."
+    },
+    {
+      "id": "devotional-010",
+      "title": "Cognitus et dilectus",
+      "body": "Antequam primam cogitationem hoc mane formavisti, iam cognitus eras. Psalmus 139 dicit Deum te contexuisse atque nosse quando sedeas et surgas. Non es extraneus attentionem mendicans; filius es, penitus cognitus et, mirabiliter, penitus dilectus. Haec sit terra in qua hodie stas.",
+      "prayer": "Domine, gratias quod penitus cognitus et tamen penitus dilectus sum. In hoc me confirma. Amen."
+    },
+    {
+      "id": "devotional-011",
+      "title": "Longa oboedientia",
+      "body": "Fidelitas raro dramatica est. Plerumque est iterum adesse: una oratio, una benignitas, una electio sincera. Fluvius vallem non vi, sed cotidie eadem via rediens excavat. Parvum tuum iteratum «ita» Deo plus agit quam videre potes. Redire perge.",
+      "prayer": "Domine, hodie in parvis me fidelem fac, dum totius formam tibi committo. Amen."
+    },
+    {
+      "id": "devotional-012",
+      "title": "Cum te oblivioni datum putas",
+      "body": "Agar sola in deserto Deo nomen dedit: «Deus qui me videt.» Cum nemo alius eam animadvertit, ille vidit. Si hodie te neglectum ab hominibus, rebus, vel etiam spe tua sentis, hoc audi: videris. Nihil vitae tuae invisibile est Ei qui stellas numerat et singulas nomine vocat.",
+      "prayer": "Deus qui me vides, gratias quod numquam vere solus sum. Hic mihi occurre. Amen."
+    },
+    {
+      "id": "devotional-013",
+      "title": "Donum quod non meruisti",
+      "body": "Gratia eam nostri partem offendit quae locum suum mereri vult. Sed Epistula ad Ephesios clara est: gratia per fidem salvatus es, idque non ex te, sed donum est. Desinere potes amorem iam possessum ambire. Requies non est praemium finis; donum est quod te rursus incipere sinit.",
+      "prayer": "Pater, accipio quod numquam mereri potui. Gratias pro gratia. Doce me in ea requiescere. Amen."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Flumina in deserto",
+      "body": "Isaias de fluminibus in solitudine loquitur, aqua ubi nihil crescere posse putares. Tempus aridum finis historiae non est. Deus vitam oriri facit ipsis in locis quae iam repudiavimus. Terram quam deseruisti observa. Illic nondum perfecit.",
+      "prayer": "Domine, ad loca arida in me flumina adduc. Tibi confido ut omnia nova facias. Amen."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Proicere, non portare",
+      "body": "Petrus verbo corporali utitur: proice. Anxietatem in Deum proice sicut grave sarcinam ex umeris. Cur? «Quia cura est illi de vobis.» Sollicitudo utilem se fingit, quasi multa volutatio rem solvat. Non solvet. Oratio pondus ad solum Eum transfert qui satis fortis est ut teneat.",
+      "prayer": "Domine, sollicitudinem vere in te proicio, non verbis tantum. Porta quod ego non possum. Amen."
+    },
+    {
+      "id": "devotional-016",
+      "title": "Vox quae te dilectum vocat",
+      "body": "Antequam Iesus ullum miraculum fecit, Pater dixit: «Hic est Filius meus dilectus, in quo mihi complacui.» Dilectio prima venit, non ut merces operis. Tua quoque. Non debes rebus gestis amorem adipisci. Ex amore operari potes, non pro amore.",
+      "prayer": "Pater, fac me audire te me dilectum vocare antequam hodie quidquam faciam. Amen."
+    },
+    {
+      "id": "devotional-017",
+      "title": "Parva initia ne despexeris",
+      "body": "Zacharias rogat quis diem parvarum rerum despicere audeat. Nos templum perfectum volumus; Deus primo lapide posito gaudet. Quidquid incipis, consuetudinem, sanationem, reconciliationem, ne metiaris quam parvum hodie videatur. Magna fere semper valde parva incipiunt.",
+      "prayer": "Domine, parvum initium ante me benedic. Adiuva me in paucis fidelem esse. Amen."
+    },
+    {
+      "id": "devotional-018",
+      "title": "Ipse reficit",
+      "body": "Pastor Psalmi 23 oves fessas ultra non agit. Cubare eas facit, ad aquas quietas ducit, animam reficit. Si exhaustus curris, sanctissimum quod facias fortasse est consistere. Refici non est pigritia, sed oboedientia Deo qui te ita creavit ut requie egeres.",
+      "prayer": "Pastor, hodie ad aquas quietas me duc. Refice quod in me attritum est. Amen."
+    },
+    {
+      "id": "devotional-019",
+      "title": "Caritas in rebus communibus",
+      "body": "Clara Pauli descriptio caritatis non affectata est, sed practica, paene cotidiana. Patiens. Benigna. Non facile irascitur. Iniuriarum rationem non servat. Haec est caritas manicis subductis, pro diebus communibus hominibusque difficilibus. Noli quaerere «sentio caritatem?» sed «possum hic patiens, benignus, indulgens esse?»",
+      "prayer": "Domine, hodie patientem benignumque me fac, praesertim ubi mihi aliquid constat. Amen."
+    },
+    {
+      "id": "devotional-020",
+      "title": "Pondus gloriae",
+      "body": "Paulus tribulationes suas «leves et momentaneas» appellat, vir caesus et incarceratus. Hoc dicere potuit quia molestias suas aeternitati gloriae comparavit. Dolor tuus verus est; aliter numquam fingit. Sed non est maxima res in conspectu. Aliquid multo gravius multoque benignius venit.",
+      "prayer": "Pater, cum hodie grave videtur, oculos meos ad mansura leva. Per omnia me porta. Amen."
+    },
+    {
+      "id": "devotional-021",
+      "title": "Revertere ad me",
+      "body": "Verbum prophetarum saepissime repetitum non est «plus conare», sed «revertere». Deus populum suum semper revocat, non oratione obiurgatoria, sed brachiis apertis. Si aberravisti, via domum brevior est quam times. Una sincera cordis conversio, et eum iam tibi occurrere invenies.",
+      "prayer": "Pater, hodie ad te revertor. Gratias quod mihi occurris antequam perveniam. Amen."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Quiesce",
+      "body": "«Quiescite et cognoscite quoniam ego sum Deus.» Quies prior venit, deinde cognitio. Ratiocinando pacem quaerimus et magis implicamur. Interdum fides est simpliciter niti desinere, manus tam diu relaxare ut memineris quis mundum revera sustineat. Numquam tu fuisti.",
+      "prayer": "Deus, conatum meum seda. Adiuva me satis diu quiescere ut meminerim te Deum esse. Amen."
+    },
+    {
+      "id": "devotional-023",
+      "title": "Amicus qui manet",
+      "body": "Proverbia dicunt esse amicum qui fratre propius adhaeret. In mundo hominum venientium atque abeuntium, Iesus est qui manet, per defectum, silentium, noctem longam. Non es nimis gravis ei, nec umquam nimis longe abiisti. Causam discedendi non quaerit; amicus est qui manet.",
+      "prayer": "Iesu, gratias quod mansisti cum alii non potuerunt. Adiuva me in fidelitate tua requiescere. Amen."
+    },
+    {
+      "id": "devotional-024",
+      "title": "Gaudium mane venit",
+      "body": "Psalmista fletum non negat; dicit eum per noctem manere posse. Nox vera est, sed non perpetua. Dolor ex altera parte mane habet, et Deus qui lacrimas tuas servat ne unam quidem perdidit. Sustine. Mane promissio est, non fortasse.",
+      "prayer": "Domine, in nocte mea adiuva me mane a te promisso confidere. Lacrimas meas custodi. Amen."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "Septem dies pacis",
+      "tagline": "Temporibus anxiis, una lectio sedans cotidie."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "Hebdomada grata",
+      "tagline": "Oculos tuos exerce ut gratiam ubique videant."
+    },
+    {
+      "id": "psalms-30",
+      "title": "Triginta dies in Psalmis",
+      "tagline": "Liber precum Scripturae, unus psalmus singulis vicibus."
+    },
+    {
+      "id": "gospels-90",
+      "title": "Vita Iesu nonaginta diebus",
+      "tagline": "Per quattuor Evangelia ambula."
+    },
+    {
+      "id": "bible-365",
+      "title": "Sacra Scriptura uno anno",
+      "tagline": "Tota historia, viginti minuta cotidie."
+    }
+  ]
+}

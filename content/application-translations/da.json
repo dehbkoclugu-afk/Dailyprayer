@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "locale": "da",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "Hvilken tradition føles som hjemme?",
+      "subtitle": "Vi tilpasser dine bønner og planer efter den.",
+      "options": [
+        {
+          "value": "catholic",
+          "label": "Katolsk"
+        },
+        {
+          "value": "protestant",
+          "label": "Protestantisk"
+        },
+        {
+          "value": "orthodox",
+          "label": "Ortodoks"
+        },
+        {
+          "value": "nondenominational",
+          "label": "Ikke-konfessionel"
+        },
+        {
+          "value": "exploring",
+          "label": "Jeg er bare nysgerrig"
+        }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "Hvad håber du vil vokse i dig?",
+      "subtitle": "Vælg alle relevante muligheder.",
+      "affirmation": "Du er i godt selskab – 73 % af medlemmerne kom af præcis samme grund.",
+      "options": [
+        {
+          "value": "habit",
+          "label": "En daglig bønnevane"
+        },
+        {
+          "value": "closer",
+          "label": "At føle mig tættere på Gud"
+        },
+        {
+          "value": "peace",
+          "label": "Fred og mindre uro"
+        },
+        {
+          "value": "sleep",
+          "label": "Bedre søvn"
+        },
+        {
+          "value": "bible",
+          "label": "At forstå Bibelen"
+        },
+        {
+          "value": "gratitude",
+          "label": "Et taknemmeligt hjerte"
+        }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "Hvad tynger dig for tiden?",
+      "subtitle": "Dit svar forbliver privat. Det former din plan.",
+      "affirmation": "Tak, fordi du viser os den tillid. Skriften møder mennesker netop her.",
+      "options": [
+        {
+          "value": "anxiety",
+          "label": "Angst eller bekymring"
+        },
+        {
+          "value": "loneliness",
+          "label": "Ensomhed"
+        },
+        {
+          "value": "grief",
+          "label": "Sorg eller tab"
+        },
+        {
+          "value": "direction",
+          "label": "At finde retning"
+        },
+        {
+          "value": "consistency",
+          "label": "At være vedholdende"
+        },
+        {
+          "value": "none",
+          "label": "Jeg har det okay"
+        }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "Hvor fortrolig er du med bøn?",
+      "options": [
+        {
+          "value": "new",
+          "label": "Jeg er lige begyndt"
+        },
+        {
+          "value": "returning",
+          "label": "Jeg vender tilbage efter en tid"
+        },
+        {
+          "value": "regular",
+          "label": "Jeg beder regelmæssigt"
+        }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "Hvornår vil du gerne have en daglig påmindelse?",
+      "subtitle": "En blid påmindelse – aldrig spam.",
+      "options": [
+        {
+          "value": "07:30",
+          "label": "Morgen · 7:30"
+        },
+        {
+          "value": "12:30",
+          "label": "Middag · 12:30"
+        },
+        {
+          "value": "21:00",
+          "label": "Aften · 21:00"
+        },
+        {
+          "value": "none",
+          "label": "Ingen påmindelser"
+        }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Morgenlys",
+      "script": [
+        "Træk vejret langsomt ind… og ud. Før dagen kræver noget af dig, så vær her.",
+        "Herre, tak for denne morgen – for åndedrættet og for en ny begyndelse.",
+        "Jeg giver dig timerne foran mig: mit arbejde, mine ord og de mennesker, jeg vil møde.",
+        "Når jeg er urolig, vær min fred. Når jeg er træt, vær min styrke.",
+        "Lad mig gå gennem denne dag uden hast og med vished om, at du er nær. Amen."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "Stil stormen",
+      "script": [
+        "Læg en hånd over dit hjerte. Mærk det slå – du lever, og du er holdt.",
+        "Jesus, du sov gennem en storm og gjorde den stille med et ord. Tal også til min.",
+        "Jeg sætter nu navn på min bekymring… og lægger den i dine hænder.",
+        "»Ti stille, vær rolig.« Lad de ord lægge sig over mit sind som stille vand.",
+        "I dag skal frygten ikke bære mig bort. Du bærer mig. Amen."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "Et taknemmeligt hjerte",
+      "script": [
+        "Tænk på én god ting fra i dag, hvor lille den end var. Hold fast i den et øjeblik.",
+        "Far, enhver god gave kommer fra dig. Tak.",
+        "Tak for det, jeg bad om og fik – og for det, jeg blev skånet for.",
+        "Lær mig at få øje på nåden, der gemmer sig i hverdagens timer.",
+        "Lad taknemmelighed være tonen, min dag slutter på. Amen."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "Ind i hvilen",
+      "script": [
+        "Lad dagen slutte. Du har gjort, hvad du kunne – og det er nok.",
+        "Herre, når jeg lægger mig, overlader jeg det ufærdige til din omsorg.",
+        "Våg over dem, jeg elsker, mens vi sover.",
+        "»I fred kan jeg lægge mig og sove, for du alene lader mig bo i tryghed.«",
+        "Gør mit åndedræt langsomt… mine tanker stille… og hold mig til morgenen. Amen."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Velsign min familie",
+      "script": [
+        "Se din families ansigter for dig, ét efter ét.",
+        "Far, velsign hver enkelt – i helbred, hjerte og tro.",
+        "Hel det, der er anspændt mellem os; blødgør det, der er blevet hårdt.",
+        "Gør vores hjem til et sted med tålmodighed og latter.",
+        "Bind os sammen i din kærlighed. Amen."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Mod til i dag",
+      "script": [
+        "Ret dig op et øjeblik. Træk vejret dybt.",
+        "Herre, du gav mig ikke en ånd af frygt, men af kraft, kærlighed og besindighed.",
+        "Giv mig mod til samtalen, opgaven og det skridt, jeg bliver ved med at undgå.",
+        "Når jeg vakler, så mind mig om, at du går foran mig.",
+        "Jeg vil være stærk og modig – ikke alene, men sammen med dig. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "Tæl gaverne",
+      "script": [
+        "Lad dagen falde til ro. Pust ud efter alt det, den krævede af dig.",
+        "Far, før jeg nævner det, jeg mangler, så lad mig nævne det, jeg fik.",
+        "Tak for hverdagens nåde, som jeg næsten gik forbi i dag.",
+        "Tak for de mennesker, der gør mit liv varmere.",
+        "Et taknemmeligt hjerte er et fyldt hjerte. Fyld mit i aften. Amen."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Stille vand",
+      "script": [
+        "Åbn hænderne. Lad åndedrættet blive langsommere for hver linje.",
+        "Hyrde, du leder mig til stille vand. Led mig derhen nu.",
+        "Tankerne, der farer gennem mig, lægger jeg ved dine fødder, én efter én.",
+        "Du giver min sjæl nyt liv. Genskab det, dagen har slidt tyndt.",
+        "Jeg vil ikke være bange, for du er hos mig. Amen."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "Før dagen",
+      "script": [
+        "Dagen er endnu ikke brugt. Mød den her sammen med Gud, før alt andet.",
+        "Herre, denne dag er din, før den er min.",
+        "Gå foran mig ind i hvert rum, jeg træder ind i, og hvert ord, jeg siger.",
+        "Når jeg fristes til at skynde mig, så lær mig at gå.",
+        "Sæt mine timer i orden, og hold mit hjerte nær dit. Amen."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "Freden, der vogter",
+      "script": [
+        "Sæt begge fødder på gulvet. Du er her. Gud er her.",
+        "Jesus, du efterlod os din fred – ikke som verden giver, men virkelig og dyb.",
+        "Lad den fred vogte mit hjerte og sind i dag som en vagt ved porten.",
+        "Det, jeg ikke kan styre, overlader jeg til dig.",
+        "Din fred er nok. Jeg hviler i den. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "Den første tak",
+      "script": [
+        "Før opgavelisten: en pause. Ét åndedrag af tak.",
+        "Far, tak fordi du vækkede mig til endnu en dag med nåde.",
+        "Tak for åndedrættet, lyset og en ny side.",
+        "Lad taknemmelighed, ikke hast, sætte tonen for min morgen.",
+        "Jeg begynder denne dag med tak. Amen."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Læg det fra dig",
+      "script": [
+        "Dagen er slut. Du har gjort, hvad du kunne, og det er nok.",
+        "Herre, jeg lægger alt det ufærdige i din varetægt.",
+        "Bekymringerne, jeg ellers ville bære ind i mørket, efterlader jeg hos dig.",
+        "Du giver søvn til dem, du elsker. Tag imod mig nu.",
+        "I fred lægger jeg mig og sover, for du alene holder mig tryg. Amen."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "Over dem, jeg elsker",
+      "script": [
+        "Se hvert menneske, du elsker, for dig. Hold deres ansigt i tankerne et øjeblik.",
+        "Far, våg over dem, der er betroet mig.",
+        "Beskyt dem, når de går ud, og når de vender hjem.",
+        "Når jeg svigter dem, så lad din nåde dække afstanden.",
+        "Hold dem i din hånd, nærmere end jeg nogensinde kan. Amen."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Styrke til at tilgive",
+      "script": [
+        "Træk vejret. Det her er svært, og Gud ved det.",
+        "Herre, du tilgav mig for en stor pris. Giv mig styrke til at tilgive.",
+        "Jeg bringer navnet, mindet og såret frem – og rækker det til dig.",
+        "Befri mig fra at bære det, der aldrig var mit at bære.",
+        "Hel det, tilgivelsen åbner. Gør mig hel. Amen."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "Under hans vinger",
+      "script": [
+        "Mærk dagens vægt forlade dine skuldre.",
+        "Den, der bor i den Højestes skjul, finder hvile i hans skygge.",
+        "Herre, dæk mig i nat, som en fugl dækker sine unger.",
+        "Ingen frygt for natten, ingen rædsel for i morgen – kun din omsorg.",
+        "Jeg vil ikke være bange, for du sover aldrig. Godnat, Far. Amen."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "Når jeg er svag",
+      "script": [
+        "Her behøver du ikke lade, som om du er stærk.",
+        "Herre, du sagde, at din kraft udfolder sig helt i svaghed.",
+        "Her er min svaghed – jeg holder op med at skjule den for dig.",
+        "Vær stærk netop dér, hvor jeg intet har tilbage.",
+        "Din nåde er nok for mig. Det er nok. Amen."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "Selv nu: tak",
+      "script": [
+        "Dette er en sværere taknemmelighed. Træk vejret, og vær ærlig.",
+        "Far, selv nu – midt i dette – søger jeg din hånd.",
+        "Tak, fordi du ikke lader mig være alene i det.",
+        "Tak, fordi denne tid ikke er slutningen på historien.",
+        "Jeg vælger at takke, ikke fordi det er let, men fordi du er god. Amen."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "Stilhedens gave",
+      "body": "De fleste af os møder morgenen allerede i løb – beskeder, overskrifter og pligter. Salme 46 blev skrevet i en urolig tid, men dens midte er en hvisken: vær stille. Stilhed er ikke at gøre ingenting; det er at huske, hvem der holder alt. Lad skuldrene falde i to minutter. Verden fortsætter uden din hjælp – det har den altid gjort. Det er ikke dit nederlag. Det er hans trofasthed.",
+      "prayer": "Herre, gør støjen i mig stille. Hjælp mig til at stole på, at du er Gud, og at jeg ikke er det. Amen."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Styrke, der ikke er din",
+      "body": "Paulus skrev »alt formår jeg« fra en fængselscelle, ikke fra en bjergtop. Den styrke, han beskriver, er ikke selvtillid; den er lånt styrke – den slags, der kommer netop, når din egen slipper op. Uanset hvad dagen kræver, var det aldrig meningen, at du skulle bære det alene. Bed. Modtag. Gå.",
+      "prayer": "Jesus, vær min styrke dér, hvor jeg er svag i dag. Jeg giver dig det, der føles for tungt. Amen."
+    },
+    {
+      "id": "devotional-003",
+      "title": "Ledt, ikke drevet",
+      "body": "En hyrde går foran; en driver skubber bagfra. Salme 23 fastholder, at Gud leder – til grønne enge og stille vand. Hvis troen har føltes som at blive drevet, jaget, presset eller skræmt, er den stemme ikke Hyrdens. Lyt i dag efter stemmen, der leder mildt, og følg ét skridt ad gangen.",
+      "prayer": "Min sjæls Hyrde, lær mig at kende din stemme. Led mig i dag. Amen."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Hvile for de trætte",
+      "body": "Jesus sagde ikke: »Kom til mig, alle I, der har styr på det hele.« Han kaldte de trætte, de belastede og dem, der knap holder fast. Hvile er ikke belønningen for at gøre arbejdet færdigt; den er en gave midt i det. Kom, som du er – det er hele invitationen.",
+      "prayer": "Herre, jeg kommer træt. Byt min tyngde med din hvile. Amen."
+    },
+    {
+      "id": "devotional-005",
+      "title": "En fremtid og et håb",
+      "body": "Jeremias 29,11 blev skrevet til mennesker i eksil, hvis planer var brudt sammen. Guds løfte var ikke en øjeblikkelig redning, men hans karakter: Jeg har ikke glemt jer. Dit tilbageslag er ikke slutningen på din historie. Forfatteren skriver stadig.",
+      "prayer": "Far, når jeg ikke kan se vejen, så hjælp mig til at stole på ham, der kan. Amen."
+    },
+    {
+      "id": "devotional-006",
+      "title": "Læn dig ind",
+      "body": "Din egen forstand er et godt redskab og en dårlig herre. Ordsprogene indbyder os til at stole af hele hjertet – ikke fordi det er forkert at tænke, men fordi vores udsyn er lille. Bring Gud den beslutning, du bliver ved med at vende. Lyt så længere, end du taler.",
+      "prayer": "Herre, jeg betror dig den beslutning, der fylder mine tanker nu. Gør min vej lige. Amen."
+    },
+    {
+      "id": "devotional-007",
+      "title": "Modgiften mod angst",
+      "body": "Paulus’ råd mod angst er mærkeligt konkret: Bed om alt, og føj tak til. Taknemmelighed er ikke fornægtelse; den udvider billedet, indtil Guds tidligere trofasthed igen er synlig. Nævn tre ting, du er taknemmelig for. Læg mærke til, hvad det gør ved frygten.",
+      "prayer": "Fredens Gud, vogt mit hjerte og sind i dag. Jeg giver dig mine bekymringer, én efter én. Amen."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Lys i mørket",
+      "body": "Johannes lovede ikke et liv uden mørke. Han lovede, at mørket ikke vinder. Et enkelt lys diskuterer ikke med natten; det brænder bare, og mørket viger. Du behøver ikke ordne alt i dag. Hold blot dit lille lys tændt, og stol på, at han, som selv er Lyset, gør resten.",
+      "prayer": "Jesus, verdens Lys, skin i de steder i mig, der føles mørke i dag. Amen."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Nok til i dag",
+      "body": "Manna kunne ikke gemmes. Hver morgen samlede folket lige nok, og næste dag samlede de igen. Gud lærer os at stole én dag ad gangen – ikke fordi han er nærig, men fordi dagligt brød skaber et dagligt forhold. Bær ikke morgendagens vægt ind i i dag. I dag har sin egen nåde.",
+      "prayer": "Far, giv mig i dag mit daglige brød – og fred til at lade morgendagen blive hos dig. Amen."
+    },
+    {
+      "id": "devotional-010",
+      "title": "Kendt og elsket",
+      "body": "Før du tænkte din første tanke i morges, var du allerede kendt. Salme 139 siger, at Gud vævede dig sammen og ved, når du sætter dig og rejser dig. Du er ikke en fremmed, der tigger om opmærksomhed. Du er et barn, helt kendt og – forunderligt nok – helt elsket. Stå på den grund i dag.",
+      "prayer": "Herre, tak, fordi jeg er helt kendt og stadig helt elsket. Gør mig fast i det. Amen."
+    },
+    {
+      "id": "devotional-011",
+      "title": "Den lange lydighed",
+      "body": "Trofasthed er sjældent dramatisk. Oftest er den blot at møde op – én bøn, én venlighed og ét ærligt valg ad gangen. En flod former en kløft, ikke med kraft, men ved at vende tilbage til samme vej hver dag. Dit lille, gentagne ja til Gud gør mere, end du kan se. Bliv ved med at vende tilbage.",
+      "prayer": "Herre, gør mig trofast i de små ting i dag, mens jeg betror dig helheden. Amen."
+    },
+    {
+      "id": "devotional-012",
+      "title": "Når du føler dig glemt",
+      "body": "Hagar var alene i ørkenen og gav Gud et navn: »Gud, som ser mig.« Da ingen andre lagde mærke til hende, gjorde han. Hvis du i dag føler dig overset af mennesker, omstændigheder eller dine egne bristede håb, så hør dette: Du er set. Intet i dit liv er usynligt for ham, der tæller stjernerne og kalder dem ved navn.",
+      "prayer": "Gud, som ser mig, tak, fordi jeg aldrig virkelig er alene. Mød mig her. Amen."
+    },
+    {
+      "id": "devotional-013",
+      "title": "Gaven, du ikke fortjente",
+      "body": "Nåden støder den del af os, der vil gøre sig fortjent til sin plads. Men Efeserbrevet er tydeligt: Du er frelst af nåde ved tro, og det skyldes ikke dig selv – det er en gave. Du kan holde op med at søge en kærlighed, du allerede har. Hvile er ikke belønningen for at blive færdig; den er gaven, der lader dig begynde igen.",
+      "prayer": "Far, jeg tager imod det, jeg aldrig kunne fortjene. Tak for nåden. Lær mig at hvile i den. Amen."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Strømme i ørkenen",
+      "body": "Esajas taler om floder i ødemarken – vand dér, hvor du ville sværge på, at intet kunne gro. Din tørre tid er ikke historiens slutning. Gud lader livet bryde frem netop på de steder, vi havde opgivet. Se på jorden, du gav slip på. Han er ikke færdig dér.",
+      "prayer": "Herre, bring strømme til de tørre steder i mig. Jeg stoler på, at du gør alting nyt. Amen."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Kast det, bær det ikke",
+      "body": "Peter bruger et fysisk ord: kast. Kast din angst på Gud, som du ville slynge en tung rygsæk af skuldrene. Hvorfor? »For han har omsorg for jer.« Bekymring foregiver at være nyttig, som om nok grubleri vil løse den. Det gør det ikke. Bøn flytter vægten til den eneste, der er stærk nok til at holde den.",
+      "prayer": "Herre, jeg kaster min bekymring på dig – virkelig, ikke kun med ord. Bær det, jeg ikke kan. Amen."
+    },
+    {
+      "id": "devotional-016",
+      "title": "Stemmen, der kalder dig elsket",
+      "body": "Før Jesus gjorde ét eneste under, sagde Faderen: »Det er min elskede søn; i ham har jeg fundet velbehag.« Han var elsket først, ikke som løn for et udført arbejde. Det er du også. Du behøver ikke præstere dig til kærlighed. Du kan arbejde ud fra kærligheden, ikke for at få den.",
+      "prayer": "Far, lad mig høre dig kalde mig elsket, før jeg gør noget i dag. Amen."
+    },
+    {
+      "id": "devotional-017",
+      "title": "Foragt ikke den spæde begyndelse",
+      "body": "Zakarias spørger, hvem der vover at foragte de små begyndelsers dag. Vi vil se den færdige katedral; Gud glæder sig over den første sten. Uanset hvad du begynder på – en vane, en heling eller en forsoning – så mål det ikke efter, hvor lille det ser ud i dag. Store ting begynder næsten altid pinligt småt.",
+      "prayer": "Herre, velsign den lille begyndelse foran mig. Hjælp mig til at være trofast med det små. Amen."
+    },
+    {
+      "id": "devotional-018",
+      "title": "Han genopretter",
+      "body": "Hyrden i Salme 23 driver ikke fårene videre, når de er udmattede. Han lader dem ligge; han fører dem til stille vand; han giver sjælen nyt liv. Hvis du kører på tom tank, kan det helligste, du kan gøre, være at standse. Genoprettelse er ikke dovenskab. Det er lydighed mod en Gud, der skabte dig med behov for hvile.",
+      "prayer": "Hyrde, led mig til stille vand i dag. Genopret det i mig, som er slidt tyndt. Amen."
+    },
+    {
+      "id": "devotional-019",
+      "title": "Kærlighed i det almindelige",
+      "body": "Paulus’ berømte beskrivelse af kærlighed er ikke sentimental; den er praktisk, næsten hverdagsagtig. Tålmodig. Venlig. Ikke let at gøre vred. Gemmer ikke på uret. Det er kærlighed med ærmerne smøget op, kærlighed til tirsdag eftermiddag og vanskelige mennesker. Spørg ikke: »Føler jeg kærlighed?« men: »Kan jeg være tålmodig, venlig og tilgivende her?«",
+      "prayer": "Herre, gør mig tålmodig og venlig i dag, især når det koster mig noget. Amen."
+    },
+    {
+      "id": "devotional-020",
+      "title": "Herlighedens vægt",
+      "body": "Paulus kalder sine trængsler »lette og kortvarige« – og det fra en mand, der blev slået og fængslet. Han kunne sige det, fordi han målte dem mod en evighed af herlighed. Din smerte er virkelig; han lader aldrig som andet. Men den er ikke det største i synsfeltet. Noget langt tungere og langt mildere er på vej.",
+      "prayer": "Far, når dagen føles tung, så løft mit blik mod det, der varer. Bær mig igennem. Amen."
+    },
+    {
+      "id": "devotional-021",
+      "title": "Vend tilbage til mig",
+      "body": "Profeternes mest gentagne ord er ikke »prøv hårdere«, men »vend tilbage«. Gud inviterer altid sit folk hjem – ikke med en forelæsning, men med åbne arme. Hvis du er drevet væk, er vejen hjem kortere, end du frygter. Ét ærligt hjerteslag mod ham, og du opdager, at han allerede løber dig i møde.",
+      "prayer": "Far, jeg vender tilbage til dig i dag. Tak, fordi du møder mig, før jeg når frem. Amen."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Vær stille",
+      "body": "»Vær stille, og kend, at jeg er Gud.« Stilheden kommer først, så erkendelsen. Vi prøver at tænke os frem til fred og bliver mere viklet ind. Nogle gange er tro blot at holde op med at kæmpe – at åbne hænderne længe nok til at huske, hvem der faktisk holder verden sammen. Det var aldrig dig.",
+      "prayer": "Gud, gør min stræben stille. Hjælp mig til at være stille længe nok til at huske, at du er Gud. Amen."
+    },
+    {
+      "id": "devotional-023",
+      "title": "Vennen, der bliver",
+      "body": "Ordsprogene siger, at der findes en ven, som er mere trofast end en bror. I en verden, hvor mennesker kommer og går, er Jesus den, der bliver – gennem nederlaget, stilheden og den lange nat. Du er ikke for meget for ham, og du er aldrig for langt væk. Han leder ikke efter en grund til at gå. Han er vennen, der bliver.",
+      "prayer": "Jesus, tak, fordi du blev, når andre ikke kunne. Hjælp mig til at hvile i din trofasthed. Amen."
+    },
+    {
+      "id": "devotional-024",
+      "title": "Glæden kommer om morgenen",
+      "body": "Salmisten benægter ikke gråden; han siger, at den »kan vare natten over«. Natten er virkelig. Men den varer ikke evigt. Sorgen har en morgen på den anden side, og Gud, som gemmer dine tårer, har ikke mistet én eneste. Hold fast. Morgenen er et løfte, ikke et måske.",
+      "prayer": "Herre, hjælp mig i min nat til at stole på den morgen, du har lovet. Hold mine tårer. Amen."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "Syv dage med fred",
+      "tagline": "Til urolige tider – ét beroligende afsnit om dagen."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "Den taknemmelige uge",
+      "tagline": "Træn dit blik til at se nåden overalt."
+    },
+    {
+      "id": "psalms-30",
+      "title": "30 dage i Salmernes Bog",
+      "tagline": "Bibelens bønnebog, én salme ad gangen."
+    },
+    {
+      "id": "gospels-90",
+      "title": "Jesu liv på 90 dage",
+      "tagline": "Gå gennem alle fire evangelier."
+    },
+    {
+      "id": "bible-365",
+      "title": "Bibelen på et år",
+      "tagline": "Hele fortællingen – 20 minutter om dagen."
+    }
+  ]
+}

@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "locale": "vi",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "Truyền thống nào khiến bạn cảm thấy gần gũi nhất?",
+      "subtitle": "Chúng tôi sẽ điều chỉnh lời cầu nguyện và kế hoạch cho phù hợp với bạn.",
+      "options": [
+        {
+          "value": "catholic",
+          "label": "Công giáo"
+        },
+        {
+          "value": "protestant",
+          "label": "Tin Lành"
+        },
+        {
+          "value": "orthodox",
+          "label": "Chính Thống giáo"
+        },
+        {
+          "value": "nondenominational",
+          "label": "Không thuộc hệ phái"
+        },
+        {
+          "value": "exploring",
+          "label": "Chỉ đang tìm hiểu"
+        }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "Bạn mong điều gì lớn lên trong lòng mình?",
+      "subtitle": "Chọn tất cả những điều phù hợp.",
+      "affirmation": "Bạn không hề đơn độc — 73% thành viên cũng tham gia vì lý do này.",
+      "options": [
+        {
+          "value": "habit",
+          "label": "Thói quen cầu nguyện mỗi ngày"
+        },
+        {
+          "value": "closer",
+          "label": "Cảm thấy gần Chúa hơn"
+        },
+        {
+          "value": "peace",
+          "label": "Bình an và bớt lo âu"
+        },
+        {
+          "value": "sleep",
+          "label": "Ngủ ngon hơn"
+        },
+        {
+          "value": "bible",
+          "label": "Hiểu Kinh Thánh"
+        },
+        {
+          "value": "gratitude",
+          "label": "Một tấm lòng biết ơn"
+        }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "Gần đây điều gì đang đè nặng lòng bạn?",
+      "subtitle": "Câu trả lời của bạn được giữ riêng tư và giúp định hình kế hoạch.",
+      "affirmation": "Cảm ơn bạn đã tin tưởng chia sẻ. Lời Chúa luôn gặp chúng ta ngay tại nơi này.",
+      "options": [
+        {
+          "value": "anxiety",
+          "label": "Lo âu hoặc bất an"
+        },
+        {
+          "value": "loneliness",
+          "label": "Cô đơn"
+        },
+        {
+          "value": "grief",
+          "label": "Đau buồn hoặc mất mát"
+        },
+        {
+          "value": "direction",
+          "label": "Tìm hướng đi"
+        },
+        {
+          "value": "consistency",
+          "label": "Duy trì đều đặn"
+        },
+        {
+          "value": "none",
+          "label": "Tôi vẫn ổn"
+        }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "Bạn quen thuộc với việc cầu nguyện đến mức nào?",
+      "options": [
+        {
+          "value": "new",
+          "label": "Tôi mới bắt đầu"
+        },
+        {
+          "value": "returning",
+          "label": "Tôi trở lại sau một thời gian"
+        },
+        {
+          "value": "regular",
+          "label": "Tôi cầu nguyện thường xuyên"
+        }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "Bạn muốn được nhắc nhở hằng ngày vào lúc nào?",
+      "subtitle": "Chỉ là một lời nhắc nhẹ nhàng, không bao giờ làm phiền.",
+      "options": [
+        {
+          "value": "07:30",
+          "label": "Buổi sáng · 7:30"
+        },
+        {
+          "value": "12:30",
+          "label": "Buổi trưa · 12:30"
+        },
+        {
+          "value": "21:00",
+          "label": "Buổi tối · 21:00"
+        },
+        {
+          "value": "none",
+          "label": "Không nhắc nhở"
+        }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Ánh sáng ban mai",
+      "script": [
+        "Hít vào thật chậm… rồi thở ra. Trước khi ngày mới đòi hỏi bất cứ điều gì, hãy hiện diện nơi đây.",
+        "Lạy Chúa, con cảm tạ Ngài vì buổi sáng này, vì hơi thở và một khởi đầu mới.",
+        "Con trao cho Ngài những giờ sắp tới: công việc, lời nói và những người con sẽ gặp.",
+        "Khi con lo âu, xin Ngài là bình an của con. Khi con mệt mỏi, xin Ngài là sức mạnh của con.",
+        "Xin cho con bước qua ngày hôm nay không vội vã và luôn biết Ngài đang ở gần. Amen."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "Làm yên cơn bão",
+      "script": [
+        "Đặt một tay lên ngực. Cảm nhận nhịp tim — bạn đang sống và được chở che.",
+        "Lạy Chúa Giê-su, Ngài đem bình an đến giữa cơn bão. Xin cũng phán với cơn bão trong con.",
+        "Giờ đây con gọi tên nỗi lo của mình… và đặt nó vào tay Ngài.",
+        "Xin bình an của Ngài lắng xuống tâm trí con như mặt nước êm đềm.",
+        "Hôm nay con sẽ không để nỗi sợ cuốn đi. Chính Ngài nâng đỡ con. Amen."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "Tấm lòng biết ơn",
+      "script": [
+        "Hãy nghĩ đến một điều tốt lành trong ngày hôm nay, dù nhỏ bé đến đâu. Giữ điều ấy trong lòng một lát.",
+        "Lạy Cha, mọi món quà tốt lành đều đến từ Ngài. Con cảm tạ Ngài.",
+        "Con cảm tạ Ngài vì điều con đã cầu xin và nhận được, cũng như điều Ngài đã gìn giữ con khỏi phải trải qua.",
+        "Xin dạy con nhận ra ân điển ẩn trong những giờ phút bình thường.",
+        "Xin để lòng biết ơn là âm vang khép lại ngày của con. Amen."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "Bước vào sự nghỉ ngơi",
+      "script": [
+        "Hãy để ngày hôm nay khép lại. Bạn đã làm những gì có thể, và như thế là đủ.",
+        "Lạy Chúa, khi nằm xuống, con trao mọi việc còn dang dở cho Ngài gìn giữ.",
+        "Xin trông nom những người con yêu thương khi chúng con ngủ.",
+        "Xin ban cho con giấc ngủ bình an và sự an toàn trong Ngài.",
+        "Xin làm nhịp thở con chậm lại… tâm trí con lặng yên… và ôm giữ con cho đến sáng. Amen."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Xin ban phước cho gia đình con",
+      "script": [
+        "Hãy lần lượt nhớ đến gương mặt từng người trong gia đình bạn.",
+        "Lạy Cha, xin ban phước cho mỗi người về sức khỏe, tâm hồn và đức tin.",
+        "Xin chữa lành những rạn nứt giữa chúng con và làm mềm lại những tấm lòng chai cứng.",
+        "Xin biến mái ấm chúng con thành nơi có sự nhẫn nại và tiếng cười.",
+        "Xin kết hiệp chúng con trong tình yêu của Ngài. Amen."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Can đảm cho hôm nay",
+      "script": [
+        "Hãy đứng thẳng một lát và hít thật sâu.",
+        "Lạy Chúa, trong Ngài con không sống trong sợ hãi, nhưng trong quyền năng, tình yêu và sự sáng suốt.",
+        "Xin cho con can đảm để đối diện cuộc trò chuyện, nhiệm vụ và bước đi con vẫn né tránh.",
+        "Khi con chao đảo, xin nhắc con rằng Ngài đi trước con.",
+        "Con sẽ mạnh mẽ và can đảm — không phải một mình, nhưng cùng với Ngài. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "Đếm những ân phước",
+      "script": [
+        "Hãy để ngày dần lắng xuống. Thở ra mọi điều ngày hôm nay đã đòi hỏi nơi bạn.",
+        "Lạy Cha, trước khi kể những điều con còn thiếu, xin cho con nhớ đến những gì mình đã nhận.",
+        "Con cảm tạ Ngài vì những ơn lành bình dị mà hôm nay con suýt bỏ qua.",
+        "Con cảm tạ Ngài vì những người làm cuộc đời con thêm ấm áp.",
+        "Một tấm lòng biết ơn là một tấm lòng đầy trọn. Xin lấp đầy lòng con đêm nay. Amen."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Dòng nước yên tĩnh",
+      "script": [
+        "Thả lỏng đôi tay. Để nhịp thở chậm lại theo từng dòng.",
+        "Lạy Đấng Chăn Giữ, Ngài dẫn con bên dòng nước yên tĩnh. Xin dẫn con đến đó ngay giờ này.",
+        "Con đặt từng ý nghĩ đang lao nhanh trong lòng xuống dưới chân Ngài.",
+        "Xin phục hồi linh hồn con và làm mới những gì ngày hôm nay đã bào mòn.",
+        "Con sẽ không sợ hãi, vì Ngài ở cùng con. Amen."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "Trước khi ngày mới bắt đầu",
+      "script": [
+        "Ngày mới vẫn ở phía trước. Trước mọi điều khác, hãy đón ngày mới tại đây cùng Chúa.",
+        "Lạy Chúa, ngày này thuộc về Ngài trước khi thuộc về con.",
+        "Xin đi trước con vào mọi căn phòng con sẽ bước vào và trong mọi lời con sẽ nói.",
+        "Khi con muốn vội vàng, xin dạy con bước đi bình tĩnh.",
+        "Xin sắp đặt từng giờ của con và giữ lòng con luôn gần Ngài. Amen."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "Bình an gìn giữ",
+      "script": [
+        "Đặt cả hai chân trên mặt đất. Bạn đang ở đây. Chúa cũng ở đây.",
+        "Lạy Chúa Giê-su, Ngài ban cho chúng con sự bình an chân thật, sâu xa và khác với điều thế gian ban tặng.",
+        "Xin để sự bình an ấy canh giữ lòng và trí con hôm nay như người lính gác trước cổng.",
+        "Con trao cho Ngài những điều mình không thể kiểm soát.",
+        "Bình an của Ngài là đủ. Con nghỉ yên trong đó. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "Lời tạ ơn đầu ngày",
+      "script": [
+        "Trước danh sách việc cần làm, hãy dừng lại một chút và hít vào lòng biết ơn.",
+        "Lạy Cha, con cảm tạ Ngài đã đánh thức con để đón thêm một ngày ân điển.",
+        "Con cảm tạ Ngài vì hơi thở, ánh sáng và một trang mới.",
+        "Xin để lòng biết ơn, chứ không phải sự vội vã, định nên nhịp điệu buổi sáng của con.",
+        "Con bắt đầu hôm nay với lòng biết ơn. Amen."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Đặt gánh nặng xuống",
+      "script": [
+        "Ngày đã qua. Bạn đã làm những gì có thể, và như thế là đủ.",
+        "Lạy Chúa, con đặt mọi việc còn dang dở vào tay Ngài gìn giữ.",
+        "Những lo toan con định mang vào màn đêm, giờ đây con để lại nơi Ngài.",
+        "Ngài ban giấc ngủ cho người Ngài yêu. Xin đón nhận con lúc này.",
+        "Con nằm xuống trong bình an vì chỉ Ngài gìn giữ con an toàn. Amen."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "Trên những người con yêu",
+      "script": [
+        "Hãy nhớ đến từng người bạn yêu thương. Giữ gương mặt họ trong tâm trí một lát.",
+        "Lạy Cha, xin trông nom những người Ngài đã giao phó cho con.",
+        "Xin gìn giữ họ lúc ra đi cũng như khi trở về.",
+        "Nơi con thiếu sót với họ, xin ân điển Ngài lấp đầy khoảng trống.",
+        "Xin giữ họ trong tay Ngài, gần gũi hơn bất cứ điều gì con có thể làm. Amen."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Sức mạnh để tha thứ",
+      "script": [
+        "Hãy thở sâu. Điều này thật khó, và Chúa biết điều đó.",
+        "Lạy Chúa, Ngài đã tha thứ cho con với một giá rất lớn. Xin cho con sức mạnh để tha thứ.",
+        "Con mang đến Ngài cái tên, ký ức và vết thương ấy — con trao tất cả cho Ngài.",
+        "Xin giải thoát con khỏi gánh nặng vốn không thuộc về con.",
+        "Xin chữa lành những gì sự tha thứ mở ra và khiến con được trọn vẹn. Amen."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "Dưới cánh Ngài",
+      "script": [
+        "Cảm nhận sức nặng của ngày hôm nay rời khỏi đôi vai bạn.",
+        "Ở gần Đấng Tối Cao, con được nghỉ yên dưới sự chở che của Ngài.",
+        "Lạy Chúa, đêm nay xin che phủ con như chim mẹ ấp ủ đàn con.",
+        "Không sợ bóng đêm, không lo ngày mai — chỉ có sự gìn giữ của Ngài.",
+        "Con sẽ không sợ hãi vì Ngài luôn thức canh. Con xin yên nghỉ trong Ngài, lạy Cha. Amen."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "Khi con yếu đuối",
+      "script": [
+        "Ở đây, bạn không cần giả vờ mạnh mẽ.",
+        "Lạy Chúa, quyền năng Ngài được bày tỏ trọn vẹn trong sự yếu đuối.",
+        "Đây là sự yếu đuối của con — con không giấu Ngài nữa.",
+        "Xin bày tỏ sức mạnh ngay tại nơi con chẳng còn gì.",
+        "Ân điển Ngài đủ cho con. Như thế là đủ. Amen."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "Ngay lúc này, con vẫn tạ ơn",
+      "script": [
+        "Đây là một lòng biết ơn khó khăn hơn. Hãy thở sâu và thành thật.",
+        "Lạy Cha, ngay trong hoàn cảnh này, con vẫn tìm kiếm bàn tay Ngài.",
+        "Con cảm tạ Ngài vì đã không để con đơn độc trong đó.",
+        "Con cảm tạ Ngài vì mùa này không phải là phần kết của câu chuyện.",
+        "Con chọn tạ ơn, không phải vì điều đó dễ dàng, nhưng vì Ngài tốt lành. Amen."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "Món quà của sự tĩnh lặng",
+      "body": "Hầu hết chúng ta vừa thức dậy đã tất bật với tin nhắn, tin tức và trách nhiệm. Thi Thiên 46 ra đời giữa thời biến động, nhưng trọng tâm lại là lời mời gọi lặng yên. Tĩnh lặng không có nghĩa là chẳng làm gì; đó là nhớ lại ai đang nắm giữ mọi sự. Trong hai phút, hãy thả lỏng đôi vai. Thế giới vẫn sẽ quay khi không có sự giúp đỡ của bạn — xưa nay vẫn vậy. Đó không phải thất bại của bạn, mà là sự thành tín của Ngài.",
+      "prayer": "Lạy Chúa, xin làm lắng tiếng ồn trong con. Giúp con tin rằng Ngài là Đức Chúa Trời, còn con thì không. Amen."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Sức mạnh không thuộc về bạn",
+      "body": "Phao-lô viết về khả năng chịu đựng mọi hoàn cảnh từ trong ngục tù, chứ không phải trên đỉnh cao. Sức mạnh ông nói đến không phải sự tự tin, mà là sức mạnh được ban cho đúng lúc sức riêng cạn kiệt. Dù hôm nay đòi hỏi điều gì, bạn chưa bao giờ phải gánh vác một mình. Hãy cầu xin. Đón nhận. Và bước đi.",
+      "prayer": "Lạy Chúa Giê-su, xin là sức mạnh của con tại nơi con yếu đuối hôm nay. Con trao Ngài điều đang quá nặng nề. Amen."
+    },
+    {
+      "id": "devotional-003",
+      "title": "Được dẫn dắt, không bị thúc ép",
+      "body": "Người chăn đi phía trước, còn người xua đàn thúc từ phía sau. Thi Thiên 23 cho thấy Chúa dẫn đến đồng cỏ xanh và bên dòng nước yên tĩnh. Nếu đức tin của bạn giống như bị thúc ép, luôn vội vã, căng thẳng và sợ hãi, thì đó không phải tiếng của Đấng Chăn Giữ. Hôm nay, hãy lắng nghe tiếng gọi dịu dàng và bước theo từng bước một.",
+      "prayer": "Lạy Đấng Chăn Giữ linh hồn con, xin dạy con nhận ra tiếng Ngài. Hôm nay xin dẫn dắt con. Amen."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Sự nghỉ ngơi cho người mệt mỏi",
+      "body": "Chúa Giê-su không chỉ gọi những người đã thu xếp ổn thỏa mọi sự. Ngài gọi người mệt mỏi, mang gánh nặng và đang cố gắng cầm cự. Nghỉ ngơi không phải phần thưởng sau khi xong việc, mà là món quà được trao ngay giữa công việc. Hãy đến với chính con người thật của bạn — đó là trọn vẹn lời mời.",
+      "prayer": "Lạy Chúa, con đến với Ngài trong mệt mỏi. Xin đổi gánh nặng của con lấy sự nghỉ ngơi của Ngài. Amen."
+    },
+    {
+      "id": "devotional-005",
+      "title": "Một tương lai và niềm hy vọng",
+      "body": "Giê-rê-mi 29:11 được viết cho những người lưu đày, những người có kế hoạch đã sụp đổ. Lời hứa của Chúa không phải một cuộc giải cứu tức thì, mà là sự bảo đảm rằng Ngài không quên họ. Trở ngại này không phải là phần kết câu chuyện của bạn. Tác Giả vẫn đang viết tiếp.",
+      "prayer": "Lạy Cha, khi con không nhìn thấy đường đi, xin giúp con tin cậy Đấng nhìn thấy mọi đường. Amen."
+    },
+    {
+      "id": "devotional-006",
+      "title": "Hãy nương cậy",
+      "body": "Sự hiểu biết của chính bạn là một công cụ tốt nhưng là một người chủ tồi. Châm Ngôn mời gọi chúng ta hết lòng tin cậy, không phải vì suy nghĩ là sai, mà vì tầm nhìn của ta còn hạn hẹp. Hãy mang đến Chúa quyết định bạn vẫn trăn trở. Rồi lắng nghe lâu hơn thời gian bạn nói.",
+      "prayer": "Lạy Chúa, con giao phó cho Ngài quyết định đang ở trong tâm trí con. Xin làm cho đường con ngay thẳng. Amen."
+    },
+    {
+      "id": "devotional-007",
+      "title": "Liều thuốc cho nỗi lo âu",
+      "body": "Lời khuyên của Phao-lô cho sự lo âu rất cụ thể: hãy cầu nguyện về mọi điều và thêm vào lòng biết ơn. Biết ơn không phải là phủ nhận thực tế; đó là mở rộng góc nhìn cho đến khi sự thành tín của Chúa trong quá khứ hiện ra trở lại. Hãy kể tên ba điều bạn biết ơn và để ý xem nỗi sợ thay đổi thế nào.",
+      "prayer": "Lạy Đức Chúa Trời của sự bình an, xin canh giữ lòng và trí con hôm nay. Con trao từng nỗi lo cho Ngài. Amen."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Ánh sáng trong bóng tối",
+      "body": "Giăng không hứa một cuộc đời không có bóng tối. Ông khẳng định bóng tối không thể chiến thắng. Một ngọn nến không tranh luận với màn đêm; nó chỉ cháy lên và bóng tối phải lùi bước. Hôm nay bạn không cần sửa chữa mọi thứ. Bạn chỉ cần giữ ngọn sáng nhỏ của mình và tin cậy Đấng chính là Ánh Sáng sẽ làm phần còn lại.",
+      "prayer": "Lạy Chúa Giê-su, Ánh Sáng của thế gian, xin chiếu soi những góc trong lòng con đang tối tăm hôm nay. Amen."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Đủ cho hôm nay",
+      "body": "Ma-na không thể tích trữ. Mỗi sáng dân sự chỉ thu nhặt vừa đủ, rồi ngày hôm sau lại nhận phần mới. Chúa dạy chúng ta tin cậy từng ngày, không phải vì Ngài keo kiệt, mà vì lương thực mỗi ngày nuôi dưỡng mối liên hệ hằng ngày. Đừng mang sức nặng của ngày mai vào hôm nay. Hôm nay đã có đủ ân điển dành cho nó.",
+      "prayer": "Lạy Cha, hôm nay xin ban cho con lương thực cần dùng và sự bình an để trao ngày mai cho Ngài. Amen."
+    },
+    {
+      "id": "devotional-010",
+      "title": "Được thấu hiểu và yêu thương",
+      "body": "Trước khi bạn hình thành ý nghĩ đầu tiên vào sáng nay, Chúa đã thấu hiểu bạn. Thi Thiên 139 nói Ngài dệt nên bạn và biết mỗi lúc bạn ngồi xuống hay đứng lên. Bạn không phải người xa lạ đang van xin sự chú ý. Bạn là con cái Ngài, được biết rõ hoàn toàn và, thật kỳ diệu, được yêu trọn vẹn. Hôm nay hãy đứng vững trên nền tảng ấy.",
+      "prayer": "Lạy Chúa, con cảm tạ Ngài vì con được thấu hiểu hoàn toàn mà vẫn được yêu thương trọn vẹn. Xin giữ con vững vàng trong lẽ thật ấy. Amen."
+    },
+    {
+      "id": "devotional-011",
+      "title": "Sự vâng phục bền bỉ",
+      "body": "Sự trung tín hiếm khi kịch tính. Phần lớn, đó là vẫn hiện diện: mỗi lần một lời cầu nguyện, một việc tử tế, một lựa chọn chân thật. Dòng sông tạo nên hẻm núi không phải bằng sức mạnh, mà bằng việc trở lại cùng một lối mỗi ngày. Lời thưa vâng nhỏ bé và lặp lại của bạn với Chúa đang làm nhiều hơn điều bạn thấy. Hãy cứ trở lại.",
+      "prayer": "Lạy Chúa, xin giúp con trung tín trong những việc nhỏ hôm nay và tin cậy Ngài với toàn bộ bức tranh. Amen."
+    },
+    {
+      "id": "devotional-012",
+      "title": "Khi bạn cảm thấy bị lãng quên",
+      "body": "Ha-ga, một mình trong hoang mạc, đã gọi Chúa là Đấng nhìn thấy bà. Khi không ai để ý đến bà, Ngài vẫn thấy. Nếu hôm nay bạn cảm thấy bị bỏ quên bởi con người, hoàn cảnh hay thậm chí bởi chính hy vọng của mình, hãy nghe điều này: bạn được nhìn thấy. Không điều gì trong cuộc đời bạn khuất khỏi Đấng đếm các vì sao và gọi tên từng ngôi một.",
+      "prayer": "Lạy Đức Chúa Trời là Đấng nhìn thấy con, con cảm tạ Ngài vì con không bao giờ thật sự cô độc. Xin gặp con ngay tại đây. Amen."
+    },
+    {
+      "id": "devotional-013",
+      "title": "Món quà bạn không thể tự kiếm được",
+      "body": "Ân điển làm phần trong chúng ta vốn muốn tự giành lấy vị trí của mình cảm thấy khó chịu. Nhưng Ê-phê-sô nói rõ rằng sự cứu rỗi đến bởi ân điển, qua đức tin, và đó là quà tặng chứ không phải thành tựu của ta. Bạn có thể ngừng cố chứng minh mình xứng đáng với tình yêu vốn đã thuộc về mình. Sự nghỉ ngơi không phải phần thưởng khi hoàn tất, mà là món quà giúp bạn bắt đầu lại.",
+      "prayer": "Lạy Cha, con đón nhận điều mình không bao giờ tự kiếm được. Con cảm tạ Ngài vì ân điển. Xin dạy con nghỉ yên trong đó. Amen."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Suối giữa hoang mạc",
+      "body": "Ê-sai nói về sông ngòi giữa vùng hoang vu, có nước ở nơi tưởng chừng không gì có thể sinh trưởng. Mùa khô hạn của bạn không phải phần kết câu chuyện. Chúa làm sự sống bật lên ngay tại những nơi chúng ta đã từ bỏ. Hãy nhìn lại mảnh đất bạn từng buông xuôi. Công việc Ngài ở đó chưa kết thúc.",
+      "prayer": "Lạy Chúa, xin đem dòng suối đến những nơi khô cằn trong con. Con tin Ngài sẽ làm mọi sự nên mới. Amen."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Trao đi, đừng mang mãi",
+      "body": "Phi-e-rơ dùng một từ rất cụ thể: hãy quăng đi. Hãy trao nỗi lo cho Chúa như ném một chiếc ba lô nặng khỏi vai, vì Ngài quan tâm đến bạn. Lo lắng giả vờ hữu ích, như thể nghĩ mãi sẽ giải quyết được vấn đề. Không đâu. Cầu nguyện chuyển sức nặng ấy sang Đấng duy nhất đủ mạnh để gánh lấy.",
+      "prayer": "Lạy Chúa, con thật sự trao nỗi lo cho Ngài, không chỉ bằng lời nói. Xin mang điều con không thể mang. Amen."
+    },
+    {
+      "id": "devotional-016",
+      "title": "Tiếng gọi bạn là người được yêu",
+      "body": "Trước khi Chúa Giê-su làm bất kỳ phép lạ nào, Đức Chúa Cha đã xác nhận Ngài là Con yêu dấu đẹp lòng Cha. Tình yêu đến trước, không phải là tiền công cho việc đã làm. Với bạn cũng vậy. Bạn không cần đạt thành tích để được yêu. Bạn được làm mọi việc từ tình yêu, chứ không phải để giành lấy tình yêu.",
+      "prayer": "Lạy Cha, trước khi con làm bất cứ điều gì hôm nay, xin cho con nghe Ngài gọi con là người được yêu. Amen."
+    },
+    {
+      "id": "devotional-017",
+      "title": "Đừng xem thường những khởi đầu nhỏ bé",
+      "body": "Xa-cha-ri hỏi ai dám xem thường ngày của những việc nhỏ bé. Chúng ta muốn thấy ngôi thánh đường đã hoàn tất, còn Chúa vui thích viên đá đầu tiên vừa được đặt xuống. Dù bạn đang bắt đầu một thói quen, sự chữa lành hay hòa giải, đừng đánh giá bằng vẻ nhỏ bé hôm nay. Những điều lớn lao gần như luôn khởi đầu nhỏ đến ngượng ngùng.",
+      "prayer": "Lạy Chúa, xin ban phước cho khởi đầu nhỏ bé trước mặt con. Giúp con trung tín với điều ít ỏi. Amen."
+    },
+    {
+      "id": "devotional-018",
+      "title": "Ngài phục hồi",
+      "body": "Đấng Chăn Giữ trong Thi Thiên 23 không xua đàn chiên kiệt sức đi tiếp. Ngài cho chúng nằm nghỉ, dẫn đến dòng nước yên tĩnh và phục hồi linh hồn. Nếu bạn đã cạn sức, điều thánh khiết nhất có thể là dừng lại. Phục hồi không phải lười biếng. Đó là vâng lời Đấng đã tạo dựng bạn với nhu cầu nghỉ ngơi.",
+      "prayer": "Lạy Đấng Chăn Giữ, hôm nay xin dẫn con bên dòng nước yên tĩnh. Xin phục hồi những gì đã hao mòn trong con. Amen."
+    },
+    {
+      "id": "devotional-019",
+      "title": "Tình yêu trong điều bình dị",
+      "body": "Lời mô tả nổi tiếng của Phao-lô về tình yêu không hề ủy mị; nó thực tế và gần như rất đỗi đời thường. Nhẫn nại. Nhân từ. Không dễ nóng giận. Không ghi nhớ điều sai trái. Đó là tình yêu xắn tay áo lên, tình yêu dành cho chiều thứ Ba và những người khó gần. Đừng hỏi mình có cảm thấy yêu thương không, mà hãy hỏi mình có thể nhẫn nại, tử tế và tha thứ ngay tại đây không.",
+      "prayer": "Lạy Chúa, hôm nay xin khiến con nhẫn nại và nhân từ, nhất là khi điều đó khiến con phải trả giá. Amen."
+    },
+    {
+      "id": "devotional-020",
+      "title": "Sức nặng của vinh quang",
+      "body": "Phao-lô gọi gian khổ của mình là nhẹ và tạm thời, dù ông từng bị đánh đập và bỏ tù. Ông có thể nói vậy vì đặt khổ đau cạnh vinh quang đời đời. Nỗi đau của bạn là có thật; ông không hề phủ nhận. Nhưng đó không phải điều lớn nhất trước mắt. Một điều nặng ký hơn nhiều và nhân từ hơn nhiều đang đến.",
+      "prayer": "Lạy Cha, khi hôm nay thấy nặng nề, xin nâng mắt con hướng về điều còn lại đời đời. Xin đưa con vượt qua. Amen."
+    },
+    {
+      "id": "devotional-021",
+      "title": "Hãy trở về cùng Ta",
+      "body": "Lời được các tiên tri nhắc lại nhiều nhất không phải là cố gắng hơn, mà là trở về. Chúa luôn mời dân Ngài quay lại, không phải bằng lời trách mắng, nhưng với vòng tay rộng mở. Nếu bạn đã lạc xa, đường về ngắn hơn điều bạn lo sợ. Chỉ cần một lần thật lòng xoay hướng tấm lòng, bạn sẽ thấy Ngài đã chạy đến đón mình.",
+      "prayer": "Lạy Cha, hôm nay con trở về cùng Ngài. Con cảm tạ Ngài đã đến gặp con ngay cả trước khi con về tới. Amen."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Hãy lặng yên",
+      "body": "Thi Thiên 46 đặt sự lặng yên trước sự nhận biết Chúa. Chúng ta cố dùng lý trí để tìm bình an rồi càng thêm rối bời. Đôi khi đức tin đơn giản là ngừng gắng sức, thả lỏng đôi tay đủ lâu để nhớ ai mới thật sự giữ thế giới này gắn kết. Đấng ấy chưa bao giờ là bạn.",
+      "prayer": "Lạy Chúa, xin làm yên sự vùng vẫy trong con. Giúp con lặng đủ lâu để nhớ rằng Ngài là Đức Chúa Trời. Amen."
+    },
+    {
+      "id": "devotional-023",
+      "title": "Người bạn luôn ở lại",
+      "body": "Châm Ngôn nói đến một người bạn gắn bó hơn anh em. Trong thế giới của những người đến rồi đi, Chúa Giê-su là Đấng ở lại qua thất bại, im lặng và đêm dài. Bạn không bao giờ là quá sức đối với Ngài, cũng chẳng bao giờ đi quá xa để không thể trở về. Ngài không tìm lý do để rời đi. Ngài là người bạn luôn ở lại.",
+      "prayer": "Lạy Chúa Giê-su, con cảm tạ Ngài đã ở lại khi người khác không thể. Xin giúp con nghỉ yên trong sự thành tín của Ngài. Amen."
+    },
+    {
+      "id": "devotional-024",
+      "title": "Niềm vui đến vào buổi sáng",
+      "body": "Tác giả Thi Thiên không phủ nhận nước mắt; ông thừa nhận đêm tối là có thật. Nhưng đêm không kéo dài mãi. Phía bên kia đau buồn có một buổi sáng, và Đức Chúa Trời là Đấng nâng niu nước mắt bạn không để thất lạc giọt nào. Hãy vững lòng. Buổi sáng là một lời hứa, không phải một khả năng mơ hồ.",
+      "prayer": "Lạy Chúa, trong đêm tối của con, xin giúp con tin vào buổi sáng Ngài đã hứa. Xin gìn giữ nước mắt con. Amen."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "Bảy ngày bình an",
+      "tagline": "Cho những mùa lo âu — mỗi ngày một phân đoạn giúp lòng lắng dịu."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "Một tuần biết ơn",
+      "tagline": "Rèn đôi mắt bạn nhận ra ân điển ở khắp nơi."
+    },
+    {
+      "id": "psalms-30",
+      "title": "30 ngày với Thi Thiên",
+      "tagline": "Sách cầu nguyện của Kinh Thánh, từng thi thiên một."
+    },
+    {
+      "id": "gospels-90",
+      "title": "Cuộc đời Chúa Giê-su trong 90 ngày",
+      "tagline": "Cùng bước qua cả bốn sách Phúc Âm."
+    },
+    {
+      "id": "bible-365",
+      "title": "Kinh Thánh trong một năm",
+      "tagline": "Toàn bộ câu chuyện — 20 phút mỗi ngày."
+    }
+  ]
+}

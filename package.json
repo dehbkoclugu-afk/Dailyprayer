@@ -8,9 +8,14 @@
     "ios": "expo start --ios",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --test src/lib/dates.test.ts src/data/verses.test.ts src/data/legal.test.ts src/data/biblePack.test.ts src/i18n/translations.test.ts src/services/purchases.test.ts src/services/paywallContext.test.ts",
+    "test": "node --experimental-strip-types --test src/lib/dates.test.ts src/data/verses.test.ts src/data/legal.test.ts src/data/biblePack.test.ts src/data/applicationContentPack.test.ts src/i18n/applicationContent.test.ts src/i18n/applicationLanguageActivation.test.ts src/i18n/direction.test.ts src/i18n/translations.test.ts src/services/applicationContentRegistry.test.ts src/services/purchases.test.ts src/services/paywallContext.test.ts",
     "bible:pack": "node scripts/build-ebible-pack.mjs",
-    "bible:pack:verify": "node --experimental-strip-types scripts/validate-ebible-source-pins.mjs"
+    "bible:pack:verify": "node --experimental-strip-types scripts/validate-ebible-source-pins.mjs",
+    "application-content:build": "node --experimental-strip-types scripts/build-application-content-packs.mjs",
+    "application-content:verify": "node --experimental-strip-types scripts/validate-application-content-packs.mjs",
+    "application-content:verify:production": "node --experimental-strip-types scripts/validate-application-content-packs.mjs --production",
+    "ui-locales:verify": "node --experimental-strip-types scripts/validate-ui-locales.mjs",
+    "ui-locales:verify:production": "node --experimental-strip-types scripts/validate-ui-locales.mjs --production"
   },
   "dependencies": {
     "@expo-google-fonts/figtree": "^0.2.3",

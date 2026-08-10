@@ -14,6 +14,7 @@ import { usePlans } from '@/data/plans';
 import { planReading, formatReadingRef } from '@/data/planReadings';
 import { usePlanStore } from '@/state/usePlanStore';
 import { useT } from '@/i18n';
+import { getDirectionalIconName } from '@/i18n/direction';
 
 export default function PlanScreen() {
   const t = useTheme();
@@ -49,7 +50,7 @@ export default function PlanScreen() {
           marginBottom: spacing.lg,
         }}
       >
-        <Ionicons name="chevron-back" size={24} color={t.inkSoft} />
+        <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={24} color={t.inkSoft} />
       </Pressable>
 
       <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
@@ -157,7 +158,7 @@ export default function PlanScreen() {
                       {readingRef}
                     </Text>
                   </View>
-                  <Ionicons name="chevron-forward" size={18} color={artwork.foreground.tertiary} />
+                  <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={18} color={artwork.foreground.tertiary} />
                 </View>
               </PlanDayArtwork>
             </Pressable>

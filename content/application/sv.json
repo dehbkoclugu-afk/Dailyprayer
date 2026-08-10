@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "locale": "sv",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "Vilken tradition känns mest som hemma?",
+      "subtitle": "Vi anpassar dina böner och planer efter den.",
+      "options": [
+        {
+          "value": "catholic",
+          "label": "Katolsk"
+        },
+        {
+          "value": "protestant",
+          "label": "Protestantisk"
+        },
+        {
+          "value": "orthodox",
+          "label": "Ortodox"
+        },
+        {
+          "value": "nondenominational",
+          "label": "Samfundsoberoende"
+        },
+        {
+          "value": "exploring",
+          "label": "Jag utforskar fortfarande"
+        }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "Vad hoppas du ska växa inom dig?",
+      "subtitle": "Välj allt som passar.",
+      "affirmation": "Du är i gott sällskap – 73 % av medlemmarna började av precis samma anledning.",
+      "options": [
+        {
+          "value": "habit",
+          "label": "En daglig bönevana"
+        },
+        {
+          "value": "closer",
+          "label": "Att känna mig närmare Gud"
+        },
+        {
+          "value": "peace",
+          "label": "Mer frid och mindre oro"
+        },
+        {
+          "value": "sleep",
+          "label": "Bättre sömn"
+        },
+        {
+          "value": "bible",
+          "label": "Att förstå Bibeln"
+        },
+        {
+          "value": "gratitude",
+          "label": "Ett tacksamt hjärta"
+        }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "Vad tynger dig på sistone?",
+      "subtitle": "Ditt svar förblir privat och hjälper till att forma din plan.",
+      "affirmation": "Tack för ditt förtroende. Skriften möter oss just här.",
+      "options": [
+        {
+          "value": "anxiety",
+          "label": "Oro eller ångest"
+        },
+        {
+          "value": "loneliness",
+          "label": "Ensamhet"
+        },
+        {
+          "value": "grief",
+          "label": "Sorg eller förlust"
+        },
+        {
+          "value": "direction",
+          "label": "Att hitta riktning"
+        },
+        {
+          "value": "consistency",
+          "label": "Att fortsätta trofast"
+        },
+        {
+          "value": "none",
+          "label": "Jag mår bra"
+        }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "Hur bekant är bönen för dig?",
+      "options": [
+        {
+          "value": "new",
+          "label": "Jag har just börjat"
+        },
+        {
+          "value": "returning",
+          "label": "Jag återvänder efter ett tag"
+        },
+        {
+          "value": "regular",
+          "label": "Jag ber regelbundet"
+        }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "När vill du ha en daglig påminnelse?",
+      "subtitle": "En varsam påminnelse – aldrig tjat.",
+      "options": [
+        {
+          "value": "07:30",
+          "label": "Morgon · 7:30"
+        },
+        {
+          "value": "12:30",
+          "label": "Mitt på dagen · 12:30"
+        },
+        {
+          "value": "21:00",
+          "label": "Kväll · 21:00"
+        },
+        {
+          "value": "none",
+          "label": "Inga påminnelser"
+        }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Morgonljus",
+      "script": [
+        "Andas långsamt in… och ut. Innan dagen ber dig om något, var närvarande här.",
+        "Herre, tack för denna morgon, för andetaget och för en ny början.",
+        "Jag ger Dig timmarna som ligger framför mig: mitt arbete, mina ord och människorna jag ska möta.",
+        "När jag är orolig, var min frid. När jag är trött, var min styrka.",
+        "Låt mig gå genom denna dag utan brådska, med vissheten om att Du är nära. Amen."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "Stilla stormen",
+      "script": [
+        "Lägg en hand över hjärtat. Känn hur det slår – du lever och du är omsluten.",
+        "Jesus, Du ger frid mitt i stormen. Tala också till min.",
+        "Nu sätter jag ord på min oro… och lägger den i Dina händer.",
+        "Låt Din frid lägga sig över mina tankar som stilla vatten.",
+        "Rädslan ska inte föra mig med sig i dag. Du bär mig. Amen."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "Ett tacksamt hjärta",
+      "script": [
+        "Tänk på en god sak från i dag, hur liten den än var. Håll kvar den en stund.",
+        "Fader, varje god gåva kommer från Dig. Tack.",
+        "Tack för det jag bad om och fick, och för det Du besparade mig.",
+        "Lär mig att se nåden som gömmer sig i vanliga timmar.",
+        "Låt tacksamhet bli tonen som avslutar min dag. Amen."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "In i vilan",
+      "script": [
+        "Låt dagen ta slut. Du har gjort vad du kunde, och det är nog.",
+        "Herre, när jag lägger mig överlämnar jag allt oavslutat åt Din omsorg.",
+        "Vaka över dem jag älskar medan vi sover.",
+        "Ge mig fridfull vila och trygghet hos Dig.",
+        "Låt andningen bli långsam… tankarna tystna… och håll mig till morgonen. Amen."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Välsigna min familj",
+      "script": [
+        "Se framför dig din familjs ansikten, ett i taget.",
+        "Fader, välsigna var och en med hälsa, tro och ett helt hjärta.",
+        "Läk det som är sårat mellan oss och mjuka upp det som har blivit hårt.",
+        "Gör vårt hem till en plats för tålamod och skratt.",
+        "Knyt oss samman i Din kärlek. Amen."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Mod för i dag",
+      "script": [
+        "Räta på dig en stund. Andas djupt.",
+        "Herre, hos Dig lever jag inte i rädsla utan i kraft, kärlek och självbehärskning.",
+        "Ge mig mod inför samtalet, uppgiften och steget jag fortsätter att undvika.",
+        "När jag vacklar, påminn mig om att Du går före mig.",
+        "Jag vill vara stark och modig – inte ensam, utan med Dig. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "Att räkna gåvorna",
+      "script": [
+        "Låt dagen falla till ro. Andas ut allt den krävde av dig.",
+        "Fader, innan jag räknar upp det jag saknar, låt mig minnas det jag fick.",
+        "Tack för vardagens nådegåvor som jag nästan gick förbi i dag.",
+        "Tack för människorna som gör mitt liv varmare.",
+        "Ett tacksamt hjärta är ett fyllt hjärta. Fyll mitt i kväll. Amen."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Stilla vatten",
+      "script": [
+        "Öppna händerna. Låt andningen sakta ner för varje rad.",
+        "Herden, Du leder mig till stilla vatten. Led mig dit nu.",
+        "Tankarna som rusar inom mig lägger jag vid Dina fötter, en efter en.",
+        "Ge min själ nytt liv. Återställ det som dagen har slitit ner.",
+        "Jag ska inte vara rädd, för Du är med mig. Amen."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "Innan dagen börjar",
+      "script": [
+        "Dagen ligger fortfarande framför dig. Möt den här med Gud, före allt annat.",
+        "Herre, denna dag är Din innan den är min.",
+        "Gå före mig in i varje rum jag ska gå in i och i varje ord jag ska säga.",
+        "När jag frestas att skynda, lär mig att gå lugnt.",
+        "Ordna mina timmar och håll mitt hjärta nära Ditt. Amen."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "Friden som vakar",
+      "script": [
+        "Sätt båda fötterna på marken. Du är här. Gud är här.",
+        "Jesus, Du ger oss en sann och djup frid, annorlunda än den världen ger.",
+        "Låt den friden vaka över mitt hjärta och mina tankar i dag som en vakt vid porten.",
+        "Det jag inte kan styra överlämnar jag åt Dig.",
+        "Din frid är nog. Jag vilar i den. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "Dagens första tack",
+      "script": [
+        "Före att göra-listan: stanna. Ta ett andetag av tacksamhet.",
+        "Fader, tack för att Du väckte mig till ännu en dag av nåd.",
+        "Tack för andetaget, ljuset och en ny sida.",
+        "Låt tacksamhet, inte brådska, ange tonen för morgonen.",
+        "Jag börjar dagen med tacksamhet. Amen."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Lägg ner det",
+      "script": [
+        "Dagen är över. Du har gjort vad du kunde, och det är nog.",
+        "Herre, jag lägger allt oavslutat i Dina händer.",
+        "Oron jag tänkte bära med mig in i mörkret lämnar jag hos Dig.",
+        "Du ger sömn åt dem Du älskar. Ta emot mig nu.",
+        "Jag lägger mig i frid, för Du ensam håller mig trygg. Amen."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "Över dem jag älskar",
+      "script": [
+        "Tänk på varje människa du älskar. Håll deras ansikte i tankarna en stund.",
+        "Fader, vaka över dem som har anförtrotts åt mig.",
+        "Bevara dem när de går ut och när de kommer hem.",
+        "Där jag sviker dem, låt Din nåd fylla tomrummet.",
+        "Håll dem i Din hand, närmare än jag någonsin kan. Amen."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Styrka att förlåta",
+      "script": [
+        "Andas. Detta är svårt, och Gud vet det.",
+        "Herre, Du förlät mig till ett högt pris. Ge mig styrka att förlåta.",
+        "Jag bär fram namnet, minnet och såret och lägger allt inför Dig.",
+        "Befria mig från att bära det som aldrig var mitt att bära.",
+        "Läk det som förlåtelsen öppnar. Gör mig hel. Amen."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "Under Hans vingar",
+      "script": [
+        "Känn hur dagens tyngd lämnar dina axlar.",
+        "Hos den Högste får jag vila tryggt under Hans beskydd.",
+        "Herre, täck mig i natt som en fågel täcker sina ungar.",
+        "Ingen rädsla för natten, ingen oro för morgondagen – bara Din omsorg.",
+        "Jag ska inte vara rädd, för Du vakar alltid. Låt mig vila hos Dig, Fader. Amen."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "När jag är svag",
+      "script": [
+        "Här behöver du inte låtsas vara stark.",
+        "Herre, Din kraft blir fullkomlig i svaghet.",
+        "Här är min svaghet – jag gömmer den inte längre för Dig.",
+        "Visa Din styrka just där jag inte har något kvar.",
+        "Din nåd är nog för mig. Det räcker. Amen."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "Även nu tackar jag",
+      "script": [
+        "Detta är en svårare tacksamhet. Andas och var ärlig.",
+        "Fader, även nu, mitt i detta, söker jag Din hand.",
+        "Tack för att Du inte lämnar mig ensam i det.",
+        "Tack för att denna tid inte är slutet på berättelsen.",
+        "Jag väljer tacksamhet, inte för att det är lätt, utan för att Du är god. Amen."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "Stillhetens gåva",
+      "body": "De flesta av oss möter morgonen redan i full fart – meddelanden, rubriker och plikter. Psalm 46 skrevs i en orolig tid, men i dess centrum finns en inbjudan till stillhet. Stillhet är inte att göra ingenting; det är att minnas vem som håller allt. Sänk axlarna i två minuter. Världen fortsätter att snurra utan din hjälp, som den alltid har gjort. Det är inte ditt misslyckande. Det är Hans trofasthet.",
+      "prayer": "Herre, stilla bruset inom mig. Hjälp mig att lita på att Du är Gud och att jag inte är det. Amen."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Styrkan som inte är din",
+      "body": "Paulus skrev om att möta alla omständigheter från en fängelsecell, inte från en bergstopp. Styrkan han beskriver är inte självförtroende, utan lånad kraft – den som kommer precis när den egna tar slut. Vad dagen än kräver av dig var det aldrig meningen att du skulle bära det ensam. Be. Ta emot. Gå.",
+      "prayer": "Jesus, var min styrka där jag är svag i dag. Jag ger Dig det som känns för tungt. Amen."
+    },
+    {
+      "id": "devotional-003",
+      "title": "Ledd, inte driven",
+      "body": "En herde går före; en pådrivare pressar bakifrån. Psalm 23 visar en Gud som leder till gröna ängar och stilla vatten. Om tron har känts som att bli driven – jäktad, pressad och rädd – är den rösten inte Herdens. Lyssna i dag efter rösten som leder varsamt och följ ett steg i taget.",
+      "prayer": "Min själs Herde, lär mig att känna igen Din röst. Led mig i dag. Amen."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Vila för den trötte",
+      "body": "Jesus kallade inte bara dem som hade ordning på allt. Han kallade de trötta, de nedtyngda och dem som knappt orkade hålla ut. Vila är inte belöningen när arbetet är färdigt; den är en gåva mitt i det. Kom som du är – det är hela inbjudan.",
+      "prayer": "Herre, jag kommer trött. Byt min tyngd mot Din vila. Amen."
+    },
+    {
+      "id": "devotional-005",
+      "title": "En framtid och ett hopp",
+      "body": "Jeremia 29:11 gavs till människor i landsflykt, människor vars planer hade rasat. Guds löfte var inte en omedelbar räddning utan vissheten om Hans väsen: Han hade inte glömt dem. Motgången är inte slutet på din berättelse. Författaren skriver fortfarande.",
+      "prayer": "Fader, när jag inte ser vägen, hjälp mig att lita på Honom som gör det. Amen."
+    },
+    {
+      "id": "devotional-006",
+      "title": "Luta dig mot Honom",
+      "body": "Ditt eget förstånd är ett bra redskap men en dålig herre. Ordspråksboken inbjuder oss att lita av hela hjärtat, inte för att tänkandet är fel, utan för att vårt perspektiv är begränsat. Ta beslutet du ständigt vrider och vänder på till Gud. Lyssna sedan längre än du talar.",
+      "prayer": "Herre, jag anförtror Dig beslutet jag tänker på just nu. Gör min väg rak. Amen."
+    },
+    {
+      "id": "devotional-007",
+      "title": "Motgiftet mot oro",
+      "body": "Paulus råd mot oro är mycket konkret: be om allt och lägg till tacksamhet. Tacksamhet är inte förnekelse; den vidgar bilden tills Guds tidigare trofasthet syns igen. Nämn tre saker du är tacksam för. Se vad det gör med rädslan.",
+      "prayer": "Fridens Gud, vaka över mitt hjärta och mina tankar i dag. Jag ger Dig min oro, en sak i taget. Amen."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Ljus i mörkret",
+      "body": "Johannes lovade inte ett liv utan mörker. Han förkunnade att mörkret inte segrar. Ett enda ljus diskuterar inte med natten; det brinner bara, och mörkret viker. Du behöver inte ordna allt i dag. Du behöver bara hålla ditt lilla ljus tänt och lita på att Han som själv är Ljuset gör resten.",
+      "prayer": "Jesus, världens ljus, lys i de delar av mig som känns mörka i dag. Amen."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Nog för i dag",
+      "body": "Manna kunde inte lagras. Varje morgon samlade folket precis tillräckligt, och nästa dag samlade de på nytt. Gud lär oss att lita en dag i taget, inte för att Han är snål, utan för att dagligt bröd skapar en daglig relation. Bär inte morgondagens tyngd in i denna dag. I dag finns tillräckligt med nåd.",
+      "prayer": "Fader, ge mig mitt dagliga bröd i dag och frid att lämna morgondagen hos Dig. Amen."
+    },
+    {
+      "id": "devotional-010",
+      "title": "Känd och älskad",
+      "body": "Innan du formade en enda tanke i morse var du redan känd. Psalm 139 berättar att Gud formade dig och känner varje stund du sätter dig och reser dig. Du är inte en främling som ber om uppmärksamhet. Du är ett barn, helt känd och – förunderligt nog – helt älskad. Låt det vara grunden du står på i dag.",
+      "prayer": "Herre, tack för att jag är helt känd och ändå helt älskad. Låt mig stå stadigt i det. Amen."
+    },
+    {
+      "id": "devotional-011",
+      "title": "Den långa lydnaden",
+      "body": "Trofasthet är sällan dramatisk. Oftast handlar den om att infinna sig – en bön, en vänlig handling och ett ärligt val i taget. En flod skär ut en dal, inte med kraft, utan genom att återvända till samma väg varje dag. Ditt lilla, upprepade ja till Gud gör mer än du kan se. Fortsätt återvända.",
+      "prayer": "Herre, gör mig trofast i det lilla i dag medan jag anförtror helheten åt Dig. Amen."
+    },
+    {
+      "id": "devotional-012",
+      "title": "När du känner dig bortglömd",
+      "body": "Hagar, ensam i öknen, kallade Gud den som ser henne. När ingen annan lade märke till henne gjorde Han det. Om du känner dig förbisedd i dag – av människor, omständigheter eller dina egna förhoppningar – hör detta: du är sedd. Ingenting i ditt liv är dolt för Honom som räknar stjärnorna och känner dem vid namn.",
+      "prayer": "Gud som ser mig, tack för att jag aldrig verkligen är ensam. Möt mig här. Amen."
+    },
+    {
+      "id": "devotional-013",
+      "title": "Gåvan du inte kunde förtjäna",
+      "body": "Nåden stöter den del av oss som vill förtjäna sin plats. Men Efesierbrevet säger tydligt att frälsningen ges av nåd, genom tro, som Guds gåva och inte vår prestation. Du kan sluta bevisa att du förtjänar kärleken du redan har. Vila är inte belöningen när allt är klart; den är gåvan som låter dig börja igen.",
+      "prayer": "Fader, jag tar emot det jag aldrig kunde förtjäna. Tack för nåden. Lär mig att vila i den. Amen."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Strömmar i öknen",
+      "body": "Jesaja talar om floder i ödemarken, vatten där du var säker på att inget kunde växa. Den torra tiden är inte slutet på berättelsen. Gud låter livet spira just på de platser vi hade räknat bort. Se på marken du gav upp. Han är inte färdig där.",
+      "prayer": "Herre, låt strömmar rinna genom de torra platserna inom mig. Jag litar på att Du gör allt nytt. Amen."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Kasta det, bär det inte",
+      "body": "Petrus använder en fysisk bild: kasta. Lägg din oro på Gud som du skulle slänga en tung packning från axlarna, för Han bryr sig om dig. Oron låtsas vara nyttig, som om tillräckligt grubblande skulle lösa den. Det gör det inte. Bönen flyttar tyngden till den ende som är stark nog att bära den.",
+      "prayer": "Herre, jag ger Dig min oro – på riktigt, inte bara med ord. Bär det jag inte kan. Amen."
+    },
+    {
+      "id": "devotional-016",
+      "title": "Rösten som kallar dig älskad",
+      "body": "Innan Jesus gjorde ett enda under bekräftade Fadern att Han var den älskade Sonen som gladde Honom. Han var älskad först, inte som lön för något Han hade gjort. Så är det också med dig. Du behöver inte prestera dig fram till kärlek. Du kan arbeta utifrån kärleken, inte för att få den.",
+      "prayer": "Fader, låt mig höra Dig kalla mig älskad innan jag gör något i dag. Amen."
+    },
+    {
+      "id": "devotional-017",
+      "title": "Förakta inte en liten början",
+      "body": "Sakarja frågar vem som vågar förakta dagen då det lilla börjar. Vi vill ha den färdiga katedralen; Gud gläder sig åt den första stenen. Vad du än börjar med – en vana, ett helande eller en försoning – mät det inte efter hur litet det ser ut i dag. Stora ting börjar nästan alltid pinsamt smått.",
+      "prayer": "Herre, välsigna den lilla början framför mig. Hjälp mig att vara trofast med lite. Amen."
+    },
+    {
+      "id": "devotional-018",
+      "title": "Han återupprättar",
+      "body": "Herden i Psalm 23 driver inte utmattade får vidare. Han låter dem ligga ner, leder dem till stilla vatten och ger själen nytt liv. Om du går på tomgång kan det heligaste du gör vara att stanna. Återhämtning är inte lättja. Det är lydnad mot Gud, som skapade dig med behov av vila.",
+      "prayer": "Herden, led mig till stilla vatten i dag. Återställ det som har slitits ner inom mig. Amen."
+    },
+    {
+      "id": "devotional-019",
+      "title": "Kärlek i vardagen",
+      "body": "Paulus välkända beskrivning av kärleken är inte sentimental utan praktisk och nästan vardaglig. Tålmodig. Vänlig. Inte snar till vrede. För inget register över oförrätter. Det är kärlek med uppkavlade ärmar, kärlek för vardagar och svåra människor. Fråga inte om du känner kärlek, utan om du kan vara tålmodig, vänlig och förlåtande här.",
+      "prayer": "Herre, gör mig tålmodig och vänlig i dag, särskilt där det kostar mig något. Amen."
+    },
+    {
+      "id": "devotional-020",
+      "title": "Härlighetens tyngd",
+      "body": "Paulus kallar sina lidanden lätta och kortvariga, fastän han själv blev slagen och fängslad. Han kunde säga det eftersom han mätte svårigheterna mot en evighet av härlighet. Din smärta är verklig; han låtsas aldrig något annat. Men den är inte det största i synfältet. Något långt tyngre och långt mildare kommer.",
+      "prayer": "Fader, när dagen känns tung, lyft min blick mot det som består. Bär mig igenom. Amen."
+    },
+    {
+      "id": "devotional-021",
+      "title": "Vänd tillbaka till Mig",
+      "body": "Profeternas mest upprepade ord är inte att försöka hårdare, utan att vända tillbaka. Gud bjuder ständigt sitt folk hem, inte med en utskällning, utan med öppna armar. Om du har drivit bort är vägen hem kortare än du fruktar. Vänd hjärtat ärligt, så finner du Honom redan på väg mot dig.",
+      "prayer": "Fader, jag vänder tillbaka till Dig i dag. Tack för att Du möter mig innan jag ens är framme. Amen."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Var stilla",
+      "body": "I Psalm 46 kommer stillheten före vissheten om Gud. Vi försöker tänka oss fram till frid och blir bara mer intrasslade. Ibland är tro helt enkelt att sluta kämpa, öppna händerna och minnas vem som faktiskt håller världen samman. Det var aldrig du.",
+      "prayer": "Gud, stilla min strävan. Hjälp mig att vara stilla länge nog för att minnas att Du är Gud. Amen."
+    },
+    {
+      "id": "devotional-023",
+      "title": "Vännen som stannar",
+      "body": "Ordspråksboken berättar om en vän som står närmare än en bror. I en värld där människor kommer och går är Jesus den som stannar – genom misslyckandet, tystnaden och den långa natten. Du är inte för mycket för Honom, och du är aldrig för långt borta. Han söker inte en anledning att gå. Han är vännen som stannar.",
+      "prayer": "Jesus, tack för att Du stannar när andra inte kunde. Hjälp mig att vila i Din trofasthet. Amen."
+    },
+    {
+      "id": "devotional-024",
+      "title": "Glädjen kommer på morgonen",
+      "body": "Psalmisten förnekar inte tårarna; han erkänner att natten är verklig. Men den varar inte för evigt. På andra sidan sorgen finns en morgon, och Gud som tar vara på dina tårar tappar inte en enda. Håll fast. Morgonen är ett löfte, inte bara en möjlighet.",
+      "prayer": "Herre, hjälp mig att lita på morgonen Du har lovat, mitt i min natt. Ta vara på mina tårar. Amen."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "Sju dagar av frid",
+      "tagline": "För oroliga tider – en lugnande text om dagen."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "En vecka av tacksamhet",
+      "tagline": "Träna blicken att se nåd överallt."
+    },
+    {
+      "id": "psalms-30",
+      "title": "30 dagar i Psaltaren",
+      "tagline": "Bibelns bönbok, en psalm i taget."
+    },
+    {
+      "id": "gospels-90",
+      "title": "Jesu liv på 90 dagar",
+      "tagline": "Gå igenom alla fyra evangelierna."
+    },
+    {
+      "id": "bible-365",
+      "title": "Bibeln på ett år",
+      "tagline": "Hela berättelsen – 20 minuter om dagen."
+    }
+  ]
+}

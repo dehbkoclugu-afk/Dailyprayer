@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { ThemeName } from '@/theme/tokens';
-import type { Locale } from '@/i18n/translations';
+import type { AppLocale } from '@/i18n/applicationLocales';
 import type { GlobalLocaleTag } from '@/i18n/globalLanguageCatalog';
 
 export interface QuizAnswers {
@@ -18,13 +18,13 @@ interface UserState {
   onboarded: boolean;
   themePreference: ThemeName | 'system';
   /** 'system' = follow device locale (falls back to English) */
-  language: Locale | 'system';
+  language: AppLocale | 'system';
   /** Scripture language is independent from the app UI language. */
   scriptureLocale: GlobalLocaleTag | 'system';
   quiz: QuizAnswers;
   setOnboarded: (v: boolean) => void;
   setThemePreference: (t: ThemeName | 'system') => void;
-  setLanguage: (l: Locale | 'system') => void;
+  setLanguage: (l: AppLocale | 'system') => void;
   setScriptureLocale: (l: GlobalLocaleTag | 'system') => void;
   setQuiz: (patch: Partial<QuizAnswers>) => void;
   reset: () => void;

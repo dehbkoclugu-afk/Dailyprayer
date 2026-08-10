@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "locale": "sq",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "Në cilën traditë ndihesh si në shtëpi?",
+      "subtitle": "Lutjet dhe planet e tua do t’i përshtatim me të.",
+      "options": [
+        {
+          "value": "catholic",
+          "label": "Katolike"
+        },
+        {
+          "value": "protestant",
+          "label": "Protestante"
+        },
+        {
+          "value": "orthodox",
+          "label": "Ortodokse"
+        },
+        {
+          "value": "nondenominational",
+          "label": "Pa emërtim fetar"
+        },
+        {
+          "value": "exploring",
+          "label": "Ende po kërkoj"
+        }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "Çfarë shpreson të rritet brenda teje?",
+      "subtitle": "Zgjidh të gjitha ato që të përshtaten.",
+      "affirmation": "Je në shoqëri të mirë — 73% e anëtarëve u bashkuan pikërisht për të njëjtën arsye.",
+      "options": [
+        {
+          "value": "habit",
+          "label": "Një zakon i përditshëm lutjeje"
+        },
+        {
+          "value": "closer",
+          "label": "Të ndihem më pranë Perëndisë"
+        },
+        {
+          "value": "peace",
+          "label": "Më shumë paqe, më pak ankth"
+        },
+        {
+          "value": "sleep",
+          "label": "Gjumë më i mirë"
+        },
+        {
+          "value": "bible",
+          "label": "Të kuptoj Biblën"
+        },
+        {
+          "value": "gratitude",
+          "label": "Një zemër mirënjohëse"
+        }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "Çfarë të rëndon kohët e fundit?",
+      "subtitle": "Përgjigjja jote mbetet private dhe ndihmon në formimin e planit tënd.",
+      "affirmation": "Faleminderit që na e besove këtë. Shkrimi i Shenjtë na takon pikërisht këtu.",
+      "options": [
+        {
+          "value": "anxiety",
+          "label": "Ankth ose shqetësim"
+        },
+        {
+          "value": "loneliness",
+          "label": "Vetmi"
+        },
+        {
+          "value": "grief",
+          "label": "Hidhërim ose humbje"
+        },
+        {
+          "value": "direction",
+          "label": "Kërkim drejtimi"
+        },
+        {
+          "value": "consistency",
+          "label": "Të jem i qëndrueshëm"
+        },
+        {
+          "value": "none",
+          "label": "Jam mirë"
+        }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "Sa e njohur është lutja për ty?",
+      "options": [
+        {
+          "value": "new",
+          "label": "Sapo po filloj"
+        },
+        {
+          "value": "returning",
+          "label": "Po rikthehem pas një kohe"
+        },
+        {
+          "value": "regular",
+          "label": "Lutem rregullisht"
+        }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "Kur do të doje një kujtesë të përditshme?",
+      "subtitle": "Një nxitje e butë — kurrë mesazhe të padëshiruara.",
+      "options": [
+        {
+          "value": "07:30",
+          "label": "Mëngjes · 7:30"
+        },
+        {
+          "value": "12:30",
+          "label": "Mesditë · 12:30"
+        },
+        {
+          "value": "21:00",
+          "label": "Mbrëmje · 21:00"
+        },
+        {
+          "value": "none",
+          "label": "Pa kujtesa"
+        }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Drita e mëngjesit",
+      "script": [
+        "Merr frymë ngadalë… dhe nxirre. Para se dita të kërkojë diçka prej teje, qëndro këtu.",
+        "Zot, faleminderit për këtë mëngjes, për frymën dhe për një fillim të ri.",
+        "T’i dorëzoj orët që kam përpara: punën, fjalët dhe njerëzit që do të takoj.",
+        "Kur jam në ankth, bëhu paqja ime. Kur jam i lodhur, bëhu forca ime.",
+        "Më ndihmo ta përshkoj këtë ditë pa nxitim, duke ditur se Ti je pranë. Amen."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "Qetëso stuhinë",
+      "script": [
+        "Vëre dorën mbi zemër. Ndjeje rrahjen — je gjallë dhe i mbajtur në siguri.",
+        "Jezus, Ti sjell paqe në mes të stuhisë. Fol edhe mbi stuhinë time.",
+        "Tani e përmend shqetësimin tim… dhe e vendos në duart e Tua.",
+        "Le të ulet paqja Jote mbi mendjen time si ujë i qetë.",
+        "Sot nuk do të më mbajë frika. Ti më mban. Amen."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "Zemër mirënjohëse",
+      "script": [
+        "Mendo për një gjë të mirë nga dita e sotme, sado e vogël. Qëndro pak me të.",
+        "Atë, çdo dhuratë e mirë vjen prej Teje. Faleminderit.",
+        "Faleminderit për atë që kërkova dhe mora, si edhe për atë nga e cila më ruajte.",
+        "Më mëso ta dalloj hirin e fshehur në orët e zakonshme.",
+        "Le të jetë mirënjohja tingulli i fundit i ditës sime. Amen."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "Drejt pushimit",
+      "script": [
+        "Lëre ditën të mbarojë. Bëre atë që munde — dhe kjo mjafton.",
+        "Zot, ndërsa shtrihem, të besoj gjithçka që mbeti e papërfunduar.",
+        "Ruaji njerëzit që dua ndërsa flemë.",
+        "Më jep pushim të qetë dhe siguri në Ty.",
+        "Ngadalëso frymëmarrjen time… qetëso mendimet e mia… dhe më mbaj deri në mëngjes. Amen."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Bekoje familjen time",
+      "script": [
+        "Sill ndër mend fytyrat e familjarëve të tu, një nga një.",
+        "Atë, bekoje secilin në shëndet, në zemër dhe në besim.",
+        "Shëro atë që është tensionuar mes nesh; zbut atë që është ngurtësuar.",
+        "Bëje shtëpinë tonë një vend durimi dhe të qeshure.",
+        "Na bashko në dashurinë Tënde. Amen."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Guxim për sot",
+      "script": [
+        "Drejtohu për një çast. Merr frymë thellë.",
+        "Zot, në Ty nuk jetoj me frikë, por me fuqi, dashuri dhe urtësi.",
+        "Më jep guxim për bisedën, detyrën dhe hapin që vazhdoj ta shmang.",
+        "Kur lëkundem, më kujto se Ti ecën para meje.",
+        "Do të jem i fortë dhe guximtar — jo vetëm, por me Ty. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "Të numërosh dhuratat",
+      "script": [
+        "Lëre ditën të qetësohet. Nxirre me frymë gjithçka që kërkoi prej teje.",
+        "Atë, para se të përmend çfarë më mungon, më lër të përmend çfarë mora.",
+        "Faleminderit për mëshirat e zakonshme pranë të cilave pothuajse kalova sot.",
+        "Faleminderit për njerëzit që e bëjnë jetën time më të ngrohtë.",
+        "Një zemër mirënjohëse është zemër e plotë. Mbushma sonte. Amen."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Ujëra të qeta",
+      "script": [
+        "Çliroji duart. Lëre frymëmarrjen të ngadalësohet me çdo rresht.",
+        "Bariu im, Ti më çon pranë ujërave të qeta. Më ço atje edhe tani.",
+        "Një nga një, i vendos te këmbët e Tua mendimet që vrapojnë brenda meje.",
+        "Përtërije shpirtin tim. Rimëkëmb atë që dita e sotme ka konsumuar.",
+        "Nuk kam frikë, sepse Ti je me mua. Amen."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "Para se të nisë dita",
+      "script": [
+        "Dita është ende para teje. Para çdo gjëje tjetër, takoje Perëndinë këtu.",
+        "Zot, kjo ditë është e Jotja para se të jetë imja.",
+        "Shko para meje në çdo dhomë ku hyj dhe në çdo fjalë që them.",
+        "Kur nxitoj, më mëso të ec hap pas hapi.",
+        "Renditi orët e mia dhe mbaje zemrën time pranë Tëndes. Amen."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "Paqja që ruan",
+      "script": [
+        "Vendosi të dyja këmbët në tokë. Ti je këtu. Perëndia është këtu.",
+        "Jezus, Ti jep një paqe të vërtetë e të thellë, ndryshe nga ajo e botës.",
+        "Le ta ruajë kjo paqe sot zemrën dhe mendjen time si roje te porta.",
+        "Atë që nuk mund ta kontrolloj, ta dorëzoj Ty.",
+        "Paqja Jote mjafton. Pushoj në të. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "Falënderimi i parë",
+      "script": [
+        "Para listës së detyrave, ndalo për një çast. Merr një frymë mirënjohjeje.",
+        "Atë, faleminderit që më zgjove në një ditë të re hiri.",
+        "Faleminderit për frymën, dritën dhe faqen e pastër.",
+        "Le t’ia japë mirënjohja, jo nxitimi, tonin mëngjesit tim.",
+        "Sot filloj me falënderim. Amen."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Lëre barrën",
+      "script": [
+        "Dita mbaroi. Bëre atë që munde dhe kjo mjafton.",
+        "Zot, në duart e Tua vendos gjithçka që mbeti e papërfunduar.",
+        "Shqetësimet që mora me vete në errësirë, po t’i lë Ty.",
+        "Ti u jep pushim atyre që do. Më prano tani.",
+        "Shtrihem në paqe, sepse Ti më ruan. Amen."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "Mbi ata që dua",
+      "script": [
+        "Mendo për secilin që do. Mbaje fytyrën e tij para vetes për një çast.",
+        "Atë, kujdesu për ata që më ke besuar.",
+        "Ruaji kur dalin dhe kur kthehen.",
+        "Aty ku unë nuk u mjaftoj, le ta mbushë hirin Yt boshllëkun.",
+        "Mbaji në dorën Tënde më pranë nga sa mundem unë ndonjëherë. Amen."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Forcë për të falur",
+      "script": [
+        "Merr frymë. Kjo është e vështirë dhe Perëndia e di.",
+        "Zot, më ke treguar falje pa masë. Më jep forcë të fal.",
+        "Sjell para Teje emrin, kujtimin dhe plagën — t’i dorëzoj Ty.",
+        "Më çliro nga barra që nuk duhej ta mbaja kurrë.",
+        "Shëro atë që falja hap. Më bëj të plotë. Amen."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "Nën krahët e Tij",
+      "script": [
+        "Ndjeje peshën e ditës tek largohet nga shpatullat e tua.",
+        "Pranë Shumë të Lartit mund të pushoj i sigurt.",
+        "Zot, më mbulo sonte si zogu që mbulon të vegjlit e vet.",
+        "As frikë nga nata, as shqetësim për të nesërmen — vetëm mbrojtja Jote.",
+        "Nuk kam frikë, sepse Ti rri gjithmonë zgjuar. Natën e mirë, Atë. Amen."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "Kur jam i dobët",
+      "script": [
+        "Këtu nuk ke pse të shtirësh sikur je i fortë.",
+        "Zot, fuqia Jote plotësohet në dobësinë time.",
+        "Ja dobësia ime — nuk po ta fsheh më.",
+        "Bëhu i fortë pikërisht aty ku mua më ka mbaruar gjithçka.",
+        "Hiri Yt më mjafton. Kjo mjafton. Amen."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "Faleminderit edhe tani",
+      "script": [
+        "Kjo është një mirënjohje më e vështirë. Merr frymë dhe ji i sinqertë.",
+        "Atë, edhe tani, në këtë gjendje, po kërkoj dorën Tënde.",
+        "Faleminderit që nuk më le vetëm në të.",
+        "Faleminderit që kjo stinë nuk është fundi i historisë.",
+        "Zgjedh mirënjohjen, jo sepse është e lehtë, por sepse Ti je i mirë. Amen."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "Dhurata e qetësisë",
+      "body": "Shumica prej nesh hyjmë në mëngjes duke vrapuar: mesazhe, lajme, detyrime. Psalmi 46 lindi në kohë trazirash, por na fton të ndalemi. Qetësia nuk është mosveprim; është të kujtosh Kush i mban të gjitha. Për dy minuta, uli shpatullat. Bota vazhdon të rrotullohet pa ty — kjo nuk është dështimi yt, por besnikëria e Tij.",
+      "prayer": "Zot, qetësoje zhurmën brenda meje. Më ndihmo të besoj se Ti je Perëndi, jo unë. Amen."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Forca që nuk është e jotja",
+      "body": "Pali shkroi për forcën nga një qeli burgu, jo nga maja e një mali. Ai nuk fliste për vetëbesim, por për forcë të marrë, që vjen kur e jotja mbaron. Çfarëdo që të kërkojë jeta sot, nuk duhet ta mbash vetëm. Kërko. Prano. Ec përpara.",
+      "prayer": "Jezus, bëhu forca ime aty ku jam i dobët sot. Të besoj atë që duket tepër e rëndë. Amen."
+    },
+    {
+      "id": "devotional-003",
+      "title": "I udhëhequr, jo i shtyrë",
+      "body": "Bariu ecën përpara; ai që shtyn kopenë vjen nga pas. Psalmi 23 e paraqet Perëndinë si Bariun që çon te kullotat e gjelbra dhe ujërat e qeta. Nëse besimi yt është ndier si nxitim, trysni dhe frikë, ai nuk është zëri i Bariut. Sot dëgjo zërin që udhëheq butësisht dhe ndiqe hap pas hapi.",
+      "prayer": "Bariu i shpirtit tim, më mëso ta njoh zërin Tënd. Më udhëhiq sot. Amen."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Pushim për të lodhurit",
+      "body": "Jezusi nuk thirri vetëm ata që i kishin të gjitha në rregull. Ai thirri të lodhurit, të rënduarit dhe ata që mezi qëndronin. Pushimi nuk është shpërblim në fund të punës; është dhuratë në mes të saj. Eja ashtu siç je — kjo është e gjithë ftesa.",
+      "prayer": "Zot, vij i lodhur. Zëvendësoje barrën time me prehjen Tënde. Amen."
+    },
+    {
+      "id": "devotional-005",
+      "title": "E ardhme dhe shpresë",
+      "body": "Jeremia 29:11 iu drejtua të mërguarve, planet e të cilëve ishin shembur. Premtimi i Perëndisë nuk ishte një arratisje e menjëhershme, por siguria e karakterit të Tij: Ai nuk i kishte harruar. Ngecja jote nuk është fundi i historisë. Autori ende po shkruan.",
+      "prayer": "Atë, kur nuk e shoh rrugën, më ndihmo t’i besoj Atij që e sheh. Amen."
+    },
+    {
+      "id": "devotional-006",
+      "title": "Mbështetu tek Ai",
+      "body": "Arsyetimi ynë është mjet i mirë, por zotëri i keq. Fjalët e Urta na ftojnë të besojmë me gjithë zemër, sepse shikimi ynë është i kufizuar. Sille para Perëndisë vendimin që e mendon pa pushim. Pastaj dëgjo më gjatë sesa flet.",
+      "prayer": "Zot, të besoj vendimin që më mundon tani. Drejtoje shtegun tim. Amen."
+    },
+    {
+      "id": "devotional-007",
+      "title": "Kundërhelmi i ankthit",
+      "body": "Përgjigjja e Palit ndaj ankthit është çuditërisht konkrete: lutu për gjithçka dhe falëndero. Mirënjohja nuk është mohim; ajo e zgjeron pamjen derisa besnikëria e mëparshme e Perëndisë të duket përsëri. Përmend tri gjëra për të cilat je mirënjohës dhe vëre se çfarë i ndodh frikës.",
+      "prayer": "Perëndi i paqes, ruaje sot zemrën dhe mendjen time. T’i dorëzoj shqetësimet një nga një. Amen."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Dritë në errësirë",
+      "body": "Gjoni nuk premtoi një jetë pa errësirë. Ai premtoi se errësira nuk do të fitonte. Një qiri nuk debaton me natën; thjesht digjet dhe errësira tërhiqet. Sot nuk duhet të rregullosh gjithçka. Vetëm mbaje ndezur dritën tënde të vogël dhe pjesën tjetër besoja Atij që është vetë Drita.",
+      "prayer": "Jezus, Drita e botës, shkëlqe sot brenda meje aty ku ndihem në errësirë. Amen."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Mjafton për sot",
+      "body": "Mana nuk mund të ruhej për më vonë. Çdo mëngjes njerëzit mblidhnin aq sa u duhej dhe të nesërmen e bënin sërish. Perëndia na mëson të besojmë ditë pas dite, sepse buka e përditshme ndërton marrëdhënie të përditshme. Mos e sill peshën e së nesërmes në të sotmen. Hiri i sotëm mjafton për sot.",
+      "prayer": "Atë, më jep sot bukën e sotme dhe paqen për ta lënë të nesërmen në duart e Tua. Amen."
+    },
+    {
+      "id": "devotional-010",
+      "title": "I njohur dhe i dashur",
+      "body": "Para se të lindte mendimi yt i parë këtë mëngjes, Perëndia të njihte. Psalmi 139 tregon se Ai të formoi dhe njeh çdo lëvizje tënden. Nuk je i huaj që lyp vëmendje, por një fëmijë plotësisht i njohur dhe përsëri plotësisht i dashur. Qëndro sot mbi këtë të vërtetë.",
+      "prayer": "Zot, faleminderit që më njeh plotësisht dhe prapë më do plotësisht. Më forco në këtë të vërtetë. Amen."
+    },
+    {
+      "id": "devotional-011",
+      "title": "Bindja e gjatë",
+      "body": "Besnikëria rrallëherë duket madhështore. Zakonisht do të thotë të paraqitesh përsëri: një lutje, një mirësi, një zgjedhje e ndershme. Lumi nuk gdhend kanionin me forcë, por duke kaluar çdo ditë në të njëjtën rrugë. Po-ja jote e vogël dhe e përsëritur ndaj Perëndisë bën më shumë sesa mund të shohësh. Kthehu sërish.",
+      "prayer": "Zot, më bëj besnik sot në gjërat e vogla, ndërsa të besoj të tërën. Amen."
+    },
+    {
+      "id": "devotional-012",
+      "title": "Kur ndihesh i harruar",
+      "body": "Hagara, e vetme në shkretëtirë, e quajti Perëndinë Ai që më sheh. Kur askush tjetër nuk e vuri re, Perëndia e pa. Nëse sot ndihesh i padukshëm për shkak të njerëzve, rrethanave apo shpresave të tua, dije se Ai të sheh. Asgjë nga jeta jote nuk fshihet nga Ai që numëron yjet dhe i thërret me emër.",
+      "prayer": "Perëndi që më sheh, faleminderit që nuk jam kurrë vërtet vetëm. Më tako këtu. Amen."
+    },
+    {
+      "id": "devotional-013",
+      "title": "Dhurata që nuk e fitove",
+      "body": "Hiri e shqetëson atë pjesë tonën që dëshiron ta fitojë vendin e vet. Por Efesianëve e bën të qartë: shpëtimi me anë të hirit, përmes besimit, është dhurata e Perëndisë, jo arritja jonë. Nuk duhet më të provosh se je i denjë për dashurinë që tashmë të është dhënë. Prehja është dhurata që të lejon të fillosh përsëri.",
+      "prayer": "Atë, pranoj atë që nuk mund ta fitoja kurrë. Faleminderit për hirin. Më mëso të pushoj në të. Amen."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Përrenj në shkretëtirë",
+      "body": "Isaia flet për lumenj në shkretëtirë — ujë aty ku asgjë nuk duhet të rritet. Stina jote e thatë nuk është fundi i historisë. Perëndia sjell jetë pikërisht në vendet që ne i kemi braktisur. Shikoje përsëri tokën nga e cila hoqe dorë. Ai nuk ka mbaruar ende atje.",
+      "prayer": "Zot, sill përrenj në pjesët e mia të thara. Të besoj se Ti i bën të gjitha të reja. Amen."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Hidhe, mos e mbaj",
+      "body": "Pjetri përdor një figurë të fuqishme: hidhe. Hidhe ankthin tënd mbi Perëndinë si një thes të rëndë nga shpatullat, sepse Ai kujdeset për ty. Shqetësimi shtiret si i dobishëm, sikur mendimi i tepërt do ta zgjidhë. Nuk do ta bëjë. Lutja e kalon peshën tek Ai që është mjaft i fortë për ta mbajtur.",
+      "prayer": "Zot, vërtet po ta hedh shqetësimin tim, jo vetëm me fjalë. Mbaje atë që unë nuk mundem. Amen."
+    },
+    {
+      "id": "devotional-016",
+      "title": "Zëri që të quan të mirë",
+      "body": "Para se Jezusi të bënte qoftë edhe një mrekulli, Ati pohoi se Ai ishte Biri i dashur, në të cilin gjente kënaqësi. Dashuria erdhi e para, jo si pagë për punën. Kështu është edhe me ty. Nuk ke pse ta fitosh dashurinë me arritje; mund të punosh nga dashuria, jo për të.",
+      "prayer": "Atë, më lër të dëgjoj se më quan të dashur para se të bëj ndonjë gjë sot. Amen."
+    },
+    {
+      "id": "devotional-017",
+      "title": "Mos i përçmo fillimet e vogla",
+      "body": "Zakaria pyet se kush guxon ta përçmojë ditën e fillimeve të vogla. Ne duam katedralen e përfunduar; Perëndia gëzohet me gurin e parë. Çfarëdo që po nis — një zakon, shërim apo pajtim — mos e mat nga sa e vogël duket sot. Gjërat e mëdha pothuajse gjithmonë fillojnë në mënyrë të habitshme të vogël.",
+      "prayer": "Zot, bekoje fillimin e vogël para meje. Më ndihmo të jem besnik në pak. Amen."
+    },
+    {
+      "id": "devotional-018",
+      "title": "Ai rimëkëmb",
+      "body": "Bariu i Psalmit 23 nuk i shtyn delet e rraskapitura më tej. Ai i shtrin, i çon te ujërat e qeta dhe i rimëkëmb. Nëse fuqia të ka mbaruar, veprimi më i shenjtë mund të jetë të ndalosh. Rimëkëmbja nuk është përtaci; është bindje ndaj Perëndisë që të krijoi me nevojën për pushim.",
+      "prayer": "Bariu im, më ço sot te ujërat e qeta. Rimëkëmb atë që është konsumuar brenda meje. Amen."
+    },
+    {
+      "id": "devotional-019",
+      "title": "Dashuri në jetën e zakonshme",
+      "body": "Përshkrimi i famshëm i Palit për dashurinë nuk është sentimental, por praktik. Ajo është e duruar. Është mirëdashëse. Nuk zemërohet lehtë dhe nuk mban llogari të së keqes. Kjo është dashuri me mëngët e përveshura, për pasditet e zakonshme dhe njerëzit e vështirë. Mos pyet vetëm nëse ndien dashuri; pyet si mund të jesh i duruar, i mirë dhe falës këtu.",
+      "prayer": "Zot, më bëj sot të duruar dhe mirëdashës, veçanërisht aty ku kjo kushton. Amen."
+    },
+    {
+      "id": "devotional-020",
+      "title": "Pesha e lavdisë",
+      "body": "Pali i quan vështirësitë e tij të lehta dhe kalimtare, ndonëse ishte rrahur e burgosur. Ai i mati përballë lavdisë së përjetshme. Dhimbja jote është e vërtetë, por nuk është gjëja më e madhe në horizont. Diçka shumë më e rëndë dhe më e mëshirshme po afrohet.",
+      "prayer": "Atë, kur dita e sotme është e rëndë, ngriji sytë e mi drejt asaj që mbetet. Më mbaj gjatë saj. Amen."
+    },
+    {
+      "id": "devotional-021",
+      "title": "Kthehu tek Unë",
+      "body": "Fjala më e shpeshtë e profetëve nuk është përpiqu më fort, por kthehu. Perëndia gjithmonë e thërret popullin e Tij në shtëpi, jo me qortim, por me krahë të hapur. Nëse je larguar, rruga është më e shkurtër nga sa mendon. Një kthesë e ndershme e zemrës dhe do të zbulosh se Ai tashmë po vrapon drejt teje.",
+      "prayer": "Atë, sot kthehem tek Ti. Faleminderit që më del përpara para se të mbërrij. Amen."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Qetësohu",
+      "body": "Psalmi 46 na fton së pari të ndalemi dhe pastaj ta njohim Perëndinë. Përpiqemi të mendojmë rrugën drejt paqes dhe ngatërrohemi më shumë. Ndonjëherë besimi është thjesht të pushosh së luftuari: të hapësh duart aq gjatë sa të kujtosh Kush e mban botën bashkë. Nuk ke qenë kurrë ti.",
+      "prayer": "Perëndi, qetësoje përpjekjen time. Më ndihmo të ndalem mjaftueshëm që të kujtoj: Ti je Perëndi. Amen."
+    },
+    {
+      "id": "devotional-023",
+      "title": "Miku që qëndron",
+      "body": "Fjalët e Urta flasin për një mik më të afërt se vëllai. Në një botë njerëzish që vijnë e ikin, Jezusi qëndron — përmes dështimit, heshtjes dhe natës së gjatë. Nuk je tepër për Të dhe nuk mund të largohesh aq sa Ai të mos të arrijë. Ai nuk kërkon arsye për t’u larguar. Ai është Miku që qëndron.",
+      "prayer": "Jezus, faleminderit që qëndron kur të tjerët nuk mundën. Më ndihmo të pushoj në besnikërinë Tënde. Amen."
+    },
+    {
+      "id": "devotional-024",
+      "title": "Gëzimi vjen në mëngjes",
+      "body": "Psalmisti nuk e mohon të qarën; ai pranon se nata mund të jetë e rëndë. Nata është e vërtetë, por nuk është e përjetshme. Përtej hidhërimit ka mëngjes dhe Perëndia që ruan lotët e tu nuk ka humbur asnjërin. Qëndro. Mëngjesi është premtim, jo vetëm mundësi.",
+      "prayer": "Zot, në natën time më ndihmo t’i besoj mëngjesit që ke premtuar. Ruaji lotët e mi. Amen."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "Shtatë ditë paqe",
+      "tagline": "Për stinët me ankth — një fragment qetësues çdo ditë."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "Një javë mirënjohjeje",
+      "tagline": "Stërviti sytë e tu ta shohin përsëri hirin kudo."
+    },
+    {
+      "id": "psalms-30",
+      "title": "30 ditë në Psalme",
+      "tagline": "Libri i lutjeve i Biblës, një psalm pas tjetrit."
+    },
+    {
+      "id": "gospels-90",
+      "title": "Jeta e Jezusit në 90 ditë",
+      "tagline": "Ec përmes të katër Ungjijve."
+    },
+    {
+      "id": "bible-365",
+      "title": "Bibla në një vit",
+      "tagline": "E gjithë historia — 20 minuta në ditë."
+    }
+  ]
+}

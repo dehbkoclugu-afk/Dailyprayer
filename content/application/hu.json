@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "locale": "hu",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "Melyik hagyományban érzed otthon magad?",
+      "subtitle": "Ehhez igazítjuk az imáidat és a terveidet.",
+      "options": [
+        {
+          "value": "catholic",
+          "label": "Katolikus"
+        },
+        {
+          "value": "protestant",
+          "label": "Protestáns"
+        },
+        {
+          "value": "orthodox",
+          "label": "Ortodox"
+        },
+        {
+          "value": "nondenominational",
+          "label": "Felekezeten kívüli"
+        },
+        {
+          "value": "exploring",
+          "label": "Még keresem az utam"
+        }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "Mit szeretnél növekedni látni magadban?",
+      "subtitle": "Válaszd ki az összes rád illő lehetőséget.",
+      "affirmation": "Jó társaságban vagy — a tagok 73%-a ugyanezért csatlakozott.",
+      "options": [
+        {
+          "value": "habit",
+          "label": "Mindennapi imaszokás"
+        },
+        {
+          "value": "closer",
+          "label": "Közelebb kerülni Istenhez"
+        },
+        {
+          "value": "peace",
+          "label": "Több béke, kevesebb szorongás"
+        },
+        {
+          "value": "sleep",
+          "label": "Jobb alvás"
+        },
+        {
+          "value": "bible",
+          "label": "A Biblia megértése"
+        },
+        {
+          "value": "gratitude",
+          "label": "Hálás szív"
+        }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "Mi nyomaszt mostanában?",
+      "subtitle": "A válaszod bizalmas marad, és segít kialakítani a tervedet.",
+      "affirmation": "Köszönjük a bizalmadat. A Szentírás éppen itt találkozik velünk.",
+      "options": [
+        {
+          "value": "anxiety",
+          "label": "Szorongás vagy aggodalom"
+        },
+        {
+          "value": "loneliness",
+          "label": "Magány"
+        },
+        {
+          "value": "grief",
+          "label": "Gyász vagy veszteség"
+        },
+        {
+          "value": "direction",
+          "label": "Útmutatás keresése"
+        },
+        {
+          "value": "consistency",
+          "label": "Kitartás"
+        },
+        {
+          "value": "none",
+          "label": "Jól vagyok"
+        }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "Mennyire ismerős számodra az imádság?",
+      "options": [
+        {
+          "value": "new",
+          "label": "Most kezdem"
+        },
+        {
+          "value": "returning",
+          "label": "Egy idő után visszatérek"
+        },
+        {
+          "value": "regular",
+          "label": "Rendszeresen imádkozom"
+        }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "Mikor szeretnél napi emlékeztetőt?",
+      "subtitle": "Egy gyengéd jelzés — soha nem kéretlen üzenet.",
+      "options": [
+        {
+          "value": "07:30",
+          "label": "Reggel · 7:30"
+        },
+        {
+          "value": "12:30",
+          "label": "Délben · 12:30"
+        },
+        {
+          "value": "21:00",
+          "label": "Este · 21:00"
+        },
+        {
+          "value": "none",
+          "label": "Nem kérek emlékeztetőt"
+        }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Reggeli fény",
+      "script": [
+        "Lassan lélegezz be… majd ki. Mielőtt bármit kérne tőled a nap, maradj itt.",
+        "Uram, köszönöm ezt a reggelt, a lélegzetet és az új kezdetet.",
+        "Rád bízom az előttem álló órákat: a munkámat, a szavaimat és az embereket, akikkel találkozom.",
+        "Amikor szorongok, légy a békém. Amikor elfáradok, légy az erőm.",
+        "Segíts, hogy sietség nélkül járjam végig ezt a napot, tudva, hogy közel vagy. Ámen."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "Csendesítsd le a vihart",
+      "script": [
+        "Tedd a kezed a szívedre. Érezd a dobbanását — élsz, és biztonságban vagy.",
+        "Jézus, Te békét hozol a vihar közepén. Szólj az én viharomhoz is.",
+        "Most megnevezem az aggodalmamat… és a kezedbe teszem.",
+        "Békéd telepedjen az elmémre, mint a nyugodt víz.",
+        "Ma nem a félelem hordoz. Te hordozol engem. Ámen."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "Hálás szív",
+      "script": [
+        "Gondolj egy jó dologra a mai napból, bármilyen kicsi is volt. Időzz el mellette egy pillanatra.",
+        "Atyám, minden jó ajándék Tőled jön. Köszönöm.",
+        "Köszönöm, amit kértem és megkaptam, és azt is, amitől megóvtál.",
+        "Taníts észrevenni a hétköznapi órákban rejtőző kegyelmet.",
+        "Legyen a hála napom utolsó hangja. Ámen."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "Megpihenni",
+      "script": [
+        "Engedd véget érni a napot. Megtetted, amit tudtál — és ez elég.",
+        "Uram, amikor lefekszem, Rád bízok mindent, ami befejezetlen maradt.",
+        "Vigyázz azokra, akiket szeretek, amíg alszunk.",
+        "Adj békés pihenést és biztonságot Benned.",
+        "Lassítsd le a légzésem… csendesítsd el a gondolataim… és tarts meg reggelig. Ámen."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Áldd meg a családomat",
+      "script": [
+        "Idézd fel családtagjaid arcát, egyiket a másik után.",
+        "Atyám, áldd meg mindegyiküket egészségben, szívben és hitben.",
+        "Gyógyítsd meg, ami feszült közöttünk; lágyítsd meg, ami megkeményedett.",
+        "Tedd otthonunkat a türelem és a nevetés helyévé.",
+        "Kapcsolj össze minket szeretetedben. Ámen."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Bátorság mára",
+      "script": [
+        "Egy pillanatra húzd ki magad. Lélegezz mélyet.",
+        "Uram, Benned nem félelemben élek, hanem erőben, szeretetben és józanságban.",
+        "Adj bátorságot a beszélgetéshez, a feladathoz és a lépéshez, amelyet kerülök.",
+        "Amikor megingok, emlékeztess: előttem jársz.",
+        "Erős és bátor leszek — nem egyedül, hanem Veled. Ámen."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "Az ajándékok számbavétele",
+      "script": [
+        "Hagyd elcsendesedni a napot. Lélegezd ki mindazt, amit kért tőled.",
+        "Atyám, mielőtt megnevezem, mi hiányzik, hadd nevezzem meg, mit kaptam.",
+        "Köszönöm a hétköznapi irgalmat, amely mellett ma majdnem elmentem.",
+        "Köszönöm az embereket, akik melegebbé teszik az életemet.",
+        "A hálás szív teljes szív. Töltsd meg ma este az enyémet. Ámen."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Csendes vizek",
+      "script": [
+        "Lazítsd el a kezed. Minden sornál lassuljon a légzésed.",
+        "Pásztorom, csendes vizekhez vezetsz. Vezess oda most is.",
+        "Egymás után lábad elé teszem a bennem száguldó gondolatokat.",
+        "Újítsd meg a lelkem. Állítsd helyre, amit a mai nap elkoptatott.",
+        "Nem félek, mert velem vagy. Ámen."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "A nap kezdete előtt",
+      "script": [
+        "A nap még előtted áll. Minden más előtt találkozz vele itt, Istennel.",
+        "Uram, ez a nap előbb a Tiéd, mint az enyém.",
+        "Járj előttem minden szobába, ahová belépek, és minden szóban, amelyet kimondok.",
+        "Amikor sietnék, taníts lépésről lépésre járni.",
+        "Rendezd el óráimat, és tartsd szívemet közel a Tiédhez. Ámen."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "Az őrző béke",
+      "script": [
+        "Tedd mindkét lábad a földre. Itt vagy. Isten itt van.",
+        "Jézus, valóságos és mély békét adsz, amely más, mint a világ békéje.",
+        "Ez a béke őrizze ma a szívemet és az elmémet, mint őr a kaput.",
+        "Amit nem tudok irányítani, Rád bízom.",
+        "Békéd elég. Megpihenek benne. Ámen."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "Az első köszönet",
+      "script": [
+        "A teendők előtt állj meg egy pillanatra. Vegyél egy hálás lélegzetet.",
+        "Atyám, köszönöm, hogy a kegyelem új napjára ébresztettél.",
+        "Köszönöm a lélegzetet, a fényt és a tiszta lapot.",
+        "A hála, ne a sietség adja meg reggelem hangját.",
+        "Hálával kezdem a mai napot. Ámen."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Tedd le a terhet",
+      "script": [
+        "Véget ért a nap. Megtetted, amit tudtál, és ez elég.",
+        "Uram, kezedbe teszek mindent, ami befejezetlen maradt.",
+        "A sötétbe magammal vitt aggodalmakat Nálad hagyom.",
+        "Te pihenést adsz azoknak, akiket szeretsz. Fogadj be most.",
+        "Békében fekszem le, mert Te őrzöl engem. Ámen."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "Azok fölött, akiket szeretek",
+      "script": [
+        "Gondolj mindenkire, akit szeretsz. Tartsd egy pillanatig magad előtt az arcát.",
+        "Atyám, vigyázz azokra, akiket rám bíztál.",
+        "Őrizd meg elindulásukat és hazatérésüket.",
+        "Ahol cserbenhagyom őket, kegyelmed töltse be a hiányt.",
+        "Tartsd őket kezedben közelebb, mint ahogy én valaha tudnám. Ámen."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Erő a megbocsátáshoz",
+      "script": [
+        "Lélegezz. Ez nehéz, és Isten tudja.",
+        "Uram, mérhetetlen megbocsátást mutattál nekem. Adj erőt, hogy megbocsássak.",
+        "Eléd hozom a nevet, az emléket és a sebet — átadom őket Neked.",
+        "Szabadíts meg attól a tehertől, amelyet soha nem nekem kellett hordoznom.",
+        "Gyógyítsd meg, amit a megbocsátás megnyit. Tégy egésszé. Ámen."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "Szárnyai alatt",
+      "script": [
+        "Érezd, ahogy a nap súlya lekerül a válladról.",
+        "A Magasságos közelében biztonságban pihenhetek.",
+        "Uram, takarj be ma éjjel, ahogy a madár betakarja fiókáit.",
+        "Nincs félelem az éjszakától, nincs aggodalom a holnap miatt — csak a Te oltalmad.",
+        "Nem félek, mert Te mindig virrasztasz. Jó éjszakát, Atyám. Ámen."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "Amikor gyenge vagyok",
+      "script": [
+        "Itt nem kell erősnek mutatnod magad.",
+        "Uram, erőd az én gyengeségemben mutatkozik meg teljesen.",
+        "Itt a gyengeségem — többé nem rejtem el előled.",
+        "Légy erős éppen ott, ahol belőlem már minden elfogyott.",
+        "Kegyelmed elég nekem. Ez elég. Ámen."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "Még most is köszönöm",
+      "script": [
+        "Ez nehezebb hála. Lélegezz, és maradj őszinte.",
+        "Atyám, még most, ebben a helyzetben is a kezedet keresem.",
+        "Köszönöm, hogy nem hagytál egyedül benne.",
+        "Köszönöm, hogy ez az időszak nem a történet vége.",
+        "A hálát választom, nem azért, mert könnyű, hanem mert Te jó vagy. Ámen."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "A csend ajándéka",
+      "body": "Legtöbben már futva érkezünk a reggelbe: üzenetek, hírek, kötelességek. A 46. zsoltár nyugtalan időben született, mégis a megállásra hív. A csend nem tétlenség, hanem emlékezés arra, Ki tart mindent a kezében. Két percre engedd le a vállad. A világ nélküled is tovább forog — ez nem a kudarcod, hanem az Ő hűsége.",
+      "prayer": "Uram, csendesítsd el bennem a zajt. Segíts bíznom abban, hogy Te vagy Isten, nem én. Ámen."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Az erő, amely nem a tiéd",
+      "body": "Pál börtöncellából írt az erőről, nem egy hegycsúcsról. Nem önbizalomról beszélt, hanem kapott erőről, amely akkor érkezik, amikor a sajátod elfogy. Bármit kér ma tőled az élet, nem kell egyedül hordoznod. Kérj. Fogadj el. Indulj.",
+      "prayer": "Jézus, légy az erőm ott, ahol ma gyenge vagyok. Rád bízom, ami túl nehéznek tűnik. Ámen."
+    },
+    {
+      "id": "devotional-003",
+      "title": "Vezetve, nem hajszolva",
+      "body": "A pásztor elöl jár, a hajcsár hátulról sürget. A 23. zsoltár Istent zöld legelőkhöz és csendes vizekhez vezető Pásztorként mutatja. Ha a hited sietségnek, nyomásnak és félelemnek érződött, az nem a Pásztor hangja. Ma figyelj a gyengéden vezető hangra, és kövesd lépésről lépésre.",
+      "prayer": "Lelkem Pásztora, taníts felismerni a hangodat. Vezess ma. Ámen."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Pihenés a megfáradtaknak",
+      "body": "Jézus nem csak azokat hívta, akiknek minden rendben van. A fáradtakat, a megterhelteket és az alig kitartókat szólította meg. A pihenés nem jutalom a munka végén; ajándék annak közepén. Jöjj úgy, ahogy vagy — ez az egész meghívás.",
+      "prayer": "Uram, fáradtan jövök. Cseréld fel terhemet a Te nyugalmadra. Ámen."
+    },
+    {
+      "id": "devotional-005",
+      "title": "Jövő és remény",
+      "body": "A Jeremiás 29:11 száműzöttekhez szólt, akiknek tervei összeomlottak. Isten ígérete nem azonnali menekülés volt, hanem jellemének bizonyossága: nem felejtette el őket. A megtorpanásod nem történeted vége. A Szerző még ír.",
+      "prayer": "Atyám, amikor nem látom az utat, segíts bíznom Abban, aki látja. Ámen."
+    },
+    {
+      "id": "devotional-006",
+      "title": "Támaszkodj Rá",
+      "body": "A saját értelmünk jó eszköz, de rossz úr. A Példabeszédek teljes szívű bizalomra hív, mert látásunk korlátozott. Vidd Isten elé a döntést, amelyen újra meg újra töprengsz. Aztán hallgass tovább, mint ameddig beszélsz.",
+      "prayer": "Uram, Rád bízom a döntést, amely most foglalkoztat. Egyengesd az utamat. Ámen."
+    },
+    {
+      "id": "devotional-007",
+      "title": "A szorongás ellenszere",
+      "body": "Pál válasza a szorongásra meglepően konkrét: imádkozz mindenért, és adj hálát. A hála nem tagadás; kitágítja a képet, amíg Isten korábbi hűsége újra láthatóvá válik. Nevezz meg három dolgot, amiért hálás vagy, és figyeld, mi történik a félelemmel.",
+      "prayer": "Békesség Istene, őrizd ma szívemet és elmémet. Egymás után átadom Neked aggodalmaimat. Ámen."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Fény a sötétben",
+      "body": "János nem ígért sötétség nélküli életet. Azt ígérte, hogy a sötétség nem győz. Egyetlen gyertya nem vitatkozik az éjszakával; csak ég, és a sötét hátrál. Ma nem kell mindent helyrehoznod. Csak tartsd égve kis fényedet, és bízd a többit Arra, aki maga a Fény.",
+      "prayer": "Jézus, világ Világossága, ragyogj ma bennem ott, ahol sötétnek érzem magam. Ámen."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Elég mára",
+      "body": "A mannát nem lehetett félretenni. Az emberek minden reggel éppen eleget gyűjtöttek, másnap pedig újra. Isten napról napra tanít bízni, mert a mindennapi kenyér mindennapi kapcsolatot épít. Ne hozd a holnap súlyát a mába. A mai napnak elég a maga kegyelme.",
+      "prayer": "Atyám, add meg ma a mai kenyeret és a békét, hogy a holnapot Rád hagyjam. Ámen."
+    },
+    {
+      "id": "devotional-010",
+      "title": "Ismert és szeretett",
+      "body": "Mielőtt ma reggel egyetlen gondolatod megszületett volna, Isten már ismert. A 139. zsoltár arról beszél, hogy Ő alkotott és minden mozdulatodat ismeri. Nem figyelemért könyörgő idegen vagy, hanem teljesen ismert és mégis teljesen szeretett gyermek. Erre állj ma.",
+      "prayer": "Uram, köszönöm, hogy teljesen ismersz és mégis teljesen szeretsz. Erősíts meg ebben. Ámen."
+    },
+    {
+      "id": "devotional-011",
+      "title": "A hosszú engedelmesség",
+      "body": "A hűség ritkán látványos. Többnyire azt jelenti, hogy újra megjelensz: egy ima, egy kedvesség, egy őszinte döntés. A folyó nem erővel váj kanyont, hanem azzal, hogy naponta ugyanazon az úton halad. Istennek mondott apró, ismételt igened többet tesz, mint látszik. Térj vissza újra.",
+      "prayer": "Uram, tégy ma hűségessé a kicsiben, miközben az egészet Rád bízom. Ámen."
+    },
+    {
+      "id": "devotional-012",
+      "title": "Amikor elfelejtettnek érzed magad",
+      "body": "Hágár egyedül a pusztában úgy nevezte Istent: Ő, aki lát engem. Amikor más nem vette észre, Isten igen. Ha ma emberek, körülmények vagy saját reményeid miatt láthatatlannak érzed magad, tudd: Ő lát. Életedből semmi sem rejtett Az előtt, aki megszámolja és néven szólítja a csillagokat.",
+      "prayer": "Istenem, aki látsz engem, köszönöm, hogy sosem vagyok igazán egyedül. Találkozz velem itt. Ámen."
+    },
+    {
+      "id": "devotional-013",
+      "title": "Az ajándék, amelyet nem érdemeltél ki",
+      "body": "A kegyelem zavarja bennünk azt a részt, amely ki akarja érdemelni a helyét. Az Efezusiakhoz írt levél azonban világosan mutatja: a kegyelemből, hit által kapott üdvösség Isten ajándéka, nem a mi teljesítményünk. Nem kell többé bizonyítanod, hogy méltó vagy a már megkapott szeretetre. A nyugalom ajándék, amely újrakezdeni enged.",
+      "prayer": "Atyám, elfogadom, amit soha nem érdemelhetnék ki. Köszönöm a kegyelmet. Taníts megpihenni benne. Ámen."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Patakok a pusztában",
+      "body": "Ézsaiás folyókról beszél a pusztaságban — vízről ott, ahol semmi sem nőhetne. Száraz időszakod nem a történet vége. Isten éppen az általunk leírt helyeken fakaszt életet. Nézd meg a földet, amelyről lemondtál. Ő még nem végzett ott.",
+      "prayer": "Uram, hozz patakokat kiszáradt részeimbe. Bízom Benned, hogy mindent megújítasz. Ámen."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Elvetni, nem cipelni",
+      "body": "Péter erős képet használ: vesd el. Dobd szorongásodat Istenre, mint egy nehéz zsákot a válladról, mert Ő gondoskodik rólad. Az aggodalom hasznosnak tetteti magát, mintha sok töprengés megoldaná. Nem fogja. Az ima átteszi a súlyt Arra, aki elég erős megtartani.",
+      "prayer": "Uram, valóban Rád vetem aggodalmamat, nem csak szavakkal. Hordozd, amit én nem tudok. Ámen."
+    },
+    {
+      "id": "devotional-016",
+      "title": "A hang, amely jónak nevez",
+      "body": "Mielőtt Jézus egyetlen csodát tett volna, az Atya megerősítette, hogy Ő szeretett Fia, akiben örömét leli. A szeretet előbb jött, nem a munka béreként. Veled is így van. Nem kell teljesítménnyel megszerezned a szeretetet; szeretetből dolgozhatsz, nem érte.",
+      "prayer": "Atyám, hadd halljam, hogy szeretettnek nevezel, mielőtt ma bármit teszek. Ámen."
+    },
+    {
+      "id": "devotional-017",
+      "title": "Ne vesd meg a kis kezdeteket",
+      "body": "Zakariás azt kérdezi, ki meri megvetni a kicsiny kezdet napját. Mi a kész székesegyházat akarjuk; Isten az első letett kőnek örül. Bármit kezdesz — szokást, gyógyulást vagy kibékülést — ne az alapján mérd, milyen kicsinek látszik ma. A nagy dolgok szinte mindig zavarba ejtően kicsiben indulnak.",
+      "prayer": "Uram, áldd meg az előttem álló kis kezdetet. Segíts hűnek lennem a kevésben. Ámen."
+    },
+    {
+      "id": "devotional-018",
+      "title": "Ő helyreállít",
+      "body": "A 23. zsoltár Pásztora nem hajtja tovább a kimerült juhokat. Lefekteti, csendes vízhez vezeti és helyreállítja őket. Ha kifogytál az erőből, a legszentebb tett talán a megállás. A helyreállás nem lustaság, hanem engedelmesség annak az Istennek, aki pihenésre szorulónak alkotott.",
+      "prayer": "Pásztorom, vezess ma csendes vizekhez. Állítsd helyre, ami elkopott bennem. Ámen."
+    },
+    {
+      "id": "devotional-019",
+      "title": "Szeretet a hétköznapokban",
+      "body": "Pál híres szeretetleírása nem érzelgős, hanem gyakorlati. Türelmes. Jóságos. Nem gerjed könnyen haragra. Nem tartja számon a sérelmeket. Ez feltűrt ingujjú szeretet, keddi délutánokra és nehéz emberekhez. Ne azt kérdezd, érzel-e szeretetet, hanem hogy tudsz-e itt türelmes, kedves és megbocsátó lenni.",
+      "prayer": "Uram, tégy ma türelmessé és kedvessé, különösen ott, ahol ennek ára van. Ámen."
+    },
+    {
+      "id": "devotional-020",
+      "title": "A dicsőség súlya",
+      "body": "Pál könnyűnek és pillanatnyinak nevezi nehézségeit, noha megverték és bebörtönözték. Az örök dicsőséghez mérte őket. A fájdalmad valóságos, de nem ez a legnagyobb dolog a láthatáron. Valami sokkal súlyosabb és irgalmasabb közeledik.",
+      "prayer": "Atyám, amikor nehéz a mai nap, emeld tekintetemet arra, ami megmarad. Hordozz át rajta. Ámen."
+    },
+    {
+      "id": "devotional-021",
+      "title": "Térj vissza Hozzám",
+      "body": "A próféták leggyakoribb szava nem az, hogy próbálkozz jobban, hanem hogy térj vissza. Isten mindig hazahívja népét, nem szidással, hanem nyitott karral. Ha eltávolodtál, az út rövidebb, mint hinnéd. A szív egy őszinte fordulata, és meglátod, hogy Ő már feléd siet.",
+      "prayer": "Atyám, ma visszatérek Hozzád. Köszönöm, hogy már érkezésem előtt találkozol velem. Ámen."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Csendesedj el",
+      "body": "A 46. zsoltár előbb a megállásra, majd Isten megismerésére hív. Gondolkodással próbálunk békéhez jutni, és még jobban összegabalyodunk. A hit néha egyszerűen a küzdés abbahagyása: elég hosszú időre elengedni kezünket, hogy eszünkbe jusson, Ki tartja össze a világot. Soha nem te voltál az.",
+      "prayer": "Istenem, csendesítsd el a törekvésemet. Segíts elég hosszan megállnom, hogy emlékezzek: Te vagy Isten. Ámen."
+    },
+    {
+      "id": "devotional-023",
+      "title": "A barát, aki marad",
+      "body": "A Példabeszédek testvérnél közelebb álló barátról beszél. Az érkező és távozó emberek világában Jézus marad — kudarcon, csendön és hosszú éjszakán át. Nem vagy túl sok Neki, és soha nem kerülsz túl messz. Nem okot keres a távozásra. Ő a barát, aki marad.",
+      "prayer": "Jézus, köszönöm, hogy maradsz, amikor mások nem tudtak. Segíts megpihennem hűségedben. Ámen."
+    },
+    {
+      "id": "devotional-024",
+      "title": "Reggel öröm érkezik",
+      "body": "A zsoltáros nem tagadja a sírást; elismeri, hogy az éjszaka nehéz lehet. Az éjszaka valóságos, de nem örök. A gyász túloldalán reggel van, és Isten, aki őrzi könnyeidet, egyet sem veszített el. Tarts ki. A reggel ígéret, nem puszta lehetőség.",
+      "prayer": "Uram, éjszakámban segíts bíznom a megígért reggelben. Őrizd könnyeimet. Ámen."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "A béke hét napja",
+      "tagline": "Szorongó időszakokra — naponta egy megnyugtató szakasz."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "A hála hete",
+      "tagline": "Tanítsd szemedet újra mindenütt meglátni a kegyelmet."
+    },
+    {
+      "id": "psalms-30",
+      "title": "30 nap a zsoltárokban",
+      "tagline": "A Biblia imakönyve, zsoltárról zsoltárra."
+    },
+    {
+      "id": "gospels-90",
+      "title": "Jézus élete 90 nap alatt",
+      "tagline": "Járd végig mind a négy evangéliumot."
+    },
+    {
+      "id": "bible-365",
+      "title": "A Biblia egy év alatt",
+      "tagline": "A teljes történet — napi 20 percben."
+    }
+  ]
+}

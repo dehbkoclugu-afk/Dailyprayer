@@ -4,8 +4,29 @@
  * Keep this catalog separate from Scripture editions: choosing the language of
  * Lumen's interface must never silently change the user's Bible preference.
  */
+import {
+  GLOBAL_LANGUAGE_CATALOG,
+  RELEASE_CANDIDATE_SCRIPTURE_LOCALE_TAGS,
+  type GlobalLocaleTag,
+} from './globalLanguageCatalog.ts';
+
 export type AppDirection = 'ltr' | 'rtl';
 
+const rolloutTags = new Set<GlobalLocaleTag>([
+  ...RELEASE_CANDIDATE_SCRIPTURE_LOCALE_TAGS,
+  'tr',
+]);
+
+/** Locales that become selectable only after both UI and content packs pass release gates. */
+export const APPLICATION_LOCALE_CANDIDATES = GLOBAL_LANGUAGE_CATALOG
+  .filter((locale) => rolloutTags.has(locale.tag))
+  .map(({ tag, nativeName, direction }) => ({ tag, nativeName, direction }));
+
+export const RTL_APPLICATION_LOCALE_CANDIDATES = APPLICATION_LOCALE_CANDIDATES
+  .filter((locale) => locale.direction === 'rtl')
+  .map((locale) => locale.tag);
+
+/** Fully translated and currently advertised locales. */
 export const APPLICATION_LOCALES = [
   { tag: 'en', nativeName: 'English', direction: 'ltr' },
   { tag: 'tr', nativeName: 'Türkçe', direction: 'ltr' },

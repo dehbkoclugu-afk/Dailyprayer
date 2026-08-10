@@ -1,0 +1,430 @@
+{
+  "schemaVersion": 1,
+  "locale": "fi",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "Mikä kirkkokunta tuntuu omalta?",
+      "subtitle": "Mukautamme rukouksesi ja suunnitelmasi sen mukaan.",
+      "options": [
+        { "value": "catholic", "label": "Katolinen" },
+        { "value": "protestant", "label": "Protestanttinen" },
+        { "value": "orthodox", "label": "Ortodoksinen" },
+        { "value": "nondenominational", "label": "Tunnustuskuntiin sitoutumaton" },
+        { "value": "exploring", "label": "Tutustun vasta" }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "Minkä toivot kasvavan sinussa?",
+      "subtitle": "Valitse kaikki sopivat vaihtoehdot.",
+      "affirmation": "Et ole yksin – 73 % jäsenistä liittyi juuri samasta syystä.",
+      "options": [
+        { "value": "habit", "label": "Päivittäinen rukoustapa" },
+        { "value": "closer", "label": "Läheisempi suhde Jumalaan" },
+        { "value": "peace", "label": "Rauhaa ja vähemmän ahdistusta" },
+        { "value": "sleep", "label": "Parempi uni" },
+        { "value": "bible", "label": "Raamatun ymmärtäminen" },
+        { "value": "gratitude", "label": "Kiitollinen sydän" }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "Mikä on painanut mieltäsi viime aikoina?",
+      "subtitle": "Vastauksesi pysyy yksityisenä. Se auttaa muokkaamaan suunnitelmaasi.",
+      "affirmation": "Kiitos luottamuksestasi. Raamattu kohtaa ihmisen juuri tässä.",
+      "options": [
+        { "value": "anxiety", "label": "Ahdistus tai huoli" },
+        { "value": "loneliness", "label": "Yksinäisyys" },
+        { "value": "grief", "label": "Suru tai menetys" },
+        { "value": "direction", "label": "Suunnan löytäminen" },
+        { "value": "consistency", "label": "Säännöllisyydessä pysyminen" },
+        { "value": "none", "label": "Minulla on kaikki ihan hyvin" }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "Kuinka tuttua rukoileminen on sinulle?",
+      "options": [
+        { "value": "new", "label": "Olen vasta aloittamassa" },
+        { "value": "returning", "label": "Palaan rukouksen pariin tauon jälkeen" },
+        { "value": "regular", "label": "Rukoilen säännöllisesti" }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "Milloin haluaisit päivittäisen muistutuksen?",
+      "subtitle": "Hellä muistutus – ei koskaan roskapostia.",
+      "options": [
+        { "value": "07:30", "label": "Aamu · 7.30" },
+        { "value": "12:30", "label": "Keskipäivä · 12.30" },
+        { "value": "21:00", "label": "Ilta · 21.00" },
+        { "value": "none", "label": "Ei muistutuksia" }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Aamun valo",
+      "script": [
+        "Hengitä hitaasti sisään… ja ulos. Ennen kuin päivä pyytää sinulta mitään, pysähdy tähän.",
+        "Herra, kiitos tästä aamusta, hengityksestä ja uudesta alusta.",
+        "Annan Sinulle edessä olevat tunnit: työni, sanani ja ihmiset, jotka kohtaan.",
+        "Ole rauhani, kun olen levoton. Ole voimani, kun olen väsynyt.",
+        "Anna minun kulkea tämän päivän läpi kiirehtimättä ja tietoisena siitä, että olet lähellä. Aamen."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "Tyynnytä myrsky",
+      "script": [
+        "Aseta käsi sydämellesi. Tunne sen syke – olet elossa ja turvassa.",
+        "Jeesus, Sinä nukuit myrskyn keskellä ja tyynnytit sen yhdellä sanalla. Puhu myös minun myrskylleni.",
+        "Nimeän nyt huoleni… ja jätän sen Sinun käsiisi.",
+        "»Vaikene, ole hiljaa.» Anna noiden sanojen laskeutua mieleni ylle kuin tyyni vesi.",
+        "En anna pelon viedä minua tänään. Sinä kannat minua. Aamen."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "Kiitollinen sydän",
+      "script": [
+        "Ajattele yhtä hyvää asiaa tästä päivästä, olipa se kuinka pieni tahansa. Viivy siinä hetki.",
+        "Isä, jokainen hyvä lahja tulee Sinulta. Kiitos.",
+        "Kiitos siitä, mitä pyysin ja sain, ja siitä, miltä minut säästettiin.",
+        "Opeta minua huomaamaan armo tavallisten hetkien keskellä.",
+        "Anna kiitollisuuden olla sävel, johon päiväni päättyy. Aamen."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "Lepoon",
+      "script": [
+        "Anna päivän päättyä. Olet tehnyt sen, minkä voit, ja se riittää.",
+        "Herra, käydessäni makuulle jätän kaiken keskeneräisen Sinun huolenpitoosi.",
+        "Varjele rakkaitani, kun nukumme.",
+        "»Rauhassa menen levolle ja nukahdan, sillä Sinä yksin, Herra, annat minun asua turvassa.»",
+        "Hidasta hengitystäni… hiljennä ajatukseni… ja pidä minusta kiinni aamuun asti. Aamen."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Siunaa perhettäni",
+      "script": [
+        "Tuo mieleesi perheenjäsentesi kasvot yksi kerrallaan.",
+        "Isä, siunaa jokaista – heidän terveyttään, sydäntään ja uskoaan.",
+        "Paranna se, mikä välillämme on rikkoutunut, ja pehmennä se, mikä on kovettunut.",
+        "Tee kodistamme kärsivällisyyden ja naurun paikka.",
+        "Sido meidät yhteen rakkaudessasi. Aamen."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Rohkeutta tähän päivään",
+      "script": [
+        "Seiso hetki ryhdikkäänä. Hengitä syvään.",
+        "Herra, Sinä et antanut minulle pelon henkeä vaan voiman, rakkauden ja terveen harkinnan hengen.",
+        "Anna minulle rohkeutta keskusteluun, tehtävään ja askeleeseen, jota olen vältellyt.",
+        "Kun horjun, muistuta minua: Sinä kuljet edelläni.",
+        "Olen luja ja rohkea – en yksin, vaan Sinun kanssasi. Aamen."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "Lahjoja laskien",
+      "script": [
+        "Anna päivän asettua. Hengitä ulos kaikki, mitä se sinulta pyysi.",
+        "Isä, ennen kuin luettelen sen, mitä minulta puuttuu, anna minun nimetä se, mitä sain.",
+        "Kiitos tavallisista armonosoituksista, joiden ohi melkein kuljin tänään.",
+        "Kiitos ihmisistä, jotka tekevät elämästäni lämpimämpää.",
+        "Kiitollinen sydän on täysi sydän. Täytä omani tänä iltana. Aamen."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Tyynten vetten äärellä",
+      "script": [
+        "Rentouta kätesi. Anna hengityksesi hidastua jokaisen rivin myötä.",
+        "Paimen, Sinä johdat minut tyynten vetten äärelle. Johdata minut sinne nyt.",
+        "Lasken kiitävät ajatukseni jalkojesi juureen yksi kerrallaan.",
+        "Sinä virvoitat sieluni. Uudista se, minkä tämä päivä on kuluttanut ohueksi.",
+        "En pelkää, sillä Sinä olet kanssani. Aamen."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "Ennen päivän alkua",
+      "script": [
+        "Päivä on vielä edessä. Kohtaa se tässä Jumalan kanssa ennen kaikkea muuta.",
+        "Herra, tämä päivä on Sinun ennen kuin se on minun.",
+        "Kulje edelläni jokaiseen huoneeseen, johon astun, ja jokaiseen sanaan, jonka lausun.",
+        "Kun minulla on kiireen kiusaus, opeta minua kulkemaan rauhassa.",
+        "Järjestä tuntini ja pidä sydämeni lähellä omaasi. Aamen."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "Varjeleva rauha",
+      "script": [
+        "Aseta molemmat jalat maahan. Sinä olet tässä. Jumala on tässä.",
+        "Jeesus, Sinä jätit meille rauhasi – et sellaista kuin maailma antaa, vaan todellisen ja syvän.",
+        "Anna tuon rauhan vartioida sydäntäni ja mieltäni tänään kuin vartija portilla.",
+        "Sen, mitä en voi hallita, luovutan Sinulle.",
+        "Sinun rauhasi riittää. Lepään siinä. Aamen."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "Ensimmäinen kiitos",
+      "script": [
+        "Ennen tehtävälistaa pysähdy kerran. Hengitä kerran kiitosta.",
+        "Isä, kiitos, että herätit minut uuteen armon päivään.",
+        "Kiitos hengityksestä, valosta ja uudesta sivusta.",
+        "Anna kiitollisuuden, ei kiireen, määrätä aamuni sävy.",
+        "Aloitan tämän päivän kiitollisena. Aamen."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Laske se käsistäsi",
+      "script": [
+        "Päivä on ohi. Olet tehnyt sen, minkä voit, ja se riittää.",
+        "Herra, jätän kaiken keskeneräisen Sinun huolenpitoosi.",
+        "Huolet, jotka veisin mukanani pimeään, jätän Sinulle.",
+        "Sinä annat rakkaillesi unen. Ota minut nyt vastaan.",
+        "Rauhassa käyn levolle ja nukahdan, sillä Sinä yksin pidät minut turvassa. Aamen."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "Rakkaitteni yllä",
+      "script": [
+        "Tuo jokainen rakastamasi ihminen mieleesi. Katsele hetki hänen kasvojaan.",
+        "Isä, varjele niitä, jotka olet uskonut huolenpitooni.",
+        "Varjele heidän lähtönsä ja paluunsa.",
+        "Kun petän heidät, anna armosi täyttää puuttuva osa.",
+        "Pidä heidät kädessäsi lähempänä kuin minä koskaan voisin. Aamen."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Voimaa antaa anteeksi",
+      "script": [
+        "Hengitä. Tämä on vaikeaa, ja Jumala tietää sen.",
+        "Herra, Sinä annoit minulle anteeksi suurella hinnalla. Anna minulle voimaa antaa anteeksi.",
+        "Tuon eteesi nimen, muiston ja haavan – ojennan ne Sinulle.",
+        "Vapauta minut kantamasta sitä, mitä minun ei koskaan ollut tarkoitus kantaa.",
+        "Paranna se, minkä anteeksianto avaa. Tee minut eheäksi. Aamen."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "Hänen siipiensä suojassa",
+      "script": [
+        "Tunne, kuinka päivän paino poistuu hartioiltasi.",
+        "Joka asuu Korkeimman suojassa, saa levätä Kaikkivaltiaan varjossa.",
+        "Herra, peitä minut tänä yönä niin kuin lintu suojaa poikasiaan.",
+        "Ei yön pelkoa, ei huomisen kauhua – vain Sinun varjeluksesi.",
+        "En pelkää, sillä Sinä et koskaan nuku. Hyvää yötä, Isä. Aamen."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "Kun olen heikko",
+      "script": [
+        "Tässä sinun ei tarvitse teeskennellä vahvaa.",
+        "Herra, Sinä sanoit, että voimasi tulee täydelliseksi heikkoudessa.",
+        "Tässä on siis heikkouteni – lakkaan piilottamasta sitä Sinulta.",
+        "Ole vahva juuri siinä, missä minulla ei ole mitään jäljellä.",
+        "Sinun armosi riittää minulle. Se on tarpeeksi. Aamen."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "Kiitos myös nyt",
+      "script": [
+        "Tällainen kiitollisuus on vaikeampaa. Hengitä ja pysy rehellisenä.",
+        "Isä, myös nyt, tämän keskellä, etsin Sinun kättäsi.",
+        "Kiitos, ettet jätä minua yksin tämän keskelle.",
+        "Kiitos siitä, ettei tämä elämänvaihe ole kertomuksen loppu.",
+        "Valitsen kiitoksen, en siksi että se olisi helppoa, vaan koska Sinä olet hyvä. Aamen."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "Hiljaisuuden lahja",
+      "body": "Useimmat meistä aloittavat aamun jo juosten – viestit, otsikot ja velvollisuudet odottavat. Psalmi 46 kirjoitettiin mullistusten aikana, mutta sen keskuksessa on kuiskaus: hiljenny. Hiljaisuus ei tarkoita joutilaisuutta, vaan sen muistamista, kuka pitää kaikkea käsissään. Anna hartioidesi laskeutua kahdeksi minuutiksi. Maailma jatkaa pyörimistään ilman apuasi – niin se on aina tehnyt. Se ei ole sinun epäonnistumisesi. Se on Hänen uskollisuuttaan.",
+      "prayer": "Herra, hiljennä sisäinen meluni. Auta minua luottamaan siihen, että Sinä olet Jumala, en minä. Aamen."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Voima, joka ei ole omasi",
+      "body": "Paavali kirjoitti voivansa tehdä kaiken vankisellistä, ei vuorenhuipulta. Hänen kuvaamansa voima ei ole itseluottamusta vaan lainattua voimaa – sellaista, joka saapuu juuri silloin, kun omasi loppuu. Mitä tämä päivä sinulta pyytääkin, sinun ei koskaan ollut tarkoitus kantaa sitä yksin. Pyydä. Ota vastaan. Kulje.",
+      "prayer": "Jeesus, ole voimani siellä, missä olen tänään heikko. Annan Sinulle sen, mikä tuntuu liian raskaalta. Aamen."
+    },
+    {
+      "id": "devotional-003",
+      "title": "Johdettu, ei ajettu",
+      "body": "Paimen kulkee edellä, ajaja painostaa takaa. Psalmi 23 vakuuttaa, että Jumala johdattaa – vihreille niityille ja tyynten vetten äärelle. Jos usko on tuntunut pakottamiselta, kiireeltä, paineelta tai pelolta, tuo ääni ei ole Paimenen. Kuuntele tänään ääntä, joka johtaa lempeästi, ja seuraa askel kerrallaan.",
+      "prayer": "Sieluni Paimen, opeta minua tuntemaan äänesi. Johdata minua tänään. Aamen."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Lepo uupuneille",
+      "body": "Jeesus ei sanonut: »Tulkaa minun luokseni kaikki, joilla on kaikki hallinnassa.» Hän kutsui väsyneet, kuormitetut ja ne, jotka juuri ja juuri jaksavat. Lepo ei ole palkinto tehdystä työstä, vaan lahja, joka annetaan sen keskellä. Tule sellaisena kuin olet – siinä on koko kutsu.",
+      "prayer": "Herra, tulen luoksesi väsyneenä. Vaihda taakkani Sinun lepoosi. Aamen."
+    },
+    {
+      "id": "devotional-005",
+      "title": "Tulevaisuus ja toivo",
+      "body": "Jeremian kirjan kohta 29:11 kirjoitettiin maanpakolaisille – ihmisille, joiden suunnitelmat olivat romahtaneet. Jumalan lupaus ei ollut välitön pelastus, vaan osoitus Hänen luonteestaan: en ole unohtanut sinua. Takaiskusi ei ole kertomuksesi loppu. Tekijä kirjoittaa yhä.",
+      "prayer": "Isä, kun en näe tietä, auta minua luottamaan Häneen, joka näkee. Aamen."
+    },
+    {
+      "id": "devotional-006",
+      "title": "Nojaa Häneen",
+      "body": "Oma ymmärryksesi on hyvä työkalu mutta huono hallitsija. Sananlaskut kutsuvat luottamaan koko sydämestä – ei siksi, että ajatteleminen olisi väärin, vaan koska näkökulmamme on rajallinen. Tuo Jumalalle päätös, jota pyörittelet mielessäsi. Kuuntele sitten pidempään kuin puhut.",
+      "prayer": "Herra, luotan Sinulle päätöksen, joka on juuri nyt mielessäni. Tasoita polkuni. Aamen."
+    },
+    {
+      "id": "devotional-007",
+      "title": "Vastalääke ahdistukseen",
+      "body": "Paavalin ohje ahdistukseen on yllättävän täsmällinen: rukoile kaikesta ja liitä rukoukseen kiitos. Kiitollisuus ei ole kieltämistä, vaan näkökentän laajentamista, kunnes Jumalan aiempi uskollisuus näkyy jälleen. Nimeä kolme asiaa, joista olet kiitollinen. Katso, mitä se tekee pelolle.",
+      "prayer": "Rauhan Jumala, varjele sydämeni ja mieleni tänään. Annan huoleni Sinulle yksi kerrallaan. Aamen."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Valo pimeässä",
+      "body": "Johannes ei luvannut elämää ilman pimeyttä. Hän lupasi, ettei pimeys voita. Yksittäinen kynttilä ei väittele yön kanssa, vaan palaa, ja pimeys väistyy. Sinun ei tarvitse korjata kaikkea tänään. Sinun tarvitsee vain pitää pieni valosi palamassa ja luottaa siihen, että Hän, joka itse on Valo, tekee loput.",
+      "prayer": "Jeesus, maailman Valo, loista tänään niihin sisimpäni sopukoihin, jotka tuntuvat pimeiltä. Aamen."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Riittävästi tälle päivälle",
+      "body": "Mannaa ei voinut varastoida. Joka aamu kansa keräsi juuri tarpeeksi, ja seuraavana päivänä se keräsi uudelleen. Jumala opettaa meitä luottamaan päivä kerrallaan – ei siksi, että Hän olisi kitsas, vaan koska jokapäiväinen leipä synnyttää jokapäiväisen suhteen. Älä kanna huomisen painoa tähän päivään. Tässä päivässä on riittävästi omaa armoa.",
+      "prayer": "Isä, anna minulle tänään jokapäiväinen leipäni ja rauha jättää huominen Sinulle. Aamen."
+    },
+    {
+      "id": "devotional-010",
+      "title": "Tunnettu ja rakastettu",
+      "body": "Ennen kuin muodostit tänä aamuna ainoatakaan ajatusta, sinut tunnettiin jo. Psalmi 139 kertoo, että Jumala on kutonut sinut kokoon ja tietää, milloin istut ja milloin nouset. Et ole tuntematon, joka kerjää huomiota. Olet lapsi, joka tunnetaan täysin ja jota – hämmästyttävää kyllä – rakastetaan täysin. Se olkoon maa, jolla seisot tänään.",
+      "prayer": "Herra, kiitos, että tunnet minut täysin ja rakastat minua silti täydesti. Anna sen vakauttaa minua. Aamen."
+    },
+    {
+      "id": "devotional-011",
+      "title": "Pitkä kuuliaisuus",
+      "body": "Uskollisuus on harvoin dramaattista. Useimmiten se on paikalle tulemista – yksi rukous, yksi ystävällinen teko ja yksi rehellinen valinta kerrallaan. Joki uurtuu kanjoniksi, ei voimalla vaan palaamalla samaan uomaan joka päivä. Pieni, toistuva kylläsi Jumalalle tekee enemmän kuin voit nähdä. Palaa yhä uudelleen.",
+      "prayer": "Herra, tee minusta uskollinen pienissä asioissa tänään ja auta luottamaan kokonaisuuden muoto Sinulle. Aamen."
+    },
+    {
+      "id": "devotional-012",
+      "title": "Kun tunnet itsesi unohdetuksi",
+      "body": "Yksin autiomaassa Hagar antoi Jumalalle nimen: »Jumala, joka näkee minut.» Kun kukaan muu ei huomannut häntä, Jumala huomasi. Jos tunnet tänään jääväsi vaille huomiota – ihmisten, olosuhteiden tai jopa omien toiveidesi vuoksi – kuule tämä: sinut nähdään. Mikään elämässäsi ei jää näkymättömäksi Hänelle, joka laskee tähdet ja kutsuu niitä kaikkia nimeltä.",
+      "prayer": "Jumala, joka näet minut, kiitos, etten ole koskaan todella yksin. Kohtaa minut tässä. Aamen."
+    },
+    {
+      "id": "devotional-013",
+      "title": "Lahja, jota et ansainnut",
+      "body": "Armo loukkaa sitä osaa meissä, joka haluaa ansaita paikkansa. Efesolaiskirje sanoo kuitenkin selvästi: pelastus on armosta, uskon kautta, eikä se ole lähtöisin teistä – se on lahja. Voit lakata tavoittelemasta rakkautta, joka sinulla jo on. Lepo ei ole palkinto maaliin pääsemisestä, vaan lahja, joka antaa sinun aloittaa uudelleen.",
+      "prayer": "Isä, otan vastaan sen, mitä en olisi koskaan voinut ansaita. Kiitos armosta. Opeta minua lepäämään siinä. Aamen."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Virtoja autiomaassa",
+      "body": "Jesaja puhuu virroista erämaassa – vedestä siellä, missä voisi vannoa, ettei mikään kasva. Kuiva kautesi ei ole kertomuksen loppu. Jumala saa elämän versomaan juuri niissä paikoissa, jotka me olemme jo hylänneet. Katso maata, jonka suhteen luovutit. Hän ei ole vielä valmis siellä.",
+      "prayer": "Herra, tuo virtoja kuiviin paikkoihini. Luotan siihen, että teet kaiken uudeksi. Aamen."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Heitä pois, älä kanna",
+      "body": "Pietari käyttää fyysistä sanaa: heitä. Heitä ahdistuksesi Jumalan päälle kuin raskas reppu hartioiltasi. Miksi? Koska Hän pitää sinusta huolen. Huoli teeskentelee hyödyllistä, aivan kuin sen loputon pyörittely ratkaisisi asian. Ei se ratkaise. Rukous siirtää painon ainoalle, joka on kyllin vahva kantamaan sen.",
+      "prayer": "Herra, heitän huoleni Sinulle – todella, en vain sanoissa. Kanna se, mihin minä en pysty. Aamen."
+    },
+    {
+      "id": "devotional-016",
+      "title": "Ääni, joka kutsuu sinua rakkaaksi",
+      "body": "Ennen kuin Jeesus teki ainoatakaan ihmettä, Isä sanoi Häntä rakkaaksi Pojakseen, johon Hän oli mieltynyt. Rakkaus tuli ensin, ei palkkana tehdystä työstä. Niin on sinunkin kohdallasi. Sinun ei tarvitse suorittaa itseäsi rakastetuksi. Saat tehdä työtä rakkaudesta käsin, et sen saavuttamiseksi.",
+      "prayer": "Isä, anna minun kuulla Sinun kutsuvan minua rakkaaksesi ennen kuin teen tänään mitään. Aamen."
+    },
+    {
+      "id": "devotional-017",
+      "title": "Älä halveksi pientä alkua",
+      "body": "Sakarja kysyy, kuka uskaltaa halveksia pienten alkujen päivää. Me haluamme valmiin katedraalin, mutta Jumala iloitsee ensimmäisestä asetetusta kivestä. Mitä oletkaan aloittamassa – tapaa, paranemista tai sovintoa – älä mittaa sitä sen perusteella, kuinka pieneltä se näyttää tänään. Suuret asiat alkavat lähes aina nolostuttavan pienesti.",
+      "prayer": "Herra, siunaa edessäni oleva pieni alku. Auta minua olemaan uskollinen vähässä. Aamen."
+    },
+    {
+      "id": "devotional-018",
+      "title": "Hän virvoittaa",
+      "body": "Psalmin 23 paimen ei aja lampaita eteenpäin, kun niiden voimat ovat lopussa. Hän vie ne lepäämään, johdattaa tyynten vetten äärelle ja virvoittaa sielun. Jos käyt tyhjäkäynnillä, pyhintä voi olla pysähtyminen. Uudistuminen ei ole laiskuutta. Se on kuuliaisuutta Jumalalle, joka loi sinut tarvitsemaan lepoa.",
+      "prayer": "Paimen, johdata minut tänään tyynten vetten äärelle. Uudista se, mikä minussa on kulunut ohueksi. Aamen."
+    },
+    {
+      "id": "devotional-019",
+      "title": "Rakkautta arjessa",
+      "body": "Paavalin kuuluisa kuvaus rakkaudesta ei ole hempeä, vaan käytännöllinen, lähes arkinen. Kärsivällinen. Lempeä. Ei helposti vihastuva. Ei muistele kärsimäänsä pahaa. Tämä on rakkautta hihat käärittyinä, rakkautta tiistai-iltapäiviin ja vaikeille ihmisille. Älä kysy: »Tunnenko rakkautta?» Kysy: »Voinko olla tässä kärsivällinen, tässä lempeä, tässä anteeksiantava?»",
+      "prayer": "Herra, tee minusta tänään kärsivällinen ja lempeä, etenkin silloin, kun se maksaa minulle jotakin. Aamen."
+    },
+    {
+      "id": "devotional-020",
+      "title": "Kirkkauden paino",
+      "body": "Paavali kutsuu vaikeuksiaan kevyiksi ja hetkellisiksi – mies, jota lyötiin ja vangittiin. Hän saattoi sanoa niin, koska vertasi vaikeuksiaan ikuisen kirkkauden painoon. Kipusi on todellista, eikä hän väitä muuta. Se ei kuitenkaan ole näkökentän suurin asia. Jotakin paljon painavampaa ja paljon lempeämpää on tulossa.",
+      "prayer": "Isä, kun tämä päivä tuntuu raskaalta, kohota katseeni siihen, mikä kestää. Kanna minut läpi. Aamen."
+    },
+    {
+      "id": "devotional-021",
+      "title": "Palaa luokseni",
+      "body": "Profeettojen useimmin toistama sana ei ole »yritä kovemmin» vaan »palaa». Jumala kutsuu kansaansa aina takaisin – ei nuhdellen, vaan avosylin. Jos olet ajautunut kauas, kotiin on lyhyempi matka kuin pelkäät. Sydämen yksi rehellinen käännös, ja huomaat Hänen jo juoksevan sinua kohti.",
+      "prayer": "Isä, käännyn tänään takaisin Sinun puoleesi. Kiitos, että kohtaat minut jo ennen perille pääsyäni. Aamen."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Hiljenny",
+      "body": "»Hiljentykää ja tietäkää, että minä olen Jumala.» Ensin tulee hiljaisuus, sitten tietäminen. Yritämme järkeillä tiemme rauhaan ja sotkeudumme vain lisää. Joskus usko on yksinkertaisesti kamppailun lopettamista – käsien avaamista niin pitkäksi aikaa, että muistamme, kuka todella pitää maailmaa koossa. Se et koskaan ollut sinä.",
+      "prayer": "Jumala, hiljennä ponnisteluni. Auta minua pysähtymään niin pitkäksi aikaa, että muistan Sinun olevan Jumala. Aamen."
+    },
+    {
+      "id": "devotional-023",
+      "title": "Ystävä, joka jää",
+      "body": "Sananlaskut puhuvat ystävästä, joka on veljeäkin läheisempi. Maailmassa, jossa ihmiset tulevat ja menevät, Jeesus on Hän, joka jää – epäonnistumisen, hiljaisuuden ja pitkän yön läpi. Et ole Hänelle liikaa, etkä koskaan liian kaukana. Hän ei etsi syytä lähteä. Hän on ystävä, joka jää.",
+      "prayer": "Jeesus, kiitos, että jäät, kun muut eivät voineet. Auta minua lepäämään uskollisuudessasi. Aamen."
+    },
+    {
+      "id": "devotional-024",
+      "title": "Aamulla ilo saapuu",
+      "body": "Psalminkirjoittaja ei kiellä itkua, vaan sanoo sen voivan kestää yön. Yö on todellinen, mutta se ei ole pysyvä. Surun toisella puolella on aamu, eikä Jumala, joka kokoaa kyyneleesi talteen, ole kadottanut niistä yhtäkään. Pidä kiinni. Aamu on lupaus, ei pelkkä mahdollisuus.",
+      "prayer": "Herra, auta minua yössäni luottamaan lupaamaasi aamuun. Pidä kyyneleistäni huolta. Aamen."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "Seitsemän rauhan päivää",
+      "tagline": "Levottomiin aikoihin – yksi rauhoittava kohta päivässä."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "Kiitollisuuden viikko",
+      "tagline": "Harjoita silmäsi näkemään armo kaikkialla."
+    },
+    {
+      "id": "psalms-30",
+      "title": "30 päivää psalmien parissa",
+      "tagline": "Raamatun rukouskirja, yksi psalmi kerrallaan."
+    },
+    {
+      "id": "gospels-90",
+      "title": "Jeesuksen elämä 90 päivässä",
+      "tagline": "Kulje kaikkien neljän evankeliumin läpi."
+    },
+    {
+      "id": "bible-365",
+      "title": "Raamattu vuodessa",
+      "tagline": "Koko kertomus – 20 minuuttia päivässä."
+    }
+  ]
+}

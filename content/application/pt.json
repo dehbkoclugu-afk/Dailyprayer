@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "locale": "pt",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "Qual tradição você sente como o seu lar?",
+      "subtitle": "Vamos ajustar suas orações e planos a ela.",
+      "options": [
+        {
+          "value": "catholic",
+          "label": "Católica"
+        },
+        {
+          "value": "protestant",
+          "label": "Protestante"
+        },
+        {
+          "value": "orthodox",
+          "label": "Ortodoxa"
+        },
+        {
+          "value": "nondenominational",
+          "label": "Não denominacional"
+        },
+        {
+          "value": "exploring",
+          "label": "Apenas explorando"
+        }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "O que você espera que cresça em você?",
+      "subtitle": "Escolha todas as que se aplicam.",
+      "affirmation": "Você está em boa companhia , 73% dos membros entraram pelo mesmo motivo.",
+      "options": [
+        {
+          "value": "habit",
+          "label": "Um hábito diário de oração"
+        },
+        {
+          "value": "closer",
+          "label": "Sentir-me mais perto de Deus"
+        },
+        {
+          "value": "peace",
+          "label": "Paz e menos ansiedade"
+        },
+        {
+          "value": "sleep",
+          "label": "Dormir melhor"
+        },
+        {
+          "value": "bible",
+          "label": "Entender a Bíblia"
+        },
+        {
+          "value": "gratitude",
+          "label": "Um coração grato"
+        }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "O que tem pesado em você ultimamente?",
+      "subtitle": "Sua resposta é privada. Ela molda o seu plano.",
+      "affirmation": "Obrigado por confiar isso a nós. A Escritura encontra as pessoas exatamente aqui.",
+      "options": [
+        {
+          "value": "anxiety",
+          "label": "Ansiedade ou preocupação"
+        },
+        {
+          "value": "loneliness",
+          "label": "Solidão"
+        },
+        {
+          "value": "grief",
+          "label": "Luto ou perda"
+        },
+        {
+          "value": "direction",
+          "label": "Encontrar direção"
+        },
+        {
+          "value": "consistency",
+          "label": "Manter a constância"
+        },
+        {
+          "value": "none",
+          "label": "Estou bem"
+        }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "Quão familiar é a oração para você?",
+      "options": [
+        {
+          "value": "new",
+          "label": "Estou apenas começando"
+        },
+        {
+          "value": "returning",
+          "label": "Voltando depois de um tempo"
+        },
+        {
+          "value": "regular",
+          "label": "Oro regularmente"
+        }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "Quando você gostaria de um lembrete diário?",
+      "subtitle": "Um lembrete gentil , nunca spam.",
+      "options": [
+        {
+          "value": "07:30",
+          "label": "Manhã · 7:30"
+        },
+        {
+          "value": "12:30",
+          "label": "Meio-dia · 12:30"
+        },
+        {
+          "value": "21:00",
+          "label": "Noite · 21:00"
+        },
+        {
+          "value": "none",
+          "label": "Sem lembretes"
+        }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Luz da Manhã",
+      "script": [
+        "Respire devagar… e solte. Antes que o dia lhe peça algo, esteja aqui.",
+        "Senhor, obrigado por esta manhã: pelo fôlego, por um novo começo.",
+        "Entrego-te as horas que virão: meu trabalho, minhas palavras, as pessoas que encontrarei.",
+        "Onde estou ansioso, sê a minha paz. Onde estou cansado, sê a minha força.",
+        "Deixa-me atravessar este dia sem pressa, ciente de que estás perto. Amém."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "Acalma a Tempestade",
+      "script": [
+        "Ponha a mão sobre o coração. Sinta-o bater: você está vivo e é sustentado.",
+        "Jesus, dormiste em meio a uma tempestade e a acalmaste com uma palavra. Fala à minha.",
+        "Nomeio a minha inquietação agora… e a coloco em tuas mãos.",
+        "“Cala-te, aquieta-te.” Que essas palavras pousem sobre a minha mente como água serena.",
+        "Hoje não serei levado pelo medo. Sou levado por ti. Amém."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "Um Coração Grato",
+      "script": [
+        "Pense em algo bom de hoje, por menor que seja. Segure-o por um momento.",
+        "Pai, todo bom presente vem de ti. Obrigado.",
+        "Obrigado pelo que pedi e recebi, e por aquilo de que fui poupado.",
+        "Ensina-me a notar a graça escondida nas horas comuns.",
+        "Que a gratidão seja a nota com que meu dia termina. Amém."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "Ao Descanso",
+      "script": [
+        "Deixe o dia terminar. Você fez o que pôde, e isso basta.",
+        "Senhor, ao me deitar, entrego ao teu cuidado o que ficou por terminar.",
+        "Cuida das pessoas que amo enquanto dormimos.",
+        "“Em paz me deito e durmo, porque só tu, Senhor, me fazes repousar seguro.”",
+        "Acalma a minha respiração… silencia os meus pensamentos… e me sustém até a manhã. Amém."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Abençoa a Minha Família",
+      "script": [
+        "Traga à mente os rostos da sua família, um por um.",
+        "Pai, abençoa cada um: na saúde, no coração, na fé.",
+        "Cura o que está tenso entre nós; amolece o que se endureceu.",
+        "Faz do nosso lar um lugar de paciência e riso.",
+        "Une-nos no teu amor. Amém."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Coragem para Hoje",
+      "script": [
+        "Fique ereto por um momento. Respire fundo.",
+        "Senhor, não me deste um espírito de medo, mas de poder, amor e equilíbrio.",
+        "Dá-me coragem para a conversa, a tarefa, o passo que continuo evitando.",
+        "Quando eu vacilar, lembra-me: tu vais adiante de mim.",
+        "Serei forte e corajoso, não sozinho, mas contigo. Amém."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "Contando as Dádivas",
+      "script": [
+        "Deixe o dia repousar. Expire o que ele lhe pediu.",
+        "Pai, antes de nomear o que me falta, deixa-me nomear o que recebi.",
+        "Obrigado pelas misericórdias comuns que quase deixei passar hoje.",
+        "Obrigado pelas pessoas que tornam a minha vida mais calorosa.",
+        "Um coração grato é um coração cheio. Enche o meu esta noite. Amém."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Águas Tranquilas",
+      "script": [
+        "Abra as mãos. Que a sua respiração se acalme a cada linha.",
+        "Pastor, tu me guias a águas tranquilas. Guia-me até lá agora.",
+        "Os pensamentos que correm em mim, deixo-os aos teus pés, um por um.",
+        "Tu restauras a minha alma. Restaura o que hoje desgastou.",
+        "Não temerei, porque tu estás comigo. Amém."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "Antes do Dia",
+      "script": [
+        "O dia ainda não se gastou. Recebe-o aqui, com Deus, antes de tudo.",
+        "Senhor, este dia é teu antes de ser meu.",
+        "Vai adiante de mim a cada sala em que eu entrar, a cada palavra que eu disser.",
+        "Onde a pressa me tentar, ensina-me a caminhar.",
+        "Ordena as minhas horas e guarda o meu coração perto do teu. Amém."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "A Paz que Guarda",
+      "script": [
+        "Apoie os dois pés no chão. Você está aqui. Deus está aqui.",
+        "Jesus, deixaste-nos a tua paz, não como o mundo a dá, mas real e profunda.",
+        "Que essa paz guarde hoje o meu coração e a minha mente como uma sentinela à porta.",
+        "O que não posso controlar, entrego a ti.",
+        "A tua paz basta. Nela descanso. Amém."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "Primeiro Obrigado",
+      "script": [
+        "Antes da lista de tarefas, uma pausa. Um fôlego de gratidão.",
+        "Pai, obrigado por me acordar para mais um dia de graça.",
+        "Obrigado pelo fôlego, pela luz, por uma página em branco.",
+        "Que a gratidão, e não a pressa, defina o tom da minha manhã.",
+        "Começo hoje grato. Amém."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Deixe Ir",
+      "script": [
+        "O dia acabou. Você fez o que pôde, e isso basta.",
+        "Senhor, entrego ao teu cuidado tudo o que ficou por terminar.",
+        "As preocupações que eu levaria para o escuro, deixo-as contigo.",
+        "Tu dás sono aos que amas. Recebe-me agora.",
+        "Em paz me deito e durmo, porque só tu me guardas seguro. Amém."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "Sobre os que Amo",
+      "script": [
+        "Traga à mente cada pessoa que você ama. Segure o rosto dela por um momento.",
+        "Pai, cuida dos que me foram confiados.",
+        "Guarda a sua saída e a sua entrada.",
+        "Onde eu falhar com eles, que a tua graça cubra a falha.",
+        "Guarda-os na tua mão, mais perto do que eu jamais poderia. Amém."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Força para Perdoar",
+      "script": [
+        "Respire. Isto é difícil, e Deus sabe disso.",
+        "Senhor, tu me perdoaste a grande preço. Dá-me força para perdoar.",
+        "Trago o nome, a lembrança, a ferida; ofereço-os a ti.",
+        "Livra-me de carregar o que nunca me coube carregar.",
+        "Cura o que o perdão abre. Faz-me inteiro. Amém."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "Sob Suas Asas",
+      "script": [
+        "Sinta o peso do dia deixar os seus ombros.",
+        "Aquele que habita no abrigo do Altíssimo descansará à sua sombra.",
+        "Senhor, cobre-me esta noite como uma ave cobre os seus filhotes.",
+        "Sem medo da noite, sem receio do amanhã, apenas o teu cuidado.",
+        "Não temerei, porque tu nunca dormes. Boa noite, Pai. Amém."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "Quando Sou Fraco",
+      "script": [
+        "Aqui você não precisa fingir ser forte.",
+        "Senhor, disseste que o teu poder se aperfeiçoa na fraqueza.",
+        "Então aqui está a minha fraqueza: paro de escondê-la de ti.",
+        "Sê forte exatamente onde nada me resta.",
+        "A tua graça me basta. Isso é suficiente. Amém."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "Mesmo Agora, Obrigado",
+      "script": [
+        "Esta é uma gratidão mais difícil. Respire e permaneça sincero.",
+        "Pai, mesmo agora, nisto, procuro a tua mão.",
+        "Obrigado por não me deixares sozinho nisso.",
+        "Obrigado porque esta fase não é o fim da história.",
+        "Escolho agradecer, não porque seja fácil, mas porque tu és bom. Amém."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "O Presente da Quietude",
+      "body": "A maioria de nós chega à manhã já correndo: mensagens, manchetes, obrigações. O Salmo 46 foi escrito em tempos de convulsão, e ainda assim o seu centro é um sussurro: aquieta-te. A quietude não é não fazer nada; é lembrar quem sustenta tudo. Por dois minutos, deixe os ombros caírem. O mundo continuará girando sem a sua ajuda; sempre continuou. Isso não é a sua falha. É a fidelidade dele.",
+      "prayer": "Senhor, aquieta o ruído em mim. Ajuda-me a confiar que tu és Deus e eu não. Amém."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Uma Força que Não É Sua",
+      "body": "Paulo escreveu “tudo posso” de uma cela, não de um cume. A força que ele descreve não é autoconfiança; é força emprestada, a que chega exatamente quando a sua se esgota. Seja o que for que hoje lhe peça, você nunca deveria carregá-lo sozinho. Peça. Receba. Caminhe.",
+      "prayer": "Jesus, sê a minha força onde hoje sou fraco. Entrego-te o que sinto pesado demais. Amém."
+    },
+    {
+      "id": "devotional-003",
+      "title": "Guiado, Não Empurrado",
+      "body": "Um pastor caminha à frente; um tocador empurra por trás. O Salmo 23 insiste que Deus guia: a verdes pastos, junto a águas tranquilas. Se a sua fé tem parecido ser empurrada , apressada, pressionada, com medo ,, essa voz não é a do Pastor. Hoje, escute a voz que guia com doçura, e siga um passo de cada vez.",
+      "prayer": "Pastor da minha alma, ensina-me o som da tua voz. Guia-me hoje. Amém."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Descanso para o Cansado",
+      "body": "Jesus não disse “venham a mim os que têm tudo resolvido.” Ele chamou os cansados, os sobrecarregados, os que mal se aguentam. O descanso não é uma recompensa por terminar o seu trabalho; é um presente oferecido no meio dele. Venha como está: esse é todo o convite.",
+      "prayer": "Senhor, venho cansado. Troca o meu peso pelo teu descanso. Amém."
+    },
+    {
+      "id": "devotional-005",
+      "title": "Um Futuro e uma Esperança",
+      "body": "Jeremias 29:11 foi escrito a exilados, pessoas cujos planos haviam desmoronado. A promessa de Deus não era um resgate instantâneo; era o seu caráter: eu não te esqueci. O seu revés não é o fim da sua história. O Autor ainda está escrevendo.",
+      "prayer": "Pai, quando não vejo o caminho, ajuda-me a confiar Naquele que vê. Amém."
+    },
+    {
+      "id": "devotional-006",
+      "title": "Apoie-se Nele",
+      "body": "O seu próprio entendimento é uma boa ferramenta e um péssimo senhor. Provérbios nos convida a confiar de todo o coração, não porque pensar seja errado, mas porque a nossa visão é pequena. Leve a Deus aquela decisão que você fica remoendo. Depois, escute mais do que fala.",
+      "prayer": "Senhor, confio a ti a decisão que tenho em mente agora. Endireita o meu caminho. Amém."
+    },
+    {
+      "id": "devotional-007",
+      "title": "O Antídoto para a Ansiedade",
+      "body": "A receita de Paulo para a ansiedade é curiosamente específica: ore por tudo, e acrescente gratidão. A gratidão não é negação; é ampliar o quadro até que a fidelidade passada de Deus volte à cena. Nomeie três coisas pelas quais você é grato. Observe o que isso faz com o medo.",
+      "prayer": "Deus de paz, guarda hoje o meu coração e a minha mente. Entrego-te as minhas preocupações, uma a uma. Amém."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Luz na Escuridão",
+      "body": "João não prometeu uma vida sem escuridão. Prometeu que a escuridão não vence. Uma única vela não discute com a noite; simplesmente arde, e a escuridão cede. Você não precisa consertar tudo hoje. Só precisa manter acesa a sua pequena luz, e confiar Naquele que é a própria Luz para fazer o resto.",
+      "prayer": "Jesus, Luz do mundo, brilha hoje nos cantos de mim que parecem escuros. Amém."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Suficiente para Hoje",
+      "body": "O maná não podia ser armazenado. Cada manhã o povo recolhia apenas o suficiente, e no dia seguinte recolhia de novo. Deus nos treina a confiar um dia de cada vez, não porque seja mesquinho, mas porque o pão diário faz uma relação diária. Não carregue o peso de amanhã para dentro do hoje. O hoje já tem graça suficiente.",
+      "prayer": "Pai, dá-me hoje o meu pão de cada dia, e a paz de deixar o amanhã contigo. Amém."
+    },
+    {
+      "id": "devotional-010",
+      "title": "Conhecido e Amado",
+      "body": "Antes de você formar um único pensamento esta manhã, você já era conhecido. O Salmo 139 diz que Deus o teceu e sabe quando você se senta e quando se levanta. Você não é um estranho implorando atenção. Você é um filho, plenamente conhecido e , surpreendentemente , plenamente amado. Que esse seja o chão em que você pisa hoje.",
+      "prayer": "Senhor, obrigado porque sou plenamente conhecido e ainda assim plenamente amado. Firma-me nisso. Amém."
+    },
+    {
+      "id": "devotional-011",
+      "title": "A Longa Obediência",
+      "body": "A fidelidade raramente é dramática. É, acima de tudo, comparecer: uma oração, uma bondade, uma escolha honesta de cada vez. Um rio esculpe um cânion não pela força, mas por voltar ao mesmo leito todos os dias. O seu pequeno “sim” repetido a Deus realiza mais do que você pode ver. Continue voltando.",
+      "prayer": "Senhor, faz-me fiel nas pequenas coisas hoje, confiando a ti a forma do todo. Amém."
+    },
+    {
+      "id": "devotional-012",
+      "title": "Quando Você Se Sente Esquecido",
+      "body": "Agar, sozinha no deserto, deu a Deus um nome: “o Deus que me vê.” Quando ninguém mais a notou, Ele notou. Se hoje você se sente ignorado , pelas pessoas, pelas circunstâncias, até pelas suas próprias esperanças ,, ouça isto: você é visto. Nada da sua vida é invisível Àquele que conta as estrelas e as chama pelo nome.",
+      "prayer": "Deus que me vê, obrigado porque nunca estou verdadeiramente só. Encontra-me aqui. Amém."
+    },
+    {
+      "id": "devotional-013",
+      "title": "O Presente que Você Não Mereceu",
+      "body": "A graça ofende a parte de nós que quer conquistar o seu lugar. Mas Efésios é claro: você é salvo pela graça, mediante a fé, e isso não vem de você; é um presente. Você pode parar de fazer teste para um amor que já tem. O descanso não é a recompensa por terminar; é o presente que permite recomeçar.",
+      "prayer": "Pai, recebo o que eu jamais poderia merecer. Obrigado pela graça. Ensina-me a descansar nela. Amém."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Rios no Deserto",
+      "body": "Isaías fala de rios no ermo, água onde você juraria que nada poderia crescer. A sua estação seca não é o fim da história. Deus é especialista em fazer a vida brotar exatamente nos lugares que demos por perdidos. Observe o solo que você abandonou. Ele não terminou ali.",
+      "prayer": "Senhor, traz rios aos lugares secos em mim. Confio que farás novas as coisas. Amém."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Lançar, Não Carregar",
+      "body": "Pedro usa uma palavra física: lance. Atire a sua ansiedade sobre Deus como você lançaria uma mochila pesada dos ombros. Por quê? “Porque ele tem cuidado de você.” A preocupação finge ser útil, como se remoê-la o bastante resolvesse. Não resolverá. A oração move o peso para o único forte o suficiente para sustentá-lo.",
+      "prayer": "Senhor, lanço a minha preocupação sobre ti, de verdade, não só em palavras. Carrega o que eu não posso. Amém."
+    },
+    {
+      "id": "devotional-016",
+      "title": "A Voz que Te Chama Amado",
+      "body": "Antes de Jesus realizar um único milagre, o Pai disse: “Este é o meu Filho amado, em quem me comprazo.” O seu ser amado veio primeiro, não como pagamento por trabalho feito. O seu também. Você não precisa abrir caminho por meio de conquistas para ser amado. Você trabalha a partir do amor, não por ele.",
+      "prayer": "Pai, deixa-me ouvir-te chamar-me amado antes de eu fazer qualquer coisa hoje. Amém."
+    },
+    {
+      "id": "devotional-017",
+      "title": "Não Despreze os Pequenos Começos",
+      "body": "Zacarias pergunta quem ousa desprezar o dia das pequenas coisas. Queremos a catedral pronta; Deus se deleita na primeira pedra assentada. Seja o que for que você está começando , um hábito, uma cura, uma reconciliação ,, não o meça pelo pouco que parece hoje. As grandes coisas quase sempre começam constrangedoramente pequenas.",
+      "prayer": "Senhor, abençoa o pequeno começo diante de mim. Ajuda-me a ser fiel com o pouco. Amém."
+    },
+    {
+      "id": "devotional-018",
+      "title": "Ele Restaura",
+      "body": "O pastor do Salmo 23 não toca as ovelhas adiante quando estão esgotadas. Ele as faz deitar; leva-as a águas tranquilas; restaura a alma. Se você está sem forças, a coisa mais santa que pode fazer talvez seja parar. A restauração não é preguiça. É obediência a um Deus que o fez com necessidade de descanso.",
+      "prayer": "Pastor, leva-me hoje a águas tranquilas. Restaura o que em mim está desgastado. Amém."
+    },
+    {
+      "id": "devotional-019",
+      "title": "O Amor no Cotidiano",
+      "body": "A famosa descrição do amor de Paulo não é sentimental; é prática, quase comum. Paciente. Bondoso. Não se ira facilmente. Não guarda mágoa. É o amor de mangas arregaçadas, amor para as tardes de terça-feira e as pessoas difíceis. Não pergunte “eu sinto amor?”, mas “posso ser paciente aqui, bondoso aqui, capaz de perdoar aqui?”",
+      "prayer": "Senhor, faz-me paciente e bondoso hoje, sobretudo onde me custe algo. Amém."
+    },
+    {
+      "id": "devotional-020",
+      "title": "O Peso da Glória",
+      "body": "Paulo chama as suas dificuldades de “leves e momentâneas” , e isto de um homem espancado e preso. Ele podia dizê-lo porque media as suas aflições contra uma eternidade de glória. A sua dor é real; ele nunca finge o contrário. Mas não é a maior coisa à vista. Algo muito mais pesado e muito mais bondoso está a caminho.",
+      "prayer": "Pai, quando o hoje parecer pesado, ergue os meus olhos para o que permanece. Leva-me através. Amém."
+    },
+    {
+      "id": "devotional-021",
+      "title": "Volta para Mim",
+      "body": "A palavra mais repetida dos profetas não é “esforce-se mais”, mas “volte.” Deus está sempre convidando o seu povo de volta, não com um sermão, mas de braços abertos. Se você se afastou, o caminho de casa é mais curto do que você teme. Uma volta sincera do coração, e você O encontrará já correndo em sua direção.",
+      "prayer": "Pai, volto para ti hoje. Obrigado por vir ao meu encontro antes mesmo de eu chegar. Amém."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Aquieta-te",
+      "body": "“Aquietai-vos, e sabei que eu sou Deus.” A quietude vem primeiro, depois o saber. Tentamos raciocinar até a paz e acabamos mais enredados. Às vezes a fé é simplesmente parar de lutar, deixar as suas mãos se abrirem o suficiente para lembrar quem realmente sustenta o mundo. Nunca foi você.",
+      "prayer": "Deus, aquieta a minha luta. Ajuda-me a ficar quieto o bastante para lembrar que tu és Deus. Amém."
+    },
+    {
+      "id": "devotional-023",
+      "title": "O Amigo que Fica",
+      "body": "Provérbios diz que há um amigo mais chegado que um irmão. Num mundo de pessoas que vêm e vão, Jesus é o que fica, através do fracasso, do silêncio, da longa noite. Você não é demais para Ele, e nunca está longe demais. Ele não procura um motivo para partir. Ele é o amigo que fica.",
+      "prayer": "Jesus, obrigado por ficares quando outros não puderam. Ajuda-me a descansar na tua fidelidade. Amém."
+    },
+    {
+      "id": "devotional-024",
+      "title": "A Alegria Vem pela Manhã",
+      "body": "O salmista não nega o choro; diz que ele “pode durar a noite.” A noite é real. Mas não é permanente. O luto tem uma manhã do outro lado, e o Deus que guarda as suas lágrimas num odre não perdeu a conta de uma só. Aguente firme. A manhã é uma promessa, não um talvez.",
+      "prayer": "Senhor, na minha noite, ajuda-me a confiar na manhã que prometeste. Guarda as minhas lágrimas. Amém."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "Sete dias de paz",
+      "tagline": "Para tempos de ansiedade: uma passagem serena por dia."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "A semana da gratidão",
+      "tagline": "Treine seus olhos para reconhecer a graça em toda parte."
+    },
+    {
+      "id": "psalms-30",
+      "title": "30 dias nos Salmos",
+      "tagline": "O livro de oração da Bíblia, um salmo por dia."
+    },
+    {
+      "id": "gospels-90",
+      "title": "A vida de Jesus em 90 dias",
+      "tagline": "Percorra os quatro Evangelhos."
+    },
+    {
+      "id": "bible-365",
+      "title": "A Bíblia em um ano",
+      "tagline": "Toda a história, 20 minutos por dia."
+    }
+  ]
+}

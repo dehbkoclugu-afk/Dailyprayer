@@ -1,6 +1,7 @@
 import type { AssetId } from '@/assets/registry';
 import { useT } from '@/i18n';
 import type { Locale } from '@/i18n/translations';
+import { getRegisteredApplicationContentPack } from '@/i18n/applicationContent';
 
 /** Reading plans. Day content references the built-in reader or devotional text. */
 export interface ReadingPlan {
@@ -146,6 +147,14 @@ const OVERLAYS: Record<Exclude<Locale, 'en'>, Record<string, { title: string; ta
 
 /** Reading plans localized to the active locale (English fallback). */
 export function getPlans(locale: Locale): ReadingPlan[] {
+  const pack = getRegisteredApplicationContentPack(locale);
+  if (pack) {
+    const localized = new Map(pack.plans.map((plan) => [plan.id, plan]));
+    return plans.map((plan) => {
+      const content = localized.get(plan.id)!;
+      return { ...plan, title: content.title, tagline: content.tagline };
+    });
+  }
   if (locale === 'en') return plans;
   const overlay = OVERLAYS[locale];
   return plans.map((p) => {

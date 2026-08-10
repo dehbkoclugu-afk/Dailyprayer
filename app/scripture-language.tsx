@@ -7,6 +7,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
+import { getDirectionalIconName } from '@/i18n/direction';
 import {
   EXISTING_NON_PD_SCRIPTURE,
   GLOBAL_LANGUAGE_CATALOG,
@@ -32,7 +33,7 @@ const languages = GLOBAL_LANGUAGE_CATALOG.filter(
 
 export default function ScriptureLanguage() {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const effectiveScriptureLocale = useScriptureLocale();
   const scriptureLocale = useUserStore((s) => s.scriptureLocale);
   const setScriptureLocale = useUserStore((s) => s.setScriptureLocale);
@@ -118,7 +119,7 @@ export default function ScriptureLanguage() {
             justifyContent: 'center',
           }}
         >
-          <Ionicons name="chevron-back" size={22} color={t.ink} />
+          <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={22} color={t.ink} />
         </Pressable>
         <Text style={{ flex: 1, fontFamily: fonts.serif, fontSize: 30, color: t.ink }}>
           {tr('profile.scriptureLanguage')}

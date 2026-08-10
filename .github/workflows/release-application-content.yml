@@ -1,0 +1,71 @@
+name: Release application content
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: application-content-v1-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build application content
+        run: npm run application-content:build
+      - name: Verify production UI locales
+        run: npm run ui-locales:verify:production
+      - name: Verify production application content
+        run: npm run application-content:verify:production
+      - name: Verify complete release asset coverage
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const directory = 'content/application';
+          const manifest = JSON.parse(fs.readFileSync(`${directory}/manifest.json`, 'utf8'));
+          const expected = manifest.releases.map(({ locale }) => `${locale}.json`).sort();
+          const actual = fs.readdirSync(directory)
+            .filter((name) => name.endsWith('.json') && !name.startsWith('manifest.'))
+            .sort();
+          if (expected.length !== 41 || new Set(expected).size !== 41) {
+            throw new Error(`Refusing partial release: manifest contains ${expected.length}/41 unique locale assets`);
+          }
+          if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+            throw new Error('Refusing release: locale assets do not exactly match manifest coverage');
+          }
+          NODE
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lumen-application-content-v1
+          path: |
+            content/application/manifest.json
+            content/application/*.json
+            !content/application/manifest.development.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Publish immutable application content release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: application-content-v1
+        run: |
+          if git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists; refusing to mutate immutable application content assets."
+            exit 1
+          fi
+          mapfile -t packs < <(
+            find content/application -maxdepth 1 -type f -name '*.json' ! -name 'manifest.*' -print | sort
+          )
+          test "${#packs[@]}" -eq 41
+          gh release create "$TAG" content/application/manifest.json "${packs[@]}" \
+            --title "Lumen application content $TAG" \
+            --notes "Validated application content for all 41 production locales."

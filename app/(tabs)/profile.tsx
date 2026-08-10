@@ -15,6 +15,7 @@ import { useStreakStore } from '@/state/useStreakStore';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { toast } from '@/state/useToastStore';
 import { APPLICATION_LOCALES, useT, translate } from '@/i18n';
+import { getDirectionalIconName } from '@/i18n/direction';
 import * as NotificationService from '@/services/notifications';
 import { openSubscriptionManagement } from '@/services/purchases';
 import type { ThemeName } from '@/theme/tokens';
@@ -23,23 +24,19 @@ import { GLOBAL_LANGUAGE_CATALOG } from '@/i18n/globalLanguageCatalog';
 export default function Profile() {
   const t = useTheme();
   const artwork = useArtwork();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const {
-    quiz, themePreference, setThemePreference, language, setLanguage,
+    quiz, themePreference, setThemePreference, language,
     scriptureLocale, setQuiz, reset,
   } = useUserStore();
   const { count, bestCount, totalDays } = useStreakStore();
   const isPlus = useEntitlementStore((s) => s.isPlus);
-  const [sheet, setSheet] = useState<null | 'appearance' | 'language'>(null);
+  const [sheet, setSheet] = useState<null | 'appearance'>(null);
 
   const appearanceOptions: SheetOption<ThemeName | 'system'>[] = [
     { value: 'system', label: tr('profile.auto') },
     { value: 'vigil', label: tr('profile.vigil') },
     { value: 'dawn', label: tr('profile.dawn') },
-  ];
-  const languageOptions: SheetOption<(typeof APPLICATION_LOCALES)[number]['tag'] | 'system'>[] = [
-    { value: 'system', label: tr('profile.auto') },
-    ...APPLICATION_LOCALES.map((locale) => ({ value: locale.tag, label: locale.nativeName })),
   ];
   const appearanceLabel =
     appearanceOptions.find((o) => o.value === themePreference)?.label ?? tr('profile.auto');
@@ -185,7 +182,7 @@ export default function Profile() {
                 {isPlus ? tr('profile.plusThanks') : tr('profile.plusSub')}
               </Text>
             </View>
-            {!isPlus ? <Ionicons name="chevron-forward" size={20} color={artwork.foreground.tertiary} /> : null}
+            {!isPlus ? <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={20} color={artwork.foreground.tertiary} /> : null}
           </Pressable>
           {isPlus ? (
             <>
@@ -240,7 +237,7 @@ export default function Profile() {
           icon="language-outline"
           label={tr('profile.language')}
           value={languageLabel}
-          onPress={() => setSheet('language')}
+          onPress={() => router.push('/application-language')}
         />
         <ValueRow
           icon="book-outline"
@@ -309,14 +306,6 @@ export default function Profile() {
         onSelect={setThemePreference}
         onClose={() => setSheet(null)}
       />
-      <OptionSheet
-        visible={sheet === 'language'}
-        title={tr('profile.language')}
-        options={languageOptions}
-        selected={language}
-        onSelect={setLanguage}
-        onClose={() => setSheet(null)}
-      />
     </Screen>
   );
 }
@@ -335,6 +324,7 @@ function ValueRow({
   first?: boolean;
 }) {
   const t = useTheme();
+  const { locale } = useT();
   return (
     <Pressable
       onPress={onPress}
@@ -356,7 +346,7 @@ function ValueRow({
         <Ionicons name={icon as never} size={20} color={t.inkSoft} />
         <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink, flex: 1 }}>{label}</Text>
         <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.gold }}>{value}</Text>
-        <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
+        <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={18} color={t.inkFaint} />
       </View>
     </Pressable>
   );
@@ -364,6 +354,7 @@ function ValueRow({
 
 function Row({ icon, label, onPress }: { icon: string; label: string; onPress?: () => void }) {
   const t = useTheme();
+  const { locale } = useT();
   return (
     <Pressable
       onPress={onPress}
@@ -385,7 +376,7 @@ function Row({ icon, label, onPress }: { icon: string; label: string; onPress?: 
       >
         <Ionicons name={icon as never} size={20} color={t.inkSoft} />
         <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink, flex: 1 }}>{label}</Text>
-        <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
+        <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={18} color={t.inkFaint} />
       </View>
     </Pressable>
   );

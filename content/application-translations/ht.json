@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "locale": "ht",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "Ki tradisyon legliz ki fè ou santi ou lakay ou?",
+      "subtitle": "N ap adapte lapriyè ak plan ou yo selon li.",
+      "options": [
+        {
+          "value": "catholic",
+          "label": "Katolik"
+        },
+        {
+          "value": "protestant",
+          "label": "Pwotestan"
+        },
+        {
+          "value": "orthodox",
+          "label": "Òtodòks"
+        },
+        {
+          "value": "nondenominational",
+          "label": "San denominasyon"
+        },
+        {
+          "value": "exploring",
+          "label": "Mwen jis ap dekouvri"
+        }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "Kisa ou swete grandi nan ou?",
+      "subtitle": "Chwazi tout sa ki konsène ou.",
+      "affirmation": "Ou nan bon konpayi: 73% manm yo te vini pou menm rezon an.",
+      "options": [
+        {
+          "value": "habit",
+          "label": "Yon abitid lapriyè chak jou"
+        },
+        {
+          "value": "closer",
+          "label": "Santi mwen pi pre Bondye"
+        },
+        {
+          "value": "peace",
+          "label": "Plis lapè ak mwens enkyetid"
+        },
+        {
+          "value": "sleep",
+          "label": "Dòmi pi byen"
+        },
+        {
+          "value": "bible",
+          "label": "Konprann Bib la"
+        },
+        {
+          "value": "gratitude",
+          "label": "Yon kè rekonesan"
+        }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "Kisa k ap peze sou kè ou dènyèman?",
+      "subtitle": "Repons ou ap rete prive epi l ap ede fòme plan ou.",
+      "affirmation": "Mèsi paske ou fè nou konfyans. Pawòl Bondye rankontre moun egzakteman isit la.",
+      "options": [
+        {
+          "value": "anxiety",
+          "label": "Enkyetid oswa kè sote"
+        },
+        {
+          "value": "loneliness",
+          "label": "Solitid"
+        },
+        {
+          "value": "grief",
+          "label": "Lapenn oswa pèt"
+        },
+        {
+          "value": "direction",
+          "label": "Jwenn direksyon"
+        },
+        {
+          "value": "consistency",
+          "label": "Rete fidèl"
+        },
+        {
+          "value": "none",
+          "label": "Mwen anfòm"
+        }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "Ki jan lapriyè abitye pou ou?",
+      "options": [
+        {
+          "value": "new",
+          "label": "Mwen fèk kòmanse"
+        },
+        {
+          "value": "returning",
+          "label": "Mwen retounen apre yon ti tan"
+        },
+        {
+          "value": "regular",
+          "label": "Mwen priye regilyèman"
+        }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "Kilè ou ta renmen yon rapèl chak jou?",
+      "subtitle": "Yon rapèl dous, san mesaj anmèdan.",
+      "options": [
+        {
+          "value": "07:30",
+          "label": "Maten · 7:30"
+        },
+        {
+          "value": "12:30",
+          "label": "Midi · 12:30"
+        },
+        {
+          "value": "21:00",
+          "label": "Aswè · 21:00"
+        },
+        {
+          "value": "none",
+          "label": "Pa gen rapèl"
+        }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Limyè maten",
+      "script": [
+        "Respire dousman… epi lage souf la. Anvan jounen an mande ou anyen, rete la.",
+        "Seyè, mèsi pou maten sa a, pou souf lavi a, pou yon lòt kòmansman.",
+        "Mwen remèt ou lè ki devan mwen yo: travay mwen, pawòl mwen ak moun mwen pral rankontre.",
+        "Lè mwen enkyè, se pou ou lapè mwen. Lè mwen fatige, se pou ou fòs mwen.",
+        "Kite m mache nan jounen sa a san prese, avèk konesans ou toupre. Amèn."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "Kalme tanpèt la",
+      "script": [
+        "Mete yon men sou kè ou. Santi l bat; ou vivan epi yo kenbe ou.",
+        "Jezi, ou te dòmi nan tanpèt la epi ou te fè l rete ak yon sèl pawòl. Pale ak pa m nan tou.",
+        "Kounye a mwen bay enkyetid mwen yon non… epi mwen mete l nan men ou.",
+        "«Lapè, rete trankil.» Kite pawòl sa yo poze sou lespri mwen tankou dlo kalm.",
+        "Laperèz p ap pote m ale jodi a; se ou ki pote m. Amèn."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "Yon kè rekonesan",
+      "script": [
+        "Sonje yon bon bagay ki rive jodi a, menm si li piti. Kenbe l nan kè ou yon ti moman.",
+        "Papa, tout bon kado soti nan ou. Mèsi.",
+        "Mèsi pou sa mwen te mande epi mwen resevwa, ak pou sa ou te epaye m.",
+        "Aprann mwen wè favè ki kache nan moman òdinè yo.",
+        "Se pou rekonesans tounen dènye nòt jounen mwen. Amèn."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "Antre nan repo",
+      "script": [
+        "Kite jounen an fini. Ou fè sa ou te kapab, e sa ase.",
+        "Seyè, pandan mwen kouche, mwen remèt ou tout sa ki poko fini.",
+        "Veye moun mwen renmen yo pandan n ap dòmi.",
+        "«Mwen kouche epi mwen dòmi anpè, paske se ou sèl ki fè m rete an sekirite.»",
+        "Ralanti souf mwen… kalme panse mwen… epi kenbe m jouk maten. Amèn."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Beni fanmi mwen",
+      "script": [
+        "Sonje figi moun nan fanmi ou yo, youn apre lòt.",
+        "Papa, beni chak moun nan sante, nan kè ak nan lafwa.",
+        "Geri sa ki rèd ant nou; adousi sa ki vin di.",
+        "Fè lakay nou tounen yon kote ki plen pasyans ak ri.",
+        "Mare nou ansanm nan lanmou ou. Amèn."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Kouraj pou jodi a",
+      "script": [
+        "Kanpe dwat yon ti moman. Respire fon.",
+        "Seyè, ou pa ban mwen yon lespri laperèz, men yon lespri fòs, lanmou ak bon konprann.",
+        "Ban mwen kouraj pou konvèsasyon an, travay la ak pa mwen toujou ap evite a.",
+        "Lè mwen febli, fè m sonje ou mache devan mwen.",
+        "M ap fò ak vanyan, pa pou kont mwen, men avèk ou. Amèn."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "Konte kado yo",
+      "script": [
+        "Kite jounen an poze. Lage tout sa li te mande ou nan souf ou.",
+        "Papa, anvan mwen di sa mwen manke, kite m site sa mwen te resevwa.",
+        "Mèsi pou ti mizèrikòd òdinè mwen te prèske pa wè jodi a.",
+        "Mèsi pou moun ki fè lavi mwen pi cho.",
+        "Yon kè rekonesan se yon kè plen. Ranpli pa m nan aswè a. Amèn."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Dlo trankil",
+      "script": [
+        "Louvri men ou. Kite souf ou vin pi dous ak chak liy.",
+        "Bèje mwen, ou mennen m bò dlo trankil. Mennen m la kounye a.",
+        "Panse k ap kouri nan mwen yo, mwen mete yo nan pye ou youn apre lòt.",
+        "Ou rebay nanm mwen lavi. Renouvle sa jounen an fin itilize.",
+        "Mwen p ap pè, paske ou avèk mwen. Amèn."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "Anvan jounen an",
+      "script": [
+        "Jounen an poko pase. Rankontre l isit la avèk Bondye anvan tout lòt bagay.",
+        "Seyè, jounen sa a se pa ou anvan li pou mwen.",
+        "Mache devan mwen nan chak kote mwen pral antre ak nan chak pawòl mwen pral di.",
+        "Lè mwen vle prese, aprann mwen mache dousman.",
+        "Mete lè mwen yo nan lòd epi kenbe kè mwen pre kè ou. Amèn."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "Lapè ki veye",
+      "script": [
+        "Mete toude pye ou atè. Ou isit la. Bondye isit la.",
+        "Jezi, ou kite lapè ou pou nou, pa tankou sa mond lan bay, men yon lapè reyèl ak pwofon.",
+        "Kite lapè sa a veye kè ak lespri mwen jodi a tankou yon gad bò pòt la.",
+        "Sa mwen pa ka kontwole, mwen remèt li ba ou.",
+        "Lapè ou ase. Mwen repoze ladan l. Amèn."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "Premye mèsi a",
+      "script": [
+        "Anvan lis bagay pou fè a, fè yon poz. Pran yon souf rekonesans.",
+        "Papa, mèsi paske ou leve m pou yon lòt jounen favè.",
+        "Mèsi pou souf, pou limyè ak pou yon paj tou nèf.",
+        "Se pou rekonesans, pa prese, bay maten mwen ton li.",
+        "Mwen kòmanse jodi a avèk remèsiman. Amèn."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Depoze l",
+      "script": [
+        "Jounen an fini. Ou fè sa ou te kapab, e sa ase.",
+        "Seyè, mwen mete tout sa ki poko fini nan swen ou.",
+        "Enkyetid mwen ta pote nan fènwa a, mwen kite yo avèk ou.",
+        "Ou bay moun ou renmen yo dòmi. Resevwa m kounye a.",
+        "Mwen kouche epi mwen dòmi anpè, paske se ou sèl ki pwoteje m. Amèn."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "Sou moun mwen renmen yo",
+      "script": [
+        "Sonje chak moun ou renmen. Kenbe figi yo nan lespri ou yon ti moman.",
+        "Papa, veye moun ou konfye m yo.",
+        "Pwoteje yo lè yo soti ak lè yo antre.",
+        "Lè mwen manke yo, kite favè ou kouvri vid la.",
+        "Kenbe yo nan men ou, pi pre pase mwen ta janm kapab. Amèn."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Fòs pou padone",
+      "script": [
+        "Respire. Sa a difisil, e Bondye konnen sa.",
+        "Seyè, ou te padone m ak yon gwo pri. Ban mwen fòs pou m padone.",
+        "Mwen pote non an, souvni an ak blesi a; mwen lonje yo ba ou.",
+        "Libere m anba chay sa ki pa t janm pou mwen pote.",
+        "Geri sa padon an louvri. Fè m antye. Amèn."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "Anba zèl li",
+      "script": [
+        "Santi pwa jounen an kite zepòl ou.",
+        "Moun ki rete nan kachèt Bondye Trèwo a ap repoze anba lonbraj li.",
+        "Seyè, kouvri m aswè a tankou yon zwazo kouvri pitit li.",
+        "Pa gen krent pou lannuit, pa gen kè sote pou demen; sèlman swen ou.",
+        "Mwen p ap pè, paske ou pa janm dòmi. Bòn nuit, Papa. Amèn."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "Lè mwen fèb",
+      "script": [
+        "Ou pa bezwen fè kòm si ou fò isit la.",
+        "Seyè, ou di pouvwa ou vin pafè nan feblès.",
+        "Men feblès mwen; mwen sispann kache l devan ou.",
+        "Se pou ou fò egzakteman kote mwen pa gen anyen ankò.",
+        "Favè ou sifi pou mwen. Sa ase. Amèn."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "Menm kounye a, mèsi",
+      "script": [
+        "Sa se yon rekonesans ki pi difisil. Respire epi rete onèt.",
+        "Papa, menm kounye a, nan mitan sa a, mwen chèche men ou.",
+        "Mèsi paske ou pa kite m pou kont mwen ladan l.",
+        "Mèsi paske sezon sa a pa fen istwa a.",
+        "Mwen chwazi di mèsi, pa paske li fasil, men paske ou bon. Amèn."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "Kado silans lan",
+      "body": "Pifò nan nou rankontre maten an deja ap kouri: mesaj, nouvèl ak obligasyon. Yo te ekri Sòm 46 nan yon tan boulvès, men nan sant li gen yon ti vwa: rete trankil. Silans pa vle di pa fè anyen; li vle di sonje kiyès ki kenbe tout bagay. Lage zepòl ou pandan de minit. Mond lan ap kontinye vire san èd ou, jan li toujou fè. Sa pa echèk ou; se fidelite Bondye.",
+      "prayer": "Seyè, fè bri ki nan mwen an rete. Ede m kwè se ou ki Bondye, se pa mwen. Amèn."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Fòs ki pa soti nan ou",
+      "body": "Pòl te ekri «Mwen kapab fè tout bagay» nan yon prizon, pa sou tèt yon mòn. Fòs li pale a pa konfyans nan tèt li; se yon fòs li resevwa, ki rive egzakteman lè pa ou fini. Kèlkeswa sa jounen an mande ou, ou pa t fèt pou pote l pou kont ou. Mande. Resevwa. Mache.",
+      "prayer": "Jezi, se pou ou fòs mwen kote mwen fèb jodi a. Mwen remèt ou sa ki twò lou. Amèn."
+    },
+    {
+      "id": "devotional-003",
+      "title": "Dirije, pa pouse",
+      "body": "Yon bèje mache devan; yon moun k ap pouse bèt rete dèyè. Sòm 23 montre Bondye ap dirije nou nan savann vèt ak bò dlo trankil. Si lafwa te sanble ak presyon, prese oswa laperèz, vwa sa a pa vwa Bèje a. Jodi a, koute vwa ki mennen ou dousman epi swiv yon pa alafwa.",
+      "prayer": "Bèje nanm mwen, aprann mwen rekonèt vwa ou. Dirije m jodi a. Amèn."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Repo pou moun ki bouke",
+      "body": "Jezi pa t di: «Vini jwenn mwen, nou tout ki gen tout bagay sou kontwòl.» Li te rele moun ki fatige, moun ki chaje ak moun ki prèske pa ka kenbe ankò. Repo pa rekonpans lè travay fini; se yon kado nan mitan travay la. Vini jan ou ye a; se tout envitasyon an.",
+      "prayer": "Seyè, mwen vini fatige. Chanje chay mwen pou repo ou. Amèn."
+    },
+    {
+      "id": "devotional-005",
+      "title": "Yon avni ak yon espwa",
+      "body": "Jeremi 29:11 te ekri pou moun ann egzil ki te wè plan yo kraze. Pwomès Bondye a pa t yon delivrans imedyat, men li te montre kiyès li ye: Mwen pa bliye nou. Echèk sa a pa fen istwa ou. Otè a toujou ap ekri.",
+      "prayer": "Papa, lè mwen pa wè chemen an, ede m fè Sila ki wè l la konfyans. Amèn."
+    },
+    {
+      "id": "devotional-006",
+      "title": "Apiye sou li",
+      "body": "Konpreyansyon pa ou se yon bon zouti, men yon move mèt. Pwovèb envite nou fè Bondye konfyans ak tout kè nou, pa paske reflechi pa bon, men paske vizyon nou piti. Pote desizyon ou toujou ap vire nan tèt ou a bay Bondye. Apre sa, koute pi lontan pase ou pale.",
+      "prayer": "Seyè, mwen konfye ou desizyon ki nan lespri mwen kounye a. Fè chemen mwen dwat. Amèn."
+    },
+    {
+      "id": "devotional-007",
+      "title": "Remèd kont enkyetid",
+      "body": "Konsèy Pòl pou enkyetid la byen presi: priye pou tout bagay epi ajoute remèsiman. Rekonesans pa vle di nye reyalite; li elaji imaj la jouk fidelite Bondye nan tan pase a parèt ankò. Site twa bagay ou rekonesan pou yo epi gade sa sa fè laperèz la.",
+      "prayer": "Bondye lapè, veye kè ak lespri mwen jodi a. Mwen remèt ou enkyetid mwen yo youn apre lòt. Amèn."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Limyè nan fènwa",
+      "body": "Jan pa t pwomèt yon lavi san fènwa. Li te pwomèt fènwa a p ap genyen. Yon sèl bouji pa diskite ak lannuit; li boule, epi fènwa a fè bak. Ou pa oblije ranje tout bagay jodi a. Kenbe ti limyè ou limen epi fè Sila ki se Limyè a konfyans pou rès la.",
+      "prayer": "Jezi, Limyè mond lan, klere nan pati nan mwen ki sanble fènwa jodi a. Amèn."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Ase pou jodi a",
+      "body": "Yo pa t ka sere lamàn. Chak maten pèp la te ranmase jis sa yo te bezwen, epi nan demen yo te ranmase ankò. Bondye aprann nou fè l konfyans yon jou alafwa, pa paske li chich, men paske pen chak jou kreye yon relasyon chak jou. Pa pote pwa demen nan jodi a; jodi a gen ase favè.",
+      "prayer": "Papa, ban mwen pen mwen bezwen jodi a ak lapè pou m kite demen nan men ou. Amèn."
+    },
+    {
+      "id": "devotional-010",
+      "title": "Li konnen ou epi li renmen ou",
+      "body": "Anvan premye panse ou maten an, Bondye te deja konnen ou. Sòm 139 di li te fòme ou epi li konnen lè ou chita ak lè ou leve. Ou pa yon etranje k ap mande atansyon; ou se pitit li, li konnen ou nèt epi, sa ki bèl anpil, li renmen ou nèt. Kanpe sou verite sa a jodi a.",
+      "prayer": "Seyè, mèsi paske ou konnen m nèt epi ou toujou renmen m nèt. Fè m rete fèm nan sa. Amèn."
+    },
+    {
+      "id": "devotional-011",
+      "title": "Obeyisans ki dire lontan",
+      "body": "Fidelite raman dramatik. Pi souvan, se retounen prezan: yon lapriyè, yon jès bonté ak yon chwa onèt alafwa. Yon rivyè fouye yon vale pa ak fòs, men paske li retounen nan menm chemen an chak jou. Ti «wi» ou repete bay Bondye a ap fè plis pase ou ka wè. Kontinye retounen.",
+      "prayer": "Seyè, fè m fidèl nan ti bagay jodi a, pandan mwen konfye ou tout rès la. Amèn."
+    },
+    {
+      "id": "devotional-012",
+      "title": "Lè ou santi yo bliye ou",
+      "body": "Aga te pou kont li nan dezè a lè li rele Bondye «Bondye ki wè mwen an». Lè pèsonn pa t remake li, Bondye te wè li. Si jodi a ou santi moun, sikonstans oswa pwòp espwa ou pa wè ou, tande sa: yo wè ou. Anyen nan lavi ou pa kache pou Sila ki konte zetwal yo epi rele yo chak pa non.",
+      "prayer": "Bondye ki wè mwen, mèsi paske mwen pa janm vrèman pou kont mwen. Rankontre m isit la. Amèn."
+    },
+    {
+      "id": "devotional-013",
+      "title": "Kado ou pa t merite a",
+      "body": "Favè deranje pati nan nou ki vle merite plas li. Men Efezyen klè: se gras a favè, pa mwayen lafwa, ou sove; sa pa soti nan ou, se yon kado. Ou ka sispann goumen pou yon lanmou ou deja genyen. Repo pa rekonpans pou fini; se kado ki pèmèt ou kòmanse ankò.",
+      "prayer": "Papa, mwen resevwa sa mwen pa t janm ka merite. Mèsi pou favè. Aprann mwen repoze ladan l. Amèn."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Dlo k ap koule nan dezè",
+      "body": "Ezayi pale de rivyè nan tè sèch, dlo kote ou ta kwè anyen pa ka grandi. Sezon sechrès ou a pa fen istwa a. Bondye fè lavi pouse nan menm kote nou te abandone yo. Gade tè ou te lage a; li poko fini travay li la.",
+      "prayer": "Seyè, fè dlo koule nan kote ki sèch nan mwen yo. Mwen fè ou konfyans pou fè tout bagay nouvo. Amèn."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Jete l, pa pote l",
+      "body": "Pyè sèvi ak yon mo ki mande aksyon: jete. Jete enkyetid ou sou Bondye tankou ou ta retire yon sak lou sou zepòl ou. Poukisa? «Paske li pran swen nou.» Kè sote pran pòz li itil, tankou si anpil reflechi ap rezoud pwoblèm nan. Li p ap fè sa. Lapriyè deplase pwa a bay Sila ki gen ase fòs pou kenbe l.",
+      "prayer": "Seyè, mwen jete enkyetid mwen sou ou toutbon, pa nan pawòl sèlman. Pote sa mwen pa kapab. Amèn."
+    },
+    {
+      "id": "devotional-016",
+      "title": "Vwa ki rele ou byeneme",
+      "body": "Anvan Jezi te fè yon sèl mirak, Papa a te di: «Sa se Pitit mwen renmen anpil la, ki fè m plezi.» Li te renmen l anvan travay la, pa kòm salè pou sa li te fè. Se menm bagay pou ou. Ou pa bezwen reyisi pou merite lanmou. Ou ka travay apati lanmou, pa pou jwenn li.",
+      "prayer": "Papa, kite m tande ou rele m byeneme anvan mwen fè anyen jodi a. Amèn."
+    },
+    {
+      "id": "devotional-017",
+      "title": "Pa meprize ti kòmansman",
+      "body": "Zakari mande kiyès ki ta meprize jou ti bagay yo. Nou vle wè gwo legliz la fini; Bondye pran plezi nan premye wòch la. Kèlkeswa sa w ap kòmanse, yon abitid, yon gerizon oswa yon rekonsilyasyon, pa mezire l selon jan li piti jodi a. Gwo bagay prèske toujou kòmanse piti anpil.",
+      "prayer": "Seyè, beni ti kòmansman ki devan mwen an. Ede m fidèl ak sa ki piti. Amèn."
+    },
+    {
+      "id": "devotional-018",
+      "title": "Li renouvle",
+      "body": "Bèje Sòm 23 la pa pouse mouton yo pi devan lè yo bouke. Li fè yo kouche, li mennen yo bò dlo trankil epi li renouvle nanm yo. Si ou pa gen fòs ankò, bagay ki pi sen ou ka fè a se petèt kanpe. Renouvèlman pa parese; se obeyi yon Bondye ki kreye ou ak bezwen repo.",
+      "prayer": "Bèje, mennen m bò dlo trankil jodi a. Renouvle sa ki fin itilize nan mwen. Amèn."
+    },
+    {
+      "id": "devotional-019",
+      "title": "Lanmou nan lavi òdinè",
+      "body": "Deskripsyon Pòl bay sou lanmou an pa santimantal; li pratik, prèske òdinè. Li gen pasyans. Li gen bonté. Li pa fache fasil. Li pa kenbe lis fot. Se yon lanmou ki leve manch li, pou apremidi madi ak moun ki difisil. Pa mande «èske mwen santi lanmou?» men «èske mwen ka gen pasyans, bonté ak padon isit la?»",
+      "prayer": "Seyè, fè m gen pasyans ak bonté jodi a, sitou lè sa koute m yon bagay. Amèn."
+    },
+    {
+      "id": "devotional-020",
+      "title": "Pwa glwa a",
+      "body": "Pòl rele difikilte li yo «lejè epi pou yon ti tan», menm lè yo te bat li epi mete l nan prizon. Li te ka di sa paske li te mezire soufrans li ak yon letènite glwa. Doulè ou reyèl; li pa janm fè kòm si se pa sa. Men li pa pi gwo bagay nan imaj la. Yon bagay ki pi lou epi ki pi bon ap vini.",
+      "prayer": "Papa, lè jodi a santi l lou, leve je m sou sa ki dire. Pote m travèse. Amèn."
+    },
+    {
+      "id": "devotional-021",
+      "title": "Retounen jwenn mwen",
+      "body": "Pawòl pwofèt yo repete pi plis la pa «fè plis efò», men «retounen». Bondye toujou ap envite pèp li tounen, pa avèk yon leson, men ak bra louvri. Si ou ale lwen, chemen lakay pi kout pase ou pè. Yon sèl vire onèt nan kè a, epi ou jwenn li deja ap kouri vin jwenn ou.",
+      "prayer": "Papa, mwen retounen jwenn ou jodi a. Mèsi paske ou rankontre m anvan menm mwen rive. Amèn."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Rete trankil",
+      "body": "«Rete trankil epi konnen mwen se Bondye.» Silans lan vini anvan, apre sa konesans lan. Nou eseye reflechi jis nou jwenn lapè, epi nou vin pi mele. Pafwa lafwa se senpleman sispann lite, louvri men ou ase lontan pou sonje kiyès ki vrèman kenbe mond lan. Se pa t janm ou.",
+      "prayer": "Bondye, kalme tout efò enkyè mwen. Ede m rete trankil ase lontan pou m sonje ou se Bondye. Amèn."
+    },
+    {
+      "id": "devotional-023",
+      "title": "Zanmi ki rete a",
+      "body": "Pwovèb di gen yon zanmi ki rete pi pre pase yon frè. Nan yon mond kote moun vini epi yo ale, Jezi se sila ki rete atravè echèk, silans ak lannuit ki long. Ou pa twòp pou li epi ou pa janm twò lwen. Li pa chèche yon rezon pou l ale; li se zanmi ki rete a.",
+      "prayer": "Jezi, mèsi paske ou rete lè lòt moun pa t kapab. Ede m repoze nan fidelite ou. Amèn."
+    },
+    {
+      "id": "devotional-024",
+      "title": "Kè kontan vini nan maten",
+      "body": "Salmis la pa nye kriye; li di kriye a ka dire yon nuit. Lannuit reyèl, men li pa dire pou toutan. Gen yon maten lòt bò lapenn nan, epi Bondye ki kenbe dlo nan je ou yo pa pèdi youn. Kenbe fèm. Maten an se yon pwomès, pa yon petèt.",
+      "prayer": "Seyè, nan nuit mwen an, ede m fè maten ou pwomèt la konfyans. Kenbe dlo nan je mwen. Amèn."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "Sèt jou lapè",
+      "tagline": "Pou sezon enkyetid yo: yon pasaj ki kalme chak jou."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "Semèn rekonesans lan",
+      "tagline": "Aprann je ou wè favè tout kote."
+    },
+    {
+      "id": "psalms-30",
+      "title": "Trant jou nan Sòm yo",
+      "tagline": "Liv lapriyè Bib la, yon sòm alafwa."
+    },
+    {
+      "id": "gospels-90",
+      "title": "Lavi Jezi nan katreven-dis jou",
+      "tagline": "Mache atravè tout kat Levanjil yo."
+    },
+    {
+      "id": "bible-365",
+      "title": "Bib la nan yon ane",
+      "tagline": "Tout istwa a, ven minit chak jou."
+    }
+  ]
+}

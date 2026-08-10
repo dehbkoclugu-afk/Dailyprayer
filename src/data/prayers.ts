@@ -1,5 +1,6 @@
 import { useT } from '@/i18n';
 import type { Locale } from '@/i18n/translations';
+import { getRegisteredApplicationContentPack } from '@/i18n/applicationContent';
 
 /** Guided prayer library. `plus` marks premium content. */
 export interface GuidedPrayer {
@@ -1174,6 +1175,14 @@ const OVERLAYS: Record<Exclude<Locale, 'en'>, Overlay> = { tr: TR, es: ES, pt: P
 
 /** Guided prayers localized to the active locale (English fallback). */
 export function getPrayers(locale: Locale): GuidedPrayer[] {
+  const pack = getRegisteredApplicationContentPack(locale);
+  if (pack) {
+    const localized = new Map(pack.prayers.map((prayer) => [prayer.id, prayer]));
+    return prayers.map((prayer) => {
+      const content = localized.get(prayer.id)!;
+      return { ...prayer, title: content.title, script: content.script };
+    });
+  }
   if (locale === 'en') return prayers;
   const overlay = OVERLAYS[locale];
   return prayers.map((p) => {

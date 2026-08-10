@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "locale": "lv",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "Kura baznīcas tradīcija tev šķiet kā mājas?",
+      "subtitle": "Mēs tai pielāgosim tavas lūgšanas un plānus.",
+      "options": [
+        {
+          "value": "catholic",
+          "label": "Katoļu"
+        },
+        {
+          "value": "protestant",
+          "label": "Protestantu"
+        },
+        {
+          "value": "orthodox",
+          "label": "Pareizticīgo"
+        },
+        {
+          "value": "nondenominational",
+          "label": "Bez konfesijas"
+        },
+        {
+          "value": "exploring",
+          "label": "Vēl tikai iepazīstu"
+        }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "Kam, tavuprāt, būtu jāaug tevī?",
+      "subtitle": "Izvēlies visu, kas attiecas uz tevi.",
+      "affirmation": "Tu esi labā sabiedrībā – 73% dalībnieku pievienojās tieši tā paša iemesla dēļ.",
+      "options": [
+        {
+          "value": "habit",
+          "label": "Ikdienas lūgšanas ieradumam"
+        },
+        {
+          "value": "closer",
+          "label": "Tuvākai saiknei ar Dievu"
+        },
+        {
+          "value": "peace",
+          "label": "Lielākam mieram un mazākām raizēm"
+        },
+        {
+          "value": "sleep",
+          "label": "Labākam miegam"
+        },
+        {
+          "value": "bible",
+          "label": "Labākai Bībeles izpratnei"
+        },
+        {
+          "value": "gratitude",
+          "label": "Pateicīgai sirdij"
+        }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "Kas pēdējā laikā nospiež tavu sirdi?",
+      "subtitle": "Tava atbilde paliks privāta un palīdzēs veidot plānu.",
+      "affirmation": "Paldies par uzticēšanos. Dieva vārds satiek cilvēku tieši šeit.",
+      "options": [
+        {
+          "value": "anxiety",
+          "label": "Nemiers vai rūpes"
+        },
+        {
+          "value": "loneliness",
+          "label": "Vientulība"
+        },
+        {
+          "value": "grief",
+          "label": "Sēras vai zaudējums"
+        },
+        {
+          "value": "direction",
+          "label": "Virziena meklēšana"
+        },
+        {
+          "value": "consistency",
+          "label": "Noturība"
+        },
+        {
+          "value": "none",
+          "label": "Man klājas labi"
+        }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "Cik pazīstama tev ir lūgšana?",
+      "options": [
+        {
+          "value": "new",
+          "label": "Es tikai sāku"
+        },
+        {
+          "value": "returning",
+          "label": "Atgriežos pēc pārtraukuma"
+        },
+        {
+          "value": "regular",
+          "label": "Es lūdzos regulāri"
+        }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "Kad tu vēlētos ikdienas atgādinājumu?",
+      "subtitle": "Maigs atgādinājums, nekad nevēlami ziņojumi.",
+      "options": [
+        {
+          "value": "07:30",
+          "label": "Rīts · 7:30"
+        },
+        {
+          "value": "12:30",
+          "label": "Pusdienlaiks · 12:30"
+        },
+        {
+          "value": "21:00",
+          "label": "Vakars · 21:00"
+        },
+        {
+          "value": "none",
+          "label": "Bez atgādinājumiem"
+        }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Rīta gaisma",
+      "script": [
+        "Lēni ieelpo… un izelpo. Pirms diena kaut ko no tevis prasa, paliec šeit.",
+        "Kungs, paldies par šo rītu, par elpu un vēl vienu sākumu.",
+        "Es atdodu tev priekšā esošās stundas: savu darbu, vārdus un cilvēkus, kurus satikšu.",
+        "Kad raizējos, esi mans miers. Kad esmu noguris, esi mans spēks.",
+        "Ļauj man šo dienu izstaigāt bez steigas, zinot, ka tu esi tuvu. Āmen."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "Nomierini vētru",
+      "script": [
+        "Uzliec plaukstu uz sirds. Sajūti tās pukstus – tu esi dzīvs un pasargāts.",
+        "Jēzu, tu gulēji vētrā un apklusināji to ar vienu vārdu. Runā arī uz manējo.",
+        "Tagad es nosaucu savas raizes… un ielieku tās tavās rokās.",
+        "„Klusu, rimsties.” Lai šie vārdi nolaižas pār manu prātu kā mierīgs ūdens.",
+        "Šodien bailes mani neaizraus. Tu mani nes. Āmen."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "Pateicīga sirds",
+      "script": [
+        "Atceries vienu labu šīs dienas notikumu, lai cik mazu. Paturi to mirkli.",
+        "Tēvs, katra laba dāvana nāk no tevis. Paldies.",
+        "Paldies par to, ko lūdzu un saņēmu, un par to, no kā tu mani pasargāji.",
+        "Māci man pamanīt žēlastību, kas slēpjas parastās stundās.",
+        "Lai pateicība ir skaņa, ar kuru noslēdzas mana diena. Āmen."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "Ieiet mierā",
+      "script": [
+        "Ļauj dienai beigties. Tu izdarīji, ko spēji, un ar to pietiek.",
+        "Kungs, kad apguļos, es nododu visu nepabeigto tavā gādībā.",
+        "Sargi cilvēkus, kurus mīlu, kamēr guļam.",
+        "„Mierā es apgulšos un aizmigšu, jo vienīgi tu ļauj man dzīvot drošībā.”",
+        "Palēnini manu elpu… nomierini domas… un turi mani līdz rītam. Āmen."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Svētī manu ģimeni",
+      "script": [
+        "Atsauc atmiņā savas ģimenes sejas, vienu pēc otras.",
+        "Tēvs, svētī katru veselībā, sirdī un ticībā.",
+        "Dziedini saspringto mūsu starpā un mīkstini to, kas nocietinājies.",
+        "Dari mūsu mājas par pacietības un smieklu vietu.",
+        "Savieno mūs savā mīlestībā. Āmen."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Drosme šodienai",
+      "script": [
+        "Uz mirkli iztaisnojies. Dziļi ieelpo.",
+        "Kungs, tu man neesi devis baiļu garu, bet spēka, mīlestības un skaidra prāta garu.",
+        "Dod drosmi sarunai, uzdevumam un solim, no kura turpinu izvairīties.",
+        "Kad svārstos, atgādini, ka tu ej man pa priekšu.",
+        "Es būšu stiprs un drosmīgs – ne viens, bet kopā ar tevi. Āmen."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "Skaitīt dāvanas",
+      "script": [
+        "Ļauj dienai norimt. Izelpo visu, ko tā no tevis prasīja.",
+        "Tēvs, pirms nosaucu, kā man trūkst, ļauj nosaukt to, ko saņēmu.",
+        "Paldies par ikdienišķajām žēlastībām, kurām šodien gandrīz pagāju garām.",
+        "Paldies par cilvēkiem, kas manu dzīvi dara siltāku.",
+        "Pateicīga sirds ir pilna sirds. Piepildi manējo šovakar. Āmen."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Mierīgi ūdeņi",
+      "script": [
+        "Atlaid savilktās plaukstas. Lai elpa kļūst lēnāka ar katru rindu.",
+        "Gans, tu ved mani pie mierīgiem ūdeņiem. Ved mani tur tagad.",
+        "Domas, kas traucas manī, es pa vienai nolieku pie tavām kājām.",
+        "Tu atjauno manu dvēseli. Atjauno to, ko šodiena nodilusi.",
+        "Es nebaidīšos, jo tu esi ar mani. Āmen."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "Pirms dienas",
+      "script": [
+        "Diena vēl nav iztērēta. Vispirms satiec to šeit, kopā ar Dievu.",
+        "Kungs, šī diena ir tava, pirms tā ir mana.",
+        "Ej man pa priekšu katrā telpā, kur ieiešu, un katrā vārdā, ko sacīšu.",
+        "Kad gribu steigties, māci man mierīgi iet.",
+        "Sakārto manas stundas un turi manu sirdi tuvu savai. Āmen."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "Miers, kas sargā",
+      "script": [
+        "Noliec abas pēdas uz zemes. Tu esi šeit. Dievs ir šeit.",
+        "Jēzu, tu atstāji mums savu mieru – ne tādu, kādu dod pasaule, bet īstu un dziļu.",
+        "Lai šis miers šodien sargā manu sirdi un prātu kā sargs pie vārtiem.",
+        "To, ko nevaru kontrolēt, es nododu tev.",
+        "Tava miera pietiek. Tajā es atpūšos. Āmen."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "Vispirms pateicība",
+      "script": [
+        "Pirms darāmo darbu saraksta – viena pauze, viena pateicības pilna elpa.",
+        "Tēvs, paldies, ka pamodināji mani jaunai žēlastības dienai.",
+        "Paldies par elpu, gaismu un jaunu lapu.",
+        "Lai pateicība, nevis steiga, nosaka mana rīta noskaņu.",
+        "Es sāku šo dienu pateicībā. Āmen."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Noliec to",
+      "script": [
+        "Diena ir beigusies. Tu izdarīji, ko spēji, un ar to pietiek.",
+        "Kungs, es nolieku visu nepabeigto tavā gādībā.",
+        "Raizes, ko nestu tumsā, es atstāju pie tevis.",
+        "Tu dāvā miegu tiem, kurus mīli. Pieņem mani tagad.",
+        "Mierā es apgulšos un aizmigšu, jo vienīgi tu mani sargā. Āmen."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "Pār tiem, kurus mīlu",
+      "script": [
+        "Atsauc prātā katru mīļo cilvēku. Paturi viņa seju domās mirkli.",
+        "Tēvs, sargi tos, kas man uzticēti.",
+        "Sargā viņu iziešanu un atgriešanos.",
+        "Kad es viņus pieviļu, lai tava žēlastība aizpilda trūkumu.",
+        "Turi viņus savā plaukstā tuvāk, nekā es jebkad spētu. Āmen."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Spēks piedot",
+      "script": [
+        "Elpo. Tas ir grūti, un Dievs to zina.",
+        "Kungs, tu man piedevi par lielu cenu. Dod man spēku piedot.",
+        "Es nesu pie tevis vārdu, atmiņu un brūci un nododu tos tev.",
+        "Atbrīvo mani no nastas, kas nekad nebija mana.",
+        "Dziedini to, ko atver piedošana. Dari mani veselu. Āmen."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "Zem viņa spārniem",
+      "script": [
+        "Sajūti, kā dienas smagums atstāj tavus plecus.",
+        "Kas mājo Visaugstākā patvērumā, atdusēsies viņa ēnā.",
+        "Kungs, apsedz mani šonakt kā putns savus mazuļus.",
+        "Bez bailēm no nakts un raizēm par rītdienu – tikai tava gādība.",
+        "Es nebaidīšos, jo tu nekad neguli. Ar labu nakti, Tēvs. Āmen."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "Kad esmu vājš",
+      "script": [
+        "Tev šeit nav jāizliekas stipram.",
+        "Kungs, tu sacīji, ka tavs spēks kļūst pilnīgs vājumā.",
+        "Te ir mans vājums – es vairs to neslēpju no tevis.",
+        "Esi stiprs tieši tur, kur man nekā vairs nav.",
+        "Tavas žēlastības man pietiek. Ar to ir gana. Āmen."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "Pat tagad – paldies",
+      "script": [
+        "Šī ir grūtāka pateicība. Elpo un paliec patiess.",
+        "Tēvs, pat tagad, šajā visā, es meklēju tavu roku.",
+        "Paldies, ka neatstāj mani tajā vienu.",
+        "Paldies, ka šis laiks nav stāsta beigas.",
+        "Es izvēlos pateikties ne tāpēc, ka ir viegli, bet tāpēc, ka tu esi labs. Āmen."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "Klusuma dāvana",
+      "body": "Lielākā daļa no mums sastop rītu jau skrienot – ziņas, virsraksti, pienākumi. 46. psalms rakstīts satricinājumu laikā, tomēr tā centrā ir čuksts: norimsti. Klusums nav bezdarbība; tas ir atgādinājums, kurš tur visu. Uz divām minūtēm nolaid plecus. Pasaule turpinās griezties bez tavas palīdzības, kā vienmēr. Tā nav tava neveiksme, bet viņa uzticība.",
+      "prayer": "Kungs, apklusini troksni manī. Palīdzi uzticēties, ka tu esi Dievs un es neesmu. Āmen."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Spēks, kas nav tavs",
+      "body": "Pāvils vārdus „es visu spēju” rakstīja no cietuma, nevis kalna virsotnes. Viņa aprakstītais spēks nav pašpārliecība; tas ir saņemts spēks, kas atnāk tieši tad, kad tavējais izsīkst. Lai ko šodiena prasītu, tev nekad nebija paredzēts to nest vienam. Lūdz. Saņem. Ej.",
+      "prayer": "Jēzu, esi mans spēks tur, kur šodien esmu vājš. Es nododu tev to, kas šķiet pārāk smags. Āmen."
+    },
+    {
+      "id": "devotional-003",
+      "title": "Vadīts, nevis dzīts",
+      "body": "Gans iet pa priekšu; dzinējs spiež no aizmugures. 23. psalms māca, ka Dievs vada uz zaļām ganībām un pie mierīgiem ūdeņiem. Ja ticība šķitusi kā steidzināšana, spiediens vai bailes, tā nav Gana balss. Šodien klausies balsī, kas vada maigi, un seko soli pa solim.",
+      "prayer": "Manas dvēseles Gans, māci man pazīt tavu balsi. Vadi mani šodien. Āmen."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Atpūta nogurušajiem",
+      "body": "Jēzus neteica: „Nāciet pie manis visi, kam viss ir sakārtots.” Viņš aicināja nogurušos, nastu nesējus un tos, kas tik tikko turas. Atpūta nav balva par pabeigtu darbu; tā ir dāvana darba vidū. Nāc tāds, kāds esi – tas ir viss aicinājums.",
+      "prayer": "Kungs, es nāku noguris. Apmaini manu smagumu pret savu mieru. Āmen."
+    },
+    {
+      "id": "devotional-005",
+      "title": "Nākotne un cerība",
+      "body": "Jeremijas 29:11 tika rakstīts trimdiniekiem, kuru plāni bija sabrukuši. Dieva apsolījums nebija tūlītēja glābšana, bet viņa rakstura atklāsme: es jūs neesmu aizmirsis. Šķērslis nav tava stāsta beigas. Autors vēl raksta.",
+      "prayer": "Tēvs, kad neredzu ceļu, palīdzi uzticēties tam, kurš to redz. Āmen."
+    },
+    {
+      "id": "devotional-006",
+      "title": "Paļaujies uz Dievu",
+      "body": "Tavs prāts ir labs rīks, bet slikts kungs. Salamana pamācības aicina uzticēties no visas sirds, nevis tāpēc, ka domāt būtu nepareizi, bet tāpēc, ka mūsu skats ir šaurs. Atnes Dievam lēmumu, ko atkal un atkal pārcilā. Tad klausies ilgāk, nekā runā.",
+      "prayer": "Kungs, es uzticu tev lēmumu, kas tagad ir manās domās. Iztaisno manu ceļu. Āmen."
+    },
+    {
+      "id": "devotional-007",
+      "title": "Pretinde raizēm",
+      "body": "Pāvila padoms pret raizēm ir pārsteidzoši konkrēts: lūdz par visu un pievieno pateicību. Pateicība nav noliegums; tā paplašina skatu, līdz atkal redzama Dieva agrākā uzticība. Nosauc trīs lietas, par kurām esi pateicīgs, un vēro, kas notiek ar bailēm.",
+      "prayer": "Miera Dievs, sargā šodien manu sirdi un prātu. Es nododu tev savas raizes pa vienai. Āmen."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Gaisma tumsā",
+      "body": "Jānis neapsolīja dzīvi bez tumsas. Viņš apsolīja, ka tumsa neuzvar. Viena svece nestrīdas ar nakti; tā vienkārši deg, un tumsa atkāpjas. Tev nav šodien viss jāizlabo. Turi savu mazo gaismu iedegtu un uzticies tam, kurš pats ir Gaisma, lai viņš dara pārējo.",
+      "prayer": "Jēzu, pasaules Gaisma, iespīdi manī tur, kur šodien šķiet tumšs. Āmen."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Šodienai pietiek",
+      "body": "Mannu nevarēja uzkrāt. Katru rītu ļaudis savāca tieši tik, cik vajadzēja, un rīt vāca atkal. Dievs māca uzticēties vienu dienu pēc otras, ne tāpēc, ka viņš būtu skops, bet tāpēc, ka dienišķā maize veido ikdienas attiecības. Nenes rītdienas smagumu šodienā. Šodienai pietiek savas žēlastības.",
+      "prayer": "Tēvs, dod man šodien dienišķo maizi un mieru atstāt rītdienu pie tevis. Āmen."
+    },
+    {
+      "id": "devotional-010",
+      "title": "Pazīts un mīlēts",
+      "body": "Pirms šorīt radās tava pirmā doma, tu jau biji pazīts. 139. psalms saka, ka Dievs tevi ir veidojis un zina, kad tu apsēdies un piecelies. Tu neesi svešinieks, kas lūdzas pēc uzmanības. Tu esi bērns – pilnīgi pazīts un, pārsteidzoši, pilnīgi mīlēts. Lai tas ir pamats zem kājām šodien.",
+      "prayer": "Kungs, paldies, ka esmu pilnīgi pazīts un tomēr pilnīgi mīlēts. Nostiprini mani tajā. Āmen."
+    },
+    {
+      "id": "devotional-011",
+      "title": "Ilgā paklausība",
+      "body": "Uzticība reti ir iespaidīga. Parasti tā ir atkal atnākšana: viena lūgšana, viena laipnība, viena godīga izvēle. Upe izgrauž kanjonu nevis ar spēku, bet ik dienu atgriežoties tajā pašā gultnē. Tavs mazais, atkārtotais „jā” Dievam dara vairāk, nekā vari redzēt. Turpini atgriezties.",
+      "prayer": "Kungs, dari mani šodien uzticīgu mazās lietās, kamēr visu kopumu uzticu tev. Āmen."
+    },
+    {
+      "id": "devotional-012",
+      "title": "Kad jūties aizmirsts",
+      "body": "Hagara viena tuksnesī nosauca Dievu par „Dievu, kas mani redz”. Kad neviens cits viņu nepamanīja, viņš redzēja. Ja šodien jūties cilvēku, apstākļu vai paša cerību nepamanīts, dzirdi: tu esi redzams. Nekas tavā dzīvē nav apslēpts tam, kurš skaita zvaigznes un katru sauc vārdā.",
+      "prayer": "Dievs, kas mani redzi, paldies, ka nekad neesmu patiesi viens. Satiec mani šeit. Āmen."
+    },
+    {
+      "id": "devotional-013",
+      "title": "Dāvana, ko nenopelnīji",
+      "body": "Žēlastība aizskar to mūsu daļu, kas vēlas nopelnīt savu vietu. Taču vēstule efeziešiem ir skaidra: tu esi glābts žēlastībā caur ticību, un tas nav no tevis – tā ir dāvana. Vari pārstāt censties nopelnīt mīlestību, kas tev jau dota. Atpūta nav balva par beigšanu; tā ir dāvana jaunam sākumam.",
+      "prayer": "Tēvs, es pieņemu to, ko nekad nevarētu nopelnīt. Paldies par žēlastību. Māci man tajā atpūsties. Āmen."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Straumes tuksnesī",
+      "body": "Jesaja runā par upēm tuksnesī – ūdeni tur, kur, šķiet, nekas nevar augt. Sausais laiks nav stāsta beigas. Dievs liek dzīvībai izplaukt tieši vietās, kuras bijām norakstījuši. Skaties uz zemi, ko biji atmetis. Viņš tur vēl nav pabeidzis.",
+      "prayer": "Kungs, ved straumes uz sausajām vietām manī. Es uzticos, ka tu visu dari jaunu. Āmen."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Mest, nevis nest",
+      "body": "Pēteris lieto darbīgu vārdu: metiet. Met savas raizes uz Dievu kā smagu somu no pleciem. Kāpēc? „Jo viņš gādā par jums.” Raizēšanās izliekas noderīga, it kā pietiekama domāšana visu atrisinātu. Tā nenotiks. Lūgšana pārceļ svaru uz vienīgo, kurš ir pietiekami stiprs to turēt.",
+      "prayer": "Kungs, es patiesi metu savas raizes uz tevi, ne tikai vārdos. Nes to, ko es nespēju. Āmen."
+    },
+    {
+      "id": "devotional-016",
+      "title": "Balss, kas sauc tevi par mīļoto",
+      "body": "Pirms Jēzus bija paveicis kaut vienu brīnumu, Tēvs sacīja: „Šis ir mans mīļais Dēls, uz ko man labs prāts.” Mīlestība nāca pirmā, nevis kā alga par darbu. Tāpat ir ar tevi. Tev nav ar sasniegumiem jānopelna mīlestība. Tu vari darboties no mīlestības, nevis tās dēļ.",
+      "prayer": "Tēvs, ļauj man dzirdēt, kā tu sauc mani par mīļoto, pirms šodien ko daru. Āmen."
+    },
+    {
+      "id": "devotional-017",
+      "title": "Nenonicini mazos sākumus",
+      "body": "Caharija jautā, kurš uzdrošinās nicināt mazo lietu dienu. Mēs gribam gatavu katedrāli; Dievs priecājas par pirmo nolikto akmeni. Lai ko sāktu – ieradumu, dziedināšanu vai izlīgumu –, nemēri to pēc tā, cik mazs tas izskatās šodien. Lielas lietas gandrīz vienmēr sākas ļoti mazas.",
+      "prayer": "Kungs, svētī mazo sākumu manā priekšā. Palīdzi būt uzticīgam mazumā. Āmen."
+    },
+    {
+      "id": "devotional-018",
+      "title": "Viņš atjauno",
+      "body": "23. psalma Gans nedzen nogurušās avis tālāk. Viņš liek tām apgulties, ved pie mierīga ūdens un atjauno dvēseli. Ja esi izsmelts, svētākais, ko vari darīt, var būt apstāties. Atjaunošanās nav slinkums. Tā ir paklausība Dievam, kurš radīja tevi ar vajadzību pēc atpūtas.",
+      "prayer": "Gan, ved mani šodien pie mierīgiem ūdeņiem. Atjauno to, kas manī nodilis. Āmen."
+    },
+    {
+      "id": "devotional-019",
+      "title": "Mīlestība ikdienā",
+      "body": "Pāvila slavenais mīlestības apraksts nav sentimentāls, bet praktisks un gandrīz ikdienišķs. Pacietīga. Laipna. Neātri dusmojas. Neuzskaita pārestības. Tā ir mīlestība ar atrotītām piedurknēm, parastām pēcpusdienām un grūtiem cilvēkiem. Nejautā „vai jūtu mīlestību?”, bet „vai šeit varu būt pacietīgs, laipns un piedodošs?”.",
+      "prayer": "Kungs, dari mani šodien pacietīgu un laipnu, īpaši tur, kur tas kaut ko maksā. Āmen."
+    },
+    {
+      "id": "devotional-020",
+      "title": "Godības svars",
+      "body": "Pāvils savas ciešanas sauc par „vieglām un īslaicīgām”, lai gan bija sists un ieslodzīts. Viņš tā varēja teikt, jo salīdzināja grūtības ar mūžīgu godību. Tavas sāpes ir īstas; viņš neizliekas citādi. Bet tās nav lielākais redzes laukā. Nāk kaut kas daudz svarīgāks un maigāks.",
+      "prayer": "Tēvs, kad šodiena šķiet smaga, pacel manas acis uz to, kas paliek. Iznes mani cauri. Āmen."
+    },
+    {
+      "id": "devotional-021",
+      "title": "Atgriezies pie manis",
+      "body": "Praviešu biežāk atkārtotais vārds nav „centies vairāk”, bet „atgriezies”. Dievs vienmēr aicina savu tautu atpakaļ, ne ar lekciju, bet atvērtām rokām. Ja esi aizklīdis, mājupceļš ir īsāks, nekā baidies. Viens patiess sirds pagrieziens, un atklāsi, ka viņš jau skrien tev pretī.",
+      "prayer": "Tēvs, es šodien atgriežos pie tevis. Paldies, ka satiec mani, pirms esmu nonācis. Āmen."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Norimsti",
+      "body": "„Norimstiet un atzīstiet, ka es esmu Dievs.” Vispirms nāk klusums, tad atziņa. Mēģinām ar domāšanu nonākt līdz mieram un sapinamies vēl vairāk. Dažreiz ticība nozīmē vienkārši beigt cīnīties un pietiekami ilgi atlaist rokas, lai atcerētos, kurš patiesībā tur pasauli. Tas nekad nebiji tu.",
+      "prayer": "Dievs, apklusini manu nemierīgo centību. Palīdzi norimt pietiekami ilgi, lai atcerētos, ka tu esi Dievs. Āmen."
+    },
+    {
+      "id": "devotional-023",
+      "title": "Draugs, kurš paliek",
+      "body": "Salamana pamācības saka, ka ir draugs, kas tuvāks par brāli. Pasaulē, kur cilvēki nāk un iet, Jēzus paliek – neveiksmē, klusumā un garā naktī. Tu viņam neesi par daudz un nekad neesi aizgājis par tālu. Viņš nemeklē iemeslu aiziet; viņš ir draugs, kurš paliek.",
+      "prayer": "Jēzu, paldies, ka paliki, kad citi nespēja. Palīdzi man atpūsties tavā uzticībā. Āmen."
+    },
+    {
+      "id": "devotional-024",
+      "title": "Prieks nāk no rīta",
+      "body": "Psalmists nenoliedz raudāšanu; viņš saka, ka tā var ilgt nakti. Nakts ir īsta, bet nav mūžīga. Sērām otrā pusē ir rīts, un Dievs, kurš glabā tavas asaras, nav pazaudējis nevienu. Turies. Rīts ir apsolījums, nevis varbūtība.",
+      "prayer": "Kungs, manā naktī palīdzi uzticēties tavam apsolītajam rītam. Glabā manas asaras. Āmen."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "Septiņas miera dienas",
+      "tagline": "Nemiera laikam – viens mierinošs fragments dienā."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "Pateicības nedēļa",
+      "tagline": "Māci savām acīm saskatīt žēlastību visur."
+    },
+    {
+      "id": "psalms-30",
+      "title": "Trīsdesmit dienas psalmos",
+      "tagline": "Bībeles lūgšanu grāmata, viens psalms reizē."
+    },
+    {
+      "id": "gospels-90",
+      "title": "Jēzus dzīve deviņdesmit dienās",
+      "tagline": "Izej cauri visiem četriem evaņģēlijiem."
+    },
+    {
+      "id": "bible-365",
+      "title": "Bībele vienā gadā",
+      "tagline": "Viss stāsts, divdesmit minūtes dienā."
+    }
+  ]
+}

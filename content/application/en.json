@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "locale": "en",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "Which tradition feels like home?",
+      "subtitle": "We’ll tune your prayers and plans to it.",
+      "options": [
+        {
+          "value": "catholic",
+          "label": "Catholic"
+        },
+        {
+          "value": "protestant",
+          "label": "Protestant"
+        },
+        {
+          "value": "orthodox",
+          "label": "Orthodox"
+        },
+        {
+          "value": "nondenominational",
+          "label": "Non-denominational"
+        },
+        {
+          "value": "exploring",
+          "label": "Just exploring"
+        }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "What do you hope grows in you?",
+      "subtitle": "Choose all that apply.",
+      "affirmation": "You’re in good company , 73% of members joined for the very same reason.",
+      "options": [
+        {
+          "value": "habit",
+          "label": "A daily prayer habit"
+        },
+        {
+          "value": "closer",
+          "label": "Feeling closer to God"
+        },
+        {
+          "value": "peace",
+          "label": "Peace & less anxiety"
+        },
+        {
+          "value": "sleep",
+          "label": "Better sleep"
+        },
+        {
+          "value": "bible",
+          "label": "Understanding the Bible"
+        },
+        {
+          "value": "gratitude",
+          "label": "A grateful heart"
+        }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "What weighs on you lately?",
+      "subtitle": "Your answer stays private. It shapes your plan.",
+      "affirmation": "Thank you for trusting us with that. Scripture meets people exactly here.",
+      "options": [
+        {
+          "value": "anxiety",
+          "label": "Anxiety or worry"
+        },
+        {
+          "value": "loneliness",
+          "label": "Loneliness"
+        },
+        {
+          "value": "grief",
+          "label": "Grief or loss"
+        },
+        {
+          "value": "direction",
+          "label": "Finding direction"
+        },
+        {
+          "value": "consistency",
+          "label": "Staying consistent"
+        },
+        {
+          "value": "none",
+          "label": "I’m doing okay"
+        }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "How familiar is prayer for you?",
+      "options": [
+        {
+          "value": "new",
+          "label": "I’m just beginning"
+        },
+        {
+          "value": "returning",
+          "label": "Returning after a while"
+        },
+        {
+          "value": "regular",
+          "label": "I pray regularly"
+        }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "When would you like a daily nudge?",
+      "subtitle": "A gentle reminder , never spam.",
+      "options": [
+        {
+          "value": "07:30",
+          "label": "Morning · 7:30"
+        },
+        {
+          "value": "12:30",
+          "label": "Midday · 12:30"
+        },
+        {
+          "value": "21:00",
+          "label": "Evening · 21:00"
+        },
+        {
+          "value": "none",
+          "label": "No reminders"
+        }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Morning Light",
+      "script": [
+        "Take a slow breath in… and out. Before the day asks anything of you, be here.",
+        "Lord, thank You for this morning , for breath, for another beginning.",
+        "I give You the hours ahead: my work, my words, the people I will meet.",
+        "Where I am anxious, be my peace. Where I am tired, be my strength.",
+        "Let me walk through this day unhurried, aware that You are near. Amen."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "Calm the Storm",
+      "script": [
+        "Place a hand over your heart. Feel it beat , you are alive, and you are held.",
+        "Jesus, You slept through a storm and silenced it with a word. Speak to mine.",
+        "I name my worry now… and I place it in Your hands.",
+        "“Peace, be still.” Let those words settle over my mind like calm water.",
+        "I will not be carried by fear today. I am carried by You. Amen."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "A Grateful Heart",
+      "script": [
+        "Think of one good thing from today , however small. Hold it for a moment.",
+        "Father, every good gift comes from You. Thank You.",
+        "Thank You for what I prayed for and received , and for what I was spared.",
+        "Teach me to notice grace hiding in ordinary hours.",
+        "Let gratitude be the note my day ends on. Amen."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "Into Rest",
+      "script": [
+        "Let the day end. You have done what you could , and that is enough.",
+        "Lord, as I lay down, I release what is unfinished into Your keeping.",
+        "Watch over the people I love while we sleep.",
+        "“In peace I will both lay myself down and sleep, for You alone make me live in safety.”",
+        "Slow my breathing… quiet my thoughts… and hold me until morning. Amen."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Bless My Family",
+      "script": [
+        "Bring the faces of your family to mind, one by one.",
+        "Father, bless each one , in health, in heart, in faith.",
+        "Heal what is strained between us; soften what has hardened.",
+        "Make our home a place of patience and laughter.",
+        "Bind us together in Your love. Amen."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Courage for Today",
+      "script": [
+        "Stand tall for a moment. Breathe deep.",
+        "Lord, You did not give me a spirit of fear, but of power, love, and a sound mind.",
+        "Give me courage for the conversation, the task, the step I keep avoiding.",
+        "When I falter, remind me: You go before me.",
+        "I will be strong and courageous , not alone, but with You. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "Counting the Gifts",
+      "script": [
+        "Let the day settle. Breathe out what it asked of you.",
+        "Father, before I name what I lack, let me name what I was given.",
+        "Thank You for the ordinary mercies I almost walked past today.",
+        "Thank You for the people who make my life warmer.",
+        "A grateful heart is a full heart. Fill mine tonight. Amen."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Still Waters",
+      "script": [
+        "Unclench your hands. Let your breath slow with each line.",
+        "Shepherd, You lead me beside still waters. Lead me there now.",
+        "The thoughts racing in me , I set them down at Your feet, one by one.",
+        "You restore my soul. Restore what today has worn thin.",
+        "I will not be afraid, for You are with me. Amen."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "Before the Day",
+      "script": [
+        "The day is not yet spent. Meet it here, with God, before anything else.",
+        "Lord, this day is Yours before it is mine.",
+        "Go before me into every room I will enter, every word I will speak.",
+        "Where I am tempted to rush, teach me to walk.",
+        "Order my hours, and keep my heart near Yours. Amen."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "Peace That Guards",
+      "script": [
+        "Place both feet on the ground. You are here. God is here.",
+        "Jesus, You left Your peace with us , not as the world gives, but real and deep.",
+        "Let that peace guard my heart and mind today like a sentry at the gate.",
+        "What I cannot control, I release to You.",
+        "Your peace is enough. I rest in it. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "First Thanks",
+      "script": [
+        "Before the to-do list, one pause. One breath of thanks.",
+        "Father, thank You for waking me to another day of grace.",
+        "Thank You for breath, for light, for a fresh page.",
+        "Let gratitude, not hurry, set the tone of my morning.",
+        "I begin today thankful. Amen."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Lay It Down",
+      "script": [
+        "The day is over. You have done what you could, and it is enough.",
+        "Lord, I lay down every unfinished thing into Your keeping.",
+        "The worries I would carry into the dark , I leave them with You.",
+        "You give sleep to those You love. Receive me now.",
+        "In peace I lie down and sleep, for You alone keep me safe. Amen."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "Over Those I Love",
+      "script": [
+        "Bring each person you love to mind. Hold their face for a moment.",
+        "Father, watch over the ones entrusted to me.",
+        "Guard their going out and their coming in.",
+        "Where I fail them, let Your grace cover the gap.",
+        "Keep them in Your hand, closer than I ever could. Amen."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Strength to Forgive",
+      "script": [
+        "Breathe. This one is hard, and God knows it.",
+        "Lord, You forgave me at great cost. Give me strength to forgive.",
+        "I bring the name, the memory, the wound , I hold it out to You.",
+        "Free me from carrying what was never mine to carry.",
+        "Heal what forgiveness opens. Make me whole. Amen."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "Under His Wings",
+      "script": [
+        "Feel the weight of the day leave your shoulders.",
+        "You who dwell in the shelter of the Most High will rest in His shadow.",
+        "Lord, cover me tonight as a bird covers its young.",
+        "No fear of the night, no dread of tomorrow , only Your keeping.",
+        "I will not be afraid, for You never sleep. Good night, Father. Amen."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "When I Am Weak",
+      "script": [
+        "You do not have to pretend to be strong here.",
+        "Lord, You said Your power is made perfect in weakness.",
+        "So here is my weakness , I stop hiding it from You.",
+        "Be strong in exactly the place I have nothing left.",
+        "Your grace is sufficient for me. That is enough. Amen."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "Even Now, Thank You",
+      "script": [
+        "This is a harder gratitude. Breathe, and stay honest.",
+        "Father, even now , in this , I look for Your hand.",
+        "Thank You for not leaving me alone in it.",
+        "Thank You that this season is not the end of the story.",
+        "I choose thanks, not because it is easy, but because You are good. Amen."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "The Gift of Stillness",
+      "body": "Most of us meet the morning already running , messages, headlines, obligations. Psalm 46 was written in a time of upheaval, yet its center is a whisper: be still. Stillness is not doing nothing; it is remembering who holds everything. For two minutes, let your shoulders drop. The world will keep spinning without your help , it always has. That is not your failure. That is His faithfulness.",
+      "prayer": "Lord, quiet the noise in me. Help me trust that You are God and I am not. Amen."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Strength That Isn’t Yours",
+      "body": "Paul wrote “I can do all things” from a prison cell, not a summit. The strength he describes is not self-confidence; it is borrowed strength , the kind that arrives exactly when yours runs out. Whatever today asks of you, you were never meant to carry it alone. Ask. Receive. Walk.",
+      "prayer": "Jesus, be my strength where I am weak today. I hand You what feels too heavy. Amen."
+    },
+    {
+      "id": "devotional-003",
+      "title": "Led, Not Driven",
+      "body": "A shepherd walks ahead; a driver pushes from behind. Psalm 23 insists that God leads , to green pastures, beside still waters. If your faith has felt like being driven , hurried, pressured, afraid , that voice is not the Shepherd’s. Today, listen for the voice that leads gently, and follow one step at a time.",
+      "prayer": "Shepherd of my soul, teach me the sound of Your voice. Lead me today. Amen."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Rest for the Weary",
+      "body": "Jesus did not say “come to me, all you who have it together.” He called the tired, the burdened, the ones barely holding on. Rest is not a reward for finishing your work; it is a gift offered in the middle of it. Come as you are , that is the whole invitation.",
+      "prayer": "Lord, I come tired. Trade my heaviness for Your rest. Amen."
+    },
+    {
+      "id": "devotional-005",
+      "title": "A Future and a Hope",
+      "body": "Jeremiah 29:11 was written to exiles , people whose plans had collapsed. God’s promise wasn’t an instant rescue; it was His character: I have not forgotten you. Your setback is not the end of your story. The Author is still writing.",
+      "prayer": "Father, when I can’t see the way, help me trust the One who does. Amen."
+    },
+    {
+      "id": "devotional-006",
+      "title": "Lean In",
+      "body": "Your own understanding is a fine tool and a terrible master. Proverbs invites us to trust with all the heart , not because thinking is wrong, but because our view is small. Bring God the decision you keep turning over. Then listen longer than you speak.",
+      "prayer": "Lord, I trust You with the decision on my mind right now. Make my path straight. Amen."
+    },
+    {
+      "id": "devotional-007",
+      "title": "The Antidote to Anxiety",
+      "body": "Paul’s prescription for anxiety is strangely specific: pray about everything, and add thanksgiving. Gratitude is not denial , it is widening the frame until God’s past faithfulness is back in the picture. Name three things you’re thankful for. Watch what it does to the fear.",
+      "prayer": "God of peace, guard my heart and mind today. I give You my worries, one by one. Amen."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Light in the Dark",
+      "body": "John did not promise a life without darkness. He promised that the darkness does not win. A single candle does not argue with the night; it simply burns, and the dark gives way. You do not have to fix everything today. You only have to keep your small light lit , and trust the One who is Light itself to do the rest.",
+      "prayer": "Jesus, Light of the world, shine in the corners of me that feel dark today. Amen."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Enough for Today",
+      "body": "Manna could not be stored. Each morning the people gathered just enough, and tomorrow they gathered again. God trains us to trust one day at a time , not because He is stingy, but because daily bread makes for a daily relationship. Do not carry tomorrow’s weight into today. Today has enough grace of its own.",
+      "prayer": "Father, give me today my daily bread , and the peace to leave tomorrow with You. Amen."
+    },
+    {
+      "id": "devotional-010",
+      "title": "Known and Loved",
+      "body": "Before you formed a single thought this morning, you were already known. Psalm 139 says God knit you together and knows when you sit and when you rise. You are not a stranger begging for attention. You are a child, fully known and , astonishingly , fully loved. Let that be the ground you stand on today.",
+      "prayer": "Lord, thank You that I am fully known and still fully loved. Steady me in that. Amen."
+    },
+    {
+      "id": "devotional-011",
+      "title": "The Long Obedience",
+      "body": "Faithfulness is rarely dramatic. It is mostly showing up , one prayer, one kindness, one honest choice at a time. A river carves a canyon not by force but by returning to the same path every day. Your small, repeated yes to God is doing more than you can see. Keep returning.",
+      "prayer": "Lord, make me faithful in small things today, trusting You with the shape of the whole. Amen."
+    },
+    {
+      "id": "devotional-012",
+      "title": "When You Feel Forgotten",
+      "body": "Hagar, alone in the desert, gave God a name: “the God who sees me.” When no one else noticed her, He did. If today you feel overlooked , by people, by circumstances, even by your own hopes , hear this: you are seen. Nothing about your life is invisible to the One who counts the stars and calls them each by name.",
+      "prayer": "God who sees me, thank You that I am never truly alone. Meet me here. Amen."
+    },
+    {
+      "id": "devotional-013",
+      "title": "The Gift You Didn’t Earn",
+      "body": "Grace is offensive to the part of us that wants to earn its place. But Ephesians is clear: you are saved by grace, through faith, and this is not from yourself , it is a gift. You can stop auditioning for love you already have. Rest is not the reward for finishing; it is the gift that lets you begin again.",
+      "prayer": "Father, I receive what I could never earn. Thank You for grace. Teach me to rest in it. Amen."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Streams in the Desert",
+      "body": "Isaiah speaks of rivers in the wasteland , water where you would swear nothing could grow. Your dry season is not the end of the story. God specializes in making life spring up in the exact places we had written off. Watch the ground you gave up on. He is not finished there.",
+      "prayer": "Lord, bring streams to the dry places in me. I trust You to make things new. Amen."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Casting, Not Carrying",
+      "body": "Peter uses a physical word: cast. Throw your anxiety onto God the way you would hurl a heavy pack off your shoulders. Why? “Because he cares for you.” Worry pretends to be useful, as if enough turning it over will solve it. It won’t. Prayer moves the weight to the only One strong enough to hold it.",
+      "prayer": "Lord, I cast my worry on You , really, not just in words. Carry what I cannot. Amen."
+    },
+    {
+      "id": "devotional-016",
+      "title": "The Voice That Calls You Good",
+      "body": "Before Jesus performed a single miracle, the Father said, “This is my beloved Son, in whom I am well pleased.” His belovedness came first, not as a wage for work done. Yours does too. You do not have to achieve your way into being loved. You get to work from love, not for it.",
+      "prayer": "Father, let me hear You call me beloved before I do anything today. Amen."
+    },
+    {
+      "id": "devotional-017",
+      "title": "Do Not Despise Small Beginnings",
+      "body": "Zechariah asks who dares despise the day of small things. We want the finished cathedral; God delights in the first laid stone. Whatever you are starting , a habit, a healing, a reconciliation , do not measure it by how little it looks today. Great things almost always begin embarrassingly small.",
+      "prayer": "Lord, bless the small beginning in front of me. Help me be faithful with little. Amen."
+    },
+    {
+      "id": "devotional-018",
+      "title": "He Restores",
+      "body": "The shepherd of Psalm 23 does not drive the sheep onward when they are spent. He makes them lie down; He leads them to still water; He restores the soul. If you are running on empty, the holiest thing you can do may be to stop. Restoration is not laziness. It is obedience to a God who built you to need rest.",
+      "prayer": "Shepherd, lead me beside still waters today. Restore what is worn thin in me. Amen."
+    },
+    {
+      "id": "devotional-019",
+      "title": "Love in the Ordinary",
+      "body": "Paul’s famous description of love is not sentimental , it is practical, almost mundane. Patient. Kind. Not easily angered. Keeps no record of wrongs. This is love with its sleeves rolled up, love for Tuesday afternoons and difficult people. Ask not “do I feel love?” but “can I be patient here, kind here, forgiving here?”",
+      "prayer": "Lord, make me patient and kind today, especially where it costs me something. Amen."
+    },
+    {
+      "id": "devotional-020",
+      "title": "The Weight of Glory",
+      "body": "Paul calls his hardships “light and momentary” , and this from a man beaten and imprisoned. He could say it because he measured his troubles against an eternity of glory. Your pain is real; he never pretends otherwise. But it is not the largest thing in view. Something far heavier and far kinder is coming.",
+      "prayer": "Father, when today feels heavy, lift my eyes to what lasts. Carry me through. Amen."
+    },
+    {
+      "id": "devotional-021",
+      "title": "Return to Me",
+      "body": "The prophets’ most repeated word is not “try harder” but “return.” God is forever inviting His people back , not with a lecture, but with open arms. If you have drifted, the way home is shorter than you fear. One honest turn of the heart, and you will find Him already running toward you.",
+      "prayer": "Father, I turn back to You today. Thank You for meeting me before I even arrive. Amen."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Be Still",
+      "body": "“Be still, and know that I am God.” The stillness comes first, then the knowing. We try to reason our way to peace and end up more tangled. Sometimes faith is simply ceasing to strive , letting your hands unclench long enough to remember who is actually holding the world together. It was never you.",
+      "prayer": "God, quiet my striving. Help me be still long enough to remember You are God. Amen."
+    },
+    {
+      "id": "devotional-023",
+      "title": "The Friend Who Stays",
+      "body": "Proverbs says there is a friend who sticks closer than a brother. In a world of people who come and go, Jesus is the one who stays , through the failure, the silence, the long night. You are not too much for Him, and you are never too far gone. He is not looking for a reason to leave. He is the friend who stays.",
+      "prayer": "Jesus, thank You for staying when others could not. Help me rest in Your faithfulness. Amen."
+    },
+    {
+      "id": "devotional-024",
+      "title": "Joy Comes in the Morning",
+      "body": "The psalmist does not deny the weeping; he says it “may last for the night.” Night is real. But it is not permanent. Grief has a morning on the other side of it, and the God who holds your tears in a bottle has not lost track of a single one. Hold on. Morning is a promise, not a maybe.",
+      "prayer": "Lord, in my night, help me trust the morning You have promised. Hold my tears. Amen."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "Seven Days of Peace",
+      "tagline": "For anxious seasons , one calming passage a day."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "The Grateful Week",
+      "tagline": "Rewire your eyes to see grace everywhere."
+    },
+    {
+      "id": "psalms-30",
+      "title": "30 Days in the Psalms",
+      "tagline": "The prayer book of the Bible, one psalm at a time."
+    },
+    {
+      "id": "gospels-90",
+      "title": "The Life of Jesus in 90 Days",
+      "tagline": "Walk through all four Gospels."
+    },
+    {
+      "id": "bible-365",
+      "title": "Bible in a Year",
+      "tagline": "The whole story , 20 minutes a day."
+    }
+  ]
+}

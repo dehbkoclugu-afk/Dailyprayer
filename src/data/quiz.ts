@@ -1,5 +1,6 @@
 /** Onboarding quiz , personalization → plan reveal → paywall (category-proven funnel). */
 import type { Locale } from '@/i18n/translations';
+import { getRegisteredApplicationContentPack } from '@/i18n/applicationContent';
 
 export interface QuizStep {
   key: 'tradition' | 'goals' | 'struggles' | 'experience' | 'prayerTime';
@@ -444,6 +445,25 @@ const text: Record<Locale, StepText[]> = {
 
 /** Localized quiz steps for the active locale, falling back to English. */
 export function getQuizSteps(locale: Locale): QuizStep[] {
+  const pack = getRegisteredApplicationContentPack(locale);
+  if (pack) {
+    const localized = new Map(pack.quiz.map((step) => [step.key, step]));
+    return base.map((step) => {
+      const content = localized.get(step.key)!;
+      const labels = new Map(content.options.map((option) => [option.value, option.label]));
+      return {
+        key: step.key,
+        multi: step.multi,
+        question: content.question,
+        subtitle: content.subtitle,
+        affirmation: content.affirmation,
+        options: step.options.map((option) => ({
+          ...option,
+          label: labels.get(option.value)!,
+        })),
+      };
+    });
+  }
   const tx = text[locale];
   return base.map((b, i) => {
     const s = tx[i] ?? text.en![i];

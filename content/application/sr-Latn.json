@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "locale": "sr-Latn",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "Koja ti tradicija deluje kao dom?",
+      "subtitle": "Njoj ćemo prilagoditi tvoje molitve i planove.",
+      "options": [
+        {
+          "value": "catholic",
+          "label": "Katolička"
+        },
+        {
+          "value": "protestant",
+          "label": "Protestantska"
+        },
+        {
+          "value": "orthodox",
+          "label": "Pravoslavna"
+        },
+        {
+          "value": "nondenominational",
+          "label": "Van denominacije"
+        },
+        {
+          "value": "exploring",
+          "label": "Još istražujem"
+        }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "Šta želiš da raste u tebi?",
+      "subtitle": "Izaberi sve što se odnosi na tebe.",
+      "affirmation": "U dobrom si društvu — 73% članova pridružilo se iz istog razloga.",
+      "options": [
+        {
+          "value": "habit",
+          "label": "Svakodnevna navika molitve"
+        },
+        {
+          "value": "closer",
+          "label": "Veća bliskost sa Bogom"
+        },
+        {
+          "value": "peace",
+          "label": "Više mira i manje strepnje"
+        },
+        {
+          "value": "sleep",
+          "label": "Bolji san"
+        },
+        {
+          "value": "bible",
+          "label": "Razumevanje Biblije"
+        },
+        {
+          "value": "gratitude",
+          "label": "Zahvalno srce"
+        }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "Šta te u poslednje vreme opterećuje?",
+      "subtitle": "Tvoj odgovor ostaje privatan i pomaže da se oblikuje plan.",
+      "affirmation": "Hvala ti na poverenju. Sveto pismo sreće ljude upravo ovde.",
+      "options": [
+        {
+          "value": "anxiety",
+          "label": "Strepnja ili briga"
+        },
+        {
+          "value": "loneliness",
+          "label": "Usamljenost"
+        },
+        {
+          "value": "grief",
+          "label": "Tuga ili gubitak"
+        },
+        {
+          "value": "direction",
+          "label": "Traženje pravca"
+        },
+        {
+          "value": "consistency",
+          "label": "Doslednost"
+        },
+        {
+          "value": "none",
+          "label": "Dobro sam"
+        }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "Koliko ti je molitva bliska?",
+      "options": [
+        {
+          "value": "new",
+          "label": "Tek počinjem"
+        },
+        {
+          "value": "returning",
+          "label": "Vraćam se nakon nekog vremena"
+        },
+        {
+          "value": "regular",
+          "label": "Redovno se molim"
+        }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "Kada želiš svakodnevni podsetnik?",
+      "subtitle": "Blag podsetnik — nikad neželjene poruke.",
+      "options": [
+        {
+          "value": "07:30",
+          "label": "Jutro · 7:30"
+        },
+        {
+          "value": "12:30",
+          "label": "Podne · 12:30"
+        },
+        {
+          "value": "21:00",
+          "label": "Večer · 21:00"
+        },
+        {
+          "value": "none",
+          "label": "Bez podsetnika"
+        }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Jutarnja svetlost",
+      "script": [
+        "Polako udahni… pa izdahni. Pre nego što dan išta zatraži od tebe, budi ovde.",
+        "Gospodine, hvala Ti za ovo jutro, za dah i za nov početak.",
+        "Predajem Ti sate koji dolaze: svoj rad, svoje reči i ljude koje ću susresti.",
+        "Kada osećam strepnju, budi moj mir. Kada sam umoran, budi moja snaga.",
+        "Daj da kroz ovaj dan hodam bez žurbe, svestan da si blizu. Amen."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "Umiri buru",
+      "script": [
+        "Stavi ruku na srce. Oseti kako kuca — živ si i u sigurnim si rukama.",
+        "Isuse, Ti donosiš mir usred oluje. Progovori i mojoj.",
+        "Sada imenujem svoju brigu… i stavljam je u Tvoje ruke.",
+        "Neka se Tvoj mir spusti na moj um poput mirne vode.",
+        "Danas me strah neće nositi. Ti me nosiš. Amen."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "Zahvalno srce",
+      "script": [
+        "Seti se jedne dobre stvari iz današnjeg dana, koliko god male. Zadrži je trenutak.",
+        "Oče, svaki dobar dar dolazi od Tebe. Hvala Ti.",
+        "Hvala Ti za ono što sam molio i primio, kao i za ono čega sam bio pošteđen.",
+        "Nauči me primećivati milost skrivenu u običnim satima.",
+        "Neka zahvalnost bude poslednji ton mog dana. Amen."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "U odmor",
+      "script": [
+        "Pusti dan da završi. Učinio si šta si mogao — i to je dovoljno.",
+        "Gospodine, dok ležem, predajem Ti sve što je ostalo nezavršeno.",
+        "Čuvaj ljude koje volim dok spavamo.",
+        "Podari mi miran odmor i sigurnost u Tebi.",
+        "Uspori moje disanje… utišaj misli… i drži me do jutra. Amen."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Blagoslovi moju porodicu",
+      "script": [
+        "Seti se lica članova svoje porodice, jednog po jednog.",
+        "Oče, blagoslovi svakog — u zdravlju, srcu i veri.",
+        "Isceli ono što je među nama napeto; omekšaj ono što je otvrdnulo.",
+        "Učini naš dom mestom strpljenja i smeha.",
+        "Poveži nas u svojoj ljubavi. Amen."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Hrabrost za danas",
+      "script": [
+        "Uspravi se na trenutak. Duboko udahni.",
+        "Gospodine, u Tebi ne živim u strahu, nego u snazi, ljubavi i razboritosti.",
+        "Daj mi hrabrost za razgovor, zadatak i korak koji stalno izbegavam.",
+        "Kada pokleknem, podseti me da ideš preda mnom.",
+        "Biću jak i hrabar — ne sam, nego s Tobom. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "Brojeći darove",
+      "script": [
+        "Pusti da se dan smiri. Izdahni ono što je tražio od tebe.",
+        "Oče, pre nego što nabrojim šta mi nedostaje, daj da imenujem šta sam primio.",
+        "Hvala Ti za obična milosrđa pored kojih sam danas gotovo prošao.",
+        "Hvala Ti za ljude koji moj život čine toplijim.",
+        "Zahvalno srce puno je srce. Ispuni moje večeras. Amen."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Tihe vode",
+      "script": [
+        "Opusti šake. Neka se dah uspori sa svakim redom.",
+        "Pastiru, vodiš me pored mirnih voda. Odvedi me tamo sada.",
+        "Misli koje jure u meni polažem pred Tebe, jednu po jednu.",
+        "Obnovi moju dušu. Obnovi ono što je današnji dan iscrpeo.",
+        "Neću se bojati jer si sa mnom. Amen."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "Pre početka dana",
+      "script": [
+        "Dan je još pred tobom. Pre svega drugog dočekaj ga ovde, s Bogom.",
+        "Gospodine, ovaj je dan Tvoj pre nego što je moj.",
+        "Idi preda mnom u svaku sobu u koju ću ući i u svaku reč koju ću izgovoriti.",
+        "Kada poželim juriti, nauči me hodati.",
+        "Uredi moje sate i čuvaj moje srce blizu svog. Amen."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "Mir koji čuva",
+      "script": [
+        "Spusti oba stopala na tlo. Ti si ovde. Bog je ovde.",
+        "Isuse, daješ nam stvaran i dubok mir, drugačiji od onog koji daje svet.",
+        "Neka taj mir danas čuva moje srce i um poput stražara na vratima.",
+        "Ono što ne mogu kontrolisati predajem Tebi.",
+        "Tvoj je mir dovoljan. U njemu počivam. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "Prva zahvalnost",
+      "script": [
+        "Pre spiska obaveza, zastani. Udahni zahvalnost.",
+        "Oče, hvala Ti što si me probudio za još jedan dan milosti.",
+        "Hvala Ti za dah, svetlo i novu stranicu.",
+        "Neka zahvalnost, a ne žurba, odredi ton mog jutra.",
+        "Danas počinjem zahvalan. Amen."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Spusti teret",
+      "script": [
+        "Dan je završio. Učinio si šta si mogao i to je dovoljno.",
+        "Gospodine, polažem u Tvoje ruke sve što je ostalo nezavršeno.",
+        "Brige koje bih ponio u tamu ostavljam Tebi.",
+        "Ti daješ odmor onima koje ljubiš. Primi me sada.",
+        "U miru ležem jer me Ti čuvaš. Amen."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "Nad onima koje volim",
+      "script": [
+        "Seti se svake osobe koju voliš. Zadrži njeno lice trenutak u mislima.",
+        "Oče, bdij nad onima koji su mi povereni.",
+        "Čuvaj njihove odlaske i povratke.",
+        "Tamo gde ih izneverim, neka Tvoja milost ispuni prazninu.",
+        "Drži ih u svojoj ruci, bliže nego što bih ja ikada mogao. Amen."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Snaga za oprost",
+      "script": [
+        "Udahni. Ovo je teško i Bog to zna.",
+        "Gospodine, iskazao si mi neizmerno oproštenje. Daj mi snagu oprostiti.",
+        "Donosim Ti ime, sećanje i ranu — pružam ih Tebi.",
+        "Oslobodi me tereta onog što nikad nije bilo moje nositi.",
+        "Isceli ono što oprost otvara. Učini me celovitim. Amen."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "Pod Njegovim krilima",
+      "script": [
+        "Oseti kako težina dana napušta tvoja ramena.",
+        "U blizini Svevišnjeg mogu sigurno odmarati.",
+        "Gospodine, zakrili me večeras kao ptica svoje mlade.",
+        "Bez straha od noći i bez strepnje zbog sutra — samo u Tvojoj zaštiti.",
+        "Neću se bojati jer Ti uvek bdiješ. Laku noć, Oče. Amen."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "Kada sam slab",
+      "script": [
+        "Ovde se ne moraš pretvarati da si jak.",
+        "Gospodine, Tvoja se snaga potpuno pokazuje u mojoj slabosti.",
+        "Evo moje slabosti — više je ne skrivam od Tebe.",
+        "Budi jak upravo tamo gde meni ništa nije ostalo.",
+        "Tvoja mi je milost dovoljna. To je dovoljno. Amen."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "I sada, hvala Ti",
+      "script": [
+        "Ovo je teža zahvalnost. Udahni i ostani iskren.",
+        "Oče, čak i sada, usred ovoga, tražim Tvoju ruku.",
+        "Hvala Ti što me u tome nisi ostavio samoga.",
+        "Hvala Ti što ovo period nije kraj priče.",
+        "Biram zahvalnost, ne zato što je lako, nego zato što si dobar. Amen."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "Dar tišine",
+      "body": "Većina nas jutro dočekuje u žurbi — poruke, naslovi, obveze. Psalam 46 nastao je u vremenu nemira, a ipak je u njegovu središtu poziv na tišinu. Biti miran ne znači ne činiti ništa; znači setiti se ko sve drži u rukama. Na dvije minute spusti ramena. Svet će se nastaviti vrtjeti bez tvoje pomoći — oduvek jest. To nije tvoj neuspjeh. To je Njegova vernost.",
+      "prayer": "Gospodine, utišaj buku u meni. Pomozi mi verovati da si Ti Bog, a ja nisam. Amen."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Snaga koja nije tvoja",
+      "body": "Pavle je o snazi pisao iz zatvorske ćelije, a ne s vrha. Snaga koju opisuje nije samopouzdanje; to je posuđena snaga, ona koja stiže upravo kada tvoja nestane. Šta god današnji dan zatražio od tebe, nikada nisi bio pozvan nositi to sam. Zamoli. Primi. Hodaj.",
+      "prayer": "Isuse, budi moja snaga tamo gde sam danas slab. Predajem Ti ono što mi je preteško. Amen."
+    },
+    {
+      "id": "devotional-003",
+      "title": "Vođen, a ne gonjen",
+      "body": "Pastir hoda napred; gonič tera otpozadi. Psalam 23 pokazuje Boga koji vodi ka zelenim pašnjacima i mirnim vodama. Ako ti je vera izgledala kao stalna žurba, pritisak i strah, taj glas nije Pastirov. Danas osluhni glas koji blago vodi i sledi ga korak po korak.",
+      "prayer": "Pastiru moje duše, nauči me prepoznavati Tvoj glas. Vodi me danas. Amen."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Odmor za umorne",
+      "body": "Isus nije pozvao samo one koji sve drže pod nadzorom. Pozvao je umorne i opterećene i one koji jedva izdržavaju. Odmor nije nagrada nakon završenog posla; dat je usred njega. Dođi kakav jesi — to je ceo poziv.",
+      "prayer": "Gospodine, dolazim umoran. Zamijeni moju težinu svojim počinkom. Amen."
+    },
+    {
+      "id": "devotional-005",
+      "title": "Budućnost i nada",
+      "body": "Jeremija 29:11 upućen je prognanicima — ljudima čiji su se planovi raspali. Božje obećanje nije bilo trenutno izbavljenje, nego potvrda Njegova karaktera: nije ih zaboravio. Tvoj zastoj nije kraj tvoje priče. Autor još piše.",
+      "prayer": "Oče, kada ne vidim put, pomozi mi verovati Onome koji ga vidi. Amen."
+    },
+    {
+      "id": "devotional-006",
+      "title": "Osloni se",
+      "body": "Sopstveno razumevanje je koristan alat, ali loš gospodar. Mudre izreke nas poziva da se pouzdamo ceom srcem — ne zato što je razmišljanje pogrešno, nego zato što je naš pogled malen. Donesi Bogu odluku koju stalno prevrćeš po mislima. Zatim slušaj dulje nego što govoriš.",
+      "prayer": "Gospodine, poveravam Ti odluku koja mi je sada na umu. Poravnaj moj put. Amen."
+    },
+    {
+      "id": "devotional-007",
+      "title": "Protivotrov za strepnju",
+      "body": "Pavlov je odgovor na strepnju vrlo konkretan: moli se za sve i dodaj zahvalnost. Zahvalnost nije poricanje; ona širi kadar sve dok se Božja dosadašnja vernost ponovo ne vidi. Imenuj tri stvari za koje si zahvalan. Posmatraj što to čini strahu.",
+      "prayer": "Bože mira, čuvaj danas moje srce i um. Predajem Ti svoje brige, jednu po jednu. Amen."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Svetlost u tami",
+      "body": "Jovan nije obećao život bez tame. Obećao je da tama neće pobijediti. Jedna sveća ne raspravlja s noći; jednostavno gori i tama se povlači. Danas ne moraš popraviti sve. Trebaš samo održati svoje malo svetlo i verovati Onome koji je samo Svetlo da će učiniti ostalo.",
+      "prayer": "Isuse, Svetlost sveta, zasjaj danas u kutovima mene koji se čine tamnima. Amen."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Dovoljno za danas",
+      "body": "Mana se nije mogla čuvati. Svakog jutra ljudi skupljali upravo dovoljno, a sutradan ponovo. Bog nas uči pouzdanju dan po dan — ne zato što je škrt, nego zato što svakodnevni kruh gradi svakodnevni odnos. Ne donosi težinu sutrašnjice u danas. Današnji dan ima dovoljno sopstvene milosti.",
+      "prayer": "Oče, daj mi danas kruh za ovaj dan i mir da sutra prepustim Tebi. Amen."
+    },
+    {
+      "id": "devotional-010",
+      "title": "Poznat i ljubljen",
+      "body": "Pre nego što si jutros oblikovao ijednu misao, već si bio poznat. Psalam 139 govori o Bogu koji te oblikovao i poznaje svaki tvoj pokret. Nisi stranac koji moli za pozornost. Dete si, potpuno poznato i — zapanjujuće — potpuno ljubljeno. Neka to danas bude tlo pod tvojim nogama.",
+      "prayer": "Gospodine, hvala Ti što sam potpuno poznat, a ipak potpuno ljubljen. Učvrsti me u tome. Amen."
+    },
+    {
+      "id": "devotional-011",
+      "title": "Dugotrajna poslušnost",
+      "body": "Vernost je retko dramatična. Najčešće znači pojaviti se — jedna molitva, jedno dobro delo i jedan iskren izbor odjednom. Reka urezuje kanjon ne silom, nego vraćanjem istom putu svakog dana. Tvoje malo, ponovljeno da Bogu čini više nego što možeš videti. Nastavi se vraćati.",
+      "prayer": "Gospodine, učini me danas vernim u malome dok Ti poveravam celinu. Amen."
+    },
+    {
+      "id": "devotional-012",
+      "title": "Kada se osećaš zaboravljeno",
+      "body": "Hagara je, sama u pustinji, Boga nazvala Onim koji je vidi. Kada je niko drugi nije primijetio, On jest. Ako se danas osećaš zanemareno — od ljudi, okolnosti ili čak sopstvenih nada — čuj ovo: primećen si. Ništa iz tvoga života nije skriveno Onome koji broji zvijezde i svaku poznaje po imenu.",
+      "prayer": "Bože koji me vidiš, hvala Ti što nikada nisam zaista sam. Dočekaj me ovde. Amen."
+    },
+    {
+      "id": "devotional-013",
+      "title": "Dar koji nisi zaradio",
+      "body": "Milost smeta delu nas koji želi zaslužiti svoje mesto. Ali Poslanica Efežanima jasno govori da je spasenje po milosti, kroz veru, Božji dar, a ne naše dostignuće. Možeš prestati dokazivati da zaslužuješ ljubav koju već imaš. Odmor nije nagrada za završetak; on je dar koji ti dozvoljava početi ponovo.",
+      "prayer": "Oče, primam ono što nikada ne bih mogao zaslužiti. Hvala Ti za milost. Nauči me u njoj odmarati. Amen."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Potoci u pustinji",
+      "body": "Izaija govori o rekama u pustoši — o vodi tamo gde bismo se zakleli da ništa ne može rasti. Tvoj sušni period nije kraj priče. Bog upravo na otpisanim mestima daje da život ponovo proključa. Pogledaj tlo od kojeg si odustao. Tamo još nije završio.",
+      "prayer": "Gospodine, dovedi potoke u moja suva mesta. Verujem Ti da sve činiš novim. Amen."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Odbaciti, a ne nositi",
+      "body": "Petar bira fizičku sliku: baci. Baci svoju strepnju na Boga kao težak teret s ramena, jer On brine za tebe. Briga se pretvara da je korisna, kao da će je dovoljno premišljanja riješiti. Neće. Molitva premješta težinu Jedinomu dovoljno jakom da je nosi.",
+      "prayer": "Gospodine, predajem Ti svoju brigu — stvarno, ne samo rečima. Nosi ono što ja ne mogu. Amen."
+    },
+    {
+      "id": "devotional-016",
+      "title": "Glas koji te naziva dobrim",
+      "body": "Pre nego što je Isus učinio ijedno čudo, Otac je potvrdio da je Njegov voljeni Sin i da Mu je po volji. Voljenost je došla prva, a ne kao plaća za učinjeno. Tako je i sa tobom. Ne moraš postignućima zaslužiti ljubav. Možeš djelovati iz ljubavi, a ne za nju.",
+      "prayer": "Oče, daj mi čuti da me nazivaš ljubljenim pre nego što danas išta učinim. Amen."
+    },
+    {
+      "id": "devotional-017",
+      "title": "Ne potcenjuj male početke",
+      "body": "Zaharija pita ko se usuđuje da potceni dan malih stvari. Mi želimo završenu katedralu; Bog se raduje prvom položenom kamenu. Šta god počinješ — naviku, isceljenje ili pomirenje — ne meri po tome koliko danas izgleda malo. Velike stvari gotovo uvek počinju neprijatno malo.",
+      "prayer": "Gospodine, blagoslovi mali početak preda mnom. Pomozi mi biti veran u malome. Amen."
+    },
+    {
+      "id": "devotional-018",
+      "title": "On obnavlja",
+      "body": "Pastir u Psalam 23 ne tera iscrpljene ovce dalje. Daje im da legnu, vodi ih mirnoj vodi i obnavlja dušu. Ako živiš na poslednjim rezervama, najsvetije što možeš učiniti možda je stati. Obnova nije lenjost. Ona je poslušnost Bogu koji te stvorio s potrebom za počinkom.",
+      "prayer": "Pastiru, vodi me danas pored mirnih voda. Obnovi ono što se u meni istrošilo. Amen."
+    },
+    {
+      "id": "devotional-019",
+      "title": "Ljubav u svakodnevnom",
+      "body": "Pavlov poznati opis ljubavi nije sentimentalan, nego praktičan, gotovo običan. Strpljiva je. Dobra. Ne razdražuje se lako. Ne vodi evidenciju zla. To je ljubav zavrnutih rukava, ljubav za utorak popodne i teške ljude. Ne pitaj osećaš li ljubav, nego možeš li ovde biti strpljiv, dobar i spreman oprostiti.",
+      "prayer": "Gospodine, učini me danas strpljivim i dobrim, naročito tamo gde me to nešto stoji. Amen."
+    },
+    {
+      "id": "devotional-020",
+      "title": "Težina slave",
+      "body": "Pavle svoje teškoće naziva lakima i prolaznim — a bio je pretučen i zatvoren. Mogao je to reći jer ih je merio prema večnosti slave. Tvoja je bol stvarna; on to ne poriče. Ali nije najveća stvar na vidiku. Dolazi nešto daleko veće i blagonaklonije.",
+      "prayer": "Oče, kada je današnji dan težak, podigni mi pogled prema onomu što traje. Provedi me kroz njega. Amen."
+    },
+    {
+      "id": "devotional-021",
+      "title": "Vrati Mi se",
+      "body": "Najčešća reč proroka nije trudi se više, nego povratak. Bog neprestano poziva svoj narod nazad — ne predavanjem, nego otvorenih ruku. Ako si odlutao, put kući kraći je nego što se bojiš. Jedan iskren okret srca i pronaći ćeš Ga kako ti već dolazi u susret.",
+      "prayer": "Oče, danas se vraćam Tebi. Hvala Ti što me srećeš i pre nego što stignem. Amen."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Budi miran",
+      "body": "Psalam 46 najpre poziva na tišinu, a zatim na poznanje Boga. Pokušavamo razumom doći do mira i samo se više zapetljamo. Ponekad vera jednostavno znači prestati se upinjati — dovoljno dugo opustiti ruke da se setiš ko zapravo drži svet na okupu. To nikada nisi bio ti.",
+      "prayer": "Bože, utišaj moje upinjanje. Pomozi mi ostati miran dovoljno dugo da se sjetim da si Ti Bog. Amen."
+    },
+    {
+      "id": "devotional-023",
+      "title": "Prijatelj koji ostaje",
+      "body": "Mudre izreke govori o prijatelju bližem od brata. U svetu ljudi koji dolaze i odlaze, Isus ostaje — kroz neuspjeh, tišinu i dugu noć. Nisi Mu previše i nikada nisi predaleko otišao. Ne traži razlog da ode. On je prijatelj koji ostaje.",
+      "prayer": "Isuse, hvala Ti što ostaješ kada drugi nisu mogli. Pomozi mi odmarati u Tvojoj vernosti. Amen."
+    },
+    {
+      "id": "devotional-024",
+      "title": "Radost dolazi ujutru",
+      "body": "Psalmista ne poriče plač; priznaje da noć može biti teška. Noć je stvarna, ali nije trajna. S druge strane tuge postoji jutro, a Bog koji čuva tvoje suze nije izgubio nijednu. Istraj. Jutro je obećanje, ne samo mogućnost.",
+      "prayer": "Gospodine, u mojoj noći pomozi mi verovati jutru koje si obećao. Čuvaj moje suze. Amen."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "Sedam dana mira",
+      "tagline": "Za periodi strepnje — jedan umirujući odlomak dnevno."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "Nedelja zahvalnosti",
+      "tagline": "Nauči svoje oči ponovo primećivati milost posvuda."
+    },
+    {
+      "id": "psalms-30",
+      "title": "30 dana u Psalmima",
+      "tagline": "Biblijska molitvena knjiga molitve, psalam po psalam."
+    },
+    {
+      "id": "gospels-90",
+      "title": "Isusov život u 90 dana",
+      "tagline": "Prođi kroz sva četiri Jevanđelja."
+    },
+    {
+      "id": "bible-365",
+      "title": "Biblija u godinu dana",
+      "tagline": "Cela priča — 20 minuta dnevno."
+    }
+  ]
+}

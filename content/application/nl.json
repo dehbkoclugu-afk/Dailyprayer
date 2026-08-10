@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "locale": "nl",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "Welke traditie voelt voor jou als thuis?",
+      "subtitle": "We stemmen je gebeden en plannen daarop af.",
+      "options": [
+        {
+          "value": "catholic",
+          "label": "Katholiek"
+        },
+        {
+          "value": "protestant",
+          "label": "Protestants"
+        },
+        {
+          "value": "orthodox",
+          "label": "Orthodox"
+        },
+        {
+          "value": "nondenominational",
+          "label": "Niet-confessioneel"
+        },
+        {
+          "value": "exploring",
+          "label": "Ik verken het gewoon"
+        }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "Wat hoop je dat in jou groeit?",
+      "subtitle": "Kies alles wat bij je past.",
+      "affirmation": "Je bent in goed gezelschap: 73% van de leden kwam om dezelfde reden.",
+      "options": [
+        {
+          "value": "habit",
+          "label": "Een dagelijkse gebedsgewoonte"
+        },
+        {
+          "value": "closer",
+          "label": "Dichter bij God zijn"
+        },
+        {
+          "value": "peace",
+          "label": "Meer vrede en minder angst"
+        },
+        {
+          "value": "sleep",
+          "label": "Beter slapen"
+        },
+        {
+          "value": "bible",
+          "label": "De Bijbel begrijpen"
+        },
+        {
+          "value": "gratitude",
+          "label": "Een dankbaar hart"
+        }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "Wat weegt de laatste tijd op je?",
+      "subtitle": "Je antwoord blijft privé en helpt je plan vorm te geven.",
+      "affirmation": "Dank je voor je vertrouwen. De Schrift ontmoet mensen juist hier.",
+      "options": [
+        {
+          "value": "anxiety",
+          "label": "Angst of zorgen"
+        },
+        {
+          "value": "loneliness",
+          "label": "Eenzaamheid"
+        },
+        {
+          "value": "grief",
+          "label": "Rouw of verlies"
+        },
+        {
+          "value": "direction",
+          "label": "Richting vinden"
+        },
+        {
+          "value": "consistency",
+          "label": "Volhouden"
+        },
+        {
+          "value": "none",
+          "label": "Het gaat goed met me"
+        }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "Hoe vertrouwd is gebed voor jou?",
+      "options": [
+        {
+          "value": "new",
+          "label": "Ik begin net"
+        },
+        {
+          "value": "returning",
+          "label": "Ik kom na een tijd terug"
+        },
+        {
+          "value": "regular",
+          "label": "Ik bid regelmatig"
+        }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "Wanneer wil je een dagelijkse herinnering?",
+      "subtitle": "Een zachte herinnering, nooit spam.",
+      "options": [
+        {
+          "value": "07:30",
+          "label": "Ochtend · 7:30"
+        },
+        {
+          "value": "12:30",
+          "label": "Middag · 12:30"
+        },
+        {
+          "value": "21:00",
+          "label": "Avond · 21:00"
+        },
+        {
+          "value": "none",
+          "label": "Geen herinneringen"
+        }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Ochtendlicht",
+      "script": [
+        "Adem langzaam in… en uit. Wees hier voordat de dag iets van je vraagt.",
+        "Heer, dank U voor deze ochtend, voor adem en voor een nieuw begin.",
+        "Ik geef U de uren die voor me liggen: mijn werk, mijn woorden en de mensen die ik ontmoet.",
+        "Waar ik angstig ben, wees mijn vrede. Waar ik moe ben, wees mijn kracht.",
+        "Laat mij zonder haast door deze dag gaan, wetend dat U dichtbij bent. Amen."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "Kalmeer de Storm",
+      "script": [
+        "Leg een hand op je hart. Voel het kloppen: je leeft en je wordt gedragen.",
+        "Jezus, U sliep in een storm en bracht hem met een woord tot rust. Spreek ook tot de mijne.",
+        "Ik benoem nu mijn zorg… en leg haar in Uw handen.",
+        "Laat Uw vrede over mijn gedachten komen als stil water.",
+        "Vandaag laat ik mij niet door angst dragen. U draagt mij. Amen."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "Een Dankbaar Hart",
+      "script": [
+        "Denk aan één goed ding van vandaag, hoe klein ook. Houd het even vast.",
+        "Vader, elk goed geschenk komt van U. Dank U.",
+        "Dank U voor wat ik vroeg en ontving, en voor wat mij bespaard bleef.",
+        "Leer mij genade op te merken in gewone uren.",
+        "Laat dankbaarheid de toon zijn waarop mijn dag eindigt. Amen."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "Naar de Rust",
+      "script": [
+        "Laat de dag eindigen. Je hebt gedaan wat je kon, en dat is genoeg.",
+        "Heer, terwijl ik ga liggen, leg ik wat onaf is in Uw zorg.",
+        "Waak over de mensen van wie ik houd terwijl we slapen.",
+        "Geef mij vrede om te gaan liggen en veilig te rusten onder Uw zorg.",
+        "Vertraag mijn adem… maak mijn gedachten stil… en houd mij vast tot de ochtend. Amen."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Zegen Mijn Familie",
+      "script": [
+        "Haal de gezichten van je familie één voor één voor je.",
+        "Vader, zegen ieder van hen in gezondheid, hart en geloof.",
+        "Genees wat tussen ons gespannen is; verzacht wat hard is geworden.",
+        "Maak van ons huis een plek van geduld en lachen.",
+        "Bind ons samen in Uw liefde. Amen."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Moed voor Vandaag",
+      "script": [
+        "Sta even rechtop. Adem diep.",
+        "Heer, vorm in mij geen geest van angst maar van kracht, liefde en bezonnenheid.",
+        "Geef mij moed voor het gesprek, de taak en de stap die ik blijf uitstellen.",
+        "Als ik wankel, herinner mij eraan dat U voor mij uitgaat.",
+        "Ik kies voor moed, niet alleen maar met U. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "De Gaven Tellen",
+      "script": [
+        "Laat de dag tot rust komen. Adem uit wat hij van je vroeg.",
+        "Vader, laat mij vóór mijn tekorten eerst benoemen wat mij gegeven is.",
+        "Dank U voor de gewone genade waar ik vandaag bijna aan voorbijging.",
+        "Dank U voor de mensen die mijn leven warmer maken.",
+        "Een dankbaar hart is een vol hart. Vul het mijne vanavond. Amen."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Stille Wateren",
+      "script": [
+        "Ontspan je handen. Laat je adem bij elke regel vertragen.",
+        "Herder, U leidt mij naar stille wateren. Leid mij daar nu heen.",
+        "De gedachten die in mij rondjagen leg ik één voor één aan Uw voeten.",
+        "Herstel mijn ziel en wat vandaag dun is geworden.",
+        "Ik hoef niet bang te zijn, want U bent bij mij. Amen."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "Voor de Dag",
+      "script": [
+        "De dag ligt nog voor je. Ontmoet hem hier eerst met God.",
+        "Heer, deze dag is van U voordat hij van mij is.",
+        "Ga mij voor in elke ruimte die ik betreed en in elk woord dat ik spreek.",
+        "Wanneer haast mij trekt, leer mij rustig te gaan.",
+        "Orden mijn uren en houd mijn hart dicht bij het Uwe. Amen."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "Vrede die Bewaakt",
+      "script": [
+        "Zet beide voeten op de grond. Jij bent hier. God is hier.",
+        "Jezus, U geeft een vrede die dieper gaat dan wat de wereld kan geven.",
+        "Laat die vrede vandaag mijn hart en gedachten bewaken.",
+        "Wat ik niet kan beheersen, geef ik aan U.",
+        "Uw vrede is genoeg. Daarin rust ik. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "Eerste Dank",
+      "script": [
+        "Voor de takenlijst: één pauze. Eén adem van dank.",
+        "Vader, dank U dat U mij wakker maakte voor een nieuwe dag van genade.",
+        "Dank U voor adem, licht en een nieuwe bladzijde.",
+        "Laat dankbaarheid, niet haast, de toon van mijn ochtend zetten.",
+        "Ik begin vandaag dankbaar. Amen."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Leg Het Neer",
+      "script": [
+        "De dag is voorbij. Je hebt gedaan wat je kon, en dat is genoeg.",
+        "Heer, ik leg alles wat onaf is in Uw zorg.",
+        "De zorgen die ik de nacht in zou dragen laat ik bij U.",
+        "Geef mij de rust die ik nu nodig heb.",
+        "In vrede ga ik liggen, omdat U mij bewaart. Amen."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "Over Wie Ik Liefheb",
+      "script": [
+        "Denk aan ieder mens van wie je houdt. Houd zijn of haar gezicht even voor je.",
+        "Vader, waak over wie aan mij zijn toevertrouwd.",
+        "Bewaar hun gaan en hun thuiskomen.",
+        "Waar ik tekortschiet, laat Uw genade de ruimte vullen.",
+        "Houd hen in Uw hand, dichter dan ik ooit zou kunnen. Amen."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Kracht om te Vergeven",
+      "script": [
+        "Adem. Dit is moeilijk, en God weet het.",
+        "Heer, U hebt mij vergeven. Geef mij kracht om ook te vergeven.",
+        "Ik breng de naam, de herinnering en de wond bij U.",
+        "Bevrijd mij van het dragen van wat nooit mijn last hoefde te zijn.",
+        "Genees wat vergeving opent. Maak mij heel. Amen."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "Onder Zijn Vleugels",
+      "script": [
+        "Voel het gewicht van de dag van je schouders zakken.",
+        "Bij de Allerhoogste is een veilige schuilplaats en rust.",
+        "Heer, bedek mij vannacht zoals een vogel zijn jongen beschermt.",
+        "Geen angst voor de nacht, geen zorgen over morgen — alleen Uw zorg.",
+        "Ik hoef niet bang te zijn. Goede nacht, Vader. Amen."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "Wanneer Ik Zwak Ben",
+      "script": [
+        "Hier hoef je niet te doen alsof je sterk bent.",
+        "Heer, Uw kracht ontmoet mij juist in mijn zwakheid.",
+        "Hier is mijn zwakheid; ik verberg haar niet langer voor U.",
+        "Wees sterk op de plek waar ik niets meer over heb.",
+        "Uw genade is genoeg voor mij. Amen."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "Ook Nu, Dank U",
+      "script": [
+        "Dit is moeilijkere dankbaarheid. Adem en blijf eerlijk.",
+        "Vader, zelfs nu, midden hierin, zoek ik Uw hand.",
+        "Dank U dat U mij hierin niet alleen laat.",
+        "Dank U dat dit seizoen niet het einde van het verhaal is.",
+        "Ik kies voor dank, niet omdat het makkelijk is, maar omdat U goed bent. Amen."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "Het Geschenk van Stilte",
+      "body": "Velen van ons beginnen de ochtend al rennend, tussen berichten, nieuws en verplichtingen. Psalm 46 ontstond in onrust en nodigt uit om stil te worden voor God. Stilte is geen nietsdoen; het is herinneren wie alles draagt. Laat je schouders twee minuten zakken en vertrouw erop dat de wereld niet op jou rust.",
+      "prayer": "Heer, maak het stil in mij. Help mij te vertrouwen dat U God bent en dat ik niet alles hoef te dragen. Amen."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Kracht die Niet van Jou Komt",
+      "body": "Paulus kende gevangenschap en tekort, en toch sprak hij over kracht die hij in Christus ontving. Dat is geen zelfvertrouwen maar ontvangen kracht, juist wanneer de jouwe op is. Wat vandaag ook van je vraagt, je hoeft het niet alleen te dragen. Vraag, ontvang en zet de volgende stap.",
+      "prayer": "Jezus, wees vandaag mijn kracht waar ik zwak ben. Ik geef U wat te zwaar voelt. Amen."
+    },
+    {
+      "id": "devotional-003",
+      "title": "Geleid, Niet Opgejaagd",
+      "body": "Een herder loopt voorop; iemand die opjaagt duwt van achteren. Psalm 23 laat God zien als degene die naar groene weiden en rustige wateren leidt. Als geloof vooral gehaast of angstig heeft gevoeld, luister dan opnieuw. De Herder leidt zacht, stap voor stap.",
+      "prayer": "Herder van mijn ziel, leer mij Uw stem herkennen. Leid mij vandaag. Amen."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Rust voor Vermoeiden",
+      "body": "Jezus nodigt juist mensen uit die moe zijn en lasten dragen. Rust is geen beloning die je pas krijgt wanneer alles af is; het is een geschenk midden in het werk. Je mag komen zoals je bent, zonder eerst iets te bewijzen.",
+      "prayer": "Heer, ik kom moe naar U toe. Neem mijn zwaarte en leer mij Uw rust. Amen."
+    },
+    {
+      "id": "devotional-005",
+      "title": "Een Toekomst en Hoop",
+      "body": "Jeremia 29 spreekt tot mensen in ballingschap wier plannen waren ingestort. Gods trouw betekende niet dat alles meteen opgelost werd, maar wel dat zij niet vergeten waren. Een tegenslag is niet het einde van jouw verhaal. De Schrijver is nog bezig.",
+      "prayer": "Vader, als ik de weg niet zie, help mij te vertrouwen op U die hem wel ziet. Amen."
+    },
+    {
+      "id": "devotional-006",
+      "title": "Leun op God",
+      "body": "Ons eigen inzicht is nuttig, maar te klein om alles te overzien. Spreuken nodigt uit om God met heel ons hart te vertrouwen. Breng Hem de beslissing die steeds door je hoofd blijft gaan en blijf daarna langer luisteren dan spreken.",
+      "prayer": "Heer, ik vertrouw U de beslissing toe die nu in mijn gedachten is. Leid mijn weg. Amen."
+    },
+    {
+      "id": "devotional-007",
+      "title": "Een Antwoord op Angst",
+      "body": "Paulus verbindt gebed over alles met dankbaarheid. Dankbaarheid ontkent angst niet; ze maakt het beeld groter zodat Gods eerdere trouw weer zichtbaar wordt. Noem drie dingen waarvoor je dankbaar bent en merk op wat dat met je onrust doet.",
+      "prayer": "God van vrede, bewaak vandaag mijn hart en gedachten. Ik geef U mijn zorgen één voor één. Amen."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Licht in het Donker",
+      "body": "Johannes belooft geen leven zonder duisternis, maar wel dat duisternis niet het laatste woord heeft. Eén kaars hoeft niet met de nacht te discussiëren; ze blijft branden. Je hoeft vandaag niet alles te herstellen. Bewaar het kleine licht dat je is toevertrouwd en vertrouw op God.",
+      "prayer": "Jezus, Licht van de wereld, schijn vandaag in de donkere hoeken van mij. Amen."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Genoeg voor Vandaag",
+      "body": "In de woestijn leerde het manna Gods volk om voor één dag tegelijk te ontvangen. Het was een dagelijkse oefening in vertrouwen. Draag de last van morgen niet vandaag al mee. Voor deze dag is er genoeg genade; morgen mag je opnieuw ontvangen.",
+      "prayer": "Vader, geef mij wat ik vandaag nodig heb en de vrede om morgen bij U te laten. Amen."
+    },
+    {
+      "id": "devotional-010",
+      "title": "Gekend en Geliefd",
+      "body": "Nog vóór je eerste gedachte vanmorgen was je al gekend. Psalm 139 bezingt een God die ons leven diep kent. Je bent geen vreemdeling die om aandacht moet bedelen; je bent gezien en geliefd. Laat dat vandaag de grond onder je voeten zijn.",
+      "prayer": "Heer, dank U dat U mij volledig kent en toch liefhebt. Maak mij daarin standvastig. Amen."
+    },
+    {
+      "id": "devotional-011",
+      "title": "De Trouw van Kleine Stappen",
+      "body": "Trouw is zelden spectaculair. Meestal is het opnieuw komen: één gebed, één vriendelijke daad en één eerlijke keuze tegelijk. Zoals water steen vormt door terug te blijven keren, doet jouw kleine herhaalde ja tegen God meer dan je nu kunt zien.",
+      "prayer": "Heer, maak mij vandaag trouw in kleine dingen en laat mij het geheel aan U toevertrouwen. Amen."
+    },
+    {
+      "id": "devotional-012",
+      "title": "Wanneer Je Je Vergeten Voelt",
+      "body": "Hagar zat alleen in de woestijn en ontdekte dat God haar zag toen anderen dat niet deden. Als jij je vandaag over het hoofd gezien voelt door mensen, omstandigheden of je eigen teleurgestelde hoop, onthoud dan dit: jouw leven is niet onzichtbaar voor God.",
+      "prayer": "God die mij ziet, dank U dat ik nooit werkelijk alleen ben. Ontmoet mij hier. Amen."
+    },
+    {
+      "id": "devotional-013",
+      "title": "Het Geschenk dat Je Niet Verdiende",
+      "body": "Genade botst met het deel van ons dat alles wil verdienen. Efeziërs 2 beschrijft redding als Gods geschenk, ontvangen in geloof en niet als loon voor prestaties. Je mag stoppen met auditie doen voor liefde en opnieuw beginnen vanuit genade.",
+      "prayer": "Vader, ik ontvang wat ik nooit kon verdienen. Dank U voor genade; leer mij erin te rusten. Amen."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Stromen in de Woestijn",
+      "body": "Jesaja schildert water op plaatsen waar niets meer lijkt te kunnen groeien. Een droog seizoen hoeft niet het einde van het verhaal te zijn. God kan juist leven laten ontstaan waar wij het hadden opgegeven. Kijk nog eens naar de grond die je had afgeschreven.",
+      "prayer": "Heer, breng water naar de droge plekken in mij. Ik vertrouw erop dat U vernieuwt. Amen."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Loslaten in Plaats van Dragen",
+      "body": "Eerste Petrus nodigt ons uit onze zorgen aan God toe te vertrouwen omdat Hij voor ons zorgt. Piekeren doet soms alsof het nuttig werk is, maar eindeloos herhalen maakt de last niet lichter. Gebed verplaatst het gewicht naar Degene die het werkelijk kan dragen.",
+      "prayer": "Heer, ik geef mijn zorg werkelijk aan U. Draag wat ik niet kan dragen. Amen."
+    },
+    {
+      "id": "devotional-016",
+      "title": "De Stem die Jou Geliefd Noemt",
+      "body": "Nog vóór Jezus’ openbare werk begon, klonk de liefde van de Vader over Hem. Liefde komt vóór prestatie. Ook jij hoeft geen resultaat te behalen om liefde waard te worden. Je mag handelen vanuit ontvangen liefde in plaats van ervoor te werken.",
+      "prayer": "Vader, laat mij Uw liefde horen voordat ik vandaag iets probeer te bereiken. Amen."
+    },
+    {
+      "id": "devotional-017",
+      "title": "Veracht het Kleine Begin Niet",
+      "body": "Zacharia herinnert aan de waarde van kleine starts. Wij willen het voltooide bouwwerk zien; God kan vreugde hebben in de eerste steen. Of je nu begint met een gewoonte, herstel of verzoening: beoordeel het niet alleen op hoe klein het vandaag lijkt.",
+      "prayer": "Heer, zegen het kleine begin voor mij. Help mij trouw te zijn in het kleine. Amen."
+    },
+    {
+      "id": "devotional-018",
+      "title": "Hij Herstelt",
+      "body": "In Psalm 23 jaagt de herder uitgeputte schapen niet verder. Er is rust, rustig water en herstel. Als je leeg bent, kan stoppen juist een daad van vertrouwen zijn. Herstel is geen luiheid; het erkent dat God ons met behoefte aan rust heeft gemaakt.",
+      "prayer": "Herder, leid mij vandaag naar rustige wateren. Herstel wat in mij versleten is. Amen."
+    },
+    {
+      "id": "devotional-019",
+      "title": "Liefde in het Gewone",
+      "body": "De beschrijving van liefde in 1 Korintiërs 13 is verrassend praktisch: geduldig, vriendelijk en niet bezig met een lijst van fouten. Dit is liefde voor gewone middagen en moeilijke mensen. Vraag niet alleen wat je voelt, maar waar je vandaag geduldig, vriendelijk en vergevend kunt zijn.",
+      "prayer": "Heer, maak mij vandaag geduldig en vriendelijk, vooral waar het mij iets kost. Amen."
+    },
+    {
+      "id": "devotional-020",
+      "title": "Het Gewicht van Heerlijkheid",
+      "body": "Paulus bekijkt zijn lijden tegen de horizon van iets dat langer duurt. Hij ontkent pijn niet, maar weigert haar het hele beeld te laten vullen. Jouw pijn is echt, maar ze is niet de grootste werkelijkheid. Richt je blik op wat blijft.",
+      "prayer": "Vader, als vandaag zwaar voelt, hef mijn ogen naar wat blijft. Draag mij erdoorheen. Amen."
+    },
+    {
+      "id": "devotional-021",
+      "title": "Kom Terug",
+      "body": "Bij de profeten klinkt steeds weer Gods uitnodiging om terug te keren. Het is niet alleen een oproep om harder te proberen, maar een open deur naar huis. Als je bent afgedwaald, kan de weg terug korter zijn dan je vreest. Begin met één eerlijke beweging van je hart.",
+      "prayer": "Vader, vandaag keer ik naar U terug. Dank U dat U mij tegemoetkomt. Amen."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Word Stil",
+      "body": "Psalm 46 verbindt stil worden met opnieuw beseffen wie God is. Wij proberen onszelf soms naar vrede toe te redeneren en raken juist meer verstrikt. Soms is geloof eenvoudigweg stoppen met trekken en duwen, lang genoeg om te herinneren wie de wereld werkelijk vasthoudt.",
+      "prayer": "God, maak mijn streven stil. Help mij te stoppen en te herinneren wie U bent. Amen."
+    },
+    {
+      "id": "devotional-023",
+      "title": "De Vriend die Blijft",
+      "body": "Spreuken kent het beeld van een vriend die dichtbij blijft. In een wereld waarin mensen komen en gaan, blijft Jezus door falen, stilte en lange nachten heen. Je bent niet te veel voor Hem en niet te ver weg. Rust in Zijn trouw.",
+      "prayer": "Jezus, dank U dat U blijft. Help mij te rusten in Uw trouw. Amen."
+    },
+    {
+      "id": "devotional-024",
+      "title": "Vreugde Komt met de Morgen",
+      "body": "Psalm 30 ontkent de tranen van de nacht niet, maar geeft de nacht ook niet het laatste woord. Verdriet is echt zonder eeuwig te zijn. God verliest geen van je tranen uit het oog terwijl je op een nieuwe morgen wacht. Houd vol: de nacht is niet het hele verhaal.",
+      "prayer": "Heer, help mij in mijn nacht te vertrouwen op de morgen die komt. Bewaar mijn tranen. Amen."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "Zeven Dagen van Vrede",
+      "tagline": "Voor onrustige tijden: elke dag één kalmerend gedeelte."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "De Dankbare Week",
+      "tagline": "Train je blik om overal genade te zien."
+    },
+    {
+      "id": "psalms-30",
+      "title": "30 Dagen in de Psalmen",
+      "tagline": "Het gebedenboek van de Bijbel, één psalm tegelijk."
+    },
+    {
+      "id": "gospels-90",
+      "title": "Het Leven van Jezus in 90 Dagen",
+      "tagline": "Lees door alle vier de evangeliën."
+    },
+    {
+      "id": "bible-365",
+      "title": "De Bijbel in een Jaar",
+      "tagline": "Het hele verhaal, 20 minuten per dag."
+    }
+  ]
+}
