@@ -11,6 +11,11 @@ import {
   DEVOTIONAL_CONTENT_IDS,
   validateApplicationContentPack,
 } from '../src/data/applicationContentPack.ts';
+import {
+  APPLICATION_LOCALES,
+  APPLICATION_LOCALE_CANDIDATES,
+  PENDING_NATIVE_APPLICATION_LOCALES,
+} from '../src/i18n/applicationLocales.ts';
 
 export const BUNDLED_APPLICATION_CONTENT_LOCALES = [
   'en',
@@ -26,7 +31,8 @@ export const BUNDLED_APPLICATION_CONTENT_LOCALES = [
 export const CONTENT_VERSION = '1.0.0';
 export const DEVELOPMENT_MANIFEST_NAME = 'manifest.development.json';
 export const PRODUCTION_MANIFEST_NAME = 'manifest.json';
-const PRODUCTION_LOCALE_COUNT = 41;
+const productionLocaleTags = new Set(APPLICATION_LOCALES.map(({ tag }) => tag));
+const PRODUCTION_LOCALE_COUNT = APPLICATION_LOCALES.length;
 const RELEASE_BASE_URL =
   'https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -132,22 +138,29 @@ export async function createApplicationContentArtifacts() {
     sha256: sha256(text),
     downloadUrl: `${RELEASE_BASE_URL}/${locale}.json`,
   }));
+  const productionReleases = releases.filter(({ locale }) => productionLocaleTags.has(locale));
+  const globalTargetPendingLocales = APPLICATION_LOCALE_CANDIDATES
+    .map(({ tag }) => tag)
+    .filter((locale) => !packs.has(locale));
   const manifest = json({
     schemaVersion: 1,
     scope: 'development-partial',
     version: CONTENT_VERSION,
     generatedAt: '2026-08-10T00:00:00.000Z',
     productionRequiredLocaleCount: PRODUCTION_LOCALE_COUNT,
+    globalTargetLocaleCount: APPLICATION_LOCALE_CANDIDATES.length,
+    globalTargetPendingLocales,
+    nativeReviewGatedLocales: PENDING_NATIVE_APPLICATION_LOCALES,
     includedLocales: [...packs.keys()],
     releases,
   });
 
-  const productionManifest = packs.size === PRODUCTION_LOCALE_COUNT
+  const productionManifest = productionReleases.length === PRODUCTION_LOCALE_COUNT
     ? json({
         schemaVersion: 1,
         version: CONTENT_VERSION,
         generatedAt: '2026-08-10T00:00:00.000Z',
-        releases,
+        releases: productionReleases,
       })
     : null;
 

@@ -4,6 +4,36 @@
  * Keys are flat; `en` is the source of truth and the fallback.
  */
 import type { AppLocale } from './applicationLocales.ts';
+import ar from './locales/ar.ts';
+import my from './locales/my.ts';
+import zhHans from './locales/zh-Hans.ts';
+import zhHant from './locales/zh-Hant.ts';
+import hr from './locales/hr.ts';
+import cs from './locales/cs.ts';
+import eo from './locales/eo.ts';
+import ht from './locales/ht.ts';
+import haw from './locales/haw.ts';
+import ja from './locales/ja.ts';
+import ko from './locales/ko.ts';
+import la from './locales/la.ts';
+import fa from './locales/fa.ts';
+import ro from './locales/ro.ts';
+import ru from './locales/ru.ts';
+import srLatn from './locales/sr-Latn.ts';
+import srCyrl from './locales/sr-Cyrl.ts';
+import to from './locales/to.ts';
+import uk from './locales/uk.ts';
+import vi from './locales/vi.ts';
+import sq from './locales/sq.ts';
+import da from './locales/da.ts';
+import fi from './locales/fi.ts';
+import hu from './locales/hu.ts';
+import lv from './locales/lv.ts';
+import mi from './locales/mi.ts';
+import no from './locales/no.ts';
+import pl from './locales/pl.ts';
+import sv from './locales/sv.ts';
+import tl from './locales/tl.ts';
 
 export const translations = {
   en: {
@@ -1655,6 +1685,36 @@ export const translations = {
     'notification.eveningTitle': 'Komm zurück, wenn du bereit bist',
     'notification.eveningBody': 'Heute ist noch Raum für eine stille Minute.',
   },
+  ar,
+  my,
+  'zh-Hans': zhHans,
+  'zh-Hant': zhHant,
+  hr,
+  cs,
+  eo,
+  ht,
+  haw,
+  ja,
+  ko,
+  la,
+  fa,
+  ro,
+  ru,
+  'sr-Latn': srLatn,
+  'sr-Cyrl': srCyrl,
+  to,
+  uk,
+  vi,
+  sq,
+  da,
+  fi,
+  hu,
+  lv,
+  mi,
+  no,
+  pl,
+  sv,
+  tl,
 } as const satisfies Record<AppLocale, Record<string, string>>;
 
 export type Locale = AppLocale;

@@ -6,7 +6,12 @@ import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
-import { APPLICATION_LOCALES, resolveLocale, useT } from '@/i18n';
+import {
+  APPLICATION_LOCALES,
+  resolveLocale,
+  resolveRequestedApplicationLocale,
+  useT,
+} from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
 import type { AppDirection, AppLocale } from '@/i18n/applicationLocales';
 import {
@@ -66,7 +71,7 @@ export default function ApplicationLanguage() {
 
   const choose = async (tag: AppLocale, preference: AppLocale | 'system' = tag) => {
     if (downloading) return;
-    const locale = tag as ApplicationContentLocale;
+    const locale = tag;
     try {
       if (!bundled.has(locale)) setDownloading(tag);
       await activateApplicationLocale(locale, {
@@ -117,7 +122,7 @@ export default function ApplicationLanguage() {
       </View>
 
       <Pressable
-        onPress={() => choose(resolveLocale('system'), 'system')}
+        onPress={() => choose(resolveRequestedApplicationLocale('system'), 'system')}
         disabled={downloading !== null}
         accessibilityRole="button"
         accessibilityState={{ selected: autoSelected }}

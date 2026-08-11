@@ -84,7 +84,7 @@ interface StepText {
 }
 
 /** `en` is the source of truth and the fallback for any locale not listed. */
-const text: Record<Locale, StepText[]> = {
+const text: Partial<Record<Locale, StepText[]>> = {
   en: [
     {
       question: 'Which tradition feels like home?',
@@ -464,9 +464,10 @@ export function getQuizSteps(locale: Locale): QuizStep[] {
       };
     });
   }
-  const tx = text[locale];
+  const fallback = text.en!;
+  const tx = text[locale] ?? fallback;
   return base.map((b, i) => {
-    const s = tx[i] ?? text.en![i];
+    const s = tx[i] ?? fallback[i]!;
     return {
       key: b.key,
       multi: b.multi,
@@ -476,7 +477,7 @@ export function getQuizSteps(locale: Locale): QuizStep[] {
       options: b.options.map((o) => ({
         value: o.value,
         icon: o.icon,
-        label: s.labels[o.value] ?? text.en![i].labels[o.value] ?? o.value,
+        label: s.labels[o.value] ?? fallback[i]!.labels[o.value] ?? o.value,
       })),
     };
   });

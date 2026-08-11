@@ -7,6 +7,7 @@ import {
 import {
   APPLICATION_LOCALES,
   APPLICATION_LOCALE_CANDIDATES,
+  PENDING_NATIVE_APPLICATION_LOCALES,
   RTL_APPLICATION_LOCALE_CANDIDATES,
   SUPPORTED_LOCALES,
   resolveApplicationLocale,
@@ -41,6 +42,19 @@ test('application rollout targets the 40 release candidates plus Turkish', () =>
   );
 });
 
+test('advertises exactly the 38 release-ready locales', () => {
+  assert.equal(APPLICATION_LOCALES.length, 38);
+  assert.deepEqual(
+    new Set(APPLICATION_LOCALES.map(({ tag }) => tag)),
+    new Set(
+      APPLICATION_LOCALE_CANDIDATES
+        .map(({ tag }) => tag)
+        .filter((tag) => !(PENDING_NATIVE_APPLICATION_LOCALES as readonly string[]).includes(tag)),
+    ),
+  );
+  assert.deepEqual(new Set(PENDING_NATIVE_APPLICATION_LOCALES), new Set(['cek', 'hlt', 'kos']));
+});
+
 test('only Arabic and Persian rollout candidates use RTL', () => {
   assert.deepEqual(new Set(RTL_APPLICATION_LOCALE_CANDIDATES), new Set(['ar', 'fa']));
 });
@@ -49,8 +63,9 @@ test('application locale resolution uses full BCP-47 tags and safe fallback', ()
   assert.equal(resolveApplicationLocale('tr-TR', 'tr'), 'tr');
   assert.equal(resolveApplicationLocale('it-IT', 'it'), 'it');
   assert.equal(resolveApplicationLocale('nl-NL', 'nl'), 'nl');
-  assert.equal(resolveApplicationLocale('zh-Hant-TW', 'zh'), 'en');
-  assert.equal(resolveApplicationLocale('sr-Latn-RS', 'sr'), 'en');
+  assert.equal(resolveApplicationLocale('zh-Hant-TW', 'zh'), 'zh-Hant');
+  assert.equal(resolveApplicationLocale('sr-Latn-RS', 'sr'), 'sr-Latn');
+  assert.equal(resolveApplicationLocale('cek', 'cek'), 'en');
   assert.equal(resolveApplicationLocale('xx-ZZ', 'xx'), 'en');
 });
 

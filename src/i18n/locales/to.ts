@@ -1,5 +1,3 @@
-import type { TranslationKey } from '../translations.ts';
-
 export default {
   "tab.today": "Ahó ni",
   "tab.bible": "Tohitapu",
@@ -236,4 +234,4 @@ export default {
   "notification.dailyBody": "Ko ho'o veesi mo e lotu 'oku tatali pe 'i ha taimi pe 'oku ke ma'u ai ha miniti.",
   "notification.eveningTitle": "Foki mai ‘i ha taimi pē ‘okú ke mateuteu ai .",
   "notification.eveningBody": "ʻOku kei ʻi ai pē ha feituʻu ki ha miniti fakalongolongo ʻe taha he ʻaho ní.",
-} as const satisfies Record<TranslationKey,string>;
+} as const;

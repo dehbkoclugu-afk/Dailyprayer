@@ -3,19 +3,23 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import {
+  APPLICATION_LOCALES,
   APPLICATION_LOCALE_CANDIDATES,
-  SUPPORTED_LOCALES,
+  PENDING_NATIVE_APPLICATION_LOCALES,
 } from '../src/i18n/applicationLocales.ts';
 import { translations } from '../src/i18n/translations.ts';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const localeDirectory = path.join(root, 'src', 'i18n', 'locales');
 const production = process.argv.includes('--production');
-const bundled = new Set(SUPPORTED_LOCALES);
-const requiredModules = APPLICATION_LOCALE_CANDIDATES
+const inlineLocales = new Set(['en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'nl']);
+const requiredModules = APPLICATION_LOCALES
   .map((locale) => locale.tag)
-  .filter((locale) => !bundled.has(locale));
-const requiredSet = new Set(requiredModules);
+  .filter((locale) => !inlineLocales.has(locale));
+const allowedModules = APPLICATION_LOCALE_CANDIDATES
+  .map((locale) => locale.tag)
+  .filter((locale) => !inlineLocales.has(locale));
+const allowedSet = new Set(allowedModules);
 const sourceKeys = Object.keys(translations.en).sort();
 
 function interpolationTokens(value) {
@@ -54,7 +58,7 @@ async function main() {
     .filter((filename) => filename.endsWith('.ts'))
     .map((filename) => filename.slice(0, -3))
     .sort();
-  const unexpected = locales.filter((locale) => !requiredSet.has(locale));
+  const unexpected = locales.filter((locale) => !allowedSet.has(locale));
   if (unexpected.length) {
     throw new Error(`Unexpected UI locale modules: ${unexpected.join(', ')}`);
   }
@@ -65,12 +69,14 @@ async function main() {
   }
 
   const missing = requiredModules.filter((locale) => !locales.includes(locale));
+  const completed = requiredModules.filter((locale) => locales.includes(locale));
   if (production && missing.length) {
     throw new Error(`Production UI localization blocked; missing ${missing.length}: ${missing.join(', ')}`);
   }
   console.log(
-    `Verified ${locales.length}/${requiredModules.length} new UI locale modules. ` +
-      (missing.length ? `Production is NOT ready (${missing.length} missing).` : 'Production UI coverage is complete.'),
+    `Verified ${completed.length}/${requiredModules.length} advertised UI locale modules. ` +
+      (missing.length ? `Production is NOT ready (${missing.length} missing).` : 'Production UI coverage is complete.') +
+      ` Native-review gated global targets: ${PENDING_NATIVE_APPLICATION_LOCALES.join(', ')}.`,
   );
 }
 

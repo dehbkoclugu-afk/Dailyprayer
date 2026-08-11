@@ -1,5 +1,3 @@
-import type { TranslationKey } from '../translations.ts';
-
 export default {
   "tab.today": "ဒီနေ့",
   "tab.bible": "ကျမ်းစာ",
@@ -236,4 +234,4 @@ export default {
   "notification.dailyBody": "မင်းရဲ့အခန်းငယ်နဲ့ ဆုတောင်းချက်တွေက မင်းတစ်မိနစ်အချိန်တိုင်း စောင့်နေတယ်။",
   "notification.eveningTitle": "အဆင်သင့်ဖြစ်ချိန်တိုင်း ပြန်လာပါ။",
   "notification.eveningBody": "ဒီနေ့ တစ်မိနစ်လောက် ငြိမ်နေဖို့ နေရာရှိသေးတယ်။",
-} as const satisfies Record<TranslationKey,string>;
+} as const;

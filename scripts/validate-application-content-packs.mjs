@@ -4,7 +4,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { validateApplicationContentPack } from '../src/data/applicationContentPack.ts';
-import { APPLICATION_LOCALE_CANDIDATES } from '../src/i18n/applicationLocales.ts';
+import {
+  APPLICATION_LOCALES,
+  APPLICATION_LOCALE_CANDIDATES,
+  PENDING_NATIVE_APPLICATION_LOCALES,
+} from '../src/i18n/applicationLocales.ts';
 import {
   DEVELOPMENT_MANIFEST_NAME,
   PRODUCTION_MANIFEST_NAME,
@@ -80,7 +84,10 @@ async function main() {
   const manifest = JSON.parse(manifestText);
   if (
     manifest.scope !== 'development-partial' ||
-    manifest.productionRequiredLocaleCount !== APPLICATION_LOCALE_CANDIDATES.length ||
+    manifest.productionRequiredLocaleCount !== APPLICATION_LOCALES.length ||
+    manifest.globalTargetLocaleCount !== APPLICATION_LOCALE_CANDIDATES.length ||
+    JSON.stringify(manifest.nativeReviewGatedLocales) !==
+      JSON.stringify(PENDING_NATIVE_APPLICATION_LOCALES) ||
     manifest.releases.length !== expected.packs.size
   ) {
     throw new Error('Development manifest scope or coverage is invalid');
@@ -92,9 +99,15 @@ async function main() {
     }
   }
 
-  const missing = APPLICATION_LOCALE_CANDIDATES
+  const missing = APPLICATION_LOCALES
     .map((locale) => locale.tag)
     .filter((locale) => !expected.packs.has(locale));
+  const globalTargetPending = APPLICATION_LOCALE_CANDIDATES
+    .map((locale) => locale.tag)
+    .filter((locale) => !expected.packs.has(locale));
+  if (JSON.stringify(manifest.globalTargetPendingLocales) !== JSON.stringify(globalTargetPending)) {
+    throw new Error('Development manifest global-target report is invalid');
+  }
   if (production && missing.length) {
     throw new Error(
       `Production release blocked: ${missing.length} application-content locales are missing: ${missing.join(', ')}`,
@@ -109,13 +122,17 @@ async function main() {
       throw new Error(`${PRODUCTION_MANIFEST_NAME} is stale; rebuild the artifacts`);
     }
     console.log(
-      `Verified ${releases.length}/${APPLICATION_LOCALE_CANDIDATES.length} production application-content packs.`,
+      `Verified ${APPLICATION_LOCALES.length}/${APPLICATION_LOCALES.length} production application-content packs. ` +
+        `Global target remains pending: ${globalTargetPending.join(', ') || 'none'}.`,
     );
     return;
   }
   console.log(
-    `Verified ${releases.length}/${APPLICATION_LOCALE_CANDIDATES.length} completed packs. ` +
-      `Development manifest is valid; production release is NOT ready (${missing.length} locales missing).`,
+    `Verified ${releases.length}/${APPLICATION_LOCALE_CANDIDATES.length} completed global-target packs. ` +
+      (missing.length
+        ? `Production release is NOT ready (${missing.length} advertised locales missing: ${missing.join(', ')}). `
+        : `Production coverage is complete for all ${APPLICATION_LOCALES.length} advertised locales. `) +
+      `Global target remains pending: ${globalTargetPending.join(', ') || 'none'}.`,
   );
 }
 

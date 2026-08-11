@@ -5,7 +5,10 @@ import type {
   ApplicationContentPack,
   ApplicationContentRelease,
 } from '../data/applicationContentPack.ts';
-import { activateApplicationLocale } from './applicationLanguageActivation.ts';
+import {
+  activateApplicationLocale,
+  restoreInstalledApplicationLocale,
+} from './applicationLanguageActivation.ts';
 
 function dependencies(options?: {
   installed?: ApplicationContentPack | null;
@@ -77,4 +80,14 @@ test('activates legacy bundled content without manifest access', async () => {
   };
   await activateApplicationLocale('tr', deps);
   assert.deepEqual(events, ['set-language']);
+});
+
+test('missing downloadable content does not overwrite a restored preference', async () => {
+  const events: string[] = [];
+  const restored = await restoreInstalledApplicationLocale('ar', {
+    loadInstalled: async () => null,
+    register: () => events.push('register'),
+  });
+  assert.equal(restored, false);
+  assert.deepEqual(events, []);
 });

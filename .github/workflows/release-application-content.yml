@@ -29,18 +29,27 @@ jobs:
         run: npm run application-content:verify:production
       - name: Verify complete release asset coverage
         run: |
-          node <<'NODE'
-          const fs = require('node:fs');
+          node --experimental-strip-types --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import { APPLICATION_LOCALES } from './src/i18n/applicationLocales.ts';
           const directory = 'content/application';
           const manifest = JSON.parse(fs.readFileSync(`${directory}/manifest.json`, 'utf8'));
-          const expected = manifest.releases.map(({ locale }) => `${locale}.json`).sort();
+          const advertised = APPLICATION_LOCALES.map(({ tag }) => tag).sort();
+          const manifestLocales = manifest.releases.map(({ locale }) => locale).sort();
+          if (JSON.stringify(manifestLocales) !== JSON.stringify(advertised)) {
+            throw new Error('Refusing release: manifest does not exactly match advertised locales');
+          }
+          const expected = advertised.map((locale) => `${locale}.json`);
           const actual = fs.readdirSync(directory)
             .filter((name) => name.endsWith('.json') && !name.startsWith('manifest.'))
             .sort();
-          if (expected.length !== 41 || new Set(expected).size !== 41) {
-            throw new Error(`Refusing partial release: manifest contains ${expected.length}/41 unique locale assets`);
+          for (const extra of actual.filter((name) => !expected.includes(name))) {
+            fs.unlinkSync(`${directory}/${extra}`);
           }
-          if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+          const releaseAssets = fs.readdirSync(directory)
+            .filter((name) => name.endsWith('.json') && !name.startsWith('manifest.'))
+            .sort();
+          if (JSON.stringify(releaseAssets) !== JSON.stringify(expected)) {
             throw new Error('Refusing release: locale assets do not exactly match manifest coverage');
           }
           NODE
@@ -65,7 +74,7 @@ jobs:
           mapfile -t packs < <(
             find content/application -maxdepth 1 -type f -name '*.json' ! -name 'manifest.*' -print | sort
           )
-          test "${#packs[@]}" -eq 41
+          test "${#packs[@]}" -eq 38
           gh release create "$TAG" content/application/manifest.json "${packs[@]}" \
             --title "Lumen application content $TAG" \
-            --notes "Validated application content for all 41 production locales."
+            --notes "Validated application content for all 38 advertised production locales; cek, hlt, and kos remain native-review gated."

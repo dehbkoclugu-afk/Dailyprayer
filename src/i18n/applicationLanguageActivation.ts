@@ -3,6 +3,7 @@ import type {
   ApplicationContentPack,
   ApplicationContentRelease,
 } from '../data/applicationContentPack.ts';
+import type { AppLocale } from './applicationLocales.ts';
 
 export const BUNDLED_APPLICATION_CONTENT_LOCALES = [
   'en',
@@ -22,12 +23,23 @@ export interface ApplicationLanguageActivationDependencies {
   getRelease: (locale: ApplicationContentLocale) => ApplicationContentRelease | null;
   install: (release: ApplicationContentRelease) => Promise<ApplicationContentPack>;
   register: (pack: ApplicationContentPack) => void;
-  setLanguage: (locale: ApplicationContentLocale) => void;
+  setLanguage: (locale: AppLocale) => void;
+}
+
+export async function restoreInstalledApplicationLocale(
+  locale: AppLocale,
+  dependencies: Pick<ApplicationLanguageActivationDependencies, 'loadInstalled' | 'register'>,
+): Promise<boolean> {
+  if (bundled.has(locale)) return true;
+  const pack = await dependencies.loadInstalled(locale).catch(() => null);
+  if (!pack || pack.locale !== locale) return false;
+  dependencies.register(pack);
+  return true;
 }
 
 /** Persist the locale only after its complete content is available and registered. */
 export async function activateApplicationLocale(
-  locale: ApplicationContentLocale,
+  locale: AppLocale,
   dependencies: ApplicationLanguageActivationDependencies,
 ): Promise<void> {
   if (bundled.has(locale)) {

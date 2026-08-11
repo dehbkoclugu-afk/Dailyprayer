@@ -24,14 +24,14 @@ import { initPurchases } from '@/services/purchases';
 import { loadInstalledBiblePack } from '@/services/biblePacks';
 import { registerDownloadedBiblePack } from '@/data/bibleFull';
 import { isBundledScriptureLocale } from '@/i18n/scripture';
-import { resolveLocale } from '@/i18n';
+import { resolveLocale, resolveRequestedApplicationLocale } from '@/i18n';
 import { getApplicationDirection } from '@/i18n/direction';
 import {
   BUNDLED_APPLICATION_CONTENT_LOCALES,
+  restoreInstalledApplicationLocale,
 } from '@/i18n/applicationLanguageActivation';
 import { registerApplicationContentPack } from '@/i18n/applicationContent';
 import { loadInstalledApplicationContentPack } from '@/services/applicationContentPacks';
-import type { ApplicationContentLocale } from '@/data/applicationContentPack';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -104,17 +104,15 @@ export default function RootLayout() {
 
     const restoreApplicationContent = () => {
       const user = useUserStore.getState();
-      const locale = resolveLocale(user.language) as ApplicationContentLocale;
+      const locale = resolveRequestedApplicationLocale(user.language);
       if ((BUNDLED_APPLICATION_CONTENT_LOCALES as readonly string[]).includes(locale)) {
         if (active) setApplicationContentReady(true);
         return;
       }
-      loadInstalledApplicationContentPack(locale)
-        .then((pack) => {
-          if (pack) registerApplicationContentPack(pack);
-          else user.setLanguage('en');
-        })
-        .catch(() => user.setLanguage('en'))
+      restoreInstalledApplicationLocale(locale, {
+        loadInstalled: loadInstalledApplicationContentPack,
+        register: registerApplicationContentPack,
+      })
         .finally(() => {
           if (active) setApplicationContentReady(true);
         });

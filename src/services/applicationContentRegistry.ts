@@ -2,7 +2,7 @@ import type {
   ApplicationContentLocale,
   ApplicationContentRelease,
 } from '../data/applicationContentPack.ts';
-import { APPLICATION_LOCALE_CANDIDATES } from '../i18n/applicationLocales.ts';
+import { APPLICATION_LOCALES } from '../i18n/applicationLocales.ts';
 
 export const LATEST_APPLICATION_CONTENT_MANIFEST_URL =
   'https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/manifest.json';
@@ -15,7 +15,7 @@ export interface ApplicationContentManifest {
 }
 
 const allowedLocales = new Set<string>(
-  APPLICATION_LOCALE_CANDIDATES.map((locale) => locale.tag),
+  APPLICATION_LOCALES.map((locale) => locale.tag),
 );
 const SHA256_RE = /^[a-f0-9]{64}$/i;
 
@@ -35,7 +35,7 @@ export function validateApplicationContentManifest(value: unknown): ApplicationC
   }
   if (
     !Array.isArray(manifest.releases) ||
-    manifest.releases.length !== APPLICATION_LOCALE_CANDIDATES.length
+    manifest.releases.length !== APPLICATION_LOCALES.length
   ) {
     throw new Error('Application content manifest is incomplete');
   }
