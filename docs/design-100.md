@@ -36,14 +36,15 @@ deneyimi, performans ve görsel cila gelir.
     ayarlar panelinden açılan “Metin kaynağı” ekranı; sürüm adı, lisans ve tam atıf sunmalı.
 13. ✅ **TAMAMLANDI — Dini metin bütünlüğü için release kontrolü ekle.** Altı JSON’un bilinen SHA
     değerleri değişirse veya release hak seti saparsa CI ve imzalı Android işi açıkça durur.
-14. **Günlük ve kullanıcı verisi silme akışını iki aşamalı yap.** Onboarding’i yeniden başlatmak,
-    streak/günlük/işaretleri yanlışlıkla silememeli; silinecek veri listesi açıkça gösterilmeli.
+14. ✅ **TAMAMLANDI — Günlük ve kullanıcı verisi silme akışını iki aşamalı yap.** Profile’daki ayrı
+    yıkıcı işlem; silinecek verileri ve aboneliğin iptal olmayacağını açıklayan native onaydan sonra
+    yalnız Lumen kullanıcı store’larını temizliyor, indirilen içerik ve entitlement korunuyor.
 15. ✅ **TAMAMLANDI — Günlük girdisi silmeye Undo ekle.** 48 dp silme hedefi, geri alınabilir
     toast eylemi ve özgün zaman sırasını koruyan restore davranışı eklendi.
 16. ✅ **TAMAMLANDI — Bildirim izni reddedildiğinde ölü başarı mesajı gösterme.** İzin verilmeden
     saat kaydedilmiyor veya başarı toast'ı gösterilmiyor; reddedilince sistem ayarları açılıyor.
-17. **Hatırlatıcı saatini gerçek bir saat seçiciyle değiştir.** Sabit veya sınırlı seçenek yerine
-    yerel 12/24 saat formatına uyan native time picker kullanılmalı.
+17. ✅ **TAMAMLANDI — Hatırlatıcı saatini gerçek bir saat seçiciyle değiştir.** Android native saat
+    diyaloğu ve iOS spinner kullanılıyor; saklanan `HH:mm` aktif dilin 12/24 saat biçiminde gösteriliyor.
 18. ✅ **TAMAMLANDI — İletişim satırını çalışır hâle getir.** Profile e-posta uygulamasını açıyor;
     açılamazsa doğrulanmış destek adresini panoya kopyalayıp kullanıcıya gösteriyor.
 19. **Bilinmeyen rota/veri hatalarına tasarlanmış durum ekle.** Geçersiz plan, gün veya kitap
