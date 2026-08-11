@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Alert, Linking, Pressable, Text, View } from 'react-native';
+import { Alert, Linking, Platform, Pressable, Text, View } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
+import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { OptionSheet, type SheetOption } from '@/components/OptionSheet';
 import { ArtSlot } from '@/components/ArtSlot';
-import { useTheme } from '@/hooks/useTheme';
+import { useTheme, useThemeName } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
@@ -18,12 +19,19 @@ import { toast } from '@/state/useToastStore';
 import { APPLICATION_LOCALES, useT, translate } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
 import * as NotificationService from '@/services/notifications';
+import { clearLocalUserData } from '@/services/localData';
 import { openSubscriptionManagement } from '@/services/purchases';
+import {
+  displayReminderTime,
+  parseReminderTime,
+  toStoredReminderTime,
+} from '@/lib/reminderTime';
 import type { ThemeName } from '@/theme/tokens';
 import { GLOBAL_LANGUAGE_CATALOG } from '@/i18n/globalLanguageCatalog';
 
 export default function Profile() {
   const t = useTheme();
+  const themeName = useThemeName();
   const artwork = useArtwork();
   const { t: tr, locale } = useT();
   const {
@@ -33,6 +41,8 @@ export default function Profile() {
   const { count, bestCount, totalDays } = useStreakStore();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const [sheet, setSheet] = useState<null | 'appearance'>(null);
+  const [showIosReminderPicker, setShowIosReminderPicker] = useState(false);
+  const [reminderDraft, setReminderDraft] = useState(() => parseReminderTime('07:30'));
 
   const appearanceOptions: SheetOption<ThemeName | 'system'>[] = [
     { value: 'system', label: tr('profile.auto') },
@@ -50,12 +60,13 @@ export default function Profile() {
       ? tr('profile.auto')
       : GLOBAL_LANGUAGE_CATALOG.find((item) => item.tag === scriptureLocale)?.nativeName ?? String(scriptureLocale);
 
-  const setReminder = async (time: string | null) => {
+  const setReminder = async (time: string | null): Promise<boolean> => {
     if (!time) {
       setQuiz({ prayerTime: 'none' });
       await NotificationService.disableReminders();
       toast(translate('toast.reminderSet'));
-      return;
+      setShowIosReminderPicker(false);
+      return true;
     }
 
     try {
@@ -64,24 +75,69 @@ export default function Profile() {
         setQuiz({ prayerTime: 'none' });
         Alert.alert(tr('profile.reminderTitle'), tr('profile.reminderMsg'));
         await Linking.openSettings().catch(() => {});
-        return;
+        return false;
       }
       await NotificationService.scheduleDailyReminder(time);
       await NotificationService.scheduleStreakSave(count);
       setQuiz({ prayerTime: time });
       toast(translate('toast.reminderSet'));
+      setShowIosReminderPicker(false);
+      return true;
     } catch {
       setQuiz({ prayerTime: 'none' });
       Alert.alert(tr('profile.reminderTitle'), tr('profile.reminderMsg'));
+      return false;
     }
   };
 
-  const openReminderPicker = () =>
-    Alert.alert(tr('profile.reminderTitle'), tr('profile.reminderMsg'), [
-      { text: tr('profile.reminderMorning'), onPress: () => setReminder('07:30') },
-      { text: tr('profile.reminderMidday'), onPress: () => setReminder('12:30') },
-      { text: tr('profile.reminderEvening'), onPress: () => setReminder('21:00') },
-      { text: tr('profile.reminderOff'), style: 'destructive', onPress: () => setReminder(null) },
+  const openReminderPicker = () => {
+    const fallback = new Date();
+    fallback.setHours(7, 30, 0, 0);
+    const value = parseReminderTime(
+      quiz.prayerTime && quiz.prayerTime !== 'none' ? quiz.prayerTime : null,
+      fallback,
+    );
+
+    if (Platform.OS === 'android') {
+      DateTimePickerAndroid.open({
+        value,
+        mode: 'time',
+        onChange: (event, date) => {
+          if (event.type === 'set' && date) void setReminder(toStoredReminderTime(date));
+        },
+      });
+      return;
+    }
+
+    if (Platform.OS === 'web') {
+      Alert.alert(tr('profile.reminderTitle'), tr('profile.reminderMsg'), [
+        { text: tr('profile.reminderMorning'), onPress: () => void setReminder('07:30') },
+        { text: tr('profile.reminderMidday'), onPress: () => void setReminder('12:30') },
+        { text: tr('profile.reminderEvening'), onPress: () => void setReminder('21:00') },
+        { text: tr('profile.cancel'), style: 'cancel' },
+      ]);
+      return;
+    }
+
+    setReminderDraft(value);
+    setShowIosReminderPicker(true);
+  };
+
+  const confirmLocalDataDeletion = () =>
+    Alert.alert(tr('profile.deleteData'), tr('profile.deleteDataMessage'), [
+      { text: tr('profile.cancel'), style: 'cancel' },
+      {
+        text: tr('profile.deleteDataConfirm'),
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            await clearLocalUserData();
+            router.replace('/');
+          } catch {
+            Alert.alert(tr('profile.deleteData'), tr('profile.deleteDataError'));
+          }
+        },
+      },
     ]);
 
   const manageSubscription = async () => {
@@ -281,10 +337,48 @@ export default function Profile() {
         <Row
           icon="notifications-outline"
           label={`${tr('profile.reminder')} · ${
-            quiz.prayerTime && quiz.prayerTime !== 'none' ? quiz.prayerTime : tr('profile.off')
+            quiz.prayerTime && quiz.prayerTime !== 'none'
+              ? displayReminderTime(quiz.prayerTime, locale)
+              : tr('profile.off')
           }`}
           onPress={openReminderPicker}
         />
+        {quiz.prayerTime && quiz.prayerTime !== 'none' ? (
+          <Row
+            icon="notifications-off-outline"
+            label={tr('profile.reminderOff')}
+            onPress={() => void setReminder(null)}
+          />
+        ) : null}
+        {showIosReminderPicker ? (
+          <View style={{ padding: spacing.lg, borderBottomWidth: 1, borderBottomColor: t.border }}>
+            <DateTimePicker
+              value={reminderDraft}
+              mode="time"
+              display="spinner"
+              onChange={(_, date) => {
+                if (date) setReminderDraft(date);
+              }}
+              themeVariant={themeName === 'vigil' ? 'dark' : 'light'}
+            />
+            <View style={{ flexDirection: 'row', gap: spacing.sm }}>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => setShowIosReminderPicker(false)}
+                style={({ pressed }) => ({ flex: 1, minHeight: 48, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
+              >
+                <Text style={{ fontFamily: fonts.sansSemiBold, color: t.inkSoft }}>{tr('profile.cancel')}</Text>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => void setReminder(toStoredReminderTime(reminderDraft))}
+                style={({ pressed }) => ({ flex: 1, minHeight: 48, borderRadius: radius.pill, backgroundColor: t.gold, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.75 : 1 })}
+              >
+                <Text style={{ fontFamily: fonts.sansSemiBold, color: t.bg }}>{tr('paywall.continue')}</Text>
+              </Pressable>
+            </View>
+          </View>
+        ) : null}
         <Row
           icon="lock-closed-outline"
           label={tr('profile.privacy')}
@@ -312,6 +406,26 @@ export default function Profile() {
           <Ionicons name="refresh-outline" size={20} color={t.danger} />
           <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.danger }}>
             {tr('profile.restart')}
+          </Text>
+        </Pressable>
+        <Pressable
+          onPress={confirmLocalDataDeletion}
+          accessibilityRole="button"
+          accessibilityLabel={tr('profile.deleteData')}
+          style={({ pressed }) => ({
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: spacing.md,
+            padding: spacing.lg,
+            minHeight: 52,
+            borderTopWidth: 1,
+            borderTopColor: t.border,
+            opacity: pressed ? 0.7 : 1,
+          })}
+        >
+          <Ionicons name="trash-outline" size={20} color={t.danger} />
+          <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.danger }}>
+            {tr('profile.deleteData')}
           </Text>
         </Pressable>
       </View>

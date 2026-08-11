@@ -234,4 +234,5 @@ export default {
   "notification.dailyBody": "Ko ho'o veesi mo e lotu 'oku tatali pe 'i ha taimi pe 'oku ke ma'u ai ha miniti.",
   "notification.eveningTitle": "Foki mai ‘i ha taimi pē ‘okú ke mateuteu ai .",
   "notification.eveningBody": "ʻOku kei ʻi ai pē ha feituʻu ki ha miniti fakalongolongo ʻe taha he ʻaho ní.",
+  "profile.deleteData":"Tamateʻi ʻa e fakamatala ʻi he meʻangāue","profile.deleteDataMessage":"ʻE tamateʻi ʻo taʻengata mei he meʻangāue ni hoʻo tohinoa, hokohoko ʻo e ngaahi ʻaho, ngaahi veesi kuo tauhi, fakalakalaka ʻo e palani mo e ngaahi fokotuʻutuʻu. ʻE ʻikai kaniseli hoʻo totongi ʻi he falekoloa.","profile.deleteDataConfirm":"Tamateʻi kotoa","profile.deleteDataError":"Naʻe ʻikai lava ʻo tamateʻi ʻa e fakamatala. Toe feinga ange.",
 } as const;

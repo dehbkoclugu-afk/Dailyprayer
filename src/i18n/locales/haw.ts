@@ -234,4 +234,5 @@ export default {
   "notification.dailyBody": "Ke kali nei kāu pauku a me kāu pule i nā manawa a pau āu e loaʻa ai he minuke.",
   "notification.eveningTitle": "E hoʻi i ka wā e mākaukau ai ʻoe",
   "notification.eveningBody": "He wahi no hoʻokahi minute mālie i kēia lā.",
+  "profile.deleteData":"Holoi i ka ʻikepili kūloko","profile.deleteDataMessage":"E holoi mau ʻia kāu puke moʻolelo, kaʻina lā, nā paukū i mālama ʻia, ka holomua o nā papahana a me nā koho mai kēia hāmeʻa. ʻAʻole e kāpae ʻia kāu kau inoa hale kūʻai.","profile.deleteDataConfirm":"Holoi i nā mea a pau","profile.deleteDataError":"ʻAʻole i hiki ke holoi i ka ʻikepili kūloko. E hoʻāʻo hou.",
 } as const;

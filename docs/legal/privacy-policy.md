@@ -1,10 +1,10 @@
 # Privacy Policy
 
-_Last updated: 2026-07-21_
+_Last updated: 2026-07-24_
 
 > Source of truth is `src/data/legal.ts` (shown in-app). Keep this hosted copy in
-> sync. Fill placeholders **[COMPANY]**, **[CONTACT_EMAIL]**, **[JURISDICTION]**
-> and have a lawyer review before publishing. Stores require a public URL to this.
+> sync and have a lawyer review before publishing. Stores require a public URL
+> to this.
 
 Lumen ("the app", "we") is built to respect your privacy. This policy explains
 what the app does and does not do with your information.
@@ -45,5 +45,5 @@ We do not knowingly collect data from children.
 If this policy changes, we will update the date above and the version in the app.
 
 ## Contact
-Questions about privacy: [CONTACT_EMAIL]
-[COMPANY]
+Questions about privacy: dehbkoclugu@gmail.com
+Umut Ceylan
