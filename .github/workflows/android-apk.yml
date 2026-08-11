@@ -59,6 +59,8 @@ jobs:
           npm run application-content:build
           npm run ui-locales:verify:production
           npm run application-content:verify:production
+          npm run scripture:verify:integrity
+          npm run scripture:verify:rights
 
       # Publish application-content-v1 first. The binary must never advertise a
       # downloadable locale whose immutable manifest/assets are not live yet.

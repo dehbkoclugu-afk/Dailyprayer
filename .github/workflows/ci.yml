@@ -21,6 +21,10 @@ jobs:
         run: npm run lint
       - name: Test
         run: npm test
+      - name: Verify immutable Scripture and release rights
+        run: |
+          npm run scripture:verify:integrity
+          npm run scripture:verify:rights
       - name: Verify completed UI locale modules
         run: npm run ui-locales:verify
       - name: Verify completed application content packs

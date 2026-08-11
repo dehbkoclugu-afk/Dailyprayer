@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { safePersistStorage } from '@/state/safePersistStorage';
 import { dayKey, nextStreak } from '@/lib/dates';
 
 export type RitualStep = 'verse' | 'devotional' | 'prayer' | 'gratitude';
@@ -62,6 +62,6 @@ export const useStreakStore = create<StreakState>()(
         return doneDay === dayKey() && doneSteps.includes(step);
       },
     }),
-    { name: 'lumen-streak', storage: createJSONStorage(() => AsyncStorage) },
+    { name: 'lumen-streak', storage: createJSONStorage(() => safePersistStorage) },
   ),
 );

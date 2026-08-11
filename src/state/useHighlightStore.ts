@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { safePersistStorage } from '@/state/safePersistStorage';
 import type { HighlightColor } from '@/theme/highlights';
 
 /**
@@ -33,7 +33,7 @@ export const useHighlightStore = create<HighlightState>()(
     {
       name: 'lumen-highlights',
       version: 1,
-      storage: createJSONStorage(() => AsyncStorage),
+      storage: createJSONStorage(() => safePersistStorage),
       migrate: (persisted, version) => {
         if (version === 0 && persisted && Array.isArray((persisted as { keys?: string[] }).keys)) {
           const marks: Record<string, HighlightColor> = {};

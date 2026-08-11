@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { safePersistStorage } from '@/state/safePersistStorage';
 
 interface BibleState {
   chapterIndex: number;
@@ -43,6 +43,6 @@ export const useBibleStore = create<BibleState>()(
           },
         })),
     }),
-    { name: 'lumen-bible', storage: createJSONStorage(() => AsyncStorage) },
+    { name: 'lumen-bible', storage: createJSONStorage(() => safePersistStorage) },
   ),
 );

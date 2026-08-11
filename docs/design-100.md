@@ -27,25 +27,25 @@ deneyimi, performans ve görsel cila gelir.
    “uyku duasını aç”, “planı aç” gibi dokunulan içerikle eşleştirmeli.
 9. ✅ **TAMAMLANDI — Yasal metinlerde altı Kutsal Kitap kaynağını ayrı ayrı beyan et.** Mevcut Terms yalnızca WEB
    söylüyor; her dilde kullanılan sürüm, telif/lisans ve atıf koşulu gerçek kaynağıyla yazılmalı.
-10. **YTC ve Ostervald lisanslarını yayın öncesi doğrula.** Kamu malı olmayan veya sürümü belirsiz
-    metin “public domain” diye sunulmamalı; doğrulama tamamlanmadan ilgili dil release kapısından
-    geçmemeli.
+10. ✅ **TAMAMLANDI — YTC ve belirsiz eski sürümleri yayın kapısında doğrula.** YTC lisansı ve
+    değişmezliği korunuyor; belirsiz Almeida/Ostervald arşivleri production bundle seçiminden
+    çıkarıldı, Portekizce/Fransızca doğrulanmış checksum paketlerine yönlendirildi.
 11. **Kutsal Kitap metnini dönüştüren hiçbir UI/AI akışına izin verme.** Özetle, sadeleştir,
     yeniden yaz ve otomatik çevir eylemleri okuyucu ve paylaşım ekranlarında bulunmamalı.
 12. **Kaynak ve lisans bilgisini okuyucuda görünür kıl.** Sadece bölüm sonunda küçük kredi yerine
     ayarlar panelinden açılan “Metin kaynağı” ekranı; sürüm adı, lisans ve tam atıf sunmalı.
-13. **Dini metin bütünlüğü için release kontrolü tasarla.** Altı JSON’un bilinen SHA değerleri
-    değişirse CI açıkça durmalı; değişiklik ancak kaynak belgesi güncellenerek kabul edilmeli.
+13. ✅ **TAMAMLANDI — Dini metin bütünlüğü için release kontrolü ekle.** Altı JSON’un bilinen SHA
+    değerleri değişirse veya release hak seti saparsa CI ve imzalı Android işi açıkça durur.
 14. **Günlük ve kullanıcı verisi silme akışını iki aşamalı yap.** Onboarding’i yeniden başlatmak,
     streak/günlük/işaretleri yanlışlıkla silememeli; silinecek veri listesi açıkça gösterilmeli.
-15. **Günlük girdisi silmeye Undo ekle.** Küçük çöp ikonuna dokunma anında kalıcı silme yerine
-    snackbar içinde geri al sunulmalı.
-16. **Bildirim izni reddedildiğinde ölü başarı mesajı gösterme.** Profile satırı “Kapalı —
-    Ayarlardan aç” durumuna geçmeli ve sistem ayarlarına eylem vermeli.
+15. ✅ **TAMAMLANDI — Günlük girdisi silmeye Undo ekle.** 48 dp silme hedefi, geri alınabilir
+    toast eylemi ve özgün zaman sırasını koruyan restore davranışı eklendi.
+16. ✅ **TAMAMLANDI — Bildirim izni reddedildiğinde ölü başarı mesajı gösterme.** İzin verilmeden
+    saat kaydedilmiyor veya başarı toast'ı gösterilmiyor; reddedilince sistem ayarları açılıyor.
 17. **Hatırlatıcı saatini gerçek bir saat seçiciyle değiştir.** Sabit veya sınırlı seçenek yerine
     yerel 12/24 saat formatına uyan native time picker kullanılmalı.
-18. **İletişim satırını çalışır hâle getir.** Profile’daki e-posta satırı adresi açmalı; cihazda
-    e-posta uygulaması yoksa adresi kopyalama seçeneği vermeli.
+18. ✅ **TAMAMLANDI — İletişim satırını çalışır hâle getir.** Profile e-posta uygulamasını açıyor;
+    açılamazsa doğrulanmış destek adresini panoya kopyalayıp kullanıcıya gösteriyor.
 19. **Bilinmeyen rota/veri hatalarına tasarlanmış durum ekle.** Geçersiz plan, gün veya kitap
     parametresi boş koyu ekran üretmemeli; açıklama ve güvenli geri dönüş sunmalı.
 20. **Yayın öncesi metin-doğruluk ekranı oluştur.** Lisans, fiyat, deneme, bildirim ve gizlilik
@@ -198,8 +198,8 @@ deneyimi, performans ve görsel cila gelir.
     büyük yazıda CTA’yı klavye arkasında bırakmamalı.
 88. **Foldable hinge alanını hesaba kat.** Expanded layout, katlama çizgisinin üzerine kart veya
     birincil düğme yerleştirmemeli.
-89. **Bozuk local storage için kurtarma durumları ekle.** Persist edilmiş reader/plan/journal
-    verisi parse edilemezse uygulama çökmek yerine ilgili parçayı güvenle sıfırlamalı.
+89. ✅ **TAMAMLANDI — Bozuk local storage için kurtarma ekle.** Tüm Zustand store'ları ortak güvenli
+    storage katmanından geçiyor; bozuk JSON yalnız ilgili store'u sıfırlıyor, açılışı durdurmuyor.
 90. **Tüm boş/yükleniyor/hata durumlarını ekran matrisiyle belgeleyip test et.** Search, Library,
     Plan, Paywall, bildirim ve satın alma için her durumun tasarlanmış karşılığı bulunmalı.
 

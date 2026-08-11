@@ -51,3 +51,10 @@ export async function scheduleStreakSave(streak = 0): Promise<void> {
     },
   });
 }
+
+export async function disableReminders(): Promise<void> {
+  await Promise.all([
+    Notifications.cancelScheduledNotificationAsync(REMINDER_ID).catch(() => {}),
+    Notifications.cancelScheduledNotificationAsync(STREAK_ID).catch(() => {}),
+  ]);
+}

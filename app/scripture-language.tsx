@@ -14,13 +14,19 @@ import {
   RELEASE_CANDIDATE_SCRIPTURE_LOCALE_TAGS,
   type GlobalLocaleTag,
 } from '@/i18n/globalLanguageCatalog';
-import { BUNDLED_SCRIPTURE_LOCALES, isBundledScriptureLocale, useScriptureLocale } from '@/i18n/scripture';
+import {
+  BUNDLED_SCRIPTURE_LOCALES,
+  isBundledScriptureLocale,
+  resolveSystemScriptureLocale,
+  useScriptureLocale,
+} from '@/i18n/scripture';
 import { useUserStore } from '@/state/useUserStore';
 import { useReaderStore } from '@/state/useReaderStore';
 import {
   installBiblePack,
   listInstalledBiblePacks,
   loadInstalledBiblePack,
+  removeInstalledBiblePack,
 } from '@/services/biblePacks';
 import { fetchBiblePackManifest, releaseMap } from '@/services/biblePackRegistry';
 import { registerDownloadedBiblePack } from '@/data/bibleFull';
@@ -62,17 +68,32 @@ export default function ScriptureLanguage() {
     return () => { active = false; };
   }, []);
 
-  const choose = async (tag: GlobalLocaleTag) => {
+  const choose = async (
+    tag: GlobalLocaleTag,
+    preference: GlobalLocaleTag | 'system' = tag,
+  ) => {
     if (downloading) return;
     try {
       if (isBundledScriptureLocale(tag)) {
         if (selected === 'hr') useReaderStore.getState().setPos(0, 0);
-        setScriptureLocale(tag);
+        setScriptureLocale(preference);
         router.back();
         return;
       }
 
-      let pack = installed.has(tag) ? await loadInstalledBiblePack(tag) : null;
+      let pack = null;
+      if (installed.has(tag)) {
+        try {
+          pack = await loadInstalledBiblePack(tag);
+        } catch {
+          await removeInstalledBiblePack(tag);
+          setInstalled((current) => {
+            const next = new Set(current);
+            next.delete(tag);
+            return next;
+          });
+        }
+      }
       if (!pack) {
         const release = releases.get(tag);
         if (!release) {
@@ -88,7 +109,7 @@ export default function ScriptureLanguage() {
       if (pack.canon === 'catholic-73' || selected === 'hr') {
         useReaderStore.getState().setPos(0, 0);
       }
-      setScriptureLocale(tag);
+      setScriptureLocale(preference);
       router.back();
     } catch {
       Alert.alert(tr('profile.scriptureLanguage'), tr('scripture.downloadUnavailable'));
@@ -127,11 +148,7 @@ export default function ScriptureLanguage() {
       </View>
 
       <Pressable
-        onPress={() => {
-          if (selected === 'hr') useReaderStore.getState().setPos(0, 0);
-          setScriptureLocale('system');
-          router.back();
-        }}
+        onPress={() => choose(resolveSystemScriptureLocale(), 'system')}
         style={{
           marginTop: spacing.xl,
           minHeight: 60,

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Alert, Pressable, Text, View } from 'react-native';
+import { Alert, Linking, Pressable, Text, View } from 'react-native';
+import * as Clipboard from 'expo-clipboard';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
@@ -49,19 +50,30 @@ export default function Profile() {
       ? tr('profile.auto')
       : GLOBAL_LANGUAGE_CATALOG.find((item) => item.tag === scriptureLocale)?.nativeName ?? String(scriptureLocale);
 
-  const setReminder = (time: string | null) => {
-    setQuiz({ prayerTime: time ?? 'none' });
-    if (time) {
-      NotificationService.requestPermission()
-        .then((granted) => {
-          if (granted) {
-            NotificationService.scheduleDailyReminder(time);
-            NotificationService.scheduleStreakSave(count);
-          }
-        })
-        .catch(() => {});
+  const setReminder = async (time: string | null) => {
+    if (!time) {
+      setQuiz({ prayerTime: 'none' });
+      await NotificationService.disableReminders();
+      toast(translate('toast.reminderSet'));
+      return;
     }
-    toast(translate('toast.reminderSet'));
+
+    try {
+      const granted = await NotificationService.requestPermission();
+      if (!granted) {
+        setQuiz({ prayerTime: 'none' });
+        Alert.alert(tr('profile.reminderTitle'), tr('profile.reminderMsg'));
+        await Linking.openSettings().catch(() => {});
+        return;
+      }
+      await NotificationService.scheduleDailyReminder(time);
+      await NotificationService.scheduleStreakSave(count);
+      setQuiz({ prayerTime: time });
+      toast(translate('toast.reminderSet'));
+    } catch {
+      setQuiz({ prayerTime: 'none' });
+      Alert.alert(tr('profile.reminderTitle'), tr('profile.reminderMsg'));
+    }
   };
 
   const openReminderPicker = () =>
@@ -80,6 +92,16 @@ export default function Profile() {
         tr('profile.manageSubscriptionErrorTitle'),
         tr('profile.manageSubscriptionErrorBody'),
       );
+    }
+  };
+
+  const contactSupport = async () => {
+    const address = 'dehbkoclugu@gmail.com';
+    try {
+      await Linking.openURL(`mailto:${address}`);
+    } catch {
+      await Clipboard.setStringAsync(address);
+      Alert.alert(tr('paywall.supportErrorTitle'), `${tr('paywall.supportErrorBody')}\n\n${address}`);
     }
   };
 
@@ -273,7 +295,7 @@ export default function Profile() {
           label={tr('profile.terms')}
           onPress={() => router.push({ pathname: '/legal', params: { doc: 'terms' } })}
         />
-        <Row icon="mail-outline" label={tr('profile.contact')} />
+        <Row icon="mail-outline" label={tr('profile.contact')} onPress={contactSupport} />
         <Pressable
           onPress={reset}
           accessibilityRole="button"

@@ -19,7 +19,7 @@ export default function Journal() {
   const t = useTheme();
   const artwork = useArtwork();
   const { t: tr } = useT();
-  const { entries, add, remove } = useJournalStore();
+  const { entries, add, remove, restore } = useJournalStore();
   const completeStep = useStreakStore((s) => s.completeStep);
   const [text, setText] = useState('');
 
@@ -34,6 +34,11 @@ export default function Journal() {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     toast(translate('toast.gratitudeSaved'));
     setText('');
+  };
+
+  const removeWithUndo = (entry: (typeof entries)[number]) => {
+    remove(entry.id);
+    toast(translate('a11y.deleteEntry'), translate('today.undo'), () => restore(entry));
   };
 
   return (
@@ -209,10 +214,17 @@ export default function Journal() {
                     </Text>
                   </View>
                   <Pressable
-                    onPress={() => remove(e.id)}
-                    hitSlop={8}
+                    onPress={() => removeWithUndo(e)}
                     accessibilityRole="button"
                     accessibilityLabel={tr('a11y.deleteEntry')}
+                    style={({ pressed }) => ({
+                      width: 48,
+                      height: 48,
+                      borderRadius: 24,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: pressed ? t.border : t.surface,
+                    })}
                   >
                     <Ionicons name="trash-outline" size={18} color={t.inkFaint} />
                   </Pressable>

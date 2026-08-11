@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { safePersistStorage } from '@/state/safePersistStorage';
 import type { ThemeName } from '@/theme/tokens';
 import type { AppLocale } from '@/i18n/applicationLocales';
 import type { GlobalLocaleTag } from '@/i18n/globalLanguageCatalog';
@@ -54,6 +54,6 @@ export const useUserStore = create<UserState>()(
       setQuiz: (patch) => set((s) => ({ quiz: { ...s.quiz, ...patch } })),
       reset: () => set({ onboarded: false, quiz: emptyQuiz }),
     }),
-    { name: 'lumen-user', storage: createJSONStorage(() => AsyncStorage) },
+    { name: 'lumen-user', storage: createJSONStorage(() => safePersistStorage) },
   ),
 );

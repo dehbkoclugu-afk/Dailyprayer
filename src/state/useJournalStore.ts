@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { safePersistStorage } from '@/state/safePersistStorage';
 import { dayKey } from '@/lib/dates';
 
 export interface JournalEntry {
@@ -49,6 +49,6 @@ export const useJournalStore = create<JournalState>()(
           ),
         })),
     }),
-    { name: 'lumen-journal', storage: createJSONStorage(() => AsyncStorage) },
+    { name: 'lumen-journal', storage: createJSONStorage(() => safePersistStorage) },
   ),
 );

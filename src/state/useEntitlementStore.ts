@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { safePersistStorage } from '@/state/safePersistStorage';
 
 interface EntitlementState {
   /** true when the `plus` entitlement is active (RevenueCat) or dev override */
@@ -19,6 +19,6 @@ export const useEntitlementStore = create<EntitlementState>()(
       setPlus: (v) => set({ isPlus: v }),
       setSawDiscountOffer: (v) => set({ sawDiscountOffer: v }),
     }),
-    { name: 'lumen-entitlement', storage: createJSONStorage(() => AsyncStorage) },
+    { name: 'lumen-entitlement', storage: createJSONStorage(() => safePersistStorage) },
   ),
 );
