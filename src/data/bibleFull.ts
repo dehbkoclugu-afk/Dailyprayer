@@ -17,16 +17,15 @@ interface BibleData {
 
 // Each translation is ~4 MB. The require() calls keep them out of initial bundle
 // evaluation — a locale's JSON is parsed only the first time its reader opens,
-// then cached. Turkish is the bundled Yorumsuz Türkçe Çeviri; the rest are
-// public-domain translations (see scripts/build-bible-i18n.mjs).
-type BundledBibleLocale = 'en' | 'tr' | 'es' | 'pt' | 'fr' | 'de';
+// then cached. Turkish is the bundled Yorumsuz Türkçe Çeviri; the rest have
+// exact public-domain source evidence. Portuguese and French use downloadable,
+// checksum-pinned editions because the archived bundle revisions are ambiguous.
+type BundledBibleLocale = 'en' | 'tr' | 'es' | 'de';
 
 const LOADERS: Record<BundledBibleLocale, () => BibleData> = {
   tr: () => require('./bible-full.tr.json'),
   en: () => require('./bible-full.en.json'),
   es: () => require('./bible-full.es.json'),
-  pt: () => require('./bible-full.pt.json'),
-  fr: () => require('./bible-full.fr.json'),
   de: () => require('./bible-full.de.json'),
 };
 

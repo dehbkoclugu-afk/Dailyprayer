@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { safePersistStorage } from '@/state/safePersistStorage';
 
 export interface Bookmark {
   /** canonical book index */
@@ -50,6 +50,6 @@ export const useBookmarkStore = create<BookmarkState>()(
         return on;
       },
     }),
-    { name: 'lumen-bookmarks', storage: createJSONStorage(() => AsyncStorage) },
+    { name: 'lumen-bookmarks', storage: createJSONStorage(() => safePersistStorage) },
   ),
 );

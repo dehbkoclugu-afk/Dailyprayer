@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { safePersistStorage } from '@/state/safePersistStorage';
 
 interface PrayerState {
   recentPrayerId: string | null;
@@ -22,6 +22,6 @@ export const usePrayerStore = create<PrayerState>()(
             : [...state.favoritePrayerIds, id],
         })),
     }),
-    { name: 'lumen-prayers', storage: createJSONStorage(() => AsyncStorage) },
+    { name: 'lumen-prayers', storage: createJSONStorage(() => safePersistStorage) },
   ),
 );

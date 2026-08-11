@@ -6,9 +6,11 @@ breach of trust with the user. These rules are binding for every future change.
 
 ## Approved source boundary
 
-- Production scripture may come only from the six source files approved by the
-  product owner: WEB, YTC, Reina-Valera 1909, João Ferreira de Almeida,
-  Ostervald, and Luther 1912.
+- Production Scripture may come only from the release-verified registry. The
+  runtime-bundled set is WEB, YTC, Reina-Valera 1909, and Luther 1912. Portuguese
+  and French use checksum-pinned World Portuguese Bible and Louis Segond 1910
+  packs; the historical Almeida and Ostervald files remain integrity-locked but
+  are not production selections.
 - Importing a source requires its exact edition name, upstream URL, license
   evidence, retrieval date, and immutable Git blob hash.
 - Scripture text, book names, verse labels, headings, and source notes are
@@ -52,6 +54,12 @@ breach of trust with the user. These rules are binding for every future change.
 `src/data/verses.test.ts` fails the build if the verse file is empty, has blank
 text, malformed references, or leftover parsing artifacts. This caught a real
 incident where a network-based generator produced an empty file. Run `npm test`.
+
+`npm run scripture:verify:integrity` locks every historical source JSON to its
+documented SHA-256. `npm run scripture:verify:rights` requires exactly 40 unique,
+accepted production pack sources and rejects the ambiguous Almeida/Ostervald
+archives if they re-enter the bundled runtime set. Both checks run in CI and in
+the signed Android release job.
 
 ## Verification done at authoring time
 

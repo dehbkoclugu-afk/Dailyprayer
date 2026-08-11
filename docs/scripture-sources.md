@@ -2,10 +2,13 @@
 
 Retrieved and reviewed: 2026-07-26
 
-This manifest records the provenance used by Lumen's six bundled Scripture
-editions. It is evidence for attribution and future release checks, not a
-substitute for legal review. The bundled Scripture files are immutable under
-`docs/scripture-integrity.md`.
+This manifest records the provenance of Lumen's six historical bundled
+Scripture files. It is evidence for attribution and automated integrity checks,
+not a substitute for legal review. The files are immutable under
+`docs/scripture-integrity.md`. Only English, Turkish, Spanish, and German are
+runtime-bundled for production. The archived Portuguese Almeida and French
+Ostervald files are excluded by the release gate; those languages use the
+checksum-pinned World Portuguese Bible and Louis Segond 1910 packs instead.
 
 ## Turkish — Yorumsuz Türkçe Çeviri (YTC)
 
@@ -51,7 +54,8 @@ substitute for legal review. The bundled Scripture files are immutable under
 - Upstream manifest: https://github.com/seven1m/open-bibles/blob/master/README.md
 - Upstream rights claim: public domain.
 - Evidence limitation: the upstream filename does not identify a dated Almeida
-  revision. Confirm the exact edition before release.
+  revision. This archived file is not selected or bundled by the production
+  runtime.
 
 ## French — Ostervald 1996
 
@@ -63,8 +67,8 @@ substitute for legal review. The bundled Scripture files are immutable under
 - Upstream rights claim: public domain.
 - Evidence limitation: eBible.org independently lists the historical French
   Ostervald Bible as public domain, but the evidence reviewed does not establish
-  the rights status of this specific 1996 revision. Independent verification is
-  pending under roadmap item 10.
+  the rights status of this specific 1996 revision. This archived file is not
+  selected or bundled by the production runtime.
 
 ## German — Luther Bible 1912
 

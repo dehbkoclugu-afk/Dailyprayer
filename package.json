@@ -15,7 +15,9 @@
     "application-content:verify": "node --experimental-strip-types scripts/validate-application-content-packs.mjs",
     "application-content:verify:production": "node --experimental-strip-types scripts/validate-application-content-packs.mjs --production",
     "ui-locales:verify": "node --experimental-strip-types scripts/validate-ui-locales.mjs",
-    "ui-locales:verify:production": "node --experimental-strip-types scripts/validate-ui-locales.mjs --production"
+    "ui-locales:verify:production": "node --experimental-strip-types scripts/validate-ui-locales.mjs --production",
+    "scripture:verify:integrity": "node scripts/verify-scripture-integrity.mjs",
+    "scripture:verify:rights": "node scripts/verify-scripture-release-rights.mjs"
   },
   "dependencies": {
     "@expo-google-fonts/figtree": "^0.2.3",

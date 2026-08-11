@@ -23,7 +23,7 @@ import { useUserStore } from '@/state/useUserStore';
 import { initPurchases } from '@/services/purchases';
 import { loadInstalledBiblePack } from '@/services/biblePacks';
 import { registerDownloadedBiblePack } from '@/data/bibleFull';
-import { isBundledScriptureLocale } from '@/i18n/scripture';
+import { isBundledScriptureLocale, resolveSystemScriptureLocale } from '@/i18n/scripture';
 import { resolveLocale, resolveRequestedApplicationLocale } from '@/i18n';
 import { getApplicationDirection } from '@/i18n/direction';
 import {
@@ -73,17 +73,20 @@ export default function RootLayout() {
 
     const restoreScripture = () => {
       const user = useUserStore.getState();
-      const scripture = user.scriptureLocale;
-      if (scripture === 'system' || isBundledScriptureLocale(scripture)) {
+      const preference = user.scriptureLocale;
+      const scripture = preference === 'system' ? resolveSystemScriptureLocale() : preference;
+      if (isBundledScriptureLocale(scripture)) {
         if (active) setScriptureReady(true);
         return;
       }
       loadInstalledBiblePack(scripture)
         .then((pack) => {
           if (pack) registerDownloadedBiblePack(pack);
-          else user.setScriptureLocale('system');
+          else if (preference !== 'system') user.setScriptureLocale('system');
         })
-        .catch(() => user.setScriptureLocale('system'))
+        .catch(() => {
+          if (preference !== 'system') user.setScriptureLocale('system');
+        })
         .finally(() => {
           if (active) setScriptureReady(true);
         });

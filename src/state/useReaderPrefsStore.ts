@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { safePersistStorage } from '@/state/safePersistStorage';
 
 export const FONT_MIN = 0.9;
 export const FONT_MAX = 1.5;
@@ -25,6 +25,6 @@ export const useReaderPrefsStore = create<ReaderPrefsState>()(
       bumpFont: (dir) => set((s) => ({ fontScale: clamp(s.fontScale + dir * STEP) })),
       togglePaper: () => set((s) => ({ paper: !s.paper })),
     }),
-    { name: 'lumen-reader-prefs', storage: createJSONStorage(() => AsyncStorage) },
+    { name: 'lumen-reader-prefs', storage: createJSONStorage(() => safePersistStorage) },
   ),
 );
