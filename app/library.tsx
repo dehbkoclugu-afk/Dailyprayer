@@ -13,6 +13,7 @@ import { getBible } from '@/data/bibleFull';
 import { useBookmarkStore } from '@/state/useBookmarkStore';
 import { useHighlightStore } from '@/state/useHighlightStore';
 import { useT } from '@/i18n';
+import { getDirectionalIconName } from '@/i18n/direction';
 
 type Tab = 'bookmarks' | 'highlights';
 
@@ -131,7 +132,7 @@ export default function Library() {
             borderColor: t.border,
           }}
         >
-          <Ionicons name="chevron-back" size={24} color={t.inkSoft} />
+          <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={24} color={t.inkSoft} />
         </Pressable>
         <Text style={{ fontFamily: fonts.serif, fontSize: 24, color: t.ink }}>{tr('library.title')}</Text>
       </View>

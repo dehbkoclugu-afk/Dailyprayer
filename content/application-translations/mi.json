@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "locale": "mi",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "Ko tehea tikanga ka rite ki te kainga?",
+      "subtitle": "Ka whakatika matou i o inoi me o mahere.",
+      "options": [
+        {
+          "value": "catholic",
+          "label": "Katorika"
+        },
+        {
+          "value": "protestant",
+          "label": "Porotetani"
+        },
+        {
+          "value": "orthodox",
+          "label": "Orthodox"
+        },
+        {
+          "value": "nondenominational",
+          "label": "Hahi-kore"
+        },
+        {
+          "value": "exploring",
+          "label": "Te torotoro noa"
+        }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "He aha to tumanako ka tupu i roto i a koe?",
+      "subtitle": "Whiriwhiria nga mea katoa e pa ana.",
+      "affirmation": "Kei roto koe i te kamupene pai, 73% o nga mema i uru mo taua take ano.",
+      "options": [
+        {
+          "value": "habit",
+          "label": "He tikanga inoi ia ra"
+        },
+        {
+          "value": "closer",
+          "label": "Te ahua tata ki te Atua"
+        },
+        {
+          "value": "peace",
+          "label": "Te rangimarie me te iti o te awangawanga"
+        },
+        {
+          "value": "sleep",
+          "label": "He pai ake te moe"
+        },
+        {
+          "value": "bible",
+          "label": "Te maramaramaraa i te Bibilia"
+        },
+        {
+          "value": "gratitude",
+          "label": "He ngakau mihi"
+        }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "He aha te taumahatanga ki a koe i enei wa?",
+      "subtitle": "Ka noho mokemoke to whakautu. Ka hanga e ia to mahere.",
+      "affirmation": "Mauruuru koe mo te whakawhirinaki ki a matou. Ka tutaki te karaipiture ki nga tangata i konei.",
+      "options": [
+        {
+          "value": "anxiety",
+          "label": "Te awangawanga, te awangawanga ranei"
+        },
+        {
+          "value": "loneliness",
+          "label": "Mokemoke"
+        },
+        {
+          "value": "grief",
+          "label": "Te pouri, te mate ranei"
+        },
+        {
+          "value": "direction",
+          "label": "Te kimi huarahi"
+        },
+        {
+          "value": "consistency",
+          "label": "Te noho rite"
+        },
+        {
+          "value": "none",
+          "label": "Kei te pai ahau"
+        }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "He pehea te mohio o te inoi ki a koe?",
+      "options": [
+        {
+          "value": "new",
+          "label": "Kei te timata noa ahau"
+        },
+        {
+          "value": "returning",
+          "label": "Ka hoki mai i muri i etahi wa"
+        },
+        {
+          "value": "regular",
+          "label": "Te pure tamau nei au"
+        }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "Ahea koe e hiahia ana ki te nuku o ia ra?",
+      "subtitle": "He whakamaumahara ngawari, kaua rawa he mokowhiti.",
+      "options": [
+        {
+          "value": "07:30",
+          "label": "Ata · 7:30"
+        },
+        {
+          "value": "12:30",
+          "label": "Popoupou · 12:30"
+        },
+        {
+          "value": "21:00",
+          "label": "Ahiahi · 21:00"
+        },
+        {
+          "value": "none",
+          "label": "Karekau he whakamaumahara"
+        }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Marama o te Ata",
+      "script": [
+        "Kia puhoi te manawa ki roto… ka puta. I mua i te patai a te ra ki a koe, noho mai.",
+        "E te Ariki, whakawhetai ki a koe mo tenei ata, mo te manawa, mo tetahi atu timatanga.",
+        "Ka hoatu e ahau ki a koe nga haora kei mua: aku mahi, aku kupu, nga tangata ka tutaki ahau.",
+        "Ko te wahi e pouri ai ahau, kia mau te rongo. Ko te wahi e ngenge ai ahau, hei kaha moku.",
+        "Tukua ahau kia haere ohorere i tenei ra, me te mohio kei te tata mai koe. Āmine."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "Kia marie te Awha",
+      "script": [
+        "Tuhia he ringa ki runga i to ngakau. Kei te ora koe, kei te mau koe.",
+        "E Ihu, I moe koe i roto i te tupuhi, ka wahangu ki te kupu. Korero ki taku.",
+        "Ka whakaingoatia e ahau taku awangawanga inaianei… ka hoatu e ahau ki o ringaringa.",
+        "Kia tau te rangimarie o te Karaiti ki runga i toku hinengaro ano he wai marino.",
+        "E kore ahau e mauria e te wehi i tenei ra. Nau ahau e kawe. Āmine."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "He Ngakau Mihi",
+      "script": [
+        "Whakaarohia tetahi mea pai mai i tenei ra, ahakoa iti. Puritia mo te wa poto.",
+        "E te Matua, ko nga mea pai katoa i roto i toku ora e whakaatu ana i to atawhai. Tēnā koe.",
+        "Mauruuru koe mo nga mea i inoi ahau mo taku i whiwhi ai, me nga mea i tohungia e ahau.",
+        "Whakaakona ahau ki te kite i te aroha noa e huna ana i nga haora noa.",
+        "Ko te mihi hei tuhipoka ka mutu taku ra. Āmine."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "Ki te okiokinga",
+      "script": [
+        "Kia mutu te ra. Kua mahia e koe nga mea ka taea e koe, a kua nui.",
+        "E te Ariki, i ahau e takoto ana, ka tukuna atu e ahau ki a koe nga mea kahore ano kia oti.",
+        "Tiakihia nga tangata e aroha ana ahau i a matou e moe ana.",
+        "Ka ata noho ahau na te mea ko koe anake e tiaki ana i ahau, e tiaki ana i ahau.",
+        "Whakaturia taku manawa… ata noho aku whakaaro… ka pupuri i ahau a tae noa ki te ata. Āmine."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Manaakitia taku Whanau",
+      "script": [
+        "Kawea mai nga kanohi o to whanau ki te hinengaro, takitahi.",
+        "E te Matua, manaakitia ia tangata, i te hauora, i te ngakau, i te whakapono.",
+        "Whakaorangia nga mea e memeha ana i waenganui i a taua; whakangawaritia te mea kua pakeke.",
+        "Meinga to tatou kainga hei waahi mo te manawanui me te kata.",
+        "Herea matou i runga i tou aroha. Āmine."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Kia maia mo tenei ra",
+      "script": [
+        "Tu teitei mo te wa poto. Manawa hohonu.",
+        "E te Ariki, whakakapia toku wehi ki tou kaha, tou aroha, me tou mohio.",
+        "Homai he maia ki ahau mo te korerorero, mo te mahi, mo te taahiraa e karo tonu ana ahau.",
+        "Ka hee ahau, whakamaharatia ahau: Haere koe i mua i ahau.",
+        "Ko koe kei toku taha, ka whiriwhiria e ahau te maia, kaua te wehi. Āmine."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "Te tatau i nga Koha",
+      "script": [
+        "Kia tau te ra. Manawa i te mea i tono mai ki a koe.",
+        "E te Matua, i mua i taku whakaingoa i nga mea i hapa i ahau, me whakaingoatia e ahau te mea i homai ki ahau.",
+        "Mauruuru koe mo nga mahi aroha noa kua tata haere ahau i tenei ra.",
+        "Nga mihi ki a koe mo nga tangata e whakamahana ake ana toku ora.",
+        "Ko te ngakau mihi he ngakau ki tonu. Whakakiia taku i tenei po. Āmine."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Nga Wai Tonu",
+      "script": [
+        "Wewetehia o ringaringa. Kia puhoi to manawa ki ia raina.",
+        "E te hepara, arahina ahau ki te wahi ata noho.",
+        "Ko nga whakaaro e rere ana i roto i ahau, ka waiho e ahau ki ou waewae, takitahi.",
+        "Whakahoutia toku wairua me te whakahoki mai i nga mea kua memeha i tenei ra.",
+        "E kore ahau e wehi no te mea kei toku taha koe. Āmine."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "I mua i te Ra",
+      "script": [
+        "Kaore ano kia pau te ra. Tutaki ki konei, me te Atua, i mua i tetahi atu mea.",
+        "E te Ariki, nau tenei ra i mua i taku.",
+        "Haere i mua i ahau ki nga ruma katoa e tomo ai ahau, nga kupu katoa ka korerotia e ahau.",
+        "Te wahi e whakamatautauria ai ahau ki te tere, whakaakona ahau ki te hikoi.",
+        "Whakaritea aku haora, kia tata tonu toku ngakau ki a koe. Āmine."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "Te rangimarie e tiaki",
+      "script": [
+        "Tuhia nga waewae e rua ki te whenua. Kei konei koe. Kei konei te Atua.",
+        "E Ihu, homai ki a matou te rangimarie hohonu e mau tonu ana i a koe.",
+        "Kia tau to rangimarie hei tiaki i toku ngakau me toku hinengaro i tenei ra.",
+        "Ko nga mea e kore e taea e au te whakahaere, ka tukuna atu e ahau ki a koe.",
+        "Kua nui to rangimarie. Ka okioki ahau ki roto. Āmine."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "Mihi Tuatahi",
+      "script": [
+        "I mua i te rarangi mahi, kotahi okioki. Kotahi te manawa mihi.",
+        "E te Matua, whakawhetai ki a koe mo te whakaoho i ahau ki tetahi atu ra o te aroha noa.",
+        "Mauruuru koe mo te manawa, mo te marama, mo te wharangi hou.",
+        "Ma te mihi, kaua e tere, e whakatakoto te tangi o taku ata.",
+        "Ka timata ahau i tenei ra me te mihi. Āmine."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Takoto ki raro",
+      "script": [
+        "Kua mutu te ra. Kua mahia e koe nga mea ka taea e koe, a kua ranea.",
+        "E te Ariki, kua hoatu e ahau ki a koe nga mea katoa kahore ano kia oti.",
+        "Ko nga awangawanga ka kawea e ahau ki te pouri, ka waiho e ahau ki a koe.",
+        "Ko koe e tuku okiokinga ana ki au tamariki. Homai ki ahau inaianei.",
+        "Takoto ana ahau i runga i te rangimarie, e whakawhirinaki ana ki a koe anake hei tiaki i ahau. Āmine."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "I runga i te hunga e aroha ana ahau",
+      "script": [
+        "Kawea mai ki te hinengaro ia tangata e aroha ana koe. Puritia o ratou kanohi mo tetahi wa.",
+        "E te Matua, tiakina te hunga kua tukua mai ki ahau.",
+        "Tiakina ratou ahakoa haere, ahakoa hoki mai.",
+        "Ko te wahi ka mahue i ahau, ma tou atawhai e hipoki te aputa.",
+        "Kia mau ki roto i tou ringa, kia tata atu i ahau. Āmine."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Te kaha ki te muru hara",
+      "script": [
+        "Manawa. He uaua tenei, e mohio ana te Atua.",
+        "E te Ariki, i murua e koe he utu nui. Homai he kaha ki te muru hara.",
+        "Ka kawea mai e ahau te ingoa, te mahara, te patunga, ka mau ahau ki a koe.",
+        "Whakaorangia ahau i te kawe i nga mea ehara i ahau hei kawe.",
+        "Whakaorangia nga mea ka tuwhera te murunga. Whakaorangia ahau. Āmine."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "I raro i ona Pakau",
+      "script": [
+        "Ka rongo i te taumaha o te ra ka wehe atu i o pakihiwi.",
+        "Ko te hunga e noho tata ana ki te Runga Rawa ka okioki i raro i tana tiaki.",
+        "E te Ariki, hipokina ahau i tenei po, ano he manu e hipoki ana i ana pi.",
+        "Karekau he wehi ki te po, karekau he wehi mo apopo, ko tau tiaki anake.",
+        "E kore ahau e mataku, nō te mea ka mau tonu tō tiaki pono i te pō. Āmine."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "Ina He ngoikore ahau",
+      "script": [
+        "Kare koe e whai kia kaha koe ki konei.",
+        "E te Ariki, kia kitea tou kaha i runga i toku ngoikoretanga.",
+        "Na konei taku ngoikoretanga, ka mutu taku huna i a koe.",
+        "Kia kaha ki te wahi karekau he mea e toe ana.",
+        "Ko to aroha noa te mea e hiahiatia ana e ahau. Heoi ano. Āmine."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "Inaianei tonu, Tena koe",
+      "script": [
+        "He mihi uaua ake tenei. Manawa, kia noho pono.",
+        "E te Matua, aianei nei ano, ka tatari ahau ki tou ringa.",
+        "Mauruuru koe mo te kore e waiho i ahau anake i roto.",
+        "Nga mihi ki a koe ehara tenei wa i te mutunga o nga korero.",
+        "Ka whiriwhiri au i te mihi, ehara i te mea he ngawari, engari he pai koe. Āmine."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "Te Koha o te Ata Noho",
+      "body": "Ko te nuinga o tātou ka tūtaki ki te ata kua rere kē—ngā karere, ngā upoko kōrero, ngā kawenga. I tuhia te Waiata 46 i te wā o te ngangau, engari e tono ana kia whakatā marire tātou i mua i te Atua. Ehara te ata noho i te kore mahi; he maumahara kē ko wai kei te pupuri i ngā mea katoa. Mō ngā meneti e rua, tukuna ō pakihiwi kia heke. Ka huri tonu te ao ahakoa kāore koe e āwhina; ehara tēnā i tō ngoikoretanga, engari he tohu o tōna pono.",
+      "prayer": "E te Ariki, whakamutua te ngangau i roto i ahau. Awhinatia ahau ki te whakawhirinaki ko koe te Atua, ehara ahau. Āmine."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Te Kaha ehara i a koe",
+      "body": "I tuhi a Paora mō te whiwhi kaha mā roto i a te Karaiti i a ia i te whare herehere, ehara i te tū ki runga tihi maunga. Ko te kaha e whakaahuatia ana e ia ehara i te maia ki a ia ano; he kaha tarewa, ko te ahua ka tae mai i te wa e pau ai to. Ko nga mea katoa e tono ai koe i tenei ra, kare rawa koe i kii hei kawe anake. Uia mai. Whiwhi. Hīkoi.",
+      "prayer": "E Ihu, hei kaha moku kei te ngoikore ahau i tenei ra. Ka hoatu e ahau ki a koe nga mea e tino taumaha ana. Āmine."
+    },
+    {
+      "id": "devotional-003",
+      "title": "Arahina, Kaore i Peia",
+      "body": "Ko te hepara e haere ana i mua; ka pana te taraiwa mai i muri. Ko te Waiata 23 e kii ana ma te Atua e arahi, ki nga wahi tarutaru hou, ki te taha o nga wai ata noho. Mēnā kua rite tō whakapono ki te panaia—te whakahohoro, te pēhi, te whakamataku—ehara taua reo i tō te Hepara. I tenei ra, whakarongo ki te reo e arahi marie ana, ka whai i tetahi taahiraa i ia wa.",
+      "prayer": "E te hepara o toku wairua, whakaakona ahau ki te tangi o tou reo. Arahina ahau i tenei ra. Āmine."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Okioki mo te hunga ngenge",
+      "body": "I tono a Ihu i te hunga ngenge me te taumaha kia whakatata mai; kāore ia i whakawhāiti i tana pōwhiri ki te hunga kua pai katoa ngā mea. Ko te okiokinga ehara i te utu mo te whakaoti i au mahi; he mea homai noa i waenganui. Haere mai kia rite ki a koe, no te mea ko te ngakau tena o te powhiri.",
+      "prayer": "E te Ariki, kua ngenge ahau. Hokona taku taumahatanga mo to okiokinga. Āmine."
+    },
+    {
+      "id": "devotional-005",
+      "title": "He Anamata me te Tūmanako",
+      "body": "Heremaia 29:11 i tuhia ki nga whakarau, ki te hunga kua taka nei o ratou whakaaro. Ehara te kupu whakaari a te Atua i te whakaoranga wawe; engari e whakaatu ana kāore ia i wareware ki tana iwi. Ko to takahuritanga ehara i te mutunga o to korero. Kei te tuhi tonu te Kaituhi.",
+      "prayer": "E te Matua, ki te kore ahau e kite i te huarahi, awhinatia ahau ki te whakawhirinaki ki a ia. Āmine."
+    },
+    {
+      "id": "devotional-006",
+      "title": "Riro ki roto",
+      "body": "Ko to mohiotanga he taputapu pai, he rangatira whakamataku. E karanga ana ngā Whakataukī kia whakawhirinaki tātou me te ngākau katoa, ehara nā te mea he hē te whakaaro, engari he whāiti tā tātou tirohanga. Kawea mai ki te Atua te whakatau ka huri tonu koe. Na whakarongo roa atu i to korero.",
+      "prayer": "E te Ariki, e whakawhirinaki ana ahau ki a koe me taku whakaaro i tenei wa. Whakatikatika toku ara. Āmine."
+    },
+    {
+      "id": "devotional-007",
+      "title": "Ko te rongoa mo te awangawanga",
+      "body": "Ko te whakahaunga a Paora mo te awangawanga he tino rerekee: inoi mo nga mea katoa, me te whakanui i te whakawhetai. Ko te mihi ehara i te whakakahore, kei te whakanui i te anga kia hoki mai ra ano te pono o te Atua o mua ki te pikitia. Whakaingoatia e toru nga mea e mihi ana koe. Kia mataara he aha tana mahi ki te wehi.",
+      "prayer": "E te Atua o te rangimarie, tiakina toku ngakau me toku hinengaro i tenei ra. Ka hoatu e ahau aku awangawanga ki a koe, takitahi. Āmine."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Marama i te pouri",
+      "body": "Kāore a Hoani i kī ka noho te ao kāore he pōuri. I oati ia e kore te pouri e wikitoria. Ko te rama kotahi e kore e tautohetohe ki te po; ka wera noa, ka mutu te pouri. Kaore koe e whakatika i nga mea katoa i tenei ra. Ko koe anake me pupuri i to rama iti, me te whakawhirinaki ki te Maramatanga ake hei mahi i era atu.",
+      "prayer": "E Ihu, Marama o te ao, whiti mai ki nga kokonga o au e pouri nei i tenei ra. Āmine."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Kati mo tenei ra",
+      "body": "Kaore i taea te pupuri te mana. I ia ata, i ia ata, he nui te huihuinga o te iwi, a hei apopo ka huihui ano. Ka whakaakona tatou e te Atua ki te whakawhirinaki i te ra kotahi i te wa, ehara i te mea he kaipahua ia, engari na te kai o ia ra ka hanga hononga mo ia ra. Kaua e kawe te taumaha o apopo ki tenei ra. I tenei ra kua nui tona aroha noa.",
+      "prayer": "E te Matua, homai ki ahau aianei taku taro mo tenei ra, me te rangimarie ka waiho ki a koe apopo. Āmine."
+    },
+    {
+      "id": "devotional-010",
+      "title": "E mohiotia ana, e arohaina ana",
+      "body": "I mua i to hanga whakaaro kotahi i tenei ata, kua mohio koe. E ai ki te Waiata 139, na te Atua koe i hono tahi me te mohio ki te wa e noho ana koe me te wa e ara koe. Ehara koe i te tauhou ki te tono whakaaro. He tamaiti koe, e tino mohiotia ana, e miharo ana, e tino arohaina ana. Me waiho tena hei turanga mo koutou i tenei ra.",
+      "prayer": "E te Ariki, whakawhetai ki a koe kua tino mohiotia ahau me te aroha tonu. Whakamaua ahau ki tera. Āmine."
+    },
+    {
+      "id": "devotional-011",
+      "title": "Ko te Whakarongo Roa",
+      "body": "He iti noa ngā wā ka whakaari nui te pono. Ko te nuinga ka puta, kotahi te inoi, kotahi te atawhai, kotahi te whiriwhiri pono i te wa kotahi. Ka whakairohia e te awa te awaawa ehara ma te kaha engari ma te hoki ki te ara kotahi ia ra. Ko taau iti, ae ki te Atua kei te mahi nui atu i ta koe e kite. Hoki tonu mai.",
+      "prayer": "E te Ariki, meinga ahau kia pono i nga mea iti i tenei ra, me te whakawhirinaki ki a koe me te ahua o te katoa. Āmine."
+    },
+    {
+      "id": "devotional-012",
+      "title": "I te wa ka wareware koe",
+      "body": "Ko Hakara, ko ia anake i te koraha, i mohio ko te Atua te tangata i kite pono ia ia. I te kore tētahi atu i kite i a ia, i kite te Atua. Mena ka whakaaro koe i tenei ra ka warewarehia koe, e te tangata, e nga ahuatanga, ahakoa na ou ake tumanako, mahara kei te kitea koe. Kaore he mea mo to oranga e kore e kitea e te tangata e mohio ana ki nga whetu katoa.",
+      "prayer": "E te Atua e kite ana i ahau, whakawhetai ki a koe kaore au i te tino mokemoke. Tutaki mai ki konei. Āmine."
+    },
+    {
+      "id": "devotional-013",
+      "title": "Ko te Koha Kaore koe i Whiwhi",
+      "body": "He kino te aroha ki te taha o tatou e hiahia ana ki te whai waahi. Engari he marama nga Epeha: na te aroha noa koe i ora ai, i runga i te whakapono, ehara tenei i a koe ano, engari he mea homai noa. Ka taea e koe te whakamutu i te whakamatautau mo te aroha kei a koe. Ko te okiokinga ehara i te utu mo te whakaoti; na te mea homai e timata ano koe.",
+      "prayer": "E te Matua, ka whiwhi ahau i nga mea e kore e taea e au. Mauruuru koe mo te aroha noa. Whakaakona ahau ki te okioki i roto. Āmine."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Nga awa i te Koraha",
+      "body": "E korero ana a Ihaia mo nga awa i te koraha, he wai e oati ai koe, e kore e tupu. Ko to wa maroke ehara i te mutunga o te korero. He tohunga te Atua ki te whakatipu i te ora ki nga waahi tika i tuhia e tatou. Tirohia te whenua i whakarerea e koe. Kare ano ia i oti i reira.",
+      "prayer": "E te Ariki, kawea mai he awa ki te wahi maroke i roto i ahau. Kei te whakawhirinaki ahau ki a koe ki te hanga mea hou. Āmine."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Te Maka, Kaua e Kawea",
+      "body": "Ka whakamahia e Pita tetahi kupu tinana: maka. Maka atu to manukanuka ki runga ki te Atua i te huarahi ka makahia e koe he putea taumaha i runga i ou pokohiwi. E ako ana ia kia pērā tātou nā te mea e tino whakaaro nui ana te Atua ki a tātou. Ko te maaharahara he ahua whai hua, me te mea ka huri pinepine ka whakaoti. E kore e. Ko te inoi ka neke te taumaha ki te Kotahi anake te kaha ki te pupuri.",
+      "prayer": "E te Ariki, ka tukuna atu e ahau taku awangawanga ki a koe, ehara i te mea ko te kupu anake. Mauria nga mea e kore e taea e au. Āmine."
+    },
+    {
+      "id": "devotional-016",
+      "title": "Te Reo E Karanga Mai Ana Koe",
+      "body": "I mua i te mahi a Ihu i tētahi merekara, i whakapuaki te Matua ko ia tana Tama e arohaina ana. Ko tana aroha i puta tuatahi mai, ehara i te utu mo te mahi. Kei a koe ano. Kaore koe e whai ki te whakatutuki i to huarahi ki te aroha. Ka mahi koe ma te aroha, ehara i te mea.",
+      "prayer": "E te Matua, kia rongo ahau ka karanga koe i ahau e arohaina ana i mua i taku mahi i tetahi mea i tenei ra. Āmine."
+    },
+    {
+      "id": "devotional-017",
+      "title": "Kaua e whakahawea ki nga timatanga iti",
+      "body": "Ka ui a Hakaraia ko wai e maia ki te whakahawea ki te ra o nga mea iti. E hiahia ana matou ki te whare karakia kua oti; E pai ana te Atua ki te kohatu i whakatakotoria tuatahitia. Ko nga mea katoa ka timata koe, he tikanga, he rongoa, he houhanga rongo, kaua e ine ki te iti o te ahua o tenei ra. Ko nga mea nui ka timata i nga wa katoa ma te iti.",
+      "prayer": "E te Ariki, manaakitia te timatanga iti i mua i ahau. Awhinatia ahau i te mea iti. Āmine."
+    },
+    {
+      "id": "devotional-018",
+      "title": "Ka whakahokia e ia",
+      "body": "Kāore te hepara o Waiata 23 e pana i ngā hipi ina kua pau tō rātou kaha. Nana ratou i mea kia takoto; E arahina ana ratou e ia ki te wai ata noho; Ka whakahokia e ia te wairua. Mena kei te oma kau koe, ko te mea tino tapu ka taea e koe ko te whakamutu. Ko te whakahoki mai ehara i te mangere. Ko te ngohengohe ki te Atua nana koe i hanga kia okioki.",
+      "prayer": "E te hepara, arahina ahau ki te taha o nga wai ata noho inaianei. Whakahokia mai te mea kua memeha i roto i ahau. Āmine."
+    },
+    {
+      "id": "devotional-019",
+      "title": "Te aroha i roto i te noa",
+      "body": "Ko te whakaahuatanga rongonui a Paora mo te aroha ehara i te mea ngakau, he mahi, tata noa. Te manawanui. Ataahua. Kaore i te ngawari te riri. Karekau he rekoata o nga he. Ko te aroha tenei me ona ringaringa takai, aroha mo nga ahiahi o te Turei me nga tangata uaua. Kaua e ui \"kei te aroha ahau?\" engari \"Ka taea e au te manawanui i konei, te atawhai i konei, me te muru hara i konei?\"",
+      "prayer": "E te Ariki, kia manawanui ahau, kia atawhai i tenei ra, ina koa he utu ki ahau. Āmine."
+    },
+    {
+      "id": "devotional-020",
+      "title": "Te Taumaha o te kororia",
+      "body": "Ahakoa i whiua, i mauheretia hoki a Paora, i titiro ia ki ōna raruraru mā te tirohanga o te korōria mutunga kore. Nā reira i taea ai e ia te ū tonu. He pono tō mamae; kāore ia e whakaiti ana i tērā. Engari ehara i te mea nui rawa atu e kitea ana. Kei te haere mai tētahi mea nui ake, atawhai ake hoki.",
+      "prayer": "E te Matua, i te wa e taumaha ana i tenei ra, anga ake oku kanohi ki te mea mau tonu. Kawea ahau. Āmine."
+    },
+    {
+      "id": "devotional-021",
+      "title": "Hoki mai ki ahau",
+      "body": "Ko te kupu e tino whakahuatia ana e ngā poropiti, ehara ko “kia kaha ake te whakamātau”, engari ko “hoki mai”. Kei te karanga tonu te Atua ki tana iwi kia hoki mai, ehara ma te kauhau, engari ma te ringa tuwhera. Mena kua paheke koe, he poto ake te huarahi ki te kainga i to mataku. Kotahi te hurihanga pono o te ngakau, ka kite koe i a ia e rere ana ki a koe.",
+      "prayer": "E te Matua, ka hoki atu ahau ki a koe i tenei ra. Mauruuru koe mo te tutaki i ahau i mua i taku taenga atu. Āmine."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Kia Ata Noho",
+      "body": "E tono ana te Waiata 46 kia ata noho tātou, kia maumahara ko wai te Atua. Ko te ata noho te tuatahi, katahi ko te mohio. Ka ngana taatau ki te whakaaro i to maatau huarahi ki te rangimarie ka mutu ka raru. I ētahi wā ko te whakapono he whakamutu noa i te tohe, he whakawātea i ō ringa kia maumahara ai ko wai tonu kei te pupuri i te ao. Ehara i te mea ko koe.",
+      "prayer": "E te Atua, whakamutua taku tautohe. Awhinatia ahau kia roa tonu te mahara ko koe te Atua. Āmine."
+    },
+    {
+      "id": "devotional-023",
+      "title": "Te Hoa Noho",
+      "body": "E ai ki nga whakatauki he hoa ka piri atu i te tuakana. I roto i te ao o te hunga e haere mai ana, e haere ana, ko Ihu te tangata e noho ana, na roto i te kore, te wahangu, te po roa. Kare koe i tino nui ki a ia, a kaore koe i tawhiti rawa atu. Kaore ia e rapu take mo te wehe. Ko ia te hoa noho.",
+      "prayer": "E Ihu, whakawhetai koe mo te noho i te wa e kore e taea e etahi atu. Awhinatia ahau kia okioki i runga i tou pono. Āmine."
+    },
+    {
+      "id": "devotional-024",
+      "title": "Ka Tae Mai te Hari i te Ata",
+      "body": "E whakaae ana te kaituhi waiata ka kī te pō i te tangi. He pono te po, engari ehara i te mea pumau. Ko te pouri he ata kei tera taha, a ko te Atua e pupuri ana i ou roimata kaore i ngaro tetahi. Kia mau. He oati te ata, ehara i te mea pea.",
+      "prayer": "E te Ariki, i taku po, awhinatia ahau kia whakawhirinaki ki te ata i korerotia e koe. Puritia aku roimata. Āmine."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "E whitu nga ra o te rangimarie",
+      "tagline": "Mo nga wa awangawanga, kia kotahi te waahi whakamaarama i te ra."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "Te Wiki Whakawhetai",
+      "tagline": "Whakahouhia o kanohi kia kite i te aroha noa ki nga waahi katoa."
+    },
+    {
+      "id": "psalms-30",
+      "title": "30 Nga ra i roto i nga Waiata",
+      "tagline": "Ko te pukapuka inoi o te Paipera, kotahi waiata i te wa kotahi."
+    },
+    {
+      "id": "gospels-90",
+      "title": "Ko te Ora o Ihu i roto i nga ra 90",
+      "tagline": "Haere i roto i nga Rongopai e wha."
+    },
+    {
+      "id": "bible-365",
+      "title": "Paipera i te tau",
+      "tagline": "Te korero katoa, 20 meneti ia ra."
+    }
+  ]
+}

@@ -18,6 +18,7 @@ import { useArtwork } from '@/hooks/useArtwork';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
+import { getDirectionalIconName } from '@/i18n/direction';
 
 interface Props {
   icon: keyof typeof Ionicons.glyphMap;
@@ -35,7 +36,7 @@ const CARD_W = 360; // approximate; the shimmer just needs to travel past the ed
 export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }: Props) {
   const t = useTheme();
   const artwork = useArtwork();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const hasArt = !!(art && artwork.source(art));
   const titleColor = hasArt ? '#FFFFFF' : t.ink;
   const subColor = done ? t.gold : hasArt ? artwork.foreground.secondary : t.inkSoft;
@@ -169,7 +170,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
             justifyContent: 'center',
           }}
         >
-          <Ionicons name="chevron-forward" size={22} color={chevColor} />
+          <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={22} color={chevColor} />
         </View>
       )}
     </Pressable>

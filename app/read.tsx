@@ -15,11 +15,12 @@ import { useHighlightStore } from '@/state/useHighlightStore';
 import { ReadingSettingsSheet } from '@/components/ReadingSettingsSheet';
 import { VerseActionSheet, type SelectedVerse } from '@/components/VerseActionSheet';
 import { useT } from '@/i18n';
+import { getDirectionalIconName } from '@/i18n/direction';
 import { useScriptureLocale } from '@/i18n/scripture';
 import { RTL_LOCALE_TAGS } from '@/i18n/globalLanguageCatalog';
 
 export default function Read() {
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const scriptureLocale = useScriptureLocale();
   const scriptureRtl = RTL_LOCALE_TAGS.includes(scriptureLocale);
   const insets = useSafeAreaInsets();
@@ -123,9 +124,9 @@ export default function Read() {
         opacity: enabled ? 1 : 0.4,
       }}
     >
-      {dir === 'prev' ? <Ionicons name="chevron-back" size={16} color={rt.inkSoft} /> : null}
+      {dir === 'prev' ? <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={16} color={rt.inkSoft} /> : null}
       <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: rt.inkSoft }}>{label}</Text>
-      {dir === 'next' ? <Ionicons name="chevron-forward" size={16} color={rt.inkSoft} /> : null}
+      {dir === 'next' ? <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={16} color={rt.inkSoft} /> : null}
     </Pressable>
   );
 
@@ -149,7 +150,7 @@ export default function Read() {
             borderColor: rt.border,
           }}
         >
-          <Ionicons name="chevron-back" size={24} color={rt.inkSoft} />
+          <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={24} color={rt.inkSoft} />
         </Pressable>
         <Pressable
           onPress={() => setPicker('books')}
@@ -336,7 +337,7 @@ export default function Read() {
             >
               {typeof picker === 'number' ? (
                 <Pressable onPress={() => setPicker('books')} hitSlop={8} accessibilityRole="button">
-                  <Ionicons name="chevron-back" size={22} color={rt.inkSoft} />
+                  <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={22} color={rt.inkSoft} />
                 </Pressable>
               ) : null}
               <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: rt.ink }}>
@@ -371,7 +372,7 @@ export default function Read() {
                     >
                       {item.name}
                     </Text>
-                    <Ionicons name="chevron-forward" size={16} color={rt.inkFaint} />
+                    <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={16} color={rt.inkFaint} />
                   </Pressable>
                 )}
               />

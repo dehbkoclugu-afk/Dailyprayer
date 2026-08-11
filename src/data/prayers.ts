@@ -1,5 +1,6 @@
 import { useT } from '@/i18n';
 import type { Locale } from '@/i18n/translations';
+import { getRegisteredApplicationContentPack } from '@/i18n/applicationContent';
 
 /** Guided prayer library. `plus` marks premium content. */
 export interface GuidedPrayer {
@@ -1170,14 +1171,22 @@ const NL: Overlay = {
   'thankful-in-hard-times': { title: 'Ook Nu, Dank U', script: ['Dit is moeilijkere dankbaarheid. Adem en blijf eerlijk.', 'Vader, zelfs nu, midden hierin, zoek ik Uw hand.', 'Dank U dat U mij hierin niet alleen laat.', 'Dank U dat dit seizoen niet het einde van het verhaal is.', 'Ik kies voor dank, niet omdat het makkelijk is, maar omdat U goed bent. Amen.'] },
 };
 
-const OVERLAYS: Record<Exclude<Locale, 'en'>, Overlay> = { tr: TR, es: ES, pt: PT, fr: FR, de: DE, it: IT, nl: NL };
+const OVERLAYS: Partial<Record<Exclude<Locale, 'en'>, Overlay>> = { tr: TR, es: ES, pt: PT, fr: FR, de: DE, it: IT, nl: NL };
 
 /** Guided prayers localized to the active locale (English fallback). */
 export function getPrayers(locale: Locale): GuidedPrayer[] {
+  const pack = getRegisteredApplicationContentPack(locale);
+  if (pack) {
+    const localized = new Map(pack.prayers.map((prayer) => [prayer.id, prayer]));
+    return prayers.map((prayer) => {
+      const content = localized.get(prayer.id)!;
+      return { ...prayer, title: content.title, script: content.script };
+    });
+  }
   if (locale === 'en') return prayers;
   const overlay = OVERLAYS[locale];
   return prayers.map((p) => {
-    const o = overlay[p.id];
+    const o = overlay?.[p.id];
     return o ? { ...p, title: o.title, script: o.script } : p;
   });
 }

@@ -1,4 +1,6 @@
 import type { Locale } from '@/i18n/translations';
+import { DEVOTIONAL_CONTENT_IDS } from '@/data/applicationContentPack';
+import { getRegisteredApplicationContentPack } from '@/i18n/applicationContent';
 
 /** 2-minute daily devotionals, rotate by day-of-year. Expand toward 365. */
 export interface Devotional {
@@ -1372,11 +1374,19 @@ const devotionalsNL: Devotional[] = [
   { title: 'Vreugde Komt met de Morgen', body: 'Psalm 30 ontkent de tranen van de nacht niet, maar geeft de nacht ook niet het laatste woord. Verdriet is echt zonder eeuwig te zijn. God verliest geen van je tranen uit het oog terwijl je op een nieuwe morgen wacht. Houd vol: de nacht is niet het hele verhaal.', prayer: 'Heer, help mij in mijn nacht te vertrouwen op de morgen die komt. Bewaar mijn tranen. Amen.' },
 ];
 
-const DEVOTIONALS: Record<Exclude<Locale, 'en'>, Devotional[]> = {
+const DEVOTIONALS: Partial<Record<Exclude<Locale, 'en'>, Devotional[]>> = {
   tr: devotionalsTR, es: devotionalsES, pt: devotionalsPT, fr: devotionalsFR, de: devotionalsDE, it: devotionalsIT, nl: devotionalsNL,
 };
 
 /** Devotionals localized to the active locale (English fallback). */
 export function getDevotionals(locale: Locale): Devotional[] {
-  return locale === 'en' ? devotionals : DEVOTIONALS[locale];
+  const pack = getRegisteredApplicationContentPack(locale);
+  if (pack) {
+    const localized = new Map(pack.devotionals.map((devotional) => [devotional.id, devotional]));
+    return devotionals.map((_, index) => {
+      const content = localized.get(DEVOTIONAL_CONTENT_IDS[index]!)!;
+      return { title: content.title, body: content.body, prayer: content.prayer };
+    });
+  }
+  return locale === 'en' ? devotionals : DEVOTIONALS[locale] ?? devotionals;
 }

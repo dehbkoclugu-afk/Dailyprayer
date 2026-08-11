@@ -10,6 +10,7 @@ import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { getBible } from '@/data/bibleFull';
 import { useT } from '@/i18n';
+import { getDirectionalIconName } from '@/i18n/direction';
 import { useScriptureLocale } from '@/i18n/scripture';
 
 interface Hit {
@@ -27,7 +28,7 @@ const MAX = 300;
 export default function Search() {
   const t = useTheme();
   const artwork = useArtwork();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const scriptureLocale = useScriptureLocale();
   const insets = useSafeAreaInsets();
   const [query, setQuery] = useState('');
@@ -88,7 +89,7 @@ export default function Search() {
             borderColor: t.border,
           }}
         >
-          <Ionicons name="chevron-back" size={24} color={t.inkSoft} />
+          <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={24} color={t.inkSoft} />
         </Pressable>
         <View
           style={{

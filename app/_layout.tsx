@@ -24,6 +24,14 @@ import { initPurchases } from '@/services/purchases';
 import { loadInstalledBiblePack } from '@/services/biblePacks';
 import { registerDownloadedBiblePack } from '@/data/bibleFull';
 import { isBundledScriptureLocale } from '@/i18n/scripture';
+import { resolveLocale, resolveRequestedApplicationLocale } from '@/i18n';
+import { getApplicationDirection } from '@/i18n/direction';
+import {
+  BUNDLED_APPLICATION_CONTENT_LOCALES,
+  restoreInstalledApplicationLocale,
+} from '@/i18n/applicationLanguageActivation';
+import { registerApplicationContentPack } from '@/i18n/applicationContent';
+import { loadInstalledApplicationContentPack } from '@/services/applicationContentPacks';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -31,6 +39,7 @@ export default function RootLayout() {
   const t = useTheme();
   const scheme = useColorScheme();
   const pref = useUserStore((s) => s.themePreference);
+  const language = useUserStore((s) => s.language);
   const [loaded, fontError] = useFonts({
     // Ionicons glyph font , without this the icons render blank in release
     // builds (empty buttons, missing chevrons/play controls).
@@ -49,6 +58,7 @@ export default function RootLayout() {
   // (the emulator smoke test can't catch this , the process stays alive).
   const [ready, setReady] = useState(false);
   const [scriptureReady, setScriptureReady] = useState(false);
+  const [applicationContentReady, setApplicationContentReady] = useState(false);
   useEffect(() => {
     if (loaded || fontError) setReady(true);
   }, [loaded, fontError]);
@@ -89,6 +99,35 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
+    let active = true;
+    let unsubscribe = () => {};
+
+    const restoreApplicationContent = () => {
+      const user = useUserStore.getState();
+      const locale = resolveRequestedApplicationLocale(user.language);
+      if ((BUNDLED_APPLICATION_CONTENT_LOCALES as readonly string[]).includes(locale)) {
+        if (active) setApplicationContentReady(true);
+        return;
+      }
+      restoreInstalledApplicationLocale(locale, {
+        loadInstalled: loadInstalledApplicationContentPack,
+        register: registerApplicationContentPack,
+      })
+        .finally(() => {
+          if (active) setApplicationContentReady(true);
+        });
+    };
+
+    if (useUserStore.persist.hasHydrated()) restoreApplicationContent();
+    else unsubscribe = useUserStore.persist.onFinishHydration(restoreApplicationContent);
+
+    return () => {
+      active = false;
+      unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
     initPurchases();
     // App-open streak tick (YouVersion pattern): opening the app keeps the flame lit.
     const streak = useStreakStore.getState();
@@ -104,8 +143,10 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
-    if (ready) SplashScreen.hideAsync().catch(() => {});
-  }, [ready]);
+    if (ready && scriptureReady && applicationContentReady) {
+      SplashScreen.hideAsync().catch(() => {});
+    }
+  }, [applicationContentReady, ready, scriptureReady]);
 
   // Web static export renders build-time HTML with default state; persisted
   // stores + locale only exist client-side, so hydrate after mount to avoid
@@ -115,28 +156,32 @@ export default function RootLayout() {
 
   // Render marker for the smoke test , a stuck splash never logs this.
   useEffect(() => {
-    if (ready && mounted) console.log('LUMEN_UI_READY');
-  }, [ready, mounted]);
+    if (ready && mounted && scriptureReady && applicationContentReady) {
+      console.log('LUMEN_UI_READY');
+    }
+  }, [applicationContentReady, ready, mounted, scriptureReady]);
 
-  if (!ready || !mounted || !scriptureReady) return null;
+  if (!ready || !mounted || !scriptureReady || !applicationContentReady) return null;
 
   const dark = pref === 'system' ? scheme !== 'light' : pref === 'vigil';
+  const direction = getApplicationDirection(resolveLocale(language));
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{ flex: 1, direction }}>
       <StatusBar style={dark ? 'light' : 'dark'} />
       <Stack
         screenOptions={{
           headerShown: false,
-          contentStyle: { backgroundColor: t.bg },
+          contentStyle: { backgroundColor: t.bg, direction },
         }}
       >
         <Stack.Screen name="paywall" options={{ presentation: 'modal' }} />
         <Stack.Screen name="player" options={{ presentation: 'modal' }} />
         <Stack.Screen name="devotional" options={{ presentation: 'card' }} />
         <Stack.Screen name="legal" options={{ presentation: 'card' }} />
-<Stack.Screen name="plan" options={{ presentation: 'card' }} />
+        <Stack.Screen name="plan" options={{ presentation: 'card' }} />
         <Stack.Screen name="scripture-language" options={{ presentation: 'card' }} />
+        <Stack.Screen name="application-language" options={{ presentation: 'card' }} />
       </Stack>
       <ToastHost />
     </GestureHandlerRootView>

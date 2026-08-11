@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "locale": "eo",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "Kiu tradicio sentigas vin hejme?",
+      "subtitle": "Ni adaptos viajn preĝojn kaj planojn al ĝi.",
+      "options": [
+        {
+          "value": "catholic",
+          "label": "Katolika"
+        },
+        {
+          "value": "protestant",
+          "label": "Protestanta"
+        },
+        {
+          "value": "orthodox",
+          "label": "Ortodoksa"
+        },
+        {
+          "value": "nondenominational",
+          "label": "Sendenominacia"
+        },
+        {
+          "value": "exploring",
+          "label": "Mi ankoraŭ esploras"
+        }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "Kion vi esperas kreskigi en vi?",
+      "subtitle": "Elektu ĉiujn taŭgajn respondojn.",
+      "affirmation": "Vi estas en bona kompanio — 73% de la membroj aliĝis pro la sama kialo.",
+      "options": [
+        {
+          "value": "habit",
+          "label": "Ĉiutaga preĝkutimo"
+        },
+        {
+          "value": "closer",
+          "label": "Pli granda proksimeco al Dio"
+        },
+        {
+          "value": "peace",
+          "label": "Pli da paco kaj malpli da maltrankvilo"
+        },
+        {
+          "value": "sleep",
+          "label": "Pli bona dormo"
+        },
+        {
+          "value": "bible",
+          "label": "Kompreno de la Biblio"
+        },
+        {
+          "value": "gratitude",
+          "label": "Dankema koro"
+        }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "Kio lastatempe pezas sur vi?",
+      "subtitle": "Via respondo restas privata kaj formas vian planon.",
+      "affirmation": "Dankon pro via fido. La Skribo renkontas homojn ĝuste ĉi tie.",
+      "options": [
+        {
+          "value": "anxiety",
+          "label": "Maltrankvilo aŭ zorgo"
+        },
+        {
+          "value": "loneliness",
+          "label": "Soleco"
+        },
+        {
+          "value": "grief",
+          "label": "Funebro aŭ perdo"
+        },
+        {
+          "value": "direction",
+          "label": "Serĉado de direkto"
+        },
+        {
+          "value": "consistency",
+          "label": "Konsekvenco"
+        },
+        {
+          "value": "none",
+          "label": "Mi fartas bone"
+        }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "Kiom familiara estas preĝado por vi?",
+      "options": [
+        {
+          "value": "new",
+          "label": "Mi ĵus komencas"
+        },
+        {
+          "value": "returning",
+          "label": "Mi revenas post iom da tempo"
+        },
+        {
+          "value": "regular",
+          "label": "Mi preĝas regule"
+        }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "Kiam vi deziras ĉiutagan memorigilon?",
+      "subtitle": "Milda memorigo — neniam trudmesaĝoj.",
+      "options": [
+        {
+          "value": "07:30",
+          "label": "Mateno · 7:30"
+        },
+        {
+          "value": "12:30",
+          "label": "Tagmezo · 12:30"
+        },
+        {
+          "value": "21:00",
+          "label": "Vespero · 21:00"
+        },
+        {
+          "value": "none",
+          "label": "Neniuj memorigoj"
+        }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Matena lumo",
+      "script": [
+        "Malrapide enspiru… kaj elspiru. Antaŭ ol la tago ion petos de vi, restu ĉi tie.",
+        "Sinjoro, dankon pro ĉi tiu mateno, pro la spiro kaj pro nova komenco.",
+        "Mi transdonas al Vi la venontajn horojn: mian laboron, miajn vortojn kaj la homojn, kiujn mi renkontos.",
+        "Kiam mi maltrankvilas, estu mia paco. Kiam mi laciĝas, estu mia forto.",
+        "Helpu min trairi ĉi tiun tagon sen hasto, konsciante, ke Vi estas proksima. Amen."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "Kvietigu la ŝtormon",
+      "script": [
+        "Metu manon sur vian koron. Sentu ĝian batadon — vi vivas kaj estas gardata.",
+        "Jesuo, Vi alportas pacon meze de ŝtormo. Parolu ankaŭ al la mia.",
+        "Nun mi nomas mian zorgon… kaj metas ĝin en Viajn manojn.",
+        "Via paco kuŝiĝu sur mian menson kiel trankvila akvo.",
+        "Hodiaŭ timo ne portos min. Vi portas min. Amen."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "Dankema koro",
+      "script": [
+        "Pensu pri unu bona afero de hodiaŭ, eĉ tre malgranda. Restu kun ĝi momenton.",
+        "Patro, ĉiu bona donaco venas de Vi. Dankon.",
+        "Dankon pro tio, kion mi petis kaj ricevis, kaj pro tio, de kio mi estis ŝirmita.",
+        "Instruu min rimarki la gracon kaŝitan en ordinaraj horoj.",
+        "Dankemo estu la lasta tono de mia tago. Amen."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "En ripozon",
+      "script": [
+        "Lasu la tagon finiĝi. Vi faris tion, kion vi povis — kaj tio sufiĉas.",
+        "Sinjoro, dum mi kuŝiĝas, mi transdonas al Vi ĉion nefinitan.",
+        "Gardu la homojn, kiujn mi amas, dum ni dormas.",
+        "Donu al mi pacan ripozon kaj sekurecon en Vi.",
+        "Malrapidigu mian spiradon… kvietigu miajn pensojn… kaj tenu min ĝis la mateno. Amen."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Benu mian familion",
+      "script": [
+        "Alportu al via menso la vizaĝojn de viaj familianoj, unu post alia.",
+        "Patro, benu ĉiun — en sano, en koro kaj en fido.",
+        "Resanigu la streĉon inter ni; moligu tion, kio malmoliĝis.",
+        "Faru nian hejmon loko de pacienco kaj ridado.",
+        "Kunligu nin en Via amo. Amen."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Kuraĝo por hodiaŭ",
+      "script": [
+        "Rektiĝu dum momento. Profunde spiru.",
+        "Sinjoro, en Vi mi vivas ne kun timo, sed kun potenco, amo kaj klara menso.",
+        "Donu al mi kuraĝon por la konversacio, la tasko kaj la paŝo, kiujn mi evitas.",
+        "Kiam mi ŝanceliĝas, memorigu min, ke Vi iras antaŭ mi.",
+        "Mi estos forta kaj kuraĝa — ne sola, sed kun Vi. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "Nombrante la donacojn",
+      "script": [
+        "Lasu la tagon trankviliĝi. Elspiru tion, kion ĝi petis de vi.",
+        "Patro, antaŭ ol mi nomas tion, kio mankas, lasu min nomi tion, kion mi ricevis.",
+        "Dankon pro la ordinaraj favoroj, kiujn mi hodiaŭ preskaŭ preterpasis.",
+        "Dankon pro la homoj, kiuj varmigas mian vivon.",
+        "Dankema koro estas plena koro. Plenigu la mian ĉi-vespere. Amen."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Trankvilaj akvoj",
+      "script": [
+        "Malstreĉu viajn manojn. Lasu vian spiradon malrapidiĝi kun ĉiu linio.",
+        "Paŝtisto, Vi kondukas min apud trankvilaj akvoj. Konduku min tien nun.",
+        "La pensojn rapidantajn en mi mi metas ĉe Viaj piedoj, unu post alia.",
+        "Renovigu mian animon. Restarigu tion, kion la hodiaŭa tago eluzis.",
+        "Mi ne timos, ĉar Vi estas kun mi. Amen."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "Antaŭ la tago",
+      "script": [
+        "La tago ankoraŭ estas antaŭ vi. Renkontu ĝin ĉi tie, kun Dio, antaŭ ĉio alia.",
+        "Sinjoro, ĉi tiu tago estas Via antaŭ ol ĝi estas mia.",
+        "Iru antaŭ mi en ĉiun ĉambron, en kiun mi eniros, kaj en ĉiun vorton, kiun mi diros.",
+        "Kiam mi emas rapidi, instruu min marŝi.",
+        "Ordigu miajn horojn kaj tenu mian koron proksima al la Via. Amen."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "Paco, kiu gardas",
+      "script": [
+        "Metu ambaŭ piedojn sur la plankon. Vi estas ĉi tie. Dio estas ĉi tie.",
+        "Jesuo, Vi donas al ni veran kaj profundan pacon, malsaman ol tiu de la mondo.",
+        "Tiu paco hodiaŭ gardu mian koron kaj menson kiel gardisto ĉe la pordego.",
+        "Tion, kion mi ne povas regi, mi transdonas al Vi.",
+        "Via paco sufiĉas. Mi ripozas en ĝi. Amen."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "Unua danko",
+      "script": [
+        "Antaŭ la taskolisto, unu paŭzo. Unu dankema spiro.",
+        "Patro, dankon, ke Vi vekis min por alia tago de graco.",
+        "Dankon pro la spiro, pro la lumo kaj pro freŝa paĝo.",
+        "Dankemo, ne hasto, donu la tonon al mia mateno.",
+        "Mi komencas hodiaŭ dankeme. Amen."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Metu ĝin malsupren",
+      "script": [
+        "La tago finiĝis. Vi faris tion, kion vi povis, kaj tio sufiĉas.",
+        "Sinjoro, mi metas en Viajn manojn ĉion nefinitan.",
+        "La zorgojn, kiujn mi portus en la mallumon, mi lasas ĉe Vi.",
+        "Vi donas dormon al tiuj, kiujn Vi amas. Akceptu min nun.",
+        "Mi kuŝiĝas en paco, ĉar Vi gardas min. Amen."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "Super tiuj, kiujn mi amas",
+      "script": [
+        "Pensu pri ĉiu homo, kiun vi amas. Tenu ties vizaĝon en via menso dum momento.",
+        "Patro, gardu tiujn, kiuj estis konfiditaj al mi.",
+        "Gardu iliajn forirojn kaj revenojn.",
+        "Kie mi malsukcesas pri ili, Via graco plenigu la mankon.",
+        "Tenu ilin en Via mano, pli proksime ol mi iam povus. Amen."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Forto por pardoni",
+      "script": [
+        "Spiru. Ĉi tio estas malfacila, kaj Dio scias tion.",
+        "Sinjoro, Vi montris al mi senmezuran pardonon. Donu al mi forton pardoni.",
+        "Mi alportas al Vi la nomon, la memoron kaj la vundon — mi etendas ilin al Vi.",
+        "Liberigu min de portado de tio, kio neniam estis mia portendaĵo.",
+        "Resanigu tion, kion pardono malfermas. Faru min tuta. Amen."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "Sub Liaj flugiloj",
+      "script": [
+        "Sentu la pezon de la tago forlasi viajn ŝultrojn.",
+        "Proksime al la Plejaltulo mi povas ripozi sekure.",
+        "Sinjoro, kovru min ĉi-nokte kiel birdo kovras siajn idojn.",
+        "Neniu timo pri la nokto, neniu zorgo pri morgaŭ — nur Via gardado.",
+        "Mi ne timos, ĉar Vi ĉiam viglas. Bonan nokton, Patro. Amen."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "Kiam mi estas malforta",
+      "script": [
+        "Ĉi tie vi ne devas ŝajnigi vin forta.",
+        "Sinjoro, Via potenco plene montriĝas en mia malforteco.",
+        "Jen mia malforteco — mi ne plu kaŝas ĝin de Vi.",
+        "Estu forta ĝuste tie, kie nenio restas al mi.",
+        "Via graco sufiĉas por mi. Tio sufiĉas. Amen."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "Eĉ nun, dankon",
+      "script": [
+        "Ĉi tio estas pli malfacila dankemo. Spiru kaj restu honesta.",
+        "Patro, eĉ nun, meze de ĉi tio, mi serĉas Vian manon.",
+        "Dankon, ke Vi ne lasis min sola en ĝi.",
+        "Dankon, ke ĉi tiu sezono ne estas la fino de la rakonto.",
+        "Mi elektas dankemon ne ĉar ĝi estas facila, sed ĉar Vi estas bona. Amen."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "La donaco de kvieto",
+      "body": "Plej multaj el ni renkontas la matenon jam kurante — mesaĝoj, novaĵoj, devoj. Psalmo 46 estis verkita dum maltrankvila tempo, tamen en ĝia centro estas invito al kvieto. Kvieti ne signifas fari nenion; ĝi signifas memori, Kiu tenas ĉion. Dum du minutoj mallevu viajn ŝultrojn. La mondo plu turniĝos sen via helpo — ĝi ĉiam faris tion. Tio ne estas via malsukceso. Tio estas Lia fideleco.",
+      "prayer": "Sinjoro, kvietigu la bruon en mi. Helpu min fidi, ke Vi estas Dio kaj mi ne. Amen."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Forto, kiu ne estas via",
+      "body": "Paŭlo skribis pri forto el prizonĉelo, ne de montopinto. La forto, kiun li priskribas, ne estas memfido; ĝi estas ricevita forto, kiu alvenas ĝuste kiam la via finiĝas. Kion ajn hodiaŭ petas de vi, vi neniam devis porti ĝin sola. Petu. Ricevu. Marŝu.",
+      "prayer": "Jesuo, estu mia forto tie, kie mi estas malforta hodiaŭ. Mi transdonas al Vi tion, kio ŝajnas tro peza. Amen."
+    },
+    {
+      "id": "devotional-003",
+      "title": "Gvidata, ne pelata",
+      "body": "Paŝtisto iras antaŭe; pelisto puŝas de malantaŭe. Psalmo 23 montras Dion gvidantan al verdaj paŝtejoj kaj trankvilaj akvoj. Se via fido sentigis vin pelata, rapidigita, premata aŭ timigita, tiu voĉo ne estas de la Paŝtisto. Hodiaŭ aŭskultu la voĉon, kiu gvidas milde, kaj sekvu paŝon post paŝo.",
+      "prayer": "Paŝtisto de mia animo, instruu min rekoni Vian voĉon. Gvidu min hodiaŭ. Amen."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Ripozo por la lacaj",
+      "body": "Jesuo ne vokis nur tiujn, kiuj havas ĉion sub rego. Li vokis la lacajn, la ŝarĝitajn kaj tiujn, kiuj apenaŭ eltenas. Ripozo ne estas rekompenco post finita laboro; ĝi estas donaco meze de ĝi. Venu tia, kia vi estas — jen la tuta invito.",
+      "prayer": "Sinjoro, mi venas laca. Interŝanĝu mian pezon kontraŭ Via ripozo. Amen."
+    },
+    {
+      "id": "devotional-005",
+      "title": "Estonteco kaj espero",
+      "body": "Jeremia 29:11 estis adresita al ekzilitoj — homoj, kies planoj disfalis. La promeso de Dio ne estis tuja savo; ĝi montris Lian karakteron: Li ne forgesis ilin. Via malsukceso ne estas la fino de via rakonto. La Aŭtoro ankoraŭ skribas.",
+      "prayer": "Patro, kiam mi ne vidas la vojon, helpu min fidi Tiun, kiu ĝin vidas. Amen."
+    },
+    {
+      "id": "devotional-006",
+      "title": "Apogu vin",
+      "body": "Via propra kompreno estas bona ilo sed terura mastro. Sentencoj invitas nin fidi per la tuta koro — ne ĉar pensado estas malĝusta, sed ĉar nia vidkampo estas malgranda. Alportu al Dio la decidon, kiun vi senĉese pripensas. Poste aŭskultu pli longe ol vi parolas.",
+      "prayer": "Sinjoro, mi konfidas al Vi la decidon, pri kiu mi nun pensas. Rektigu mian vojon. Amen."
+    },
+    {
+      "id": "devotional-007",
+      "title": "La kontraŭveneno al maltrankvilo",
+      "body": "La respondo de Paŭlo al maltrankvilo estas surprize preciza: preĝu pri ĉio kaj aldonu dankemon. Dankemo ne estas neado; ĝi larĝigas la kadron ĝis la antaŭa fideleco de Dio reaperas en la bildo. Nomu tri aferojn, pro kiuj vi dankas. Rigardu, kion tio faras al la timo.",
+      "prayer": "Dio de paco, gardu hodiaŭ mian koron kaj menson. Mi donas al Vi miajn zorgojn unu post alia. Amen."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Lumo en la mallumo",
+      "body": "Johano ne promesis vivon sen mallumo. Li promesis, ke mallumo ne venkos. Unu kandelo ne disputas kun la nokto; ĝi simple brulas, kaj la mallumo retiriĝas. Vi ne devas ripari ĉion hodiaŭ. Vi nur devas teni vian malgrandan lumon brulanta kaj fidi al Tiu, kiu estas la Lumo mem, pri la cetero.",
+      "prayer": "Jesuo, Lumo de la mondo, brilu hodiaŭ en la anguloj de mi, kiuj sentas sin mallumaj. Amen."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Sufiĉe por hodiaŭ",
+      "body": "Manao ne povis esti konservata. Ĉiumatene la homoj kolektis ĝuste sufiĉe, kaj la sekvan tagon ili kolektis denove. Dio instruas nin fidi po unu tago — ne ĉar Li estas avara, sed ĉar ĉiutaga pano kreas ĉiutagan rilaton. Ne portu la morgaŭan pezon en hodiaŭon. Hodiaŭ havas sufiĉe da propra graco.",
+      "prayer": "Patro, donu al mi hodiaŭ la panon de ĉi tiu tago kaj la pacon lasi morgaŭon ĉe Vi. Amen."
+    },
+    {
+      "id": "devotional-010",
+      "title": "Konata kaj amata",
+      "body": "Antaŭ ol vi formis unu penson ĉi-matene, vi jam estis konata. Psalmo 139 parolas pri Dio, kiu formis vin kaj konas ĉiun vian movon. Vi ne estas fremdulo peteganta atenton. Vi estas infano, plene konata kaj — mirinde — plene amata. Tio estu la grundo sub viaj piedoj hodiaŭ.",
+      "prayer": "Sinjoro, dankon, ke Vi plene konas min kaj tamen plene amas min. Firmigu min en tio. Amen."
+    },
+    {
+      "id": "devotional-011",
+      "title": "La longa obeo",
+      "body": "Fideleco malofte estas drama. Plej ofte ĝi signifas aperi — unu preĝo, unu bonfaro kaj unu honesta elekto post alia. Rivero skulptas kanjonon ne per forto, sed revenante al la sama vojo ĉiutage. Via malgranda, ripetata jes al Dio faras pli ol vi povas vidi. Daŭre revenu.",
+      "prayer": "Sinjoro, faru min fidela en malgrandaj aferoj hodiaŭ, dum mi konfidas al Vi la tuton. Amen."
+    },
+    {
+      "id": "devotional-012",
+      "title": "Kiam vi sentas vin forgesita",
+      "body": "Hagar, sola en la dezerto, nomis Dion Tiu, kiu vidas ŝin. Kiam neniu alia rimarkis ŝin, Li rimarkis. Se hodiaŭ vi sentas vin pretervidata — de homoj, cirkonstancoj aŭ eĉ viaj propraj esperoj — aŭdu ĉi tion: vi estas vidata. Nenio en via vivo estas nevidebla al Tiu, kiu nombras la stelojn kaj konas ĉiun laŭnome.",
+      "prayer": "Dio, kiu vidas min, dankon, ke mi neniam estas vere sola. Renkontu min ĉi tie. Amen."
+    },
+    {
+      "id": "devotional-013",
+      "title": "La donaco, kiun vi ne meritis",
+      "body": "Graco ĝenas la parton de ni, kiu volas meriti sian lokon. Sed Efesanoj klare montras, ke savo per graco kaj fido estas donaco de Dio, ne nia atingo. Vi povas ĉesi pruvi, ke vi meritas la amon, kiun vi jam havas. Ripozo ne estas rekompenco ĉe la fino; ĝi estas la donaco, kiu ebligas rekomenci.",
+      "prayer": "Patro, mi ricevas tion, kion mi neniam povus meriti. Dankon pro graco. Instruu min ripozi en ĝi. Amen."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Riveretoj en la dezerto",
+      "body": "Jesaja parolas pri riveroj en la dezerto — akvo tie, kie vi ĵurus, ke nenio povas kreski. Via seka sezono ne estas la fino de la rakonto. Dio donas vivon ĝuste en la lokoj, kiujn ni forlasis. Rigardu la grundon, pri kiu vi rezignis. Li ankoraŭ ne finis tie.",
+      "prayer": "Sinjoro, alportu riveretojn al la sekaj lokoj en mi. Mi fidas Vin renovigi ĉion. Amen."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Forĵeti, ne porti",
+      "body": "Petro uzas fizikan bildon: forĵetu. Forĵetu vian maltrankvilon sur Dion kiel pezan dorsosakon de viaj ŝultroj, ĉar Li zorgas pri vi. Zorgo ŝajnigas sin utila, kvazaŭ sufiĉa pripensado solvus ĝin. Ne solvos. Preĝo movas la pezon al la sola Tiu sufiĉe forta por teni ĝin.",
+      "prayer": "Sinjoro, mi transdonas al Vi mian zorgon — vere, ne nur per vortoj. Portu tion, kion mi ne povas. Amen."
+    },
+    {
+      "id": "devotional-016",
+      "title": "La voĉo, kiu nomas vin bona",
+      "body": "Antaŭ ol Jesuo faris unu miraklon, la Patro konfirmis, ke Li estas Lia amata Filo kaj plaĉas al Li. La amo venis unue, ne kiel salajro por laboro. Same estas pri vi. Vi ne devas atingi amindecon. Vi povas labori el amo, ne por ĝi.",
+      "prayer": "Patro, lasu min aŭdi Vin nomi min amata antaŭ ol mi faras ion hodiaŭ. Amen."
+    },
+    {
+      "id": "devotional-017",
+      "title": "Ne malŝatu malgrandajn komencojn",
+      "body": "Zeĥarja demandas, kiu kuraĝas malŝati la tagon de malgrandaj aferoj. Ni volas la finitan katedralon; Dio ĝojas pri la unua metita ŝtono. Kion ajn vi komencas — kutimon, resaniĝon aŭ repaciĝon — ne mezuru ĝin laŭ tio, kiel malgranda ĝi aspektas hodiaŭ. Grandaj aferoj preskaŭ ĉiam komenciĝas embarase malgrandaj.",
+      "prayer": "Sinjoro, benu la malgrandan komencon antaŭ mi. Helpu min esti fidela en malmulto. Amen."
+    },
+    {
+      "id": "devotional-018",
+      "title": "Li restarigas",
+      "body": "La paŝtisto en Psalmo 23 ne pelas la elĉerpitajn ŝafojn plu. Li lasas ilin kuŝiĝi, kondukas ilin al trankvila akvo kaj restarigas la animon. Se viaj fortoj elĉerpiĝas, la plej sankta ago eble estas halti. Restarigo ne estas pigreco. Ĝi estas obeo al Dio, kiu kreis vin kun bezono de ripozo.",
+      "prayer": "Paŝtisto, konduku min hodiaŭ apud trankvilaj akvoj. Restarigu tion, kio eluziĝis en mi. Amen."
+    },
+    {
+      "id": "devotional-019",
+      "title": "Amo en la ordinara vivo",
+      "body": "La fama priskribo de amo de Paŭlo ne estas sentimentala; ĝi estas praktika, preskaŭ ĉiutaga. Pacienca. Bonkora. Ne facile kolera. Ne konservas liston de malbonoj. Jen amo kun suprenrulitaj manikoj, amo por marda posttagmezo kaj malfacilaj homoj. Ne demandu, ĉu mi sentas amon, sed ĉu mi povas esti pacienca, bonkora kaj pardonema ĉi tie.",
+      "prayer": "Sinjoro, faru min hodiaŭ pacienca kaj bonkora, precipe tie, kie tio kostas al mi ion. Amen."
+    },
+    {
+      "id": "devotional-020",
+      "title": "La pezo de gloro",
+      "body": "Paŭlo nomas siajn suferojn malpezaj kaj momentaj — kvankam li estis batita kaj malliberigita. Li povis diri tion, ĉar li mezuris ilin kontraŭ eterneco de gloro. Via doloro estas reala; li ne ŝajnigas alie. Sed ĝi ne estas la plej granda afero antaŭ vi. Io multe pli peza kaj pli bonkora venas.",
+      "prayer": "Patro, kiam hodiaŭ ŝajnas peza, levu miajn okulojn al tio, kio restas. Portu min tra ĝi. Amen."
+    },
+    {
+      "id": "devotional-021",
+      "title": "Revenu al Mi",
+      "body": "La plej ofta vorto de la profetoj ne estas penu pli, sed revenu. Dio ĉiam invitas Sian popolon reen — ne per prelego, sed kun malfermitaj brakoj. Se vi devojiĝis, la vojo hejmen estas pli mallonga ol vi timas. Unu honesta turniĝo de la koro, kaj vi trovos Lin jam venanta renkonte al vi.",
+      "prayer": "Patro, mi revenas al Vi hodiaŭ. Dankon, ke Vi renkontas min antaŭ ol mi alvenas. Amen."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Kvietiĝu",
+      "body": "Psalmo 46 unue invitas al kvieto kaj poste al konado de Dio. Ni provas pripensi nian vojon al paco kaj finiĝas pli implikitaj. Foje fido simple signifas ĉesi strebi — malstreĉi la manojn sufiĉe longe por memori, Kiu vere tenas la mondon kune. Tio neniam estis vi.",
+      "prayer": "Dio, kvietigu mian strebadon. Helpu min resti kvieta sufiĉe longe por memori, ke Vi estas Dio. Amen."
+    },
+    {
+      "id": "devotional-023",
+      "title": "La amiko, kiu restas",
+      "body": "Sentencoj parolas pri amiko pli proksima ol frato. En mondo de homoj, kiuj venas kaj foriras, Jesuo restas — tra malsukceso, silento kaj longa nokto. Vi ne estas tro multe por Li, kaj vi neniam estas tro malproksima. Li ne serĉas kialon foriri. Li estas la amiko, kiu restas.",
+      "prayer": "Jesuo, dankon, ke Vi restas, kiam aliaj ne povis. Helpu min ripozi en Via fideleco. Amen."
+    },
+    {
+      "id": "devotional-024",
+      "title": "Ĝojo venas matene",
+      "body": "La psalmisto ne neas la ploron; li agnoskas, ke la nokto povas esti malfacila. La nokto estas reala, sed ne eterna. Post la funebro estas mateno, kaj Dio, kiu gardas viajn larmojn, ne perdis eĉ unu. Tenu vin. La mateno estas promeso, ne nura ebleco.",
+      "prayer": "Sinjoro, en mia nokto helpu min fidi la matenon, kiun Vi promesis. Gardu miajn larmojn. Amen."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "Sep tagoj de paco",
+      "tagline": "Por maltrankvilaj sezonoj — unu trankviliga fragmento ĉiutage."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "La dankema semajno",
+      "tagline": "Instruu viajn okulojn denove vidi gracon ĉie."
+    },
+    {
+      "id": "psalms-30",
+      "title": "30 tagoj en la Psalmoj",
+      "tagline": "La preĝlibro de la Biblio, po unu psalmo."
+    },
+    {
+      "id": "gospels-90",
+      "title": "La vivo de Jesuo en 90 tagoj",
+      "tagline": "Trairu ĉiujn kvar Evangeliojn."
+    },
+    {
+      "id": "bible-365",
+      "title": "Biblio en unu jaro",
+      "tagline": "La tuta rakonto — 20 minutoj ĉiutage."
+    }
+  ]
+}

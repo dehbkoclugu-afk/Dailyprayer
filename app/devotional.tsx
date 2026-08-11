@@ -12,10 +12,11 @@ import { useDailyContent } from '@/hooks/useDailyContent';
 import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
 import { useT, translate } from '@/i18n';
+import { getDirectionalIconName } from '@/i18n/direction';
 
 export default function DevotionalScreen() {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const { verse, devotional } = useDailyContent();
   const completeStep = useStreakStore((s) => s.completeStep);
   const [amened, setAmened] = React.useState(false);
@@ -51,7 +52,7 @@ export default function DevotionalScreen() {
           borderColor: t.border,
         }}
       >
-        <Ionicons name="chevron-back" size={24} color={t.inkSoft} />
+        <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={24} color={t.inkSoft} />
       </Pressable>
 
       <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 12, letterSpacing: 2, textTransform: 'uppercase', color: t.gold, marginTop: spacing.lg }}>

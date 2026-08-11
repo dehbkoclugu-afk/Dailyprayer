@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "locale": "to",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "Ko e tukufakaholo fē ʻoku ongoʻi ʻo hangē ha ʻapí?",
+      "subtitle": "Te mau liliu hoʻo ngaahi lotú mo e ngaahi palaní ke feʻunga mo ia.",
+      "options": [
+        {
+          "value": "catholic",
+          "label": "Katolika"
+        },
+        {
+          "value": "protestant",
+          "label": "Palotisani"
+        },
+        {
+          "value": "orthodox",
+          "label": "ʻOfotokisī"
+        },
+        {
+          "value": "nondenominational",
+          "label": "ʻIkai ha siasi pe tui fakalotu pau"
+        },
+        {
+          "value": "exploring",
+          "label": "Ko e fakatotolo pe"
+        }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "Ko e hā ʻokú ke ʻamanaki ʻe tupulaki ʻiate koé?",
+      "subtitle": "Fili kotoa ʻa e meʻa ʻoku feʻungá.",
+      "affirmation": "ʻOku ʻikai ke ke toko taha pē — ko e peseti ʻe 73 ʻo e kāingalotú naʻa nau kau mai ʻi he ʻuhinga tatau.",
+      "options": [
+        {
+          "value": "habit",
+          "label": "Ko ha tōʻonga lotu fakaʻaho."
+        },
+        {
+          "value": "closer",
+          "label": "Ongoʻi ofi ange ki he ʻOtuá."
+        },
+        {
+          "value": "peace",
+          "label": "Melino mo e siʻisiʻi ange ʻo e loto-moʻuá"
+        },
+        {
+          "value": "sleep",
+          "label": "Mohe lelei ange"
+        },
+        {
+          "value": "bible",
+          "label": "Mahinoʻi ʻa e Tohitapú."
+        },
+        {
+          "value": "gratitude",
+          "label": "Ko ha loto houngaʻia."
+        }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "Ko e hā ʻoku mamafa kiate koe kimuí ni maí?",
+      "subtitle": "ʻOku nofo fakapulipuli pē hoʻo talí. ʻOkú ne faʻu hoʻo palaní.",
+      "affirmation": "Fakamalo atu hoʻo falala mai kiate kimautolu ʻi he meʻa ko ia. ʻOku fetaulaki tonu ʻa e Folofolá mo e kakaí ʻi heni.",
+      "options": [
+        {
+          "value": "anxiety",
+          "label": "Hohaʻa pe loto-moʻua"
+        },
+        {
+          "value": "loneliness",
+          "label": "Nofo tokotaha"
+        },
+        {
+          "value": "grief",
+          "label": "Loto mamahi pe mole."
+        },
+        {
+          "value": "direction",
+          "label": "Ko hono kumi ha fakahinohino"
+        },
+        {
+          "value": "consistency",
+          "label": "Nofo tuʻumaʻu"
+        },
+        {
+          "value": "none",
+          "label": "ʻOku ou sai pē"
+        }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "ʻOku maheni fēfē ʻa e lotú mo koe?",
+      "options": [
+        {
+          "value": "new",
+          "label": "ʻOku ou toki kamata."
+        },
+        {
+          "value": "returning",
+          "label": "Foki mai hili ha taimi."
+        },
+        {
+          "value": "regular",
+          "label": "ʻOku ou lotu maʻu pē."
+        }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "Ko e taimi fē te ke fie maʻu ai ha fakamanatu fakaʻaho?",
+      "subtitle": "Ko ha fakamanatu angavaivai pē — ʻikai ha ngaahi pōpoaki fakahohaʻa.",
+      "options": [
+        {
+          "value": "07:30",
+          "label": "Pongipongi · 7:30"
+        },
+        {
+          "value": "12:30",
+          "label": "Hoʻata · 12:30"
+        },
+        {
+          "value": "21:00",
+          "label": "Efiafi · 21:00"
+        },
+        {
+          "value": "none",
+          "label": "ʻIkai ha fakamanatu"
+        }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Maama Pongipongi",
+      "script": [
+        "Manava māmālie ki loto... pea ki tuʻa. Kimuʻa pea kole atu ʻe he ʻahó ha meʻa meiate koé, ke ke ʻi heni.",
+        "ʻEiki, fakafetaʻi ki he pongipongi ni, ki he manava, ki ha toe kamataʻanga.",
+        "ʻOku ou ʻoatu kiate Koe ʻa e ngaahi houa ʻoku hanga mai mei muʻa: ʻeku ngaue, ʻeku ngaahi lea, ʻa e kakai te u fetaulaki mo ia.",
+        "Ko e feituʻu ʻoku ou hohaʻa aí, ke ʻi ai hoku nonga. Ko e feituʻu ʻoku ou vaivai ai, ke ke hoko ko hoku mālohi.",
+        "Tuku ke u ʻaʻeva ʻi he ʻaho ní ʻo ʻikai fakavavevave, ʻo ʻiloʻi ʻokú Ke ofi mai. ʻĒmeni."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "Fakanonga ʻa e Matangi",
+      "script": [
+        "Hili ha nima ʻi ho lotó. Ongoʻi ia ʻoku tā, ʻokú ke moʻui, pea ʻoku pukepuke koe.",
+        "Sīsū, Naʻá Ke nonga lolotonga ʻa e matangi pea fakalongolongoʻi ia ʻaki Hoʻo fekau. Lea ki he matangi ʻiate aú.",
+        "ʻOku ou fakahingoa ʻeku hohaʻa he taimi ni... pea ʻoku ou tuku ia ki Ho nima.",
+        "Tuku ke nofo ʻa e fekau ʻa Sīsū ke nonga ʻa e matangi ʻi hoku ʻatamai ʻo hange ha vai nonga.",
+        "He ʻikai ʻave au ʻe he manavaheé he ʻahó ni. ʻOku ʻave au ʻe Koe. ʻĒmeni."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "Ko ha Loto Houngaʻia.",
+      "script": [
+        "Fakakaukau ki ha meʻa lelei ʻe taha mei he ʻaho ní, neongo ʻene siʻisiʻí. Puke ia ʻi ha kiʻi taimi.",
+        "ʻE Tamai, ko e meʻaʻofa lelei kotoa pe ʻoku meiate Koe. Mālō.",
+        "Fakafetaʻi ki he meʻa naʻa ku lotua mo maʻu, pea mo e meʻa naʻe fakahaofi au.",
+        "Akoʻi au ke u fakatokangaʻi ʻa e kelesi ʻoku fufuuʻi ʻi he ngaahi houa angamahení.",
+        "Tuku ke hoko ʻa e houngaʻiá ko e nota ʻoku fakaʻosi ai hoku ʻahó. ʻĒmeni."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "Ki he Mālōlō",
+      "script": [
+        "Tuku ke ʻosi ʻa e ʻahó. Kuó ke fai ʻa e meʻa naʻá ke lavá, pea ʻoku feʻunga ia.",
+        "ʻEiki, ʻi heʻeku tokoto hifo, ʻoku ou tukuange ʻa e meʻa ʻoku teʻeki ke ʻosi ki Hoʻo tauhi.",
+        "Leʻohi ʻa e kakai ʻoku ou ʻofa aí lolotonga ʻemau mohé.",
+        "ʻOmi haʻaku mohe nonga he po ni he ʻoku ou falala ki Hoʻo maluʻi.",
+        "Fakamāmālieʻi ʻeku mānavá... fakalongolongoʻi ʻeku fakakaukaú... pea pukepuke au ʻo aʻu ki he pongipongí. ʻĒmeni."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Tāpuakiʻi Hoku Fāmilí",
+      "script": [
+        "ʻOmi ʻa e fofonga ʻo ho fāmilí ki hoʻo fakakaukaú, ʻo takitaha.",
+        "Tamai, tāpuakiʻi ʻa e tokotaha takitaha, ʻi he moʻui leleí, ʻi he lotó, ʻi he tuí.",
+        "Fakamoʻui ʻa e meʻa ʻoku faingataʻaʻia ʻi hotau vahaʻá; fakamolū ʻa e meʻa kuo fakafefeká.",
+        "Ngaohi hotau ʻapí ko ha feituʻu ʻo e kātakí mo e katá.",
+        "Haʻi kimautolu ʻi Hoʻo ʻofa. ʻĒmeni."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Loto-toʻa ki he ʻAhó ni.",
+      "script": [
+        "Tuʻu māʻolunga ʻi ha kiʻi taimi. Mānava loloto.",
+        "ʻEiki, fetongi ʻeku ilifiá ʻaki ʻa e loto-toʻa, ʻofa, mo e fakamaau mahino.",
+        "ʻOmi ha loto-toʻa ki he fetalanoaʻakí, ngāué, sitepu ʻoku ou kei fakaʻehiʻehi mei aí.",
+        "ʻI heʻeku tōnounoú, fakamanatu mai: ʻOkú ke muʻomuʻa ʻiate au.",
+        "Te u mālohi mo loto-toʻa, ʻo ʻikai tokotaha pē, ka ʻiate Koe. ʻĒmeni."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "Ko Hono Lau ʻo e Ngaahi Meʻaʻofá.",
+      "script": [
+        "Tuku ke nofo ʻa e ʻahó. Manava mai ʻa e meʻa naʻá ne kole atu meiate koé.",
+        "Tamai, kimuʻa peá u fakahingoa ʻa e meʻa ʻoku ou tōnounoú, tuku ke u fakahingoa ʻa e meʻa naʻe foaki mai kiate aú.",
+        "Fakafetaʻi ki he ngaahi ʻaloʻofa angamaheni naʻa ku meimei lue atu ai he ʻaho ni.",
+        "Fakafetaʻi ki he kakai ʻoku nau ʻai ke mafana ange ʻeku moʻui.",
+        "Ko e loto houngaʻiá ko ha loto fonu ia. Fakafonu ʻeku ʻi he pō ní. ʻĒmeni."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Vai Nofo",
+      "script": [
+        "Vete ho ongo nimá. Tuku ke māmālie hoʻo mānavá ʻi he laine takitaha.",
+        "Tauhisipi, tataki au he taimi ni ki ha potu nonga ke malolo ai hoku laumalie.",
+        "Ko e ngaahi fakakaukau ʻoku lele ʻiate au, ʻOku ou tuku hifo ia ʻi Ho vaʻe, ʻo takitaha.",
+        "Fakafoʻou hoku laumālié pea fakafoki mai ʻa e meʻa kuo manifinifi ʻi he ʻaho ní.",
+        "ʻOku ou fili ʻa e loto-toʻá koeʻuhí he ʻokú Ke nofo maʻu mo au. ʻĒmeni."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "Kimuʻa he ʻAho.",
+      "script": [
+        "ʻOku teʻeki ke ʻosi ʻa e ʻahó. Fetaulaki mo ia heni, mo e ʻOtua, kimuʻa ʻi ha toe meʻa kehe.",
+        "ʻEiki, ko e ʻaho ni ʻoku ʻAʻau ia kimuʻa pea toki ʻaʻaku.",
+        "ʻAlu muʻomuʻa ʻiate au ki he loki kotoa pē te u hū ki aí, ʻi he lea kotoa pē te u leaʻakí.",
+        "Ko e feituʻu ʻoku ʻahiʻahiʻi ai au ke u leleí, akoʻi au ke u ʻeveʻeva.",
+        "Fakahokohoko hoku ngaahi houa, pea tauhi hoku loto ke ofi ki Hoʻo loto. ʻĒmeni."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "Melino ʻOku Leʻohi.",
+      "script": [
+        "Tuku ʻa e ongo vaʻé ʻi he kelekelé. ʻOkú ke ʻi heni. ʻOku ʻi heni ʻa e ʻOtuá.",
+        "Sīsū, foaki mai Hoʻo melino moʻoni mo tolonga, ʻo loloto ange ʻi he melino ʻa mamani.",
+        "Tuku ke leʻohi ʻe he nonga ko iá hoku lotó mo hoku ʻatamaí he ʻahó ni ʻo hangē ha leʻo ʻi he matapaá.",
+        "Ko e meʻa ʻoku ʻikai te u lava ʻo mapuleʻí, ʻoku ou tukuange atu kiate Koe.",
+        "Kuo feʻunga pe hoʻomou nonga. ʻOku ou mālōlō ʻi ai. ʻĒmeni."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "ʻUluaki Fakafetaʻi",
+      "script": [
+        "Kimuʻa ʻi he lisi ʻo e ngaahi meʻa ke faí, kiʻi tuʻu ʻe taha. Manava fakafetaʻi ʻe taha.",
+        "Tamai, fakafetaʻi hoʻo fafangu au ki ha toe ʻaho ʻo e kelesi.",
+        "Fakamalo atu he manava, he maama, he peesi foʻou.",
+        "Tuku ke fokotuʻu ʻe he houngaʻiá, ʻo ʻikai ko e fakavavevavé, ʻa e leʻo ʻo ʻeku pongipongí.",
+        "ʻOku ou kamata he ʻahó ni ʻi he fakamālō. ʻĒmeni."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Fakatoka Hifo Ia",
+      "script": [
+        "Kuo ʻosi ʻa e ʻahó. Kuó ke fai ʻa e meʻa naʻá ke lavá, pea ʻoku feʻunga ia.",
+        "ʻEiki, ʻoku ou tuku hifo ʻa e meʻa kotoa pe ʻoku teʻeki ke ʻosi ki Hoʻo tauhi.",
+        "Ko e ngaahi hohaʻa te u ʻave ki he poʻuli, ʻOku ou tuku ia kiate Koe.",
+        "ʻOku ke foaki ʻofa ʻa e mālōlō ki Ho kakai. Tali au he taimí ni.",
+        "ʻOku ou tokoto hifo ʻi he nonga he ʻoku ou falala ki he ʻAfiona ke ke maluʻi au. ʻĒmeni."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "Maʻá Kinautolu ʻOku Ou ʻOfa Aí",
+      "script": [
+        "ʻOmi ʻa e tokotaha takitaha ʻokú ke ʻofa aí ki hoʻo fakakaukaú. Puke honau fofongá ʻi ha kiʻi taimi.",
+        "ʻE Tamai, leʻohi ʻa kinautolu kuo tuku mai kiate aú.",
+        "Maluʻi kinautolu ʻi he mavahe kotoa pē mo e foki kotoa pē.",
+        "ʻI he taimi ʻoku ou tōnounou ai kiate kinautolu, tuku Hoʻo kelesí ke ne fakakakato ʻa e meʻa ʻoku ʻikai te u lavá.",
+        "Tauhi kinautolu ʻi Ho nimá, ʻo ofi ange ʻi he meʻa te u lavá. ʻĒmeni."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Mālohi ke Fakamolemole.",
+      "script": [
+        "Manava. Ko e taha ko ʻení ʻoku fefeka, pea ʻoku ʻafioʻi ia ʻe he ʻOtuá.",
+        "ʻEiki, naʻá ke fakamolemoleʻi au ʻi ha totongi lahi. Foaki mai ha ivi keu fakamolemole.",
+        "ʻOku ou ʻomi ʻa e hingoá, ʻa e manatú, ʻa e laveá, ʻoku ou ʻoatu ia kiate Koe.",
+        "Fakatauʻatāinaʻi au mei heʻeku ʻave ʻa e meʻa naʻe ʻikai ʻaupito ko ʻeku ʻave.",
+        "Fakamoʻui ʻa e meʻa ʻoku fakaava ʻe he fakamolemolé. Ngaohi au ke u kakato. ʻĒmeni."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "ʻI Hono Lalo Kapakaú.",
+      "script": [
+        "Ongoʻi ʻa e mamafa ʻo e ʻahó ʻoku mavahe mei ho umá.",
+        "ʻOku ou mālōlō nonga ʻi he malumalu ʻo e Fungani Māʻolungá.",
+        "ʻEiki, ʻufiʻufi au he poó ni ʻo hangē ko e ʻufiʻufi ʻe ha manupuna ʻene ʻuhikí.",
+        "ʻIkai ha manavahē ki he pō, ʻikai ha manavahē ki ʻapongipongi, ko Hoʻo tauhi pē.",
+        "He ʻikai te u manavahē he ʻoku ʻikai ngata ʻa Hoʻo tauhi leʻó. Po lelei Tamai. ʻĒmeni."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "ʻI heʻeku Vaivaí.",
+      "script": [
+        "ʻOku ʻikai fie maʻu ke ke fakangalingali ʻokú ke mālohi heni.",
+        "ʻEiki, fakahaaʻi mai Ho ivi ʻo fakafou ʻi hoku vaivai.",
+        "Ko ia ko hoku vaivai eni, ʻOku ou tuku hono fufū ia meiate Koe.",
+        "Ke ke mālohi ʻi he feituʻu tonu ʻoku ʻikai haʻaku meʻa ʻe toé.",
+        "Ko hoʻo kelesi pe ʻoku ou fiemaʻu. Kuo feʻunga pē ia. ʻĒmeni."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "Naʻa mo e taimi ni, Fakafetaʻi",
+      "script": [
+        "Ko ha houngaʻia faingataʻa ange ʻeni. Mānava, pea nofo faitotonu.",
+        "Tamai, naʻa mo e taimi ní, ʻi he meʻá ni, ʻoku ou kumi ki Ho nimá.",
+        "Fakafetaʻi ʻi he ʻikai ke ke tuku au tokotaha pe ʻi ai.",
+        "Fakafetaʻi he ʻoku ʻikai ko e ngataʻanga ʻo e talanoa ʻa e faʻahitaʻu ko ʻeni.",
+        "ʻOku ou fili ʻa e fakafetaʻí, ʻo ʻikai koeʻuhí he ʻoku faingofua, ka koeʻuhí ʻokú Ke lelei. ʻĒmeni."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "Ko e Meʻaʻofa ʻo e Nonga.",
+      "body": "Ko e tokolahi ʻo kitautolú ʻoku tau fetaulaki mo e pongipongí kuo tau femoʻuekina — ngaahi pōpoakí, ongoongó, mo e ngaahi fatongiá. Naʻe tohi ʻa e Saame 46 ʻi ha taimi ʻo e moveuveu, ka ʻokú ne fakaafeʻi kitautolu ke tau nonga ʻi he ʻao ʻo e ʻOtuá. ʻOku ʻikai ʻuhinga ʻa e nongá ko e taʻe fai ha meʻa; ka ko e manatuʻi pe ko hai ʻokú ne pukepuke ʻa e meʻa kotoa pē. Tuku hifo ho umá ʻi ha miniti ʻe ua. ʻE kei vilo pē ʻa e māmaní neongo ʻoku ʻikai ke ke tokoni ki ai. ʻOku ʻikai ko hoʻo tōnounoú ia. Ko ʻEne faitōnungá ia.",
+      "prayer": "ʻEiki, fakanonga ʻa e longoaʻa ʻiate au. Tokoni mai ke u falala ko e ʻOtua Koe pea ʻoku ʻikai ko au. ʻĒmeni."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Ko e Mālohi ʻOku ʻIkai ʻAʻau.",
+      "body": "Naʻe tohi ʻe Paula mei ha fale fakapōpula, ʻo ʻikai mei ha tumutumu moʻunga, naʻe fakaivia ia ʻe Kalaisi ke ne kātekina ʻa e tūkunga kotoa pē. Ko e mālohi naʻá ne fakamatalaʻí ʻoku ʻikai ko e falala pē kiate kita; ko e mālohi ʻoku foaki mai ʻi he taimi ʻoku ʻosi ai ho mālohí. Ko e hā pē ha meʻa ʻoku kole atu ʻe he ʻaho ní, naʻe ʻikai ʻuhinga ke ke fua tokotaha ia. Kole. Tali. Laka atu.",
+      "prayer": "Sīsū ke ke hoko ko hoku malohi he feituʻu ʻoku ou vaivai ai he ʻaho ni. ʻOku ou ʻoatu kiate Koe ʻa e meʻa ʻoku ongo fuʻu mamafá. ʻĒmeni."
+    },
+    {
+      "id": "devotional-003",
+      "title": "Taki, ʻIkai Fakaʻuli",
+      "body": "ʻOku ʻalu muʻomuʻa ha tauhisipi; ʻoku teke mai ʻe ha fakaʻuli mei mui. ʻOku fakamamafaʻi ʻe he Saame 23 ʻoku taki ʻe he ʻOtuá, ki he ngaahi kaikaiʻanga lanu mata, ʻi he tafaʻaki ʻo e ngaahi vai nonga. Kapau kuo ongoʻi ʻe hoʻo tui ʻoku fakaʻaiʻai, fakavavevave, fakamālohiʻi, manavasiʻi, ʻoku ʻikai ko e leʻo ko ia ʻa e Tauhisipi. ʻI he ʻahó ni, fanongo ki he leʻo ʻoku taki māmālié, pea muimui ʻi he sitepu ʻe taha ʻi he taimi.",
+      "prayer": "Tauhisipi ʻo hoku laumalie, akoʻi au ʻi he leʻo ʻo Ho leʻo. Taki au he ʻaho ní. ʻĒmeni."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Mālōlō ki he Kau Vaivaí.",
+      "body": "Naʻe fakaafeʻi ʻe Sīsū ʻa e kakai vaivai mo mafasia ke nau haʻu kiate Ia ʻo mālōlō. Naʻá Ne ui ʻa e kau helaʻiá, ʻa e kau mafasiá, mo kinautolu ʻoku meimei ʻikai ke nau kei lava ʻo kātakí. ʻOku ʻikai ko ha pale ʻa e mālōloó ʻi he ʻosi ʻa e ngāué; ko ha meʻaʻofa ia ʻoku foaki ʻi hono lotolotongá. Haʻu ʻo hangē pē ko hoʻo ʻi aí — ko e fakaafe kakató ia.",
+      "prayer": "ʻEiki, ʻoku ou haʻu vaivai. Fetongi ʻeku mamafá ʻaki Hoʻo mālōloó. ʻĒmeni."
+    },
+    {
+      "id": "devotional-005",
+      "title": "Ko ha Kahaʻu mo ha ʻAmanaki.",
+      "body": "Naʻe tohi ʻa e Selemaia 29:11 ki he kau fakaheeʻí, ʻa e kakai kuo maumau ʻenau ngaahi palaní. Naʻe ʻikai talaʻofa ʻa e ʻOtuá ha fakahaofi fakavavevave; naʻá Ne fakapapauʻi ʻEne kei tokanga kiate kinautolu mo ʻEne teuteu ha kahaʻu ʻoku ʻi ai ʻa e ʻamanaki. ʻOku ʻikai ko e ngataʻanga ʻo hoʻo talanoá ʻa hoʻo tōnounoú. ʻOku kei tohi ʻa e Tokotaha Faʻutohí.",
+      "prayer": "Tamai, ʻi he taimi ʻoku ʻikai te u lava ai ʻo sio ki he halá, tokoni mai ke u falala ki he Tokotaha ʻokú ne sio ki aí. ʻĒmeni."
+    },
+    {
+      "id": "devotional-006",
+      "title": "Fakafalala ki loto",
+      "body": "Ko hoʻo mahino pē ʻaʻaú ko ha meʻangāue lelei ia pea ko ha ʻeiki fakalilifu. ʻOku fakaafeʻi kitautolu ʻe he Palovepí ke tau falala ʻaki ʻa e lotó kotoa, ʻo ʻikai koeʻuhi ʻoku hala ʻa e fakakaukaú, ka koeʻuhi ʻoku siʻisiʻi ʻetau vakaí. ʻOmi ki he ʻOtua ʻa e tuʻutuʻuni ʻoku ke kei liliu. Hili iá pea fanongo fuoloa ange ʻi hoʻo leá.",
+      "prayer": "ʻEiki, ʻoku ou falala kiate Koe ʻaki ʻa e tuʻutuʻuni ʻoku ʻi hoku ʻatamai he taimi ni. Fakatonutonu hoku halá. ʻĒmeni."
+    },
+    {
+      "id": "devotional-007",
+      "title": "Ko e Faitoʻo ki he Hohaʻá.",
+      "body": "ʻOku akoʻi ʻe Paula ʻa kinautolu ʻoku loto-moʻuá ke nau ʻave ʻa e hohaʻa kotoa pē ki he ʻOtuá ʻi he lotu, ʻo kau ai mo e fakafetaʻi. ʻOku ʻikai ko ha fakaʻikaiʻi ʻa e palopalemá ʻa e houngaʻiá; ʻokú ne fakalahi ʻetau vakai kae toe hā mai ʻa e faitōnunga ʻa e ʻOtuá ʻi he kuohilí. Fakahingoa ha meʻa ʻe tolu ʻokú ke houngaʻia aí. Vakai ki he meʻa ʻe hoko ki hoʻo manavaheé.",
+      "prayer": "ʻOtua ʻo e melino, maluʻi hoku loto mo hoku ʻatamai he ʻaho ni. ʻOku ou ʻoatu ʻeku ngaahi hohaʻá, ʻo tahataha. ʻĒmeni."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Maama ʻi he Poʻulí",
+      "body": "Naʻe ʻikai talaʻofa ʻe Sione ha moʻui taʻe ʻi ai ha fakapoʻuli. Naʻá Ne talaʻofa ʻoku ʻikai ikuna ʻa e fakapoʻulí. Ko ha foʻi teʻelango pē ʻe taha ʻoku ʻikai ke ne fakakikihi mo e poʻulí; ʻoku vela pē ia, pea ʻoku tukuange ʻe he fakapoʻulí. ʻOku ʻikai fie maʻu ke ke fakaleleiʻi e meʻa kotoa pē he ʻahó ni. Ko e meʻa pē ke ke tauhi hoʻo kiʻi māmá ke ulo, pea falala ki he Tokotaha ʻoku Maama ʻiate ia pē ke ne fai ʻa e toengá.",
+      "prayer": "Sīsū, Maama ʻo mamani, ulo mai ʻi he ngaahi tuliki ʻo au ʻoku ongo fakapoʻuli he ʻaho ni. ʻĒmeni."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Feʻunga mo e ʻAho ni",
+      "body": "Naʻe ʻikai lava ke tauhi ʻa e maná. ʻI he pongipongi takitaha naʻe tānaki pē ʻe he kakaí ha meʻa feʻunga, pea ʻapongipongi naʻa nau toe fakataha mai. ʻOku akoʻi kitautolu ʻe he ʻOtuá ke tau falala ʻi ha ʻaho ʻe taha ʻi he taimi, ʻo ʻikai koeʻuhí he ʻokú Ne siokita, ka koeʻuhí he ʻoku ngaohi ʻe he mā fakaʻahó ha fetuʻutaki fakaʻaho. ʻOua ʻe ʻave ʻa e mamafa ʻo ʻapongipongi ki he ʻaho ni. Ko e ʻaho ni ʻoku ʻi ai ʻene kelesi feʻunga ʻaʻana.",
+      "prayer": "Tamai, foaki mai he ʻaho ni ʻeku meʻakai fakaʻaho, mo e melino ke tuku ʻapongipongi mo Koe. ʻĒmeni."
+    },
+    {
+      "id": "devotional-010",
+      "title": "ʻIloʻi mo ʻOfaʻi",
+      "body": "Kimuʻa pea ke faʻu ha fakakaukau ʻe taha he pongipongi ni, naʻe ʻosi ʻiloa koe. ʻOku pehe ʻe he Saame 139 ʻoku lalanga fakataha koe ʻe he ʻOtua pea ʻoku ne ʻafioʻi ʻa e taimi ʻoku ke tangutu ai mo e taimi ʻoku ke tuʻu hake ai. ʻOku ʻikai ko ha muli koe ʻokú ke kolekole ki ha tokanga. Ko ha kiʻi tamasiʻi koe, ʻoku ʻiloʻi kakato pea, fakaofo, ʻoku ʻofaʻi kakato. Tuku ke hoko ia ko e kelekele ʻokú ke tuʻu ai he ʻaho ní.",
+      "prayer": "ʻEiki, fakafetaʻi ʻoku ʻiloʻi kakato au pea ʻoku kei ʻofaʻi kakato au. Fakatuʻumaʻu au ʻi he meʻa ko iá. ʻĒmeni."
+    },
+    {
+      "id": "devotional-011",
+      "title": "Ko e Talangofua Fuoloa.",
+      "body": "ʻOku tātātaha ke fakaofo ʻa e faitōnungá. Ko hono ʻuhingá ko e hoko maʻu pē — ko ha lotu ʻe taha, angaʻofa ʻe taha, mo ha fili faitotonu ʻe taha ʻi he taimi. ʻOku tongi ʻe ha vaitafe ha teleʻa, ʻo ʻikai ʻi he mālohí, ka ʻi heʻene foki ki he hala tatau ʻi he ʻaho kotoa pē. Ko hoʻo toutou tali ʻio ki he ʻOtuá ʻokú ne fai ha meʻa lahi ange ʻi he meʻa ʻokú ke lava ʻo sio ki aí. Hoko atu hoʻo foki maí.",
+      "prayer": "ʻEiki, ʻai au ke u faitotonu ʻi he fanga kiʻi meʻa iiki he ʻaho ni, ʻo falala kiate Koe ʻaki ʻa e fōtunga ʻo e kakato. ʻĒmeni."
+    },
+    {
+      "id": "devotional-012",
+      "title": "ʻI he taimi ʻokú ke ongoʻi ai ʻoku ngalo.",
+      "body": "Ko Hekaʻā, ʻi heʻene tokotaha pē ʻi he toafá, naʻá ne ʻoange ki he ʻOtuá ha hingoa: ko e Tokotaha naʻá ne mamata moʻoni kiate iá. ʻI he ʻikai ke fakatokangaʻi ia ʻe ha taha kehe, naʻá Ne fakatokangaʻi ia. Kapau ʻi he ʻaho ní ʻokú ke ongoʻi ʻoku fakangaloku koe, ʻe he kakaí, ʻe he ngaahi tūkungá, naʻa mo hoʻo ngaahi ʻamanaki pē ʻaʻaú, fanongo ki he meʻá ni: ʻoku sio kiate koe. ʻOku ʻikai ha meʻa ʻi hoʻo moʻuí ʻe taʻehāmai ki he Tokotaha ʻokú ne lau ʻa e ngaahi fetuʻú pea ui kinautolu taki taha ʻaki honau hingoá.",
+      "prayer": "ʻOtua ʻoku ke ʻafio mai kiate au, fakafetaʻi ʻoku ʻikai te u teitei nofo tokotaha moʻoni. Fetaulaki mai heni. ʻĒmeni."
+    },
+    {
+      "id": "devotional-013",
+      "title": "Ko e Meʻaʻofa Naʻe ʻIkai Ke Ke Ngāueʻi",
+      "body": "ʻOku poleʻi ʻe he kelesí ʻa e konga ʻiate kitautolu ʻoku fie maʻu ke ngāueʻi hono tuʻungá. ʻOku akoʻi ʻe ʻEfesō ko e fakamoʻuí ko e meʻaʻofa ʻa e ʻOtuá, ʻa ia ʻoku maʻu ʻi he tuí kae ʻikai ʻi heʻetau feingá. Te ke lava ʻo tuku hoʻo feinga ke fakamoʻoniʻi ʻokú ke taau mo e ʻofa kuo foaki atu. ʻOku ʻikai ko ha pale ʻa e mālōloó ʻi he fakaʻosí; ko e meʻaʻofa ia ʻokú ne fakaʻatā koe ke toe kamata.",
+      "prayer": "Tamai, ʻoku ou maʻu ʻa e meʻa naʻe ʻikai ke u lava ʻo maʻú. Fakafetaʻi ʻi he kelesi. Akoʻi au ke u mālōlō ai. ʻĒmeni."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Ngaahi Vaitafe ʻi he Toafa.",
+      "body": "ʻOku lea ʻa ʻAisea fekauʻaki mo e ngaahi vaitafe ʻi he toafá, ko e vai te ke fuakava ʻoku ʻikai lava ke tupu ha meʻa. Ko hoʻo faʻahitaʻu momoko ʻoku ʻikai ko e ngataʻanga ia ʻo e talanoa. ʻOku makehe ʻa e ʻOtuá ʻi hono ʻai ke tupu hake ʻa e moʻuí ʻi he ngaahi feituʻu tonu naʻa tau tohiʻí. Sio ki he kelekele naʻá ke tukuange aí. ʻOku ʻikai ke ne ʻosi ʻi ai.",
+      "prayer": "ʻEiki, ʻomi ʻa e ngaahi vaitafe ki he ngaahi potu mōmoa ʻiate au. ʻOku ou falala kiate Koe ke ke fakafoʻou ʻa e ngaahi meʻá. ʻĒmeni."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Lī Atu, ʻOua ʻe Fua",
+      "body": "ʻOku fakaʻaongaʻi ʻe Pita ha foʻi lea fakatuʻasino: lī. Lafo hoʻo hohaʻá ki he ʻOtuá ʻo hangē ko hoʻo lī ha kato mamafa mei ho umá. Ko e hā hono ʻuhingá? koeʻuhi ʻoku tokanga lahi mai ʻa e ʻOtuá kiate kimoutolu. ʻOku fakangalingali ʻa e hohaʻá ʻoku ʻaonga, ʻo hangē ʻoku feʻunga hono liliu iá te ne solova ia. Heʻikai. ʻOku hiki ʻe he lotú ʻa e mamafá ki he Tokotaha pē ʻe taha ʻoku mālohi feʻunga ke ne pukepuké.",
+      "prayer": "ʻEiki, ʻoku ou lī ʻeku hohaʻá kiate Koe, moʻoni, ʻo ʻikai ʻi he leá pē. ʻAve ʻa e meʻa ʻoku ʻikai te u lavá. ʻĒmeni."
+    },
+    {
+      "id": "devotional-016",
+      "title": "Ko e Leʻo ʻOkú Ne Ui Koe ko e ʻOfaʻanga",
+      "body": "Kimuʻa pea fakahoko ʻe Sīsū ha mana ʻe taha, naʻe fakapapauʻi fakahāhā ʻe he Tamaí ʻEne ʻofa mo e fiefia ʻi Hono ʻAló. Naʻe muʻomuʻa ʻEne ʻofa kiate Iá, ʻo ʻikai ko ha totongi ki he ngāue kuo fakahokó. ʻOku pehē pē kiate koe. ʻOku ʻikai fie maʻu ke ke ngāueʻi ʻa e ʻofá. Te ke lava ʻo ngāue mei he ʻofa kuo ʻosi foaki atú, ʻo ʻikai ke feinga ke maʻu ia.",
+      "prayer": "Tamai, tuku keu fanongo ki Hoʻo ui au ko e ʻofaʻanga kimuʻa pea u toki fai ha meʻa he ʻaho ni. ʻĒmeni."
+    },
+    {
+      "id": "devotional-017",
+      "title": "ʻOua ʻe Taʻetokaʻi ʻa e Kamataʻanga Iiki.",
+      "body": "ʻOku ʻeke ʻe Sakalaia pe ko hai ʻoku lotolahi ke ne manukiʻi ʻa e ʻaho ʻo e fanga kiʻi meʻa iiki. ʻOku mau fie maʻu ʻa e falelotu lahi kuo ʻosí; ʻOku fiefia ʻa e ʻOtuá ʻi he ʻuluaki maka kuo fakatoka. Ko e hā pē ha meʻa ʻokú ke kamataʻí, ko ha tōʻonga, ko ha fakamoʻui, ko ha fakalelei, ʻoua naʻá ke fua ia ʻaki ʻene siʻisiʻi ʻene hā he ʻaho ní. ʻOku meimei kamata maʻu pē ʻa e ngaahi meʻa lalahí ʻi he siʻisiʻi fakamā.",
+      "prayer": "ʻEiki, tapuakiʻi ʻa e kiʻi kamataʻanga ʻi muʻa ʻiate au. Tokoniʻi au ke u faitotonu ʻi he meʻa siʻí. ʻĒmeni."
+    },
+    {
+      "id": "devotional-018",
+      "title": "ʻOkú Ne Fakafoki.",
+      "body": "Ko e tauhisipi ʻo e Saame 23 ʻoku ʻikai ke ne tuli ʻa e fanga sipi ki muʻa ʻi he taimi ʻoku nau fakamoleki ai. ʻOkú ne ʻai ke nau tokoto hifo; ʻOkú ne tataki kinautolu ki he vai nonga; ʻOkú Ne fakafoki mai ʻa e laumālié. Kapau ʻokú ke lele ʻi he ʻataʻatā pē, ko e meʻa māʻoniʻoni taha te ke lava ʻo faí mahalo ko e tuʻu. ʻOku ʻikai ko e fakapikopiko ʻa e fakafoki maí. Ko e talangofua ia ki ha ʻOtua naʻá ne langa koe ke ke fie maʻu ha mālōlō.",
+      "prayer": "Tauhisipi, taki au ki he ngaahi vai nonga he ʻaho ni. Fakafoki mai ʻa e meʻa kuo manifi ʻiate aú. ʻĒmeni."
+    },
+    {
+      "id": "devotional-019",
+      "title": "ʻOfa ʻi he Angamaheni.",
+      "body": "ʻOku fakamatalaʻi ʻe Paula ʻa e ʻofá ʻi ha founga ngāue ʻi he ʻaho kotoa pē: ʻoku kātaki, angaʻofa, tuai ke ʻita, pea mateuteu ke fakamolemole. Ko e ʻofa eni ʻoku ngāue moʻoni, ki he ngaahi ʻaho angamahení mo e kakai faingataʻá. ʻOua ʻe ngata pē ʻi hoʻo fehuʻi pe ʻokú ke ongoʻi ʻa e ʻofá; fehuʻi pe te ke lava ʻo fakahaaʻi ʻa e kātakí, angaʻofá, mo e fakamolemolé ʻi heni.",
+      "prayer": "ʻEiki, ʻai au ke u kātaki mo angaʻofa he ʻaho ní, tautautefito ki he feituʻu ʻoku ʻi ai haʻaku totongi. ʻĒmeni."
+    },
+    {
+      "id": "devotional-020",
+      "title": "Ko e Mamafa ʻo e Kololia.",
+      "body": "Naʻe fakamatalaʻi ʻe Paula ʻene ngaahi faingataʻaʻiá ko e meʻa siʻi mo taimi nounou ʻi hono fakafehoanaki mo e nāunau taʻengata ʻoku teuteu ʻe he ʻOtuá, neongo naʻe taaʻi mo tuku fakapōpula ia. Naʻá ne fua ʻene faingataʻá ʻi heʻene vakai ki he taʻengatá. ʻOku moʻoni hoʻo mamahí; ʻoku ʻikai ke ne fakaʻikaiʻi ia. Ka ʻoku ʻikai ko e meʻa lahi taha ia ʻoku ʻi he vakai. ʻOku ʻi ai ha meʻa mamafa ange mo angaʻofa ange ʻoku tuʻunuku mai.",
+      "prayer": "Tamai, ʻi he ongo mamafa ʻa e ʻaho ní, hiki hake hoku matá ki he meʻa ʻoku tolonga. ʻAve au ʻo fakafou atu. ʻĒmeni."
+    },
+    {
+      "id": "devotional-021",
+      "title": "Foki mai kiate Au.",
+      "body": "Ko e lea ʻoku toutou leaʻaki lahi taha ʻe he kau palōfitá ʻoku ʻikai ko e “feinga lahi ange” ka ko e “foki.” ʻOku fakaafeʻi taʻengata ʻe he ʻOtuá Hono kakaí ke nau foki mai, ʻo ʻikai ʻi ha malanga, ka ʻi he nima ʻataʻatā. Kapau kuó ke tafea, ʻoku nounou ange ʻa e hala ki ʻapí ʻi he meʻa ʻokú ke manavasiʻí. Ko e tafoki faitotonu ʻe taha ʻo e lotó, pea te ke ʻiloʻi ʻokú Ne ʻosi lele mai kiate koe.",
+      "prayer": "Tamai, ʻoku ou foki atu kiate Koe he ʻaho ni. Fakafetaʻi hoʻo fakafetaulaki mai kiate au kimuʻa pea u toki aʻu mai. ʻĒmeni."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Ke Nonga",
+      "body": "ʻOku fakaafeʻi kitautolu ʻe he Saame 46 ke tau fakalongolongo pea manatuʻi ʻoku pule ʻa e ʻOtua. ʻOku muʻomuʻa ʻa e nonga, pea hoko mai ʻa e ʻiló. ʻOku tau feinga ke fakakaukauʻi hotau hala ki he melinó pea iku ʻo toe lavelavea ange. Taimi ʻe niʻihi ko e tuí ko e tuku pē ʻene feingá, ʻo tuku ke vete ho ongo nimá ʻi ha taimi lōloa feʻunga ke ke manatuʻi pe ko hai ʻokú ne pukepuke moʻoni ʻa e māmaní. Naʻe ʻikai ʻaupito ko koe ia.",
+      "prayer": "ʻOtua, fakalongolongo ʻeku feinga. Tokoni mai ke u kei fuoloa feʻunga ke u manatuʻi ko e ʻOtua Koe. ʻĒmeni."
+    },
+    {
+      "id": "devotional-023",
+      "title": "Ko e Kaumeʻa ʻoku Nofo.",
+      "body": "ʻOku pehē ʻe Palovepi ʻoku ʻi ai ha kaungāmeʻa ʻoku piki ofi ange ʻi ha tokoua. ʻI ha māmani ʻo e kakai ʻoku nau haʻu mo ʻalu, ko Sīsū ʻa e tokotaha ʻoku nofo, ʻo fakafou ʻi he taʻelavameʻá, ʻi he fakalongolongó, ʻi he pō lōloá. ʻOku ʻikai ke ke fuʻu lahi kiate Ia, pea ʻoku ʻikai ke ke teitei fuʻu mamaʻo. ʻOku ʻikai ke ne kumi ha ʻuhinga ke mavahe ai. Ko e kaumeʻa ia ʻoku nofo maʻú.",
+      "prayer": "Sīsū, fakafetaʻi hoʻo nofo ʻi he taimi naʻe ʻikai lava ai ʻe he niʻihi kehe. Tokoni mai keu malolo ʻi Hoʻo faitotonu. ʻĒmeni."
+    },
+    {
+      "id": "devotional-024",
+      "title": "ʻOku Hoko Mai ʻa e Fiefiá ʻi he Pongipongí.",
+      "body": "ʻOku fakahaaʻi ʻe he tokotaha faʻu saamé ʻe lava ke fonu ha pō ʻi he mamahí mo e loʻimatá, ka ʻoku toe foki mai ʻa e fiefiá ʻi ha pongipongi foʻou. ʻOku moʻoni ʻa e poʻulí, ka ʻoku ʻikai tuʻuloa ia. ʻOku ʻi ai ha pongipongi ʻi he tafaʻaki ʻe taha ʻo e mamahí, pea ʻoku ʻikai ngalo ʻi he ʻOtuá ha foʻi loʻimata ʻe taha. Piki maʻu. Ko e pongipongí ko ha talaʻofa, ʻikai ko ha mahalo.",
+      "prayer": "ʻEiki, ʻi hoku poʻuli, tokoniʻi au ke u falala ki he pongipongi kuo ke talaʻofa mai. Puke hoku loʻimatá. ʻĒmeni."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "Fitu ʻAho ʻo e Melino.",
+      "tagline": "Mo e ngaahi faʻahitaʻu hohaʻá, ko e konga fakanonga ʻe taha ʻi he ʻaho."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "Ko e Uike Fakafetaʻi.",
+      "tagline": "Akoʻi ho matá ke ke sio ki he kelesí ʻi he feituʻu kotoa pē."
+    },
+    {
+      "id": "psalms-30",
+      "title": "30 ʻAho ʻi he Saame.",
+      "tagline": "Ko e tohi lotu ʻo e Tohi Tapu, ko e saame ʻe taha ʻi he taimi."
+    },
+    {
+      "id": "gospels-90",
+      "title": "Ko e Moʻui ʻa Sīsū ʻi he ʻAho ʻe 90.",
+      "tagline": "ʻAlu ʻi he Kosipeli kotoa ʻe faá."
+    },
+    {
+      "id": "bible-365",
+      "title": "Tohi Tapu ʻi ha Taʻu.",
+      "tagline": "Ko e talanoa kotoa, miniti ʻe 20 he ʻaho."
+    }
+  ]
+}

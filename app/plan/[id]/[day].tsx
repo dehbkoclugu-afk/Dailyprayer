@@ -15,6 +15,7 @@ import { getBible } from '@/data/bibleFull';
 import { bookMeta } from '@/data/bibleMeta';
 import { usePlanStore } from '@/state/usePlanStore';
 import { useT } from '@/i18n';
+import { getDirectionalIconName } from '@/i18n/direction';
 import { useScriptureLocale } from '@/i18n/scripture';
 
 export default function PlanDay() {
@@ -66,7 +67,7 @@ export default function PlanDay() {
             borderColor: t.border,
           }}
         >
-          <Ionicons name="chevron-back" size={24} color={t.inkSoft} />
+          <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={24} color={t.inkSoft} />
         </Pressable>
 
         <PlanDayArtwork

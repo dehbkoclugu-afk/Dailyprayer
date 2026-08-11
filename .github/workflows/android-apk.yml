@@ -28,7 +28,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - uses: actions/setup-java@v4
@@ -53,6 +53,44 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Verify production localization coverage
+        run: |
+          npm run application-content:build
+          npm run ui-locales:verify:production
+          npm run application-content:verify:production
+
+      # Publish application-content-v1 first. The binary must never advertise a
+      # downloadable locale whose immutable manifest/assets are not live yet.
+      - name: Smoke test published application content
+        if: github.event_name != 'pull_request'
+        run: |
+          node --experimental-strip-types --input-type=module <<'NODE'
+          import { createHash } from 'node:crypto';
+          import { APPLICATION_LOCALES } from './src/i18n/applicationLocales.ts';
+          import {
+            LATEST_APPLICATION_CONTENT_MANIFEST_URL,
+            validateApplicationContentManifest,
+          } from './src/services/applicationContentRegistry.ts';
+
+          const response = await fetch(LATEST_APPLICATION_CONTENT_MANIFEST_URL);
+          if (!response.ok) throw new Error(`Published manifest HTTP ${response.status}`);
+          const manifest = validateApplicationContentManifest(await response.json());
+          const advertised = APPLICATION_LOCALES.map(({ tag }) => tag).sort();
+          const published = manifest.releases.map(({ locale }) => locale).sort();
+          if (JSON.stringify(published) !== JSON.stringify(advertised)) {
+            throw new Error('Published manifest does not exactly match advertised locales');
+          }
+          await Promise.all(manifest.releases.map(async (release) => {
+            const assetResponse = await fetch(release.downloadUrl);
+            if (!assetResponse.ok) throw new Error(`${release.locale} asset HTTP ${assetResponse.status}`);
+            const bytes = Buffer.from(await assetResponse.arrayBuffer());
+            const digest = createHash('sha256').update(bytes).digest('hex');
+            if (bytes.length !== release.bytes || digest !== release.sha256) {
+              throw new Error(`${release.locale} published asset integrity mismatch`);
+            }
+          }));
+          NODE
 
       - name: Generate Android project
         run: npx expo prebuild --platform android --no-install

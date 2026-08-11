@@ -4,20 +4,46 @@
  * Keep this catalog separate from Scripture editions: choosing the language of
  * Lumen's interface must never silently change the user's Bible preference.
  */
+import {
+  GLOBAL_LANGUAGE_CATALOG,
+  RELEASE_CANDIDATE_SCRIPTURE_LOCALE_TAGS,
+  type GlobalLocaleTag,
+} from './globalLanguageCatalog.ts';
+
 export type AppDirection = 'ltr' | 'rtl';
 
-export const APPLICATION_LOCALES = [
-  { tag: 'en', nativeName: 'English', direction: 'ltr' },
-  { tag: 'tr', nativeName: 'Türkçe', direction: 'ltr' },
-  { tag: 'es', nativeName: 'Español', direction: 'ltr' },
-  { tag: 'pt', nativeName: 'Português', direction: 'ltr' },
-  { tag: 'fr', nativeName: 'Français', direction: 'ltr' },
-  { tag: 'de', nativeName: 'Deutsch', direction: 'ltr' },
-  { tag: 'it', nativeName: 'Italiano', direction: 'ltr' },
-  { tag: 'nl', nativeName: 'Nederlands', direction: 'ltr' },
-] as const;
+const rolloutTags = new Set<GlobalLocaleTag>([
+  ...RELEASE_CANDIDATE_SCRIPTURE_LOCALE_TAGS,
+  'tr',
+]);
 
-export type AppLocale = (typeof APPLICATION_LOCALES)[number]['tag'];
+/** Locales that become selectable only after both UI and content packs pass release gates. */
+export const APPLICATION_LOCALE_CANDIDATES = GLOBAL_LANGUAGE_CATALOG
+  .filter((locale) => rolloutTags.has(locale.tag))
+  .map(({ tag, nativeName, direction }) => ({ tag, nativeName, direction }));
+
+export const RTL_APPLICATION_LOCALE_CANDIDATES = APPLICATION_LOCALE_CANDIDATES
+  .filter((locale) => locale.direction === 'rtl')
+  .map((locale) => locale.tag);
+
+/** Global targets held behind native translation review and never advertised. */
+export const PENDING_NATIVE_APPLICATION_LOCALES = ['cek', 'hlt', 'kos'] as const;
+
+/** Fully translated and currently advertised locales. */
+export const APPLICATION_LOCALE_TAGS = [
+  'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'nl',
+  'ar', 'my', 'zh-Hans', 'zh-Hant', 'hr', 'cs', 'eo', 'ht', 'haw', 'ja',
+  'ko', 'la', 'fa', 'ro', 'ru', 'sr-Latn', 'sr-Cyrl', 'to', 'uk', 'vi',
+  'sq', 'da', 'fi', 'hu', 'lv', 'mi', 'no', 'pl', 'sv', 'tl',
+] as const satisfies readonly GlobalLocaleTag[];
+
+export type AppLocale = (typeof APPLICATION_LOCALE_TAGS)[number];
+
+export const APPLICATION_LOCALES = APPLICATION_LOCALE_TAGS.map((tag) => {
+  const locale = APPLICATION_LOCALE_CANDIDATES.find((candidate) => candidate.tag === tag);
+  if (!locale) throw new Error(`Application locale is not a rollout candidate: ${tag}`);
+  return { ...locale, tag };
+});
 
 export const SUPPORTED_LOCALES = APPLICATION_LOCALES.map((locale) => locale.tag) as AppLocale[];
 export const RTL_APPLICATION_LOCALES = APPLICATION_LOCALES

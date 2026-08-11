@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
+import { getDirectionalIconName } from '@/i18n/direction';
 import { fonts } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
 import { PRIVACY_POLICY, TERMS_OF_SERVICE } from '@/data/legal';
@@ -81,7 +82,7 @@ function Markdown({ source }: { source: string }) {
 
 export default function Legal() {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const { doc } = useLocalSearchParams<{ doc?: string }>();
   const source = doc === 'terms' ? TERMS_OF_SERVICE : PRIVACY_POLICY;
 
@@ -94,7 +95,7 @@ export default function Legal() {
         accessibilityLabel={tr('a11y.back')}
         style={({ pressed }) => ({ width: 48, height: 48, justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
       >
-        <Ionicons name="chevron-back" size={26} color={t.inkSoft} />
+        <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={26} color={t.inkSoft} />
       </Pressable>
       <Markdown source={source} />
     </Screen>

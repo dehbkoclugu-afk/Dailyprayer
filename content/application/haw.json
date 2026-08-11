@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "locale": "haw",
+  "version": "1.0.0",
+  "reviewStatus": "release-candidate",
+  "quiz": [
+    {
+      "key": "tradition",
+      "question": "ʻO wai ka moʻomeheu hoʻomana e hōʻoluʻolu loa iā ʻoe?",
+      "subtitle": "E hoʻoponopono mākou i kāu mau pule a me nā hoʻolālā iā ia.",
+      "options": [
+        {
+          "value": "catholic",
+          "label": "Katolika"
+        },
+        {
+          "value": "protestant",
+          "label": "Kalawina"
+        },
+        {
+          "value": "orthodox",
+          "label": "Orthodox"
+        },
+        {
+          "value": "nondenominational",
+          "label": "Hoʻomana ʻole"
+        },
+        {
+          "value": "exploring",
+          "label": "Ke ʻimi wale nei"
+        }
+      ]
+    },
+    {
+      "key": "goals",
+      "question": "He aha kou manaʻolana e ulu ana i loko ou?",
+      "subtitle": "E koho i nā mea a pau e pili ana.",
+      "affirmation": "He hui maikaʻi ʻoe, 73% o nā lālā i hui pū ʻia no ke kumu like.",
+      "options": [
+        {
+          "value": "habit",
+          "label": "He pule pule i kēlā me kēia lā"
+        },
+        {
+          "value": "closer",
+          "label": "Manaʻo kokoke i ke Akua"
+        },
+        {
+          "value": "peace",
+          "label": "Maluhia & emi ʻole ka hopohopo"
+        },
+        {
+          "value": "sleep",
+          "label": "ʻOi aku ka maikaʻi o ka hiamoe"
+        },
+        {
+          "value": "bible",
+          "label": "Ka hoʻomaopopo ana i ka Baibala"
+        },
+        {
+          "value": "gratitude",
+          "label": "He puʻuwai mahalo"
+        }
+      ]
+    },
+    {
+      "key": "struggles",
+      "question": "He aha ke kaumaha iā ʻoe i kēia mau lā?",
+      "subtitle": "Noho kaʻawale kāu pane. Hoʻolālā ia i kāu hoʻolālā.",
+      "affirmation": "Mahalo iā ʻoe no ka hilinaʻi ʻana iā mākou. Ua hui pono ka Palapala Hemolele me na kanaka maanei.",
+      "options": [
+        {
+          "value": "anxiety",
+          "label": "Ka hopohopo a hopohopo paha"
+        },
+        {
+          "value": "loneliness",
+          "label": "Ka mehameha"
+        },
+        {
+          "value": "grief",
+          "label": "ʻO ke kaumaha a i ʻole ka poho"
+        },
+        {
+          "value": "direction",
+          "label": "ʻImi kuhikuhi"
+        },
+        {
+          "value": "consistency",
+          "label": "Noho mau"
+        },
+        {
+          "value": "none",
+          "label": "Ke hana maikaʻi nei au"
+        }
+      ]
+    },
+    {
+      "key": "experience",
+      "question": "Pehea ka kamaʻāina o ka pule iā ʻoe?",
+      "options": [
+        {
+          "value": "new",
+          "label": "Ke hoʻomaka nei au"
+        },
+        {
+          "value": "returning",
+          "label": "Ke hoʻi nei ma hope o kekahi manawa"
+        },
+        {
+          "value": "regular",
+          "label": "Pule mau au"
+        }
+      ]
+    },
+    {
+      "key": "prayerTime",
+      "question": "ʻO ka manawa hea ʻoe e makemake ai i kahi hoʻomanaʻo i kēlā me kēia lā?",
+      "subtitle": "ʻO kahi hoʻomanaʻo mālie, mai spam.",
+      "options": [
+        {
+          "value": "07:30",
+          "label": "Kakahiaka · 7:30"
+        },
+        {
+          "value": "12:30",
+          "label": "ʻO ke awakea · 12:30"
+        },
+        {
+          "value": "21:00",
+          "label": "ahiahi · 21:00"
+        },
+        {
+          "value": "none",
+          "label": "ʻAʻohe hoʻomanaʻo"
+        }
+      ]
+    }
+  ],
+  "prayers": [
+    {
+      "id": "morning-light",
+      "title": "Malamalama kakahiaka",
+      "script": [
+        "E hanu mālie i loko… a i waho. Ma mua o ka nīnau ʻana o ka lā iā ʻoe, e noho ma ʻaneʻi.",
+        "E ka Haku, mahalo iā ʻoe no kēia kakahiaka, no ka hanu, no kahi hoʻomaka hou.",
+        "Hāʻawi wau iā ʻoe i nā hola ma mua: kaʻu hana, kaʻu mau ʻōlelo, ka poʻe aʻu e hālāwai ai.",
+        "Ma kahi aʻu e hopohopo nei, e maluhia koʻu. Ma kahi aʻu e luhi ai, ʻo ia koʻu ikaika.",
+        "E hele au i kēia lā me ka wikiwiki ʻole, me ka ʻike ua kokoke mai ʻoe. ʻĀmene."
+      ]
+    },
+    {
+      "id": "calm-the-storm",
+      "title": "E hooluolu i ka ino",
+      "script": [
+        "E kau i ka lima ma luna o kou puʻuwai. E ʻike i kona kuʻi ʻana; ke ola nei ʻoe, a mālama ʻia ʻoe.",
+        "E Iesu, ua hiamoe ʻoe i loko o ka ʻino a hoʻopaʻa i ka ʻōlelo. E ʻōlelo mai iaʻu.",
+        "Kapa wau i koʻu hopohopo i kēia manawa… a ke waiho nei au i kou lima.",
+        "E kau ka maluhia o Kristo ma luna o koʻu manaʻo e like me ka wai mālie.",
+        "ʻAʻole au e lawe ʻia e ka makaʻu i kēia lā. Lawe ʻia au e ʻoe. ʻĀmene."
+      ]
+    },
+    {
+      "id": "grateful-heart",
+      "title": "He Puuwai Mahalo",
+      "script": [
+        "E noʻonoʻo i hoʻokahi mea maikaʻi mai kēia lā, akā ʻuʻuku. Paʻa no kahi manawa.",
+        "E ka Makua, ʻo nā mea maikaʻi a pau o koʻu ola ke hōʻike nei i kou lokomaikaʻi. Mahalo iā ʻoe.",
+        "Mahalo iā ʻoe no kaʻu mea i pule ai a loaʻa mai iaʻu, a no ka mea i mālama ʻia iaʻu.",
+        "E aʻo mai iaʻu e ʻike i ka peʻe lokomaikaʻi i nā hola maʻamau.",
+        "E lilo ka mahalo i mea e pau ai koʻu lā. ʻĀmene."
+      ]
+    },
+    {
+      "id": "into-rest",
+      "title": "I ka hoʻomaha",
+      "script": [
+        "E pau ka lā. Ua hana ʻoe i ka mea hiki iā ʻoe, a ua lawa kēlā.",
+        "E ka Haku, i koʻu moe ʻana i lalo, ke hoʻokuʻu nei au i nā mea i hoʻopau ʻole ʻia i loko o kou mālama ʻana.",
+        "E kiaʻi i ka poʻe aʻu i aloha ai i ko kāua hiamoe ʻana.",
+        "Hoʻomaha au me ka maluhia no ka mea, o ʻoe wale no ke kiaʻi mai iaʻu a mālama mai iaʻu.",
+        "E hoʻolohi i koʻu hanu… e hoʻomaha i koʻu mau manaʻo… a paʻa iaʻu a kakahiaka. ʻĀmene."
+      ]
+    },
+    {
+      "id": "bless-my-family",
+      "title": "Hoʻomaikaʻi i koʻu Ohana",
+      "script": [
+        "E hoʻomanaʻo hoʻokahi i nā helehelena o kou ʻohana.",
+        "E ka Makua, e hoʻomaikaʻi i kēlā me kēia, i ke olakino, i ka naʻau, i ka manaʻoʻiʻo.",
+        "E hoola i ka mea i pilikia mawaena o kaua; e hoopalupalu i ka mea i paakiki.",
+        "E hoʻolilo i ko mākou hale i wahi hoʻomanawanui a me ka ʻakaʻaka.",
+        "E hoʻopili ia makou i kou aloha. ʻĀmene."
+      ]
+    },
+    {
+      "id": "courage-for-today",
+      "title": "Koa no kēia lā",
+      "script": [
+        "E kū kiʻekiʻe no kahi manawa. Hanu hohonu.",
+        "E ka Haku, e hoʻololi i koʻu makaʻu me kou mana, aloha, a me kou naʻauao.",
+        "E hāʻawi mai iaʻu i ka wiwo ʻole no ke kamaʻilio ʻana, ka hana, ka ʻanuʻu aʻu e pale ai.",
+        "Ke haʻalulu au, e hoʻomanaʻo mai iaʻu: E hele ʻoe ma mua oʻu.",
+        "Me ʻoe ma koʻu ʻaoʻao, koho wau i ka wiwo ʻole ma mua o ka makaʻu. ʻĀmene."
+      ]
+    },
+    {
+      "id": "gratitude-evening",
+      "title": "Helu i na Makana",
+      "script": [
+        "E kau ka lā. E hanu i kāna mea i noi mai ai iā ʻoe.",
+        "E ka Makua, ma mua o koʻu inoa ʻana i koʻu hemahema, e haʻi mai iaʻu i ka mea i hāʻawi ʻia mai iaʻu.",
+        "Mahalo iā ʻoe no ke aloha maʻamau aʻu i ʻaneʻane hele ai i kēia lā.",
+        "Mahalo iā ʻoe no ka poʻe nāna e hoʻomaʻamaʻa i koʻu ola.",
+        "ʻO ka puʻuwai mahalo he puʻuwai piha. Hoʻopiha i kaʻu i kēia pō. ʻĀmene."
+      ]
+    },
+    {
+      "id": "still-waters",
+      "title": "Na Wai Mau",
+      "script": [
+        "Wehe i kou mau lima. E lohi kou hanu me kēlā me kēia laina.",
+        "E ke kahuhipa, e alakaʻi iaʻu i kahi malu o ka malu.",
+        "ʻO nā manaʻo e holo ana i loko oʻu, ke kau nei au ma kou mau wāwae, pakahi.",
+        "E hoʻohou i koʻu ʻuhane a e hoʻihoʻi i ka mea i luhi i kēia lā.",
+        "ʻAʻole au e makaʻu, no ka mea, ke noho nei ʻoe me aʻu. ʻĀmene."
+      ]
+    },
+    {
+      "id": "morning-surrender",
+      "title": "Mamua o ka lā",
+      "script": [
+        "ʻAʻole i pau ka lā. E hui me ke Akua ma mua o nā mea ʻē aʻe.",
+        "E ka Haku, nou kēia lā mamua o koʻu.",
+        "E hele ʻoe i mua oʻu i nā keʻena a pau aʻu e komo ai, nā ʻōlelo a pau aʻu e ʻōlelo ai.",
+        "Ma kahi e hoʻowalewale ʻia ai au e holo, e aʻo mai iaʻu e hele.",
+        "E kauoha i koʻu mau hora, a e hoʻopili i koʻu naʻau i kou. ʻĀmene."
+      ]
+    },
+    {
+      "id": "peace-of-christ",
+      "title": "Maluhia e kiaʻi",
+      "script": [
+        "E kau i nā wāwae ʻelua ma ka honua. Aia ʻoe ma ʻaneʻi. Aia ke Akua maanei.",
+        "E Iesu, e hāʻawi mai iā mākou i ka maluhia hohonu a mau loa mai ou mai.",
+        "E mālama kou maluhia ma luna o koʻu naʻau a me koʻu manaʻo i kēia lā.",
+        "ʻO ka mea hiki ʻole iaʻu ke hoʻomalu, hoʻokuʻu wau iā ʻoe.",
+        "Ua lawa kou maluhia. Hoʻomaha wau i loko. ʻĀmene."
+      ]
+    },
+    {
+      "id": "gratitude-morning",
+      "title": "Mahalo mua",
+      "script": [
+        "Ma mua o ka papa inoa e hana ai, hoʻomaha hoʻokahi. Hoʻokahi hanu mahalo.",
+        "E ka Makua, mahalo iā ʻoe no kou hoʻāla ʻana iaʻu i kekahi lā o ka lokomaikaʻi.",
+        "Mahalo iā ʻoe no ka hanu, no ka māmā, no kahi ʻaoʻao hou.",
+        "ʻO ka mahalo, ʻaʻole wikiwiki, e hoʻonoho i ka leo o koʻu kakahiaka.",
+        "Hoʻomaka wau i kēia lā me ka mahalo. ʻĀmene."
+      ]
+    },
+    {
+      "id": "rest-for-the-weary",
+      "title": "Waiho i lalo",
+      "script": [
+        "Ua hala ka lā. Ua hana ʻoe i ka mea hiki iā ʻoe, a ua lawa ia.",
+        "E ka Haku, ke waiho nei au i na mea pau ole i kou mālama ana.",
+        "ʻO nā hopohopo aʻu e lawe ai i ka pōʻeleʻele, waiho wau iā lākou me ʻoe.",
+        "Hāʻawi mai ʻoe i ka maha i kāu mau keiki. E hoʻokipa mai iaʻu i kēia manawa.",
+        "Ke moe nei au me ka maluhia, me ka hilinaʻi iā ʻoe wale nō e mālama mai iaʻu. ʻĀmene."
+      ]
+    },
+    {
+      "id": "for-my-children",
+      "title": "Maluna o kaʻu i aloha ai",
+      "script": [
+        "E hoʻomanaʻo i kēlā me kēia kanaka āu i aloha ai. E paʻa i ko lākou mau maka no kekahi manawa.",
+        "E ka Makua, e kiaʻi ʻoe i ka poʻe i haawiia mai iaʻu.",
+        "E mālama iā lākou ma nā wahi a pau a lākou e hele ai a i nā manawa a pau a lākou e hoʻi mai ai.",
+        "Ma kahi aʻu e hāʻule ai iā lākou, e uhi kou lokomaikaʻi i ka hakahaka.",
+        "E hoʻopaʻa iā lākou i loko o kou lima, kokoke i koʻu hiki. ʻĀmene."
+      ]
+    },
+    {
+      "id": "strength-to-forgive",
+      "title": "Ka ikaika e kala aku",
+      "script": [
+        "Hanu. He paʻakikī kēia, a ua ʻike ke Akua.",
+        "E ka Haku, ua kala mai ʻoe iaʻu me ka uku nui. E hāʻawi mai iaʻu i ka ikaika e kala aku.",
+        "Lawe wau i ka inoa, ka hoʻomanaʻo, ka ʻeha, paʻa wau iā ʻoe.",
+        "E hoʻokuʻu mai iaʻu mai ka lawe ʻana i ka mea ʻaʻole naʻu e lawe.",
+        "E hoʻōla i ke kala kala ʻana. E hoʻōla mai iaʻu. ʻĀmene."
+      ]
+    },
+    {
+      "id": "sleep-psalm",
+      "title": "Malalo o kona mau Eheu",
+      "script": [
+        "Manaʻo i ke kaumaha o ka lā e haʻalele i kou poʻohiwi.",
+        "ʻO ka poʻe e pili kokoke ana i ka Mea Kiʻekiʻe loa, ʻike lākou i ka maha ma lalo o kāna mālama.",
+        "E ka Haku, e uhi mai iaʻu i kēia pō e like me ka uhi ana o ka manu i kana mau keiki.",
+        "ʻAʻohe makaʻu i ka pō, ʻaʻohe makaʻu i ka lā ʻapōpō, ʻo kāu mālama wale nō.",
+        "ʻAʻole au e makaʻu, no ka mea, ke mau nei kou mālama pono i ka pō. ʻĀmene."
+      ]
+    },
+    {
+      "id": "when-i-am-weak",
+      "title": "Ke Nawaliwali Au",
+      "script": [
+        "ʻAʻole pono ʻoe e hoʻohālike i ka ikaika ma ʻaneʻi.",
+        "E ka Haku, e hōʻike mai kou mana ma koʻu nawaliwali.",
+        "No laila, eia koʻu nawaliwali, oki au i ka huna ia ʻoe.",
+        "E ikaika ma kahi aʻu i koe.",
+        "ʻO kou lokomaikaʻi wale nō kaʻu e pono ai. Ua lawa kēlā. ʻĀmene."
+      ]
+    },
+    {
+      "id": "thankful-in-hard-times",
+      "title": "I kēia manawa, Mahalo",
+      "script": [
+        "He mahalo paʻakikī kēia. Hanu, a noho pono.",
+        "E ka Makua, i kēia manawa, ke kali nei au i kou lima.",
+        "Mahalo iā ʻoe no ka haʻalele ʻole ʻana iaʻu i loko.",
+        "Mahalo iā ʻoe ʻaʻole kēia kau ka hopena o ka moʻolelo.",
+        "Koho wau i ka mahalo, ʻaʻole no ka maʻalahi, akā no kou maikaʻi. ʻĀmene."
+      ]
+    }
+  ],
+  "devotionals": [
+    {
+      "id": "devotional-001",
+      "title": "Ka Makana o ka Hamau",
+      "body": "ʻO ka hapa nui o mākou e hālāwai me ke kakahiaka e holo nei, nā memo, nā poʻomanaʻo, nā kuleana. Ua kākau ʻia ka Halelū 46 i ka wā haunaele, akā ke kono nei ia iā kākou e hoʻomaha mālie i mua o ke Akua. ʻAʻole hana ʻole ka noho mālie; ʻo ia ka hoʻomanaʻo ʻana i ka Mea nāna e paʻa nā mea a pau. No ʻelua mau minuke, e hoʻokuʻu i kou poʻohiwi. E wili mau ana ka honua me kāu kōkua ʻole; ʻaʻole ia kou hemahema, akā he hōʻailona o kona ʻoiaʻiʻo.",
+      "prayer": "E ka Haku, e hoʻomaha i ka walaʻau i loko oʻu. E kōkua mai iaʻu e hilinaʻi ʻo ʻoe ke Akua a ʻaʻole wau. ʻĀmene."
+    },
+    {
+      "id": "devotional-002",
+      "title": "Ka ikaika ʻaʻole nau",
+      "body": "Ua kākau ʻo Paulo e pili ana i ka loaʻa ʻana o ka ikaika ma o Kristo lā ʻoiai ʻo ia i loko o ka hale paʻahao, ʻaʻole i ka wā e kū ana ma ka piko. ʻO ka ikaika āna i wehewehe ai, ʻaʻole ia he hilinaʻi iā ia iho; he ikaika ʻaiʻē, ʻo ke ʻano e hiki mai ana i ka wā e pau ai kāu. ʻO nā mea a pau e noi ai iā ʻoe i kēia lā, ʻaʻole ʻoe i manaʻo ʻia e lawe hoʻokahi. Nīnau. Loaʻa. Hele wāwae.",
+      "prayer": "E Iesu, e lilo ʻoe i ikaika noʻu i kēia lā. Hāʻawi wau iā ʻoe i ka mea kaumaha loa. ʻĀmene."
+    },
+    {
+      "id": "devotional-003",
+      "title": "Alakaʻi, ʻAʻole hoʻokele",
+      "body": "Hele mua ke kahu hipa; hookuke aku ke kalaiwa mahope. Ke koi nei ka Halelu 23 e alakaʻi ke Akua, i nā kula uliuli, ma ka ʻaoʻao o nā wai mālie. Inā manaʻo kou manaʻoʻiʻo e like me ke alakaʻi ʻia, wikiwiki, hoʻokaumaha, makaʻu, ʻaʻole na ke Kahuhipa kēlā leo. I kēia lā, e hoʻolohe i ka leo alakaʻi mālie, a hahai i hoʻokahi kapuaʻi i ka manawa.",
+      "prayer": "E ke kahu o koʻu ʻuhane, e ao mai ʻoe iaʻu i ka leo o kou leo. E alakaʻi iaʻu i kēia lā. ʻĀmene."
+    },
+    {
+      "id": "devotional-004",
+      "title": "Hoʻomaha no ka mea luhi",
+      "body": "Ua kono mai o Iesu i na kanaka luhi a kaumaha e hele mai; ʻAʻole ʻo ia i kaupalena i kona hoʻokipa ʻana i ka poʻe i hui pū nā mea a pau. ʻAʻole uku ka hoʻomaha no ka hoʻopau ʻana i kāu hana; he makana ia iwaenakonu. E hele mai e like me ʻoe, no ka mea, ʻo ia ka puʻuwai o ke kono.",
+      "prayer": "E ka Haku, ua luhi au. E kūʻai i koʻu kaumaha no kou hoʻomaha. ʻĀmene."
+    },
+    {
+      "id": "devotional-005",
+      "title": "He Manaolana",
+      "body": "Ua kākau ʻia ʻo Ieremia 29:11 i ka poʻe pio, ka poʻe i hāʻule ko lākou manaʻo. ʻO ka ʻōlelo hoʻohiki a ke Akua ʻaʻole ia he hoʻopakele koke; ʻo ia kona ʻano: ʻAʻole au i poina ia ʻoe. ʻAʻole ʻo kou hoʻihoʻi ʻana ka hopena o kāu moʻolelo. Ke kākau nei ka Mea kākau.",
+      "prayer": "E ka Makua, ke ʻike ʻole au i ke ala, e kōkua mai iaʻu e hilinaʻi i ka mea nāna e hana. ʻĀmene."
+    },
+    {
+      "id": "devotional-006",
+      "title": "E hoʻokokoke",
+      "body": "ʻO kou ʻike ponoʻī he mea hana maikaʻi a he haku weliweli. Ke kono nei ka ʻōlelo iā mākou e hilinaʻi me ka naʻau a pau, ʻaʻole no ka hewa o ka noʻonoʻo ʻana, akā no ka liʻiliʻi o kā mākou ʻike. E lawe mai i ke Akua i ka hoʻoholo āu e hoʻohuli ai. A laila hoʻolohe ʻoi aku ma mua o kāu ʻōlelo.",
+      "prayer": "E ka Haku, ke hilinaʻi nei au iā ʻoe me ka hoʻoholo i koʻu manaʻo i kēia manawa. E hoʻopololei i koʻu ala. ʻĀmene."
+    },
+    {
+      "id": "devotional-007",
+      "title": "ʻO ka mea e pale ai i ka hopohopo",
+      "body": "ʻO ka ʻōlelo a Paulo no ka hopohopo he mea ʻē aʻe: pule no nā mea āpau, a hoʻohui i ka hoʻomaikaʻi. ʻAʻole hōʻole ka mahalo, ʻo ia ka hoʻonui ʻana i ke kiʻi a hiki i ka hoʻi ʻana o ka ʻoiaʻiʻo o ke Akua i ke kiʻi. E inoa ʻekolu mau mea āu e mahalo ai. E nānā i kāna hana i ka makaʻu.",
+      "prayer": "E ke Akua o ka maluhia, e mālama i koʻu naʻau a me koʻu manaʻo i kēia lā. Ke hāʻawi aku nei au iā ʻoe i koʻu hopohopo, pakahi. ʻĀmene."
+    },
+    {
+      "id": "devotional-008",
+      "title": "Mālamalama i ka Poʻeleʻele",
+      "body": "ʻAʻole ʻo Ioane i hoʻohiki i ke ola me ka ʻole o ka pouli. Ua hoʻohiki ʻo ia ʻaʻole lanakila ka pōʻeleʻele. ʻAʻole hoʻopaʻapaʻa kahi kukui hoʻokahi me ka pō; ʻaʻa wale ia, a hāʻawi ka pōʻeleʻele. ʻAʻole pono ʻoe e hoʻoponopono i nā mea a pau i kēia lā. Pono wale ʻoe e hoʻomālamalama i kāu kukui liʻiliʻi, a hilinaʻi i ka Māmā ponoʻī e hana i ke koena.",
+      "prayer": "E Iesu ka malamalama o ke ao nei, e alohi mai ma na kihi oʻu i ka pouli i kēia lā. ʻĀmene."
+    },
+    {
+      "id": "devotional-009",
+      "title": "Ua lawa no kēia lā",
+      "body": "ʻAʻole hiki ke mālama ʻia ka mane. I kēlā me kēia kakahiaka, ʻākoakoa nā kānaka a lawa, a ʻapōpō e ʻākoakoa hou ai. Hoʻomaʻamaʻa ke Akua iā mākou e hilinaʻi i hoʻokahi lā i ka manawa, ʻaʻole no ka mea ʻoʻoleʻa ʻo ia, akā no ka mea e hana ai ka berena i kēlā me kēia lā i kahi pilina o kēlā me kēia lā. Mai lawe i ke kaumaha o ka lā ʻapōpō i kēia lā. Ua lawa ka lokomaikaʻi o kēia lā.",
+      "prayer": "E ka Makua, e hāʻawi mai iaʻu i kēia lā i kaʻu ʻai no kēlā me kēia lā, a me ka maluhia e haʻalele iā ʻoe i ka lā ʻapōpō. ʻĀmene."
+    },
+    {
+      "id": "devotional-010",
+      "title": "ʻIke ʻia a aloha ʻia",
+      "body": "Ma mua o kou hoʻokumu ʻana i hoʻokahi manaʻo i kēia kakahiaka, ua ʻike mua ʻia ʻoe. Ua ʻōlelo ʻo Halelū 139 e hui pū ke Akua iā ʻoe a ʻike ʻoe i kou noho ʻana a i kou ala ʻana. ʻAʻole ʻoe he malihini e noi ana i ka nānā. He keiki ʻoe, ʻike piha ʻia a, mahalo nui ʻia, aloha nui ʻia. ʻO ia ke kahua āu e kū nei i kēia lā.",
+      "prayer": "E ka Haku, hoʻomaikaʻi iā ʻoe ua ʻike piha ʻia wau a aloha mau ʻia. E hoʻopaʻa iaʻu i kēlā. ʻĀmene."
+    },
+    {
+      "id": "devotional-011",
+      "title": "Ka Hoolohe Loihi",
+      "body": "He kakaikahi ka hooiaio. ʻO ka hapa nui e hōʻike ana, hoʻokahi pule, hoʻokahi lokomaikaʻi, hoʻokahi koho pono i ka manawa. ʻAʻole me ka ikaika ka muliwai, akā ma ka hoʻi ʻana i ke ala like i kēlā me kēia lā. Ke hana nei kāu ʻae liʻiliʻi i ke Akua ma mua o kou ʻike. E hoʻi mau.",
+      "prayer": "E ka Haku, e hoʻokūpaʻa iaʻu i nā mea liʻiliʻi i kēia lā, me ka hilinaʻi iā ʻoe me ke ʻano o ke ʻano holoʻokoʻa. ʻĀmene."
+    },
+    {
+      "id": "devotional-012",
+      "title": "Ke Manaʻo ʻoe i ka poina",
+      "body": "Ua ʻike ʻo Hagara, ʻo ia wale nō ma ka wao nahele, ʻo ke Akua ka mea i ʻike maoli iā ia. ʻAʻohe mea ʻē aʻe i ʻike iā ia, ua hana ʻo ia. Inā manaʻo ʻoe e nānā ʻole ʻia ʻoe i kēia lā, e ka poʻe, e nā kūlana, a i ʻole kou manaʻolana ponoʻī, e hoʻomanaʻo ua ʻike ʻia ʻoe. ʻAʻohe mea e pili ana i kou ola i ʻike ʻole ʻia e ka mea ʻike i kēlā me kēia hōkū.",
+      "prayer": "E ke Akua nāna wau e ʻike, mahalo iā ʻoe ʻaʻole wau ʻo wau wale nō. E hālāwai me aʻu ma ʻaneʻi. ʻĀmene."
+    },
+    {
+      "id": "devotional-013",
+      "title": "ʻO ka makana āu i loaʻa ʻole ai",
+      "body": "He mea ʻino ka lokomaikaʻi i ka ʻaoʻao o mākou e makemake nei e loaʻa kona wahi. Akā, ua akaka ka Epeso: ua hoolaia oukou ma ka lokomaikai, ma ka manaʻoʻiʻo, ʻaʻole nau mai kēia, he makana ia. Hiki iā ʻoe ke hoʻōki i ka hoʻāʻo ʻana no ke aloha i loaʻa iā ʻoe. ʻAʻole ka hoʻomaha ka uku no ka hoʻopau ʻana; ʻo ia ka makana e hiki ai iā ʻoe ke hoʻomaka hou.",
+      "prayer": "E ka Makua, ua loaa iaʻu ka mea hiki ole iaʻu ke loaa. Mahalo iā ʻoe no ka lokomaikaʻi. E aʻo mai iaʻu e hoʻomaha i loko. ʻĀmene."
+    },
+    {
+      "id": "devotional-014",
+      "title": "Kawai ma ka waoakua",
+      "body": "Ua ʻōlelo ʻo ʻIsaia i nā muliwai ma ka wao nahele, ka wai kahi āu e hoʻohiki ai ʻaʻole hiki ke ulu. ʻAʻole ʻo kou kau maloʻo ka hopena o ka moʻolelo. Hoʻoikaika ke Akua i ka hoʻoulu ʻana i ke ola ma nā wahi kikoʻī a mākou i kākau ai. E nānā i ka ʻāina āu i haʻalele ai. ʻAʻole i pau ʻo ia ma laila.",
+      "prayer": "E ka Haku, e lawe mai i na kahawai i na wahi maloo oʻu. Ke hilinaʻi nei au iā ʻoe e hana i nā mea hou. ʻĀmene."
+    },
+    {
+      "id": "devotional-015",
+      "title": "Hoʻolei ana, ʻaʻole hali",
+      "body": "Hoʻohana ʻo Petero i kahi huaʻōlelo kino: hoʻolei. E hoʻolei i kou hopohopo i ke Akua ma ke ala e hoʻolei ai ʻoe i kahi ʻeke kaumaha mai kou poʻohiwi. Ke aʻo mai nei ʻo ia iā mākou e hana i kēia no ka mea mālama maoli ke Akua iā mākou. Hoʻopunipuni ka hopohopo me he mea lā he kōkua kona, me he mea lā e pau ka pilikia ke noʻonoʻo pinepine ʻia. ʻAʻole pēlā. Na ka pule e hoʻoneʻe i ke kaumaha i ka Mea ikaika e paʻa ai.",
+      "prayer": "E ka Haku, ke waiho nei au i koʻu hopohopo iā ʻoe, ʻoiaʻiʻo, ʻaʻole ma ka ʻōlelo wale nō. Hāpai i ka mea hiki ole iaʻu. ʻĀmene."
+    },
+    {
+      "id": "devotional-016",
+      "title": "Ka Leo Kahea iā ʻoe Maikaʻi",
+      "body": "Ma mua o ko Iesu hana ʻana i hoʻokahi hana mana, ua hōʻoia ka Makua iā ia ma ke ʻano he Keiki aloha. ʻO kāna mea aloha i hele mua mai, ʻaʻole he uku no ka hana i hana ʻia. ʻO kāu hana pū kekahi. ʻAʻole pono ʻoe e hoʻokō i kou ala i ke aloha ʻia. Loaʻa iā ʻoe ka hana mai ke aloha, ʻaʻole no ia.",
+      "prayer": "E ka Makua, e hoʻolohe mai iaʻu e kāhea mai ʻoe iaʻu he aloha ma mua o kaʻu hana ʻana i kekahi mea i kēia lā. ʻĀmene."
+    },
+    {
+      "id": "devotional-017",
+      "title": "Mai hoʻowahāwahā i na Hoʻomaka liilii",
+      "body": "Nīnau ʻo Zekaria ʻo wai ka mea ʻaʻa e hoʻowahāwahā i ka lā o nā mea liʻiliʻi. Makemake mākou i ka hale pule i hoʻopau ʻia; ʻOliʻoli ke Akua i ka pōhaku i waiho mua ʻia. ʻO nā mea a pau āu e hoʻomaka nei, he maʻamau, he hoʻōla, he hoʻolauleʻa, mai ana ʻoe i ka liʻiliʻi o kēia lā. ʻO nā mea nui ʻaneʻane e hoʻomaka me ka hilahila liʻiliʻi.",
+      "prayer": "E ka Haku, e hoʻomaikaʻi i ka hoʻomaka liʻiliʻi i mua oʻu. E kōkua mai iaʻu e kūpaʻa me ka liʻiliʻi. ʻĀmene."
+    },
+    {
+      "id": "devotional-018",
+      "title": "Hoihoi ia",
+      "body": "ʻAʻole alakaʻi ke kahu hipa o ka Halelū 23 i nā hipa i ka wā i pau ai lākou. Hoʻomoe ʻo ia ia lakou; Alakaʻi ʻo ia iā lākou i ka wai mālie; Hoʻihoʻi ʻo ia i ka ʻuhane. Inā ʻoe e holo kaʻawale, ʻo ka mea hoʻāno loa hiki iā ʻoe ke hana ʻo ia ke hoʻōki. ʻAʻole palaualelo ka hoʻihoʻi ʻana. ʻO ka hoʻolohe ʻana i ke Akua nāna ʻoe i kūkulu e pono ai ka hoʻomaha.",
+      "prayer": "E ke kahuhipa, e alakaʻi iaʻu ma ka wai mālie i kēia lā. E hoʻihoʻi mai i ka mea i ʻaʻahu ʻia i loko oʻu. ʻĀmene."
+    },
+    {
+      "id": "devotional-019",
+      "title": "Aloha i ka maʻamau",
+      "body": "ʻO ka wehewehe kaulana a Paulo no ke aloha ʻaʻole ia he manaʻo, he mea pono, kokoke i ka honua. Hoʻomanawanui. ʻAno. ʻAʻole huhū huhū. ʻAʻole mālama i ka moʻolelo o nā hewa. ʻO ke aloha kēia me ka ʻōwili lima, aloha i nā ahiahi Poʻalua a me nā poʻe paʻakikī. Mai nīnau \"he aloha anei au?\" akā \"hiki iaʻu ke hoʻomanawanui ma ʻaneʻi, lokomaikaʻi ma ʻaneʻi, kala ʻana ma ʻaneʻi?\"",
+      "prayer": "E ka Haku, e hoʻomanawanui a lokomaikaʻi iaʻu i kēia lā, ʻoi aku ka nui o ke kumu kūʻai iaʻu. ʻĀmene."
+    },
+    {
+      "id": "devotional-020",
+      "title": "Ke kaumaha o ka nani",
+      "body": "Ua hoʻomanawanui ʻo Paulo i ka hahau ʻia a me ka hoʻopaʻahao ʻia, akā ua nānā ʻo ia i kona mau pilikia ma ke ʻano o ka nani mau loa. ʻO ia ke kumu i hiki ai iā ia ke kūpaʻa. He ʻoiaʻiʻo kou ʻeha; ʻaʻole ʻo ia e hōʻole ana i kēlā. Akā ʻaʻole ia ka mea nui loa i ka nānā ʻana. Ke hele mai nei kekahi mea i ʻoi aku ka waiwai a me ka lokomaikaʻi.",
+      "prayer": "E ka Makua, i ka wā e kaumaha ai kēia lā, e hoʻāla i koʻu mau maka i ka mea mau. E lawe iaʻu ma o. ʻĀmene."
+    },
+    {
+      "id": "devotional-021",
+      "title": "E hoi mai iaʻu",
+      "body": "ʻO ka ʻōlelo pinepine a nā kāula ʻaʻole \"hoʻoikaika ikaika\" akā \"hoʻi.\" Ke kono mau nei ke Akua i kona poʻe kanaka, ʻaʻole me ka haiolelo, akā me na lima hamama. Inā ua hee ʻoe, ʻoi aku ka pōkole o ke ala e hoʻi ai ma mua o kou makaʻu. Hoʻokahi huli pono o ka naʻau, a e ike ʻoe ia ia e holo mai ana ia ʻoe.",
+      "prayer": "E ka Makua, ke huli nei au ia ʻoe i kēia lā. Mahalo iā ʻoe no ka hālāwai ʻana mai iaʻu ma mua o koʻu hiki ʻana. ʻĀmene."
+    },
+    {
+      "id": "devotional-022",
+      "title": "Noho mālie",
+      "body": "Koi ʻo Halelū 46 iā mākou e noho mālie a hoʻomanaʻo ʻo wai ke Akua. ʻO ka mālie ka mua, a laila ka ʻike. Ke hoʻāʻo nei mākou e noʻonoʻo i ko mākou ala i ka maluhia a hoʻopau i nā mea pili. I kekahi manawa, hoʻopau wale ka manaʻoʻiʻo i ka hoʻoikaika ʻana, e hoʻokuʻu i kou mau lima i kahi lōʻihi e hoʻomanaʻo ai i ka mea nāna e hoʻopaʻa i ka honua. ʻAʻole ʻoe.",
+      "prayer": "E ke Akua, e hoʻomaha i koʻu hooikaika ana. E kōkua mai iaʻu e lōʻihi ka hoʻomanaʻo ʻana ʻo ʻoe ke Akua. ʻĀmene."
+    },
+    {
+      "id": "devotional-023",
+      "title": "Ka Hoa Noho",
+      "body": "Wahi a ka ʻōlelo ʻōlelo, aia kahi hoaaloha ʻoi aku ka pili ma mua o ke kaikunāne. I loko o ke ao o ka poʻe e hele mai a hele, ʻo Iesū ka mea e noho, ma o ka hemahema, ka noho mālie, ka pō lōʻihi. ʻAʻole ʻoe i ʻoi aku iā ia, a ʻaʻole ʻoe i mamao loa. ʻAʻole ʻo ia e ʻimi nei i kumu e haʻalele ai. ʻO ia ka hoaaloha e noho nei.",
+      "prayer": "E Iesu, mahalo iā ʻoe no kou noho ʻana i ka wā hiki ʻole i nā poʻe ʻē aʻe. E kōkua mai iaʻu e hoʻomaha i kou ʻoiaʻiʻo. ʻĀmene."
+    },
+    {
+      "id": "devotional-024",
+      "title": "Hiki mai ka hauʻoli i ke kakahiaka",
+      "body": "Hoʻomaopopo ka haku mele he hiki i ka uē ke hoʻopiha i ka pō. ʻO ka pō maoli nō, akā ʻaʻole mau loa. He kakahiaka ko ke kaumaha ma kēlā ʻaoʻao, a ʻo ke Akua nāna i mālama i kou waimaka, ʻaʻole ia i nalowale i ka ʻike hoʻokahi. Ālia iki. He ʻōlelo hoʻohiki ke kakahiaka, ʻaʻole paha.",
+      "prayer": "E ka Haku, i koʻu pō, e kōkua mai iaʻu e hilinaʻi i ke kakahiaka āu i ʻōlelo mai ai. Paʻa i kuʻu waimaka. ʻĀmene."
+    }
+  ],
+  "plans": [
+    {
+      "id": "peace-7",
+      "title": "ʻEhiku lā o ka maluhia",
+      "tagline": "No nā kau hopohopo, hoʻokahi wahi hoʻomaha i ka lā."
+    },
+    {
+      "id": "gratitude-7",
+      "title": "Ka Hebedoma Mahalo",
+      "tagline": "E hoʻopili hou i kou mau maka e ʻike i ka lokomaikaʻi ma nā wahi āpau."
+    },
+    {
+      "id": "psalms-30",
+      "title": "30 La ma ka Halelu",
+      "tagline": "Ka buke pule o ka Baibala, hookahi himeni i ka manawa hookahi."
+    },
+    {
+      "id": "gospels-90",
+      "title": "Ke ola o Iesu i na lā 90",
+      "tagline": "E hele i loko o nā ʻEuanelio ʻehā."
+    },
+    {
+      "id": "bible-365",
+      "title": "Baibala i ka makahiki",
+      "tagline": "ʻO ka moʻolelo holoʻokoʻa, 20 mau minuke i ka lā."
+    }
+  ]
+}

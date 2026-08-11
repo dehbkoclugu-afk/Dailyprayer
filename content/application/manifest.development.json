@@ -1,0 +1,326 @@
+{
+  "schemaVersion": 1,
+  "scope": "development-partial",
+  "version": "1.0.0",
+  "generatedAt": "2026-08-10T00:00:00.000Z",
+  "productionRequiredLocaleCount": 38,
+  "globalTargetLocaleCount": 41,
+  "globalTargetPendingLocales": [
+    "cek",
+    "hlt",
+    "kos"
+  ],
+  "nativeReviewGatedLocales": [
+    "cek",
+    "hlt",
+    "kos"
+  ],
+  "includedLocales": [
+    "en",
+    "tr",
+    "es",
+    "pt",
+    "fr",
+    "de",
+    "it",
+    "nl",
+    "ar",
+    "cs",
+    "da",
+    "eo",
+    "fa",
+    "fi",
+    "haw",
+    "hr",
+    "ht",
+    "hu",
+    "ja",
+    "ko",
+    "la",
+    "lv",
+    "mi",
+    "my",
+    "no",
+    "pl",
+    "ro",
+    "ru",
+    "sq",
+    "sr-Cyrl",
+    "sr-Latn",
+    "sv",
+    "tl",
+    "to",
+    "uk",
+    "vi",
+    "zh-Hans",
+    "zh-Hant"
+  ],
+  "releases": [
+    {
+      "locale": "en",
+      "version": "1.0.0",
+      "bytes": 23674,
+      "sha256": "bfdc23220b5951c94ed4099e8c6d807a2e1dee86a2a7a62918fca7115a2bb080",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/en.json"
+    },
+    {
+      "locale": "tr",
+      "version": "1.0.0",
+      "bytes": 25020,
+      "sha256": "8cd5f9e7ce7e7b3a6054da9de6077b193daae3b63a530872c97f720f68e19c45",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/tr.json"
+    },
+    {
+      "locale": "es",
+      "version": "1.0.0",
+      "bytes": 24432,
+      "sha256": "43adbda9ff38c85f553e9b99d0f3fcc12e378ea5969dd9cbd7dece55eb4496f3",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/es.json"
+    },
+    {
+      "locale": "pt",
+      "version": "1.0.0",
+      "bytes": 24577,
+      "sha256": "6fa6e8ea467ba3b95c5c815ed5edfe71876f97a74a5cf48f0091ca558d549f96",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/pt.json"
+    },
+    {
+      "locale": "fr",
+      "version": "1.0.0",
+      "bytes": 26349,
+      "sha256": "03bf59eb712ccf6b1045812a2d274598bd49379582c797dd4259ff39e77cc3a2",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/fr.json"
+    },
+    {
+      "locale": "de",
+      "version": "1.0.0",
+      "bytes": 26083,
+      "sha256": "2830201f71cd7eec895fc5128ae6b1e5c4d33075e09e0dbefce3044e233f5c46",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/de.json"
+    },
+    {
+      "locale": "it",
+      "version": "1.0.0",
+      "bytes": 23937,
+      "sha256": "e006fda318bfd234df1543c1a06bbc9d5b5bdf3e1473206d0ae47ae5dbb14525",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/it.json"
+    },
+    {
+      "locale": "nl",
+      "version": "1.0.0",
+      "bytes": 22777,
+      "sha256": "94dd80e7b8a28fdfbbd05804d40ac4e7bfa82faf91dc8db3d646d4d529e46cf3",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/nl.json"
+    },
+    {
+      "locale": "ar",
+      "version": "1.0.0",
+      "bytes": 29565,
+      "sha256": "1403aae2e0db4ccdab0a1fd9e9651c37ec305ae593736fe5bdef290d063cfa7b",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/ar.json"
+    },
+    {
+      "locale": "cs",
+      "version": "1.0.0",
+      "bytes": 24284,
+      "sha256": "f72fcea4bec9f6966f9e4614e9ce1846ac45a09ceda17c86b91a0ec691593c42",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/cs.json"
+    },
+    {
+      "locale": "da",
+      "version": "1.0.0",
+      "bytes": 24293,
+      "sha256": "16e7c4aa652c28441907259cb0568a7871c4d527c5a745108f6d6b7b5c6dfffc",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/da.json"
+    },
+    {
+      "locale": "eo",
+      "version": "1.0.0",
+      "bytes": 23957,
+      "sha256": "b8c70fbc7db11ce1fcb790dd2c255ce552f10476fe24153d6be041c7d20da5ab",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/eo.json"
+    },
+    {
+      "locale": "fa",
+      "version": "1.0.0",
+      "bytes": 34434,
+      "sha256": "a1fbfd64863fd90f806ef5401e8c96bbf217401454abbbbf59c885349e7c55c0",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/fa.json"
+    },
+    {
+      "locale": "fi",
+      "version": "1.0.0",
+      "bytes": 26047,
+      "sha256": "18f1b280d4c2617f7c48b60a3da8430ba6c3ced22f4d4a87bcc61441ed789a71",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/fi.json"
+    },
+    {
+      "locale": "haw",
+      "version": "1.0.0",
+      "bytes": 28197,
+      "sha256": "c23fc1739275ea054932c483c88165343266445663f5c87eca873b676c242384",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/haw.json"
+    },
+    {
+      "locale": "hr",
+      "version": "1.0.0",
+      "bytes": 23269,
+      "sha256": "24eeb54983041bb52e55a596da7cab70321401548cfbcf3b81764fe73fd725f4",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/hr.json"
+    },
+    {
+      "locale": "ht",
+      "version": "1.0.0",
+      "bytes": 23198,
+      "sha256": "1fb0fe3239fb1d12c2fcfff948de90a3febaa0fe216ac7fb7fff39eb23f70c12",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/ht.json"
+    },
+    {
+      "locale": "hu",
+      "version": "1.0.0",
+      "bytes": 24303,
+      "sha256": "c16819d726e840d6ab97646483f903ae151598aa9f88227c1b107193be1e231b",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/hu.json"
+    },
+    {
+      "locale": "ja",
+      "version": "1.0.0",
+      "bytes": 31780,
+      "sha256": "eefd9cca50a06122d0da91d141e4b7090c5c883c2bf3b4a9caa5293efdb65507",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/ja.json"
+    },
+    {
+      "locale": "ko",
+      "version": "1.0.0",
+      "bytes": 30021,
+      "sha256": "dde954377aef93767fefc57d9db31617d7511e55ca8044db023aef3a3f72ff6c",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/ko.json"
+    },
+    {
+      "locale": "la",
+      "version": "1.0.0",
+      "bytes": 22818,
+      "sha256": "c750a700215e7d870091447cd263b0b7f182880be5a3ee86556c41658c1f791a",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/la.json"
+    },
+    {
+      "locale": "lv",
+      "version": "1.0.0",
+      "bytes": 24208,
+      "sha256": "bfcac2b04fb539647038ca50a869fbbe079a6f3ec96f5ae93cccb707edb67707",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/lv.json"
+    },
+    {
+      "locale": "mi",
+      "version": "1.0.0",
+      "bytes": 26439,
+      "sha256": "d700c669af87bed828a91a4ebe54161b7e3b24daa83757b11f4571106825798f",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/mi.json"
+    },
+    {
+      "locale": "my",
+      "version": "1.0.0",
+      "bytes": 67553,
+      "sha256": "8fbe168c1e882a358cc97dbd51259ec6cd274c21abdd3aa407c61b13b609d713",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/my.json"
+    },
+    {
+      "locale": "no",
+      "version": "1.0.0",
+      "bytes": 23911,
+      "sha256": "7e0982bdee8f583cdd66e4a0d6d42d9e089470436a09d4daf224d4575d71d1ac",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/no.json"
+    },
+    {
+      "locale": "pl",
+      "version": "1.0.0",
+      "bytes": 25186,
+      "sha256": "6cf7a8b5cc5eb8d75a7b23cf230081be1bab6039f7bec761c7d917987b3910de",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/pl.json"
+    },
+    {
+      "locale": "ro",
+      "version": "1.0.0",
+      "bytes": 25980,
+      "sha256": "dc5f11ac2c449f65cfc817511830eefce4d3d74cded0a150b9f23aa9cb19ce4b",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/ro.json"
+    },
+    {
+      "locale": "ru",
+      "version": "1.0.0",
+      "bytes": 36216,
+      "sha256": "1f77bbab7fd98812a841cfe7b51cb6ecf95ee731333aa7b826eca7098a046459",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/ru.json"
+    },
+    {
+      "locale": "sq",
+      "version": "1.0.0",
+      "bytes": 24841,
+      "sha256": "0fc7a1a56b676c75caa8133c0e923c93d2aa8ff0b05986b574e023218b7649de",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/sq.json"
+    },
+    {
+      "locale": "sr-Cyrl",
+      "version": "1.0.0",
+      "bytes": 34051,
+      "sha256": "9ff767fbaac084bb68376a43fe17db1d339ff0266dbd7bc8b464cd89ccd9ba87",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/sr-Cyrl.json"
+    },
+    {
+      "locale": "sr-Latn",
+      "version": "1.0.0",
+      "bytes": 23007,
+      "sha256": "7a196341b60b3d048006484cf8d6136acdf091a25fdb428c8890b4623ddfdde9",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/sr-Latn.json"
+    },
+    {
+      "locale": "sv",
+      "version": "1.0.0",
+      "bytes": 24368,
+      "sha256": "0c6b0634f28de075226cd64a2996729480997b67d11ac8f557c95d6377392402",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/sv.json"
+    },
+    {
+      "locale": "tl",
+      "version": "1.0.0",
+      "bytes": 26982,
+      "sha256": "7faa55db5cded5f0844ac416846dc15742801146e8948c9969fcb1a0444091a5",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/tl.json"
+    },
+    {
+      "locale": "to",
+      "version": "1.0.0",
+      "bytes": 31479,
+      "sha256": "f08a54f3b9e7bb6223be9a47980ceb7cbda28689c21c2fe63be7dbd329c2b914",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/to.json"
+    },
+    {
+      "locale": "uk",
+      "version": "1.0.0",
+      "bytes": 35423,
+      "sha256": "80fbe83e3e8d1d3313da208c53d7c4184119824a4bce51ba4646dcab9117aebc",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/uk.json"
+    },
+    {
+      "locale": "vi",
+      "version": "1.0.0",
+      "bytes": 31727,
+      "sha256": "b50f0b26dee59d43ab324eafd8dd9064fc1103458519fa9cfeeee4a3df71227f",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/vi.json"
+    },
+    {
+      "locale": "zh-Hans",
+      "version": "1.0.0",
+      "bytes": 23765,
+      "sha256": "2438a4e2ab656553852e80366e15f89b3037bda248129363fe25082a1cf951a4",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/zh-Hans.json"
+    },
+    {
+      "locale": "zh-Hant",
+      "version": "1.0.0",
+      "bytes": 23765,
+      "sha256": "54972089c34a60c5cce9aa75f89330d529aeaf722f3fdc942ae8aef9475e167a",
+      "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/zh-Hant.json"
+    }
+  ]
+}
