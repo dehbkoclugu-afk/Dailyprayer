@@ -47,10 +47,12 @@ deneyimi, performans ve görsel cila gelir.
     diyaloğu ve iOS spinner kullanılıyor; saklanan `HH:mm` aktif dilin 12/24 saat biçiminde gösteriliyor.
 18. ✅ **TAMAMLANDI — İletişim satırını çalışır hâle getir.** Profile e-posta uygulamasını açıyor;
     açılamazsa doğrulanmış destek adresini panoya kopyalayıp kullanıcıya gösteriyor.
-19. **Bilinmeyen rota/veri hatalarına tasarlanmış durum ekle.** Geçersiz plan, gün veya kitap
-    parametresi boş koyu ekran üretmemeli; açıklama ve güvenli geri dönüş sunmalı.
-20. **Yayın öncesi metin-doğruluk ekranı oluştur.** Lisans, fiyat, deneme, bildirim ve gizlilik
-    beyanlarının gerçek runtime davranışıyla eşleştiği tek kontrol listesi release şartı olmalı.
+19. ✅ **TAMAMLANDI — Bilinmeyen rota/veri hatalarına tasarlanmış durum ekle.** Plan, plan günü,
+    kitap, bölüm ve ayet parametreleri sınırlarıyla doğrulanıyor; hatalı deep link boş ekran veya
+    bozuk store yazımı yerine erişilebilir güvenli geri dönüş sunuyor.
+20. ✅ **TAMAMLANDI — Yayın öncesi metin-doğruluk kontrolü oluştur.** Sürümlenen release claim
+    manifesti; lisans, mağaza fiyatı, deneme uygunluğu, yerel bildirim ve gizlilik beyanlarını
+    gerçek runtime kanıtlarıyla fail-closed doğruluyor; CI ve imzalı Android işi sapmada duruyor.
 
 ## P1 — Erişilebilirlik ve temel kullanım (21–50)
 

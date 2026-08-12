@@ -18,6 +18,8 @@ import { useT } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
 import { useScriptureLocale } from '@/i18n/scripture';
 import { RTL_LOCALE_TAGS } from '@/i18n/globalLanguageCatalog';
+import { InvalidRouteState } from '@/components/InvalidRouteState';
+import { integerParam, validReaderPosition } from '@/lib/routeValidation';
 
 export default function Read() {
   const { t: tr, locale } = useT();
@@ -30,7 +32,12 @@ export default function Read() {
   const marks = useHighlightStore((s) => s.marks);
   const setMark = useHighlightStore((s) => s.set);
   const clearMark = useHighlightStore((s) => s.clear);
-  const params = useLocalSearchParams<{ b?: string; c?: string; v?: string; settings?: string }>();
+  const params = useLocalSearchParams<{ b?: string | string[]; c?: string | string[]; v?: string | string[]; settings?: string }>();
+  const hasDeepPosition = params.b != null || params.c != null;
+  const deepPosition = hasDeepPosition
+    ? validReaderPosition(params.b, params.c, bible.map((entry) => entry.chapters.length))
+    : null;
+  const invalidDeepPosition = hasDeepPosition && deepPosition == null;
 
   // reading palette: paper override folded over the app theme
   const rt = useReaderTheme();
@@ -48,22 +55,24 @@ export default function Read() {
 
   // deep-navigation: /read?b=&c=&v= jumps to a verse (from search / saved)
   useEffect(() => {
-    if (params.b != null && params.c != null) {
-      setPos(Number(params.b), Number(params.c));
-    }
+    if (deepPosition) setPos(deepPosition.book, deepPosition.chapter);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.b, params.c]);
+  }, [deepPosition?.book, deepPosition?.chapter]);
 
-  const targetV = params.v != null ? Number(params.v) : null;
+  const targetV = integerParam(params.v);
   useEffect(() => {
-    if (targetV == null || Number.isNaN(targetV)) return;
+    if (targetV == null || targetV >= verses.length) return;
     const id = setTimeout(() => {
       listRef.current?.scrollToIndex({ index: targetV, viewPosition: 0.28, animated: true });
       setFlashV(targetV);
       setTimeout(() => setFlashV(null), 2200);
     }, 320);
     return () => clearTimeout(id);
-  }, [targetV, bIdx, cIdx]);
+  }, [targetV, bIdx, cIdx, verses.length]);
+
+  if (invalidDeepPosition || (params.v != null && (targetV == null || targetV >= verses.length))) {
+    return <InvalidRouteState />;
+  }
 
   const go = (b: number, c: number) => {
     setPos(b, c);
