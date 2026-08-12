@@ -15,6 +15,8 @@ import { planReading, formatReadingRef } from '@/data/planReadings';
 import { usePlanStore } from '@/state/usePlanStore';
 import { useT } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
+import { InvalidRouteState } from '@/components/InvalidRouteState';
+import { singleParam } from '@/lib/routeValidation';
 
 export default function PlanScreen() {
   const t = useTheme();
@@ -22,11 +24,12 @@ export default function PlanScreen() {
   const dawn = artwork.scheme === 'dawn';
   const { t: tr, locale } = useT();
   const insets = useSafeAreaInsets();
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const plan = usePlans().find((p) => p.id === id);
+  const { id } = useLocalSearchParams<{ id: string | string[] }>();
+  const planId = singleParam(id);
+  const plan = usePlans().find((p) => p.id === planId);
   const progress = usePlanStore((s) => s.progress);
 
-  if (!plan) return <View style={{ flex: 1, backgroundColor: t.bg }} />;
+  if (!plan) return <InvalidRouteState />;
 
   const done = progress[plan.id] ?? [];
   const days = Array.from({ length: plan.days }, (_, i) => i);

@@ -17,17 +17,20 @@ import { usePlanStore } from '@/state/usePlanStore';
 import { useT } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
 import { useScriptureLocale } from '@/i18n/scripture';
+import { InvalidRouteState } from '@/components/InvalidRouteState';
+import { singleParam, validPlanDay } from '@/lib/routeValidation';
 
 export default function PlanDay() {
   const t = useTheme();
   const { t: tr, locale } = useT();
   const scriptureLocale = useScriptureLocale();
-  const { id, day } = useLocalSearchParams<{ id: string; day: string }>();
-  const plan = usePlans().find((p) => p.id === id);
-  const dayIdx = Number(day) || 0;
+  const { id, day } = useLocalSearchParams<{ id: string | string[]; day: string | string[] }>();
+  const planId = singleParam(id);
+  const plan = usePlans().find((p) => p.id === planId);
+  const dayIdx = plan ? validPlanDay(day, plan.days) : null;
   const { progress, toggleDay } = usePlanStore();
 
-  if (!plan) return <View style={{ flex: 1, backgroundColor: t.bg }} />;
+  if (!plan || dayIdx == null) return <InvalidRouteState />;
 
   const reading = planReading(plan.id, dayIdx);
   const ref = formatReadingRef(reading, locale);
