@@ -235,4 +235,12 @@ export default {
   "notification.eveningTitle": "အဆင်သင့်ဖြစ်ချိန်တိုင်း ပြန်လာပါ။",
   "notification.eveningBody": "ဒီနေ့ တစ်မိနစ်လောက် ငြိမ်နေဖို့ နေရာရှိသေးတယ်။",
   "profile.deleteData":"စက်တွင်းဒေတာကို ဖျက်မည်","profile.deleteDataMessage":"ဤစက်မှ သင်၏ဂျာနယ်၊ ဆက်တိုက်မှတ်တမ်း၊ သိမ်းထားသောကျမ်းပိုဒ်များ၊ အစီအစဉ်တိုးတက်မှုနှင့် ဆက်တင်များကို အပြီးဖျက်ပါမည်။ စတိုးစာရင်းသွင်းမှုကို မပယ်ဖျက်ပါ။","profile.deleteDataConfirm":"အားလုံးဖျက်မည်","profile.deleteDataError":"စက်တွင်းဒေတာကို မဖျက်နိုင်ပါ။ ထပ်မံကြိုးစားပါ။",
+  'scriptureSource.title': "စာသားရင်းမြစ်",
+  'scriptureSource.edition': "မူကွဲ",
+  'scriptureSource.rights': "အခွင့်အရေးနှင့် လိုင်စင်",
+  'scriptureSource.attribution': "ရင်းမြစ်ဖော်ပြချက်အပြည့်အစုံ",
+  'scriptureSource.openSource': "ရင်းမြစ်အသိပေးချက်ကို ဖွင့်ရန်",
+  'scriptureSource.openLicense': "လိုင်စင်ကို ဖွင့်ရန်",
+  'scriptureSource.rightsUnavailable': "အခွင့်အရေးအခြေအနေကို ရင်းမြစ်အသိပေးချက်တွင် ကြည့်နိုင်သည်။",
+  'scriptureSource.linkError': "လင့်ခ်ကို ဖွင့်မရပါ။ ထပ်မံကြိုးစားပါ။",
 } as const;

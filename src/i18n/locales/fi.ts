@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Päivän hartaus','devotional.amen':'Aamen','player.guidedText':'Ohjattu tekstirukous','player.minLeft':'min jäljellä','player.close':'Sulje rukous','player.previous':'Edellinen rivi','player.next':'Seuraava rivi','player.pause':'Keskeytä','player.resume':'Jatka','player.pace':'Tahti','player.pace.slow':'Hidas','player.pace.normal':'Luonnollinen','player.pace.quick':'Nopea',
   'toast.verse':'Jae säilyy sydämessäsi – 1/4','toast.devotional':'Hartaus valmis – liekkisi palaa yhä','toast.prayer':'Rukous valmis','toast.gratitudeSaved':'Tallennettu – päivän kiitollisuus kirjattu','toast.requestSaved':'Rukouspyyntö tallennettu','toast.highlightOn':'Jae korostettu','toast.highlightOff':'Korostus poistettu','toast.reminderSet':'Muistutus päivitetty','notification.dailyTitle':'Hiljainen hetki on valmis','notification.dailyBody':'Jakeesi ja rukouksesi odottavat, kun sinulla on hetki.','notification.eveningTitle':'Palaa, kun olet valmis','notification.eveningBody':'Tässä päivässä on vielä tilaa yhdelle hiljaiselle minuutille.',
   "profile.deleteData":"Poista paikalliset tiedot","profile.deleteDataMessage":"Tämä poistaa päiväkirjan, putken, tallennetut jakeet, suunnitelmien edistymisen ja asetukset pysyvästi tältä laitteelta. Kauppatilauksesi ei peruunnu.","profile.deleteDataConfirm":"Poista kaikki","profile.deleteDataError":"Paikallisia tietoja ei voitu poistaa. Yritä uudelleen.",
+  'scriptureSource.title': "Tekstin lähde",
+  'scriptureSource.edition': "Laitos",
+  'scriptureSource.rights': "Oikeudet ja lisenssi",
+  'scriptureSource.attribution': "Täydellinen lähdemerkintä",
+  'scriptureSource.openSource': "Avaa lähdeilmoitus",
+  'scriptureSource.openLicense': "Avaa lisenssi",
+  'scriptureSource.rightsUnavailable': "Oikeuksien tila on lähdeilmoituksessa.",
+  'scriptureSource.linkError': "Linkkiä ei voitu avata. Yritä uudelleen.",
 } as const;

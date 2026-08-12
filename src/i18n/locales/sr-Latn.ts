@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Današnje razmišljanje','devotional.amen':'Amen','player.guidedText':'Tekst vođene molitve','player.minLeft':'min preostalo','player.close':'Zatvori molitvu','player.previous':'Prethodni stih','player.next':'Sledeći stih','player.pause':'Pauziraj','player.resume':'Nastavi','player.pace':'Tempo','player.pace.slow':'Sporo','player.pace.normal':'Prirodno','player.pace.quick':'Brzo',
   'toast.verse':'Stih sačuvan u srcu — 1 od 4','toast.devotional':'Razmišljanje završeno — tvoj plamen i dalje gori','toast.prayer':'Molitva dovršena','toast.gratitudeSaved':'Sačuvano — današnja zahvalnost zabilježena','toast.requestSaved':'Molitvena molba spremljena','toast.highlightOn':'Stih istaknut','toast.highlightOff':'Isticanje uklonjeno','toast.reminderSet':'Podsjetnik ažuriran','notification.dailyTitle':'Tihi trenutak je spreman','notification.dailyBody':'Tvoj stih i molitva čekaju kad god imaš minutu.','notification.eveningTitle':'Vrati se kad budeš spreman','notification.eveningBody':'Danas još ima mjesta za jednu tihu minutu.',
   "profile.deleteData":"Izbriši lokalne podatke","profile.deleteDataMessage":"Ovim se sa uređaja trajno brišu dnevnik, niz, sačuvani stihovi, napredak planova i podešavanja. Pretplata u prodavnici neće biti otkazana.","profile.deleteDataConfirm":"Izbriši sve","profile.deleteDataError":"Lokalne podatke nije moguće izbrisati. Pokušaj ponovo.",
+  'scriptureSource.title': "Izvor teksta",
+  'scriptureSource.edition': "Izdanje",
+  'scriptureSource.rights': "Prava i licenca",
+  'scriptureSource.attribution': "Puna atribucija",
+  'scriptureSource.openSource': "Otvori obaveštenje izvora",
+  'scriptureSource.openLicense': "Otvori licencu",
+  'scriptureSource.rightsUnavailable': "Status prava je naveden u obaveštenju izvora.",
+  'scriptureSource.linkError': "Vezu nije moguće otvoriti. Pokušajte ponovo.",
 } as const;

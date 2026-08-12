@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Dzisiejsze rozważanie','devotional.amen':'Amen','player.guidedText':'Tekst modlitwy prowadzonej','player.minLeft':'min pozostało','player.close':'Zamknij modlitwę','player.previous':'Poprzedni wers','player.next':'Następny wers','player.pause':'Wstrzymaj','player.resume':'Wznów','player.pace':'Tempo','player.pace.slow':'Wolne','player.pace.normal':'Naturalne','player.pace.quick':'Szybkie',
   'toast.verse':'Werset zachowany w Twoim sercu – 1 z 4','toast.devotional':'Rozważanie ukończone – Twój płomień nadal świeci','toast.prayer':'Modlitwa ukończona','toast.gratitudeSaved':'Zapisano – wdzięczność zaliczona na dziś','toast.requestSaved':'Zapisano intencję modlitewną','toast.highlightOn':'Werset podkreślony','toast.highlightOff':'Usunięto podkreślenie','toast.reminderSet':'Zaktualizowano przypomnienie','notification.dailyTitle':'Cicha chwila jest gotowa','notification.dailyBody':'Twój werset i modlitwa czekają, gdy znajdziesz chwilę.','notification.eveningTitle':'Wróć, gdy będziesz gotowy','notification.eveningBody':'Dziś wciąż jest miejsce na jedną spokojną minutę.',
   "profile.deleteData":"Usuń dane lokalne","profile.deleteDataMessage":"Spowoduje to trwałe usunięcie z tego urządzenia dziennika, serii, zapisanych wersetów, postępów planów i ustawień. Subskrypcja w sklepie nie zostanie anulowana.","profile.deleteDataConfirm":"Usuń wszystko","profile.deleteDataError":"Nie udało się usunąć danych lokalnych. Spróbuj ponownie.",
+  'scriptureSource.title': "Źródło tekstu",
+  'scriptureSource.edition': "Wydanie",
+  'scriptureSource.rights': "Prawa i licencja",
+  'scriptureSource.attribution': "Pełne przypisanie",
+  'scriptureSource.openSource': "Otwórz informację o źródle",
+  'scriptureSource.openLicense': "Otwórz licencję",
+  'scriptureSource.rightsUnavailable': "Status praw jest podany w informacji o źródle.",
+  'scriptureSource.linkError': "Nie udało się otworzyć linku. Spróbuj ponownie.",
 } as const;

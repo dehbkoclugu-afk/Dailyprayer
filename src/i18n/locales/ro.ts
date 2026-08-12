@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Devoționalul de astăzi','devotional.amen':'Amin','player.guidedText':'Text de rugăciune ghidată','player.minLeft':'min rămase','player.close':'Închide rugăciunea','player.previous':'Rândul anterior','player.next':'Rândul următor','player.pause':'Pauză','player.resume':'Continuă','player.pace':'Ritm','player.pace.slow':'Lent','player.pace.normal':'Natural','player.pace.quick':'Rapid',
   'toast.verse':'Verset păstrat în inimă — 1 din 4','toast.devotional':'Devoțional finalizat — flacăra ta rămâne aprinsă','toast.prayer':'Rugăciune finalizată','toast.gratitudeSaved':'Salvat — recunoștința de azi a fost înregistrată','toast.requestSaved':'Cerere de rugăciune salvată','toast.highlightOn':'Verset evidențiat','toast.highlightOff':'Evidențiere eliminată','toast.reminderSet':'Reamintire actualizată','notification.dailyTitle':'O clipă de liniște este pregătită','notification.dailyBody':'Versetul și rugăciunea ta te așteaptă când ai un minut.','notification.eveningTitle':'Revino când ești pregătit','notification.eveningBody':'Mai este loc astăzi pentru un minut de liniște.',
   "profile.deleteData":"Șterge datele locale","profile.deleteDataMessage":"Aceasta șterge definitiv de pe dispozitiv jurnalul, seria, versetele salvate, progresul planurilor și preferințele. Abonamentul din magazin nu va fi anulat.","profile.deleteDataConfirm":"Șterge tot","profile.deleteDataError":"Datele locale nu au putut fi șterse. Încearcă din nou.",
+  'scriptureSource.title': "Sursa textului",
+  'scriptureSource.edition': "Ediție",
+  'scriptureSource.rights': "Drepturi și licență",
+  'scriptureSource.attribution': "Atribuire completă",
+  'scriptureSource.openSource': "Deschide informația sursei",
+  'scriptureSource.openLicense': "Deschide licența",
+  'scriptureSource.rightsUnavailable': "Statutul drepturilor este disponibil în informația sursei.",
+  'scriptureSource.linkError': "Linkul nu a putut fi deschis. Încearcă din nou.",
 } as const;

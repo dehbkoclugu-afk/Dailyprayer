@@ -1,5 +1,11 @@
 import type { GlobalLocaleTag } from '@/i18n/globalLanguageCatalog';
 import type { BiblePack } from '@/data/biblePack';
+import {
+  bundledScriptureSource,
+  downloadedScriptureSource,
+  type BundledScriptureLocale,
+  type ScriptureSource,
+} from '@/data/scriptureSource';
 
 /** A chapter is an ordered list of [verseLabel, text] pairs (labels keep ranges). */
 export type Chapter = [string, string][];
@@ -10,9 +16,13 @@ export interface FullBook {
   chapters: Chapter[];
 }
 
-interface BibleData {
+interface BiblePayload {
   credit: string;
   books: FullBook[];
+}
+
+interface BibleData extends BiblePayload {
+  source: ScriptureSource;
 }
 
 // Each translation is ~4 MB. The require() calls keep them out of initial bundle
@@ -20,9 +30,9 @@ interface BibleData {
 // then cached. Turkish is the bundled Yorumsuz Türkçe Çeviri; the rest have
 // exact public-domain source evidence. Portuguese and French use downloadable,
 // checksum-pinned editions because the archived bundle revisions are ambiguous.
-type BundledBibleLocale = 'en' | 'tr' | 'es' | 'de';
+type BundledBibleLocale = BundledScriptureLocale;
 
-const LOADERS: Record<BundledBibleLocale, () => BibleData> = {
+const LOADERS: Record<BundledBibleLocale, () => BiblePayload> = {
   tr: () => require('./bible-full.tr.json'),
   en: () => require('./bible-full.en.json'),
   es: () => require('./bible-full.es.json'),
@@ -39,15 +49,27 @@ function isBundledLocale(locale: GlobalLocaleTag): locale is BundledBibleLocale 
 function load(locale: GlobalLocaleTag): BibleData {
   const remote = downloaded[locale];
   if (remote) return remote;
-  if (isBundledLocale(locale)) return (cache[locale] ??= LOADERS[locale]());
+  if (isBundledLocale(locale)) {
+    return (cache[locale] ??= (() => {
+      const payload = LOADERS[locale]();
+      return { ...payload, source: bundledScriptureSource(locale, payload.credit) };
+    })());
+  }
   // Startup/picker guarantees remote preferences are registered before use.
   // English is a defensive fallback for a deleted/corrupt pack.
-  return (cache.en ??= LOADERS.en());
+  return (cache.en ??= (() => {
+    const payload = LOADERS.en();
+    return { ...payload, source: bundledScriptureSource('en', payload.credit) };
+  })());
 }
 
 /** Register a checksum + schema validated offline pack for synchronous reader use. */
 export function registerDownloadedBiblePack(pack: BiblePack): void {
-  downloaded[pack.locale] = { credit: pack.credit, books: pack.books };
+  downloaded[pack.locale] = {
+    credit: pack.credit,
+    books: pack.books,
+    source: downloadedScriptureSource(pack),
+  };
 }
 
 /** The whole Bible for a locale, in source-defined canon/order. Lazy + cached. */
@@ -58,4 +80,9 @@ export function getBible(locale: GlobalLocaleTag): FullBook[] {
 /** Per-translation attribution line (required by each source's license). */
 export function getBibleCredit(locale: GlobalLocaleTag): string {
   return load(locale).credit;
+}
+
+/** Metadata for the exact edition currently returned by getBible(). */
+export function getBibleSource(locale: GlobalLocaleTag): ScriptureSource {
+  return load(locale).source;
 }

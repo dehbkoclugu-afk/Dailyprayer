@@ -15,5 +15,12 @@ export default {
   'devotional.label':'Данашње размишљање','devotional.amen':'Амен','player.guidedText':'Текст вођене молитве','player.minLeft':'мин преостало','player.close':'Затвори молитву','player.previous':'Претходни стих','player.next':'Следећи стих','player.pause':'Паузирај','player.resume':'Настави','player.pace':'Темпо','player.pace.slow':'Споро','player.pace.normal':'Природно','player.pace.quick':'Брзо',
   'toast.verse':'Стих сачуван у срцу — 1 од 4','toast.devotional':'Размишљање завршено — твој пламен и даље гори','toast.prayer':'Молитва довршена','toast.gratitudeSaved':'Сачувано — данашња захвалност забиљежена','toast.requestSaved':'Молитвена молба спремљена','toast.highlightOn':'Стих истакнут','toast.highlightOff':'Истицање уклоњено','toast.reminderSet':'Подсјетник ажуриран','notification.dailyTitle':'Тихи тренутак је спреман','notification.dailyBody':'Твој стих и молитва чекају кад год имаш минуту.','notification.eveningTitle':'Врати се кад будеш спреман','notification.eveningBody':'Данас још има мјеста за једну тиху минуту.',
   "profile.deleteData":"Избриши локалне податке","profile.deleteDataMessage":"Овим се са уређаја трајно бришу дневник, низ, сачувани стихови, напредак планова и подешавања. Претплата у продавници неће бити отказана.","profile.deleteDataConfirm":"Избриши све","profile.deleteDataError":"Локалне податке није могуће избрисати. Покушај поново.",
+  'scriptureSource.title': "Извор текста",
+  'scriptureSource.edition': "Издање",
+  'scriptureSource.rights': "Права и лиценца",
+  'scriptureSource.attribution': "Пуна атрибуција",
+  'scriptureSource.openSource': "Отвори обавештење извора",
+  'scriptureSource.openLicense': "Отвори лиценцу",
+  'scriptureSource.rightsUnavailable': "Статус права је наведен у обавештењу извора.",
+  'scriptureSource.linkError': "Везу није могуће отворити. Покушајте поново.",
 } as const;
-

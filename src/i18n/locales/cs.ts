@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Dnešní zamyšlení','devotional.amen':'Amen','player.guidedText':'Text vedené modlitby','player.minLeft':'min zbývá','player.close':'Zavřít modlitbu','player.previous':'Předchozí řádek','player.next':'Další řádek','player.pause':'Pozastavit','player.resume':'Pokračovat','player.pace':'Tempo','player.pace.slow':'Pomalu','player.pace.normal':'Přirozeně','player.pace.quick':'Rychle',
   'toast.verse':'Verš uchován v srdci — 1 ze 4','toast.devotional':'Zamyšlení dokončeno — váš plamen stále hoří','toast.prayer':'Modlitba dokončena','toast.gratitudeSaved':'Uloženo — dnešní vděčnost započítána','toast.requestSaved':'Prosba o modlitbu uložena','toast.highlightOn':'Verš zvýrazněn','toast.highlightOff':'Zvýraznění odebráno','toast.reminderSet':'Připomenutí aktualizováno','notification.dailyTitle':'Tichá chvíle je připravena','notification.dailyBody':'Váš verš a modlitba čekají, až budete mít chvilku.','notification.eveningTitle':'Vraťte se, až budete připraveni','notification.eveningBody':'Dnes je ještě prostor pro jednu tichou minutu.',
   "profile.deleteData":"Smazat místní data","profile.deleteDataMessage":"Tímto z tohoto zařízení trvale smažete deník, sérii, uložené verše, postup v plánech a předvolby. Předplatné v obchodě se nezruší.","profile.deleteDataConfirm":"Smazat vše","profile.deleteDataError":"Místní data se nepodařilo smazat. Zkuste to znovu.",
+  'scriptureSource.title': "Zdroj textu",
+  'scriptureSource.edition': "Vydání",
+  'scriptureSource.rights': "Práva a licence",
+  'scriptureSource.attribution': "Úplné uvedení zdroje",
+  'scriptureSource.openSource': "Otevřít oznámení zdroje",
+  'scriptureSource.openLicense': "Otevřít licenci",
+  'scriptureSource.rightsUnavailable': "Stav práv je uveden v oznámení zdroje.",
+  'scriptureSource.linkError': "Odkaz se nepodařilo otevřít. Zkuste to znovu.",
 } as const;

@@ -30,10 +30,10 @@ deneyimi, performans ve görsel cila gelir.
 10. ✅ **TAMAMLANDI — YTC ve belirsiz eski sürümleri yayın kapısında doğrula.** YTC lisansı ve
     değişmezliği korunuyor; belirsiz Almeida/Ostervald arşivleri production bundle seçiminden
     çıkarıldı, Portekizce/Fransızca doğrulanmış checksum paketlerine yönlendirildi.
-11. **Kutsal Kitap metnini dönüştüren hiçbir UI/AI akışına izin verme.** Özetle, sadeleştir,
-    yeniden yaz ve otomatik çevir eylemleri okuyucu ve paylaşım ekranlarında bulunmamalı.
-12. **Kaynak ve lisans bilgisini okuyucuda görünür kıl.** Sadece bölüm sonunda küçük kredi yerine
-    ayarlar panelinden açılan “Metin kaynağı” ekranı; sürüm adı, lisans ve tam atıf sunmalı.
+11. ✅ **TAMAMLANDI — Kutsal Kitap metnini dönüştüren hiçbir UI/AI akışına izin verme.** Release guard; özetleme, sadeleştirme,
+    yeniden yazma ve otomatik çeviri eylemlerini okuyucu/paylaşım yüzeylerinde engelliyor; birebir kopyalama ve paylaşım korunuyor.
+12. ✅ **TAMAMLANDI — Kaynak ve lisans bilgisini okuyucuda görünür kıl.** Okuma ayarlarından açılan
+    “Metin kaynağı” ekranı seçili sürüm adı, doğrulanmış hak/lisans bilgisi, tam atıf ve kaynak bağlantısını sunuyor.
 13. ✅ **TAMAMLANDI — Dini metin bütünlüğü için release kontrolü ekle.** Altı JSON’un bilinen SHA
     değerleri değişirse veya release hak seti saparsa CI ve imzalı Android işi açıkça durur.
 14. ✅ **TAMAMLANDI — Günlük ve kullanıcı verisi silme akışını iki aşamalı yap.** Profile’daki ayrı

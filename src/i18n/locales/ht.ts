@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Meditasyon jodi a','devotional.amen':'Amèn','player.guidedText':'Tèks lapriyè gide','player.minLeft':'min ki rete','player.close':'Fèmen lapriyè a','player.previous':'Liy anvan an','player.next':'Liy apre a','player.pause':'Poz','player.resume':'Kontinye','player.pace':'Vitès','player.pace.slow':'Dousman','player.pace.normal':'Natirèl','player.pace.quick':'Vit',
   'toast.verse':'Vèsè a rete nan kè ou – 1 sou 4','toast.devotional':'Meditasyon an fini – flanm ou rete limen','toast.prayer':'Lapriyè a fini','toast.gratitudeSaved':'Anrejistre – rekonesans lan konte pou jodi a','toast.requestSaved':'Demann lapriyè a anrejistre','toast.highlightOn':'Vèsè a make','toast.highlightOff':'Aksan an retire','toast.reminderSet':'Rapèl la mete ajou','notification.dailyTitle':'Yon ti moman trankil pare','notification.dailyBody':'Vèsè ou ak lapriyè ou ap tann nenpòt lè ou gen yon minit.','notification.eveningTitle':'Tounen lè ou pare','notification.eveningBody':'Gen plas toujou pou yon minit trankil jodi a.',
   "profile.deleteData":"Efase done lokal yo","profile.deleteDataMessage":"Sa ap efase jounal ou, seri jou ou, vèsè ou te sove yo, pwogrè plan yo ak preferans yo nèt sou aparèy sa a. Abònman boutik ou a p ap anile.","profile.deleteDataConfirm":"Efase tout bagay","profile.deleteDataError":"Nou pa t ka efase done lokal yo. Eseye ankò.",
+  'scriptureSource.title': "Sous tèks la",
+  'scriptureSource.edition': "Edisyon",
+  'scriptureSource.rights': "Dwa ak lisans",
+  'scriptureSource.attribution': "Atribisyon konplè",
+  'scriptureSource.openSource': "Louvri avi sous la",
+  'scriptureSource.openLicense': "Louvri lisans lan",
+  'scriptureSource.rightsUnavailable': "Estati dwa yo disponib nan avi sous la.",
+  'scriptureSource.linkError': "Lyen an pa t kapab louvri. Eseye ankò.",
 } as const;

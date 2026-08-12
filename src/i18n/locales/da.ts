@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Dagens andagt','devotional.amen':'Amen','player.guidedText':'Guidet tekstbøn','player.minLeft':'min. tilbage','player.close':'Luk bønnen','player.previous':'Forrige linje','player.next':'Næste linje','player.pause':'Pause','player.resume':'Fortsæt','player.pace':'Tempo','player.pace.slow':'Langsomt','player.pace.normal':'Naturligt','player.pace.quick':'Hurtigt',
   'toast.verse':'Verset er gemt i dit hjerte – 1 af 4','toast.devotional':'Andagten er fuldført – din flamme brænder videre','toast.prayer':'Bøn fuldført','toast.gratitudeSaved':'Gemt – taknemmelighed registreret for i dag','toast.requestSaved':'Bønneønske gemt','toast.highlightOn':'Vers fremhævet','toast.highlightOff':'Fremhævning fjernet','toast.reminderSet':'Påmindelse opdateret','notification.dailyTitle':'Et stille øjeblik er klar','notification.dailyBody':'Dit vers og din bøn venter, når du har et øjeblik.','notification.eveningTitle':'Vend tilbage, når du er klar','notification.eveningBody':'Der er stadig plads til ét stille minut i dag.',
   "profile.deleteData":"Slet lokale data","profile.deleteDataMessage":"Dette sletter permanent din dagbog, række, gemte vers, planstatus og indstillinger fra denne enhed. Dit butiksabonnement opsiges ikke.","profile.deleteDataConfirm":"Slet alt","profile.deleteDataError":"De lokale data kunne ikke slettes. Prøv igen.",
+  'scriptureSource.title': "Tekstkilde",
+  'scriptureSource.edition': "Udgave",
+  'scriptureSource.rights': "Rettigheder og licens",
+  'scriptureSource.attribution': "Fuld kreditering",
+  'scriptureSource.openSource': "Åbn kildeoplysninger",
+  'scriptureSource.openLicense': "Åbn licens",
+  'scriptureSource.rightsUnavailable': "Rettighedsstatus findes i kildeoplysningerne.",
+  'scriptureSource.linkError': "Linket kunne ikke åbnes. Prøv igen.",
 } as const;

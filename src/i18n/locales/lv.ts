@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Šodienas pārdomas','devotional.amen':'Āmen','player.guidedText':'Vadītas lūgšanas teksts','player.minLeft':'min atlikušas','player.close':'Aizvērt lūgšanu','player.previous':'Iepriekšējā rinda','player.next':'Nākamā rinda','player.pause':'Pauze','player.resume':'Turpināt','player.pace':'Temps','player.pace.slow':'Lēns','player.pace.normal':'Dabisks','player.pace.quick':'Ātrs',
   'toast.verse':'Pants glabājas tavā sirdī – 1 no 4','toast.devotional':'Pārdomas pabeigtas – tava liesma turpina degt','toast.prayer':'Lūgšana pabeigta','toast.gratitudeSaved':'Saglabāts – šodienas pateicība ieskaitīta','toast.requestSaved':'Lūgšanas vajadzība saglabāta','toast.highlightOn':'Pants izcelts','toast.highlightOff':'Izcēlums noņemts','toast.reminderSet':'Atgādinājums atjaunināts','notification.dailyTitle':'Kluss mirklis ir gatavs','notification.dailyBody':'Tavs pants un lūgšana gaida, kad tev būs brīvs mirklis.','notification.eveningTitle':'Atgriezies, kad esi gatavs','notification.eveningBody':'Šodien vēl ir vieta vienai klusai minūtei.',
   "profile.deleteData":"Dzēst vietējos datus","profile.deleteDataMessage":"Tādējādi no šīs ierīces neatgriezeniski tiks dzēsta dienasgrāmata, dienu sērija, saglabātie panti, plānu progress un iestatījumi. Veikala abonements netiks atcelts.","profile.deleteDataConfirm":"Dzēst visu","profile.deleteDataError":"Vietējos datus neizdevās izdzēst. Mēģini vēlreiz.",
+  'scriptureSource.title': "Teksta avots",
+  'scriptureSource.edition': "Izdevums",
+  'scriptureSource.rights': "Tiesības un licence",
+  'scriptureSource.attribution': "Pilna atsauce",
+  'scriptureSource.openSource': "Atvērt avota paziņojumu",
+  'scriptureSource.openLicense': "Atvērt licenci",
+  'scriptureSource.rightsUnavailable': "Tiesību statuss ir norādīts avota paziņojumā.",
+  'scriptureSource.linkError': "Saiti neizdevās atvērt. Mēģiniet vēlreiz.",
 } as const;

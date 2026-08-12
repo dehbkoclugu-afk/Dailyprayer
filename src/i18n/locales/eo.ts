@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Hodiaŭa devotaĵo','devotional.amen':'Amen','player.guidedText':'Teksto de gvidata preĝo','player.minLeft':'min restantaj','player.close':'Fermi preĝon','player.previous':'Antaŭa linio','player.next':'Sekva linio','player.pause':'Paŭzi','player.resume':'Daŭrigi','player.pace':'Rapido','player.pace.slow':'Malrapida','player.pace.normal':'Natura','player.pace.quick':'Rapida',
   'toast.verse':'Verso konservita en via koro — 1 el 4','toast.devotional':'Devotaĵo finita — via flamo restas lumanta','toast.prayer':'Preĝo finita','toast.gratitudeSaved':'Konservita — hodiaŭa dankemo kalkulita','toast.requestSaved':'Preĝpeto konservita','toast.highlightOn':'Verso emfazita','toast.highlightOff':'Emfazo forigita','toast.reminderSet':'Memorigilo ĝisdatigita','notification.dailyTitle':'Trankvila momento estas preta','notification.dailyBody':'Via verso kaj preĝo atendas kiam ajn vi havas minuton.','notification.eveningTitle':'Revenu kiam vi pretas','notification.eveningBody':'Hodiaŭ ankoraŭ restas loko por unu trankvila minuto.',
   "profile.deleteData":"Forigi lokajn datumojn","profile.deleteDataMessage":"Tio definitive forigos de ĉi tiu aparato vian taglibron, serion, konservitajn versojn, planan progreson kaj preferojn. Via vendeja abono ne estos nuligita.","profile.deleteDataConfirm":"Forigi ĉion","profile.deleteDataError":"La lokaj datumoj ne povis esti forigitaj. Bonvolu reprovi.",
+  'scriptureSource.title': "Tekstofonto",
+  'scriptureSource.edition': "Eldono",
+  'scriptureSource.rights': "Rajtoj kaj permesilo",
+  'scriptureSource.attribution': "Plena atribuo",
+  'scriptureSource.openSource': "Malfermi fontan avizon",
+  'scriptureSource.openLicense': "Malfermi permesilon",
+  'scriptureSource.rightsUnavailable': "La rajta stato troviĝas en la fonta avizo.",
+  'scriptureSource.linkError': "La ligilo ne povis malfermiĝi. Provu denove.",
 } as const;

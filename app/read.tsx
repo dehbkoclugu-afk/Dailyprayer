@@ -30,13 +30,13 @@ export default function Read() {
   const marks = useHighlightStore((s) => s.marks);
   const setMark = useHighlightStore((s) => s.set);
   const clearMark = useHighlightStore((s) => s.clear);
-  const params = useLocalSearchParams<{ b?: string; c?: string; v?: string }>();
+  const params = useLocalSearchParams<{ b?: string; c?: string; v?: string; settings?: string }>();
 
   // reading palette: paper override folded over the app theme
   const rt = useReaderTheme();
 
   const [picker, setPicker] = useState<null | 'books' | number>(null);
-  const [settings, setSettings] = useState(false);
+  const [settings, setSettings] = useState(params.settings === '1');
   const [selected, setSelected] = useState<SelectedVerse | null>(null);
   const [flashV, setFlashV] = useState<number | null>(null);
   const listRef = useRef<FlatList>(null);

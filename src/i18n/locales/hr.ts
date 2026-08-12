@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Današnje razmatranje','devotional.amen':'Amen','player.guidedText':'Tekst vođene molitve','player.minLeft':'min preostalo','player.close':'Zatvori molitvu','player.previous':'Prethodni redak','player.next':'Sljedeći redak','player.pause':'Pauziraj','player.resume':'Nastavi','player.pace':'Tempo','player.pace.slow':'Sporo','player.pace.normal':'Prirodno','player.pace.quick':'Brzo',
   'toast.verse':'Redak sačuvan u srcu — 1 od 4','toast.devotional':'Razmatranje dovršeno — tvoj plamen i dalje gori','toast.prayer':'Molitva dovršena','toast.gratitudeSaved':'Spremljeno — današnja zahvalnost zabilježena','toast.requestSaved':'Molitvena nakana spremljena','toast.highlightOn':'Redak istaknut','toast.highlightOff':'Isticanje uklonjeno','toast.reminderSet':'Podsjetnik ažuriran','notification.dailyTitle':'Tihi trenutak je spreman','notification.dailyBody':'Tvoj redak i molitva čekaju kad god imaš minutu.','notification.eveningTitle':'Vrati se kad budeš spreman','notification.eveningBody':'Danas još ima mjesta za jednu tihu minutu.',
   "profile.deleteData":"Izbriši lokalne podatke","profile.deleteDataMessage":"Ovim se s uređaja trajno brišu dnevnik, niz, spremljeni retci, napredak planova i postavke. Pretplata u trgovini neće se otkazati.","profile.deleteDataConfirm":"Izbriši sve","profile.deleteDataError":"Lokalne podatke nije bilo moguće izbrisati. Pokušajte ponovno.",
+  'scriptureSource.title': "Izvor teksta",
+  'scriptureSource.edition': "Izdanje",
+  'scriptureSource.rights': "Prava i licenca",
+  'scriptureSource.attribution': "Puna atribucija",
+  'scriptureSource.openSource': "Otvori obavijest izvora",
+  'scriptureSource.openLicense': "Otvori licencu",
+  'scriptureSource.rightsUnavailable': "Status prava naveden je u obavijesti izvora.",
+  'scriptureSource.linkError': "Poveznicu nije moguće otvoriti. Pokušajte ponovno.",
 } as const;

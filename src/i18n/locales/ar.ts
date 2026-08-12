@@ -15,4 +15,12 @@ export default {
   'devotional.label':'تأمل اليوم','devotional.amen':'آمين','player.guidedText':'نص صلاة موجّهة','player.minLeft':'د متبقية','player.close':'إغلاق الصلاة','player.previous':'السطر السابق','player.next':'السطر التالي','player.pause':'إيقاف مؤقت','player.resume':'استئناف','player.pace':'السرعة','player.pace.slow':'بطيئة','player.pace.normal':'طبيعية','player.pace.quick':'سريعة',
   'toast.verse':'حُفظت الآية في قلبك — 1 من 4','toast.devotional':'اكتمل التأمل — شعلتك ما زالت مضيئة','toast.prayer':'اكتملت الصلاة','toast.gratitudeSaved':'حُفظ — احتُسب امتنان اليوم','toast.requestSaved':'حُفظ طلب الصلاة','toast.highlightOn':'مُيّزت الآية','toast.highlightOff':'أُزيل التمييز','toast.reminderSet':'حُدّث التذكير','notification.dailyTitle':'لحظة هادئة جاهزة','notification.dailyBody':'آيتك وصلاتك تنتظرانك حين يتاح لك وقت قصير.','notification.eveningTitle':'عُد حين تكون مستعدًا','notification.eveningBody':'لا يزال في هذا اليوم متسع لدقيقة هادئة.',
   'profile.deleteData':'حذف البيانات المحلية','profile.deleteDataMessage':'سيؤدي هذا إلى حذف يومياتك وسلسلة أيامك والآيات المحفوظة وتقدم الخطط والتفضيلات نهائيًا من هذا الجهاز. لن يُلغى اشتراكك في المتجر.','profile.deleteDataConfirm':'حذف كل شيء','profile.deleteDataError':'تعذّر حذف البيانات المحلية. حاول مرة أخرى.',
+  'scriptureSource.title': "مصدر النص",
+  'scriptureSource.edition': "الإصدار",
+  'scriptureSource.rights': "الحقوق والترخيص",
+  'scriptureSource.attribution': "الإسناد الكامل",
+  'scriptureSource.openSource': "فتح إشعار المصدر",
+  'scriptureSource.openLicense': "فتح الترخيص",
+  'scriptureSource.rightsUnavailable': "حالة الحقوق متاحة في إشعار المصدر.",
+  'scriptureSource.linkError': "تعذّر فتح الرابط. حاول مرة أخرى.",
 } as const;

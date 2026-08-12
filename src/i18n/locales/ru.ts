@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Сегодняшнее размышление','devotional.amen':'Аминь','player.guidedText':'Текст молитвы с сопровождением','player.minLeft':'мин осталось','player.close':'Закрыть молитву','player.previous':'Предыдущая строка','player.next':'Следующая строка','player.pause':'Пауза','player.resume':'Продолжить','player.pace':'Темп','player.pace.slow':'Медленно','player.pace.normal':'Естественно','player.pace.quick':'Быстро',
   'toast.verse':'Стих сохранён в вашем сердце — 1 из 4','toast.devotional':'Размышление завершено — ваш огонь продолжает гореть','toast.prayer':'Молитва завершена','toast.gratitudeSaved':'Сохранено — благодарность за сегодня учтена','toast.requestSaved':'Молитвенная просьба сохранена','toast.highlightOn':'Стих выделен','toast.highlightOff':'Выделение убрано','toast.reminderSet':'Напоминание обновлено','notification.dailyTitle':'Тихая минута готова','notification.dailyBody':'Ваш стих и молитва ждут, когда у вас найдётся минута.','notification.eveningTitle':'Вернитесь, когда будете готовы','notification.eveningBody':'Сегодня ещё есть место для одной тихой минуты.',
   "profile.deleteData":"Удалить локальные данные","profile.deleteDataMessage":"С этого устройства будут навсегда удалены дневник, серия дней, сохранённые стихи, прогресс планов и настройки. Подписка в магазине не будет отменена.","profile.deleteDataConfirm":"Удалить всё","profile.deleteDataError":"Не удалось удалить локальные данные. Попробуйте ещё раз.",
+  'scriptureSource.title': "Источник текста",
+  'scriptureSource.edition': "Издание",
+  'scriptureSource.rights': "Права и лицензия",
+  'scriptureSource.attribution': "Полная атрибуция",
+  'scriptureSource.openSource': "Открыть сведения об источнике",
+  'scriptureSource.openLicense': "Открыть лицензию",
+  'scriptureSource.rightsUnavailable': "Статус прав указан в сведениях об источнике.",
+  'scriptureSource.linkError': "Не удалось открыть ссылку. Попробуйте снова.",
 } as const;

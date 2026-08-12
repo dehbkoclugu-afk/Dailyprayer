@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Meditimi i sotëm','devotional.amen':'Amen','player.guidedText':'Teksti i lutjes së udhëhequr','player.minLeft':'min të mbetura','player.close':'Mbyll lutjen','player.previous':'Rreshti i mëparshëm','player.next':'Rreshti tjetër','player.pause':'Ndalo','player.resume':'Vazhdo','player.pace':'Ritmi','player.pace.slow':'Ngadalë','player.pace.normal':'Natyrshëm','player.pace.quick':'Shpejt',
   'toast.verse':'Vargu u ruajt në zemrën tënde – 1 nga 4','toast.devotional':'Meditimi përfundoi – flaka jote vazhdon të digjet','toast.prayer':'Lutja përfundoi','toast.gratitudeSaved':'U ruajt – mirënjohja u numërua për sot','toast.requestSaved':'Kërkesa e lutjes u ruajt','toast.highlightOn':'Vargu u theksua','toast.highlightOff':'Theksimi u hoq','toast.reminderSet':'Kujtesa u përditësua','notification.dailyTitle':'Një çast qetësie është gati','notification.dailyBody':'Vargu dhe lutja jote presin sa herë të kesh një minutë.','notification.eveningTitle':'Kthehu kur të jesh gati','notification.eveningBody':'Ka ende vend për një minutë qetësie sot.',
   "profile.deleteData":"Fshi të dhënat vendore","profile.deleteDataMessage":"Kjo fshin përgjithmonë nga kjo pajisje ditarin, serinë, vargjet e ruajtura, ecurinë e planeve dhe preferencat. Abonimi në dyqan nuk anulohet.","profile.deleteDataConfirm":"Fshi gjithçka","profile.deleteDataError":"Të dhënat vendore nuk u fshinë. Provo përsëri.",
+  'scriptureSource.title': "Burimi i tekstit",
+  'scriptureSource.edition': "Botimi",
+  'scriptureSource.rights': "Të drejtat dhe licenca",
+  'scriptureSource.attribution': "Atribuimi i plotë",
+  'scriptureSource.openSource': "Hap njoftimin e burimit",
+  'scriptureSource.openLicense': "Hap licencën",
+  'scriptureSource.rightsUnavailable': "Statusi i të drejtave gjendet te njoftimi i burimit.",
+  'scriptureSource.linkError': "Lidhja nuk mund të hapej. Provo përsëri.",
 } as const;
