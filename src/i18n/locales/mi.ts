@@ -235,4 +235,12 @@ export default {
   "notification.eveningTitle": "Hoki mai i nga wa kua rite koe",
   "notification.eveningBody": "He waahi tonu mo te meneti ata noho i tenei ra.",
   "profile.deleteData":"Mukua ngā raraunga paetata","profile.deleteDataMessage":"Ka mukua tonutia tō hautaka, tō raupapa rā, ngā whiti kua tiakina, te kauneke mahere me ngā tautuhinga i tēnei pūrere. E kore tō ohaurunga toa e whakakorea.","profile.deleteDataConfirm":"Mukua katoatia","profile.deleteDataError":"Kāore i taea te muku i ngā raraunga paetata. Ngana anō.",
+  'scriptureSource.title': "Pūtake kuputuhi",
+  'scriptureSource.edition': "Putanga",
+  'scriptureSource.rights': "Motika me te raihana",
+  'scriptureSource.attribution': "Whakamihi katoa",
+  'scriptureSource.openSource': "Whakatuwhera pānui pūtake",
+  'scriptureSource.openLicense': "Whakatuwhera raihana",
+  'scriptureSource.rightsUnavailable': "Kei te pānui pūtake te tūnga motika.",
+  'scriptureSource.linkError': "Kāore i taea te whakatuwhera i te hono. Ngana anō.",
 } as const;

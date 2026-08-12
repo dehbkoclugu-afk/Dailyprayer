@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Сьогоднішні роздуми','devotional.amen':'Амінь','player.guidedText':'Текст молитви з супроводом','player.minLeft':'хв залишилося','player.close':'Закрити молитву','player.previous':'Попередній рядок','player.next':'Наступний рядок','player.pause':'Пауза','player.resume':'Продовжити','player.pace':'Темп','player.pace.slow':'Повільно','player.pace.normal':'Природно','player.pace.quick':'Швидко',
   'toast.verse':'Вірш збережено у вашому серці — 1 з 4','toast.devotional':'Роздуми завершено — ваш вогонь продовжує горіти','toast.prayer':'Молитву завершено','toast.gratitudeSaved':'Збережено — сьогоднішню вдячність враховано','toast.requestSaved':'Молитовне прохання збережено','toast.highlightOn':'Вірш виділено','toast.highlightOff':'Виділення прибрано','toast.reminderSet':'Нагадування оновлено','notification.dailyTitle':'Тиха хвилина готова','notification.dailyBody':'Ваш вірш і молитва чекають, коли у вас знайдеться хвилина.','notification.eveningTitle':'Поверніться, коли будете готові','notification.eveningBody':'Сьогодні ще є місце для однієї тихої хвилини.',
   "profile.deleteData":"Видалити локальні дані","profile.deleteDataMessage":"З цього пристрою назавжди буде видалено щоденник, серію днів, збережені вірші, прогрес планів і налаштування. Підписку в магазині не буде скасовано.","profile.deleteDataConfirm":"Видалити все","profile.deleteDataError":"Не вдалося видалити локальні дані. Спробуйте ще раз.",
+  'scriptureSource.title': "Джерело тексту",
+  'scriptureSource.edition': "Видання",
+  'scriptureSource.rights': "Права та ліцензія",
+  'scriptureSource.attribution': "Повна атрибуція",
+  'scriptureSource.openSource': "Відкрити відомості про джерело",
+  'scriptureSource.openLicense': "Відкрити ліцензію",
+  'scriptureSource.rightsUnavailable': "Статус прав наведено у відомостях про джерело.",
+  'scriptureSource.linkError': "Не вдалося відкрити посилання. Спробуйте ще раз.",
 } as const;

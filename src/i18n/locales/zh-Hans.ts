@@ -9,4 +9,12 @@ export default {
   'profile.journey':'你的旅程','profile.subtitle':'你在 Lumen 的安静角落','profile.dayStreak':'连续天数','profile.bestStreak':'最佳连续记录','profile.totalDays':'总天数','profile.plusActive':'Lumen Plus · 已启用','profile.plusThanks':'谢谢你——你的订阅也会将 Lumen 赠给有需要的人。','profile.plusCta':'解锁 Lumen Plus','profile.plusSub':'完整祷告库、全部计划与睡眠内容。','profile.manageSubscription':'管理订阅','profile.manageSubscriptionErrorTitle':'无法打开订阅设置','profile.manageSubscriptionErrorBody':'请打开商店账户，在那里管理订阅。','profile.appearance':'外观','profile.preferences':'偏好设置','profile.auto':'自动','profile.vigil':'Vigil（深色）','profile.dawn':'Dawn（浅色）','profile.language':'语言','profile.scriptureLanguage':'圣经语言','scripture.downloadUnavailable':'下载列表暂时不可用。请联网后重试。','profile.about':'关于','profile.reminder':'每日提醒','profile.off':'关闭','profile.privacy':'隐私政策','paywall.legalPrefix':'费用将从你的商店账户中扣取。除非在周期结束前 24 小时取消，否则将自动续订。','paywall.termsLink':'服务条款','paywall.privacyLink':'隐私政策','profile.terms':'条款与隐私','profile.contact':'联系我们','profile.restart':'重新开始引导','profile.reminderTitle':'每日提醒','profile.reminderMsg':'希望我们何时温柔地提醒你？','profile.reminderMorning':'早晨 · 7:30','profile.reminderMidday':'中午 · 12:30','profile.reminderEvening':'晚上 · 21:00','profile.reminderOff':'关闭','profile.cancel':'取消',
   'devotional.label':'今日灵修','devotional.amen':'阿们','player.guidedText':'文字引导祷告','player.minLeft':'分钟剩余','player.close':'关闭祷告','player.previous':'上一行','player.next':'下一行','player.pause':'暂停','player.resume':'继续','player.pace':'速度','player.pace.slow':'慢','player.pace.normal':'自然','player.pace.quick':'快','toast.verse':'经文已珍藏心中 · 1/4','toast.devotional':'灵修已完成 · 你的火焰继续燃烧','toast.prayer':'祷告已完成','toast.gratitudeSaved':'已保存 · 今日感恩已记录','toast.requestSaved':'祷告事项已保存','toast.highlightOn':'经文已高亮','toast.highlightOff':'已取消高亮','toast.reminderSet':'提醒已更新','notification.dailyTitle':'安静的片刻已准备好','notification.dailyBody':'只要你有一分钟，经文与祷告就在这里等你。','notification.eveningTitle':'准备好时就回来','notification.eveningBody':'今天仍有空间，留给一分钟的安静。',
   "profile.deleteData":"删除本地数据","profile.deleteDataMessage":"这会从此设备永久删除你的日记、连续记录、已保存的经文、计划进度和设置。你的商店订阅不会被取消。","profile.deleteDataConfirm":"全部删除","profile.deleteDataError":"无法删除本地数据，请重试。",
+  'scriptureSource.title': "文本来源",
+  'scriptureSource.edition': "版本",
+  'scriptureSource.rights': "权利与许可",
+  'scriptureSource.attribution': "完整署名",
+  'scriptureSource.openSource': "打开来源声明",
+  'scriptureSource.openLicense': "打开许可证",
+  'scriptureSource.rightsUnavailable': "权利状态见来源声明。",
+  'scriptureSource.linkError': "无法打开链接，请重试。",
 } as const;

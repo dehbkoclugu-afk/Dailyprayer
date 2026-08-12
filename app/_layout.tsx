@@ -184,6 +184,7 @@ export default function RootLayout() {
         <Stack.Screen name="legal" options={{ presentation: 'card' }} />
         <Stack.Screen name="plan" options={{ presentation: 'card' }} />
         <Stack.Screen name="scripture-language" options={{ presentation: 'card' }} />
+        <Stack.Screen name="scripture-source" options={{ presentation: 'card' }} />
         <Stack.Screen name="application-language" options={{ presentation: 'card' }} />
       </Stack>
       <ToastHost />

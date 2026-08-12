@@ -9,4 +9,12 @@ export default {
   'profile.journey':'你的旅程','profile.subtitle':'你在 Lumen 的安靜角落','profile.dayStreak':'連續天數','profile.bestStreak':'最佳連續記錄','profile.totalDays':'總天數','profile.plusActive':'Lumen Plus · 已啟用','profile.plusThanks':'謝謝你——你的訂閱也會將 Lumen 贈給有需要的人。','profile.plusCta':'解鎖 Lumen Plus','profile.plusSub':'完整禱告庫、全部計畫與睡眠內容。','profile.manageSubscription':'管理訂閱','profile.manageSubscriptionErrorTitle':'無法開啟訂閱設定','profile.manageSubscriptionErrorBody':'請開啟商店帳號，在那裡管理訂閱。','profile.appearance':'外觀','profile.preferences':'偏好設定','profile.auto':'自動','profile.vigil':'Vigil（深色）','profile.dawn':'Dawn（淺色）','profile.language':'語言','profile.scriptureLanguage':'聖經語言','scripture.downloadUnavailable':'下載列表暫時不可用。請聯網後重試。','profile.about':'關於','profile.reminder':'每日提醒','profile.off':'關閉','profile.privacy':'隱私政策','paywall.legalPrefix':'費用將從你的商店帳號中扣取。除非在週期結束前 24 小時取消，否則將自動續訂。','paywall.termsLink':'服務條款','paywall.privacyLink':'隱私政策','profile.terms':'條款與隱私','profile.contact':'聯絡我們','profile.restart':'重新開始引導','profile.reminderTitle':'每日提醒','profile.reminderMsg':'希望我們何時溫柔地提醒你？','profile.reminderMorning':'早晨 · 7:30','profile.reminderMidday':'中午 · 12:30','profile.reminderEvening':'晚上 · 21:00','profile.reminderOff':'關閉','profile.cancel':'取消',
   'devotional.label':'今日靈修','devotional.amen':'阿們','player.guidedText':'文字引導禱告','player.minLeft':'分鐘剩餘','player.close':'關閉禱告','player.previous':'上一行','player.next':'下一行','player.pause':'暫停','player.resume':'繼續','player.pace':'速度','player.pace.slow':'慢','player.pace.normal':'自然','player.pace.quick':'快','toast.verse':'經文已珍藏心中 · 1/4','toast.devotional':'靈修已完成 · 你的火焰繼續燃燒','toast.prayer':'禱告已完成','toast.gratitudeSaved':'已儲存 · 今日感恩已記錄','toast.requestSaved':'禱告事項已儲存','toast.highlightOn':'經文已標示','toast.highlightOff':'已取消標示','toast.reminderSet':'提醒已更新','notification.dailyTitle':'安靜的片刻已準備好','notification.dailyBody':'只要你有一分鐘，經文與禱告就在這裡等你。','notification.eveningTitle':'準備好時就回來','notification.eveningBody':'今天仍有空間，留給一分鐘的安靜。',
   "profile.deleteData":"刪除本機資料","profile.deleteDataMessage":"這會從此裝置永久刪除你的日記、連續紀錄、已儲存的經文、計畫進度與設定。你的商店訂閱不會被取消。","profile.deleteDataConfirm":"全部刪除","profile.deleteDataError":"無法刪除本機資料，請再試一次。",
+  'scriptureSource.title': "文本來源",
+  'scriptureSource.edition': "版本",
+  'scriptureSource.rights': "權利與授權",
+  'scriptureSource.attribution': "完整署名",
+  'scriptureSource.openSource': "開啟來源聲明",
+  'scriptureSource.openLicense': "開啟授權",
+  'scriptureSource.rightsUnavailable': "權利狀態載於來源聲明。",
+  'scriptureSource.linkError': "無法開啟連結，請再試一次。",
 } as const;

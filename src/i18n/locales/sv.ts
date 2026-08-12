@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Dagens andakt','devotional.amen':'Amen','player.guidedText':'Vägledd textbön','player.minLeft':'min kvar','player.close':'Stäng bönen','player.previous':'Föregående rad','player.next':'Nästa rad','player.pause':'Pausa','player.resume':'Fortsätt','player.pace':'Tempo','player.pace.slow':'Långsamt','player.pace.normal':'Naturligt','player.pace.quick':'Snabbt',
   'toast.verse':'Versen bevaras i ditt hjärta – 1 av 4','toast.devotional':'Andakten är klar – din låga brinner vidare','toast.prayer':'Bönen är klar','toast.gratitudeSaved':'Sparat – tacksamhet registrerad för i dag','toast.requestSaved':'Böneämne sparat','toast.highlightOn':'Vers markerad','toast.highlightOff':'Markering borttagen','toast.reminderSet':'Påminnelse uppdaterad','notification.dailyTitle':'En stilla stund är redo','notification.dailyBody':'Din vers och bön väntar när du får en stund.','notification.eveningTitle':'Kom tillbaka när du är redo','notification.eveningBody':'Det finns fortfarande plats för en stilla minut i dag.',
   "profile.deleteData":"Radera lokala data","profile.deleteDataMessage":"Detta raderar permanent din dagbok, följd, sparade verser, planframsteg och inställningar från enheten. Din butiksprenumeration avslutas inte.","profile.deleteDataConfirm":"Radera allt","profile.deleteDataError":"Det gick inte att radera lokala data. Försök igen.",
+  'scriptureSource.title': "Textkälla",
+  'scriptureSource.edition': "Utgåva",
+  'scriptureSource.rights': "Rättigheter och licens",
+  'scriptureSource.attribution': "Fullständig källhänvisning",
+  'scriptureSource.openSource': "Öppna källinformation",
+  'scriptureSource.openLicense': "Öppna licens",
+  'scriptureSource.rightsUnavailable': "Rättighetsstatus finns i källinformationen.",
+  'scriptureSource.linkError': "Länken kunde inte öppnas. Försök igen.",
 } as const;

@@ -235,4 +235,12 @@ export default {
   "notification.eveningTitle": "Foki mai ‘i ha taimi pē ‘okú ke mateuteu ai .",
   "notification.eveningBody": "ʻOku kei ʻi ai pē ha feituʻu ki ha miniti fakalongolongo ʻe taha he ʻaho ní.",
   "profile.deleteData":"Tamateʻi ʻa e fakamatala ʻi he meʻangāue","profile.deleteDataMessage":"ʻE tamateʻi ʻo taʻengata mei he meʻangāue ni hoʻo tohinoa, hokohoko ʻo e ngaahi ʻaho, ngaahi veesi kuo tauhi, fakalakalaka ʻo e palani mo e ngaahi fokotuʻutuʻu. ʻE ʻikai kaniseli hoʻo totongi ʻi he falekoloa.","profile.deleteDataConfirm":"Tamateʻi kotoa","profile.deleteDataError":"Naʻe ʻikai lava ʻo tamateʻi ʻa e fakamatala. Toe feinga ange.",
+  'scriptureSource.title': "Matavai ʻo e tohi",
+  'scriptureSource.edition': "Pulusinga",
+  'scriptureSource.rights': "Ngaahi totonu mo e laiseni",
+  'scriptureSource.attribution': "Fakamatala kakato",
+  'scriptureSource.openSource': "Fakaava ʻa e fanongonongo matavai",
+  'scriptureSource.openLicense': "Fakaava ʻa e laiseni",
+  'scriptureSource.rightsUnavailable': "ʻOku ʻi he fanongonongo matavai ʻa e tuʻunga totonu.",
+  'scriptureSource.linkError': "Naʻe ʻikai lava ke fakaava ʻa e fehokotaki. Toe feinga.",
 } as const;

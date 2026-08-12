@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Mai áhítat','devotional.amen':'Ámen','player.guidedText':'Vezetett szöveges ima','player.minLeft':'perc van hátra','player.close':'Ima bezárása','player.previous':'Előző sor','player.next':'Következő sor','player.pause':'Szünet','player.resume':'Folytatás','player.pace':'Tempó','player.pace.slow':'Lassú','player.pace.normal':'Természetes','player.pace.quick':'Gyors',
   'toast.verse':'Az ige a szívedben maradt – 1/4','toast.devotional':'Áhítat teljesítve – lángod tovább ég','toast.prayer':'Ima teljesítve','toast.gratitudeSaved':'Mentve – a mai hála számít','toast.requestSaved':'Imakérés mentve','toast.highlightOn':'Ige kiemelve','toast.highlightOff':'Kiemelés eltávolítva','toast.reminderSet':'Emlékeztető frissítve','notification.dailyTitle':'Egy csendes pillanat vár','notification.dailyBody':'Igéd és imád vár, amikor van egy perced.','notification.eveningTitle':'Térj vissza, amikor készen állsz','notification.eveningBody':'A mai napban még van hely egy csendes percre.',
   "profile.deleteData":"Helyi adatok törlése","profile.deleteDataMessage":"Ez végleg törli erről az eszközről a naplódat, sorozatodat, mentett igeverseidet, terveid előrehaladását és beállításaidat. Az áruházi előfizetésed nem szűnik meg.","profile.deleteDataConfirm":"Minden törlése","profile.deleteDataError":"A helyi adatok nem törölhetők. Próbáld újra.",
+  'scriptureSource.title': "Szövegforrás",
+  'scriptureSource.edition': "Kiadás",
+  'scriptureSource.rights': "Jogok és licenc",
+  'scriptureSource.attribution': "Teljes forrásmegjelölés",
+  'scriptureSource.openSource': "Forrásközlés megnyitása",
+  'scriptureSource.openLicense': "Licenc megnyitása",
+  'scriptureSource.rightsUnavailable': "A jogállás a forrásközlésben található.",
+  'scriptureSource.linkError': "A hivatkozás nem nyitható meg. Próbáld újra.",
 } as const;

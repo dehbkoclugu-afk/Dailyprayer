@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { fonts } from '@/theme/typography';
@@ -143,6 +144,37 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
             >
               <View style={{ width: 22, height: 22, borderRadius: 11, backgroundColor: paper ? t.onGold : t.surface }} />
             </View>
+          </Pressable>
+
+          <Pressable
+            onPress={() => {
+              tap();
+              onClose();
+              router.push('/scripture-source');
+            }}
+            accessibilityRole="button"
+            accessibilityLabel={tr('scriptureSource.title')}
+            style={({ pressed }) => ({
+              minHeight: 48,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginTop: spacing.md,
+              paddingHorizontal: spacing.lg,
+              borderRadius: radius.inner,
+              backgroundColor: t.surfaceAlt,
+              borderWidth: 1,
+              borderColor: t.border,
+              opacity: pressed ? 0.7 : 1,
+            })}
+          >
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
+              <Ionicons name="information-circle-outline" size={20} color={t.inkSoft} />
+              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.ink }}>
+                {tr('scriptureSource.title')}
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
           </Pressable>
         </View>
       </View>

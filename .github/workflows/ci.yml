@@ -25,6 +25,7 @@ jobs:
         run: |
           npm run scripture:verify:integrity
           npm run scripture:verify:rights
+          npm run scripture:verify:ui
       - name: Verify completed UI locale modules
         run: npm run ui-locales:verify
       - name: Verify completed application content packs

@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Meditatio hodierna','devotional.amen':'Amen','player.guidedText':'Textus orationis ductae','player.minLeft':'min restant','player.close':'Orationem claude','player.previous':'Linea prior','player.next':'Linea sequens','player.pause':'Intermitte','player.resume':'Perge','player.pace':'Celeritas','player.pace.slow':'Lenta','player.pace.normal':'Naturalis','player.pace.quick':'Celeris',
   'toast.verse':'Versiculus in corde tuo servatus — 1 ex 4','toast.devotional':'Meditatio completa — flamma tua lucet','toast.prayer':'Oratio completa','toast.gratitudeSaved':'Servatum — gratiarum actio hodierna numerata','toast.requestSaved':'Petitio orationis servata','toast.highlightOn':'Versiculus illustratus','toast.highlightOff':'Illustratio remota','toast.reminderSet':'Commemoratio renovata','notification.dailyTitle':'Momentum quietum paratum est','notification.dailyBody':'Versiculus et oratio tua exspectant quandocumque unum minutum habes.','notification.eveningTitle':'Redi quandocumque paratus es','notification.eveningBody':'Hodie adhuc locus est uni quieto minuto.',
   "profile.deleteData":"Data localia dele","profile.deleteDataMessage":"Hoc commentarium, seriem dierum, versiculos servatos, progressum consiliorum et optiones ex hoc apparatu perpetuo delebit. Subscriptio tabernae non rescindetur.","profile.deleteDataConfirm":"Omnia dele","profile.deleteDataError":"Data localia deleri non potuerunt. Rursus tenta.",
+  'scriptureSource.title': "Fons textus",
+  'scriptureSource.edition': "Editio",
+  'scriptureSource.rights': "Iura et licentia",
+  'scriptureSource.attribution': "Attributio plena",
+  'scriptureSource.openSource': "Aperi notitiam fontis",
+  'scriptureSource.openLicense': "Aperi licentiam",
+  'scriptureSource.rightsUnavailable': "Status iurium in notitia fontis invenitur.",
+  'scriptureSource.linkError': "Vinculum aperiri non potuit. Iterum tenta.",
 } as const;

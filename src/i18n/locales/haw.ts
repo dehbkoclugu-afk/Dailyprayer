@@ -235,4 +235,12 @@ export default {
   "notification.eveningTitle": "E hoʻi i ka wā e mākaukau ai ʻoe",
   "notification.eveningBody": "He wahi no hoʻokahi minute mālie i kēia lā.",
   "profile.deleteData":"Holoi i ka ʻikepili kūloko","profile.deleteDataMessage":"E holoi mau ʻia kāu puke moʻolelo, kaʻina lā, nā paukū i mālama ʻia, ka holomua o nā papahana a me nā koho mai kēia hāmeʻa. ʻAʻole e kāpae ʻia kāu kau inoa hale kūʻai.","profile.deleteDataConfirm":"Holoi i nā mea a pau","profile.deleteDataError":"ʻAʻole i hiki ke holoi i ka ʻikepili kūloko. E hoʻāʻo hou.",
+  'scriptureSource.title': "Kumu kikokikona",
+  'scriptureSource.edition': "Paʻi",
+  'scriptureSource.rights': "Nā kuleana a me ka laikini",
+  'scriptureSource.attribution': "Ka hoʻomaikaʻi piha",
+  'scriptureSource.openSource': "Wehe i ka ʻike kumu",
+  'scriptureSource.openLicense': "Wehe i ka laikini",
+  'scriptureSource.rightsUnavailable': "Aia ke kūlana kuleana ma ka ʻike kumu.",
+  'scriptureSource.linkError': "ʻAʻole hiki ke wehe i ka loulou. E hoʻāʻo hou.",
 } as const;

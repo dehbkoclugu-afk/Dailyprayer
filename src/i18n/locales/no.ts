@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Dagens andakt','devotional.amen':'Amen','player.guidedText':'Veiledet tekstbønn','player.minLeft':'min igjen','player.close':'Lukk bønnen','player.previous':'Forrige linje','player.next':'Neste linje','player.pause':'Pause','player.resume':'Fortsett','player.pace':'Tempo','player.pace.slow':'Sakte','player.pace.normal':'Naturlig','player.pace.quick':'Raskt',
   'toast.verse':'Verset er bevart i hjertet ditt – 1 av 4','toast.devotional':'Andakten er fullført – flammen din brenner videre','toast.prayer':'Bønn fullført','toast.gratitudeSaved':'Lagret – takknemlighet registrert for i dag','toast.requestSaved':'Bønneønske lagret','toast.highlightOn':'Vers uthevet','toast.highlightOff':'Utheving fjernet','toast.reminderSet':'Påminnelse oppdatert','notification.dailyTitle':'Et stille øyeblikk er klart','notification.dailyBody':'Verset og bønnen din venter når du har et øyeblikk.','notification.eveningTitle':'Kom tilbake når du er klar','notification.eveningBody':'Det er fortsatt rom for ett stille minutt i dag.',
   "profile.deleteData":"Slett lokale data","profile.deleteDataMessage":"Dette sletter dagboken, rekken, lagrede vers, planfremdriften og innstillingene permanent fra denne enheten. Butikkabonnementet ditt avsluttes ikke.","profile.deleteDataConfirm":"Slett alt","profile.deleteDataError":"De lokale dataene kunne ikke slettes. Prøv igjen.",
+  'scriptureSource.title': "Tekstkilde",
+  'scriptureSource.edition': "Utgave",
+  'scriptureSource.rights': "Rettigheter og lisens",
+  'scriptureSource.attribution': "Full kreditering",
+  'scriptureSource.openSource': "Åpne kildemelding",
+  'scriptureSource.openLicense': "Åpne lisens",
+  'scriptureSource.rightsUnavailable': "Rettighetsstatusen står i kildemeldingen.",
+  'scriptureSource.linkError': "Lenken kunne ikke åpnes. Prøv igjen.",
 } as const;

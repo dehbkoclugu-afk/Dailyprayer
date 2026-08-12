@@ -15,4 +15,12 @@ export default {
   'devotional.label':'Debosyonal ngayon','devotional.amen':'Amen','player.guidedText':'Teksto ng ginabayang panalangin','player.minLeft':'min ang natitira','player.close':'Isara ang panalangin','player.previous':'Nakaraang linya','player.next':'Susunod na linya','player.pause':'I-pause','player.resume':'Ipagpatuloy','player.pace':'Bilis','player.pace.slow':'Mabagal','player.pace.normal':'Natural','player.pace.quick':'Mabilis',
   'toast.verse':'Iningatan ang talata sa iyong puso – 1 sa 4','toast.devotional':'Tapos na ang debosyonal – patuloy na nagniningas ang iyong apoy','toast.prayer':'Tapos na ang panalangin','toast.gratitudeSaved':'Naka-save – naitala ang pasasalamat para ngayon','toast.requestSaved':'Naka-save ang kahilingan sa panalangin','toast.highlightOn':'Na-highlight ang talata','toast.highlightOff':'Inalis ang highlight','toast.reminderSet':'Na-update ang paalala','notification.dailyTitle':'Handa na ang isang tahimik na sandali','notification.dailyBody':'Naghihintay ang iyong talata at panalangin kapag may isang minuto ka.','notification.eveningTitle':'Bumalik kapag handa ka na','notification.eveningBody':'May puwang pa para sa isang tahimik na minuto ngayon.',
   "profile.deleteData":"Burahin ang lokal na data","profile.deleteDataMessage":"Permanente nitong buburahin sa device na ito ang iyong journal, sunod-sunod na araw, mga naka-save na talata, progreso sa mga plano at mga setting. Hindi nito kakanselahin ang iyong subscription sa store.","profile.deleteDataConfirm":"Burahin lahat","profile.deleteDataError":"Hindi mabura ang lokal na data. Subukan muli.",
+  'scriptureSource.title': "Pinagmulan ng teksto",
+  'scriptureSource.edition': "Edisyon",
+  'scriptureSource.rights': "Mga karapatan at lisensya",
+  'scriptureSource.attribution': "Buong atribusyon",
+  'scriptureSource.openSource': "Buksan ang paunawa ng pinagmulan",
+  'scriptureSource.openLicense': "Buksan ang lisensya",
+  'scriptureSource.rightsUnavailable': "Makikita ang katayuan ng mga karapatan sa paunawa ng pinagmulan.",
+  'scriptureSource.linkError': "Hindi mabuksan ang link. Subukan muli.",
 } as const;
