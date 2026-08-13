@@ -99,9 +99,9 @@ export default function Read() {
       accessibilityRole="button"
       accessibilityLabel={label}
       style={({ pressed }) => ({
-        width: 44,
-        height: 44,
-        borderRadius: 22,
+        width: 48,
+        height: 48,
+        borderRadius: 24,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: rt.surface,
@@ -124,7 +124,7 @@ export default function Read() {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 6,
+        gap: spacing.sm,
         backgroundColor: rt.surface,
         borderWidth: 1,
         borderColor: rt.border,
@@ -149,9 +149,9 @@ export default function Read() {
           accessibilityRole="button"
           accessibilityLabel={tr('a11y.back')}
           style={{
-            width: 44,
-            height: 44,
-            borderRadius: 22,
+            width: 48,
+            height: 48,
+            borderRadius: 24,
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: rt.surface,
@@ -164,6 +164,8 @@ export default function Read() {
         <Pressable
           onPress={() => setPicker('books')}
           accessibilityRole="button"
+          accessibilityLabel={`${tr('read.pickBook')}: ${bk.name}, ${tr('read.chapter')} ${cIdx + 1}`}
+          accessibilityHint={tr('read.pickBook')}
           style={({ pressed }) => ({
             flex: 1,
             flexDirection: 'row',
@@ -174,7 +176,7 @@ export default function Read() {
             borderColor: rt.border,
             borderRadius: radius.pill,
             paddingHorizontal: spacing.lg,
-            height: 44,
+            height: 48,
             opacity: pressed ? 0.7 : 1,
           })}
         >
@@ -345,7 +347,12 @@ export default function Read() {
               }}
             >
               {typeof picker === 'number' ? (
-                <Pressable onPress={() => setPicker('books')} hitSlop={8} accessibilityRole="button">
+                <Pressable
+                  onPress={() => setPicker('books')}
+                  accessibilityRole="button"
+                  accessibilityLabel={tr('a11y.back')}
+                  style={{ width: 48, height: 48, alignItems: 'center', justifyContent: 'center' }}
+                >
                   <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={22} color={rt.inkSoft} />
                 </Pressable>
               ) : null}
@@ -362,11 +369,15 @@ export default function Read() {
                 renderItem={({ item, index }) => (
                   <Pressable
                     onPress={() => setPicker(index)}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${item.name}, ${item.chapters.length} ${tr('read.chapter')}`}
+                    accessibilityState={{ selected: index === bIdx }}
                     style={({ pressed }) => ({
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      paddingVertical: 14,
+                      minHeight: 48,
+                      paddingVertical: 12,
                       borderTopWidth: index === 0 ? 0 : 1,
                       borderTopColor: rt.border,
                       opacity: pressed ? 0.6 : 1,
@@ -398,9 +409,14 @@ export default function Read() {
                   return (
                     <Pressable
                       onPress={() => go(picker as number, index)}
+                      accessibilityRole="button"
+                      accessibilityLabel={`${bible[picker].name}, ${tr('read.chapter')} ${index + 1}`}
+                      accessibilityState={{ selected: active }}
                       style={{
                         flex: 1,
                         aspectRatio: 1,
+                        minWidth: 48,
+                        minHeight: 48,
                         maxWidth: 64,
                         alignItems: 'center',
                         justifyContent: 'center',

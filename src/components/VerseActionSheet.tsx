@@ -102,7 +102,7 @@ export function VerseActionSheet({
       style={({ pressed }) => ({
         flex: 1,
         alignItems: 'center',
-        gap: 6,
+        gap: spacing.sm,
         paddingVertical: spacing.md,
         borderRadius: radius.inner,
         backgroundColor: active ? t.goldSoft : t.surfaceAlt,
@@ -169,9 +169,9 @@ export function VerseActionSheet({
                   accessibilityState={{ selected: on }}
                   hitSlop={6}
                   style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 20,
+                    width: 48,
+                    height: 48,
+                    borderRadius: 24,
                     backgroundColor: HIGHLIGHT_SWATCH[c],
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -193,9 +193,9 @@ export function VerseActionSheet({
                 accessibilityLabel={tr('verse.removeHighlight')}
                 hitSlop={6}
                 style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
+                  width: 48,
+                  height: 48,
+                  borderRadius: 24,
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderWidth: 1,

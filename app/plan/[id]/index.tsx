@@ -42,9 +42,9 @@ export default function PlanScreen() {
         accessibilityRole="button"
         accessibilityLabel={tr('a11y.back')}
         style={{
-          width: 44,
-          height: 44,
-          borderRadius: 22,
+          width: 48,
+          height: 48,
+          borderRadius: 24,
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: t.surface,
