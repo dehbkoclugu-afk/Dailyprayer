@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Modal, Pressable, Share, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
@@ -9,6 +9,7 @@ import { radius, spacing } from '@/theme/tokens';
 import { useReaderTheme } from '@/theme/reading';
 import {
   HIGHLIGHT_ORDER,
+  HIGHLIGHT_SYMBOL,
   HIGHLIGHT_SWATCH,
   type HighlightColor,
 } from '@/theme/highlights';
@@ -17,6 +18,8 @@ import { useBookmarkStore } from '@/state/useBookmarkStore';
 import { useJournalStore } from '@/state/useJournalStore';
 import { toast } from '@/state/useToastStore';
 import { useT } from '@/i18n';
+import { getReaderAccessibilityCopy } from '@/i18n/readerAccessibility';
+import { useModalAccessibility } from '@/hooks/useModalAccessibility';
 
 export interface SelectedVerse {
   book: number;
@@ -32,13 +35,18 @@ const preview = (s: string, n = 120) => (s.length > n ? `${s.slice(0, n).trimEnd
 export function VerseActionSheet({
   verse,
   onClose,
+  returnFocusHandle,
 }: {
   verse: SelectedVerse | null;
   onClose: () => void;
+  returnFocusHandle?: number | null;
 }) {
   const t = useReaderTheme();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const insets = useSafeAreaInsets();
+  const headingRef = useRef<Text>(null);
+
+  useModalAccessibility(verse !== null, headingRef, returnFocusHandle);
 
   const marks = useHighlightStore((s) => s.marks);
   const setMark = useHighlightStore((s) => s.set);
@@ -46,6 +54,7 @@ export function VerseActionSheet({
   const bookmarks = useBookmarkStore((s) => s.bookmarks);
   const toggleBookmark = useBookmarkStore((s) => s.toggle);
   const addJournal = useJournalStore((s) => s.add);
+  const readerA11y = getReaderAccessibilityCopy(locale);
 
   if (!verse) return null;
 
@@ -119,10 +128,18 @@ export function VerseActionSheet({
   );
 
   return (
-    <Modal visible transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
+    <Modal visible={verse !== null} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
       <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }}>
-        <Pressable style={{ flex: 1 }} onPress={onClose} accessibilityLabel={tr('a11y.close')} />
+        <Pressable
+          style={{ flex: 1 }}
+          onPress={onClose}
+          accessible={false}
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
+        />
         <View
+          accessibilityViewIsModal
+          importantForAccessibility="yes"
           style={{
             backgroundColor: t.surface,
             borderTopLeftRadius: radius.card,
@@ -147,7 +164,12 @@ export function VerseActionSheet({
           />
 
           {/* the verse itself, so the actions have a subject */}
-          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 12, letterSpacing: 1.5, textTransform: 'uppercase', color: t.gold }}>
+          <Text
+            ref={headingRef}
+            accessible
+            accessibilityRole="header"
+            style={{ fontFamily: fonts.sansSemiBold, fontSize: 12, letterSpacing: 1.5, textTransform: 'uppercase', color: t.gold }}
+          >
             {verse.ref}
           </Text>
           <Text
@@ -157,7 +179,7 @@ export function VerseActionSheet({
           </Text>
 
           {/* highlight colors */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginTop: spacing.lg }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: spacing.md, marginTop: spacing.lg }}>
             {HIGHLIGHT_ORDER.map((c) => {
               const on = activeColor === c;
               return (
@@ -165,7 +187,7 @@ export function VerseActionSheet({
                   key={c}
                   onPress={() => pickColor(c)}
                   accessibilityRole="button"
-                  accessibilityLabel={`${tr('verse.highlight')} ${c}`}
+                  accessibilityLabel={`${tr('verse.highlight')}: ${readerA11y.colors[c]}`}
                   accessibilityState={{ selected: on }}
                   hitSlop={6}
                   style={{
@@ -179,7 +201,30 @@ export function VerseActionSheet({
                     borderColor: t.ink,
                   }}
                 >
-                  {on ? <Ionicons name="checkmark" size={20} color={t.onGold} /> : null}
+                  <Text
+                    importantForAccessibility="no"
+                    style={{ fontFamily: fonts.sansBold, fontSize: 18, color: t.onGold }}
+                  >
+                    {HIGHLIGHT_SYMBOL[c]}
+                  </Text>
+                  {on ? (
+                    <View
+                      importantForAccessibility="no"
+                      style={{
+                        position: 'absolute',
+                        top: -3,
+                        right: -3,
+                        width: 20,
+                        height: 20,
+                        borderRadius: 10,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: t.ink,
+                      }}
+                    >
+                      <Ionicons name="checkmark" size={13} color={t.surface} />
+                    </View>
+                  ) : null}
                 </Pressable>
               );
             })}

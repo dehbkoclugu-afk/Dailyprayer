@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Modal, Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -9,12 +9,24 @@ import { radius, spacing } from '@/theme/tokens';
 import { useReaderTheme } from '@/theme/reading';
 import { useReaderPrefsStore, FONT_MIN, FONT_MAX } from '@/state/useReaderPrefsStore';
 import { useT } from '@/i18n';
+import { useModalAccessibility } from '@/hooks/useModalAccessibility';
 
-export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
+export function ReadingSettingsSheet({
+  visible,
+  onClose,
+  returnFocusHandle,
+}: {
+  visible: boolean;
+  onClose: () => void;
+  returnFocusHandle?: number | null;
+}) {
   const t = useReaderTheme();
   const { t: tr } = useT();
   const insets = useSafeAreaInsets();
   const { fontScale, paper, bumpFont, togglePaper } = useReaderPrefsStore();
+  const headingRef = useRef<Text>(null);
+
+  useModalAccessibility(visible, headingRef, returnFocusHandle);
 
   const tap = () => Haptics.selectionAsync().catch(() => {});
   const pct = Math.round(fontScale * 100);
@@ -32,6 +44,7 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
       disabled={disabled}
       accessibilityRole="button"
       accessibilityLabel={label}
+      accessibilityState={{ disabled }}
       style={{
         width: 56,
         height: 56,
@@ -51,8 +64,16 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
       <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }}>
-        <Pressable style={{ flex: 1 }} onPress={onClose} accessibilityLabel={tr('a11y.close')} />
+        <Pressable
+          style={{ flex: 1 }}
+          onPress={onClose}
+          accessible={false}
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
+        />
         <View
+          accessibilityViewIsModal
+          importantForAccessibility="yes"
           style={{
             backgroundColor: t.surface,
             borderTopLeftRadius: radius.card,
@@ -76,7 +97,12 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
             }}
           />
 
-          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>
+          <Text
+            ref={headingRef}
+            accessible
+            accessibilityRole="header"
+            style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}
+          >
             {tr('read.settings')}
           </Text>
 
@@ -112,6 +138,7 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
               togglePaper();
             }}
             accessibilityRole="switch"
+            accessibilityLabel={tr('read.paperMode')}
             accessibilityState={{ checked: paper }}
             style={{
               flexDirection: 'row',

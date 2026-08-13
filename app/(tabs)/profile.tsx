@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Alert, Linking, Platform, Pressable, Text, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Alert, Linking, Platform, Pressable, Text, View, findNodeHandle, type GestureResponderEvent } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { router } from 'expo-router';
@@ -41,6 +41,7 @@ export default function Profile() {
   const { count, bestCount, totalDays } = useStreakStore();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const [sheet, setSheet] = useState<null | 'appearance'>(null);
+  const sheetReturnFocus = useRef<number | null>(null);
   const [showIosReminderPicker, setShowIosReminderPicker] = useState(false);
   const [reminderDraft, setReminderDraft] = useState(() => parseReminderTime('07:30'));
 
@@ -308,7 +309,10 @@ export default function Profile() {
           icon="contrast-outline"
           label={tr('profile.appearance')}
           value={appearanceLabel}
-          onPress={() => setSheet('appearance')}
+          onPress={(event) => {
+            sheetReturnFocus.current = findNodeHandle(event.currentTarget as unknown as React.Component);
+            setSheet('appearance');
+          }}
           first
         />
         <ValueRow
@@ -441,6 +445,7 @@ export default function Profile() {
         selected={themePreference}
         onSelect={setThemePreference}
         onClose={() => setSheet(null)}
+        returnFocusHandle={sheetReturnFocus.current}
       />
     </Screen>
   );
@@ -456,7 +461,7 @@ function ValueRow({
   icon: string;
   label: string;
   value: string;
-  onPress: () => void;
+  onPress: (event: GestureResponderEvent) => void;
   first?: boolean;
 }) {
   const t = useTheme();

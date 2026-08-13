@@ -64,18 +64,22 @@ deneyimi, performans ve görsel cila gelir.
 23. ✅ **TAMAMLANDI — Kitap/bölüm seçicisine erişilebilirlik etiketleri ekle.** Başlık seçicisi,
     kitap satırları, bölüm hücreleri ve geri düğmesi TalkBack’te amaç, bağlam ve seçili durumu
     bildiriyor.
-24. **Bölüm ileri/geri düğmelerinin disabled durumunu seslendir.** `accessibilityState.disabled`
-    ve açıklayıcı etiket, yalnızca düşük opacity yerine kullanılmalı.
-25. **Ayet satırlarını gerçek erişilebilir eylemlere dönüştür.** TalkBack kullanıcıları “Aç” ve
-    “Vurgula” eylemlerine uzun basmayı keşfetmek zorunda kalmamalı.
-26. **Highlight renk adlarını altı dilde insan diline çevir.** `gold`, `blue` gibi kod anahtarları
-    erişilebilirlik etiketinde okunmamalı.
-27. **Renk seçimini yalnız renkle anlatma.** Her highlight swatch içinde farklı simge/desen veya
-    metin kısaltması bulunmalı.
-28. **Bottom sheet odak yönetimini tamamla.** Açılışta başlığa odak taşı, TalkBack odağını modal
-    içinde tut ve kapanınca tetikleyen kontrole geri ver.
-29. **Modal arka planlarını erişilebilirlik ağacından çıkar.** Görünmez kapatma alanları ayrı
-    “Kapat” düğmesi gibi tekrarlanmak yerine modal semantiğiyle yönetilmeli.
+24. ✅ **TAMAMLANDI — Bölüm ileri/geri düğmelerinin disabled durumunu seslendir.** Okuyucu
+    gezinme düğmeleri ve yazı boyutu kontrolleri açıklayıcı etiketle birlikte gerçek
+    `accessibilityState.disabled` durumunu bildiriyor.
+25. ✅ **TAMAMLANDI — Ayet satırlarını gerçek erişilebilir eylemlere dönüştür.** Her ayet
+    ekran okuyucuya tek anlamlı düğme olarak sunuluyor; “Ayet işlemlerini aç” ve “Vurgula”
+    eylemleri uzun basmayı keşfetmeden doğrudan kullanılabiliyor.
+26. ✅ **TAMAMLANDI — Highlight renk adlarını insan diline çevir.** Dört renk adı 38 yayın
+    dilinde yerelleştirildi; `gold` ve `blue` gibi kalıcı store anahtarları artık okunmuyor.
+27. ✅ **TAMAMLANDI — Renk seçimini yalnız renkle anlatma.** Altın, pembe, yeşil ve mavi
+    swatch'lar birbirinden farklı şekil işaretleri ve ayrı seçili onayı taşıyor.
+28. ✅ **TAMAMLANDI — Bottom sheet odak yönetimini tamamla.** Kitap/bölüm, okuma ayarları,
+    ayet işlemleri ve ortak seçenek sheet'i açılışta başlığa odaklanıyor, modal sınırını
+    bildiriyor ve kapanınca odağı tetikleyen kontrole geri veriyor.
+29. ✅ **TAMAMLANDI — Modal arka planlarını erişilebilirlik ağacından çıkar.** Görünmez
+    kapatma yüzeyleri iOS ve Android erişilebilirlik ağaçlarından gizlendi; sheet içeriği
+    tek modal yüzey olarak sunuluyor.
 30. **Büyük yazıda sabit yükseklikleri kaldır.** VerseCard, paywall hero ve yatay aksiyonlar
     200% font ölçeğinde metin kırpmadan büyüyebilmeli.
 31. **Metin rollerini merkezi tipe bağla.** Dağınık 10/11/12/14/16/18/20/21/24/27/30/34/46/64
