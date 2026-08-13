@@ -10,13 +10,15 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { fonts, type as ty } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
 import { prayerArt } from '@/assets/registry';
 import { usePrayers } from '@/data/prayers';
 import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
 import { translate, useT } from '@/i18n';
+import { useScreenReaderEnabled } from '@/hooks/useScreenReaderEnabled';
+import { shouldAutoAdvancePrayer } from '@/lib/accessibility';
 
 type Pace = 'slow' | 'normal' | 'quick';
 
@@ -35,6 +37,7 @@ export default function Player() {
   const { t: tr } = useT();
   const insets = useSafeAreaInsets();
   const reduceMotion = useReducedMotion();
+  const screenReaderEnabled = useScreenReaderEnabled();
   const { id } = useLocalSearchParams<{ id: string }>();
   const prayers = usePrayers();
   const prayer = prayers.find((p) => p.id === id) ?? prayers[0];
@@ -64,15 +67,19 @@ export default function Player() {
 
   useEffect(() => {
     AsyncStorage.setItem(`lumen-player-${prayer.id}`, String(line)).catch(() => {});
-    AccessibilityInfo.announceForAccessibility(prayer.script[line]);
-  }, [line, prayer.id, prayer.script]);
+    if (screenReaderEnabled) AccessibilityInfo.announceForAccessibility(prayer.script[line]);
+  }, [line, prayer.id, prayer.script, screenReaderEnabled]);
 
   useEffect(() => {
-    if (paused || lastLine) return;
+    if (screenReaderEnabled) setPaused(true);
+  }, [screenReaderEnabled]);
+
+  useEffect(() => {
+    if (!shouldAutoAdvancePrayer(paused, lastLine, screenReaderEnabled)) return;
     const ms = Math.max(4000, prayer.script[line].length * PACE_FACTOR[pace]);
     const timer = setTimeout(() => setLine((l) => l + 1), ms);
     return () => clearTimeout(timer);
-  }, [line, pace, paused, lastLine, prayer.script]);
+  }, [line, pace, paused, lastLine, prayer.script, screenReaderEnabled]);
 
   const finish = () => {
     completeStep('prayer');
@@ -110,10 +117,14 @@ export default function Player() {
       >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <View style={{ flex: 1 }}>
-            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: foreground, ...textShadow }}>
+            <Text style={[ty.bodyMedium, { fontSize: 16, lineHeight: 22, color: foreground, ...textShadow }]}>
               {prayer.title}
             </Text>
-            <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: muted, marginTop: 2, ...textShadow }}>
+            <Text
+              accessible
+              accessibilityLabel={`${remainingMinutes} ${tr('player.minLeft')}`}
+              style={[ty.caption, { color: muted, marginTop: 2, ...textShadow }]}
+            >
               {tr('player.guidedText')} · {remainingMinutes} {tr('player.minLeft')}
             </Text>
           </View>
@@ -144,9 +155,8 @@ export default function Player() {
             key={line}
             entering={reduceMotion ? undefined : FadeInUp.duration(600)}
             exiting={reduceMotion ? undefined : FadeOut.duration(250)}
-            accessibilityLiveRegion="polite"
             style={{
-              fontFamily: 'Fraunces_400Regular',
+              fontFamily: fonts.serifLight,
               fontSize: 30,
               lineHeight: 43,
               color: foreground,
@@ -177,7 +187,7 @@ export default function Player() {
           accessibilityLabel={`${tr('player.pace')}: ${tr(`player.pace.${pace}` as never)}`}
           style={{ minHeight: 48, alignSelf: 'center', justifyContent: 'center', marginBottom: spacing.md }}
         >
-          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: muted, ...textShadow }}>
+          <Text style={[ty.label, { fontFamily: fonts.sansMedium, color: muted, ...textShadow }]}>
             {tr('player.pace')}: {tr(`player.pace.${pace}` as never)}
           </Text>
         </Pressable>

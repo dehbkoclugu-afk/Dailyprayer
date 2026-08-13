@@ -222,10 +222,12 @@ export default function Journal() {
                       borderRadius: 24,
                       alignItems: 'center',
                       justifyContent: 'center',
-                      backgroundColor: pressed ? t.border : t.surface,
+                      backgroundColor: pressed ? t.border : t.surfaceAlt,
+                      borderWidth: 1,
+                      borderColor: t.border,
                     })}
                   >
-                    <Ionicons name="trash-outline" size={18} color={t.inkFaint} />
+                    <Ionicons name="trash-outline" size={20} color={t.danger} />
                   </Pressable>
                 </View>
               </View>

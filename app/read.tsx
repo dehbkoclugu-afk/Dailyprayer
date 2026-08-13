@@ -31,6 +31,7 @@ import { InvalidRouteState } from '@/components/InvalidRouteState';
 import { integerParam, validReaderPosition } from '@/lib/routeValidation';
 import { getReaderAccessibilityCopy } from '@/i18n/readerAccessibility';
 import { useModalAccessibility } from '@/hooks/useModalAccessibility';
+import { accessibleVerseLabel } from '@/lib/accessibility';
 
 export default function Read() {
   const { t: tr, locale } = useT();
@@ -281,7 +282,7 @@ export default function Read() {
           const accessibilityProps = {
             accessible: true,
             accessibilityRole: 'button' as const,
-            accessibilityLabel: `${ref}. ${item[1]}`,
+            accessibilityLabel: accessibleVerseLabel(ref, item[1]),
             accessibilityHint: readerA11y.openVerseActions,
             accessibilityValue: color ? { text: readerA11y.colors[color] } : undefined,
             accessibilityActions: [
@@ -300,53 +301,72 @@ export default function Read() {
             const first = item[1].slice(0, 1);
             const rest = item[1].slice(1);
             return (
-              <Text
+              <Pressable
                 {...accessibilityProps}
                 onPress={(event) => open(eventHandle(event) ?? undefined)}
                 onLongPress={quickHighlight}
-                suppressHighlighting
                 style={{
-                  fontFamily: fonts.serifLight,
-                  fontSize: bodySize,
-                  lineHeight: dropCap,
-                  color: rt.ink,
                   marginBottom: spacing.sm,
                   backgroundColor: flashed ? rt.goldSoft : tint,
                   borderRadius: 6,
-                  textAlign: scriptureRtl ? 'right' : 'left',
-                  writingDirection: scriptureRtl ? 'rtl' : 'ltr',
                 }}
               >
-                <Text style={{ fontFamily: fonts.serif, fontSize: dropCap, color: rt.gold }}>{first}</Text>
-                {rest}
-              </Text>
+                <Text
+                  accessible={false}
+                  importantForAccessibility="no"
+                  style={{
+                    fontFamily: fonts.serifLight,
+                    fontSize: bodySize,
+                    lineHeight: dropCap,
+                    color: rt.ink,
+                    textAlign: scriptureRtl ? 'right' : 'left',
+                    writingDirection: scriptureRtl ? 'rtl' : 'ltr',
+                  }}
+                >
+                  <Text style={{ fontFamily: fonts.serif, fontSize: dropCap, color: rt.gold }}>{first}</Text>
+                  {rest}
+                </Text>
+              </Pressable>
             );
           }
 
           return (
-            <Text
+            <Pressable
               {...accessibilityProps}
               onPress={(event) => open(eventHandle(event) ?? undefined)}
               onLongPress={quickHighlight}
-              suppressHighlighting
               style={{
-                fontFamily: fonts.serifLight,
-                fontSize: bodySize,
-                lineHeight: bodyLine,
-                color: rt.ink,
+                flexDirection: scriptureRtl ? 'row-reverse' : 'row',
+                alignItems: 'baseline',
+                gap: spacing.sm,
                 marginBottom: spacing.sm,
                 backgroundColor: flashed ? rt.goldSoft : tint,
                 borderRadius: 6,
-                textAlign: scriptureRtl ? 'right' : 'left',
-                writingDirection: scriptureRtl ? 'rtl' : 'ltr',
               }}
             >
-              <Text style={{ fontFamily: fonts.sansBold, fontSize: Math.round(11 * fontScale), color: rt.gold }}>
+              <Text
+                accessible={false}
+                importantForAccessibility="no"
+                style={{ fontFamily: fonts.sansBold, fontSize: Math.round(12 * fontScale), color: rt.gold }}
+              >
                 {item[0]}
-                {'  '}
               </Text>
-              {item[1]}
-            </Text>
+              <Text
+                accessible={false}
+                importantForAccessibility="no"
+                style={{
+                  flex: 1,
+                  fontFamily: fonts.serifLight,
+                  fontSize: bodySize,
+                  lineHeight: bodyLine,
+                  color: rt.ink,
+                  textAlign: scriptureRtl ? 'right' : 'left',
+                  writingDirection: scriptureRtl ? 'rtl' : 'ltr',
+                }}
+              >
+                {item[1]}
+              </Text>
+            </Pressable>
           );
         }}
         ListFooterComponent={
@@ -515,6 +535,8 @@ export default function Read() {
         visible={settings}
         onClose={() => setSettings(false)}
         returnFocusHandle={settingsReturnFocus.current}
+        sampleReference={`${bk.name} ${cIdx + 1}:${verses[0]?.[0] ?? 1}`}
+        sampleText={verses[0]?.[1] ?? ''}
       />
       <VerseActionSheet
         verse={selected}
