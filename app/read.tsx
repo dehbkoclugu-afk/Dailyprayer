@@ -1,5 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, Modal, Pressable, Text, View } from 'react-native';
+import {
+  FlatList,
+  Modal,
+  Pressable,
+  Text,
+  View,
+  findNodeHandle,
+  type AccessibilityActionEvent,
+  type GestureResponderEvent,
+} from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
@@ -20,6 +29,8 @@ import { useScriptureLocale } from '@/i18n/scripture';
 import { RTL_LOCALE_TAGS } from '@/i18n/globalLanguageCatalog';
 import { InvalidRouteState } from '@/components/InvalidRouteState';
 import { integerParam, validReaderPosition } from '@/lib/routeValidation';
+import { getReaderAccessibilityCopy } from '@/i18n/readerAccessibility';
+import { useModalAccessibility } from '@/hooks/useModalAccessibility';
 
 export default function Read() {
   const { t: tr, locale } = useT();
@@ -47,6 +58,12 @@ export default function Read() {
   const [selected, setSelected] = useState<SelectedVerse | null>(null);
   const [flashV, setFlashV] = useState<number | null>(null);
   const listRef = useRef<FlatList>(null);
+  const pickerHeadingRef = useRef<Text>(null);
+  const pickerReturnFocus = useRef<number | null>(null);
+  const settingsReturnFocus = useRef<number | null>(null);
+  const verseReturnFocus = useRef<number | null>(null);
+
+  useModalAccessibility(picker !== null, pickerHeadingRef, pickerReturnFocus.current);
 
   const bIdx = Math.min(book, bible.length - 1);
   const bk = bible[bIdx];
@@ -92,8 +109,15 @@ export default function Read() {
   const bodySize = Math.round(18 * fontScale);
   const bodyLine = Math.round(30 * fontScale);
   const dropCap = Math.round(bodySize * 1.9);
+  const readerA11y = getReaderAccessibilityCopy(locale);
+  const eventHandle = (event: GestureResponderEvent | AccessibilityActionEvent) =>
+    findNodeHandle(event.currentTarget as unknown as React.Component);
 
-  const iconBtn = (icon: keyof typeof Ionicons.glyphMap, label: string, onPress: () => void) => (
+  const iconBtn = (
+    icon: keyof typeof Ionicons.glyphMap,
+    label: string,
+    onPress: (event: GestureResponderEvent) => void,
+  ) => (
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
@@ -119,6 +143,8 @@ export default function Read() {
       onPress={enabled ? onPress : undefined}
       disabled={!enabled}
       accessibilityRole="button"
+      accessibilityLabel={label}
+      accessibilityState={{ disabled: !enabled }}
       style={{
         flex: 1,
         flexDirection: 'row',
@@ -162,7 +188,10 @@ export default function Read() {
           <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={24} color={rt.inkSoft} />
         </Pressable>
         <Pressable
-          onPress={() => setPicker('books')}
+          onPress={(event) => {
+            pickerReturnFocus.current = eventHandle(event);
+            setPicker('books');
+          }}
           accessibilityRole="button"
           accessibilityLabel={`${tr('read.pickBook')}: ${bk.name}, ${tr('read.chapter')} ${cIdx + 1}`}
           accessibilityHint={tr('read.pickBook')}
@@ -186,7 +215,10 @@ export default function Read() {
           <Ionicons name="chevron-down" size={18} color={rt.inkFaint} />
         </Pressable>
         {iconBtn('search', tr('a11y.search'), () => router.push('/search'))}
-        {iconBtn('text', tr('a11y.readingSettings'), () => setSettings(true))}
+        {iconBtn('text', tr('a11y.readingSettings'), (event) => {
+          settingsReturnFocus.current = eventHandle(event);
+          setSettings(true);
+        })}
       </View>
 
       <FlatList
@@ -235,8 +267,10 @@ export default function Read() {
           const tint = color ? HIGHLIGHT_TINT[color] : 'transparent';
           const flashed = flashV === index;
           const ref = `${bk.name} ${cIdx + 1}:${item[0]}`;
-          const open = () =>
+          const open = (returnFocusHandle?: number) => {
+            if (returnFocusHandle) verseReturnFocus.current = returnFocusHandle;
             setSelected({ book: bIdx, chapter: cIdx, verse: index, code: bk.code, ref, text: item[1] });
+          };
           // long-press is the quick path: highlight (or un-highlight) in place,
           // no menu. A short tap opens the full action sheet.
           const quickHighlight = () => {
@@ -244,13 +278,31 @@ export default function Read() {
             if (color) clearMark(hKey);
             else setMark(hKey, 'gold');
           };
+          const accessibilityProps = {
+            accessible: true,
+            accessibilityRole: 'button' as const,
+            accessibilityLabel: `${ref}. ${item[1]}`,
+            accessibilityHint: readerA11y.openVerseActions,
+            accessibilityValue: color ? { text: readerA11y.colors[color] } : undefined,
+            accessibilityActions: [
+              { name: 'open', label: readerA11y.openVerseActions },
+              { name: 'highlight', label: tr('verse.highlight') },
+            ],
+            onAccessibilityAction: (event: AccessibilityActionEvent) => {
+              const handle = eventHandle(event) ?? undefined;
+              verseReturnFocus.current = handle ?? null;
+              if (event.nativeEvent.actionName === 'open') open(handle);
+              if (event.nativeEvent.actionName === 'highlight') quickHighlight();
+            },
+          };
 
           if (index === 0) {
             const first = item[1].slice(0, 1);
             const rest = item[1].slice(1);
             return (
               <Text
-                onPress={open}
+                {...accessibilityProps}
+                onPress={(event) => open(eventHandle(event) ?? undefined)}
                 onLongPress={quickHighlight}
                 suppressHighlighting
                 style={{
@@ -273,7 +325,8 @@ export default function Read() {
 
           return (
             <Text
-              onPress={open}
+              {...accessibilityProps}
+              onPress={(event) => open(eventHandle(event) ?? undefined)}
               onLongPress={quickHighlight}
               suppressHighlighting
               style={{
@@ -313,8 +366,16 @@ export default function Read() {
         statusBarTranslucent
       >
         <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }}>
-          <Pressable style={{ flex: 1 }} onPress={() => setPicker(null)} />
+          <Pressable
+            style={{ flex: 1 }}
+            onPress={() => setPicker(null)}
+            accessible={false}
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+          />
           <View
+            accessibilityViewIsModal
+            importantForAccessibility="yes"
             style={{
               maxHeight: '72%',
               backgroundColor: rt.surface,
@@ -356,7 +417,12 @@ export default function Read() {
                   <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={22} color={rt.inkSoft} />
                 </Pressable>
               ) : null}
-              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: rt.ink }}>
+              <Text
+                ref={pickerHeadingRef}
+                accessible
+                accessibilityRole="header"
+                style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: rt.ink }}
+              >
                 {typeof picker === 'number' ? bible[picker].name : tr('read.pickBook')}
               </Text>
             </View>
@@ -445,8 +511,16 @@ export default function Read() {
         </View>
       </Modal>
 
-      <ReadingSettingsSheet visible={settings} onClose={() => setSettings(false)} />
-      <VerseActionSheet verse={selected} onClose={() => setSelected(null)} />
+      <ReadingSettingsSheet
+        visible={settings}
+        onClose={() => setSettings(false)}
+        returnFocusHandle={settingsReturnFocus.current}
+      />
+      <VerseActionSheet
+        verse={selected}
+        onClose={() => setSelected(null)}
+        returnFocusHandle={verseReturnFocus.current}
+      />
     </View>
   );
 }

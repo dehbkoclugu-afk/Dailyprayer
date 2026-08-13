@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Modal, Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
+import { useModalAccessibility } from '@/hooks/useModalAccessibility';
 
 export interface SheetOption<T extends string> {
   value: T;
@@ -19,6 +20,7 @@ interface Props<T extends string> {
   selected: T;
   onSelect: (value: T) => void;
   onClose: () => void;
+  returnFocusHandle?: number | null;
 }
 
 /**
@@ -33,19 +35,27 @@ export function OptionSheet<T extends string>({
   selected,
   onSelect,
   onClose,
+  returnFocusHandle,
 }: Props<T>) {
   const t = useTheme();
   const insets = useSafeAreaInsets();
+  const headingRef = useRef<Text>(null);
+
+  useModalAccessibility(visible, headingRef, returnFocusHandle);
 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
-      <Pressable
-        onPress={onClose}
-        style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)', justifyContent: 'flex-end' }}
-      >
-        {/* stop propagation so taps inside the sheet don't dismiss it */}
+      <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)', justifyContent: 'flex-end' }}>
         <Pressable
-          onPress={() => {}}
+          onPress={onClose}
+          accessible={false}
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
+          style={{ position: 'absolute', inset: 0 }}
+        />
+        <View
+          accessibilityViewIsModal
+          importantForAccessibility="yes"
           style={{
             backgroundColor: t.surface,
             borderTopLeftRadius: radius.card,
@@ -70,6 +80,9 @@ export function OptionSheet<T extends string>({
             }}
           />
           <Text
+            ref={headingRef}
+            accessible
+            accessibilityRole="header"
             style={{
               fontFamily: fonts.sansSemiBold,
               fontSize: 13,
@@ -124,8 +137,8 @@ export function OptionSheet<T extends string>({
               </Pressable>
             );
           })}
-        </Pressable>
-      </Pressable>
+        </View>
+      </View>
     </Modal>
   );
 }
