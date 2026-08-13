@@ -20,7 +20,7 @@ export default function TabsLayout() {
         },
         tabBarActiveTintColor: t.gold,
         tabBarInactiveTintColor: t.inkFaint,
-        tabBarLabelStyle: { fontFamily: fonts.sansMedium, fontSize: 11 },
+        tabBarLabelStyle: { fontFamily: fonts.sansMedium, fontSize: 12, lineHeight: 16 },
       }}
     >
       <Tabs.Screen

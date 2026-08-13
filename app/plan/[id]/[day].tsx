@@ -7,7 +7,7 @@ import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { PlanDayArtwork } from '@/components/PlanDayArtwork';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
 import { planReading, formatReadingRef } from '@/data/planReadings';
@@ -19,6 +19,8 @@ import { getDirectionalIconName } from '@/i18n/direction';
 import { useScriptureLocale } from '@/i18n/scripture';
 import { InvalidRouteState } from '@/components/InvalidRouteState';
 import { singleParam, validPlanDay } from '@/lib/routeValidation';
+import { localeUpperCase } from '@/i18n/localeText';
+import { toast } from '@/state/useToastStore';
 
 export default function PlanDay() {
   const t = useTheme();
@@ -47,7 +49,10 @@ export default function PlanDay() {
 
   const complete = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
-    if (!done) toggleDay(plan.id, dayIdx);
+    if (!done) {
+      toggleDay(plan.id, dayIdx);
+      toast(`${plan.title}: ${tr('plan.done')}`);
+    }
     router.back();
   };
 
@@ -84,15 +89,12 @@ export default function PlanDay() {
 
         <Text
           style={{
-            fontFamily: fonts.sansSemiBold,
-            fontSize: 12,
-            letterSpacing: 2,
-            textTransform: 'uppercase',
+            ...ty.overline,
             color: t.gold,
             marginTop: spacing.lg,
           }}
         >
-          {plan.title} · {tr('plan.dayLabel')} {dayIdx + 1}
+          {localeUpperCase(`${plan.title} · ${tr('plan.dayLabel')} ${dayIdx + 1}`, locale)}
         </Text>
 
         {/* the day's reading , a real passage in the bundled Bible */}
@@ -101,15 +103,13 @@ export default function PlanDay() {
         </Text>
         <Text
           style={{
-            fontFamily: fonts.sansMedium,
-            fontSize: 13,
+            ...ty.labelSmall,
             letterSpacing: 1,
-            textTransform: 'uppercase',
             color: t.inkFaint,
             marginTop: spacing.sm,
           }}
         >
-          {tr('plan.todaysReading')}
+          {localeUpperCase(tr('plan.todaysReading'), locale)}
         </Text>
 
         {teaser ? (

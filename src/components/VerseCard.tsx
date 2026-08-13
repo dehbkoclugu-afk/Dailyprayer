@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Platform, Pressable, ScrollView, Share, Text, View } from 'react-native';
+import React, { useRef } from 'react';
+import { Platform, Pressable, Share, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { captureRef } from 'react-native-view-shot';
 import * as Sharing from 'expo-sharing';
-import { fonts } from '@/theme/typography';
+import { fonts, type as ty } from '@/theme/typography';
 import { radius, shadow, spacing } from '@/theme/tokens';
 import { type AssetId } from '@/assets/registry';
 import { ArtSlot } from '@/components/ArtSlot';
@@ -11,6 +11,7 @@ import type { DailyVerse } from '@/data/verses';
 import { useT } from '@/i18n';
 import { useArtwork } from '@/hooks/useArtwork';
 import { useTheme } from '@/hooks/useTheme';
+import { localeUpperCase } from '@/i18n/localeText';
 
 /**
  * Verse theme → A5 background. Eight themes have dedicated art; the remaining
@@ -54,30 +55,12 @@ interface Props {
 }
 
 export function VerseCard({ verse, onRead, onShuffle }: Props) {
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const t = useTheme();
   const artwork = useArtwork();
   const dawn = artwork.scheme === 'dawn';
-  const cardHeight = 340;
-  const [fontStep, setFontStep] = useState(() => initialVerseFontStep(verse.text));
-  const [viewportHeight, setViewportHeight] = useState(0);
-  const [contentHeight, setContentHeight] = useState(0);
   const cardRef = useRef<View>(null);
-  const verseType = VERSE_TEXT_STYLES[fontStep];
-  const lastFontStep = VERSE_TEXT_STYLES.length - 1;
-  const hasOverflow = fontStep === lastFontStep && viewportHeight > 0 && contentHeight > viewportHeight + 2;
-
-  useEffect(() => {
-    setFontStep(initialVerseFontStep(verse.text));
-    setViewportHeight(0);
-    setContentHeight(0);
-  }, [verse.reference, verse.text]);
-
-  useEffect(() => {
-    if (viewportHeight > 0 && contentHeight > viewportHeight + 2 && fontStep < lastFontStep) {
-      setFontStep((step) => Math.min(step + 1, lastFontStep));
-    }
-  }, [contentHeight, fontStep, lastFontStep, viewportHeight]);
+  const verseType = VERSE_TEXT_STYLES[initialVerseFontStep(verse.text)];
 
   /** Share the rendered card as an image (organic growth); text fallback on web/failure. */
   const share = async () => {
@@ -97,46 +80,30 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
   const content = (
     <View
       style={{
-        flex: 1,
         width: '100%',
+        minHeight: 340,
         padding: spacing.lg,
         paddingTop: spacing.xl,
+        justifyContent: 'space-between',
       }}
     >
       <Text
         style={{
-          fontFamily: fonts.sansSemiBold,
-          fontSize: 11,
-          letterSpacing: 2.5,
-          textTransform: 'uppercase',
+          ...ty.overline,
           color: t.gold,
         }}
       >
-        {tr('today.verseOfDay')}
+        {localeUpperCase(tr('today.verseOfDay'), locale)}
       </Text>
 
-      <View style={{ flex: 1, marginTop: spacing.sm }}>
-        <ScrollView
-          key={`${verse.reference}:${fontStep}`}
-          onLayout={(event) => setViewportHeight(event.nativeEvent.layout.height)}
-          onContentSizeChange={(_, height) => setContentHeight(height)}
-          scrollEnabled
-          showsVerticalScrollIndicator={hasOverflow}
-          persistentScrollbar={hasOverflow}
-          nestedScrollEnabled
-          contentContainerStyle={{
-            flexGrow: 1,
-            justifyContent: hasOverflow ? 'flex-start' : 'center',
-            paddingBottom: spacing.sm,
-          }}
-        >
+      <View style={{ flexGrow: 1, justifyContent: 'center', marginTop: spacing.lg, marginBottom: spacing.md }}>
           <Text
             style={{
               fontFamily: fonts.serifLight,
               fontSize: verseType.fontSize,
               lineHeight: verseType.lineHeight,
               letterSpacing: -0.3,
-              textAlign: hasOverflow ? 'left' : 'center',
+              textAlign: 'center',
               color: '#F7F1E7',
               textShadowColor: 'rgba(0,0,0,0.72)',
               textShadowOffset: { width: 0, height: 1 },
@@ -145,37 +112,24 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
           >
             “{verse.text}”
           </Text>
-        </ScrollView>
-        {hasOverflow ? (
-          <View
-            pointerEvents="none"
-            style={{
-              position: 'absolute',
-              right: 2,
-              bottom: 2,
-              width: 28,
-              height: 28,
-              borderRadius: 14,
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'rgba(14,18,32,0.66)',
-            }}
-          >
-            <Ionicons name="chevron-down" size={16} color="#F2EEE6" />
-          </View>
-        ) : null}
       </View>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: spacing.sm }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: spacing.sm,
+          marginTop: spacing.sm,
+        }}
+      >
         <Text
-          numberOfLines={1}
-          adjustsFontSizeToFit
-          minimumFontScale={0.75}
-          style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.gold, flexShrink: 1, maxWidth: '62%' }}
+          style={{ fontFamily: fonts.sansMedium, fontSize: 15, lineHeight: 22, color: t.gold, flexGrow: 1, flexBasis: 150 }}
         >
           {verse.reference}
         </Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 'auto' }}>
           {onShuffle ? (
             <Pressable
               onPress={onShuffle}
@@ -206,15 +160,18 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       ref={cardRef}
       onPress={onRead}
       accessibilityRole="button"
-      accessibilityLabel={`Verse of the day, ${verse.reference}`}
-      // The hero frame stays stable. Header and source/actions remain fixed while
-      // the middle verse region scales down, then scrolls for exceptionally long text.
+      accessibilityLabel={`${tr('today.verseOfDay')}, ${verse.reference}`}
       style={[
-        { height: cardHeight, borderRadius: radius.hero, overflow: 'hidden' },
+        { minHeight: 340, borderRadius: radius.hero, overflow: 'hidden' },
         shadow.card,
       ]}
     >
-      <ArtSlot id={VERSE_ART[verse.theme]} height={cardHeight} radius={radius.hero} variant={dawn ? 'card' : 'hero'}>
+      <ArtSlot
+        id={VERSE_ART[verse.theme]}
+        radius={radius.hero}
+        variant={dawn ? 'card' : 'hero'}
+        style={{ minHeight: 340 }}
+      >
         {content}
       </ArtSlot>
     </Pressable>

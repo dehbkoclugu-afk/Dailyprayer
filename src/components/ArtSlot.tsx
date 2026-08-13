@@ -74,7 +74,8 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
           <Text
             style={{
               fontFamily: fonts.sansSemiBold,
-              fontSize: 11,
+              fontSize: 12,
+              lineHeight: 16,
               color: t.gold,
               marginTop: 6,
               letterSpacing: 1,
@@ -82,7 +83,7 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
           >
             {id}
           </Text>
-          <Text style={{ fontFamily: fonts.sans, fontSize: 10, color: t.inkSoft, marginTop: 2 }}>
+          <Text style={{ fontFamily: fonts.sans, fontSize: 12, lineHeight: 16, color: t.inkSoft, marginTop: 2 }}>
             {spec.label} · {spec.size}
           </Text>
         </View>

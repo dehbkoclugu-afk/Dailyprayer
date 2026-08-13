@@ -11,6 +11,7 @@ import Animated, {
   useSharedValue,
   withSequence,
   withTiming,
+  useReducedMotion,
   ZoomIn,
 } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
@@ -37,6 +38,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
   const t = useTheme();
   const artwork = useArtwork();
   const { t: tr, locale } = useT();
+  const reduceMotion = useReducedMotion();
   const hasArt = !!(art && artwork.source(art));
   const titleColor = hasArt ? '#FFFFFF' : t.ink;
   const subColor = done ? t.gold : hasArt ? artwork.foreground.secondary : t.inkSoft;
@@ -46,7 +48,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
   const shimmerX = useSharedValue(-CARD_W);
   const prevDone = useRef(done);
   useEffect(() => {
-    if (done && !prevDone.current) {
+    if (done && !prevDone.current && !reduceMotion) {
       shimmerX.value = -CARD_W;
       shimmerX.value = withSequence(
         withTiming(CARD_W, {
@@ -57,7 +59,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
       );
     }
     prevDone.current = done;
-  }, [done, shimmerX]);
+  }, [done, reduceMotion, shimmerX]);
 
   const shimmerStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: shimmerX.value }, { rotate: '18deg' }],
@@ -67,8 +69,9 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={`${title}${done ? `, ${tr('today.undoCompletion')}` : locked ? ', locked' : ''}`}
-      accessibilityState={{ disabled: Boolean(locked), selected: done }}
+      accessibilityLabel={`${title}${done ? `, ${tr('today.undoCompletion')}` : ''}`}
+      accessibilityHint={locked ? tr('today.unlock') : undefined}
+      accessibilityState={{ selected: done }}
       style={({ pressed }) => ({
         minHeight: hasArt ? 136 : undefined,
         alignItems: hasArt ? 'center' : 'stretch',
@@ -151,7 +154,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         </Text>
       </View>
       {done ? (
-        <Animated.View entering={ZoomIn.springify().damping(12)} style={{ position: 'absolute', right: spacing.lg, top: spacing.lg }}>
+        <Animated.View entering={reduceMotion ? undefined : ZoomIn.springify().damping(12)} style={{ position: 'absolute', right: spacing.lg, top: spacing.lg }}>
           <Ionicons name="checkmark-circle" size={26} color={t.gold} />
         </Animated.View>
       ) : locked ? (

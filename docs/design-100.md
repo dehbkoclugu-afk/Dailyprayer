@@ -80,28 +80,28 @@ deneyimi, performans ve görsel cila gelir.
 29. ✅ **TAMAMLANDI — Modal arka planlarını erişilebilirlik ağacından çıkar.** Görünmez
     kapatma yüzeyleri iOS ve Android erişilebilirlik ağaçlarından gizlendi; sheet içeriği
     tek modal yüzey olarak sunuluyor.
-30. **Büyük yazıda sabit yükseklikleri kaldır.** VerseCard, paywall hero ve yatay aksiyonlar
-    200% font ölçeğinde metin kırpmadan büyüyebilmeli.
+30. ✅ **TAMAMLANDI — Büyük yazıda sabit yükseklikleri kaldır.** VerseCard ve paywall hero artık
+    içerikle büyüyor; ayet/kaynak ve hızlı aksiyon satırları 200% ölçekte alt satıra sarılabiliyor.
 31. **Metin rollerini merkezi tipe bağla.** Dağınık 10/11/12/14/16/18/20/21/24/27/30/34/46/64
     değerleri semantic display/title/body/label rollerinden çözülmeli.
-32. **En küçük okunabilir metni yükselt.** PLUS rozetleri ve yardımcı etiketler 10–11 sp’de
-    kalmamalı; kontrast ve font ölçeğiyle en az Material label-small karşılığı sağlanmalı.
-33. **Uppercase dönüşümünü yerel dile göre yap.** Türkçe `i/İ` hataları için render-time
-    `textTransform` yerine çevrilmiş doğru biçim kullanılmalı.
-34. **Tüm sabit İngilizce erişilebilirlik metinlerini çeviri anahtarına taşı.** “Verse of the
-    day”, “requires Plus”, “locked”, “day streak” gibi etiketler altı dilde tutarlı olmalı.
-35. **ProgressRing ve StreakFlame etiketlerini yerelleştir.** İngilizce cümle birleştirme yerine
-    çoğul kuralları olan tam çeviri anahtarları kullanılmalı.
-36. **Reduce Motion kapsamını bütün uygulamaya genişlet.** Player ve flame dışında onboarding,
-    RitualCard, toast ve ekran giriş animasyonları sistem ayarına uymalı.
-37. **Hareket azaltmada shimmer’ı kaldır.** Tamamlama ödülü statik glow/check’e dönüşmeli;
-    kullanıcının sistem tercihi ritüel animasyonunda da korunmalı.
-38. **Animasyonlu durum değişimlerini seslendir.** Ritüel tamamlandı/geri alındı, plan günü bitti
-    ve dua sona erdi mesajları TalkBack’e tek kez bildirilmelidir.
-39. **PillButton `busy` ile `disabled` durumunu ayır.** Her pasif düğme “meşgul” değildir;
-    yüklenme sırasında spinner ve doğru erişilebilirlik durumu gösterilmeli.
-40. **Silme ve destructive işlemlerde erişilebilir doğrulama kullan.** Native Alert düğme sırası,
-    iptal varsayılanı ve TalkBack açıklaması bütün dillerde kontrol edilmeli.
+32. ✅ **TAMAMLANDI — En küçük okunabilir metni yükselt.** PLUS rozetleri, sekme metinleri,
+    placeholder ve yardımcı etiketler semantic `labelSmall` tabanı olan en az 12 sp’ye taşındı.
+33. ✅ **TAMAMLANDI — Uppercase dönüşümünü yerel dile göre yap.** Render-time `textTransform`
+    kaldırıldı; gerekli vurgu metinleri `toLocaleUpperCase` ve aktif BCP-47 etiketiyle üretiliyor.
+34. ✅ **TAMAMLANDI — Sabit İngilizce erişilebilirlik metinlerini yerelleştir.** Ayet, Plus kilidi,
+    ritüel, seri ve tamamlanma etiketleri aktif dildeki mevcut çeviri metinlerinden oluşturuluyor.
+35. ✅ **TAMAMLANDI — ProgressRing ve StreakFlame etiketlerini yerelleştir.** Durum metinleri
+    çeviri anahtarlarından, sayılar aktif locale'in `Intl.NumberFormat` biçiminden geliyor.
+36. ✅ **TAMAMLANDI — Reduce Motion kapsamını bütün uygulamaya genişlet.** Player'a ek olarak
+    buton basışı, flame, ProgressRing, RitualCard ve toast giriş/çıkışları sistem ayarına uyuyor.
+37. ✅ **TAMAMLANDI — Hareket azaltmada shimmer’ı kaldır.** Ritüel shimmer ve check pop animasyonu
+    kapatılıyor; statik altın kenar/check tamamlanma durumunu koruyor.
+38. ✅ **TAMAMLANDI — Animasyonlu durum değişimlerini seslendir.** Ritüel geri alma, plan günü ve
+    dua tamamlanması tek bir toast duyurusu üzerinden TalkBack'e bir kez bildiriliyor.
+39. ✅ **TAMAMLANDI — PillButton `busy` ile `disabled` durumunu ayır.** Busy ayrı state ve spinner
+    kullanıyor; normal pasif düğmeler artık erişilebilirlik ağacında meşgul görünmüyor.
+40. ✅ **TAMAMLANDI — Silme ve destructive işlemlerde erişilebilir doğrulama kullan.** Yerelleştirilmiş
+    native Alert iptali önce ve tercih edilen eylem olarak sunuyor; yıkıcı düğme ayrı işaretleniyor.
 41. **Arama temizleme düğmesini 48 dp hedefe çıkar.** Küçük 18 px ikon yalnızca `hitSlop` ile
     bırakılmamalı; görünür/fiziksel hedef alanı sağlanmalı.
 42. **Prayer kategori chip’lerini 48 dp yap.** Mevcut 44 dp minimumu Android hedefinin altında;

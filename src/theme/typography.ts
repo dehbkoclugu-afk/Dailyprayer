@@ -17,5 +17,13 @@ export const type = {
   bodyMedium: { fontFamily: fonts.sansMedium, fontSize: 17, lineHeight: 26 },
   secondary: { fontFamily: fonts.sans, fontSize: 15, lineHeight: 22 },
   caption: { fontFamily: fonts.sansMedium, fontSize: 13, lineHeight: 18 },
+  label: { fontFamily: fonts.sansSemiBold, fontSize: 14, lineHeight: 20 },
+  labelSmall: { fontFamily: fonts.sansSemiBold, fontSize: 12, lineHeight: 16 },
+  overline: {
+    fontFamily: fonts.sansSemiBold,
+    fontSize: 12,
+    lineHeight: 16,
+    letterSpacing: 1.8,
+  },
   verse: { fontFamily: fonts.serifLight, fontSize: 26, lineHeight: 38 },
 } as const;

@@ -168,7 +168,7 @@ export function VerseActionSheet({
             ref={headingRef}
             accessible
             accessibilityRole="header"
-            style={{ fontFamily: fonts.sansSemiBold, fontSize: 12, letterSpacing: 1.5, textTransform: 'uppercase', color: t.gold }}
+            style={{ fontFamily: fonts.sansSemiBold, fontSize: 12, lineHeight: 16, letterSpacing: 1.5, color: t.gold }}
           >
             {verse.ref}
           </Text>

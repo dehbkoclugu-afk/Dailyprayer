@@ -213,7 +213,12 @@ export default function Paywall() {
 
       {/* Hero: sunrise-through-arch artwork with scrim + copy */}
       <View style={{ borderRadius: radius.hero, overflow: 'hidden', marginBottom: spacing.md }}>
-        <ArtSlot id={paywallContext.hero} height={260} radius={radius.hero} variant={dawn ? 'card' : 'bare'}>
+        <ArtSlot
+          id={paywallContext.hero}
+          radius={radius.hero}
+          variant={dawn ? 'card' : 'bare'}
+          style={{ minHeight: 260 }}
+        >
           {!dawn ? (
             <LinearGradient
               colors={['rgba(14,18,32,0.15)', 'rgba(14,18,32,0.9)']}
@@ -249,6 +254,7 @@ export default function Paywall() {
               accessibilityLabel={`${PLAN_TITLE[p.id]} ${p.price} ${PLAN_PERIOD[p.id]}`}
               style={{
                 flexDirection: 'row',
+                flexWrap: 'wrap',
                 alignItems: 'center',
                 backgroundColor: active ? t.goldSoft : quiet ? 'transparent' : t.surface,
                 borderWidth: active ? 2 : 1,
@@ -264,7 +270,7 @@ export default function Paywall() {
                 size={22}
                 color={active ? t.gold : t.inkFaint}
               />
-              <View style={{ flex: 1 }}>
+              <View style={{ flexGrow: 1, flexBasis: 180 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
                   <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 17, color: t.ink }}>
 {PLAN_TITLE[p.id]}
@@ -305,21 +311,10 @@ export default function Paywall() {
               : tr('paywall.continue')
         }
         onPress={buy}
-        disabled={busy || pending || !selectedPlan}
+        busy={busy}
+        disabled={pending || !selectedPlan}
         style={{ marginTop: spacing.xl }}
       />
-      {busy ? (
-        <View
-          accessibilityRole="progressbar"
-          accessibilityLabel={tr('paywall.processing')}
-          style={{ flexDirection: 'row', justifyContent: 'center', gap: spacing.sm, marginTop: spacing.md }}
-        >
-          <ActivityIndicator color={t.gold} />
-          <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft }}>
-            {tr('paywall.processing')}
-          </Text>
-        </View>
-      ) : null}
 
       {pending ? (
         <View

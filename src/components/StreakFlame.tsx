@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { AccessibilityInfo, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -9,10 +9,12 @@ import Animated, {
   withTiming,
   Easing,
   cancelAnimation,
+  useReducedMotion,
 } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
+import { useT } from '@/i18n';
 
 interface Props {
   count: number;
@@ -22,39 +24,39 @@ interface Props {
 /** Streak flame , breathes gently when lit today (disabled under Reduce Motion). */
 export function StreakFlame({ count, litToday }: Props) {
   const t = useTheme();
+  const { t: tr, locale } = useT();
+  const reduceMotion = useReducedMotion();
   const scale = useSharedValue(1);
   const prevCount = useRef(count);
 
   // one-shot pop when the streak ticks up (design-100 #58)
   useEffect(() => {
-    if (count > prevCount.current) {
+    if (!reduceMotion && count > prevCount.current) {
       scale.value = withSequence(withSpring(1.25, { damping: 12 }), withSpring(1, { damping: 16 }));
     }
     prevCount.current = count;
-  }, [count, scale]);
+  }, [count, reduceMotion, scale]);
 
   useEffect(() => {
-    let cancelled = false;
-    AccessibilityInfo.isReduceMotionEnabled().then((reduced) => {
-      if (cancelled || reduced || !litToday) return;
+    if (!reduceMotion && litToday) {
       scale.value = withRepeat(
         withTiming(1.06, { duration: 2000, easing: Easing.inOut(Easing.quad) }),
         -1,
         true,
       );
-    });
+    }
     return () => {
-      cancelled = true;
       cancelAnimation(scale);
       scale.value = 1;
     };
-  }, [litToday, scale]);
+  }, [litToday, reduceMotion, scale]);
 
   const style = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
 
   return (
     <View
-      accessibilityLabel={`${count} day streak${litToday ? ', completed today' : ''}`}
+      accessible
+      accessibilityLabel={`${new Intl.NumberFormat(locale).format(count)} ${tr('today.dayStreak')}${litToday ? `, ${tr('today.completed')}` : ''}`}
       style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}
     >
       <Animated.View style={style}>
