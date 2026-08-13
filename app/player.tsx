@@ -123,9 +123,9 @@ export default function Player() {
             accessibilityRole="button"
             accessibilityLabel={tr('player.close')}
             style={({ pressed }) => ({
-              width: 44,
-              height: 44,
-              borderRadius: 22,
+              width: 48,
+              height: 48,
+              borderRadius: 24,
               backgroundColor: 'rgba(14,18,32,0.34)',
               borderWidth: 1,
               borderColor: 'rgba(255,255,255,0.18)',

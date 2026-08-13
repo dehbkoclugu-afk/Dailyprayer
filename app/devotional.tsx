@@ -42,9 +42,9 @@ export default function DevotionalScreen() {
         // reader , a bare icon becomes an invisible dead corner if the glyph
         // ever fails to render.
         style={{
-          width: 44,
-          height: 44,
-          borderRadius: 22,
+          width: 48,
+          height: 48,
+          borderRadius: 24,
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: t.surface,

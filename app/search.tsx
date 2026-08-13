@@ -79,9 +79,9 @@ export default function Search() {
           accessibilityRole="button"
           accessibilityLabel={tr('a11y.back')}
           style={{
-            width: 44,
-            height: 44,
-            borderRadius: 22,
+            width: 48,
+            height: 48,
+            borderRadius: 24,
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: t.surface,
@@ -102,7 +102,7 @@ export default function Search() {
             borderColor: t.border,
             borderRadius: radius.pill,
             paddingHorizontal: spacing.lg,
-            height: 44,
+            height: 48,
           }}
         >
           <Ionicons name="search" size={18} color={t.inkFaint} />
@@ -117,7 +117,12 @@ export default function Search() {
             style={{ flex: 1, fontFamily: fonts.sans, fontSize: 16, color: t.ink, paddingVertical: 0 }}
           />
           {query.length > 0 ? (
-            <Pressable onPress={() => setQuery('')} hitSlop={8} accessibilityRole="button" accessibilityLabel={tr('a11y.close')}>
+            <Pressable
+              onPress={() => setQuery('')}
+              accessibilityRole="button"
+              accessibilityLabel={tr('a11y.close')}
+              style={{ width: 48, height: 48, alignItems: 'center', justifyContent: 'center', marginRight: -spacing.md }}
+            >
               <Ionicons name="close-circle" size={18} color={t.inkFaint} />
             </Pressable>
           ) : null}

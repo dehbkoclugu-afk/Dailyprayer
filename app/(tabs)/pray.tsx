@@ -55,14 +55,14 @@ export default function Pray() {
               style={({ pressed }) => ({
                 flexDirection: 'row',
                 alignItems: 'center',
-                gap: 6,
+                gap: spacing.sm,
                 backgroundColor: active ? t.goldSoft : t.surface,
                 borderColor: active ? t.gold : t.border,
                 borderWidth: 1,
                 borderRadius: radius.pill,
                 paddingHorizontal: spacing.lg,
                 paddingVertical: spacing.sm,
-                minHeight: 44,
+                minHeight: 48,
                 opacity: pressed ? 0.7 : 1,
               })}
             >

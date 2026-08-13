@@ -56,12 +56,14 @@ deneyimi, performans ve görsel cila gelir.
 
 ## P1 — Erişilebilirlik ve temel kullanım (21–50)
 
-21. **Android’de tüm dokunma hedeflerini 48×48 dp’ye çıkar.** Okuyucu, arama ve devotional’daki
-    44×44 düğmeler Material minimumunun altında.
-22. **Yan yana hedefler arasında en az 8 dp boşluk bırak.** Özellikle okuyucu başlığı ve ayet
-    aksiyon satırı yanlış dokunmayı azaltacak şekilde yeniden ölçülmeli.
-23. **Kitap/bölüm seçicisine erişilebilirlik etiketleri ekle.** Başlık seçicisi, kitap satırları,
-    bölüm hücreleri ve geri düğmesi TalkBack’te amaç ve seçili durumu söylemeli.
+21. ✅ **TAMAMLANDI — Android’de dokunma hedeflerini 48×48 dp’ye çıkar.** Okuyucu, arama,
+    devotional, player, Library ve plan akışlarındaki ikon hedefleri ile dua chip’leri Material
+    minimumuna yükseltildi; arama temizleme eylemi artık yalnız hitSlop’a bağlı değil.
+22. ✅ **TAMAMLANDI — Yan yana hedefler arasında en az 8 dp bırak.** Okuyucu başlığı, bölüm
+    ızgarası ve ayet aksiyonları ortak spacing tokenıyla yanlış dokunmayı azaltıyor.
+23. ✅ **TAMAMLANDI — Kitap/bölüm seçicisine erişilebilirlik etiketleri ekle.** Başlık seçicisi,
+    kitap satırları, bölüm hücreleri ve geri düğmesi TalkBack’te amaç, bağlam ve seçili durumu
+    bildiriyor.
 24. **Bölüm ileri/geri düğmelerinin disabled durumunu seslendir.** `accessibilityState.disabled`
     ve açıklayıcı etiket, yalnızca düşük opacity yerine kullanılmalı.
 25. **Ayet satırlarını gerçek erişilebilir eylemlere dönüştür.** TalkBack kullanıcıları “Aç” ve

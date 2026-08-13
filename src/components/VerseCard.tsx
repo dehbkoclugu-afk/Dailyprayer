@@ -182,7 +182,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               hitSlop={12}
               accessibilityRole="button"
               accessibilityLabel={tr('a11y.anotherVerse')}
-              style={({ pressed }) => ({ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
+              style={({ pressed }) => ({ width: 48, height: 48, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
             >
               <Ionicons name="shuffle" size={21} color="#F2EEE6" />
             </Pressable>
@@ -192,7 +192,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
             hitSlop={12}
             accessibilityRole="button"
             accessibilityLabel={tr('a11y.shareVerse')}
-            style={({ pressed }) => ({ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
+            style={({ pressed }) => ({ width: 48, height: 48, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
           >
             <Ionicons name="share-outline" size={21} color="#F2EEE6" />
           </Pressable>

@@ -90,7 +90,8 @@ export default function Library() {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: 6,
+          gap: spacing.sm,
+          minHeight: 48,
           paddingVertical: 9,
           borderRadius: radius.pill,
           backgroundColor: active ? t.gold : 'transparent',
@@ -122,9 +123,9 @@ export default function Library() {
           accessibilityRole="button"
           accessibilityLabel={tr('a11y.back')}
           style={{
-            width: 44,
-            height: 44,
-            borderRadius: 22,
+            width: 48,
+            height: 48,
+            borderRadius: 24,
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: t.surface,
