@@ -10,7 +10,7 @@ import { OptionSheet, type SheetOption } from '@/components/OptionSheet';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme, useThemeName } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
-import { fonts, type as ty } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useUserStore } from '@/state/useUserStore';
 import { useStreakStore } from '@/state/useStreakStore';
@@ -203,21 +203,20 @@ export default function Profile() {
             <View style={{ flex: 1 }}>
               <Text
                 style={{
-                  fontFamily: fonts.sansBold,
-                  fontSize: 30,
+                  ...ty.metric,
                   color: artwork.foreground.primary,
                   fontVariant: ['tabular-nums'],
                 }}
               >
                 {count}
               </Text>
-              <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: artwork.foreground.secondary, marginTop: 2 }}>
+              <Text style={{ ...ty.captionRegular, color: artwork.foreground.secondary, marginTop: 2 }}>
                 {tr('profile.dayStreak')}
               </Text>
             </View>
           </View>
           <View style={{ height: 1, backgroundColor: artwork.foreground.badge, marginVertical: spacing.md }} />
-          <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: artwork.foreground.secondary }}>
+          <Text style={{ ...ty.captionRegular, color: artwork.foreground.secondary }}>
             {tr('profile.bestStreak')} {bestCount} · {tr('profile.totalDays')} {totalDays}
           </Text>
         </View>
@@ -254,10 +253,10 @@ export default function Profile() {
           >
             <Ionicons name={isPlus ? 'star' : 'star-outline'} size={26} color={t.gold} />
             <View style={{ flex: 1 }}>
-              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: artwork.foreground.primary }}>
+              <Text style={{ ...ty.bodyCompactStrong, color: artwork.foreground.primary }}>
                 {isPlus ? tr('profile.plusActive') : tr('profile.plusCta')}
               </Text>
-              <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: artwork.foreground.secondary, marginTop: 2 }}>
+              <Text style={{ ...ty.captionRegular, color: artwork.foreground.secondary, marginTop: 2 }}>
                 {isPlus ? tr('profile.plusThanks') : tr('profile.plusSub')}
               </Text>
             </View>
@@ -282,8 +281,7 @@ export default function Profile() {
                 <Text
                   style={{
                     flex: 1,
-                    fontFamily: fonts.sansMedium,
-                    fontSize: 15,
+                    ...ty.secondaryMedium,
                     color: t.blue,
                   }}
                 >
@@ -371,14 +369,14 @@ export default function Profile() {
                 onPress={() => setShowIosReminderPicker(false)}
                 style={({ pressed }) => ({ flex: 1, minHeight: 48, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
               >
-                <Text style={{ fontFamily: fonts.sansSemiBold, color: t.inkSoft }}>{tr('profile.cancel')}</Text>
+                <Text style={{ ...ty.label, color: t.inkSoft }}>{tr('profile.cancel')}</Text>
               </Pressable>
               <Pressable
                 accessibilityRole="button"
                 onPress={() => void setReminder(toStoredReminderTime(reminderDraft))}
                 style={({ pressed }) => ({ flex: 1, minHeight: 48, borderRadius: radius.pill, backgroundColor: t.gold, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.75 : 1 })}
               >
-                <Text style={{ fontFamily: fonts.sansSemiBold, color: t.bg }}>{tr('paywall.continue')}</Text>
+                <Text style={{ ...ty.label, color: t.bg }}>{tr('paywall.continue')}</Text>
               </Pressable>
             </View>
           </View>
@@ -408,7 +406,7 @@ export default function Profile() {
           })}
         >
           <Ionicons name="refresh-outline" size={20} color={t.danger} />
-          <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.danger }}>
+          <Text style={{ ...ty.secondary, color: t.danger }}>
             {tr('profile.restart')}
           </Text>
         </Pressable>
@@ -429,13 +427,13 @@ export default function Profile() {
           })}
         >
           <Ionicons name="trash-outline" size={20} color={t.danger} />
-          <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.danger }}>
+          <Text style={{ ...ty.secondary, color: t.danger }}>
             {tr('profile.deleteData')}
           </Text>
         </Pressable>
       </View>
 
-      <Text style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkFaint, textAlign: 'center', marginTop: spacing.xl }}>
+      <Text style={{ ...ty.labelSmallRegular, color: t.inkFaint, textAlign: 'center', marginTop: spacing.xl }}>
         Lumen v1.0.0
       </Text>
 
@@ -486,8 +484,8 @@ function ValueRow({
         }}
       >
         <Ionicons name={icon as never} size={20} color={t.inkSoft} />
-        <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink, flex: 1 }}>{label}</Text>
-        <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.gold }}>{value}</Text>
+        <Text style={{ ...ty.secondary, color: t.ink, flex: 1 }}>{label}</Text>
+        <Text style={{ ...ty.secondaryMedium, color: t.gold }}>{value}</Text>
         <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={18} color={t.inkFaint} />
       </View>
     </Pressable>
@@ -517,7 +515,7 @@ function Row({ icon, label, onPress }: { icon: string; label: string; onPress?: 
         }}
       >
         <Ionicons name={icon as never} size={20} color={t.inkSoft} />
-        <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink, flex: 1 }}>{label}</Text>
+        <Text style={{ ...ty.secondary, color: t.ink, flex: 1 }}>{label}</Text>
         <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={18} color={t.inkFaint} />
       </View>
     </Pressable>

@@ -8,7 +8,7 @@ import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
-import { fonts, type as ty } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useJournalStore } from '@/state/useJournalStore';
 import { useStreakStore } from '@/state/useStreakStore';
@@ -67,9 +67,7 @@ export default function Journal() {
             <Ionicons name="leaf-outline" size={16} color={t.gold} />
             <Text
               style={{
-                fontFamily: fonts.sansSemiBold,
-                fontSize: 12,
-                lineHeight: 16,
+                ...ty.labelSmall,
                 letterSpacing: 2,
                 color: t.gold,
               }}
@@ -80,9 +78,7 @@ export default function Journal() {
 
           <Text
             style={{
-              fontFamily: fonts.serifLight,
-              fontSize: 18,
-              lineHeight: 26,
+              ...ty.editorialBody,
               color: artwork.foreground.primary,
               fontStyle: 'italic',
               marginTop: spacing.md,
@@ -105,9 +101,7 @@ export default function Journal() {
               marginTop: spacing.lg,
               minHeight: 64,
               flex: 1,
-              fontFamily: fonts.sans,
-              fontSize: 16,
-              lineHeight: 25,
+              ...ty.bodyInput,
               color: artwork.foreground.primary,
               textShadowColor: 'rgba(0,0,0,0.72)',
               textShadowOffset: { width: 0, height: 1 },
@@ -147,9 +141,7 @@ export default function Journal() {
           />
           <Text
             style={{
-              fontFamily: fonts.serifLight,
-              fontSize: 15,
-              lineHeight: 22,
+              ...ty.editorialSecondary,
               color: t.inkSoft,
               flex: 1,
             }}
@@ -173,8 +165,7 @@ export default function Journal() {
                 {e.kind === 'verse' && e.ref ? (
                   <Text
                     style={{
-                      fontFamily: fonts.sansSemiBold,
-                      fontSize: 12,
+                      ...ty.labelSmall,
                       letterSpacing: 1.5,
                       color: t.gold,
                       marginBottom: spacing.sm,
@@ -185,9 +176,7 @@ export default function Journal() {
                 ) : null}
                 <Text
                   style={{
-                    fontFamily: fonts.serifLight,
-                    fontSize: 17,
-                    lineHeight: 26,
+                    ...ty.editorialCompact,
                     color: t.ink,
                     fontStyle: e.kind === 'verse' ? 'italic' : 'normal',
                   }}
@@ -208,7 +197,7 @@ export default function Journal() {
                       size={13}
                       color={t.inkFaint}
                     />
-                    <Text style={{ fontFamily: fonts.sansMedium, fontSize: 12, color: t.inkFaint }}>
+                    <Text style={{ ...ty.labelSmallMedium, color: t.inkFaint }}>
                       {e.day}
                     </Text>
                   </View>

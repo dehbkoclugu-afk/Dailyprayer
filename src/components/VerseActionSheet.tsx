@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useReaderTheme } from '@/theme/reading';
 import {
@@ -121,7 +121,7 @@ export function VerseActionSheet({
       })}
     >
       <Ionicons name={icon} size={22} color={active ? t.gold : t.inkSoft} />
-      <Text style={{ fontFamily: fonts.sansMedium, fontSize: 12, color: active ? t.gold : t.inkSoft }}>
+      <Text style={{ ...ty.labelSmallMedium, color: active ? t.gold : t.inkSoft }}>
         {label}
       </Text>
     </Pressable>
@@ -168,12 +168,12 @@ export function VerseActionSheet({
             ref={headingRef}
             accessible
             accessibilityRole="header"
-            style={{ fontFamily: fonts.sansSemiBold, fontSize: 12, lineHeight: 16, letterSpacing: 1.5, color: t.gold }}
+            style={{ ...ty.labelSmall, letterSpacing: 1.5, color: t.gold }}
           >
             {verse.ref}
           </Text>
           <Text
-            style={{ fontFamily: fonts.serifLight, fontSize: 17, lineHeight: 26, color: t.ink, marginTop: spacing.xs }}
+            style={{ ...ty.editorialCompact, color: t.ink, marginTop: spacing.xs }}
           >
             {preview(verse.text, 160)}
           </Text>
@@ -203,7 +203,7 @@ export function VerseActionSheet({
                 >
                   <Text
                     importantForAccessibility="no"
-                    style={{ fontFamily: fonts.sansBold, fontSize: 18, color: t.onGold }}
+                    style={{ ...ty.metricSmall, color: t.onGold }}
                   >
                     {HIGHLIGHT_SYMBOL[c]}
                   </Text>

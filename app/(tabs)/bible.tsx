@@ -8,7 +8,7 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
-import { fonts, type as ty } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
 import { getBible, getBibleCredit } from '@/data/bibleFull';
@@ -61,10 +61,10 @@ export default function Bible() {
               </Text>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 4 }}>
                 <View style={{ flex: 1, paddingRight: spacing.lg }}>
-                  <Text numberOfLines={2} style={{ fontFamily: fonts.serif, fontSize: 24, color: '#F2EEE6', textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>
+                  <Text numberOfLines={2} style={{ ...ty.titleSmall, color: '#F2EEE6', textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>
                     {tr('read.openBible')}
                   </Text>
-                  <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: 'rgba(242,238,230,0.88)', marginTop: spacing.xs, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
+                  <Text style={{ ...ty.labelMedium, color: 'rgba(242,238,230,0.88)', marginTop: spacing.xs, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
                     {readerBookName} {readerChapter + 1}
                   </Text>
                 </View>
@@ -110,7 +110,7 @@ export default function Bible() {
               }}
             >
               <Ionicons name={a.icon} size={19} color={t.gold} />
-              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: t.ink }}>{a.label}</Text>
+              <Text style={{ ...ty.label, color: t.ink }}>{a.label}</Text>
             </View>
           </Pressable>
         ))}
@@ -144,18 +144,17 @@ export default function Bible() {
                   ) : null}
                   <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Text numberOfLines={2} style={{ fontFamily: fonts.serif, fontSize: 20, color: '#F2EEE6', flex: 1, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>
+                      <Text numberOfLines={2} style={{ ...ty.titleCompact, color: '#F2EEE6', flex: 1, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>
                         {p.title}
                       </Text>
                       {locked ? <Ionicons name="lock-closed" size={18} color="#D9A441" /> : null}
                     </View>
-                    <Text numberOfLines={2} style={{ fontFamily: fonts.sans, fontSize: 14, color: 'rgba(242,238,230,0.86)', marginTop: spacing.xs, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
+                    <Text numberOfLines={2} style={{ ...ty.labelRegular, color: 'rgba(242,238,230,0.86)', marginTop: spacing.xs, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
                       {p.tagline}
                     </Text>
                     <Text
                       style={{
-                        fontFamily: fonts.sansMedium,
-                        fontSize: 12,
+                        ...ty.labelSmallMedium,
                         color: t.gold,
                         marginTop: spacing.sm,
                         fontVariant: ['tabular-nums'],
@@ -174,9 +173,7 @@ export default function Bible() {
       {/* Scripture attribution , each translation carries its own license credit. */}
       <Text
         style={{
-          fontFamily: fonts.sans,
-          fontSize: 12,
-          lineHeight: 16,
+          ...ty.labelSmallRegular,
           color: t.inkFaint,
           textAlign: 'center',
           marginTop: spacing.xl,

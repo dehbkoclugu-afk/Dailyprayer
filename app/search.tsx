@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
 import { ArtSlot } from '@/components/ArtSlot';
-import { fonts } from '@/theme/typography';
+import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { getBible } from '@/data/bibleFull';
 import { useT } from '@/i18n';
@@ -114,7 +114,7 @@ export default function Search() {
             autoFocus
             returnKeyType="search"
             accessibilityLabel={tr('read.searchScripture')}
-            style={{ flex: 1, fontFamily: fonts.sans, fontSize: 16, color: t.ink, paddingVertical: 0 }}
+            style={{ flex: 1, ...ty.bodyCompact, color: t.ink, paddingVertical: 0 }}
           />
           {query.length > 0 ? (
             <Pressable
@@ -140,8 +140,7 @@ export default function Search() {
       {q.length >= 2 ? (
         <Text
           style={{
-            fontFamily: fonts.sansMedium,
-            fontSize: 13,
+            ...ty.caption,
             color: t.inkSoft,
             paddingHorizontal: spacing.xl,
             marginTop: spacing.lg,
@@ -171,9 +170,7 @@ export default function Search() {
             <Ionicons name={q.length >= 2 ? 'search-outline' : 'book-outline'} size={40} color={t.inkFaint} />
             <Text
               style={{
-                fontFamily: fonts.serifLight,
-                fontSize: 16,
-                lineHeight: 24,
+                ...ty.editorialCompact,
                 color: t.inkSoft,
                 textAlign: 'center',
                 marginTop: spacing.lg,
@@ -205,10 +202,10 @@ export default function Search() {
             >
               <ArtSlot id="A18-ritual-reading" variant="row" radius={radius.card} style={{ width: '100%' }}>
                 <View style={{ padding: spacing.lg, minHeight: 88 }}>
-                  <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 13, color: t.gold, marginBottom: spacing.xs }}>
+                  <Text style={{ ...ty.captionStrong, color: t.gold, marginBottom: spacing.xs }}>
                     {item.ref}
                   </Text>
-                  <Text style={{ fontFamily: fonts.serifLight, fontSize: 15, lineHeight: 23, color: artwork.foreground.primary }} numberOfLines={3}>
+                  <Text style={{ ...ty.editorialSecondary, color: artwork.foreground.primary }} numberOfLines={3}>
                     {s.pre}
                     <Text style={{ fontFamily: fonts.sansBold, color: t.gold }}>{s.match}</Text>
                     {s.post}

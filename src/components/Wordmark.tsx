@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { scaledType } from '@/theme/typography';
 
 interface Props {
   size?: number;
@@ -19,7 +19,7 @@ export function Wordmark({ size = 22, color }: Props) {
   const t = useTheme();
   const ink = color ?? t.ink;
   const dot = Math.round(size * 0.16);
-  const seg = { fontFamily: fonts.serif, fontSize: size, color: ink, lineHeight: size * 1.1 };
+  const seg = { ...scaledType('wordmark', size / 22), color: ink };
 
   return (
     <View style={{ flexDirection: 'row', alignItems: 'flex-start' }} accessibilityLabel="Lumen">

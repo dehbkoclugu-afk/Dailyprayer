@@ -4,7 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { artSpecs, type AssetId } from '@/assets/registry';
 import { useArtwork } from '@/hooks/useArtwork';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
+import { artContrast } from '@/theme/artContrast';
 
 interface Props {
   id: AssetId;
@@ -14,7 +15,7 @@ interface Props {
   radius?: number;
   style?: StyleProp<ViewStyle>;
   /** Theme-aware scrim. Bare preserves the original artwork untouched. */
-  variant?: 'bare' | 'row' | 'card' | 'hero';
+  variant?: 'bare' | 'row' | 'card' | 'hero' | 'contrast';
   /** rendered above the art (e.g. scrims, text) */
   children?: React.ReactNode;
 }
@@ -26,11 +27,13 @@ const OVERLAYS = {
     row: 'rgba(14,18,32,0.30)',
     card: 'rgba(14,18,32,0.26)',
     hero: 'rgba(14,18,32,0.32)',
+    contrast: artContrast.scrim,
   },
   dawn: {
     row: 'transparent',
     card: 'transparent',
     hero: 'transparent',
+    contrast: artContrast.scrim,
   },
 } as const;
 
@@ -73,9 +76,7 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
           <Ionicons name="image-outline" size={22} color={t.gold} />
           <Text
             style={{
-              fontFamily: fonts.sansSemiBold,
-              fontSize: 12,
-              lineHeight: 16,
+              ...ty.labelSmall,
               color: t.gold,
               marginTop: 6,
               letterSpacing: 1,
@@ -83,7 +84,7 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
           >
             {id}
           </Text>
-          <Text style={{ fontFamily: fonts.sans, fontSize: 12, lineHeight: 16, color: t.inkSoft, marginTop: 2 }}>
+          <Text style={{ ...ty.labelSmallRegular, color: t.inkSoft, marginTop: 2 }}>
             {spec.label} · {spec.size}
           </Text>
         </View>

@@ -6,7 +6,7 @@ import * as Haptics from 'expo-haptics';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts, type as ty } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useDailyContent } from '@/hooks/useDailyContent';
 import { useStreakStore } from '@/state/useStreakStore';
@@ -69,10 +69,10 @@ export default function DevotionalScreen() {
           marginTop: spacing.xl,
         }}
       >
-        <Text style={{ fontFamily: fonts.serifLight, fontSize: 18, lineHeight: 28, color: t.ink }}>
+        <Text style={{ ...ty.editorialBody, color: t.ink }}>
           “{verse.text}”
         </Text>
-        <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.gold, marginTop: spacing.sm }}>
+        <Text style={{ ...ty.labelMedium, color: t.gold, marginTop: spacing.sm }}>
           {verse.reference}
         </Text>
       </View>
@@ -81,9 +81,7 @@ export default function DevotionalScreen() {
       <View style={{ flexDirection: 'row', marginTop: spacing.xl }}>
         <Text
           style={{
-            fontFamily: fonts.serif,
-            fontSize: 64,
-            lineHeight: 64,
+            ...ty.displayHero,
             color: t.gold,
             marginRight: spacing.sm,
             marginTop: 2,
@@ -102,7 +100,7 @@ export default function DevotionalScreen() {
           marginTop: spacing.xl,
         }}
       >
-        <Text style={{ fontFamily: fonts.serifLight, fontSize: 17, lineHeight: 26, color: t.inkSoft, fontStyle: 'italic' }}>
+        <Text style={{ ...ty.editorialCompact, color: t.inkSoft, fontStyle: 'italic' }}>
           {devotional.prayer}
         </Text>
       </View>

@@ -16,7 +16,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
+import { artContrast } from '@/theme/artContrast';
 import { radius, spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
@@ -40,8 +41,8 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
   const { t: tr, locale } = useT();
   const reduceMotion = useReducedMotion();
   const hasArt = !!(art && artwork.source(art));
-  const titleColor = hasArt ? '#FFFFFF' : t.ink;
-  const subColor = done ? t.gold : hasArt ? artwork.foreground.secondary : t.inkSoft;
+  const titleColor = hasArt ? artContrast.primary : t.ink;
+  const subColor = hasArt ? artContrast.secondary : done ? t.gold : t.inkSoft;
   const chevColor = hasArt ? artwork.foreground.secondary : t.inkFaint;
 
   // One-time gold shimmer sweep when a card transitions to done (design-100 #57).
@@ -89,7 +90,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
       {art && hasArt ? (
         <ArtSlot
           id={art}
-          variant="row"
+          variant="contrast"
           radius={radius.card}
           style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
         />
@@ -128,9 +129,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         <Text
           numberOfLines={2}
           style={{
-            fontFamily: fonts.sansSemiBold,
-            fontSize: 17,
-            lineHeight: 21,
+            ...ty.bodyStrong,
             textAlign: hasArt ? 'center' : 'left',
             color: titleColor,
             ...(hasArt ? { textShadowColor: 'rgba(0,0,0,0.75)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 } : null),
@@ -141,9 +140,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         <Text
           numberOfLines={2}
           style={{
-            fontFamily: fonts.sans,
-            fontSize: 14,
-            lineHeight: 18,
+            ...ty.labelRegular,
             textAlign: hasArt ? 'center' : 'left',
             color: subColor,
             marginTop: 3,

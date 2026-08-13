@@ -115,8 +115,7 @@ export default function Quiz() {
           </View>
           <Text
             style={{
-              fontFamily: fonts.sansMedium,
-              fontSize: 12,
+              ...ty.labelSmallMedium,
               color: t.inkFaint,
               textAlign: 'right',
               marginTop: spacing.sm,
@@ -155,15 +154,13 @@ export default function Quiz() {
                 borderWidth: 1.5,
                 borderColor: nameFocused ? t.gold : t.border,
                 padding: spacing.lg,
-                fontFamily: fonts.sans,
-                fontSize: 18,
+                ...ty.bodyLarge,
                 color: t.ink,
               }}
             />
             <Text
               style={{
-                fontFamily: fonts.sans,
-                fontSize: 13,
+                ...ty.captionRegular,
                 color: t.inkFaint,
                 marginTop: spacing.sm,
               }}
@@ -222,8 +219,8 @@ export default function Quiz() {
                     />
                     <Text
                       style={{
+                        ...ty.bodyCompact,
                         fontFamily: active ? fonts.sansSemiBold : fonts.sans,
-                        fontSize: 16,
                         color: t.ink,
                         flex: 1,
                       }}

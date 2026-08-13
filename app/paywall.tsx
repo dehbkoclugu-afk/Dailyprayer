@@ -8,7 +8,7 @@ import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
-import { fonts, type as ty } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import {
   loadPlans,
@@ -226,14 +226,14 @@ export default function Paywall() {
             />
           ) : null}
           <View style={{ flex: 1, justifyContent: 'flex-end', padding: spacing.xl }}>
-            <Text style={{ fontFamily: fonts.serif, fontSize: 27, color: dawn ? t.ink : '#F2EEE6' }}>
+            <Text style={{ ...ty.title, color: dawn ? t.ink : '#F2EEE6' }}>
 {tr(paywallContext.titleKey)}
             </Text>
             <View style={{ gap: spacing.xs, marginTop: spacing.md }}>
               {BENEFITS.map((b) => (
                 <View key={b} style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
                   <Ionicons name="checkmark-circle" size={16} color={t.gold} />
-                  <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: dawn ? t.inkSoft : '#F2EEE6', flex: 1 }}>{b}</Text>
+                  <Text style={{ ...ty.labelRegular, color: dawn ? t.inkSoft : '#F2EEE6', flex: 1 }}>{b}</Text>
                 </View>
               ))}
             </View>
@@ -272,24 +272,23 @@ export default function Paywall() {
               />
               <View style={{ flexGrow: 1, flexBasis: 180 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
-                  <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 17, color: t.ink }}>
+                  <Text style={{ ...ty.bodyStrong, color: t.ink }}>
 {PLAN_TITLE[p.id]}
                   </Text>
                 </View>
-                <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft, marginTop: 2 }}>
+                <Text style={{ ...ty.captionRegular, color: t.inkSoft, marginTop: 2 }}>
                   {subcopy(p)}
                 </Text>
               </View>
               <Text
                 style={{
-                  fontFamily: fonts.sansSemiBold,
-                  fontSize: 16,
+                  ...ty.bodyCompactStrong,
                   color: t.ink,
                   fontVariant: ['tabular-nums'],
                 }}
               >
                 {p.price}
-                <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkSoft }}>
+                <Text style={{ ...ty.captionRegular, color: t.inkSoft }}>
 {' '}{PLAN_PERIOD[p.id]}
                 </Text>
               </Text>
@@ -326,10 +325,10 @@ export default function Paywall() {
             backgroundColor: t.goldSoft,
           }}
         >
-          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: t.ink, textAlign: 'center' }}>
+          <Text style={{ ...ty.secondaryStrong, color: t.ink, textAlign: 'center' }}>
             {tr('paywall.pendingTitle')}
           </Text>
-          <Text style={{ fontFamily: fonts.sans, fontSize: 13, lineHeight: 19, color: t.inkSoft, textAlign: 'center', marginTop: spacing.xs }}>
+          <Text style={{ ...ty.captionComfortableRegular, color: t.inkSoft, textAlign: 'center', marginTop: spacing.xs }}>
             {tr('paywall.pendingBody')}
           </Text>
         </View>
@@ -337,7 +336,7 @@ export default function Paywall() {
 
       {selectedPlan?.trialEligible && selectedPlan.trialDays ? (
         <View style={{ marginTop: spacing.md, gap: spacing.xs }}>
-          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, lineHeight: 19, color: t.ink, textAlign: 'center' }}>
+          <Text style={{ ...ty.captionComfortable, color: t.ink, textAlign: 'center' }}>
             {tr('paywall.trialEnds')}{' '}
             {new Intl.DateTimeFormat(locale, {
               day: 'numeric',
@@ -346,7 +345,7 @@ export default function Paywall() {
             }).format(new Date(Date.now() + selectedPlan.trialDays * 86_400_000))}
             . {selectedPlan.price} {PLAN_PERIOD[selectedPlan.id]}.
           </Text>
-          <Text style={{ fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, color: t.inkSoft, textAlign: 'center' }}>
+          <Text style={{ ...ty.labelSmallComfortable, color: t.inkSoft, textAlign: 'center' }}>
             {tr('paywall.reassure')}
           </Text>
         </View>
@@ -366,7 +365,7 @@ export default function Paywall() {
             opacity: restoreStatus === 'busy' ? 0.5 : pressed ? 0.6 : 1,
           })}
         >
-          <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: t.blue, textAlign: 'center' }}>
+          <Text style={{ ...ty.labelRegular, color: t.blue, textAlign: 'center' }}>
             {restoreStatus === 'busy' ? tr('paywall.restoring') : tr('paywall.restore')}
           </Text>
         </Pressable>
@@ -381,14 +380,12 @@ export default function Paywall() {
             backgroundColor: t.surfaceAlt,
           }}
         >
-          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: t.ink }}>
+          <Text style={{ ...ty.secondaryStrong, color: t.ink }}>
             {tr('paywall.restoreMissingTitle')}
           </Text>
           <Text
             style={{
-              fontFamily: fonts.sans,
-              fontSize: 13,
-              lineHeight: 19,
+              ...ty.captionComfortableRegular,
               color: t.inkSoft,
               marginTop: spacing.xs,
             }}
@@ -406,7 +403,7 @@ export default function Paywall() {
               opacity: pressed ? 0.6 : 1,
             })}
           >
-            <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>
+            <Text style={{ ...ty.labelMedium, color: t.blue }}>
               {tr('paywall.retry')}
             </Text>
           </Pressable>
@@ -421,7 +418,7 @@ export default function Paywall() {
                 opacity: pressed ? 0.6 : 1,
               })}
             >
-              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>
+              <Text style={{ ...ty.labelMedium, color: t.blue }}>
                 {tr('paywall.contactSupport')}
               </Text>
             </Pressable>
@@ -430,8 +427,7 @@ export default function Paywall() {
       ) : null}
       <Text
         style={{
-          fontFamily: fonts.sans,
-          fontSize: 12,
+          ...ty.labelSmallRegular,
           color: t.inkFaint,
           textAlign: 'center',
           marginTop: spacing.md,
@@ -445,7 +441,7 @@ export default function Paywall() {
           accessibilityRole="link"
           style={{ minHeight: 48, justifyContent: 'center' }}
         >
-          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: t.blue }}>
+          <Text style={{ ...ty.caption, color: t.blue }}>
             {tr('paywall.termsLink')}
           </Text>
         </Pressable>
@@ -454,7 +450,7 @@ export default function Paywall() {
           accessibilityRole="link"
           style={{ minHeight: 48, justifyContent: 'center' }}
         >
-          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: t.blue }}>
+          <Text style={{ ...ty.caption, color: t.blue }}>
             {tr('paywall.privacyLink')}
           </Text>
         </Pressable>

@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 import { useReducedMotion } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 
 interface Props {
@@ -42,7 +42,7 @@ export function PillButton({ label, onPress, variant = 'primary', disabled = fal
     >
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm }}>
         {busy ? <ActivityIndicator color={color} /> : null}
-        <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 17, color, opacity: pressed ? 0.9 : 1 }}>
+        <Text style={{ ...ty.bodyStrong, color, opacity: pressed ? 0.9 : 1 }}>
           {label}
         </Text>
       </View>

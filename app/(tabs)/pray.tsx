@@ -84,8 +84,8 @@ export default function Pray() {
               />
               <Text
                 style={{
+                  ...ty.labelMedium,
                   fontFamily: active ? fonts.sansSemiBold : fonts.sansMedium,
-                  fontSize: 14,
                   color: active ? t.gold : t.inkSoft,
                 }}
               >
@@ -173,9 +173,7 @@ export default function Pray() {
                     <Text
                       numberOfLines={2}
                       style={{
-                        fontFamily: fonts.serif,
-                        fontSize: 21,
-                        lineHeight: 26,
+                        ...ty.titleCompact,
                         color: '#FFFFFF',
                         textAlign: 'center',
                         textShadowColor: 'rgba(0,0,0,0.78)',
@@ -187,8 +185,7 @@ export default function Pray() {
                     </Text>
                     <Text
                       style={{
-                        fontFamily: fonts.sansMedium,
-                        fontSize: 13,
+                        ...ty.caption,
                         color: 'rgba(255,255,255,0.90)',
                         marginTop: spacing.xs,
                         textAlign: 'center',
@@ -214,7 +211,7 @@ export default function Pray() {
                         paddingVertical: 3,
                       }}
                     >
-                      <Text style={{ fontFamily: fonts.sansBold, fontSize: 12, lineHeight: 16, color: locked ? artwork.foreground.tertiary : '#FFFFFF' }}>
+                      <Text style={{ ...ty.labelSmallBold, color: locked ? artwork.foreground.tertiary : '#FFFFFF' }}>
                         PLUS
                       </Text>
                     </View>
