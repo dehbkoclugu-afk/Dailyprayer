@@ -127,36 +127,37 @@ deneyimi, performans ve görsel cila gelir.
 
 ## P1 — Bilgi mimarisi ve temel akışlar (51–65)
 
-51. **Tablette alt barı navigation rail’e dönüştür.** 840 dp üstünde 600 px geniş alt bar
-    kullanmak yerine Material’ın expanded-width navigasyon kalıbı uygulanmalı.
-52. **Yatay/tablet düzeninde iki sütunlu içerik kullan.** 640 px tek kolon yalnızca büyümüş telefon
-    hissi veriyor; Today ritüelleri ve Bible planları master/detail veya iki kolon olmalı.
-53. **Android Predictive Back akışlarını doğrula.** Player, okuyucu ve tüm bottom sheet’ler sistem
-    geri hareketinde kapanmalı; uygulama dışına beklenmedik çıkış olmamalı.
-54. **İkincil ekranlara tutarlı top app bar getir.** Search, Library, Plan Day, Devotional ve
-    Legal aynı geri düğmesi, başlık konumu ve inset sistemini paylaşmalı.
-55. **Bible ana sayfasına son okuma ilerlemesini ekle.** “Devam et” kartı yalnız bölüm adını değil,
-    son görülen ayet ve bölüm içi ilerlemeyi göstermeli.
-56. **Kitap seçicisine Testament grupları ve hızlı arama ekle.** 66 kitaplık düz liste yerine
-    Eski/Yeni Ahit başlıkları ve kitap adı araması tanımayı hızlandırmalı.
-57. **Bölüm seçicisinde mevcut bölümü görünür seçili durumla sabitle.** Kullanıcı geri açtığında
-    doğru hücreye otomatik kaymalı ve “seçili” semantiği taşımalı.
-58. **Reader üst çubuğunun kalabalığını azalt.** Kompakt ekranda geri + seçici + arama + ayar
-    yerine arama/ayar tek overflow veya alt araç alanında gruplanmalı.
-59. **Ayet eylemlerini dört eşit dar kutuya sıkıştırma.** Dar ekran/büyük yazıda 2×2 grid veya
-    tam genişlik satırlar kullanılmalı.
-60. **Uzun basma davranışını ilk kullanımda öğret.** Bir defalık, kapatılabilir ipucu “Dokun:
-    işlemler · Basılı tut: hızlı vurgula” demeli.
-61. **Aramaya kitap filtresi ekle.** Tüm Kutsal Kitap sonuçlarında kullanıcı kitabı veya Ahit’i
-    daraltabilmeli; varsayılan deneyim hâlâ basit kalmalı.
-62. **Arama sonucunda eşleşme bağlamını dengeli göster.** Yalnız ilk eşleşmeyi renklendir; uzun
-    ayetlerde sorgu çevresini iki satırlık okunur snippet olarak sınırla.
-63. **300 sonuç sınırını açıklayıp daraltma yolu ver.** Sessiz `300+` yerine “İlk 300 sonuç —
-    aramayı daralt” mesajı ve filtre eylemi gösterilmeli.
-64. **Library içinde yer imleri, vurgular ve günlük kayıtlarını net sekmelere ayır.** Tek uzun
-    akış yerine sayaçlı, erişilebilir segmentler ve boş durumlar kullanılmalı.
-65. **Plan gününde “tamamla” sonrası bir sonraki güne geçiş sun.** Geri dönmek tek seçenek
-    olmamalı; “Bugün tamamlandı · Yarın devam et” bitiş durumu oluşturulmalı.
+51. ✅ **TAMAMLANDI — Tablette alt barı navigation rail’e dönüştür.** 840 dp ve üstünde sekmeler
+    solda 112 dp navigation rail’e dönüşüyor; telefon alt barı değişmeden korunuyor.
+52. ✅ **TAMAMLANDI — Yatay/tablet düzeninde iki sütunlu içerik kullan.** Today ana akışı ile
+    Tonight alanı; Bible plan kartları expanded-width düzeninde iki sütuna ayrılıyor.
+53. ✅ **TAMAMLANDI — Android Predictive Back akışlarını doğrula.** Android predictive back
+    manifestte açık; Reader araç alanı, kitap/bölüm seçici ve ortak action sheet’lerin her biri
+    `onRequestClose` sözleşmesiyle sistem geri hareketinde önce kendi katmanını kapatıyor.
+54. ✅ **TAMAMLANDI — İkincil ekranlara tutarlı top app bar getir.** Search, Library, Plan Day,
+    Devotional ve Legal ortak 56 dp başlık/48 dp geri hedefi ve yön duyarlı ikon kullanıyor.
+55. ✅ **TAMAMLANDI — Bible ana sayfasına son okuma ilerlemesini ekle.** Okuyucu görünür ilk
+    ayeti kalıcı saklıyor; “Devam et” kartı kitap, bölüm, ayet ve bölüm yüzdesini gösteriyor.
+56. ✅ **TAMAMLANDI — Kitap seçicisine Testament grupları ve hızlı arama ekle.** Kitap seçici
+    Eski/Yeni Ahit başlıklarını ve yerel kitap adına göre çalışan hızlı aramayı içeriyor.
+57. ✅ **TAMAMLANDI — Bölüm seçicisinde mevcut bölümü görünür seçili durumla sabitle.** Grid
+    açılışta seçili bölümün satırına kayıyor; görsel ve erişilebilir seçili durumunu koruyor.
+58. ✅ **TAMAMLANDI — Reader üst çubuğunun kalabalığını azalt.** Kompakt genişlikte arama ve
+    okuma ayarları tek overflow alt araç alanında; tablette doğrudan erişim korunuyor.
+59. ✅ **TAMAMLANDI — Ayet eylemlerini dört eşit dar kutuya sıkıştırma.** Eylemler dar ve büyük
+    yazı düzenlerinde iki sütunlu, esnek 2×2 grid olarak akıyor.
+60. ✅ **TAMAMLANDI — Uzun basma davranışını ilk kullanımda öğret.** Okuyucuda bir defalık,
+    kapatılabilir dokunma/işlem ve hızlı vurgulama ipucu kalıcı tercihle sunuluyor.
+61. ✅ **TAMAMLANDI — Aramaya kitap filtresi ekle.** Basit tüm-kitaplar varsayılanına Ahit ve
+    tek kitap filtreleri eklendi.
+62. ✅ **TAMAMLANDI — Arama sonucunda eşleşme bağlamını dengeli göster.** İlk eşleşme semantik
+    vurgu alıyor; iki satırlık snippet sorgunun iki yanından dengeli bağlam seçiyor.
+63. ✅ **TAMAMLANDI — 300 sonuç sınırını açıklayıp daraltma yolu ver.** Sınıra ulaşan sonuç
+    mesajı ilk 300 sonucu ve kitap filtresiyle daraltma yolunu açıkça belirtiyor.
+64. ✅ **TAMAMLANDI — Library içinde yer imleri, vurgular ve günlük kayıtlarını net sekmelere
+    ayır.** Üç sayaçlı, erişilebilir segmentin ayrı satırları ve boş durumları bulunuyor.
+65. ✅ **TAMAMLANDI — Plan gününde “tamamla” sonrası bir sonraki güne geçiş sun.** Tamamlanan
+    gün ekranda kalıyor; sıradaki güne CTA veya plan sonuna dönüş eylemi gösteriliyor.
 
 ## P2 — Okuma, içerik keşfi ve alışkanlık (66–80)
 

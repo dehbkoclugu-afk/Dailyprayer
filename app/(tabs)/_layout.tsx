@@ -1,23 +1,32 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
+import { useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
 import { type as ty } from '@/theme/typography';
+import { isExpandedLayout } from '@/lib/adaptiveLayout';
 
 export default function TabsLayout() {
   const t = useTheme();
   const { t: tr } = useT();
+  const { width } = useWindowDimensions();
+  const expanded = isExpandedLayout(width);
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
           backgroundColor: t.chrome,
-          borderTopColor: t.border,
-          height: 84,
-          paddingTop: 8,
+          borderTopColor: expanded ? 'transparent' : t.border,
+          borderRightColor: expanded ? t.border : 'transparent',
+          borderRightWidth: expanded ? 1 : 0,
+          width: expanded ? 112 : undefined,
+          height: expanded ? '100%' : 84,
+          paddingTop: expanded ? 24 : 8,
         },
+        tabBarPosition: expanded ? 'left' : 'bottom',
+        tabBarLabelPosition: expanded ? 'below-icon' : 'below-icon',
         tabBarActiveTintColor: t.gold,
         tabBarInactiveTintColor: t.inkFaint,
         tabBarLabelStyle: ty.labelSmallMedium,

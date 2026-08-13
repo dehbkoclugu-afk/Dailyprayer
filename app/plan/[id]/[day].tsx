@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
@@ -15,12 +15,12 @@ import { getBible } from '@/data/bibleFull';
 import { bookMeta } from '@/data/bibleMeta';
 import { usePlanStore } from '@/state/usePlanStore';
 import { useT } from '@/i18n';
-import { getDirectionalIconName } from '@/i18n/direction';
 import { useScriptureLocale } from '@/i18n/scripture';
 import { InvalidRouteState } from '@/components/InvalidRouteState';
 import { singleParam, validPlanDay } from '@/lib/routeValidation';
 import { localeUpperCase } from '@/i18n/localeText';
 import { toast } from '@/state/useToastStore';
+import { TopAppBar } from '@/components/TopAppBar';
 
 export default function PlanDay() {
   const t = useTheme();
@@ -53,30 +53,14 @@ export default function PlanDay() {
       toggleDay(plan.id, dayIdx);
       toast(`${plan.title}: ${tr('plan.done')}`);
     }
-    router.back();
   };
+  const hasNextDay = dayIdx + 1 < plan.days;
+  const openNextDay = () => router.replace({ pathname: '/plan/[id]/[day]', params: { id: plan.id, day: dayIdx + 1 } });
 
   return (
-    <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
+    <Screen style={{ justifyContent: 'space-between' }}>
       <View style={{ flex: 1 }}>
-        <Pressable
-          onPress={() => router.back()}
-          hitSlop={12}
-          accessibilityRole="button"
-          accessibilityLabel={tr('a11y.back')}
-          style={{
-            width: 48,
-            height: 48,
-            borderRadius: 24,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: t.surface,
-            borderWidth: 1,
-            borderColor: t.border,
-          }}
-        >
-          <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={24} color={t.inkSoft} />
-        </Pressable>
+        <TopAppBar title={`${plan.title} · ${tr('plan.dayLabel')} ${dayIdx + 1}`} />
 
         <PlanDayArtwork
           planId={plan.id}
@@ -154,20 +138,17 @@ export default function PlanDay() {
       <View style={{ gap: spacing.md }}>
         <PillButton label={tr('plan.read')} onPress={openReader} />
         {done ? (
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: spacing.sm,
-              paddingVertical: 14,
-            }}
-          >
-            <Ionicons name="checkmark-circle" size={20} color={t.gold} />
-            <Text style={{ ...ty.bodyCompactStrong, color: t.gold }}>
-              {tr('plan.done')}
-            </Text>
-          </View>
+          <>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm, paddingVertical: 14 }}>
+              <Ionicons name="checkmark-circle" size={20} color={t.gold} />
+              <Text style={{ ...ty.bodyCompactStrong, color: t.gold }}>{tr('plan.done')}</Text>
+            </View>
+            {hasNextDay ? (
+              <PillButton label={`${tr('read.next')}: ${tr('plan.dayLabel')} ${dayIdx + 2}`} onPress={openNextDay} variant="secondary" />
+            ) : (
+              <PillButton label={tr('a11y.back')} onPress={() => router.back()} variant="secondary" />
+            )}
+          </>
         ) : (
           <PillButton label={tr('plan.complete')} onPress={complete} variant="secondary" />
         )}

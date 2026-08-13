@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 import { spacing } from '@/theme/tokens';
 import { artRegistry } from '@/assets/registry';
+import { contentMaxWidth } from '@/lib/adaptiveLayout';
 
 interface Props {
   children: React.ReactNode;
@@ -52,7 +53,7 @@ export function Screen({ children, scroll = true, style, tabbed = false }: Props
     paddingBottom: tabbed ? spacing.xxl : insets.bottom + spacing.xl,
     // Keep a readable devotional measure while giving large-text/tablet layouts room.
     width: '100%',
-    maxWidth: width >= 840 ? 640 : 480,
+    maxWidth: contentMaxWidth(width),
     alignSelf: 'center',
   };
   return (

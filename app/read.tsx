@@ -3,11 +3,14 @@ import {
   FlatList,
   Modal,
   Pressable,
+  TextInput,
   Text,
+  useWindowDimensions,
   View,
   findNodeHandle,
   type AccessibilityActionEvent,
   type GestureResponderEvent,
+  type ViewToken,
 } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -32,15 +35,23 @@ import { integerParam, validReaderPosition } from '@/lib/routeValidation';
 import { getReaderAccessibilityCopy } from '@/i18n/readerAccessibility';
 import { useModalAccessibility } from '@/hooks/useModalAccessibility';
 import { accessibleVerseLabel } from '@/lib/accessibility';
+import { isExpandedLayout } from '@/lib/adaptiveLayout';
+import { newTestamentStart, testamentLabels } from '@/lib/scriptureNavigation';
 
 export default function Read() {
   const { t: tr, locale } = useT();
   const scriptureLocale = useScriptureLocale();
   const scriptureRtl = RTL_LOCALE_TAGS.includes(scriptureLocale);
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
+  const expanded = isExpandedLayout(width);
   const bible = getBible(scriptureLocale);
   const { book, chapter, setPos } = useReaderStore();
+  const initialSavedVerse = useRef(useReaderStore.getState().verse).current;
+  const initialPosition = useRef({ book, chapter }).current;
   const fontScale = useReaderPrefsStore((s) => s.fontScale);
+  const showGestureHint = useReaderPrefsStore((s) => s.showGestureHint);
+  const dismissGestureHint = useReaderPrefsStore((s) => s.dismissGestureHint);
   const marks = useHighlightStore((s) => s.marks);
   const setMark = useHighlightStore((s) => s.set);
   const clearMark = useHighlightStore((s) => s.clear);
@@ -58,6 +69,8 @@ export default function Read() {
   const [settings, setSettings] = useState(params.settings === '1');
   const [selected, setSelected] = useState<SelectedVerse | null>(null);
   const [flashV, setFlashV] = useState<number | null>(null);
+  const [bookQuery, setBookQuery] = useState('');
+  const [toolbar, setToolbar] = useState(false);
   const listRef = useRef<FlatList>(null);
   const pickerHeadingRef = useRef<Text>(null);
   const pickerReturnFocus = useRef<number | null>(null);
@@ -70,6 +83,11 @@ export default function Read() {
   const bk = bible[bIdx];
   const cIdx = Math.min(chapter, bk.chapters.length - 1);
   const verses = bk.chapters[cIdx];
+  const testamentStart = newTestamentStart(bible.map((bookItem) => bookItem.code));
+  const [oldTestament, newTestament] = testamentLabels(scriptureLocale);
+  const visibleBooks = bible
+    .map((item, index) => ({ item, index }))
+    .filter(({ item }) => item.name.toLocaleLowerCase(scriptureLocale).includes(bookQuery.trim().toLocaleLowerCase(scriptureLocale)));
 
   // deep-navigation: /read?b=&c=&v= jumps to a verse (from search / saved)
   useEffect(() => {
@@ -77,7 +95,14 @@ export default function Read() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deepPosition?.book, deepPosition?.chapter]);
 
-  const targetV = integerParam(params.v);
+  const deepVerse = integerParam(params.v);
+  const targetV = params.v == null
+    ? (bIdx === initialPosition.book && cIdx === initialPosition.chapter ? Math.min(initialSavedVerse, verses.length - 1) : 0)
+    : deepVerse;
+  const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: ViewToken[] }) => {
+    const first = viewableItems.find((item) => item.isViewable && item.index != null)?.index;
+    if (first != null) useReaderStore.getState().setVerse(first);
+  }).current;
   useEffect(() => {
     if (targetV == null || targetV >= verses.length) return;
     const id = setTimeout(() => {
@@ -88,7 +113,7 @@ export default function Read() {
     return () => clearTimeout(id);
   }, [targetV, bIdx, cIdx, verses.length]);
 
-  if (invalidDeepPosition || (params.v != null && (targetV == null || targetV >= verses.length))) {
+  if (invalidDeepPosition || (params.v != null && (deepVerse == null || deepVerse >= verses.length))) {
     return <InvalidRouteState />;
   }
 
@@ -217,10 +242,13 @@ export default function Read() {
           </Text>
           <Ionicons name="chevron-down" size={18} color={rt.inkFaint} />
         </Pressable>
-        {iconBtn('search', tr('a11y.search'), () => router.push('/search'))}
-        {iconBtn('text', tr('a11y.readingSettings'), (event) => {
+        {expanded ? iconBtn('search', tr('a11y.search'), () => router.push('/search')) : null}
+        {expanded ? iconBtn('text', tr('a11y.readingSettings'), (event) => {
           settingsReturnFocus.current = eventHandle(event);
           setSettings(true);
+        }) : iconBtn('ellipsis-horizontal', tr('read.settings'), (event) => {
+          settingsReturnFocus.current = eventHandle(event);
+          setToolbar(true);
         })}
       </View>
 
@@ -230,6 +258,8 @@ export default function Read() {
         data={verses}
         keyExtractor={(_, i) => String(i)}
         showsVerticalScrollIndicator={false}
+        onViewableItemsChanged={onViewableItemsChanged}
+        viewabilityConfig={{ itemVisiblePercentThreshold: 55 }}
         onScrollToIndexFailed={({ index, averageItemLength }) => {
           listRef.current?.scrollToOffset({ offset: index * (averageItemLength || bodyLine * 2), animated: false });
           setTimeout(() => {
@@ -260,6 +290,23 @@ export default function Read() {
             <Text style={{ ...scaledType('titleLarge', fontScale), color: rt.ink, marginTop: 4, textAlign: scriptureRtl ? 'right' : 'left', writingDirection: scriptureRtl ? 'rtl' : 'ltr' }}>
               {bk.name}
             </Text>
+            {showGestureHint ? (
+              <View accessibilityRole="summary" style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginTop: spacing.lg, padding: spacing.md, borderRadius: radius.inner, backgroundColor: rt.goldSoft, borderWidth: 1, borderColor: rt.gold }}>
+                <View style={{ flex: 1, gap: spacing.xs }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
+                    <Ionicons name="hand-left-outline" size={18} color={rt.gold} />
+                    <Text style={[ty.captionRegular, { flex: 1, color: rt.ink }]}>{readerA11y.openVerseActions}</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
+                    <Ionicons name="finger-print-outline" size={18} color={rt.gold} />
+                    <Text style={[ty.captionRegular, { flex: 1, color: rt.ink }]}>{tr('verse.highlight')}</Text>
+                  </View>
+                </View>
+                <Pressable onPress={dismissGestureHint} accessibilityRole="button" accessibilityLabel={tr('a11y.close')} style={{ width: 48, height: 48, alignItems: 'center', justifyContent: 'center' }}>
+                  <Ionicons name="close" size={20} color={rt.inkSoft} />
+                </Pressable>
+              </View>
+            ) : null}
           </View>
         }
         renderItem={({ item, index }) => {
@@ -374,6 +421,23 @@ export default function Read() {
         }
       />
 
+      <Modal visible={toolbar} transparent animationType="fade" onRequestClose={() => setToolbar(false)} statusBarTranslucent>
+        <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)', justifyContent: 'flex-end' }}>
+          <Pressable style={{ flex: 1 }} onPress={() => setToolbar(false)} accessible={false} importantForAccessibility="no-hide-descendants" />
+          <View accessibilityViewIsModal style={{ backgroundColor: rt.surface, borderTopLeftRadius: radius.card, borderTopRightRadius: radius.card, padding: spacing.xl, paddingBottom: insets.bottom + spacing.lg, gap: spacing.sm }}>
+            <Text accessibilityRole="header" style={[ty.bodyCompactStrong, { color: rt.ink, marginBottom: spacing.sm }]}>{tr('read.settings')}</Text>
+            <Pressable onPress={() => { setToolbar(false); router.push('/search'); }} accessibilityRole="button" style={{ minHeight: 56, flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
+              <Ionicons name="search" size={22} color={rt.gold} />
+              <Text style={[ty.bodyCompact, { color: rt.ink }]}>{tr('read.search')}</Text>
+            </Pressable>
+            <Pressable onPress={() => { setToolbar(false); setSettings(true); }} accessibilityRole="button" style={{ minHeight: 56, flexDirection: 'row', alignItems: 'center', gap: spacing.md, borderTopWidth: 1, borderTopColor: rt.border }}>
+              <Ionicons name="text" size={22} color={rt.gold} />
+              <Text style={[ty.bodyCompact, { color: rt.ink }]}>{tr('a11y.readingSettings')}</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
       {/* book / chapter picker */}
       <Modal
         visible={picker !== null}
@@ -445,11 +509,23 @@ export default function Read() {
             </View>
 
             {picker === 'books' ? (
-              <FlatList
-                data={bible}
-                keyExtractor={(b) => b.code}
+              <>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginHorizontal: spacing.lg, marginBottom: spacing.sm, height: 48, paddingHorizontal: spacing.md, borderRadius: radius.pill, backgroundColor: rt.surfaceAlt, borderWidth: 1, borderColor: rt.border }}>
+                  <Ionicons name="search" size={18} color={rt.inkFaint} />
+                  <TextInput value={bookQuery} onChangeText={setBookQuery} placeholder={tr('read.pickBook')} placeholderTextColor={rt.inkFaint} accessibilityLabel={tr('read.pickBook')} style={{ flex: 1, ...ty.bodyCompact, color: rt.ink }} />
+                  {bookQuery ? <Pressable onPress={() => setBookQuery('')} accessibilityRole="button" accessibilityLabel={tr('a11y.close')} style={{ width: 48, height: 48, alignItems: 'center', justifyContent: 'center' }}><Ionicons name="close" size={19} color={rt.inkSoft} /></Pressable> : null}
+                </View>
+                <FlatList
+                data={visibleBooks}
+                keyExtractor={({ item }) => item.code}
                 contentContainerStyle={{ paddingHorizontal: spacing.lg }}
-                renderItem={({ item, index }) => (
+                renderItem={({ item: row, index: visibleIndex }) => {
+                  const { item, index } = row;
+                  const showOld = !bookQuery && index === 0;
+                  const showNew = !bookQuery && index === testamentStart;
+                  return (
+                  <View>
+                    {showOld || showNew ? <Text accessibilityRole="header" style={[ty.overline, { color: rt.gold, marginTop: showOld ? spacing.sm : spacing.lg, marginBottom: spacing.sm }]}>{showOld ? oldTestament : newTestament}</Text> : null}
                   <Pressable
                     onPress={() => setPicker(index)}
                     accessibilityRole="button"
@@ -461,7 +537,7 @@ export default function Read() {
                       justifyContent: 'space-between',
                       minHeight: 48,
                       paddingVertical: 12,
-                      borderTopWidth: index === 0 ? 0 : 1,
+                      borderTopWidth: visibleIndex === 0 || showOld || showNew ? 0 : 1,
                       borderTopColor: rt.border,
                       opacity: pressed ? 0.6 : 1,
                     })}
@@ -477,14 +553,18 @@ export default function Read() {
                     </Text>
                     <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={16} color={rt.inkFaint} />
                   </Pressable>
-                )}
+                  </View>
+                );}}
               />
+              </>
             ) : typeof picker === 'number' ? (
               <FlatList
                 key="chapters"
                 data={bible[picker].chapters}
                 keyExtractor={(_, i) => String(i)}
                 numColumns={5}
+                initialScrollIndex={picker === bIdx ? Math.max(0, cIdx - (cIdx % 5)) : 0}
+                getItemLayout={(_, index) => ({ length: 72, offset: Math.floor(index / 5) * 72, index })}
                 contentContainerStyle={{ paddingHorizontal: spacing.lg, gap: spacing.sm }}
                 columnWrapperStyle={{ gap: spacing.sm }}
                 renderItem={({ index }) => {
