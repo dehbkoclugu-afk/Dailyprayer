@@ -102,24 +102,24 @@ deneyimi, performans ve görsel cila gelir.
     kullanıyor; normal pasif düğmeler artık erişilebilirlik ağacında meşgul görünmüyor.
 40. ✅ **TAMAMLANDI — Silme ve destructive işlemlerde erişilebilir doğrulama kullan.** Yerelleştirilmiş
     native Alert iptali önce ve tercih edilen eylem olarak sunuyor; yıkıcı düğme ayrı işaretleniyor.
-41. **Arama temizleme düğmesini 48 dp hedefe çıkar.** Küçük 18 px ikon yalnızca `hitSlop` ile
-    bırakılmamalı; görünür/fiziksel hedef alanı sağlanmalı.
-42. **Prayer kategori chip’lerini 48 dp yap.** Mevcut 44 dp minimumu Android hedefinin altında;
-    yatay liste de odak sırasında seçili chip’i görünür alana kaydırmalı.
-43. **“Tümünü göster” metin bağlantısını gerçek düğme alanına çevir.** Sadece metne basmak yerine
-    48 dp satır ve belirgin pressed/focus durumu kullanılmalı.
-44. **Günlük silme ikonuna görünür hedef ver.** Küçük çöp simgesi, 48 dp alan ve hafif tonal
-    arka planla hem dokunma hem destructive anlamı taşımalı.
-45. **Okuyucu font ayarında örnek paragraf göster.** Sadece büyük/küçük A düğmeleri, gerçek satır
-    uzunluğu ve leading etkisini anlatmıyor.
-46. **Reader “paper” switch’ini platform semantiğiyle düzelt.** Görsel olarak özel kalabilir ama
-    swipe/tap, checked state ve büyük yazı düzeni Material switch beklentisini karşılamalı.
-47. **Ekran okuyucuda ayet numarası + metni tek anlamlı cümle yap.** İç içe Text düğümlerinin
-    kesik veya tekrarlı okunmadığı cihaz testleriyle doğrulanmalı.
-48. **Player otomatik ilerlemeyi erişilebilirlik açıkken varsayılan duraklat.** Kullanıcı satırı
-    bitirmeden ekran değişmemeli; devam etme açık bir tercih olmalı.
-49. **Player kalan süreyi canlı ama gürültüsüz güncelle.** Her satırda tam ekran duyurusu yerine
-    yalnız dua metni okunmalı, süre ayrı erişilebilir açıklama olmalı.
+41. ✅ **TAMAMLANDI — Arama temizleme düğmesini 48 dp hedefe çıkar.** 18 px simge, 48×48 dp fiziksel
+    hedef ve basıldığında görünen tonal arka plan içinde sunuluyor.
+42. ✅ **TAMAMLANDI — Prayer kategori chip’lerini 48 dp yap.** Chip'ler 48 dp minimumu koruyor;
+    klavye/ekran okuyucu odağı yatay listeyi seçilen chip görünür kalacak biçimde kaydırıyor.
+43. ✅ **TAMAMLANDI — “Tümünü göster” metin bağlantısını gerçek düğme alanına çevir.** Eylem artık
+    48 dp satır, padding, button rolü ve belirgin pressed arka planı taşıyor.
+44. ✅ **TAMAMLANDI — Günlük silme ikonuna görünür hedef ver.** 48 dp alan, tonal yüzey, kenarlık
+    ve danger rengi destructive anlamı dokunma hedefiyle birlikte görünür kılıyor.
+45. ✅ **TAMAMLANDI — Okuyucu font ayarında örnek paragraf göster.** Aktif bölümün ilk ayeti,
+    gerçek fontSize/lineHeight ölçeğiyle ayar sheet'inde anlık önizleniyor.
+46. ✅ **TAMAMLANDI — Reader “paper” switch’ini platform semantiğiyle düzelt.** Özel toggle yerine
+    native Switch kullanılıyor; checked state, swipe/tap ve büyük yazıda sarılan düzen korunuyor.
+47. ✅ **TAMAMLANDI — Ekran okuyucuda ayet numarası + metni tek anlamlı cümle yap.** Etkileşimli
+    Pressable tek bir tam label taşıyor; görsel numara ve metin alt düğümleri ağaçtan gizleniyor.
+48. ✅ **TAMAMLANDI — Player otomatik ilerlemeyi erişilebilirlik açıkken varsayılan duraklat.** Ekran
+    okuyucu tespiti bitmeden zamanlayıcı başlamıyor; TalkBack/VoiceOver açıkken açıkça Resume gerekiyor.
+49. ✅ **TAMAMLANDI — Player kalan süreyi canlı ama gürültüsüz güncelle.** Süre ayrı, canlı olmayan
+    açıklama; yalnız değişen dua satırı kontrollü tek duyuru olarak sunuluyor.
 50. **Kontrastı gerçek görseller üzerinde ölç.** Verse, ritual, Tonight ve plan kartlarının her
     görsel varyantında metin 4.5:1; büyük başlık 3:1 eşiğini geçmeli.
 

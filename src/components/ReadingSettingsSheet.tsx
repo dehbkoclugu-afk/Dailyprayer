@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
-import { Modal, Pressable, Text, View } from 'react-native';
+import { Modal, Pressable, ScrollView, Switch, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { fonts } from '@/theme/typography';
+import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useReaderTheme } from '@/theme/reading';
 import { useReaderPrefsStore, FONT_MIN, FONT_MAX } from '@/state/useReaderPrefsStore';
@@ -15,10 +15,14 @@ export function ReadingSettingsSheet({
   visible,
   onClose,
   returnFocusHandle,
+  sampleText,
+  sampleReference,
 }: {
   visible: boolean;
   onClose: () => void;
   returnFocusHandle?: number | null;
+  sampleText: string;
+  sampleReference: string;
 }) {
   const t = useReaderTheme();
   const { t: tr } = useT();
@@ -71,20 +75,24 @@ export function ReadingSettingsSheet({
           accessibilityElementsHidden
           importantForAccessibility="no-hide-descendants"
         />
-        <View
+        <ScrollView
           accessibilityViewIsModal
           importantForAccessibility="yes"
           style={{
+            maxHeight: '90%',
             backgroundColor: t.surface,
             borderTopLeftRadius: radius.card,
             borderTopRightRadius: radius.card,
             borderWidth: 1,
             borderBottomWidth: 0,
             borderColor: t.border,
+          }}
+          contentContainerStyle={{
             paddingTop: spacing.md,
             paddingHorizontal: spacing.xl,
             paddingBottom: insets.bottom + spacing.lg,
           }}
+          showsVerticalScrollIndicator={false}
         >
           <View
             style={{
@@ -101,13 +109,13 @@ export function ReadingSettingsSheet({
             ref={headingRef}
             accessible
             accessibilityRole="header"
-            style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}
+            style={[ty.bodyMedium, { color: t.ink }]}
           >
             {tr('read.settings')}
           </Text>
 
           {/* text size */}
-          <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: t.inkSoft, marginTop: spacing.lg }}>
+          <Text style={[ty.caption, { color: t.inkSoft, marginTop: spacing.lg }]}>
             {tr('read.textSize')}
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginTop: spacing.sm }}>
@@ -124,54 +132,72 @@ export function ReadingSettingsSheet({
                 justifyContent: 'center',
               }}
             >
-              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: t.ink, fontVariant: ['tabular-nums'] }}>
+              <Text style={[ty.secondary, { fontFamily: fonts.sansSemiBold, color: t.ink, fontVariant: ['tabular-nums'] }]}>
                 {pct}%
               </Text>
             </View>
             {stepBtn(1, tr('a11y.larger'), 26, fontScale >= FONT_MAX - 0.001)}
           </View>
 
-          {/* paper tone */}
-          <Pressable
-            onPress={() => {
-              tap();
-              togglePaper();
+          <View
+            accessible
+            accessibilityLabel={`${sampleReference}. ${sampleText}`}
+            style={{
+              marginTop: spacing.md,
+              padding: spacing.lg,
+              borderRadius: radius.inner,
+              backgroundColor: t.bg,
+              borderWidth: 1,
+              borderColor: t.border,
             }}
-            accessibilityRole="switch"
-            accessibilityLabel={tr('read.paperMode')}
-            accessibilityState={{ checked: paper }}
+          >
+            <Text style={[ty.overline, { color: t.gold }]}>{sampleReference}</Text>
+            <Text
+              style={{
+                fontFamily: fonts.serifLight,
+                fontSize: Math.round(18 * fontScale),
+                lineHeight: Math.round(30 * fontScale),
+                color: t.ink,
+                marginTop: spacing.sm,
+              }}
+            >
+              {sampleText}
+            </Text>
+          </View>
+
+          {/* paper tone */}
+          <View
             style={{
               flexDirection: 'row',
+              flexWrap: 'wrap',
               alignItems: 'center',
               justifyContent: 'space-between',
+              gap: spacing.md,
               marginTop: spacing.lg,
-              paddingVertical: spacing.md,
-              paddingHorizontal: spacing.lg,
+              padding: spacing.lg,
               borderRadius: radius.inner,
               backgroundColor: t.surfaceAlt,
               borderWidth: 1,
               borderColor: paper ? t.gold : t.border,
             }}
           >
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, flexGrow: 1, flexBasis: 180 }}>
               <Ionicons name="sunny-outline" size={20} color={paper ? t.gold : t.inkSoft} />
-              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.ink }}>
+              <Text style={[ty.secondary, { fontFamily: fonts.sansMedium, color: t.ink, flexShrink: 1 }]}>
                 {tr('read.paperMode')}
               </Text>
             </View>
-            <View
-              style={{
-                width: 46,
-                height: 28,
-                borderRadius: 14,
-                padding: 3,
-                backgroundColor: paper ? t.gold : t.border,
-                alignItems: paper ? 'flex-end' : 'flex-start',
+            <Switch
+              value={paper}
+              onValueChange={() => {
+                tap();
+                togglePaper();
               }}
-            >
-              <View style={{ width: 22, height: 22, borderRadius: 11, backgroundColor: paper ? t.onGold : t.surface }} />
-            </View>
-          </Pressable>
+              accessibilityLabel={tr('read.paperMode')}
+              trackColor={{ false: t.border, true: t.gold }}
+              thumbColor={paper ? t.onGold : t.surface}
+            />
+          </View>
 
           <Pressable
             onPress={() => {
@@ -197,13 +223,13 @@ export function ReadingSettingsSheet({
           >
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
               <Ionicons name="information-circle-outline" size={20} color={t.inkSoft} />
-              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.ink }}>
+              <Text style={[ty.secondary, { fontFamily: fonts.sansMedium, color: t.ink }]}>
                 {tr('scriptureSource.title')}
               </Text>
             </View>
             <Ionicons name="chevron-forward" size={18} color={t.inkFaint} />
           </Pressable>
-        </View>
+        </ScrollView>
       </View>
     </Modal>
   );

@@ -121,7 +121,15 @@ export default function Search() {
               onPress={() => setQuery('')}
               accessibilityRole="button"
               accessibilityLabel={tr('a11y.close')}
-              style={{ width: 48, height: 48, alignItems: 'center', justifyContent: 'center', marginRight: -spacing.md }}
+              style={({ pressed }) => ({
+                width: 48,
+                height: 48,
+                borderRadius: 24,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: -spacing.md,
+                backgroundColor: pressed ? t.surfaceAlt : 'transparent',
+              })}
             >
               <Ionicons name="close-circle" size={18} color={t.inkFaint} />
             </Pressable>

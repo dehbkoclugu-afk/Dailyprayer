@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -13,6 +13,8 @@ import { usePrayers, prayerCategories, type GuidedPrayer } from '@/data/prayers'
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useT } from '@/i18n';
 import { prayerArt } from '@/assets/registry';
+import { useReducedMotion } from 'react-native-reanimated';
+import { categoryChipOffset } from '@/lib/accessibility';
 
 export default function Pray() {
   const t = useTheme();
@@ -21,6 +23,8 @@ export default function Pray() {
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const prayers = usePrayers();
   const [cat, setCat] = useState<GuidedPrayer['category'] | 'all'>('all');
+  const categoryScrollRef = useRef<ScrollView>(null);
+  const reduceMotion = useReducedMotion();
   const list = cat === 'all' ? prayers : prayers.filter((p) => p.category === cat);
 
   const open = (p: GuidedPrayer) => {
@@ -38,17 +42,24 @@ export default function Pray() {
       {/* category filter , a single calm chip row (matches the Bible chapter
           picker); tap the active chip again to clear back to the full library */}
       <ScrollView
+        ref={categoryScrollRef}
         horizontal
         showsHorizontalScrollIndicator={false}
         style={{ marginTop: spacing.lg, marginHorizontal: -spacing.xl }}
         contentContainerStyle={{ gap: spacing.sm, paddingHorizontal: spacing.xl }}
       >
-        {prayerCategories.map((c) => {
+        {prayerCategories.map((c, index) => {
           const active = cat === c.key;
           return (
             <Pressable
               key={c.key}
               onPress={() => setCat(active ? 'all' : c.key)}
+              onFocus={() => {
+                categoryScrollRef.current?.scrollTo({
+                  x: categoryChipOffset(index),
+                  animated: !reduceMotion,
+                });
+              }}
               accessibilityRole="button"
               accessibilityState={{ selected: active }}
               accessibilityLabel={tr(`cat.${c.key}` as never)}
@@ -89,8 +100,19 @@ export default function Pray() {
         title={cat === 'all' ? tr('pray.library') : tr(`cat.${cat}` as never)}
         right={
           cat !== 'all' ? (
-            <Pressable onPress={() => setCat('all')} hitSlop={8} accessibilityRole="button" accessibilityLabel={tr('a11y.showAll')}>
-              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>{tr('pray.showAll')}</Text>
+            <Pressable
+              onPress={() => setCat('all')}
+              accessibilityRole="button"
+              accessibilityLabel={tr('a11y.showAll')}
+              style={({ pressed }) => ({
+                minHeight: 48,
+                paddingHorizontal: spacing.md,
+                borderRadius: radius.inner,
+                justifyContent: 'center',
+                backgroundColor: pressed ? t.surfaceAlt : 'transparent',
+              })}
+            >
+              <Text style={[ty.label, { color: t.blue }]}>{tr('pray.showAll')}</Text>
             </Pressable>
           ) : undefined
         }
