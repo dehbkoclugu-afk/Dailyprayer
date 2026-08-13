@@ -126,7 +126,7 @@ export default function Profile() {
 
   const confirmLocalDataDeletion = () =>
     Alert.alert(tr('profile.deleteData'), tr('profile.deleteDataMessage'), [
-      { text: tr('profile.cancel'), style: 'cancel' },
+      { text: tr('profile.cancel'), style: 'cancel', isPreferred: true },
       {
         text: tr('profile.deleteDataConfirm'),
         style: 'destructive',
@@ -139,7 +139,7 @@ export default function Profile() {
           }
         },
       },
-    ]);
+    ], { cancelable: true });
 
   const manageSubscription = async () => {
     try {
@@ -416,6 +416,7 @@ export default function Profile() {
           onPress={confirmLocalDataDeletion}
           accessibilityRole="button"
           accessibilityLabel={tr('profile.deleteData')}
+          accessibilityHint={tr('profile.deleteDataMessage')}
           style={({ pressed }) => ({
             flexDirection: 'row',
             alignItems: 'center',

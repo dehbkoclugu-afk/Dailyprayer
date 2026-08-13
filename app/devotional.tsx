@@ -13,6 +13,7 @@ import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
 import { useT, translate } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
+import { localeUpperCase } from '@/i18n/localeText';
 
 export default function DevotionalScreen() {
   const t = useTheme();
@@ -55,8 +56,8 @@ export default function DevotionalScreen() {
         <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={24} color={t.inkSoft} />
       </Pressable>
 
-      <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 12, letterSpacing: 2, textTransform: 'uppercase', color: t.gold, marginTop: spacing.lg }}>
-{tr('devotional.label')}
+      <Text style={[ty.overline, { color: t.gold, marginTop: spacing.lg }]}>
+{localeUpperCase(tr('devotional.label'), locale)}
       </Text>
       <Text style={[ty.display, { color: t.ink, marginTop: spacing.sm }]}>{devotional.title}</Text>
 

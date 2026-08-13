@@ -68,9 +68,9 @@ export default function Journal() {
             <Text
               style={{
                 fontFamily: fonts.sansSemiBold,
-                fontSize: 11,
+                fontSize: 12,
+                lineHeight: 16,
                 letterSpacing: 2,
-                textTransform: 'uppercase',
                 color: t.gold,
               }}
             >
@@ -176,7 +176,6 @@ export default function Journal() {
                       fontFamily: fonts.sansSemiBold,
                       fontSize: 12,
                       letterSpacing: 1.5,
-                      textTransform: 'uppercase',
                       color: t.gold,
                       marginBottom: spacing.sm,
                     }}

@@ -87,7 +87,6 @@ export function OptionSheet<T extends string>({
               fontFamily: fonts.sansSemiBold,
               fontSize: 13,
               letterSpacing: 1.5,
-              textTransform: 'uppercase',
               color: t.inkFaint,
               marginBottom: spacing.sm,
             }}

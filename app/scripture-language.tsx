@@ -220,7 +220,7 @@ export default function ScriptureLanguage() {
               ) : release ? (
                 <View style={{ alignItems: 'flex-end', gap: 2 }}>
                   <Ionicons name="cloud-download-outline" size={21} color={t.gold} />
-                  <Text style={{ fontFamily: fonts.sans, fontSize: 10, color: t.inkFaint }}>
+                  <Text style={{ fontFamily: fonts.sans, fontSize: 12, lineHeight: 16, color: t.inkFaint }}>
                     {(release.bytes / 1024 / 1024).toFixed(1)} MB
                   </Text>
                 </View>

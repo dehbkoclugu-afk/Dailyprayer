@@ -192,7 +192,7 @@ export default function Pray() {
                         paddingVertical: 3,
                       }}
                     >
-                      <Text style={{ fontFamily: fonts.sansBold, fontSize: 10, color: locked ? artwork.foreground.tertiary : '#FFFFFF' }}>
+                      <Text style={{ fontFamily: fonts.sansBold, fontSize: 12, lineHeight: 16, color: locked ? artwork.foreground.tertiary : '#FFFFFF' }}>
                         PLUS
                       </Text>
                     </View>

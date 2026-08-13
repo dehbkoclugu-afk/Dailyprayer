@@ -246,9 +246,9 @@ export default function Read() {
             <Text
               style={{
                 fontFamily: fonts.sansSemiBold,
-                fontSize: 11,
+                fontSize: 12,
+                lineHeight: 16,
                 letterSpacing: 2.5,
-                textTransform: 'uppercase',
                 color: rt.gold,
                 textAlign: scriptureRtl ? 'right' : 'left',
                 writingDirection: scriptureRtl ? 'rtl' : 'ltr',

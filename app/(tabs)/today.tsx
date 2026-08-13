@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -25,6 +25,7 @@ import { usePrayers } from '@/data/prayers';
 import { prayerArt } from '@/assets/registry';
 import { toast } from '@/state/useToastStore';
 import { useT, translate } from '@/i18n';
+import { localeUpperCase } from '@/i18n/localeText';
 
 /** Locale-aware date line using the locale's native order, month, and weekday. */
 function formatDateLine(now: Date, locale: string): string {
@@ -85,6 +86,10 @@ export default function Today() {
   const sleepPrayer = prayers.find((p) => p.category === 'sleep')!;
   const completeStep = useStreakStore((s) => s.completeStep);
   const uncompleteStep = useStreakStore((s) => s.uncompleteStep);
+  const undoStep = (step: 'verse' | 'devotional' | 'prayer' | 'gratitude', title: string) => {
+    uncompleteStep(step);
+    toast(`${title}: ${tr('today.undo')}`);
+  };
 
   return (
     <Screen tabbed>
@@ -107,22 +112,18 @@ export default function Today() {
         <View style={{ flex: 1, paddingRight: spacing.lg }}>
           <Text
             style={{
-              fontFamily: fonts.sansSemiBold,
-              fontSize: 11,
-              letterSpacing: 2.5,
-              textTransform: 'uppercase',
+              ...ty.overline,
               color: t.gold,
               opacity: 0.85,
             }}
           >
-            {dateLine}
+            {localeUpperCase(dateLine, locale)}
           </Text>
           <Text style={[ty.display, { color: t.ink, fontSize: 34, lineHeight: 40, marginTop: spacing.xs }]}>
             {greetText}{name ? `, ${name}` : ''}
           </Text>
         </View>
         <View
-          accessibilityLabel={`${count} ${tr('today.dayStreak')}`}
           style={{
             width: 68,
             height: 68,
@@ -162,7 +163,7 @@ export default function Today() {
           title={tr('today.devotional')}
           subtitle={`${devotional.title} · ${tr('today.twoMinuteRead')}`}
           done={isDone('devotional')}
-          onPress={() => isDone('devotional') ? uncompleteStep('devotional') : router.push('/devotional')}
+          onPress={() => isDone('devotional') ? undoStep('devotional', tr('today.devotional')) : router.push('/devotional')}
         />
         <RitualCard
           icon="flame-outline"
@@ -170,7 +171,7 @@ export default function Today() {
           title={tr('today.guidedPrayer')}
           subtitle={`${morningPrayer.title} · ${morningPrayer.minutes} ${tr('pray.min')}`}
           done={isDone('prayer')}
-          onPress={() => isDone('prayer') ? uncompleteStep('prayer') : router.push({ pathname: '/player', params: { id: morningPrayer.id } })}
+          onPress={() => isDone('prayer') ? undoStep('prayer', tr('today.guidedPrayer')) : router.push({ pathname: '/player', params: { id: morningPrayer.id } })}
         />
         <RitualCard
           icon="heart-outline"
@@ -178,7 +179,7 @@ export default function Today() {
           title={tr('today.gratitude')}
           subtitle={tr('today.gratitudeSub')}
           done={isDone('gratitude')}
-          onPress={() => isDone('gratitude') ? uncompleteStep('gratitude') : router.push('/(tabs)/journal')}
+          onPress={() => isDone('gratitude') ? undoStep('gratitude', tr('today.gratitude')) : router.push('/(tabs)/journal')}
         />
       </View>
 
@@ -188,7 +189,12 @@ export default function Today() {
       {/* Night shifts the palette: indigo art card, not a standard row */}
       <View>
         <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
-          <ArtSlot id={prayerArt(sleepPrayer.id)} height={150} radius={radius.card} variant={dawn ? 'card' : 'bare'}>
+          <ArtSlot
+            id={prayerArt(sleepPrayer.id)}
+            radius={radius.card}
+            variant={dawn ? 'card' : 'bare'}
+            style={{ minHeight: 150 }}
+          >
             {!dawn ? (
               <LinearGradient
                 colors={['rgba(30,26,58,0.35)', 'rgba(10,12,24,0.92)']}
@@ -199,21 +205,18 @@ export default function Today() {
               style={{
                 flex: 1,
                 padding: spacing.xl,
-                paddingRight: 96,
-                justifyContent: 'flex-end',
+                justifyContent: 'space-between',
+                gap: spacing.lg,
               }}
             >
               <View style={{ flex: 1 }}>
                 <Text
                   style={{
-                    fontFamily: fonts.sansSemiBold,
-                    fontSize: 11,
-                    letterSpacing: 2.5,
-                    textTransform: 'uppercase',
+                    ...ty.overline,
                     color: t.gold,
                   }}
                 >
-{tr('today.sleepPrayer')}
+{localeUpperCase(tr('today.sleepPrayer'), locale)}
                 </Text>
                 <Text
                   style={{
@@ -229,7 +232,7 @@ export default function Today() {
                   {sleepPrayer.title} · {sleepPrayer.minutes} {tr('pray.min')}
                 </Text>
               </View>
-              <Text
+              <Pressable
                 onPress={() =>
                   sleepPrayer.plus && !isPlus
                     ? router.push('/paywall?from=sleep')
@@ -241,22 +244,21 @@ export default function Today() {
                     ? tr('a11y.unlockSleep')
                     : `${tr('a11y.play')} ${sleepPrayer.title}`
                 }
-                style={{
-                  position: 'absolute',
-                  right: dawn ? 24 : spacing.xl,
-                  bottom: spacing.xl,
-                  fontFamily: fonts.sansSemiBold,
-                  fontSize: 14,
-                  color: t.onGold,
+                style={({ pressed }) => ({
+                  alignSelf: 'flex-start',
                   backgroundColor: t.gold,
                   borderRadius: radius.pill,
                   paddingHorizontal: spacing.lg,
-                  paddingVertical: 10,
+                  minHeight: 48,
+                  justifyContent: 'center',
                   overflow: 'hidden',
-                }}
+                  opacity: pressed ? 0.8 : 1,
+                })}
               >
-                {sleepPrayer.plus && !isPlus ? tr('today.unlock') : tr('today.play')}
-              </Text>
+                <Text style={[ty.label, { color: t.onGold }]}>
+                  {sleepPrayer.plus && !isPlus ? tr('today.unlock') : tr('today.play')}
+                </Text>
+              </Pressable>
             </View>
             {sleepPrayer.plus && !isPlus ? (
               <View
@@ -274,7 +276,7 @@ export default function Today() {
                 }}
               >
                 <Ionicons name="lock-closed" size={11} color={t.gold} />
-                <Text style={{ fontFamily: fonts.sansBold, fontSize: 10, color: t.gold }}>PLUS</Text>
+                <Text style={[ty.labelSmall, { color: t.gold }]}>PLUS</Text>
               </View>
             ) : null}
           </ArtSlot>

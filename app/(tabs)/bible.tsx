@@ -17,6 +17,7 @@ import { useReaderStore } from '@/state/useReaderStore';
 import { useT } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
 import { useScriptureLocale } from '@/i18n/scripture';
+import { localeUpperCase } from '@/i18n/localeText';
 
 export default function Bible() {
   const t = useTheme();
@@ -55,8 +56,8 @@ export default function Bible() {
               />
             ) : null}
             <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
-              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 11, letterSpacing: 2.5, textTransform: 'uppercase', color: t.gold }}>
-                {tr('read.continue')}
+              <Text style={[ty.overline, { color: t.gold }]}>
+                {localeUpperCase(tr('read.continue'), locale)}
               </Text>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 4 }}>
                 <View style={{ flex: 1, paddingRight: spacing.lg }}>
@@ -77,7 +78,7 @@ export default function Bible() {
       </Pressable>
 
       {/* quick access to Scripture search and the reader's saved verses */}
-      <View style={{ flexDirection: 'row', gap: spacing.md, marginTop: spacing.md }}>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md, marginTop: spacing.md }}>
         {[
           { icon: 'search' as const, label: tr('read.search'), onPress: () => router.push('/search') },
           { icon: 'bookmark-outline' as const, label: tr('library.title'), onPress: () => router.push('/library') },
@@ -88,7 +89,8 @@ export default function Bible() {
             accessibilityRole="button"
             accessibilityLabel={a.label}
             style={({ pressed }) => ({
-              flex: 1,
+              flexGrow: 1,
+              flexBasis: 150,
               backgroundColor: t.surface,
               borderRadius: radius.inner,
               borderWidth: 1,
@@ -127,7 +129,8 @@ export default function Bible() {
                   : router.push({ pathname: '/plan/[id]', params: { id: p.id } })
               }
               accessibilityRole="button"
-              accessibilityLabel={`${p.title}${locked ? ', requires Plus' : ''}`}
+              accessibilityLabel={p.title}
+              accessibilityHint={locked ? tr('today.unlock') : undefined}
             >
               <View style={{ borderRadius: radius.card, overflow: 'hidden', backgroundColor: t.surface, borderWidth: dawn ? 1 : 0, borderColor: t.border }}>
                 <ArtSlot id={p.art} height={150} radius={radius.card} variant={dawn ? 'card' : 'bare'}>
@@ -172,7 +175,8 @@ export default function Bible() {
       <Text
         style={{
           fontFamily: fonts.sans,
-          fontSize: 11,
+          fontSize: 12,
+          lineHeight: 16,
           color: t.inkFaint,
           textAlign: 'center',
           marginTop: spacing.xl,
