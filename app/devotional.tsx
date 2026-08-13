@@ -1,7 +1,6 @@
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
@@ -12,8 +11,8 @@ import { useDailyContent } from '@/hooks/useDailyContent';
 import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
 import { useT, translate } from '@/i18n';
-import { getDirectionalIconName } from '@/i18n/direction';
 import { localeUpperCase } from '@/i18n/localeText';
+import { TopAppBar } from '@/components/TopAppBar';
 
 export default function DevotionalScreen() {
   const t = useTheme();
@@ -34,27 +33,7 @@ export default function DevotionalScreen() {
 
   return (
     <Screen>
-      <Pressable
-        onPress={() => router.back()}
-        hitSlop={12}
-        accessibilityRole="button"
-        accessibilityLabel={tr('a11y.back')}
-        // Bordered chip so there's always a visible tap target to leave the
-        // reader , a bare icon becomes an invisible dead corner if the glyph
-        // ever fails to render.
-        style={{
-          width: 48,
-          height: 48,
-          borderRadius: 24,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: t.surface,
-          borderWidth: 1,
-          borderColor: t.border,
-        }}
-      >
-        <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={24} color={t.inkSoft} />
-      </Pressable>
+      <TopAppBar title={tr('today.devotional')} />
 
       <Text style={[ty.overline, { color: t.gold, marginTop: spacing.lg }]}>
 {localeUpperCase(tr('devotional.label'), locale)}

@@ -109,7 +109,8 @@ export function VerseActionSheet({
       accessibilityRole="button"
       accessibilityLabel={label}
       style={({ pressed }) => ({
-        flex: 1,
+        flexGrow: 1,
+        flexBasis: '46%',
         alignItems: 'center',
         gap: spacing.sm,
         paddingVertical: spacing.md,
@@ -253,7 +254,7 @@ export function VerseActionSheet({
           </View>
 
           {/* actions */}
-          <View style={{ flexDirection: 'row', gap: spacing.sm, marginTop: spacing.lg }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginTop: spacing.lg }}>
             {action('bookmark', bookmarked ? tr('verse.bookmarked') : tr('verse.bookmark'), onBookmark, bookmarked)}
             {action('copy-outline', tr('verse.copy'), onCopy)}
             {action('share-outline', tr('verse.share'), onShare)}

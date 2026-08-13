@@ -1,14 +1,13 @@
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Text, View } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
 import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
-import { getDirectionalIconName } from '@/i18n/direction';
 import { type as ty } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
 import { PRIVACY_POLICY, TERMS_OF_SERVICE } from '@/data/legal';
+import { TopAppBar } from '@/components/TopAppBar';
 
 /**
  * Minimal Markdown renderer for our own controlled legal copy (headings, bold,
@@ -81,22 +80,13 @@ function Markdown({ source }: { source: string }) {
 }
 
 export default function Legal() {
-  const t = useTheme();
-  const { t: tr, locale } = useT();
+  const { t: tr } = useT();
   const { doc } = useLocalSearchParams<{ doc?: string }>();
-  const source = doc === 'terms' ? TERMS_OF_SERVICE : PRIVACY_POLICY;
+  const source = (doc === 'terms' ? TERMS_OF_SERVICE : PRIVACY_POLICY).replace(/^# .+\n/, '');
 
   return (
     <Screen>
-      <Pressable
-        onPress={() => router.back()}
-        hitSlop={12}
-        accessibilityRole="button"
-        accessibilityLabel={tr('a11y.back')}
-        style={({ pressed }) => ({ width: 48, height: 48, justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
-      >
-        <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={26} color={t.inkSoft} />
-      </Pressable>
+      <TopAppBar title={doc === 'terms' ? tr('profile.terms') : tr('profile.privacy')} />
       <Markdown source={source} />
     </Screen>
   );

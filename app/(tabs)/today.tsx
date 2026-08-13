@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text, useWindowDimensions, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -27,6 +27,7 @@ import { toast } from '@/state/useToastStore';
 import { useT, translate } from '@/i18n';
 import { localeUpperCase } from '@/i18n/localeText';
 import { artContrast } from '@/theme/artContrast';
+import { isExpandedLayout } from '@/lib/adaptiveLayout';
 
 /** Locale-aware date line using the locale's native order, month, and weekday. */
 function formatDateLine(now: Date, locale: string): string {
@@ -50,6 +51,8 @@ export default function Today() {
   const artwork = useArtwork();
   const dawn = artwork.scheme === 'dawn';
   const { t: tr, locale } = useT();
+  const { width } = useWindowDimensions();
+  const expanded = isExpandedLayout(width);
   const scriptureLocale = useScriptureLocale();
   const { verse, devotional } = useDailyContent();
   // The verse of the day is fixed by date, but let people browse the pool , a
@@ -140,6 +143,8 @@ export default function Today() {
         </View>
       </View>
 
+      <View style={{ flexDirection: expanded ? 'row' : 'column', alignItems: 'flex-start', gap: spacing.xl }}>
+      <View style={{ width: expanded ? '57%' : '100%' }}>
       <View style={{ marginTop: spacing.xl }}>
         <VerseCard
           verse={shownVerse}
@@ -183,7 +188,9 @@ export default function Today() {
           onPress={() => isDone('gratitude') ? undoStep('gratitude', tr('today.gratitude')) : router.push('/(tabs)/journal')}
         />
       </View>
+      </View>
 
+      <View style={{ width: expanded ? '40%' : '100%' }}>
       <SectionHeader
         title={tr('today.tonight')}
       />
@@ -281,6 +288,8 @@ export default function Today() {
             ) : null}
           </ArtSlot>
         </View>
+      </View>
+      </View>
       </View>
     </Screen>
   );
