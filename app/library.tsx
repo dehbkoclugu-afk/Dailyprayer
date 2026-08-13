@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
 import { ArtSlot } from '@/components/ArtSlot';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { HIGHLIGHT_SWATCH } from '@/theme/highlights';
 import { getBible } from '@/data/bibleFull';
@@ -97,13 +97,12 @@ export default function Library() {
           backgroundColor: active ? t.gold : 'transparent',
         }}
       >
-        <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: active ? t.onGold : t.inkSoft }}>
+        <Text style={{ ...ty.label, color: active ? t.onGold : t.inkSoft }}>
           {label}
         </Text>
         <Text
           style={{
-            fontFamily: fonts.sansBold,
-            fontSize: 12,
+            ...ty.labelSmallBold,
             color: active ? t.onGold : t.inkFaint,
             fontVariant: ['tabular-nums'],
           }}
@@ -135,7 +134,7 @@ export default function Library() {
         >
           <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={24} color={t.inkSoft} />
         </Pressable>
-        <Text style={{ fontFamily: fonts.serif, fontSize: 24, color: t.ink }}>{tr('library.title')}</Text>
+        <Text style={{ ...ty.titleSmall, color: t.ink }}>{tr('library.title')}</Text>
       </View>
 
       {/* segmented control */}
@@ -173,9 +172,7 @@ export default function Library() {
             <Ionicons name={tab === 'bookmarks' ? 'bookmark-outline' : 'color-fill-outline'} size={40} color={t.inkFaint} />
             <Text
               style={{
-                fontFamily: fonts.serifLight,
-                fontSize: 16,
-                lineHeight: 24,
+                ...ty.editorialCompact,
                 color: t.inkSoft,
                 textAlign: 'center',
                 marginTop: spacing.lg,
@@ -211,9 +208,9 @@ export default function Library() {
                   <Ionicons name="bookmark" size={18} color={t.gold} />
                 )}
                 <View style={{ flex: 1 }}>
-                  <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: t.gold }}>{item.ref}</Text>
+                  <Text style={{ ...ty.label, color: t.gold }}>{item.ref}</Text>
                   <Text
-                    style={{ fontFamily: fonts.serifLight, fontSize: 14, lineHeight: 21, color: artwork.foreground.secondary, marginTop: 2 }}
+                    style={{ ...ty.editorialSecondary, color: artwork.foreground.secondary, marginTop: 2 }}
                     numberOfLines={2}
                   >
                     {item.preview}

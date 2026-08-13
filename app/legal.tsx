@@ -6,7 +6,7 @@ import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
 import { PRIVACY_POLICY, TERMS_OF_SERVICE } from '@/data/legal';
 
@@ -25,7 +25,7 @@ function Markdown({ source }: { source: string }) {
           return (
             <Text
               key={key}
-              style={{ fontFamily: fonts.sansSemiBold, fontSize: 18, color: t.ink, marginTop: spacing.xl, marginBottom: spacing.sm }}
+              style={{ ...ty.bodyLargeStrong, color: t.ink, marginTop: spacing.xl, marginBottom: spacing.sm }}
             >
               {line.slice(3)}
             </Text>
@@ -33,14 +33,14 @@ function Markdown({ source }: { source: string }) {
         }
         if (line.startsWith('# ')) {
           return (
-            <Text key={key} style={{ fontFamily: fonts.serif, fontSize: 26, color: t.ink, marginBottom: spacing.sm }}>
+            <Text key={key} style={{ ...ty.title, color: t.ink, marginBottom: spacing.sm }}>
               {line.slice(2)}
             </Text>
           );
         }
         if (line.startsWith('_') && line.endsWith('_')) {
           return (
-            <Text key={key} style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkFaint, marginBottom: spacing.md }}>
+            <Text key={key} style={{ ...ty.captionRegular, color: t.inkFaint, marginBottom: spacing.md }}>
               {line.slice(1, -1)}
             </Text>
           );
@@ -48,8 +48,8 @@ function Markdown({ source }: { source: string }) {
         if (line.startsWith('- ')) {
           return (
             <View key={key} style={{ flexDirection: 'row', gap: spacing.sm, marginBottom: 6 }}>
-              <Text style={{ color: t.gold, fontSize: 15 }}>•</Text>
-              <Text style={{ fontFamily: fonts.sans, fontSize: 15, lineHeight: 23, color: t.ink, flex: 1 }}>
+              <Text style={{ ...ty.secondary, color: t.gold }}>•</Text>
+              <Text style={{ ...ty.secondaryComfortable, color: t.ink, flex: 1 }}>
                 {renderInline(line.slice(2))}
               </Text>
             </View>
@@ -57,7 +57,7 @@ function Markdown({ source }: { source: string }) {
         }
         if (line.trim() === '') return <View key={key} style={{ height: spacing.sm }} />;
         return (
-          <Text key={key} style={{ fontFamily: fonts.sans, fontSize: 15, lineHeight: 23, color: t.ink, marginBottom: 6 }}>
+          <Text key={key} style={{ ...ty.secondaryComfortable, color: t.ink, marginBottom: 6 }}>
             {renderInline(line)}
           </Text>
         );
@@ -70,7 +70,7 @@ function Markdown({ source }: { source: string }) {
     const parts = text.split(/(\*\*[^*]+\*\*)/g);
     return parts.map((p, i) =>
       p.startsWith('**') && p.endsWith('**') ? (
-        <Text key={i} style={{ fontFamily: fonts.sansSemiBold }}>
+        <Text key={i} style={ty.label}>
           {p.slice(2, -2)}
         </Text>
       ) : (

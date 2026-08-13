@@ -10,7 +10,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts, type as ty } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
 import { prayerArt } from '@/assets/registry';
 import { usePrayers } from '@/data/prayers';
@@ -117,7 +117,7 @@ export default function Player() {
       >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <View style={{ flex: 1 }}>
-            <Text style={[ty.bodyMedium, { fontSize: 16, lineHeight: 22, color: foreground, ...textShadow }]}>
+            <Text style={[ty.bodyCompactMedium, { color: foreground, ...textShadow }]}>
               {prayer.title}
             </Text>
             <Text
@@ -156,9 +156,7 @@ export default function Player() {
             entering={reduceMotion ? undefined : FadeInUp.duration(600)}
             exiting={reduceMotion ? undefined : FadeOut.duration(250)}
             style={{
-              fontFamily: fonts.serifLight,
-              fontSize: 30,
-              lineHeight: 43,
+              ...ty.playerVerse,
               color: foreground,
               textAlign: 'center',
               ...textShadow,
@@ -187,7 +185,7 @@ export default function Player() {
           accessibilityLabel={`${tr('player.pace')}: ${tr(`player.pace.${pace}` as never)}`}
           style={{ minHeight: 48, alignSelf: 'center', justifyContent: 'center', marginBottom: spacing.md }}
         >
-          <Text style={[ty.label, { fontFamily: fonts.sansMedium, color: muted, ...textShadow }]}>
+          <Text style={[ty.labelMedium, { color: muted, ...textShadow }]}>
             {tr('player.pace')}: {tr(`player.pace.${pace}` as never)}
           </Text>
         </Pressable>

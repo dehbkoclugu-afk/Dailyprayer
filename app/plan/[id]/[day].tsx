@@ -7,7 +7,7 @@ import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { PlanDayArtwork } from '@/components/PlanDayArtwork';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts, type as ty } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
 import { planReading, formatReadingRef } from '@/data/planReadings';
@@ -98,7 +98,7 @@ export default function PlanDay() {
         </Text>
 
         {/* the day's reading , a real passage in the bundled Bible */}
-        <Text style={{ fontFamily: fonts.serif, fontSize: 34, color: t.ink, marginTop: spacing.md }}>
+        <Text style={{ ...ty.displaySmall, color: t.ink, marginTop: spacing.md }}>
           {ref}
         </Text>
         <Text
@@ -130,9 +130,7 @@ export default function PlanDay() {
           >
             <Text
               style={{
-                fontFamily: fonts.serif,
-                fontSize: 46,
-                lineHeight: 46,
+                ...ty.displayNumeral,
                 color: t.gold,
                 marginRight: spacing.sm,
               }}
@@ -141,9 +139,7 @@ export default function PlanDay() {
             </Text>
             <Text
               style={{
-                fontFamily: fonts.serifLight,
-                fontSize: 19,
-                lineHeight: 30,
+                ...ty.editorialQuote,
                 color: t.inkSoft,
                 flex: 1,
                 fontStyle: 'italic',
@@ -168,7 +164,7 @@ export default function PlanDay() {
             }}
           >
             <Ionicons name="checkmark-circle" size={20} color={t.gold} />
-            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.gold }}>
+            <Text style={{ ...ty.bodyCompactStrong, color: t.gold }}>
               {tr('plan.done')}
             </Text>
           </View>

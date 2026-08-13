@@ -9,7 +9,7 @@ import { getDirectionalIconName } from '@/i18n/direction';
 import { useScriptureLocale } from '@/i18n/scripture';
 import { getBibleSource } from '@/data/bibleFull';
 import { isHttpsScriptureUrl } from '@/data/scriptureSource';
-import { fonts, type as ty } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 
 export default function ScriptureSourceScreen() {
@@ -31,10 +31,10 @@ export default function ScriptureSourceScreen() {
 
   const row = (label: string, value: string) => (
     <View style={{ gap: spacing.xs }}>
-      <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 12, color: t.gold }}>
+      <Text style={{ ...ty.labelSmall, color: t.gold }}>
         {label}
       </Text>
-      <Text selectable style={{ fontFamily: fonts.sans, fontSize: 16, lineHeight: 24, color: t.ink }}>
+      <Text selectable style={{ ...ty.bodyCompactComfortable, color: t.ink }}>
         {value}
       </Text>
     </View>
@@ -59,7 +59,7 @@ export default function ScriptureSourceScreen() {
       })}
     >
       <Ionicons name="open-outline" size={18} color={t.gold} />
-      <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: t.ink }}>
+      <Text style={{ ...ty.secondaryStrong, color: t.ink }}>
         {label}
       </Text>
     </Pressable>

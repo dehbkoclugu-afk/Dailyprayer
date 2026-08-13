@@ -3,7 +3,7 @@ import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 
 export default function TabsLayout() {
   const t = useTheme();
@@ -20,7 +20,7 @@ export default function TabsLayout() {
         },
         tabBarActiveTintColor: t.gold,
         tabBarInactiveTintColor: t.inkFaint,
-        tabBarLabelStyle: { fontFamily: fonts.sansMedium, fontSize: 12, lineHeight: 16 },
+        tabBarLabelStyle: ty.labelSmallMedium,
       }}
     >
       <Tabs.Screen

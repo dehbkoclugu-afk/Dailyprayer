@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { fonts, type as ty } from '@/theme/typography';
+import { scaledType, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useReaderTheme } from '@/theme/reading';
 import { useReaderPrefsStore, FONT_MIN, FONT_MAX } from '@/state/useReaderPrefsStore';
@@ -61,7 +61,7 @@ export function ReadingSettingsSheet({
         opacity: disabled ? 0.4 : 1,
       }}
     >
-      <Text style={{ fontFamily: fonts.serif, fontSize: size, color: t.ink }}>A</Text>
+      <Text style={{ ...scaledType('titleSmall', size / 24), color: t.ink }}>A</Text>
     </Pressable>
   );
 
@@ -132,7 +132,7 @@ export function ReadingSettingsSheet({
                 justifyContent: 'center',
               }}
             >
-              <Text style={[ty.secondary, { fontFamily: fonts.sansSemiBold, color: t.ink, fontVariant: ['tabular-nums'] }]}>
+              <Text style={[ty.secondaryStrong, { color: t.ink, fontVariant: ['tabular-nums'] }]}>
                 {pct}%
               </Text>
             </View>
@@ -154,9 +154,7 @@ export function ReadingSettingsSheet({
             <Text style={[ty.overline, { color: t.gold }]}>{sampleReference}</Text>
             <Text
               style={{
-                fontFamily: fonts.serifLight,
-                fontSize: Math.round(18 * fontScale),
-                lineHeight: Math.round(30 * fontScale),
+                ...scaledType('readerVerse', fontScale),
                 color: t.ink,
                 marginTop: spacing.sm,
               }}
@@ -183,7 +181,7 @@ export function ReadingSettingsSheet({
           >
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, flexGrow: 1, flexBasis: 180 }}>
               <Ionicons name="sunny-outline" size={20} color={paper ? t.gold : t.inkSoft} />
-              <Text style={[ty.secondary, { fontFamily: fonts.sansMedium, color: t.ink, flexShrink: 1 }]}>
+              <Text style={[ty.secondaryMedium, { color: t.ink, flexShrink: 1 }]}>
                 {tr('read.paperMode')}
               </Text>
             </View>
@@ -223,7 +221,7 @@ export function ReadingSettingsSheet({
           >
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
               <Ionicons name="information-circle-outline" size={20} color={t.inkSoft} />
-              <Text style={[ty.secondary, { fontFamily: fonts.sansMedium, color: t.ink }]}>
+              <Text style={[ty.secondaryMedium, { color: t.ink }]}>
                 {tr('scriptureSource.title')}
               </Text>
             </View>

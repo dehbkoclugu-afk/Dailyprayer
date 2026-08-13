@@ -13,7 +13,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { fonts } from '@/theme/typography';
+import { fonts, scaledType, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { HIGHLIGHT_TINT } from '@/theme/highlights';
 import { useReaderTheme } from '@/theme/reading';
@@ -107,9 +107,11 @@ export default function Read() {
   const hasNext = cIdx + 1 < bk.chapters.length || bIdx + 1 < bible.length;
   const hasPrev = cIdx > 0 || bIdx > 0;
 
-  const bodySize = Math.round(18 * fontScale);
-  const bodyLine = Math.round(30 * fontScale);
+  const readerType = scaledType('readerVerse', fontScale);
+  const bodySize = readerType.fontSize;
+  const bodyLine = readerType.lineHeight;
   const dropCap = Math.round(bodySize * 1.9);
+  const dropCapType = scaledType('displayHero', dropCap / ty.displayHero.fontSize);
   const readerA11y = getReaderAccessibilityCopy(locale);
   const eventHandle = (event: GestureResponderEvent | AccessibilityActionEvent) =>
     findNodeHandle(event.currentTarget as unknown as React.Component);
@@ -161,7 +163,7 @@ export default function Read() {
       }}
     >
       {dir === 'prev' ? <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={16} color={rt.inkSoft} /> : null}
-      <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: rt.inkSoft }}>{label}</Text>
+      <Text style={{ ...ty.labelMedium, color: rt.inkSoft }}>{label}</Text>
       {dir === 'next' ? <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={16} color={rt.inkSoft} /> : null}
     </Pressable>
   );
@@ -210,7 +212,7 @@ export default function Read() {
             opacity: pressed ? 0.7 : 1,
           })}
         >
-          <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: rt.ink }} numberOfLines={1}>
+          <Text style={{ ...ty.bodyCompactStrong, color: rt.ink }} numberOfLines={1}>
             {bk.name} {cIdx + 1}
           </Text>
           <Ionicons name="chevron-down" size={18} color={rt.inkFaint} />
@@ -246,9 +248,7 @@ export default function Read() {
           <View style={{ marginBottom: spacing.lg }}>
             <Text
               style={{
-                fontFamily: fonts.sansSemiBold,
-                fontSize: 12,
-                lineHeight: 16,
+                ...ty.labelSmall,
                 letterSpacing: 2.5,
                 color: rt.gold,
                 textAlign: scriptureRtl ? 'right' : 'left',
@@ -257,7 +257,7 @@ export default function Read() {
             >
               {tr('read.chapter')} {cIdx + 1}
             </Text>
-            <Text style={{ fontFamily: fonts.serif, fontSize: Math.round(30 * fontScale), color: rt.ink, marginTop: 4, textAlign: scriptureRtl ? 'right' : 'left', writingDirection: scriptureRtl ? 'rtl' : 'ltr' }}>
+            <Text style={{ ...scaledType('titleLarge', fontScale), color: rt.ink, marginTop: 4, textAlign: scriptureRtl ? 'right' : 'left', writingDirection: scriptureRtl ? 'rtl' : 'ltr' }}>
               {bk.name}
             </Text>
           </View>
@@ -315,15 +315,14 @@ export default function Read() {
                   accessible={false}
                   importantForAccessibility="no"
                   style={{
-                    fontFamily: fonts.serifLight,
-                    fontSize: bodySize,
+                    ...readerType,
                     lineHeight: dropCap,
                     color: rt.ink,
                     textAlign: scriptureRtl ? 'right' : 'left',
                     writingDirection: scriptureRtl ? 'rtl' : 'ltr',
                   }}
                 >
-                  <Text style={{ fontFamily: fonts.serif, fontSize: dropCap, color: rt.gold }}>{first}</Text>
+                  <Text style={{ ...dropCapType, color: rt.gold }}>{first}</Text>
                   {rest}
                 </Text>
               </Pressable>
@@ -347,7 +346,7 @@ export default function Read() {
               <Text
                 accessible={false}
                 importantForAccessibility="no"
-                style={{ fontFamily: fonts.sansBold, fontSize: Math.round(12 * fontScale), color: rt.gold }}
+                style={{ ...scaledType('labelSmallBold', fontScale), color: rt.gold }}
               >
                 {item[0]}
               </Text>
@@ -356,9 +355,7 @@ export default function Read() {
                 importantForAccessibility="no"
                 style={{
                   flex: 1,
-                  fontFamily: fonts.serifLight,
-                  fontSize: bodySize,
-                  lineHeight: bodyLine,
+                  ...readerType,
                   color: rt.ink,
                   textAlign: scriptureRtl ? 'right' : 'left',
                   writingDirection: scriptureRtl ? 'rtl' : 'ltr',
@@ -441,7 +438,7 @@ export default function Read() {
                 ref={pickerHeadingRef}
                 accessible
                 accessibilityRole="header"
-                style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: rt.ink }}
+                style={{ ...ty.bodyCompactStrong, color: rt.ink }}
               >
                 {typeof picker === 'number' ? bible[picker].name : tr('read.pickBook')}
               </Text>
@@ -471,8 +468,8 @@ export default function Read() {
                   >
                     <Text
                       style={{
+                        ...ty.bodyCompact,
                         fontFamily: index === bIdx ? fonts.sansSemiBold : fonts.sans,
-                        fontSize: 16,
                         color: index === bIdx ? rt.gold : rt.ink,
                       }}
                     >
@@ -514,8 +511,7 @@ export default function Read() {
                     >
                       <Text
                         style={{
-                          fontFamily: fonts.sansMedium,
-                          fontSize: 15,
+                          ...ty.secondaryMedium,
                           color: active ? rt.gold : rt.ink,
                           fontVariant: ['tabular-nums'],
                         }}

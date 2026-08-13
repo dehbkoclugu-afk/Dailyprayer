@@ -12,7 +12,7 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
-import { fonts, type as ty } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useDailyContent } from '@/hooks/useDailyContent';
 import { getVerses, type DailyVerse } from '@/data/verses';
@@ -26,6 +26,7 @@ import { prayerArt } from '@/assets/registry';
 import { toast } from '@/state/useToastStore';
 import { useT, translate } from '@/i18n';
 import { localeUpperCase } from '@/i18n/localeText';
+import { artContrast } from '@/theme/artContrast';
 
 /** Locale-aware date line using the locale's native order, month, and weekday. */
 function formatDateLine(now: Date, locale: string): string {
@@ -119,7 +120,7 @@ export default function Today() {
           >
             {localeUpperCase(dateLine, locale)}
           </Text>
-          <Text style={[ty.display, { color: t.ink, fontSize: 34, lineHeight: 40, marginTop: spacing.xs }]}>
+          <Text style={[ty.displaySmall, { color: t.ink, marginTop: spacing.xs }]}>
             {greetText}{name ? `, ${name}` : ''}
           </Text>
         </View>
@@ -192,7 +193,7 @@ export default function Today() {
           <ArtSlot
             id={prayerArt(sleepPrayer.id)}
             radius={radius.card}
-            variant={dawn ? 'card' : 'bare'}
+            variant="contrast"
             style={{ minHeight: 150 }}
           >
             {!dawn ? (
@@ -213,16 +214,15 @@ export default function Today() {
                 <Text
                   style={{
                     ...ty.overline,
-                    color: t.gold,
+                    color: artContrast.primary,
                   }}
                 >
 {localeUpperCase(tr('today.sleepPrayer'), locale)}
                 </Text>
                 <Text
                   style={{
-                    fontFamily: fonts.serif,
-                    fontSize: 21,
-                    color: '#F2EEE6',
+                    ...ty.titleCompact,
+                    color: artContrast.primary,
                     marginTop: 4,
                     textShadowColor: 'rgba(0,0,0,0.72)',
                     textShadowOffset: { width: 0, height: 1 },

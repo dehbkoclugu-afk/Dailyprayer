@@ -63,8 +63,8 @@ export default function Building() {
               />
               <Text
                 style={{
+                  ...ty.bodyCompact,
                   fontFamily: complete ? fonts.sansMedium : fonts.sans,
-                  fontSize: 16,
                   color: complete ? t.ink : t.inkSoft,
                 }}
               >

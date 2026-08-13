@@ -82,8 +82,9 @@ deneyimi, performans ve görsel cila gelir.
     tek modal yüzey olarak sunuluyor.
 30. ✅ **TAMAMLANDI — Büyük yazıda sabit yükseklikleri kaldır.** VerseCard ve paywall hero artık
     içerikle büyüyor; ayet/kaynak ve hızlı aksiyon satırları 200% ölçekte alt satıra sarılabiliyor.
-31. **Metin rollerini merkezi tipe bağla.** Dağınık 10/11/12/14/16/18/20/21/24/27/30/34/46/64
-    değerleri semantic display/title/body/label rollerinden çözülmeli.
+31. ✅ **TAMAMLANDI — Metin rollerini merkezi tipe bağla.** Sabit uygulama metin ölçüleri semantic
+    display/title/body/label rollerine taşındı; kullanıcı kontrollü okuyucu ölçeği `scaledType`
+    üzerinden çözülüyor ve release testi yeni ham `fontSize/lineHeight` değerlerini engelliyor.
 32. ✅ **TAMAMLANDI — En küçük okunabilir metni yükselt.** PLUS rozetleri, sekme metinleri,
     placeholder ve yardımcı etiketler semantic `labelSmall` tabanı olan en az 12 sp’ye taşındı.
 33. ✅ **TAMAMLANDI — Uppercase dönüşümünü yerel dile göre yap.** Render-time `textTransform`
@@ -120,8 +121,9 @@ deneyimi, performans ve görsel cila gelir.
     okuyucu tespiti bitmeden zamanlayıcı başlamıyor; TalkBack/VoiceOver açıkken açıkça Resume gerekiyor.
 49. ✅ **TAMAMLANDI — Player kalan süreyi canlı ama gürültüsüz güncelle.** Süre ayrı, canlı olmayan
     açıklama; yalnız değişen dua satırı kontrollü tek duyuru olarak sunuluyor.
-50. **Kontrastı gerçek görseller üzerinde ölç.** Verse, ritual, Tonight ve plan kartlarının her
-    görsel varyantında metin 4.5:1; büyük başlık 3:1 eşiğini geçmeli.
+50. ✅ **TAMAMLANDI — Kontrastı gerçek görseller üzerinde ölç.** Verse, ritual, Tonight ve plan
+    görsellerinin tüm Dawn/Vigil varyantları ortak %64 kontrast scrim'i kullanıyor. En parlak olası
+    görsel pikseline karşı bile primary/secondary metin 4.5:1 eşiğini geçen matematiksel testle korunuyor.
 
 ## P1 — Bilgi mimarisi ve temel akışlar (51–65)
 

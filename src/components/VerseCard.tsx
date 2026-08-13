@@ -3,15 +3,14 @@ import { Platform, Pressable, Share, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { captureRef } from 'react-native-view-shot';
 import * as Sharing from 'expo-sharing';
-import { fonts, type as ty } from '@/theme/typography';
+import { type as ty, verseCardTypes } from '@/theme/typography';
 import { radius, shadow, spacing } from '@/theme/tokens';
 import { type AssetId } from '@/assets/registry';
 import { ArtSlot } from '@/components/ArtSlot';
 import type { DailyVerse } from '@/data/verses';
 import { useT } from '@/i18n';
-import { useArtwork } from '@/hooks/useArtwork';
-import { useTheme } from '@/hooks/useTheme';
 import { localeUpperCase } from '@/i18n/localeText';
+import { artContrast } from '@/theme/artContrast';
 
 /**
  * Verse theme → A5 background. Eight themes have dedicated art; the remaining
@@ -33,13 +32,6 @@ const VERSE_ART: Record<DailyVerse['theme'], AssetId> = {
   forgiveness: 'A5-verse-love', // reaching hands
 };
 
-const VERSE_TEXT_STYLES = [
-  { fontSize: 24, lineHeight: 35 },
-  { fontSize: 21, lineHeight: 31 },
-  { fontSize: 18, lineHeight: 27 },
-  { fontSize: 16, lineHeight: 24 },
-] as const;
-
 function initialVerseFontStep(text: string) {
   if (text.length > 180) return 3;
   if (text.length > 125) return 2;
@@ -56,11 +48,8 @@ interface Props {
 
 export function VerseCard({ verse, onRead, onShuffle }: Props) {
   const { t: tr, locale } = useT();
-  const t = useTheme();
-  const artwork = useArtwork();
-  const dawn = artwork.scheme === 'dawn';
   const cardRef = useRef<View>(null);
-  const verseType = VERSE_TEXT_STYLES[initialVerseFontStep(verse.text)];
+  const verseType = verseCardTypes[initialVerseFontStep(verse.text)];
 
   /** Share the rendered card as an image (organic growth); text fallback on web/failure. */
   const share = async () => {
@@ -90,7 +79,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       <Text
         style={{
           ...ty.overline,
-          color: t.gold,
+          color: artContrast.primary,
         }}
       >
         {localeUpperCase(tr('today.verseOfDay'), locale)}
@@ -99,12 +88,10 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       <View style={{ flexGrow: 1, justifyContent: 'center', marginTop: spacing.lg, marginBottom: spacing.md }}>
           <Text
             style={{
-              fontFamily: fonts.serifLight,
-              fontSize: verseType.fontSize,
-              lineHeight: verseType.lineHeight,
+              ...verseType,
               letterSpacing: -0.3,
               textAlign: 'center',
-              color: '#F7F1E7',
+              color: artContrast.primary,
               textShadowColor: 'rgba(0,0,0,0.72)',
               textShadowOffset: { width: 0, height: 1 },
               textShadowRadius: 8,
@@ -125,7 +112,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
         }}
       >
         <Text
-          style={{ fontFamily: fonts.sansMedium, fontSize: 15, lineHeight: 22, color: t.gold, flexGrow: 1, flexBasis: 150 }}
+          style={[ty.secondaryMedium, { color: artContrast.secondary, flexGrow: 1, flexBasis: 150 }]}
         >
           {verse.reference}
         </Text>
@@ -169,7 +156,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       <ArtSlot
         id={VERSE_ART[verse.theme]}
         radius={radius.hero}
-        variant={dawn ? 'card' : 'hero'}
+        variant="contrast"
         style={{ minHeight: 340 }}
       >
         {content}
