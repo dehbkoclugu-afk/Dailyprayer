@@ -36,3 +36,19 @@ test('ArtSlot callers use the semantic scrim API', async () => {
     assert.doesNotMatch(source, /<ArtSlot[^>]*\bvariant=/, `${path} uses the legacy ArtSlot API`);
   }
 });
+
+test('tab navigation reserves filled icons and a marker for selected state', async () => {
+  const source = await readFile(new URL('../app/(tabs)/_layout.tsx', import.meta.url), 'utf8');
+  assert.match(source, /function TabIcon/);
+  assert.match(source, /focused\s*\?\s*filled\s*:\s*outline/);
+  assert.match(source, /testID="active-tab-marker"/);
+  for (const pair of [
+    ['sunny-outline', 'sunny'],
+    ['book-outline', 'book'],
+    ['flame-outline', 'flame'],
+    ['create-outline', 'create'],
+    ['person-outline', 'person'],
+  ]) {
+    assert.ok(pair.every((name) => source.includes(name)), `missing ${pair.join('/')} icon pair`);
+  }
+});
