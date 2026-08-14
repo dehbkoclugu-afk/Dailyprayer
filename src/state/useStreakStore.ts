@@ -10,6 +10,8 @@ interface StreakState {
   lastTickDay: string | null;
   bestCount: number;
   totalDays: number;
+  /** Unique local calendar days on which Lumen was opened or a ritual was completed. */
+  activeDays: string[];
   /** steps completed for the current day, keyed by dayKey */
   doneDay: string | null;
   doneSteps: RitualStep[];
@@ -27,18 +29,23 @@ export const useStreakStore = create<StreakState>()(
       lastTickDay: null,
       bestCount: 0,
       totalDays: 0,
+      activeDays: [],
       doneDay: null,
       doneSteps: [],
       tickToday: () => {
-        const { count, lastTickDay, bestCount, totalDays } = get();
+        const { count, lastTickDay, bestCount, totalDays, activeDays = [] } = get();
         const today = dayKey();
-        if (lastTickDay === today) return;
+        if (lastTickDay === today) {
+          if (!activeDays.includes(today)) set({ activeDays: [today, ...activeDays].slice(0, 90) });
+          return;
+        }
         const next = nextStreak(lastTickDay, count);
         set({
           count: next,
           lastTickDay: today,
           bestCount: Math.max(bestCount, next),
           totalDays: totalDays + 1,
+          activeDays: [today, ...activeDays.filter((day) => day !== today)].slice(0, 90),
         });
       },
       completeStep: (step) => {

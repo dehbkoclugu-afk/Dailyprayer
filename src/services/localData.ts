@@ -32,7 +32,7 @@ export async function clearLocalUserData(): Promise<void> {
       experience: null,
     },
   });
-  useStreakStore.setState({ count: 0, lastTickDay: null, bestCount: 0, totalDays: 0, doneDay: null, doneSteps: [] });
+  useStreakStore.setState({ count: 0, lastTickDay: null, bestCount: 0, totalDays: 0, activeDays: [], doneDay: null, doneSteps: [] });
   useJournalStore.setState({ entries: [] });
   usePrayerStore.setState({ recentPrayerId: null, favoritePrayerIds: [] });
   useBookmarkStore.setState({ bookmarks: [] });

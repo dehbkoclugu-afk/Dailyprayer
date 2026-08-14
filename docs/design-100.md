@@ -161,36 +161,37 @@ deneyimi, performans ve görsel cila gelir.
 
 ## P2 — Okuma, içerik keşfi ve alışkanlık (66–80)
 
-66. **Today ekranında birincil eylemi tekleştir.** Ayet kartı, üç ritüel ve Tonight aynı ağırlıkta
-    yarışmamalı; günün sıradaki tamamlanmamış adımı belirgin olmalı.
-67. **Tamamlanan ritüelleri daraltılabilir yap.** Geri alma korunurken tamamlanmış kartın yüksekliği
-    azalmalı; kalan adımlar görsel olarak öne çıkmalı.
-68. **Ritüel ilerlemesine metinsel özet ekle.** Halka tek başına yeterli değil; “4 adımın 2’si”
-    başlık yakınında okunmalı.
-69. **Tonight kartını saate göre göstermeyi değerlendir.** Sabah ana akışında tam boy gece kartı
-    yerine akşam yaklaşınca genişleyen, gün içinde küçük önizleme olan yapı kullanılmalı.
-70. **Pray kategorilerini gerçek 2×3 görsel keşif alanına çevir.** Mevcut yatay chip şeridi marka
-    illüstrasyonlarını kullanmıyor ve altı kategoriyi keşfetmeyi zorlaştırıyor.
-71. **Dua listesinde kilit bilgisini metne bağımlı olmayan biçimde göster.** PLUS rozeti,
-    kilit simgesi ve erişilebilir “Plus gerekir” durumu aynı bileşende birleşmeli.
-72. **Player’da satır geçmişini kontrollü göster.** Tek satırlık boş sahne yerine önceki satır
-    düşük opacity ile yukarıda kalabilir; odak yine mevcut duada olmalı.
-73. **Player pace seçimini döngüsel gizli düğme olmaktan çıkar.** Slow/Normal/Quick üç seçenekli
-    sheet veya segmented control ile mevcut seçim görünür olmalı.
-74. **Player ilerlemesine bölüm noktaları ekle.** Uzun dualarda başlangıç/orta/kapanış gibi kısa
-    yapısal işaretler kullanıcıya ne kadar kaldığını anlatmalı.
-75. **Devotional bitişini gerçek bir tamamlanma sahnesi yap.** `✓` karakterine dönüşen düğme
-    yerine kısa “Bugünün düşüncesi tamamlandı” durumu ve geri/Journal eylemi sunulmalı.
-76. **Devotional’dan Journal’a bağlamsal geçiş ekle.** Okunan metni kopyalamadan, yalnız özgün
-    yansıma sorusuyla günlük yazma eylemi verilmeli.
-77. **Journal girişlerini günlere göre grupla.** Uzun kronolojik listede ay başlıkları, sticky
-    tarihler ve kayıt sayısı görünmeli.
-78. **Journal için düzenleme akışı ekle.** Kaydedilen giriş yalnız silinebilmemeli; tarih ve
-    içerik korunarak düzenlenebilmelidir.
-79. **Journal boş durumunda ilk yazma eylemini görünür yap.** Görsel ve açıklamanın altında input’a
-    odaklayan “İlk notunu yaz” CTA’sı olmalı.
-80. **Profile istatistiklerini anlamlı eşiklerle açıkla.** Best/total sayıları yalnız rakam
-    olmamalı; “bu hafta 4 gün” gibi yakın dönem bağlamı davranışı desteklemeli.
+66. ✅ **TAMAMLANDI — Today ekranında birincil eylemi tekleştir.** Tarih masthead'inin altında
+    günün ilk tamamlanmamış adımına giden tek altın “sıradaki” eylemi gösteriliyor.
+67. ✅ **TAMAMLANDI — Tamamlanan ritüelleri daraltılabilir yap.** Tamamlanan kartlar geri alma
+    semantiğini koruyan 84 dp özet satırlarına daralıyor; sıradaki kart altın çerçeve alıyor.
+68. ✅ **TAMAMLANDI — Ritüel ilerlemesine metinsel özet ekle.** Halka yanında yerelleştirilmiş
+    tamamlanma metni ve `n/4` değeri birlikte okunuyor.
+69. ✅ **TAMAMLANDI — Tonight kartını saate göre göster.** 05:00–17:59 arası küçük önizleme,
+    18:00–04:59 arası tam eylemli gece kartı kullanılıyor.
+70. ✅ **TAMAMLANDI — Pray kategorilerini gerçek 2×3 görsel keşif alanına çevir.** Altı kategori
+    kendi dua illüstrasyonu, ikon ve seçili durumuyla iki sütunlu keşif ızgarasında sunuluyor.
+71. ✅ **TAMAMLANDI — Dua listesinde kilit bilgisini metne bağımlı olmayan biçimde göster.** Kilitli
+    içerik oynatma ikonunda, PLUS rozetinde ve yerelleştirilmiş erişilebilirlik etiketinde bildiriliyor.
+72. ✅ **TAMAMLANDI — Player’da satır geçmişini kontrollü göster.** Bir önceki satır düşük opacity
+    ve iki satır sınırıyla mevcut duanın üzerinde kalıyor; ekran okuyucuda yinelenmiyor.
+73. ✅ **TAMAMLANDI — Player pace seçimini görünür yap.** Slow/Normal/Quick 48 dp hedefli,
+    erişilebilir selected state taşıyan üçlü segmented control oldu.
+74. ✅ **TAMAMLANDI — Player ilerlemesine bölüm noktaları ekle.** Dua başlangıç/orta/kapanış
+    üçlüsü görünür `1/3–3/3` işaretleri ve ayrı progressbar semantiğiyle gösteriliyor.
+75. ✅ **TAMAMLANDI — Devotional bitişini gerçek bir tamamlanma sahnesi yap.** Otomatik kapanan
+    karakter dönüşümü yerine onay kartı, geri eylemi ve Journal CTA'sı bulunuyor.
+76. ✅ **TAMAMLANDI — Devotional’dan Journal’a bağlamsal geçiş ekle.** Geçiş devotional bağlamını
+    Journal composer'a taşıyor; Kutsal Kitap veya devotional metni kopyalanmadan yansıma sorusu açılıyor.
+77. ✅ **TAMAMLANDI — Journal girişlerini günlere göre grupla.** Yerel ay başlıkları, sticky gün
+    başlıkları, günlük ve toplam kayıt sayılarıyla yeni SectionList düzeni kullanılıyor.
+78. ✅ **TAMAMLANDI — Journal için düzenleme akışı ekle.** Composer kişisel kaydı güncellerken id,
+    tarih, tür ve oluşturulma sırasını koruyor; düzenleme iptal edilebiliyor. Kutsal Kitap'tan
+    birebir kaydedilen verse girdileri metin bütünlüğü sınırı gereği değiştirilemiyor.
+79. ✅ **TAMAMLANDI — Journal boş durumunda ilk yazma eylemini görünür yap.** İllüstrasyon ve
+    açıklama altındaki CTA composer input'una doğrudan odaklanıyor.
+80. ✅ **TAMAMLANDI — Profile istatistiklerini yakın dönem bağlamıyla açıkla.** Son yedi yerel gün,
+    tarih aralığı, `n/7` özeti ve yedi parçalı progress ile best/total değerlerinin önünde gösteriliyor.
 
 ## P2 — Performans, adaptasyon ve dayanıklılık (81–90)
 
