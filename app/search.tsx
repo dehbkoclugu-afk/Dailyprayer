@@ -221,7 +221,7 @@ export default function Search() {
                 opacity: pressed ? 0.85 : 1,
               })}
             >
-              <ArtSlot id="A18-ritual-reading" variant="row" radius={radius.card} style={{ width: '100%' }}>
+              <ArtSlot id="A18-ritual-reading" scrim="readable" radius={radius.card} style={{ width: '100%' }}>
                 <View style={{ padding: spacing.lg, minHeight: 88 }}>
                   <Text style={{ ...ty.captionStrong, color: t.gold, marginBottom: spacing.xs }}>
                     {item.ref}

@@ -182,7 +182,7 @@ export default function Profile() {
           as a quiet footnote so the card has hierarchy instead of three peers. */}
       <ArtSlot
         id="A15-building-candle"
-        variant="card"
+        scrim="soft"
         radius={radius.card}
         style={{
           backgroundColor: t.surface,
@@ -255,7 +255,7 @@ export default function Profile() {
       {/* subscription card */}
       <ArtSlot
         id="A8-paywall-hero"
-        variant="card"
+        scrim="soft"
         radius={radius.card}
         style={{
           // Active Plus previously filled with goldSoft , a muddy olive block on

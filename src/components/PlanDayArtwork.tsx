@@ -3,7 +3,7 @@ import { Image, View, type StyleProp, type ViewStyle } from 'react-native';
 import { planDayArtSource } from '@/assets/planDayRegistry';
 import { useArtwork } from '@/hooks/useArtwork';
 import { useTheme } from '@/hooks/useTheme';
-import { artContrast } from '@/theme/artContrast';
+import { artworkScrims } from '@/theme/artContrast';
 
 interface Props {
   planId: string;
@@ -26,7 +26,7 @@ export function PlanDayArtwork({ planId, dayIndex, radius, height, variant = 'ro
       {variant === 'row' && source ? (
         <View
           pointerEvents="none"
-          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: artContrast.scrim }}
+          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: artworkScrims.strong }}
         />
       ) : null}
       {children}

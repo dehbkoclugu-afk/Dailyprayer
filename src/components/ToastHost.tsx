@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useToastStore } from '@/state/useToastStore';
 import { useTheme } from '@/hooks/useTheme';
 import { type as ty } from '@/theme/typography';
-import { radius, shadow, spacing } from '@/theme/tokens';
+import { elevation, interaction, radius, spacing } from '@/theme/tokens';
 
 /** Minimal gold-trimmed toast. Mount once in the root layout. */
 export function ToastHost() {
@@ -46,17 +46,17 @@ export function ToastHost() {
             alignItems: 'center',
             gap: spacing.sm,
             backgroundColor: t.surface,
-            borderColor: t.gold,
+            borderColor: t.sacredGold,
             borderWidth: 1,
             borderRadius: radius.pill,
             paddingHorizontal: spacing.lg,
             paddingVertical: spacing.md,
             maxWidth: 320,
           },
-          shadow.card,
+          elevation.floating,
         ]}
       >
-        <Ionicons name="sparkles" size={15} color={t.gold} />
+        <Ionicons name="sparkles" size={15} color={t.sacredGold} />
         <Text style={{ flexShrink: 1, ...ty.labelMedium, color: t.ink }}>
           {message}
         </Text>
@@ -73,10 +73,10 @@ export function ToastHost() {
               minHeight: 48,
               alignItems: 'center',
               justifyContent: 'center',
-              opacity: pressed ? 0.6 : 1,
+              opacity: pressed ? interaction.pressedOpacity : 1,
             })}
           >
-            <Text style={{ ...ty.label, color: t.gold }}>
+            <Text style={{ ...ty.label, color: t.sacredGold }}>
               {actionLabel}
             </Text>
           </Pressable>

@@ -222,22 +222,26 @@ deneyimi, performans ve görsel cila gelir.
 
 ## P3 — Görsel sistem, marka ve son cila (91–100)
 
-91. **Ham renkleri semantic tokenlara taşı.** `#F2EEE6`, `#D9A441`, scrim ve player renkleri
-    ekranlarda tekrarlanmamalı; `onArtwork`, `scrimStrong`, `sacredGold` rolleri kullanılmalı.
-92. **Dawn temasının grain yoğunluğunu ayrı ayarla.** Vigil’de çalışan %4 doku açık temada kirli
-    görünmemeli; tema bazlı %1–2 kağıt dokusu kullanılmalı.
-93. **Gölgeleri Android tonal elevation ile dengele.** Yüksek `elevation: 8` her kartta aynı
-    kullanılmamalı; hero, standard ve floating yüzey rolleri tanımlanmalı.
-94. **İkon ailesinin stroke ağırlığını normalize et.** Ionicons outline/filled karışımı ekran
-    içinde rastgele olmamalı; seçili durum dışında aynı aile ve ağırlık korunmalı.
-95. **Kart görsellerinin scrim reçetesini standartlaştır.** Ritual, plan, Tonight ve Bible hero
-    için metin konumuna göre üç kontrollü scrim preset’i kullanılmalı.
-96. **Aktif tab göstergesini daha belirgin ama sakin yap.** Yalnız renk değişimine ek olarak kısa
-    alt çizgi/nokta ve erişilebilir selected state kullanılmalı.
-97. **Pressed/focus/disabled görsel durumlarını tokenlaştır.** Her Pressable kendi `0.6/0.7/0.85`
-    opacity değerini seçmemeli; platforma uygun ortak etkileşim durumları kullanılmalı.
-98. **Ekran geçişi motion dilini üç kalıba indir.** Shared-axis ileri/geri, fade-through sekme
-    içeriği ve container transform modal; diğer özel animasyonlar kaldırılmalı.
+91. ✅ **TAMAMLANDI — Ham renkleri semantic tokenlara taşı.** Artwork metni, vurgu, focus ve
+    kontrast rolleri `onArtwork`, `onArtworkMuted`, `sacredGold` ve `focusRing` tokenlarında
+    merkezileştirildi; kaynak kontrat testi ekranlarda yeni ham renk kullanımını engelliyor.
+92. ✅ **TAMAMLANDI — Dawn temasının grain yoğunluğunu ayrı ayarla.** Ortak artwork katmanı
+    Vigil için %4, Dawn için %1,5 tema tokenını kullanıyor; açık tema kağıt dokusu ayrı çözülüyor.
+93. ✅ **TAMAMLANDI — Gölgeleri Android tonal elevation ile dengele.** Standard kart, hero ve
+    floating yüzeyler sırasıyla 2/5/8 elevation rollerine ayrıldı; kartlar ortak düşük role taşındı.
+94. ✅ **TAMAMLANDI — İkon ailesinin stroke ağırlığını normalize et.** Alt navigasyon aynı
+    Ionicons ailesinin outline/filled çiftlerini kullanıyor; filled biçim yalnız seçili durumda.
+95. ✅ **TAMAMLANDI — Kart görsellerinin scrim reçetesini standartlaştır.** Ortak `ArtSlot` API'si
+    soft/readable/strong presetlerini zorunlu kılıyor; Ritual, plan, Tonight ve Bible yüzeyleri
+    metin konumuna göre bu kontrollü reçetelere taşındı.
+96. ✅ **TAMAMLANDI — Aktif tab göstergesini daha belirgin ama sakin yap.** Seçili sekme altın
+    filled ikon, kısa altın çizgi ve router'ın erişilebilir selected state'iyle belirtiliyor.
+97. ✅ **TAMAMLANDI — Pressed/focus/disabled görsel durumlarını tokenlaştır.** Ortak interaction
+    rolleri pressed, disabled ve 2 dp focus ring değerlerini tanımlıyor; temel kart, düğme ve ekran
+    yüzeyleri bunları kullanıyor, kontrat testi eski dağınık opacity değerlerini engelliyor.
+98. ✅ **TAMAMLANDI — Ekran geçişi motion dilini üç kalıba indir.** Root stack shared-axis ve
+    container, sekmeler fade-through kalıplarını merkezi motion çözümleyicisinden alıyor; Reduce
+    Motion açıkken süreler sıfırlanıyor ve kaynak testi başka geçiş kalıbına izin vermiyor.
 99. **Paylaşım kartına marka güvenliği ekle.** Render edilen ayet görselinde metin kaynak/sürüm
     kredisi okunur olmalı; hiçbir zaman ayet metni kırpılmamalı veya yeniden akışta bozulmamalı.
 100. **Gerçek cihaz görsel kabul testi kur.** 360×640, 390×844, büyük Android, tablet,

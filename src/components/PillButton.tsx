@@ -5,7 +5,7 @@ import * as Haptics from 'expo-haptics';
 import { useReducedMotion } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
 import { type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { elevation, radius, spacing } from '@/theme/tokens';
 
 interface Props {
   label: string;
@@ -74,11 +74,8 @@ export function PillButton({ label, onPress, variant = 'primary', disabled = fal
           // candlelight glow under the primary action
           ...(variant === 'primary' && !inactive
             ? {
-                shadowColor: t.gold,
-                shadowOffset: { width: 0, height: 6 },
-                shadowOpacity: 0.35,
-                shadowRadius: 16,
-                elevation: 6,
+                ...elevation.hero,
+                shadowColor: t.sacredGold,
               }
             : null),
         },
@@ -88,7 +85,7 @@ export function PillButton({ label, onPress, variant = 'primary', disabled = fal
       {({ pressed }) =>
         variant === 'primary' && !inactive ? (
           <LinearGradient
-            colors={['#E2B04A', '#C99534']}
+            colors={[t.sacredGold, t.gold]}
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }}
             style={{ borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.35)' }}

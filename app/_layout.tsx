@@ -16,6 +16,7 @@ import {
 } from '@expo-google-fonts/figtree';
 import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { useReducedMotion } from 'react-native-reanimated';
 import { ToastHost } from '@/components/ToastHost';
 import { useTheme } from '@/hooks/useTheme';
 import { useStreakStore } from '@/state/useStreakStore';
@@ -32,11 +33,13 @@ import {
 } from '@/i18n/applicationLanguageActivation';
 import { registerApplicationContentPack } from '@/i18n/applicationContent';
 import { loadInstalledApplicationContentPack } from '@/services/applicationContentPacks';
+import { resolveMotionPattern } from '@/theme/motion';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
 export default function RootLayout() {
   const t = useTheme();
+  const reduceMotion = useReducedMotion();
   const scheme = useColorScheme();
   const pref = useUserStore((s) => s.themePreference);
   const language = useUserStore((s) => s.language);
@@ -168,15 +171,20 @@ export default function RootLayout() {
 
   const dark = pref === 'system' ? scheme !== 'light' : pref === 'vigil';
   const direction = getApplicationDirection(resolveLocale(language));
+  const sharedAxisMotion = resolveMotionPattern('sharedAxis', reduceMotion);
+  const containerMotion = resolveMotionPattern('container', reduceMotion);
 
   return (
     <GestureHandlerRootView style={{ flex: 1, direction }}>
       <StatusBar style={dark ? 'light' : 'dark'} />
       <Stack
-        screenOptions={{
+        screenOptions={({ route }) => ({
           headerShown: false,
           contentStyle: { backgroundColor: t.bg, direction },
-        }}
+          animation: route.name === 'paywall' || route.name === 'player'
+            ? containerMotion.animation
+            : sharedAxisMotion.animation,
+        })}
       >
         <Stack.Screen name="paywall" options={{ presentation: 'modal' }} />
         <Stack.Screen name="player" options={{ presentation: 'modal' }} />

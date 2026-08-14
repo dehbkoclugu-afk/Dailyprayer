@@ -45,7 +45,7 @@ export function ProgressRing({ done, total, size = 56 }: Props) {
                 width: 8,
                 height: 8,
                 borderRadius: 4,
-                backgroundColor: filled ? t.gold : t.border,
+                backgroundColor: filled ? t.sacredGold : t.border,
               }}
             />
           );

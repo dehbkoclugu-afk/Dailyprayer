@@ -17,8 +17,7 @@ import Animated, {
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
 import { type as ty } from '@/theme/typography';
-import { artContrast } from '@/theme/artContrast';
-import { radius, spacing } from '@/theme/tokens';
+import { interaction, radius, spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
 
@@ -43,8 +42,8 @@ export function RitualCard({ icon, title, subtitle, done, locked, featured = fal
   const { t: tr, locale } = useT();
   const reduceMotion = useReducedMotion();
   const hasArt = !!(art && artwork.source(art));
-  const titleColor = hasArt ? artContrast.primary : t.ink;
-  const subColor = hasArt ? artContrast.secondary : done ? t.gold : t.inkSoft;
+  const titleColor = hasArt ? t.onArtwork : t.ink;
+  const subColor = hasArt ? t.onArtworkMuted : done ? t.sacredGold : t.inkSoft;
   const chevColor = hasArt ? artwork.foreground.secondary : t.inkFaint;
 
   // One-time gold shimmer sweep when a card transitions to done (design-100 #57).
@@ -85,14 +84,14 @@ export function RitualCard({ icon, title, subtitle, done, locked, featured = fal
         borderColor: done || featured ? t.gold : t.border,
         padding: done ? spacing.md : spacing.lg,
         overflow: 'hidden',
-        opacity: pressed ? 0.9 : 1,
+        opacity: pressed ? interaction.pressedOpacity : 1,
         transform: [{ scale: pressed ? 0.99 : 1 }],
       })}
     >
       {art && hasArt ? (
         <ArtSlot
           id={art}
-          variant="contrast"
+          scrim="strong"
           radius={radius.card}
           style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
         />
@@ -135,7 +134,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, featured = fal
             marginRight: done ? spacing.md : 0,
           }}
         >
-          <Ionicons name={icon} size={hasArt ? 19 : 22} color={done ? t.gold : hasArt ? '#FFFFFF' : t.inkSoft} />
+          <Ionicons name={icon} size={hasArt ? 19 : 22} color={done ? t.sacredGold : hasArt ? t.onArtwork : t.inkSoft} />
         </View>
         <View style={{ flex: done ? 1 : undefined, alignItems: done ? 'flex-start' : hasArt ? 'center' : 'flex-start' }}>
           <Text

@@ -9,7 +9,7 @@ import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
 import { type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { interaction, radius, spacing } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
 import { getBible, getBibleCredit } from '@/data/bibleFull';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
@@ -49,10 +49,10 @@ export default function Bible() {
         onPress={() => router.push('/read')}
         accessibilityRole="button"
         accessibilityLabel={`${tr('read.openBible')} , ${tr('read.continue')} ${readerBookName} ${readerChapter + 1}:${readerVerse + 1}, ${chapterProgress}%`}
-        style={({ pressed }) => ({ marginTop: spacing.xl, opacity: pressed ? 0.92 : 1 })}
+        style={({ pressed }) => ({ marginTop: spacing.xl, opacity: pressed ? interaction.pressedOpacity : 1 })}
       >
         <View style={{ borderRadius: radius.card, overflow: 'hidden', backgroundColor: t.surface, borderWidth: dawn ? 1 : 0, borderColor: t.border }}>
-          <ArtSlot id="A18-ritual-reading" height={176} radius={radius.card} variant={dawn ? 'card' : 'bare'}>
+          <ArtSlot id="A18-ritual-reading" height={176} radius={radius.card} scrim={dawn ? 'none' : 'readable'}>
             {!dawn ? (
               <LinearGradient
                 colors={['rgba(26,18,6,0.02)', 'rgba(26,18,6,0.26)', 'rgba(20,14,6,0.78)']}
@@ -67,7 +67,7 @@ export default function Bible() {
               </Text>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 4 }}>
                 <View style={{ flex: 1, paddingRight: spacing.lg }}>
-                  <Text numberOfLines={2} style={{ ...ty.titleSmall, color: '#F2EEE6', textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>
+                  <Text numberOfLines={2} style={{ ...ty.titleSmall, color: t.onArtwork, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>
                     {tr('read.openBible')}
                   </Text>
                   <Text style={{ ...ty.labelMedium, color: 'rgba(242,238,230,0.88)', marginTop: spacing.xs, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
@@ -102,7 +102,7 @@ export default function Bible() {
               borderWidth: 1,
               borderColor: t.border,
               overflow: 'hidden',
-              opacity: pressed ? 0.85 : 1,
+              opacity: pressed ? interaction.pressedOpacity : 1,
             })}
           >
             <View
@@ -145,7 +145,7 @@ export default function Bible() {
               }}
             >
               <View style={{ borderRadius: radius.card, overflow: 'hidden', backgroundColor: t.surface, borderWidth: dawn ? 1 : 0, borderColor: t.border }}>
-                <ArtSlot id={p.art} height={150} radius={radius.card} variant={dawn ? 'card' : 'bare'}>
+                <ArtSlot id={p.art} height={150} radius={radius.card} scrim={dawn ? 'none' : 'readable'}>
                   {!dawn ? (
                     <LinearGradient
                       colors={[`${p.gradient[0]}CC`, `${p.gradient[1]}F2`]}
@@ -156,10 +156,10 @@ export default function Bible() {
                   ) : null}
                   <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Text numberOfLines={2} style={{ ...ty.titleCompact, color: '#F2EEE6', flex: 1, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>
+                      <Text numberOfLines={2} style={{ ...ty.titleCompact, color: t.onArtwork, flex: 1, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>
                         {p.title}
                       </Text>
-                      {locked ? <Ionicons name="lock-closed" size={18} color="#D9A441" /> : null}
+                      {locked ? <Ionicons name="lock-closed" size={18} color={t.sacredGold} /> : null}
                     </View>
                     <Text numberOfLines={2} style={{ ...ty.labelRegular, color: 'rgba(242,238,230,0.86)', marginTop: spacing.xs, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
                       {p.tagline}

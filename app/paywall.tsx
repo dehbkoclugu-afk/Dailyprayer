@@ -9,7 +9,7 @@ import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
 import { type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { interaction, radius, spacing } from '@/theme/tokens';
 import {
   loadPlans,
   purchase,
@@ -208,7 +208,7 @@ export default function Paywall() {
           height: 48,
           alignItems: 'center',
           justifyContent: 'center',
-          opacity: pressed ? 0.6 : 1,
+          opacity: pressed ? interaction.pressedOpacity : 1,
         })}
       >
         <Ionicons name="close" size={26} color={t.inkFaint} />
@@ -219,7 +219,7 @@ export default function Paywall() {
         <ArtSlot
           id={paywallContext.hero}
           radius={radius.hero}
-          variant={dawn ? 'card' : 'bare'}
+          scrim={dawn ? 'none' : 'readable'}
           style={{ minHeight: short ? 180 : 260 }}
         >
           {!dawn ? (
@@ -229,14 +229,14 @@ export default function Paywall() {
             />
           ) : null}
           <View style={{ flex: 1, justifyContent: 'flex-end', padding: spacing.xl }}>
-            <Text style={{ ...ty.title, color: dawn ? t.ink : '#F2EEE6' }}>
+            <Text style={{ ...ty.title, color: dawn ? t.ink : t.onArtwork }}>
 {tr(paywallContext.titleKey)}
             </Text>
             <View style={{ gap: spacing.xs, marginTop: spacing.md }}>
               {BENEFITS.map((b) => (
                 <View key={b} style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
                   <Ionicons name="checkmark-circle" size={16} color={t.gold} />
-                  <Text style={{ ...ty.labelRegular, color: dawn ? t.inkSoft : '#F2EEE6', flex: 1 }}>{b}</Text>
+                  <Text style={{ ...ty.labelRegular, color: dawn ? t.inkSoft : t.onArtworkMuted, flex: 1 }}>{b}</Text>
                 </View>
               ))}
             </View>
@@ -365,7 +365,7 @@ export default function Paywall() {
             marginTop: spacing.lg,
             minHeight: 48,
             justifyContent: 'center',
-            opacity: restoreStatus === 'busy' ? 0.5 : pressed ? 0.6 : 1,
+            opacity: restoreStatus === 'busy' ? interaction.disabledOpacity : pressed ? interaction.pressedOpacity : 1,
           })}
         >
           <Text style={{ ...ty.labelRegular, color: t.blue, textAlign: 'center' }}>
@@ -403,7 +403,7 @@ export default function Paywall() {
               minHeight: 48,
               justifyContent: 'center',
               marginTop: spacing.sm,
-              opacity: pressed ? 0.6 : 1,
+              opacity: pressed ? interaction.pressedOpacity : 1,
             })}
           >
             <Text style={{ ...ty.labelMedium, color: t.blue }}>
@@ -418,7 +418,7 @@ export default function Paywall() {
               style={({ pressed }) => ({
                 minHeight: 48,
                 justifyContent: 'center',
-                opacity: pressed ? 0.6 : 1,
+                opacity: pressed ? interaction.pressedOpacity : 1,
               })}
             >
               <Text style={{ ...ty.labelMedium, color: t.blue }}>
