@@ -8,7 +8,7 @@ import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
 import { type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { interaction, radius, spacing } from '@/theme/tokens';
 import { usePrayers, prayerCategories, type GuidedPrayer } from '@/data/prayers';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useT } from '@/i18n';
@@ -56,15 +56,15 @@ export default function Pray() {
                 borderWidth: active ? 2 : 1,
                 borderRadius: radius.inner,
                 overflow: 'hidden',
-                opacity: pressed ? 0.78 : 1,
+                opacity: pressed ? interaction.pressedOpacity : 1,
               })}
             >
               <ArtSlot id={prayerArt(categoryPrayer.id)} scrim="strong" radius={radius.inner} style={{ minHeight: 112 }}>
                 <View style={{ minHeight: 112, padding: spacing.md, justifyContent: 'flex-end' }}>
                   <View style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: 'rgba(14,18,32,0.42)', alignItems: 'center', justifyContent: 'center', marginBottom: spacing.sm }}>
-                    <Ionicons name={c.icon as keyof typeof Ionicons.glyphMap} size={18} color={active ? t.gold : '#FFFFFF'} />
+                    <Ionicons name={c.icon as keyof typeof Ionicons.glyphMap} size={18} color={active ? t.sacredGold : t.onArtwork} />
                   </View>
-                  <Text style={{ ...ty.label, color: '#FFFFFF', textShadowColor: 'rgba(0,0,0,0.82)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
+                  <Text style={{ ...ty.label, color: t.onArtwork, textShadowColor: 'rgba(0,0,0,0.82)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
                     {tr(`cat.${c.key}` as never)}
                   </Text>
                 </View>
@@ -110,7 +110,7 @@ export default function Pray() {
                 borderWidth: 1,
                 borderColor: t.border,
                 overflow: 'hidden',
-                opacity: pressed ? 0.9 : 1,
+                opacity: pressed ? interaction.pressedOpacity : 1,
               })}
             >
               <ArtSlot
@@ -144,7 +144,7 @@ export default function Pray() {
                     <Ionicons
                       name={locked ? 'lock-closed-outline' : 'play'}
                       size={20}
-                      color={locked ? artwork.foreground.tertiary : '#FFFFFF'}
+                      color={locked ? artwork.foreground.tertiary : t.onArtwork}
                     />
                   </View>
                   <View style={{ alignItems: 'center', maxWidth: 280 }}>
@@ -152,7 +152,7 @@ export default function Pray() {
                       numberOfLines={2}
                       style={{
                         ...ty.titleCompact,
-                        color: '#FFFFFF',
+                        color: t.onArtwork,
                         textAlign: 'center',
                         textShadowColor: 'rgba(0,0,0,0.78)',
                         textShadowOffset: { width: 0, height: 1 },
@@ -192,7 +192,7 @@ export default function Pray() {
                     >
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
                         {locked ? <Ionicons name="lock-closed" size={11} color={artwork.foreground.tertiary} /> : null}
-                        <Text style={{ ...ty.labelSmallBold, color: locked ? artwork.foreground.tertiary : '#FFFFFF' }}>PLUS</Text>
+                        <Text style={{ ...ty.labelSmallBold, color: locked ? artwork.foreground.tertiary : t.onArtwork }}>PLUS</Text>
                       </View>
                     </View>
                   ) : null}

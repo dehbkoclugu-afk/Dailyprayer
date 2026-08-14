@@ -11,7 +11,7 @@ import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { type as ty } from '@/theme/typography';
-import { spacing } from '@/theme/tokens';
+import { interaction, spacing } from '@/theme/tokens';
 import { prayerArt } from '@/assets/registry';
 import { usePrayers } from '@/data/prayers';
 import { useStreakStore } from '@/state/useStreakStore';
@@ -94,9 +94,9 @@ export default function Player() {
     router.back();
   };
 
-  const foreground = '#FFFFFF';
-  const muted = 'rgba(255,255,255,0.84)';
-  const quiet = 'rgba(255,255,255,0.76)';
+  const foreground = t.onArtwork;
+  const muted = t.onArtworkMuted;
+  const quiet = t.onArtworkMuted;
   const textShadow = {
     textShadowColor: 'rgba(0,0,0,0.82)',
     textShadowOffset: { width: 0, height: 1 },
@@ -104,7 +104,7 @@ export default function Player() {
   } as const;
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#0E1220' }}>
+    <View style={{ flex: 1, backgroundColor: t.bg }}>
       <StatusBar style="light" />
       <ArtSlot
         id={prayerArt(prayer.id)}
@@ -148,7 +148,7 @@ export default function Player() {
               borderColor: 'rgba(255,255,255,0.18)',
               alignItems: 'center',
               justifyContent: 'center',
-              opacity: pressed ? 0.68 : 1,
+              opacity: pressed ? interaction.pressedOpacity : 1,
             })}
           >
             <Ionicons name="close" size={24} color={foreground} />
@@ -238,7 +238,7 @@ export default function Player() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     backgroundColor: selected ? t.gold : 'transparent',
-                    opacity: pressed ? 0.72 : 1,
+                    opacity: pressed ? interaction.pressedOpacity : 1,
                   })}
                 >
                   <Text style={{ ...ty.labelMedium, color: selected ? t.onGold : muted, ...(selected ? {} : textShadow) }}>
@@ -269,7 +269,7 @@ export default function Player() {
                 borderColor: 'rgba(255,255,255,0.16)',
                 alignItems: 'center',
                 justifyContent: 'center',
-                opacity: line === 0 ? 0.35 : pressed ? 0.65 : 1,
+                opacity: line === 0 ? interaction.disabledOpacity : pressed ? interaction.pressedOpacity : 1,
               })}
             >
               <Ionicons name="play-skip-back" size={24} color={quiet} />
@@ -302,7 +302,7 @@ export default function Player() {
                 borderColor: 'rgba(255,255,255,0.16)',
                 alignItems: 'center',
                 justifyContent: 'center',
-                opacity: pressed ? 0.65 : 1,
+                opacity: pressed ? interaction.pressedOpacity : 1,
               })}
             >
               <Ionicons name="play-skip-forward" size={24} color={quiet} />

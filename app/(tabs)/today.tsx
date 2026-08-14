@@ -13,7 +13,7 @@ import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
 import { type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { interaction, radius, spacing } from '@/theme/tokens';
 import { useDailyContent } from '@/hooks/useDailyContent';
 import { getVerses, type DailyVerse } from '@/data/verses';
 import { useScriptureLocale } from '@/i18n/scripture';
@@ -27,7 +27,6 @@ import { toast } from '@/state/useToastStore';
 import { useT, translate } from '@/i18n';
 import { localeUpperCase } from '@/i18n/localeText';
 import { getDirectionalIconName } from '@/i18n/direction';
-import { artContrast } from '@/theme/artContrast';
 import { foldablePaneGap, isExpandedLayout } from '@/lib/adaptiveLayout';
 import { nextDailyStep, shouldExpandTonight } from '@/lib/dailyExperience';
 import type { RitualStep } from '@/state/useStreakStore';
@@ -185,7 +184,7 @@ export default function Today() {
             flexDirection: 'row',
             alignItems: 'center',
             gap: spacing.md,
-            opacity: pressed ? 0.78 : 1,
+            opacity: pressed ? interaction.pressedOpacity : 1,
           })}
         >
           <View style={{ width: 38, height: 38, borderRadius: 19, backgroundColor: t.gold, alignItems: 'center', justifyContent: 'center' }}>
@@ -283,7 +282,7 @@ export default function Today() {
                 <Text
                   style={{
                     ...ty.overline,
-                    color: artContrast.primary,
+                    color: t.onArtwork,
                   }}
                 >
 {localeUpperCase(tr('today.sleepPrayer'), locale)}
@@ -291,7 +290,7 @@ export default function Today() {
                 <Text
                   style={{
                     ...ty.titleCompact,
-                    color: artContrast.primary,
+                    color: t.onArtwork,
                     marginTop: 4,
                     textShadowColor: 'rgba(0,0,0,0.72)',
                     textShadowOffset: { width: 0, height: 1 },
@@ -326,7 +325,7 @@ export default function Today() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   overflow: 'hidden',
-                  opacity: pressed ? 0.8 : 1,
+                  opacity: pressed ? interaction.pressedOpacity : 1,
                 })}
               >
                 {tonightExpanded ? (
@@ -334,7 +333,7 @@ export default function Today() {
                     {sleepPrayer.plus && !isPlus ? tr('today.unlock') : tr('today.play')}
                   </Text>
                 ) : (
-                  <Ionicons name={sleepPrayer.plus && !isPlus ? 'lock-closed' : 'play'} size={18} color="#FFFFFF" />
+                  <Ionicons name={sleepPrayer.plus && !isPlus ? 'lock-closed' : 'play'} size={18} color={t.onArtwork} />
                 )}
               </Pressable>
             </View>
