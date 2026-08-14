@@ -28,6 +28,7 @@ import {
 } from '@/lib/reminderTime';
 import type { ThemeName } from '@/theme/tokens';
 import { GLOBAL_LANGUAGE_CATALOG } from '@/i18n/globalLanguageCatalog';
+import { countRecentActiveDays } from '@/lib/dailyExperience';
 
 export default function Profile() {
   const t = useTheme();
@@ -38,12 +39,17 @@ export default function Profile() {
     quiz, themePreference, setThemePreference, language,
     scriptureLocale, setQuiz, reset,
   } = useUserStore();
-  const { count, bestCount, totalDays } = useStreakStore();
+  const { count, bestCount, totalDays, activeDays } = useStreakStore();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const [sheet, setSheet] = useState<null | 'appearance'>(null);
   const sheetReturnFocus = useRef<number | null>(null);
   const [showIosReminderPicker, setShowIosReminderPicker] = useState(false);
   const [reminderDraft, setReminderDraft] = useState(() => parseReminderTime('07:30'));
+  const recentDays = countRecentActiveDays(activeDays ?? []);
+  const recentStart = new Date();
+  recentStart.setHours(12, 0, 0, 0);
+  recentStart.setDate(recentStart.getDate() - 6);
+  const recentRange = `${new Intl.DateTimeFormat(locale, { month: 'short', day: 'numeric' }).format(recentStart)}–${new Intl.DateTimeFormat(locale, { month: 'short', day: 'numeric' }).format(new Date())}`;
 
   const appearanceOptions: SheetOption<ThemeName | 'system'>[] = [
     { value: 'system', label: tr('profile.auto') },
@@ -214,6 +220,30 @@ export default function Profile() {
                 {tr('profile.dayStreak')}
               </Text>
             </View>
+          </View>
+          <View style={{ height: 1, backgroundColor: artwork.foreground.badge, marginVertical: spacing.md }} />
+          <View
+            accessible
+            accessibilityRole="progressbar"
+            accessibilityLabel={`${recentRange}: ${recentDays}/7`}
+            accessibilityValue={{ min: 0, max: 7, now: recentDays }}
+          >
+            <View style={{ flexDirection: 'row', gap: spacing.xs }}>
+              {Array.from({ length: 7 }, (_, index) => (
+                <View
+                  key={index}
+                  style={{
+                    flex: 1,
+                    height: 6,
+                    borderRadius: 3,
+                    backgroundColor: index < recentDays ? t.gold : artwork.foreground.badge,
+                  }}
+                />
+              ))}
+            </View>
+            <Text style={{ ...ty.captionRegular, color: artwork.foreground.secondary, marginTop: spacing.sm }}>
+              {recentRange} · {recentDays}/7
+            </Text>
           </View>
           <View style={{ height: 1, backgroundColor: artwork.foreground.badge, marginVertical: spacing.md }} />
           <Text style={{ ...ty.captionRegular, color: artwork.foreground.secondary }}>

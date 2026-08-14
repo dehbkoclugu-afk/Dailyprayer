@@ -1,6 +1,7 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
@@ -21,14 +22,12 @@ export default function DevotionalScreen() {
   const completeStep = useStreakStore((s) => s.completeStep);
   const [amened, setAmened] = React.useState(false);
 
-  // Amen morphs to a checkmark for a beat before returning (design-100 #64).
   const finish = () => {
     if (amened) return;
     setAmened(true);
     completeStep('devotional');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     toast(translate('toast.devotional'));
-    setTimeout(() => router.back(), 600);
   };
 
   return (
@@ -84,7 +83,45 @@ export default function DevotionalScreen() {
         </Text>
       </View>
 
-      <PillButton label={amened ? '✓' : tr('devotional.amen')} onPress={finish} style={{ marginTop: spacing.xxl }} />
+      {amened ? (
+        <View
+          accessibilityRole="summary"
+          style={{
+            backgroundColor: t.surface,
+            borderRadius: radius.card,
+            borderWidth: 1,
+            borderColor: t.gold,
+            padding: spacing.xl,
+            marginTop: spacing.xxl,
+            alignItems: 'center',
+          }}
+        >
+          <View style={{ width: 56, height: 56, borderRadius: 28, backgroundColor: t.goldSoft, alignItems: 'center', justifyContent: 'center' }}>
+            <Ionicons name="checkmark" size={28} color={t.gold} />
+          </View>
+          <Text style={{ ...ty.titleCompact, color: t.ink, textAlign: 'center', marginTop: spacing.md }}>
+            {tr('toast.devotional')}
+          </Text>
+          <Text style={{ ...ty.secondary, color: t.inkSoft, textAlign: 'center', marginTop: spacing.sm }}>
+            {tr('journal.promptGratitude')}
+          </Text>
+          <PillButton
+            label={tr('journal.title')}
+            onPress={() => router.push({ pathname: '/(tabs)/journal', params: { prompt: 'devotional' } })}
+            style={{ width: '100%', marginTop: spacing.lg }}
+          />
+          <Pressable
+            onPress={() => router.back()}
+            accessibilityRole="button"
+            accessibilityLabel={tr('a11y.back')}
+            style={({ pressed }) => ({ minHeight: 48, paddingHorizontal: spacing.lg, justifyContent: 'center', marginTop: spacing.sm, opacity: pressed ? 0.6 : 1 })}
+          >
+            <Text style={{ ...ty.label, color: t.blue }}>{tr('a11y.back')}</Text>
+          </Pressable>
+        </View>
+      ) : (
+        <PillButton label={tr('devotional.amen')} onPress={finish} style={{ marginTop: spacing.xxl }} />
+      )}
     </Screen>
   );
 }

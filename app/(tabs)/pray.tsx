@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
@@ -7,14 +7,12 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
-import { fonts, type as ty } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { usePrayers, prayerCategories, type GuidedPrayer } from '@/data/prayers';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useT } from '@/i18n';
 import { prayerArt } from '@/assets/registry';
-import { useReducedMotion } from 'react-native-reanimated';
-import { categoryChipOffset } from '@/lib/accessibility';
 
 export default function Pray() {
   const t = useTheme();
@@ -23,8 +21,6 @@ export default function Pray() {
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const prayers = usePrayers();
   const [cat, setCat] = useState<GuidedPrayer['category'] | 'all'>('all');
-  const categoryScrollRef = useRef<ScrollView>(null);
-  const reduceMotion = useReducedMotion();
   const list = cat === 'all' ? prayers : prayers.filter((p) => p.category === cat);
 
   const open = (p: GuidedPrayer) => {
@@ -39,62 +35,44 @@ export default function Pray() {
 {tr('pray.sub')}
       </Text>
 
-      {/* category filter , a single calm chip row (matches the Bible chapter
-          picker); tap the active chip again to clear back to the full library */}
-      <ScrollView
-        ref={categoryScrollRef}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={{ marginTop: spacing.lg, marginHorizontal: -spacing.xl }}
-        contentContainerStyle={{ gap: spacing.sm, paddingHorizontal: spacing.xl }}
-      >
-        {prayerCategories.map((c, index) => {
+      {/* Six illustrated category doors make the full library discoverable at a glance. */}
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md, marginTop: spacing.lg }}>
+        {prayerCategories.map((c) => {
           const active = cat === c.key;
+          const categoryPrayer = prayers.find((prayer) => prayer.category === c.key)!;
           return (
             <Pressable
               key={c.key}
               onPress={() => setCat(active ? 'all' : c.key)}
-              onFocus={() => {
-                categoryScrollRef.current?.scrollTo({
-                  x: categoryChipOffset(index),
-                  animated: !reduceMotion,
-                });
-              }}
               accessibilityRole="button"
               accessibilityState={{ selected: active }}
               accessibilityLabel={tr(`cat.${c.key}` as never)}
               style={({ pressed }) => ({
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: spacing.sm,
-                backgroundColor: active ? t.goldSoft : t.surface,
+                flexGrow: 1,
+                flexBasis: '46%',
+                minHeight: 112,
+                backgroundColor: t.surface,
                 borderColor: active ? t.gold : t.border,
-                borderWidth: 1,
-                borderRadius: radius.pill,
-                paddingHorizontal: spacing.lg,
-                paddingVertical: spacing.sm,
-                minHeight: 48,
-                opacity: pressed ? 0.7 : 1,
+                borderWidth: active ? 2 : 1,
+                borderRadius: radius.inner,
+                overflow: 'hidden',
+                opacity: pressed ? 0.78 : 1,
               })}
             >
-              <Ionicons
-                name={c.icon as keyof typeof Ionicons.glyphMap}
-                size={16}
-                color={active ? t.gold : t.inkSoft}
-              />
-              <Text
-                style={{
-                  ...ty.labelMedium,
-                  fontFamily: active ? fonts.sansSemiBold : fonts.sansMedium,
-                  color: active ? t.gold : t.inkSoft,
-                }}
-              >
-                {tr(`cat.${c.key}` as never)}
-              </Text>
+              <ArtSlot id={prayerArt(categoryPrayer.id)} variant="contrast" radius={radius.inner} style={{ minHeight: 112 }}>
+                <View style={{ minHeight: 112, padding: spacing.md, justifyContent: 'flex-end' }}>
+                  <View style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: 'rgba(14,18,32,0.42)', alignItems: 'center', justifyContent: 'center', marginBottom: spacing.sm }}>
+                    <Ionicons name={c.icon as keyof typeof Ionicons.glyphMap} size={18} color={active ? t.gold : '#FFFFFF'} />
+                  </View>
+                  <Text style={{ ...ty.label, color: '#FFFFFF', textShadowColor: 'rgba(0,0,0,0.82)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
+                    {tr(`cat.${c.key}` as never)}
+                  </Text>
+                </View>
+              </ArtSlot>
             </Pressable>
           );
         })}
-      </ScrollView>
+      </View>
 
       <SectionHeader
         title={cat === 'all' ? tr('pray.library') : tr(`cat.${cat}` as never)}
@@ -125,7 +103,7 @@ export default function Pray() {
               key={p.id}
               onPress={() => open(p)}
               accessibilityRole="button"
-              accessibilityLabel={`${p.title}, ${p.minutes} ${tr('pray.min')}${p.plus ? ' · Plus' : ''}`}
+              accessibilityLabel={`${p.title}, ${p.minutes} ${tr('pray.min')}${locked ? `, ${tr('paywall.titlePrayer')}` : ''}`}
               style={({ pressed }) => ({
                 backgroundColor: t.surface,
                 borderRadius: radius.card,
@@ -199,6 +177,7 @@ export default function Pray() {
                   </View>
                   {p.plus ? (
                     <View
+                      accessible={false}
                       style={{
                         position: 'absolute',
                         right: spacing.md,
@@ -211,9 +190,10 @@ export default function Pray() {
                         paddingVertical: 3,
                       }}
                     >
-                      <Text style={{ ...ty.labelSmallBold, color: locked ? artwork.foreground.tertiary : '#FFFFFF' }}>
-                        PLUS
-                      </Text>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                        {locked ? <Ionicons name="lock-closed" size={11} color={artwork.foreground.tertiary} /> : null}
+                        <Text style={{ ...ty.labelSmallBold, color: locked ? artwork.foreground.tertiary : '#FFFFFF' }}>PLUS</Text>
+                      </View>
                     </View>
                   ) : null}
                 </View>

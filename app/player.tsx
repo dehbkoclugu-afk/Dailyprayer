@@ -19,6 +19,7 @@ import { toast } from '@/state/useToastStore';
 import { translate, useT } from '@/i18n';
 import { useScreenReaderEnabled } from '@/hooks/useScreenReaderEnabled';
 import { shouldAutoAdvancePrayer } from '@/lib/accessibility';
+import { prayerSection } from '@/lib/dailyExperience';
 
 type Pace = 'slow' | 'normal' | 'quick';
 
@@ -47,6 +48,7 @@ export default function Player() {
   const completeStep = useStreakStore((s) => s.completeStep);
   const lastLine = line >= prayer.script.length - 1;
   const progress = (line + 1) / prayer.script.length;
+  const activeSection = prayerSection(line, prayer.script.length);
   const remainingMinutes = Math.max(
     1,
     Math.ceil(
@@ -150,6 +152,21 @@ export default function Player() {
         </View>
 
         <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: spacing.sm }}>
+          {line > 0 ? (
+            <Text
+              accessible={false}
+              numberOfLines={2}
+              style={{
+                ...ty.editorialSecondary,
+                color: 'rgba(255,255,255,0.48)',
+                textAlign: 'center',
+                marginBottom: spacing.xl,
+                ...textShadow,
+              }}
+            >
+              {prayer.script[line - 1]}
+            </Text>
+          ) : null}
           {/* each line rises gently into place , the "breath" feel */}
           <Animated.Text
             key={line}
@@ -179,16 +196,55 @@ export default function Player() {
         >
           <View style={{ width: `${progress * 100}%`, height: '100%', backgroundColor: t.gold }} />
         </View>
-        <Pressable
-          onPress={() => setPace((current) => current === 'slow' ? 'normal' : current === 'normal' ? 'quick' : 'slow')}
-          accessibilityRole="button"
-          accessibilityLabel={`${tr('player.pace')}: ${tr(`player.pace.${pace}` as never)}`}
-          style={{ minHeight: 48, alignSelf: 'center', justifyContent: 'center', marginBottom: spacing.md }}
+        <View
+          accessible
+          accessibilityRole="progressbar"
+          accessibilityLabel={tr('player.guidedText')}
+          accessibilityValue={{ min: 1, max: 3, now: activeSection + 1 }}
+          style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm, marginBottom: spacing.md }}
         >
-          <Text style={[ty.labelMedium, { color: muted, ...textShadow }]}>
-            {tr('player.pace')}: {tr(`player.pace.${pace}` as never)}
+          {[0, 1, 2].map((section) => (
+            <View key={section} style={{ alignItems: 'center', gap: 4 }}>
+              <View style={{ width: section === activeSection ? 28 : 18, height: 4, borderRadius: 2, backgroundColor: section <= activeSection ? t.gold : 'rgba(255,255,255,0.28)' }} />
+              <Text style={{ ...ty.labelSmallRegular, color: section === activeSection ? foreground : quiet, ...textShadow }}>
+                {section + 1}/3
+              </Text>
+            </View>
+          ))}
+        </View>
+        <View style={{ marginBottom: spacing.md }}>
+          <Text style={{ ...ty.labelSmall, color: muted, textAlign: 'center', marginBottom: spacing.sm, ...textShadow }}>
+            {tr('player.pace')}
           </Text>
-        </Pressable>
+          <View style={{ flexDirection: 'row', alignSelf: 'center', padding: 3, borderRadius: 999, backgroundColor: 'rgba(14,18,32,0.46)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.18)' }}>
+            {(['slow', 'normal', 'quick'] as const).map((option) => {
+              const selected = option === pace;
+              return (
+                <Pressable
+                  key={option}
+                  onPress={() => setPace(option)}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected }}
+                  accessibilityLabel={`${tr('player.pace')}: ${tr(`player.pace.${option}` as never)}`}
+                  style={({ pressed }) => ({
+                    minHeight: 48,
+                    minWidth: 82,
+                    paddingHorizontal: spacing.md,
+                    borderRadius: 999,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: selected ? t.gold : 'transparent',
+                    opacity: pressed ? 0.72 : 1,
+                  })}
+                >
+                  <Text style={{ ...ty.labelMedium, color: selected ? t.onGold : muted, ...(selected ? {} : textShadow) }}>
+                    {tr(`player.pace.${option}` as never)}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </View>
+        </View>
 
         {lastLine ? (
           <PillButton label={translate('devotional.amen')} onPress={finish} />
