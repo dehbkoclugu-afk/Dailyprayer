@@ -37,7 +37,7 @@ export default function Building() {
   }, []);
 
   return (
-    <Screen scroll={false} style={{ justifyContent: 'center' }}>
+    <Screen style={{ flexGrow: 1, justifyContent: 'center' }}>
       <OnboardingBackdrop />
       <ArtSlot
         id="A15-building-candle"

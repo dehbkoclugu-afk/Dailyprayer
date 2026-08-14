@@ -83,7 +83,7 @@ export default function Reveal() {
   };
 
   return (
-    <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
+    <Screen style={{ flexGrow: 1, justifyContent: 'space-between' }}>
       <OnboardingBackdrop />
       <View>
         <View>

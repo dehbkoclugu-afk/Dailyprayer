@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, Linking, Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Linking, Pressable, Text, useWindowDimensions, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -23,6 +23,7 @@ import {
   resolvePaywallContext,
   type BenefitId,
 } from '@/services/paywallContext.logic';
+import { isShortLayout } from '@/lib/adaptiveLayout';
 
 const configuredSupportEmail = process.env.EXPO_PUBLIC_SUPPORT_EMAIL?.trim() ?? '';
 const supportEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(configuredSupportEmail)
@@ -34,6 +35,8 @@ export default function Paywall() {
   const artwork = useArtwork();
   const dawn = artwork.scheme === 'dawn';
   const { t: tr, locale } = useT();
+  const { height, fontScale } = useWindowDimensions();
+  const short = isShortLayout(height, fontScale);
   const { from } = useLocalSearchParams<{ from?: string | string[] }>();
   const paywallContext = resolvePaywallContext(from);
   const benefitStrings: Record<BenefitId, string> = {
@@ -217,7 +220,7 @@ export default function Paywall() {
           id={paywallContext.hero}
           radius={radius.hero}
           variant={dawn ? 'card' : 'bare'}
-          style={{ minHeight: 260 }}
+          style={{ minHeight: short ? 180 : 260 }}
         >
           {!dawn ? (
             <LinearGradient

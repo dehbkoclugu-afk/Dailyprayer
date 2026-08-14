@@ -16,7 +16,7 @@ export default function Welcome() {
   const t = useTheme();
   const { t: tr } = useT();
   return (
-    <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
+    <Screen style={{ flexGrow: 1, justifyContent: 'space-between' }}>
       <OnboardingBackdrop />
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
         <ArtSlot id="A1-logomark" height={44} fit="contain" radius={12} style={{ width: 44 }} />

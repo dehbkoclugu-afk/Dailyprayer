@@ -18,7 +18,7 @@ import { useT } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
 import { useScriptureLocale } from '@/i18n/scripture';
 import { localeUpperCase } from '@/i18n/localeText';
-import { isExpandedLayout } from '@/lib/adaptiveLayout';
+import { contentMaxWidth, expandedPaneWidth, foldablePaneGap, isExpandedLayout } from '@/lib/adaptiveLayout';
 
 export default function Bible() {
   const t = useTheme();
@@ -123,7 +123,7 @@ export default function Bible() {
       </View>
 
       <SectionHeader title={tr('bible.plans')} />
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md }}>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: expanded ? foldablePaneGap(width) : spacing.md }}>
         {plans.map((p) => {
           const locked = p.plus && !isPlus;
           return (
@@ -137,7 +137,12 @@ export default function Bible() {
               accessibilityRole="button"
               accessibilityLabel={p.title}
               accessibilityHint={locked ? tr('today.unlock') : undefined}
-              style={{ width: expanded ? '48.5%' : '100%' }}
+              style={{
+                flexGrow: expanded ? 1 : undefined,
+                flexBasis: expanded ? 320 : undefined,
+                width: expanded ? undefined : '100%',
+                maxWidth: expanded ? expandedPaneWidth(Math.min(width, contentMaxWidth(width))) : undefined,
+              }}
             >
               <View style={{ borderRadius: radius.card, overflow: 'hidden', backgroundColor: t.surface, borderWidth: dawn ? 1 : 0, borderColor: t.border }}>
                 <ArtSlot id={p.art} height={150} radius={radius.card} variant={dawn ? 'card' : 'bare'}>

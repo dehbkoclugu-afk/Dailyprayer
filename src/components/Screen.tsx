@@ -1,5 +1,14 @@
 import React from 'react';
-import { Image, Platform, ScrollView, StatusBar, useWindowDimensions, View, type ViewStyle } from 'react-native';
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StatusBar,
+  useWindowDimensions,
+  View,
+  type ViewStyle,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 import { spacing } from '@/theme/tokens';
@@ -12,6 +21,8 @@ interface Props {
   style?: ViewStyle;
   /** extra bottom padding for tab bar screens */
   tabbed?: boolean;
+  /** Keep focused fields and their primary CTA above the software keyboard. */
+  keyboardAware?: boolean;
 }
 
 const grain = artRegistry['A3-grain'];
@@ -33,7 +44,7 @@ function Grain() {
   );
 }
 
-export function Screen({ children, scroll = true, style, tabbed = false }: Props) {
+export function Screen({ children, scroll = true, style, tabbed = false, keyboardAware = false }: Props) {
   const t = useTheme();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
@@ -56,20 +67,32 @@ export function Screen({ children, scroll = true, style, tabbed = false }: Props
     maxWidth: contentMaxWidth(width),
     alignSelf: 'center',
   };
+  const body = scroll ? (
+    <ScrollView
+      style={{ flex: 1, marginTop: safeTop }}
+      contentContainerStyle={[content, style]}
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
+      keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
+    >
+      {children}
+    </ScrollView>
+  ) : (
+    <View style={[content, { flex: 1, marginTop: safeTop }, style]}>{children}</View>
+  );
+
   return (
     <View style={base}>
       <Grain />
-      {scroll ? (
-        <ScrollView
-          style={{ flex: 1, marginTop: safeTop }}
-          contentContainerStyle={[content, style]}
-          showsVerticalScrollIndicator={false}
+      {keyboardAware ? (
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={safeTop}
         >
-          {children}
-        </ScrollView>
-      ) : (
-        <View style={[content, { flex: 1, marginTop: safeTop }, style]}>{children}</View>
-      )}
+          {body}
+        </KeyboardAvoidingView>
+      ) : body}
     </View>
   );
 }

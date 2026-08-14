@@ -66,7 +66,7 @@ export default function Quiz() {
 
   if (affirmation) {
     return (
-      <Screen scroll={false} style={{ justifyContent: 'center' }}>
+      <Screen keyboardAware style={{ flexGrow: 1, justifyContent: 'center' }}>
         <OnboardingBackdrop />
         <View
           style={{
@@ -91,7 +91,7 @@ export default function Quiz() {
   }
 
   return (
-    <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
+    <Screen keyboardAware style={{ flexGrow: 1, justifyContent: 'space-between' }}>
       <OnboardingBackdrop />
       <View>
         {/* progress bar + step counter */}
