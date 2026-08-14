@@ -2,10 +2,12 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { useWindowDimensions, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useReducedMotion } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
 import { type as ty } from '@/theme/typography';
 import { isExpandedLayout } from '@/lib/adaptiveLayout';
+import { resolveMotionPattern } from '@/theme/motion';
 
 interface TabIconProps {
   outline: keyof typeof Ionicons.glyphMap;
@@ -31,13 +33,16 @@ function TabIcon({ outline, filled, focused, color, size }: TabIconProps) {
 
 export default function TabsLayout() {
   const t = useTheme();
+  const reduceMotion = useReducedMotion();
   const { t: tr } = useT();
   const { width } = useWindowDimensions();
   const expanded = isExpandedLayout(width);
+  const fadeThrough = resolveMotionPattern('fadeThrough', reduceMotion);
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
+        animation: fadeThrough.animation,
         tabBarStyle: {
           backgroundColor: t.chrome,
           borderTopColor: expanded ? 'transparent' : t.border,

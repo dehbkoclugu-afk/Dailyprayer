@@ -52,3 +52,14 @@ test('tab navigation reserves filled icons and a marker for selected state', asy
     assert.ok(pair.every((name) => source.includes(name)), `missing ${pair.join('/')} icon pair`);
   }
 });
+
+test('navigation layouts use only the three motion patterns with Reduce Motion', async () => {
+  const root = await readFile(new URL('../app/_layout.tsx', import.meta.url), 'utf8');
+  const tabs = await readFile(new URL('../app/(tabs)/_layout.tsx', import.meta.url), 'utf8');
+  assert.match(root, /useReducedMotion\(\)/);
+  assert.match(tabs, /useReducedMotion\(\)/);
+  assert.match(root, /resolveMotionPattern\('sharedAxis'/);
+  assert.match(root, /resolveMotionPattern\('container'/);
+  assert.match(tabs, /resolveMotionPattern\('fadeThrough'/);
+  assert.doesNotMatch(`${root}\n${tabs}`, /resolveMotionPattern\('(?!sharedAxis|fadeThrough|container)[^']+'/);
+});
