@@ -28,7 +28,7 @@ import { useT, translate } from '@/i18n';
 import { localeUpperCase } from '@/i18n/localeText';
 import { getDirectionalIconName } from '@/i18n/direction';
 import { artContrast } from '@/theme/artContrast';
-import { isExpandedLayout } from '@/lib/adaptiveLayout';
+import { foldablePaneGap, isExpandedLayout } from '@/lib/adaptiveLayout';
 import { nextDailyStep, shouldExpandTonight } from '@/lib/dailyExperience';
 import type { RitualStep } from '@/state/useStreakStore';
 
@@ -167,8 +167,8 @@ export default function Today() {
         </View>
       </View>
 
-      <View style={{ flexDirection: expanded ? 'row' : 'column', alignItems: 'flex-start', gap: spacing.xl }}>
-      <View style={{ width: expanded ? '57%' : '100%' }}>
+      <View style={{ flexDirection: expanded ? 'row' : 'column', alignItems: 'flex-start', gap: expanded ? foldablePaneGap(width) : spacing.xl }}>
+      <View style={{ flex: expanded ? 1 : undefined, width: expanded ? undefined : '100%' }}>
       {nextStep ? (
         <Pressable
           onPress={() => openStep(nextStep)}
@@ -252,7 +252,7 @@ export default function Today() {
       </View>
       </View>
 
-      <View style={{ width: expanded ? '40%' : '100%' }}>
+      <View style={{ flex: expanded ? 1 : undefined, width: expanded ? undefined : '100%' }}>
       <SectionHeader
         title={tr('today.tonight')}
       />

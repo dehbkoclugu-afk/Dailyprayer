@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AccessibilityInfo, Pressable, Text, View } from 'react-native';
+import { AccessibilityInfo, Pressable, ScrollView, Text, useWindowDimensions, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
@@ -20,6 +20,7 @@ import { translate, useT } from '@/i18n';
 import { useScreenReaderEnabled } from '@/hooks/useScreenReaderEnabled';
 import { shouldAutoAdvancePrayer } from '@/lib/accessibility';
 import { prayerSection } from '@/lib/dailyExperience';
+import { isShortLayout } from '@/lib/adaptiveLayout';
 
 type Pace = 'slow' | 'normal' | 'quick';
 
@@ -37,6 +38,8 @@ export default function Player() {
   const t = useTheme();
   const { t: tr } = useT();
   const insets = useSafeAreaInsets();
+  const { height, fontScale } = useWindowDimensions();
+  const short = isShortLayout(height, fontScale);
   const reduceMotion = useReducedMotion();
   const screenReaderEnabled = useScreenReaderEnabled();
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -109,9 +112,10 @@ export default function Player() {
         variant="bare"
         style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
       />
-      <View
-        style={{
-          flex: 1,
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          flexGrow: 1,
           paddingTop: insets.top + spacing.lg,
           paddingBottom: insets.bottom + spacing.xl,
           paddingHorizontal: spacing.xl,
@@ -151,8 +155,8 @@ export default function Player() {
           </Pressable>
         </View>
 
-        <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: spacing.sm }}>
-          {line > 0 ? (
+        <View style={{ flexGrow: 1, minHeight: short ? 150 : 260, justifyContent: 'center', paddingHorizontal: spacing.sm, paddingVertical: short ? spacing.lg : spacing.xl }}>
+          {line > 0 && !short ? (
             <Text
               accessible={false}
               numberOfLines={2}
@@ -216,7 +220,7 @@ export default function Player() {
           <Text style={{ ...ty.labelSmall, color: muted, textAlign: 'center', marginBottom: spacing.sm, ...textShadow }}>
             {tr('player.pace')}
           </Text>
-          <View style={{ flexDirection: 'row', alignSelf: 'center', padding: 3, borderRadius: 999, backgroundColor: 'rgba(14,18,32,0.46)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.18)' }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignSelf: 'center', padding: 3, borderRadius: 999, backgroundColor: 'rgba(14,18,32,0.46)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.18)' }}>
             {(['slow', 'normal', 'quick'] as const).map((option) => {
               const selected = option === pace;
               return (
@@ -305,7 +309,7 @@ export default function Player() {
             </Pressable>
           </View>
         )}
-      </View>
+      </ScrollView>
     </View>
   );
 }

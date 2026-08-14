@@ -168,7 +168,7 @@ export default function Journal() {
   );
 
   return (
-    <Screen tabbed scroll={false} style={{ paddingHorizontal: 0, paddingTop: 0 }}>
+    <Screen tabbed scroll={false} keyboardAware style={{ paddingHorizontal: 0, paddingTop: 0 }}>
       <SectionList
         sections={sections}
         keyExtractor={(item) => item.id}

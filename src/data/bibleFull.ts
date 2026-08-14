@@ -41,17 +41,37 @@ const LOADERS: Record<BundledBibleLocale, () => BiblePayload> = {
 
 const cache: Partial<Record<BundledBibleLocale, BibleData>> = {};
 const downloaded: Partial<Record<GlobalLocaleTag, BibleData>> = {};
+const loadMetrics: Partial<Record<GlobalLocaleTag, { durationMs: number; books: number; verses: number }>> = {};
+let activeLocale: GlobalLocaleTag | null = null;
 
 function isBundledLocale(locale: GlobalLocaleTag): locale is BundledBibleLocale {
   return Object.prototype.hasOwnProperty.call(LOADERS, locale);
 }
 
 function load(locale: GlobalLocaleTag): BibleData {
+  // A language switch releases the previous parsed multi-megabyte JSON. Metro
+  // retains the compressed module bytes, but only the active Scripture tree is
+  // held by this data layer.
+  if (activeLocale !== locale) {
+    for (const cachedLocale of Object.keys(cache) as BundledBibleLocale[]) {
+      if (cachedLocale !== locale) delete cache[cachedLocale];
+    }
+    activeLocale = locale;
+  }
   const remote = downloaded[locale];
   if (remote) return remote;
   if (isBundledLocale(locale)) {
     return (cache[locale] ??= (() => {
+      const startedAt = globalThis.performance?.now?.() ?? Date.now();
       const payload = LOADERS[locale]();
+      loadMetrics[locale] = {
+        durationMs: (globalThis.performance?.now?.() ?? Date.now()) - startedAt,
+        books: payload.books.length,
+        verses: payload.books.reduce(
+          (bookTotal, book) => bookTotal + book.chapters.reduce((chapterTotal, chapter) => chapterTotal + chapter.length, 0),
+          0,
+        ),
+      };
       return { ...payload, source: bundledScriptureSource(locale, payload.credit) };
     })());
   }
@@ -85,4 +105,9 @@ export function getBibleCredit(locale: GlobalLocaleTag): string {
 /** Metadata for the exact edition currently returned by getBible(). */
 export function getBibleSource(locale: GlobalLocaleTag): ScriptureSource {
   return load(locale).source;
+}
+
+/** Diagnostics for startup/language-switch profiling; contains no Scripture. */
+export function getBibleLoadMetrics() {
+  return { activeLocale, locales: { ...loadMetrics } };
 }

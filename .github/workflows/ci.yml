@@ -32,3 +32,16 @@ jobs:
         run: npm run ui-locales:verify
       - name: Verify completed application content packs
         run: npm run application-content:verify
+      - name: Export and enforce Android bundle budgets
+        env:
+          CI: 1
+          EXPO_NO_TELEMETRY: 1
+        run: |
+          npx expo export --platform android --output-dir dist
+          npm run release:verify:bundle -- --root dist --output artifacts/bundle-budget.json
+      - name: Upload bundle budget report
+        uses: actions/upload-artifact@v4
+        with:
+          name: lumen-bundle-budget
+          path: artifacts/bundle-budget.json
+          if-no-files-found: error

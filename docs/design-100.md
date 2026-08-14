@@ -195,26 +195,30 @@ deneyimi, performans ve görsel cila gelir.
 
 ## P2 — Performans, adaptasyon ve dayanıklılık (81–90)
 
-81. **Kutsal Kitap aramasını ana JS thread’den çıkar.** Altı tam metinde her tuşta senkron tarama
-    düşük cihazlarda takılır; önceden hazırlanmış indeks veya worker/native arama kullanılmalı.
-82. **Dil değişiminde büyük JSON yüklerini ölç.** Altı çevirinin aynı bundle’da tutulmasının
-    açılış süresi ve bellek etkisi profillenip yalnız aktif dilin lazy-load edilmesi sağlanmalı.
-83. **55,8 MB JS bundle için ağırlık bütçesi koy.** Her release’te bundle ve asset boyutu
-    raporlanmalı; eşik aşımı CI’ı durdurmalı.
-84. **Görsel çözünürlüklerini kullanım alanına göre üret.** 150 px kartta gereksiz büyük bitmap
-    decode edilmemeli; 1×/2× Android yoğunluk varyantları hazırlanmalı.
-85. **VerseCard iç içe scroll davranışını kaldır veya açıklaştır.** Kartın içinde fark edilmeyen
-    dikey kaydırma, ana sayfa scroll’u ile çakışıyor; metin boyuna göre kartı büyütmek tercih edilmeli.
-86. **Landscape ve split-screen için kritik ekranları yeniden akıt.** Player, paywall ve onboarding
-    sabit dikey kompozisyonları kısa yükseklikte kırpılmamalı.
-87. **Klavye/IME test matrisi oluştur.** Quiz name ve Journal input; küçük ekran, landscape ve
-    büyük yazıda CTA’yı klavye arkasında bırakmamalı.
-88. **Foldable hinge alanını hesaba kat.** Expanded layout, katlama çizgisinin üzerine kart veya
-    birincil düğme yerleştirmemeli.
+81. ✅ **TAMAMLANDI — Kutsal Kitap aramasını ana JS thread’den çıkar.** Her sorguda tam metin
+    taraması kaldırıldı; locale-scoped bigram indeks chapter aralarında event loop'a teslim edilerek
+    hazırlanıyor, sorgular en küçük posting listesinde exact-match doğrulaması yapıyor.
+82. ✅ **TAMAMLANDI — Dil değişiminde büyük JSON yüklerini ölç.** Dört gömülü kaynak yalnız aktif
+    locale ilk açıldığında require/parse ediliyor, önceki parse edilmiş ağaç bırakılıyor ve süre,
+    kitap/ayet sayısı metinsiz diagnostics API'sinde ölçülüyor; diğer diller doğrulanmış pack olarak iniyor.
+83. ✅ **TAMAMLANDI — 55,8 MB JS bundle için ağırlık bütçesi koy.** CI ve Android release; bundle,
+    toplam asset, tek asset ve gömülü Scripture boyutunu JSON artifact olarak raporluyor; 60 MiB bundle
+    veya tanımlı alt bütçeler aşıldığında build duruyor.
+84. ✅ **TAMAMLANDI — Görsel çözünürlüklerini kullanım alanına göre üret.** 150–170 dp A13 plan
+    kartları 512×307 1× ve 1024×614 @2x WebP kaynaklarıyla yoğunluğa göre decode ediliyor.
+85. ✅ **TAMAMLANDI — VerseCard iç içe scroll davranışını kaldır veya açıklaştır.** Kartta ScrollView
+    ve metin satır sınırı yok; min-height tabanından içerikle büyüyor ve kontrat testi bunu koruyor.
+86. ✅ **TAMAMLANDI — Landscape ve split-screen için kritik ekranları yeniden akıt.** Player kısa
+    yükseklikte kompaktlaşıp kayıyor; paywall hero küçülüyor; onboarding sabit kompozisyon yerine scroll ediyor.
+87. ✅ **TAMAMLANDI — Klavye/IME test matrisi oluştur.** Quiz ve Journal ortak KeyboardAvoidingView,
+    keyboard-persistent scroll ve küçük/landscape/split/200% metin matrisiyle CTA erişimini koruyor.
+88. ✅ **TAMAMLANDI — Foldable hinge alanını hesaba kat.** Expanded Today/Bible eşit bağımsız pane'ler
+    ve 32–56 dp merkez güvenli gutter kullanıyor; kart/birincil eylemler pane sınırında kalıyor.
 89. ✅ **TAMAMLANDI — Bozuk local storage için kurtarma ekle.** Tüm Zustand store'ları ortak güvenli
     storage katmanından geçiyor; bozuk JSON yalnız ilgili store'u sıfırlıyor, açılışı durdurmuyor.
-90. **Tüm boş/yükleniyor/hata durumlarını ekran matrisiyle belgeleyip test et.** Search, Library,
-    Plan, Paywall, bildirim ve satın alma için her durumun tasarlanmış karşılığı bulunmalı.
+90. ✅ **TAMAMLANDI — Tüm boş/yükleniyor/hata durumlarını ekran matrisiyle belgeleyip test et.**
+    Search, Library, Plan, Paywall, bildirim ve satın alma için initial/loading/pending/error/recovery
+    karşılıkları belgeli; release kontrat testi ilgili UI yüzeylerinin silinmesini engelliyor.
 
 ## P3 — Görsel sistem, marka ve son cila (91–100)
 

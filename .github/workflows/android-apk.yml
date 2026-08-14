@@ -174,6 +174,16 @@ jobs:
       - name: Build signed release AAB and APK
         run: cd android && ./gradlew bundleRelease assembleRelease --no-daemon
 
+      - name: Enforce release bundle budgets
+        run: npm run release:verify:bundle -- --root android/app/build/generated --output artifacts/bundle-budget.json
+
+      - name: Upload bundle budget report
+        uses: actions/upload-artifact@v4
+        with:
+          name: lumen-android-bundle-budget
+          path: artifacts/bundle-budget.json
+          if-no-files-found: error
+
       - name: Verify release signatures
         shell: bash
         run: |

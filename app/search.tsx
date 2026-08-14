@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { FlatList, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, FlatList, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -19,17 +19,12 @@ import {
   testamentLabels,
   type ScriptureFilter,
 } from '@/lib/scriptureNavigation';
-
-interface Hit {
-  book: number;
-  chapter: number;
-  verse: number;
-  ref: string;
-  text: string;
-  at: number; // match offset in text
-}
-
-const lower = (s: string, locale: string) => s.toLocaleLowerCase(locale);
+import {
+  getScriptureSearchIndex,
+  searchScriptureIndex,
+  type ScriptureSearchHit,
+  type ScriptureSearchIndex,
+} from '@/lib/scriptureSearch';
 const MAX = 300;
 
 export default function Search() {
@@ -42,6 +37,9 @@ export default function Search() {
   const [q, setQ] = useState(''); // debounced
   const [filter, setFilter] = useState<ScriptureFilter>('all');
   const bible = useMemo(() => getBible(scriptureLocale), [scriptureLocale]);
+  const [index, setIndex] = useState<ScriptureSearchIndex | null>(null);
+  const [indexError, setIndexError] = useState(false);
+  const [indexAttempt, setIndexAttempt] = useState(0);
   const testamentStart = newTestamentStart(bible.map((book) => book.code));
   const [oldTestament, newTestament] = testamentLabels(scriptureLocale);
 
@@ -50,29 +48,26 @@ export default function Search() {
     return () => clearTimeout(id);
   }, [query]);
 
-  const hits = useMemo<Hit[]>(() => {
-    if (q.length < 2) return [];
-    const needle = lower(q, scriptureLocale);
-    const out: Hit[] = [];
-    for (let b = 0; b < bible.length; b++) {
-      if (!filterIncludesBook(filter, b, testamentStart)) continue;
-      const bk = bible[b];
-      for (let c = 0; c < bk.chapters.length; c++) {
-        const ch = bk.chapters[c];
-        for (let v = 0; v < ch.length; v++) {
-          const text = ch[v][1];
-          const at = lower(text, scriptureLocale).indexOf(needle);
-          if (at !== -1) {
-            out.push({ book: b, chapter: c, verse: v, ref: `${bk.name} ${c + 1}:${ch[v][0]}`, text, at });
-            if (out.length >= MAX) return out;
-          }
-        }
-      }
-    }
-    return out;
-  }, [bible, filter, q, scriptureLocale, testamentStart]);
+  useEffect(() => {
+    let active = true;
+    setIndex(null);
+    setIndexError(false);
+    getScriptureSearchIndex(bible, scriptureLocale).then((next) => {
+      if (active) setIndex(next);
+    }).catch(() => {
+      if (active) setIndexError(true);
+    });
+    return () => { active = false; };
+  }, [bible, indexAttempt, scriptureLocale]);
 
-  const snippet = (h: Hit) => {
+  const hits = useMemo<ScriptureSearchHit[]>(() => index
+    ? searchScriptureIndex(index, q, {
+        max: MAX,
+        includesBook: (book) => filterIncludesBook(filter, book, testamentStart),
+      })
+    : [], [filter, index, q, testamentStart]);
+
+  const snippet = (h: ScriptureSearchHit) => {
     return searchSnippet(h.text, h.at, q.length);
   };
 
@@ -153,7 +148,7 @@ export default function Search() {
         })}
       </ScrollView>
 
-      {q.length >= 2 ? (
+      {q.length >= 2 && index ? (
         <Text
           style={{
             ...ty.caption,
@@ -182,7 +177,9 @@ export default function Search() {
         }}
         ListEmptyComponent={
           <View style={{ alignItems: 'center', paddingTop: spacing.xxxl, paddingHorizontal: spacing.xl }}>
-            <Ionicons name={q.length >= 2 ? 'search-outline' : 'book-outline'} size={40} color={t.inkFaint} />
+            {!index && !indexError ? <ActivityIndicator color={t.gold} /> : (
+              <Ionicons name={q.length >= 2 ? 'search-outline' : 'book-outline'} size={40} color={t.inkFaint} />
+            )}
             <Text
               style={{
                 ...ty.editorialCompact,
@@ -192,8 +189,17 @@ export default function Search() {
                 maxWidth: 280,
               }}
             >
-              {q.length >= 2 ? tr('read.searchEmpty') : tr('read.searchPrompt')}
+              {indexError ? tr('paywall.purchaseFailBody') : !index ? tr('paywall.processing') : q.length >= 2 ? tr('read.searchEmpty') : tr('read.searchPrompt')}
             </Text>
+            {indexError ? (
+              <Pressable
+                onPress={() => setIndexAttempt((attempt) => attempt + 1)}
+                accessibilityRole="button"
+                style={{ minHeight: 48, justifyContent: 'center', paddingHorizontal: spacing.xl, marginTop: spacing.md }}
+              >
+                <Text style={{ ...ty.label, color: t.blue }}>{tr('paywall.retry')}</Text>
+              </Pressable>
+            ) : null}
           </View>
         }
         renderItem={({ item }) => {
