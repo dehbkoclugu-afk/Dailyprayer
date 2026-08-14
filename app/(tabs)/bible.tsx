@@ -52,7 +52,7 @@ export default function Bible() {
         style={({ pressed }) => ({ marginTop: spacing.xl, opacity: pressed ? 0.92 : 1 })}
       >
         <View style={{ borderRadius: radius.card, overflow: 'hidden', backgroundColor: t.surface, borderWidth: dawn ? 1 : 0, borderColor: t.border }}>
-          <ArtSlot id="A18-ritual-reading" height={176} radius={radius.card} variant={dawn ? 'card' : 'bare'}>
+          <ArtSlot id="A18-ritual-reading" height={176} radius={radius.card} scrim={dawn ? 'none' : 'readable'}>
             {!dawn ? (
               <LinearGradient
                 colors={['rgba(26,18,6,0.02)', 'rgba(26,18,6,0.26)', 'rgba(20,14,6,0.78)']}
@@ -145,7 +145,7 @@ export default function Bible() {
               }}
             >
               <View style={{ borderRadius: radius.card, overflow: 'hidden', backgroundColor: t.surface, borderWidth: dawn ? 1 : 0, borderColor: t.border }}>
-                <ArtSlot id={p.art} height={150} radius={radius.card} variant={dawn ? 'card' : 'bare'}>
+                <ArtSlot id={p.art} height={150} radius={radius.card} scrim={dawn ? 'none' : 'readable'}>
                   {!dawn ? (
                     <LinearGradient
                       colors={[`${p.gradient[0]}CC`, `${p.gradient[1]}F2`]}

@@ -59,7 +59,7 @@ export default function Pray() {
                 opacity: pressed ? 0.78 : 1,
               })}
             >
-              <ArtSlot id={prayerArt(categoryPrayer.id)} variant="contrast" radius={radius.inner} style={{ minHeight: 112 }}>
+              <ArtSlot id={prayerArt(categoryPrayer.id)} scrim="strong" radius={radius.inner} style={{ minHeight: 112 }}>
                 <View style={{ minHeight: 112, padding: spacing.md, justifyContent: 'flex-end' }}>
                   <View style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: 'rgba(14,18,32,0.42)', alignItems: 'center', justifyContent: 'center', marginBottom: spacing.sm }}>
                     <Ionicons name={c.icon as keyof typeof Ionicons.glyphMap} size={18} color={active ? t.gold : '#FFFFFF'} />
@@ -115,7 +115,7 @@ export default function Pray() {
             >
               <ArtSlot
                 id={prayerArt(p.id)}
-                variant="row"
+                scrim="readable"
                 radius={radius.card}
                 style={{ width: '100%' }}
               >

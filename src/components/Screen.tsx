@@ -10,8 +10,8 @@ import {
   type ViewStyle,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme } from '@/hooks/useTheme';
-import { spacing } from '@/theme/tokens';
+import { useTheme, useThemeName } from '@/hooks/useTheme';
+import { grainOpacity, spacing } from '@/theme/tokens';
 import { artRegistry } from '@/assets/registry';
 import { contentMaxWidth } from '@/lib/adaptiveLayout';
 
@@ -28,11 +28,12 @@ interface Props {
 const grain = artRegistry['A3-grain'];
 
 function Grain() {
+  const themeName = useThemeName();
   if (!grain) return null;
   return (
     <View
       pointerEvents="none"
-      style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, opacity: 0.04 }}
+      style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, opacity: grainOpacity[themeName] }}
     >
       <Image
         source={grain}

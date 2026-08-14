@@ -77,7 +77,7 @@ export default function Journal() {
         id="A22-journal-compose"
         height={310}
         radius={radius.card}
-        variant="card"
+        scrim="soft"
         style={{
           backgroundColor: t.surface,
           borderRadius: radius.card,

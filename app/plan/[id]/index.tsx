@@ -58,7 +58,7 @@ export default function PlanScreen() {
       </Pressable>
 
       <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
-        <ArtSlot id={plan.art} height={170} radius={radius.card} variant="contrast">
+        <ArtSlot id={plan.art} height={170} radius={radius.card} scrim="strong">
           {!dawn ? (
             <LinearGradient
               colors={[`${plan.gradient[0]}CC`, `${plan.gradient[1]}F2`]}

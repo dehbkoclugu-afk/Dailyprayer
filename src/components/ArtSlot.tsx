@@ -5,7 +5,7 @@ import { artSpecs, type AssetId } from '@/assets/registry';
 import { useArtwork } from '@/hooks/useArtwork';
 import { useTheme } from '@/hooks/useTheme';
 import { type as ty } from '@/theme/typography';
-import { artContrast } from '@/theme/artContrast';
+import { artworkScrims, type ArtworkScrimPreset } from '@/theme/artContrast';
 
 interface Props {
   id: AssetId;
@@ -14,39 +14,22 @@ interface Props {
   fit?: 'cover' | 'contain';
   radius?: number;
   style?: StyleProp<ViewStyle>;
-  /** Theme-aware scrim. Bare preserves the original artwork untouched. */
-  variant?: 'bare' | 'row' | 'card' | 'hero' | 'contrast';
+  /** Semantic artwork overlay. None preserves the original artwork untouched. */
+  scrim?: ArtworkScrimPreset | 'none';
   /** rendered above the art (e.g. scrims, text) */
   children?: React.ReactNode;
 }
-
-// Artwork always stays full-frame. A flat, low-opacity veil protects copy
-// without the vertical grey wall produced by directional gradients.
-const OVERLAYS = {
-  vigil: {
-    row: 'rgba(14,18,32,0.30)',
-    card: 'rgba(14,18,32,0.26)',
-    hero: 'rgba(14,18,32,0.32)',
-    contrast: artContrast.scrim,
-  },
-  dawn: {
-    row: 'transparent',
-    card: 'transparent',
-    hero: 'transparent',
-    contrast: artContrast.scrim,
-  },
-} as const;
 
 /**
  * Art slot: renders finished artwork when registered in artRegistry, otherwise
  * an elegant labeled placeholder so the layout is final before art exists.
  */
-export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant = 'bare', children }: Props) {
+export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, scrim = 'none', children }: Props) {
   const t = useTheme();
   const artwork = useArtwork();
   const source = artwork.source(id);
   const spec = artSpecs[id];
-  const overlay = variant === 'bare' ? null : OVERLAYS[artwork.scheme][variant];
+  const overlay = scrim === 'none' ? null : artworkScrims[scrim];
 
   return (
     <View style={[{ height, borderRadius: radius, overflow: 'hidden' }, style]}>
@@ -89,7 +72,7 @@ export function ArtSlot({ id, height, fit = 'cover', radius = 0, style, variant 
           </Text>
         </View>
       )}
-      {source && overlay && overlay !== 'transparent' ? (
+      {source && overlay ? (
         <View
           pointerEvents="none"
           style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: overlay }}

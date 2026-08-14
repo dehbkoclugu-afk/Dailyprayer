@@ -109,7 +109,7 @@ export default function Player() {
       <ArtSlot
         id={prayerArt(prayer.id)}
         fit="cover"
-        variant="bare"
+        scrim="none"
         style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
       />
       <ScrollView

@@ -219,7 +219,7 @@ export default function Paywall() {
         <ArtSlot
           id={paywallContext.hero}
           radius={radius.hero}
-          variant={dawn ? 'card' : 'bare'}
+          scrim={dawn ? 'none' : 'readable'}
           style={{ minHeight: short ? 180 : 260 }}
         >
           {!dawn ? (

@@ -4,13 +4,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { captureRef } from 'react-native-view-shot';
 import * as Sharing from 'expo-sharing';
 import { type as ty, verseCardTypes } from '@/theme/typography';
-import { radius, shadow, spacing } from '@/theme/tokens';
+import { elevation, interaction, radius, spacing } from '@/theme/tokens';
 import { type AssetId } from '@/assets/registry';
 import { ArtSlot } from '@/components/ArtSlot';
 import type { DailyVerse } from '@/data/verses';
 import { useT } from '@/i18n';
 import { localeUpperCase } from '@/i18n/localeText';
-import { artContrast } from '@/theme/artContrast';
+import { useTheme } from '@/hooks/useTheme';
 
 /**
  * Verse theme → A5 background. Eight themes have dedicated art; the remaining
@@ -47,6 +47,7 @@ interface Props {
 }
 
 export function VerseCard({ verse, onRead, onShuffle }: Props) {
+  const t = useTheme();
   const { t: tr, locale } = useT();
   const cardRef = useRef<View>(null);
   const verseType = verseCardTypes[initialVerseFontStep(verse.text)];
@@ -79,7 +80,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       <Text
         style={{
           ...ty.overline,
-          color: artContrast.primary,
+          color: t.onArtwork,
         }}
       >
         {localeUpperCase(tr('today.verseOfDay'), locale)}
@@ -91,7 +92,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               ...verseType,
               letterSpacing: -0.3,
               textAlign: 'center',
-              color: artContrast.primary,
+              color: t.onArtwork,
               textShadowColor: 'rgba(0,0,0,0.72)',
               textShadowOffset: { width: 0, height: 1 },
               textShadowRadius: 8,
@@ -112,7 +113,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
         }}
       >
         <Text
-          style={[ty.secondaryMedium, { color: artContrast.secondary, flexGrow: 1, flexBasis: 150 }]}
+          style={[ty.secondaryMedium, { color: t.onArtworkMuted, flexGrow: 1, flexBasis: 150 }]}
         >
           {verse.reference}
         </Text>
@@ -123,9 +124,9 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               hitSlop={12}
               accessibilityRole="button"
               accessibilityLabel={tr('a11y.anotherVerse')}
-              style={({ pressed }) => ({ width: 48, height: 48, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
+              style={({ pressed }) => ({ width: 48, height: 48, alignItems: 'center', justifyContent: 'center', opacity: pressed ? interaction.pressedOpacity : 1 })}
             >
-              <Ionicons name="shuffle" size={21} color="#F2EEE6" />
+              <Ionicons name="shuffle" size={21} color={t.onArtwork} />
             </Pressable>
           ) : null}
           <Pressable
@@ -133,9 +134,9 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
             hitSlop={12}
             accessibilityRole="button"
             accessibilityLabel={tr('a11y.shareVerse')}
-            style={({ pressed }) => ({ width: 48, height: 48, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
+            style={({ pressed }) => ({ width: 48, height: 48, alignItems: 'center', justifyContent: 'center', opacity: pressed ? interaction.pressedOpacity : 1 })}
           >
-            <Ionicons name="share-outline" size={21} color="#F2EEE6" />
+            <Ionicons name="share-outline" size={21} color={t.onArtwork} />
           </Pressable>
         </View>
       </View>
@@ -150,13 +151,13 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       accessibilityLabel={`${tr('today.verseOfDay')}, ${verse.reference}`}
       style={[
         { minHeight: 340, borderRadius: radius.hero, overflow: 'hidden' },
-        shadow.card,
+        elevation.hero,
       ]}
     >
       <ArtSlot
         id={VERSE_ART[verse.theme]}
         radius={radius.hero}
-        variant="contrast"
+        scrim="strong"
         style={{ minHeight: 340 }}
       >
         {content}

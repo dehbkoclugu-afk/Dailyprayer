@@ -262,7 +262,7 @@ export default function Today() {
           <ArtSlot
             id={prayerArt(sleepPrayer.id)}
             radius={radius.card}
-            variant="contrast"
+            scrim="strong"
             style={{ minHeight: tonightExpanded ? 150 : 96 }}
           >
             {!dawn ? (
