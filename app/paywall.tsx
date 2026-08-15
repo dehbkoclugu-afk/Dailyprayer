@@ -219,24 +219,24 @@ export default function Paywall() {
         <ArtSlot
           id={paywallContext.hero}
           radius={radius.hero}
-          scrim={dawn ? 'none' : 'readable'}
+          scrim="soft"
           style={{ minHeight: short ? 180 : 260 }}
         >
-          {!dawn ? (
-            <LinearGradient
-              colors={['rgba(14,18,32,0.15)', 'rgba(14,18,32,0.9)']}
-              style={{ position: 'absolute', width: '100%', height: '100%' }}
-            />
-          ) : null}
+          <LinearGradient
+            colors={dawn
+              ? ['rgba(14,18,32,0.04)', 'rgba(14,18,32,0.78)']
+              : ['rgba(14,18,32,0.12)', 'rgba(14,18,32,0.86)']}
+            style={{ position: 'absolute', width: '100%', height: '100%' }}
+          />
           <View style={{ flex: 1, justifyContent: 'flex-end', padding: spacing.xl }}>
-            <Text style={{ ...ty.title, color: dawn ? t.ink : t.onArtwork }}>
+            <Text style={{ ...ty.title, color: t.onArtwork }}>
 {tr(paywallContext.titleKey)}
             </Text>
             <View style={{ gap: spacing.xs, marginTop: spacing.md }}>
               {BENEFITS.map((b) => (
                 <View key={b} style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
                   <Ionicons name="checkmark-circle" size={16} color={t.gold} />
-                  <Text style={{ ...ty.labelRegular, color: dawn ? t.inkSoft : t.onArtworkMuted, flex: 1 }}>{b}</Text>
+                  <Text style={{ ...ty.labelRegular, color: t.onArtworkMuted, flex: 1 }}>{b}</Text>
                 </View>
               ))}
             </View>

@@ -91,8 +91,19 @@ export function RitualCard({ icon, title, subtitle, done, locked, featured = fal
       {art && hasArt ? (
         <ArtSlot
           id={art}
-          scrim="strong"
+          scrim="soft"
           radius={radius.card}
+          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
+        />
+      ) : null}
+      {hasArt ? (
+        <LinearGradient
+          pointerEvents="none"
+          colors={done
+            ? ['rgba(8,10,18,0.70)', 'rgba(8,10,18,0.38)', 'rgba(8,10,18,0.08)']
+            : ['rgba(8,10,18,0.14)', 'rgba(8,10,18,0.48)', 'rgba(8,10,18,0.20)']}
+          start={done ? { x: 0, y: 0.5 } : { x: 0.5, y: 0 }}
+          end={done ? { x: 1, y: 0.5 } : { x: 0.5, y: 1 }}
           style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
         />
       ) : null}
