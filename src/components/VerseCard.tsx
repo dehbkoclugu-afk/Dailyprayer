@@ -161,17 +161,17 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       <ArtSlot
         id={VERSE_ART[verse.theme]}
         radius={radius.hero}
-        scrim={dawn ? 'none' : 'strong'}
+        scrim="none"
         style={{ minHeight: 340 }}
       >
-        {dawn ? (
-          <LinearGradient
-            pointerEvents="none"
-            colors={['rgba(8,10,18,0.12)', 'rgba(8,10,18,0.42)', 'rgba(8,10,18,0.14)']}
-            locations={[0, 0.52, 1]}
-            style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
-          />
-        ) : null}
+        <LinearGradient
+          pointerEvents="none"
+          colors={dawn
+            ? ['rgba(8,10,18,0.12)', 'rgba(8,10,18,0.42)', 'rgba(8,10,18,0.14)']
+            : ['rgba(4,6,12,0.18)', 'rgba(4,6,12,0.48)', 'rgba(4,6,12,0.20)']}
+          locations={[0, 0.52, 1]}
+          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
+        />
         {content}
       </ArtSlot>
     </Pressable>

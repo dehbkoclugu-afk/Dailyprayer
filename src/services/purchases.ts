@@ -192,3 +192,14 @@ export async function openSubscriptionManagement(): Promise<void> {
       : 'https://play.google.com/store/account/subscriptions?package=com.lumen.dailyprayer';
   await Linking.openURL(url);
 }
+
+/** RevenueCat customer ID used for targeted, auditable promotional Plus grants. */
+export async function getSupportUserId(): Promise<string | null> {
+  await initPurchases();
+  if (!rc) return null;
+  try {
+    return await rc.getAppUserID();
+  } catch {
+    return null;
+  }
+}

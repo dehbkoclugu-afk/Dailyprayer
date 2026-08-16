@@ -37,6 +37,7 @@ import { useModalAccessibility } from '@/hooks/useModalAccessibility';
 import { accessibleVerseLabel } from '@/lib/accessibility';
 import { isExpandedLayout } from '@/lib/adaptiveLayout';
 import { newTestamentStart, testamentLabels } from '@/lib/scriptureNavigation';
+import { EnglishAudioBible } from '@/components/EnglishAudioBible';
 
 export default function Read() {
   const { t: tr, locale } = useT();
@@ -290,6 +291,7 @@ export default function Read() {
             <Text style={{ ...scaledType('titleLarge', fontScale), color: rt.ink, marginTop: 4, textAlign: scriptureRtl ? 'right' : 'left', writingDirection: scriptureRtl ? 'rtl' : 'ltr' }}>
               {bk.name}
             </Text>
+            <EnglishAudioBible book={bIdx} chapter={cIdx} palette={rt} />
             {showGestureHint ? (
               <View accessibilityRole="summary" style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginTop: spacing.lg, padding: spacing.md, borderRadius: radius.inner, backgroundColor: rt.goldSoft, borderWidth: 1, borderColor: rt.gold }}>
                 <View style={{ flex: 1, gap: spacing.xs }}>
