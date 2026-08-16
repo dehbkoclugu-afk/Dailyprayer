@@ -518,3 +518,49 @@ function ValueRow({
       <View
         style={{
           flexDirection: 'row',
+          alignItems: 'center',
+          gap: spacing.md,
+          paddingVertical: spacing.lg,
+          minHeight: 56,
+          borderTopWidth: first ? 0 : 1,
+          borderTopColor: t.border,
+        }}
+      >
+        <Ionicons name={icon as never} size={20} color={t.inkSoft} />
+        <Text style={{ ...ty.secondary, color: t.ink, flex: 1 }}>{label}</Text>
+        <Text style={{ ...ty.secondaryMedium, color: t.gold }}>{value}</Text>
+        <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={18} color={t.inkFaint} />
+      </View>
+    </Pressable>
+  );
+}
+
+function Row({ icon, label, onPress }: { icon: string; label: string; onPress?: () => void }) {
+  const t = useTheme();
+  const { locale } = useT();
+  return (
+    <Pressable
+      onPress={onPress}
+      disabled={!onPress}
+      accessibilityRole={onPress ? 'button' : undefined}
+      accessibilityLabel={label}
+      style={({ pressed }) => ({ paddingHorizontal: spacing.lg, opacity: pressed ? 0.7 : 1 })}
+    >
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: spacing.md,
+          paddingVertical: spacing.lg,
+          borderBottomWidth: 1,
+          borderBottomColor: t.border,
+          minHeight: 52,
+        }}
+      >
+        <Ionicons name={icon as never} size={20} color={t.inkSoft} />
+        <Text style={{ ...ty.secondary, color: t.ink, flex: 1 }}>{label}</Text>
+        <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={18} color={t.inkFaint} />
+      </View>
+    </Pressable>
+  );
+}
