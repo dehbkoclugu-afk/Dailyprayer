@@ -41,6 +41,7 @@ export default function Profile() {
   } = useUserStore();
   const { count, bestCount, totalDays, activeDays } = useStreakStore();
   const isPlus = useEntitlementStore((s) => s.isPlus);
+  const setPlus = useEntitlementStore((s) => s.setPlus);
   const [sheet, setSheet] = useState<null | 'appearance'>(null);
   const sheetReturnFocus = useRef<number | null>(null);
   const [showIosReminderPicker, setShowIosReminderPicker] = useState(false);
@@ -433,6 +434,7 @@ export default function Profile() {
         />
         <Row icon="mail-outline" label={tr('profile.contact')} onPress={contactSupport} />
         <Row icon="key-outline" label="Support ID" onPress={() => void copySupportId()} />
+        <Row icon="star-outline" label="Test Plus" onPress={() => setPlus(true)} />
         <Pressable
           onPress={reset}
           accessibilityRole="button"
