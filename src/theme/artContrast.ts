@@ -3,13 +3,13 @@ export type ArtworkScrimPreset = 'soft' | 'readable' | 'strong';
 export const artworkScrims: Record<ArtworkScrimPreset, string> = {
   soft: 'rgba(0,0,0,0.24)',
   readable: 'rgba(0,0,0,0.42)',
-  strong: 'rgba(0,0,0,0.64)',
+  strong: 'rgba(0,0,0,0.60)',
 };
 
 export const artContrast = {
   /** Guarantees readable light text even over a pure-white source pixel. */
   scrim: artworkScrims.strong,
-  scrimAlpha: 0.64,
+  scrimAlpha: 0.60,
   onArtwork: '#F7F1E7',
   onArtworkMuted: '#E8E4DC',
   /** Backwards-compatible aliases for consumers migrating to theme roles. */

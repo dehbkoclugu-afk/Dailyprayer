@@ -214,7 +214,7 @@ export default function Today() {
         right={(
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
             <Text style={{ ...ty.labelMedium, color: t.inkSoft }}>
-              {tr('today.completed')} · {doneCount}/4
+              {tr('today.completed')}
             </Text>
             <ProgressRing done={doneCount} total={4} size={46} />
           </View>
@@ -261,15 +261,15 @@ export default function Today() {
           <ArtSlot
             id={prayerArt(sleepPrayer.id)}
             radius={radius.card}
-            scrim="strong"
+            scrim="soft"
             style={{ minHeight: tonightExpanded ? 150 : 96 }}
           >
-            {!dawn ? (
-              <LinearGradient
-                colors={['rgba(30,26,58,0.35)', 'rgba(10,12,24,0.92)']}
-                style={{ position: 'absolute', width: '100%', height: '100%' }}
-              />
-            ) : null}
+            <LinearGradient
+              colors={dawn
+                ? ['rgba(10,12,24,0.06)', 'rgba(10,12,24,0.66)']
+                : ['rgba(30,26,58,0.24)', 'rgba(10,12,24,0.82)']}
+              style={{ position: 'absolute', width: '100%', height: '100%' }}
+            />
             <View
               style={{
                 flex: 1,

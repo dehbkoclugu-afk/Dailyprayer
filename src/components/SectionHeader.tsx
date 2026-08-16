@@ -25,8 +25,8 @@ export function SectionHeader({
         ...style,
       }}
     >
-      <Text style={{ ...ty.subheading, color: t.ink }}>{title}</Text>
-      {right}
+      <Text numberOfLines={1} style={{ ...ty.subheading, color: t.ink, flex: 1, flexShrink: 1 }}>{title}</Text>
+      {right ? <View style={{ marginLeft: spacing.sm, flexShrink: 0 }}>{right}</View> : null}
     </View>
   );
 }
