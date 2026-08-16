@@ -16,9 +16,9 @@ import {
   filterIncludesBook,
   newTestamentStart,
   searchSnippet,
-  testamentLabels,
   type ScriptureFilter,
 } from '@/lib/scriptureNavigation';
+import { testamentLabels } from '@/i18n/testamentLabels';
 import {
   getScriptureSearchIndex,
   searchScriptureIndex,
@@ -30,7 +30,7 @@ const MAX = 300;
 export default function Search() {
   const t = useTheme();
   const artwork = useArtwork();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const scriptureLocale = useScriptureLocale();
   const insets = useSafeAreaInsets();
   const [query, setQuery] = useState('');
@@ -41,7 +41,7 @@ export default function Search() {
   const [indexError, setIndexError] = useState(false);
   const [indexAttempt, setIndexAttempt] = useState(0);
   const testamentStart = newTestamentStart(bible.map((book) => book.code));
-  const [oldTestament, newTestament] = testamentLabels(scriptureLocale);
+  const [oldTestament, newTestament] = testamentLabels(locale);
 
   useEffect(() => {
     const id = setTimeout(() => setQ(query.trim()), 220);

@@ -22,8 +22,10 @@ const SOURCES: ScriptureAudioSource[] = [
   { id: 'rv1909-pdab', locale: 'es', edition: 'Reina-Valera 1909', label: 'Reina-Valera 1909 Audio', attribution: 'PublicDomainAudioBibles.com', rights: 'Public domain recording (2017)', evidenceUrl: 'https://publicdomainaudiobibles.com/RVA1909.html', trustedHosts: ['publicdomainaudiobibles.com', 'www.publicdomainaudiobibles.com'], coverage: 'Complete Bible · 1,189 chapters', resolveChapterUrl: resolveSpanishChapterUrl },
   { id: 'lsg1910-archive', locale: 'fr', edition: 'Louis Segond 1910', label: 'Bible audio Louis Segond 1910', attribution: 'Internet Archive / WordProject', rights: 'Public Domain Mark 1.0', evidenceUrl: 'https://archive.org/details/french_audiobible', trustedHosts: ['archive.org'], coverage: 'Complete Bible · 1,189 chapters', resolveChapterUrl: resolveFrenchChapterUrl },
   { id: 'luther1912-sermon', locale: 'de', edition: 'Lutherbibel 1912', label: 'Luther 1912 Hörbibel', attribution: 'Sermon-Online', rights: 'Gemeinfrei', evidenceUrl: 'https://www.sermon-online.com/contents/879', trustedHosts: ['info2.sermon-online.com'], coverage: 'Complete Bible · 1,189 chapters', resolveChapterUrl: sermon('https://info2.sermon-online.com/german/MartinLuther-1912/Audio_Bibel_Luther_Uebersetzung_1912_OT_NT_MP3/') },
-  { id: 'japanese-sermon', locale: 'ja', edition: 'Japanese Freedom Bible 2026', label: 'Japanese Audio Bible', attribution: 'Sermon-Online', rights: 'Source page does not declare the recording edition', evidenceUrl: 'https://www.sermon-online.com/contents/25694', trustedHosts: ['info2.sermon-online.com'], coverage: 'Complete Bible · 1,189 chapters; edition match pending confirmation', resolveChapterUrl: sermon('https://info2.sermon-online.com/japanese/Bible/Japanese-Audio_Bible_Complete_OT_NT_MP3/') },
 ];
+
+// Japanese audio intentionally stays out of the production registry until the
+// recording's exact edition and paid-product usage rights are confirmed.
 
 export function getScriptureAudioSource(edition: string): ScriptureAudioSource | null {
   return SOURCES.find((source) => source.edition === edition) ?? null;

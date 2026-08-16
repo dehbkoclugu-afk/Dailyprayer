@@ -1,35 +1,53 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View, type GestureResponderEvent } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { setAudioModeAsync, useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
+import { ArtSlot } from '@/components/ArtSlot';
+import { useArtwork } from '@/hooks/useArtwork';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { getScriptureAudioSource, resolveScriptureAudioChapterUrl } from '@/services/scriptureAudio';
 import { type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { elevation, interaction, radius, spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
 
-const COPY: Record<string, { title: string; listen: string; pause: string; loading: string; retry: string; speed: string; back: string; forward: string }> = {
-  en: { title: 'Audio Bible', listen: 'Listen', pause: 'Pause', loading: 'Loading…', retry: 'Try again', speed: 'Speed', back: 'Back 15 seconds', forward: 'Forward 15 seconds' },
-  tr: { title: 'Sesli Kutsal Kitap', listen: 'Dinle', pause: 'Duraklat', loading: 'Yükleniyor…', retry: 'Tekrar dene', speed: 'Hız', back: '15 saniye geri', forward: '15 saniye ileri' },
-  es: { title: 'Biblia en audio', listen: 'Escuchar', pause: 'Pausar', loading: 'Cargando…', retry: 'Reintentar', speed: 'Velocidad', back: 'Retroceder 15 segundos', forward: 'Avanzar 15 segundos' },
-  fr: { title: 'Bible audio', listen: 'Écouter', pause: 'Pause', loading: 'Chargement…', retry: 'Réessayer', speed: 'Vitesse', back: 'Reculer de 15 secondes', forward: 'Avancer de 15 secondes' },
-  de: { title: 'Hörbibel', listen: 'Anhören', pause: 'Pause', loading: 'Laden…', retry: 'Erneut versuchen', speed: 'Tempo', back: '15 Sekunden zurück', forward: '15 Sekunden vor' },
-  ja: { title: 'オーディオ聖書', listen: '聴く', pause: '一時停止', loading: '読み込み中…', retry: '再試行', speed: '速度', back: '15秒戻る', forward: '15秒進む' },
+const COPY: Record<string, { title: string; listen: string; pause: string; loading: string; retry: string; speed: string; back: string; forward: string; seek: string; included: string }> = {
+  en: { title: 'Audio Bible', listen: 'Listen', pause: 'Pause', loading: 'Loading…', retry: 'Try again', speed: 'Speed', back: 'Back 15 seconds', forward: 'Forward 15 seconds', seek: 'Playback position', included: 'Included with Plus' },
+  tr: { title: 'Sesli Kutsal Kitap', listen: 'Dinle', pause: 'Duraklat', loading: 'Yükleniyor…', retry: 'Tekrar dene', speed: 'Hız', back: '15 saniye geri', forward: '15 saniye ileri', seek: 'Oynatma konumu', included: 'Plus ile birlikte' },
+  es: { title: 'Biblia en audio', listen: 'Escuchar', pause: 'Pausar', loading: 'Cargando…', retry: 'Reintentar', speed: 'Velocidad', back: 'Retroceder 15 segundos', forward: 'Avanzar 15 segundos', seek: 'Posición de reproducción', included: 'Incluido con Plus' },
+  fr: { title: 'Bible audio', listen: 'Écouter', pause: 'Pause', loading: 'Chargement…', retry: 'Réessayer', speed: 'Vitesse', back: 'Reculer de 15 secondes', forward: 'Avancer de 15 secondes', seek: 'Position de lecture', included: 'Inclus avec Plus' },
+  de: { title: 'Hörbibel', listen: 'Anhören', pause: 'Pause', loading: 'Laden…', retry: 'Erneut versuchen', speed: 'Tempo', back: '15 Sekunden zurück', forward: '15 Sekunden vor', seek: 'Wiedergabeposition', included: 'In Plus enthalten' },
+  ja: { title: 'オーディオ聖書', listen: '聴く', pause: '一時停止', loading: '読み込み中…', retry: '再試行', speed: '速度', back: '15秒戻る', forward: '15秒進む', seek: '再生位置', included: 'Plusに含まれています' },
 };
 
 /** Recordings differ wildly in pace; a slower rate is the only pacing control we can offer. */
 const RATES = [0.75, 1, 1.25] as const;
 const SKIP_SECONDS = 15;
 
+type PlayerPalette = {
+  surface: string;
+  border: string;
+  ink: string;
+  inkSoft: string;
+  gold: string;
+  goldSoft: string;
+};
+
+function formatTime(seconds: number): string {
+  if (!Number.isFinite(seconds) || seconds <= 0) return '0:00';
+  const whole = Math.floor(seconds);
+  return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, '0')}`;
+}
+
 export function ScriptureAudioBible({ edition, book, chapter, palette }: {
   edition: string;
   book: number;
   chapter: number;
-  palette: { surface: string; border: string; ink: string; inkSoft: string; gold: string; goldSoft: string };
+  palette: PlayerPalette;
 }) {
   const source = getScriptureAudioSource(edition);
   const { locale } = useT();
+  const artwork = useArtwork();
   const copy = COPY[locale] ?? COPY.en;
   const isPlus = useEntitlementStore((state) => state.isPlus);
   const [activated, setActivated] = useState(false);
@@ -39,25 +57,35 @@ export function ScriptureAudioBible({ edition, book, chapter, palette }: {
   if (!activated) {
     const action = copy.listen;
     return (
-      <View style={{ marginTop: spacing.lg, padding: spacing.md, borderRadius: radius.inner, backgroundColor: palette.surface, borderWidth: 1, borderColor: palette.border }}>
-        <Pressable
-          onPress={() => {
-            if (!isPlus) router.push('/paywall?from=bible-audio');
-            else setActivated(true);
-          }}
-          accessibilityRole="button"
-          accessibilityLabel={`${copy.title}: ${action}`}
-          style={({ pressed }) => ({ flexDirection: 'row', alignItems: 'center', gap: spacing.md, opacity: pressed ? 0.65 : 1 })}
-        >
-          <View style={{ width: 42, height: 42, borderRadius: 21, alignItems: 'center', justifyContent: 'center', backgroundColor: palette.goldSoft }}>
-            <Ionicons name={!isPlus ? 'lock-closed' : 'play'} size={19} color={palette.gold} />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Text style={{ ...ty.bodyCompactStrong, color: palette.ink }}>{copy.title} · PLUS</Text>
-            <Text style={{ ...ty.captionRegular, color: palette.inkSoft, marginTop: 2 }}>{action} · {source.edition}</Text>
-          </View>
-          <Ionicons name={!isPlus ? 'chevron-forward' : 'play-circle-outline'} size={24} color={palette.gold} />
-        </Pressable>
+      <View style={{ marginTop: spacing.lg, borderRadius: radius.card, ...elevation.card }}>
+        <ArtSlot id="A18-ritual-reading" height={112} radius={radius.card} scrim="strong">
+          <Pressable
+            onPress={() => {
+              if (!isPlus) router.push('/paywall?from=bible-audio');
+              else setActivated(true);
+            }}
+            accessibilityRole="button"
+            accessibilityLabel={`${copy.title}: ${action}`}
+            style={({ pressed }) => ({ flex: 1, flexDirection: 'row', alignItems: 'center', gap: spacing.md, padding: spacing.lg, opacity: pressed ? interaction.pressedOpacity : 1 })}
+          >
+            <View style={{ width: 50, height: 50, borderRadius: 25, alignItems: 'center', justifyContent: 'center', backgroundColor: artwork.foreground.badge, borderWidth: 1, borderColor: artwork.foreground.tertiary }}>
+              <Ionicons name={!isPlus ? 'lock-closed' : 'headset'} size={22} color={palette.gold} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
+                <Text style={{ ...ty.bodyCompactStrong, color: artwork.foreground.primary }}>{copy.title}</Text>
+                <View style={{ paddingHorizontal: spacing.sm, paddingVertical: 2, borderRadius: radius.pill, backgroundColor: palette.gold }}>
+                  <Text style={{ ...ty.labelSmallBold, color: palette.surface }}>PLUS</Text>
+                </View>
+              </View>
+              <Text numberOfLines={1} style={{ ...ty.captionRegular, color: artwork.foreground.secondary, marginTop: spacing.xs }}>{source.edition}</Text>
+              <Text style={{ ...ty.labelSmallMedium, color: artwork.foreground.primary, marginTop: 2 }}>{isPlus ? action : copy.included}</Text>
+            </View>
+            <View style={{ width: 38, height: 38, borderRadius: 19, alignItems: 'center', justifyContent: 'center', backgroundColor: artwork.foreground.badge }}>
+              <Ionicons name={!isPlus ? 'chevron-forward' : 'play'} size={19} color={palette.gold} />
+            </View>
+          </Pressable>
+        </ArtSlot>
       </View>
     );
   }
@@ -69,10 +97,11 @@ function ActiveScriptureAudio({ edition, book, chapter, palette }: {
   edition: string;
   book: number;
   chapter: number;
-  palette: { surface: string; border: string; ink: string; inkSoft: string; gold: string; goldSoft: string };
+  palette: PlayerPalette;
 }) {
   const source = getScriptureAudioSource(edition)!;
   const { locale } = useT();
+  const artwork = useArtwork();
   const copy = COPY[locale] ?? COPY.en;
   const player = useAudioPlayer(null, 500);
   const status = useAudioPlayerStatus(player);
@@ -80,6 +109,7 @@ function ActiveScriptureAudio({ edition, book, chapter, palette }: {
   const [loading, setLoading] = useState(false);
   const [failed, setFailed] = useState(false);
   const [rate, setRate] = useState<number>(1);
+  const [trackWidth, setTrackWidth] = useState(0);
   /** What the listener last asked for, so turning the page does not start audio they paused. */
   const wantsPlayback = useRef(true);
   const key = `${edition}:${book}:${chapter}`;
@@ -146,39 +176,98 @@ function ActiveScriptureAudio({ edition, book, chapter, palette }: {
   const progress = status.duration > 0 ? Math.min(1, status.currentTime / status.duration) : 0;
   const action = failed ? copy.retry : loading || status.isBuffering ? copy.loading : status.playing ? copy.pause : copy.listen;
 
+  const seekFromGesture = (event: GestureResponderEvent) => {
+    if (trackWidth <= 0 || status.duration <= 0) return;
+    const ratio = Math.min(1, Math.max(0, event.nativeEvent.locationX / trackWidth));
+    void player.seekTo(ratio * status.duration);
+  };
+
+  const adjustPosition = (seconds: number) => {
+    if (status.duration <= 0) return;
+    void player.seekTo(Math.min(Math.max(0, status.currentTime + seconds), status.duration));
+  };
+
   return (
-    <View style={{ marginTop: spacing.lg, padding: spacing.md, borderRadius: radius.inner, backgroundColor: palette.surface, borderWidth: 1, borderColor: palette.border }}>
-      <Pressable onPress={() => void toggle()} disabled={loading} accessibilityRole="button" accessibilityLabel={`${copy.title}: ${action}`} style={({ pressed }) => ({ flexDirection: 'row', alignItems: 'center', gap: spacing.md, opacity: pressed ? 0.65 : 1 })}>
-        <View style={{ width: 42, height: 42, borderRadius: 21, alignItems: 'center', justifyContent: 'center', backgroundColor: palette.goldSoft }}>
-          <Ionicons name={status.playing ? 'pause' : 'play'} size={19} color={palette.gold} />
+    <View style={{ marginTop: spacing.lg, borderRadius: radius.card, ...elevation.card }}>
+      <View style={{ borderRadius: radius.card, backgroundColor: palette.surface, borderWidth: 1, borderColor: palette.border, overflow: 'hidden' }}>
+        <ArtSlot id="A18-ritual-reading" height={92} scrim="strong">
+          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: spacing.md, padding: spacing.lg }}>
+            <View style={{ width: 46, height: 46, borderRadius: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: artwork.foreground.badge, borderWidth: 1, borderColor: artwork.foreground.tertiary }}>
+              <Ionicons name="headset" size={22} color={palette.gold} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
+                <Text style={{ ...ty.bodyCompactStrong, color: artwork.foreground.primary }}>{copy.title}</Text>
+                <Text style={{ ...ty.labelSmallBold, color: palette.gold }}>PLUS</Text>
+              </View>
+              <Text numberOfLines={1} style={{ ...ty.captionRegular, color: artwork.foreground.secondary, marginTop: 2 }}>{source.edition}</Text>
+            </View>
+            <Text style={{ ...ty.labelSmallMedium, color: artwork.foreground.primary }}>{action}</Text>
+          </View>
+        </ArtSlot>
+
+        <View style={{ padding: spacing.lg }}>
+        <View>
+        <View
+          accessible
+          accessibilityRole="adjustable"
+          accessibilityLabel={copy.seek}
+          accessibilityValue={{ min: 0, max: Math.max(0, Math.round(status.duration)), now: Math.max(0, Math.round(status.currentTime)), text: `${formatTime(status.currentTime)} / ${formatTime(status.duration)}` }}
+          accessibilityActions={[{ name: 'decrement', label: copy.back }, { name: 'increment', label: copy.forward }]}
+          onAccessibilityAction={(event) => adjustPosition(event.nativeEvent.actionName === 'increment' ? SKIP_SECONDS : -SKIP_SECONDS)}
+          onLayout={(event) => setTrackWidth(event.nativeEvent.layout.width)}
+          onStartShouldSetResponder={() => status.duration > 0}
+          onMoveShouldSetResponder={() => status.duration > 0}
+          onResponderGrant={seekFromGesture}
+          onResponderMove={seekFromGesture}
+          style={{ height: 28, justifyContent: 'center' }}
+        >
+          <View style={{ height: 5, borderRadius: radius.pill, overflow: 'hidden', backgroundColor: palette.border }}>
+            <View style={{ height: '100%', width: `${progress * 100}%`, borderRadius: radius.pill, backgroundColor: palette.gold }} />
+          </View>
+          {status.duration > 0 ? (
+            <View style={{ position: 'absolute', left: `${progress * 100}%`, marginLeft: -7, width: 14, height: 14, borderRadius: 7, backgroundColor: palette.gold, borderWidth: 3, borderColor: palette.surface }} />
+          ) : null}
         </View>
-        <View style={{ flex: 1 }}>
-          <Text style={{ ...ty.bodyCompactStrong, color: palette.ink }}>{copy.title} · PLUS</Text>
-          <Text style={{ ...ty.captionRegular, color: palette.inkSoft, marginTop: 2 }}>{action} · {source.edition}</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 2 }}>
+          <Text style={{ ...ty.labelSmallRegular, color: palette.inkSoft, fontVariant: ['tabular-nums'] }}>{formatTime(status.currentTime)}</Text>
+          <Text style={{ ...ty.labelSmallRegular, color: palette.inkSoft, fontVariant: ['tabular-nums'] }}>-{formatTime(Math.max(0, status.duration - status.currentTime))}</Text>
         </View>
-        <Ionicons name={status.playing ? 'pause-circle-outline' : 'play-circle-outline'} size={24} color={palette.gold} />
-      </Pressable>
-      {loadedFor === key ? <View style={{ height: 3, borderRadius: 2, overflow: 'hidden', backgroundColor: palette.border, marginTop: spacing.sm }}><View style={{ height: '100%', width: `${progress * 100}%`, backgroundColor: palette.gold }} /></View> : null}
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginTop: spacing.md }}>
+      </View>
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.xl, marginTop: spacing.md }}>
         <Pressable
           onPress={() => void skip(-SKIP_SECONDS)}
           accessibilityRole="button"
           accessibilityLabel={copy.back}
           hitSlop={8}
-          style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1, padding: spacing.xs })}
+          style={({ pressed }) => ({ width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', backgroundColor: palette.goldSoft, opacity: pressed ? interaction.pressedOpacity : 1 })}
         >
-          <Ionicons name="play-back" size={18} color={palette.inkSoft} />
+          <Ionicons name="play-back" size={20} color={palette.gold} />
+        </Pressable>
+        <Pressable
+          onPress={() => void toggle()}
+          disabled={loading}
+          accessibilityRole="button"
+          accessibilityLabel={`${copy.title}: ${action}`}
+          style={({ pressed }) => ({ width: 60, height: 60, borderRadius: 30, alignItems: 'center', justifyContent: 'center', backgroundColor: palette.gold, opacity: loading ? interaction.disabledOpacity : pressed ? interaction.pressedOpacity : 1, ...elevation.card })}
+        >
+          <Ionicons name={status.playing ? 'pause' : failed ? 'refresh' : 'play'} size={27} color={palette.surface} style={status.playing || failed ? undefined : { marginLeft: 3 }} />
         </Pressable>
         <Pressable
           onPress={() => void skip(SKIP_SECONDS)}
           accessibilityRole="button"
           accessibilityLabel={copy.forward}
           hitSlop={8}
-          style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1, padding: spacing.xs })}
+          style={({ pressed }) => ({ width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', backgroundColor: palette.goldSoft, opacity: pressed ? interaction.pressedOpacity : 1 })}
         >
-          <Ionicons name="play-forward" size={18} color={palette.inkSoft} />
+          <Ionicons name="play-forward" size={20} color={palette.gold} />
         </Pressable>
-        <Text style={{ ...ty.captionRegular, color: palette.inkSoft, marginLeft: spacing.sm }}>{copy.speed}</Text>
+      </View>
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: spacing.lg, paddingTop: spacing.md, borderTopWidth: 1, borderTopColor: palette.border }}>
+        <Text style={{ ...ty.captionStrong, color: palette.inkSoft }}>{copy.speed}</Text>
+        <View style={{ flexDirection: 'row', padding: 3, borderRadius: radius.pill, backgroundColor: palette.goldSoft }}>
         {RATES.map((option) => (
           <Pressable
             key={option}
@@ -188,16 +277,22 @@ function ActiveScriptureAudio({ edition, book, chapter, palette }: {
             accessibilityLabel={`${copy.speed}: ${option}×`}
             hitSlop={8}
             style={({ pressed }) => ({
+              minWidth: 52,
+              minHeight: 34,
               paddingHorizontal: spacing.sm,
-              paddingVertical: spacing.xs,
-              borderRadius: radius.inner,
-              backgroundColor: rate === option ? palette.goldSoft : 'transparent',
-              opacity: pressed ? 0.6 : 1,
+              borderRadius: radius.pill,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: rate === option ? palette.surface : 'transparent',
+              opacity: pressed ? interaction.pressedOpacity : 1,
             })}
           >
-            <Text style={{ ...ty.captionRegular, color: rate === option ? palette.gold : palette.inkSoft }}>{option}×</Text>
+            <Text style={{ ...ty.captionStrong, color: rate === option ? palette.gold : palette.inkSoft }}>{option}×</Text>
           </Pressable>
         ))}
+        </View>
+      </View>
+        </View>
       </View>
     </View>
   );

@@ -43,6 +43,7 @@ export async function resolveSermonOnlineChapterUrl(baseUrl: string, bookIndex: 
 }
 
 export async function resolveSpanishChapterUrl(bookIndex: number, chapterIndex: number, fetcher: typeof fetch = fetch): Promise<string> {
+  if (!Number.isInteger(bookIndex) || bookIndex < 0 || bookIndex > 65 || !Number.isInteger(chapterIndex) || chapterIndex < 0) throw new Error('Invalid audio chapter');
   const page = 'https://publicdomainaudiobibles.com/RVA1909.html';
   let playlists = cache.get(page);
   if (!playlists) {
@@ -51,12 +52,24 @@ export async function resolveSpanishChapterUrl(bookIndex: number, chapterIndex: 
     playlists = [...(await response.text()).matchAll(/https:\/\/www\.publicdomainaudiobibles\.com\/playlist\/[^"']+\.xml/gi)].map((match) => match[0]);
     cache.set(page, playlists);
   }
-  const playlist = playlists[bookIndex];
+  const bookNumber = bookIndex + 1;
+  const playlist = playlists
+    .map((url) => ({
+      url,
+      firstBook: Number(new URL(url).pathname.split('/').pop()?.match(/^(\d{1,2})_/)?.[1]),
+    }))
+    .filter(({ firstBook }) => Number.isInteger(firstBook) && firstBook <= bookNumber)
+    .sort((a, b) => b.firstBook - a.firstBook)[0]?.url;
   if (!playlist) throw new Error('Audio book unavailable');
   const response = await fetcher(playlist);
   if (!response.ok) throw new Error('Audio catalog unavailable');
   const urls = extractTrustedMp3Urls(await response.text(), 'https://publicdomainaudiobibles.com/');
-  const url = urls[chapterIndex];
+  const prefix = `${String(bookNumber).padStart(2, '0')}_`;
+  const suffix = `${String(chapterIndex + 1).padStart(3, '0')}.mp3`;
+  const url = urls.find((item) => {
+    const filename = decodeURIComponent(new URL(item).pathname.split('/').pop() ?? '');
+    return filename.startsWith(prefix) && filename.endsWith(suffix);
+  });
   if (!url) throw new Error('Audio chapter unavailable');
   return url;
 }

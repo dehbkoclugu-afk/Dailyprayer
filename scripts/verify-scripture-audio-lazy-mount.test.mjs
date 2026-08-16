@@ -14,3 +14,15 @@ test('the Bible reader does not mount the native audio player before Listen is p
   assert.ok(source.slice(publicComponent, activeComponent).includes('setActivated(true)'));
   assert.ok(audioHook > activeComponent, 'native audio hook must stay inside the lazily mounted child');
 });
+
+test('the audio player uses artwork and complete media controls', async () => {
+  const source = await readFile(new URL('../src/components/ScriptureAudioBible.tsx', import.meta.url), 'utf8');
+
+  assert.match(source, /<ArtSlot id="A18-ritual-reading"/);
+  assert.match(source, /accessibilityRole="adjustable"/);
+  assert.match(source, /onResponderMove=\{seekFromGesture\}/);
+  assert.match(source, /play-back/);
+  assert.match(source, /play-forward/);
+  assert.match(source, /RATES\.map/);
+  assert.match(source, /formatTime\(status\.currentTime\)/);
+});

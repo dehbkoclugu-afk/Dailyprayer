@@ -36,7 +36,8 @@ import { getReaderAccessibilityCopy } from '@/i18n/readerAccessibility';
 import { useModalAccessibility } from '@/hooks/useModalAccessibility';
 import { accessibleVerseLabel } from '@/lib/accessibility';
 import { isExpandedLayout } from '@/lib/adaptiveLayout';
-import { newTestamentStart, testamentLabels } from '@/lib/scriptureNavigation';
+import { newTestamentStart } from '@/lib/scriptureNavigation';
+import { testamentLabels } from '@/i18n/testamentLabels';
 import { ScriptureAudioBible } from '@/components/ScriptureAudioBible';
 
 export default function Read() {
@@ -86,7 +87,7 @@ export default function Read() {
   const cIdx = Math.min(chapter, bk.chapters.length - 1);
   const verses = bk.chapters[cIdx];
   const testamentStart = newTestamentStart(bible.map((bookItem) => bookItem.code));
-  const [oldTestament, newTestament] = testamentLabels(scriptureLocale);
+  const [oldTestament, newTestament] = testamentLabels(locale);
   const visibleBooks = bible
     .map((item, index) => ({ item, index }))
     .filter(({ item }) => item.name.toLocaleLowerCase(scriptureLocale).includes(bookQuery.trim().toLocaleLowerCase(scriptureLocale)));
