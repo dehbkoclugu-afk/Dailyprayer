@@ -37,9 +37,10 @@ test('ArtSlot callers use the semantic scrim API', async () => {
   }
 });
 
-test('Dawn verse artwork stays visible beneath a copy-focused gradient', async () => {
+test('verse artwork stays visible in both themes beneath a copy-focused gradient', async () => {
   const source = await readFile(new URL('../src/components/VerseCard.tsx', import.meta.url), 'utf8');
-  assert.match(source, /scrim=\{dawn \? 'none' : 'strong'\}/);
+  assert.match(source, /scrim="none"/);
+  assert.match(source, /colors=\{dawn/);
   assert.match(source, /locations=\{\[0, 0\.52, 1\]\}/);
 });
 
