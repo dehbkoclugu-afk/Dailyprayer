@@ -57,11 +57,10 @@ export default function Reveal() {
     // Schedule the reminder they chose (permission prompt happens here, post-investment).
     if (quiz.prayerTime && quiz.prayerTime !== 'none') {
       NotificationService.requestPermission()
-        .then((granted) => {
-          if (granted) {
-            NotificationService.scheduleDailyReminder(quiz.prayerTime as string);
-            NotificationService.scheduleStreakSave();
-          }
+        .then(async (granted) => {
+          if (!granted) return;
+          await NotificationService.scheduleDailyReminder(quiz.prayerTime as string);
+          await NotificationService.scheduleStreakSave();
         })
         .catch(() => {}); // web / denied permissions must never crash the reveal
     }
