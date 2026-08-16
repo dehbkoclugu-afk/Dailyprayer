@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { Platform, Pressable, Share, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { captureRef } from 'react-native-view-shot';
 import * as Sharing from 'expo-sharing';
 import { type as ty, verseCardTypes } from '@/theme/typography';
@@ -11,6 +12,7 @@ import type { DailyVerse } from '@/data/verses';
 import { useT } from '@/i18n';
 import { localeUpperCase } from '@/i18n/localeText';
 import { useTheme } from '@/hooks/useTheme';
+import { useArtwork } from '@/hooks/useArtwork';
 
 /**
  * Verse theme → A5 background. Eight themes have dedicated art; the remaining
@@ -48,6 +50,8 @@ interface Props {
 
 export function VerseCard({ verse, onRead, onShuffle }: Props) {
   const t = useTheme();
+  const artwork = useArtwork();
+  const dawn = artwork.scheme === 'dawn';
   const { t: tr, locale } = useT();
   const cardRef = useRef<View>(null);
   const verseType = verseCardTypes[initialVerseFontStep(verse.text)];
@@ -157,9 +161,17 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       <ArtSlot
         id={VERSE_ART[verse.theme]}
         radius={radius.hero}
-        scrim="strong"
+        scrim={dawn ? 'none' : 'strong'}
         style={{ minHeight: 340 }}
       >
+        {dawn ? (
+          <LinearGradient
+            pointerEvents="none"
+            colors={['rgba(8,10,18,0.12)', 'rgba(8,10,18,0.42)', 'rgba(8,10,18,0.14)']}
+            locations={[0, 0.52, 1]}
+            style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
+          />
+        ) : null}
         {content}
       </ArtSlot>
     </Pressable>

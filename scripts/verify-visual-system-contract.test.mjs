@@ -37,6 +37,18 @@ test('ArtSlot callers use the semantic scrim API', async () => {
   }
 });
 
+test('Dawn verse artwork stays visible beneath a copy-focused gradient', async () => {
+  const source = await readFile(new URL('../src/components/VerseCard.tsx', import.meta.url), 'utf8');
+  assert.match(source, /scrim=\{dawn \? 'none' : 'strong'\}/);
+  assert.match(source, /locations=\{\[0, 0\.52, 1\]\}/);
+});
+
+test('Today rhythm header shows completion ratio only in ProgressRing', async () => {
+  const source = await readFile(new URL('../app/(tabs)/today.tsx', import.meta.url), 'utf8');
+  assert.match(source, /right=\{<ProgressRing done=\{doneCount\} total=\{4\} size=\{46\} \/>\}/);
+  assert.doesNotMatch(source, /today\.completed['"]\}\s*·\s*\{doneCount\}/);
+});
+
 test('tab navigation reserves filled icons and a marker for selected state', async () => {
   const source = await readFile(new URL('../app/(tabs)/_layout.tsx', import.meta.url), 'utf8');
   assert.match(source, /function TabIcon/);
