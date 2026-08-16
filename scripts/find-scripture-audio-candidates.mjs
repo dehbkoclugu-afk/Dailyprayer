@@ -15,6 +15,26 @@
 
 const CATALOGUE_URL = 'https://ebible.org/Scriptures/translations.csv';
 const SITE = 'https://ebible.org';
+const LIBRIVOX_API = 'https://librivox.org/api/feed/audiobooks';
+
+/**
+ * LibriVox matters for a reason eBible cannot cover: every LibriVox recording is
+ * read by a human volunteer and is public domain in the US by policy. eBible's
+ * catalogue mixes human narration with speech-synthesised readings, which is what
+ * a flat, unpaced delivery sounds like.
+ */
+const LIBRIVOX_LANGUAGES = {
+  en: 'English', de: 'German', fr: 'French', es: 'Spanish', it: 'Italian',
+  nl: 'Dutch', pt: 'Portuguese', ru: 'Russian', pl: 'Polish', fi: 'Finnish',
+  sv: 'Swedish', da: 'Danish', no: 'Norwegian', la: 'Latin', eo: 'Esperanto',
+  hu: 'Hungarian', cs: 'Czech', ro: 'Romanian', uk: 'Ukrainian', bg: 'Bulgarian',
+  ja: 'Japanese', ko: 'Korean', ar: 'Arabic', he: 'Hebrew', tl: 'Tagalog',
+  vi: 'Vietnamese', hr: 'Croatian', tr: 'Turkish', 'zh-Hans': 'Chinese',
+  'zh-Hant': 'Chinese',
+};
+
+/** Title seeds, because the API matches on title rather than subject. */
+const LIBRIVOX_TITLE_SEEDS = ['bible', 'biblia', 'bibel', 'bijbel', 'biblija', 'biblija', 'vulgata', 'testament'];
 
 /** Lumen locale → ISO 639-3 codes eBible may file the translation under. */
 const LOCALE_LANGUAGES = {
@@ -94,10 +114,52 @@ async function licenceOf(id) {
   }
 }
 
+/** Human-narrated, US-public-domain recordings, keyed back onto Lumen locales. */
+async function librivoxCandidates(onlyLocale) {
+  const wanted = new Map(Object.entries(LIBRIVOX_LANGUAGES)
+    .filter(([locale]) => !onlyLocale || locale === onlyLocale)
+    .map(([locale, language]) => [language, locale]));
+  if (!wanted.size) return [];
+
+  const byId = new Map();
+  for (const seed of LIBRIVOX_TITLE_SEEDS) {
+    let books;
+    try {
+      const response = await fetch(`${LIBRIVOX_API}/?format=json&limit=200&title=${encodeURIComponent(seed)}`);
+      if (!response.ok) continue;
+      books = (await response.json()).books;
+    } catch {
+      continue;
+    }
+    for (const book of Array.isArray(books) ? books : []) {
+      const locale = wanted.get(book.language);
+      if (!locale || byId.has(book.id)) continue;
+      byId.set(book.id, {
+        locale,
+        alreadyWired: ALREADY_WIRED.has(locale),
+        translationId: `librivox:${book.id}`,
+        title: book.title ?? '',
+        licence: 'permissive',
+        narration: 'human',
+        evidence: book.url_librivox ?? `https://librivox.org/api/feed/audiobooks/?id=${book.id}`,
+        note: `LibriVox volunteer reading · ${book.totaltimesecs ? `${Math.round(book.totaltimesecs / 3600)}h` : 'length unknown'} · public domain in the US`,
+      });
+    }
+  }
+  return [...byId.values()];
+}
+
 async function main() {
   const args = process.argv.slice(2);
   const onlyLocale = args.includes('--locale') ? args[args.indexOf('--locale') + 1] : null;
   const asJson = args.includes('--json');
+  const only = args.includes('--source') ? args[args.indexOf('--source') + 1] : 'all';
+
+  if (only === 'librivox') {
+    const found = await librivoxCandidates(onlyLocale);
+    report(found, asJson);
+    return;
+  }
 
   const response = await fetch(CATALOGUE_URL).catch((error) => ({ ok: false, statusText: error.message }));
   if (!response.ok) {
@@ -123,12 +185,18 @@ async function main() {
         translationId: id,
         title: entry.title || entry.shortTitle || '',
         licence: licence.verdict,
+        narration: 'unverified',
         evidence: `${SITE}/${id}/copyright.htm`,
         note: licence.note,
       });
     }
   }
 
+  if (only !== 'ebible') results.push(...await librivoxCandidates(onlyLocale));
+  report(results, asJson);
+}
+
+function report(results, asJson) {
   results.sort((a, b) => Number(a.alreadyWired) - Number(b.alreadyWired)
     || a.licence.localeCompare(b.licence) || a.locale.localeCompare(b.locale));
 
@@ -138,20 +206,22 @@ async function main() {
   }
 
   if (!results.length) {
-    console.log('No eBible translation with an mp3/ directory matched a Lumen locale.');
+    console.log('No recording matched a Lumen locale.');
     return;
   }
   console.log(`${results.length} candidate recording(s):\n`);
   for (const item of results) {
     const flag = item.alreadyWired ? 'wired' : item.licence;
-    console.log(`  [${flag.padEnd(10)}] ${item.locale.padEnd(8)} ${item.translationId.padEnd(14)} ${item.title}`);
+    console.log(`  [${flag.padEnd(10)}] ${item.locale.padEnd(8)} ${(item.narration ?? '').padEnd(10)} ${item.translationId.padEnd(16)} ${item.title}`);
     console.log(`  ${' '.repeat(13)} ${item.evidence}`);
     if (item.note) console.log(`  ${' '.repeat(13)} ${item.note.slice(0, 150)}`);
     console.log();
   }
   const fresh = results.filter((item) => !item.alreadyWired && item.licence === 'permissive');
-  console.log(`Permissive and not yet wired: ${fresh.length} → ${fresh.map((item) => item.locale).join(', ') || 'none'}`);
-  console.log('Every hit still needs a human licence read before shipping; this only narrows the field.');
+  const human = fresh.filter((item) => item.narration === 'human');
+  console.log(`Permissive and not yet wired: ${fresh.length} → ${[...new Set(fresh.map((item) => item.locale))].join(', ') || 'none'}`);
+  console.log(`Of those, human-narrated: ${human.length} → ${[...new Set(human.map((item) => item.locale))].join(', ') || 'none'}`);
+  console.log('Every hit still needs a human licence read and a listen before shipping; this only narrows the field.');
 }
 
 await main();
