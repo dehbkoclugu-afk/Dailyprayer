@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AccessibilityInfo, Pressable, ScrollView, Text, useWindowDimensions, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import Animated, { FadeInUp, FadeOut, useReducedMotion } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -21,6 +21,8 @@ import { useScreenReaderEnabled } from '@/hooks/useScreenReaderEnabled';
 import { shouldAutoAdvancePrayer } from '@/lib/accessibility';
 import { prayerSection } from '@/lib/dailyExperience';
 import { isShortLayout } from '@/lib/adaptiveLayout';
+import { useEntitlementStore } from '@/state/useEntitlementStore';
+import { InvalidRouteState } from '@/components/InvalidRouteState';
 
 type Pace = 'slow' | 'normal' | 'quick';
 
@@ -44,36 +46,41 @@ export default function Player() {
   const screenReaderEnabled = useScreenReaderEnabled();
   const { id } = useLocalSearchParams<{ id: string }>();
   const prayers = usePrayers();
-  const prayer = prayers.find((p) => p.id === id) ?? prayers[0];
+  const prayer = prayers.find((p) => p.id === id);
+  const isPlus = useEntitlementStore((s) => s.isPlus);
   const [line, setLine] = useState(0);
   const [paused, setPaused] = useState(false);
   const [pace, setPace] = useState<Pace>('normal');
   const completeStep = useStreakStore((s) => s.completeStep);
-  const lastLine = line >= prayer.script.length - 1;
-  const progress = (line + 1) / prayer.script.length;
-  const activeSection = prayerSection(line, prayer.script.length);
+  const blocked = Boolean(prayer?.plus && !isPlus);
+  const safePrayer = prayer ?? prayers[0];
+  const lastLine = line >= safePrayer.script.length - 1;
+  const progress = (line + 1) / safePrayer.script.length;
+  const activeSection = prayerSection(line, safePrayer.script.length);
   const remainingMinutes = Math.max(
     1,
     Math.ceil(
-      prayer.script.slice(line + 1).reduce((sum, item) => sum + item.length, 0) *
+      safePrayer.script.slice(line + 1).reduce((sum, item) => sum + item.length, 0) *
         PACE_FACTOR[pace] /
         60000,
     ),
   );
 
   useEffect(() => {
+    if (!prayer || blocked) return;
     AsyncStorage.getItem(`lumen-player-${prayer.id}`)
       .then((saved) => {
         const parsed = Number(saved);
         if (Number.isInteger(parsed) && parsed >= 0 && parsed < prayer.script.length) setLine(parsed);
       })
       .catch(() => {});
-  }, [prayer.id, prayer.script.length]);
+  }, [blocked, prayer]);
 
   useEffect(() => {
+    if (!prayer || blocked) return;
     AsyncStorage.setItem(`lumen-player-${prayer.id}`, String(line)).catch(() => {});
     if (screenReaderEnabled) AccessibilityInfo.announceForAccessibility(prayer.script[line]);
-  }, [line, prayer.id, prayer.script, screenReaderEnabled]);
+  }, [blocked, line, prayer, screenReaderEnabled]);
 
   useEffect(() => {
     if (screenReaderEnabled) setPaused(true);
@@ -81,10 +88,18 @@ export default function Player() {
 
   useEffect(() => {
     if (!shouldAutoAdvancePrayer(paused, lastLine, screenReaderEnabled)) return;
+    if (!prayer || blocked) return;
     const ms = Math.max(4000, prayer.script[line].length * PACE_FACTOR[pace]);
     const timer = setTimeout(() => setLine((l) => l + 1), ms);
     return () => clearTimeout(timer);
-  }, [line, pace, paused, lastLine, prayer.script, screenReaderEnabled]);
+  }, [blocked, line, pace, paused, lastLine, prayer, screenReaderEnabled]);
+
+  useEffect(() => {
+    if (blocked) router.replace('/paywall?from=prayer');
+  }, [blocked]);
+
+  if (!prayer) return <InvalidRouteState />;
+  if (blocked) return null;
 
   const finish = () => {
     completeStep('prayer');

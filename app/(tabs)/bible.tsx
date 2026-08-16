@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, Text, useWindowDimensions, View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';

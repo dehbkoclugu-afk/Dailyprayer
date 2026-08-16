@@ -3,7 +3,7 @@ import { Alert, Linking, Platform, Pressable, Text, View, findNodeHandle, type G
 import * as Clipboard from 'expo-clipboard';
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { OptionSheet, type SheetOption } from '@/components/OptionSheet';
@@ -41,7 +41,6 @@ export default function Profile() {
   } = useUserStore();
   const { count, bestCount, totalDays, activeDays } = useStreakStore();
   const isPlus = useEntitlementStore((s) => s.isPlus);
-  const setPlus = useEntitlementStore((s) => s.setPlus);
   const [sheet, setSheet] = useState<null | 'appearance'>(null);
   const sheetReturnFocus = useRef<number | null>(null);
   const [showIosReminderPicker, setShowIosReminderPicker] = useState(false);
@@ -80,6 +79,7 @@ export default function Profile() {
     try {
       const granted = await NotificationService.requestPermission();
       if (!granted) {
+        await NotificationService.disableReminders();
         setQuiz({ prayerTime: 'none' });
         Alert.alert(tr('profile.reminderTitle'), tr('profile.reminderMsg'));
         await Linking.openSettings().catch(() => {});
@@ -92,6 +92,7 @@ export default function Profile() {
       setShowIosReminderPicker(false);
       return true;
     } catch {
+      await NotificationService.disableReminders().catch(() => {});
       setQuiz({ prayerTime: 'none' });
       Alert.alert(tr('profile.reminderTitle'), tr('profile.reminderMsg'));
       return false;
@@ -172,11 +173,11 @@ export default function Profile() {
   const copySupportId = async () => {
     const id = await getSupportUserId();
     if (!id) {
-      Alert.alert('Support ID', locale === 'tr' ? 'Kimlik alınamadı. İnternet bağlantını kontrol et.' : 'ID unavailable. Check your connection.');
+      Alert.alert(`${tr('profile.contact')} · ID`, tr('paywall.supportErrorBody'));
       return;
     }
     await Clipboard.setStringAsync(id);
-    Alert.alert('Support ID', locale === 'tr' ? 'Kopyalandı. Premium tanımlamak için bu kimliği gönder.' : 'Copied. Send this ID for a Premium grant.');
+    Alert.alert(`${tr('profile.contact')} · ID`, tr('verse.copied'));
   };
 
   return (
@@ -433,10 +434,12 @@ export default function Profile() {
           onPress={() => router.push({ pathname: '/legal', params: { doc: 'terms' } })}
         />
         <Row icon="mail-outline" label={tr('profile.contact')} onPress={contactSupport} />
-        <Row icon="key-outline" label="Support ID" onPress={() => void copySupportId()} />
-        <Row icon="star-outline" label="Test Plus" onPress={() => setPlus(true)} />
+        <Row icon="key-outline" label={`${tr('profile.contact')} · ID`} onPress={() => void copySupportId()} />
         <Pressable
-          onPress={reset}
+          onPress={() => {
+            reset();
+            router.replace('/onboarding');
+          }}
           accessibilityRole="button"
           accessibilityLabel={tr('profile.restart')}
           style={({ pressed }) => ({

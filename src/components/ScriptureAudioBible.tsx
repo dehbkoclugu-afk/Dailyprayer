@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View, type GestureResponderEvent } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from 'expo-router';
 import { setAudioModeAsync, useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { ArtSlot } from '@/components/ArtSlot';
@@ -19,6 +19,24 @@ const COPY: Record<string, { title: string; listen: string; pause: string; loadi
   de: { title: 'Hörbibel', listen: 'Anhören', pause: 'Pause', loading: 'Laden…', retry: 'Erneut versuchen', speed: 'Tempo', back: '15 Sekunden zurück', forward: '15 Sekunden vor', seek: 'Wiedergabeposition', included: 'In Plus enthalten' },
   ja: { title: 'オーディオ聖書', listen: '聴く', pause: '一時停止', loading: '読み込み中…', retry: '再試行', speed: '速度', back: '15秒戻る', forward: '15秒進む', seek: '再生位置', included: 'Plusに含まれています' },
 };
+
+type AudioCopy = (typeof COPY)[string];
+type Translator = ReturnType<typeof useT>['t'];
+
+function audioCopy(locale: string, tr: Translator): AudioCopy {
+  return COPY[locale] ?? {
+    title: `${tr('bible.title')} · ♪`,
+    listen: tr('today.play'),
+    pause: tr('player.pause'),
+    loading: '…',
+    retry: tr('paywall.retry'),
+    speed: tr('player.pace'),
+    back: `${tr('player.previous')} · 15s`,
+    forward: `${tr('player.next')} · 15s`,
+    seek: tr('read.continue'),
+    included: tr('profile.plusCta'),
+  };
+}
 
 /** Recordings differ wildly in pace; a slower rate is the only pacing control we can offer. */
 const RATES = [0.75, 1, 1.25] as const;
@@ -46,11 +64,15 @@ export function ScriptureAudioBible({ edition, book, chapter, palette }: {
   palette: PlayerPalette;
 }) {
   const source = getScriptureAudioSource(edition);
-  const { locale } = useT();
+  const { locale, t: tr } = useT();
   const artwork = useArtwork();
-  const copy = COPY[locale] ?? COPY.en;
+  const copy = audioCopy(locale, tr);
   const isPlus = useEntitlementStore((state) => state.isPlus);
   const [activated, setActivated] = useState(false);
+
+  useEffect(() => {
+    if (!isPlus) setActivated(false);
+  }, [isPlus]);
 
   if (!source) return null;
 
@@ -100,9 +122,9 @@ function ActiveScriptureAudio({ edition, book, chapter, palette }: {
   palette: PlayerPalette;
 }) {
   const source = getScriptureAudioSource(edition)!;
-  const { locale } = useT();
+  const { locale, t: tr } = useT();
   const artwork = useArtwork();
-  const copy = COPY[locale] ?? COPY.en;
+  const copy = audioCopy(locale, tr);
   const player = useAudioPlayer(null, 500);
   const status = useAudioPlayerStatus(player);
   const [loadedFor, setLoadedFor] = useState('');
@@ -112,6 +134,7 @@ function ActiveScriptureAudio({ edition, book, chapter, palette }: {
   const [trackWidth, setTrackWidth] = useState(0);
   /** What the listener last asked for, so turning the page does not start audio they paused. */
   const wantsPlayback = useRef(true);
+  const requestVersion = useRef(0);
   const key = `${edition}:${book}:${chapter}`;
 
   // The app declares the iOS background-audio capability; without this the session
@@ -121,20 +144,23 @@ function ActiveScriptureAudio({ edition, book, chapter, palette }: {
   }, []);
 
   const load = useCallback(async (autoPlay: boolean) => {
+    const request = ++requestVersion.current;
     setLoading(true);
     setFailed(false);
     try {
       const url = await resolveScriptureAudioChapterUrl(edition, book, chapter);
+      if (request !== requestVersion.current) return false;
       player.replace(url);
       player.setPlaybackRate(rate);
       setLoadedFor(key);
       if (autoPlay) player.play();
       return true;
     } catch {
+      if (request !== requestVersion.current) return false;
       setFailed(true);
       return false;
     } finally {
-      setLoading(false);
+      if (request === requestVersion.current) setLoading(false);
     }
   }, [edition, book, chapter, key, player, rate]);
 
@@ -143,7 +169,10 @@ function ActiveScriptureAudio({ edition, book, chapter, palette }: {
   // it changes with `rate`, and re-running this would restart the chapter.
   useEffect(() => {
     void load(wantsPlayback.current);
-    return () => player.pause();
+    return () => {
+      requestVersion.current += 1;
+      player.pause();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [edition, book, chapter, key, player]);
 

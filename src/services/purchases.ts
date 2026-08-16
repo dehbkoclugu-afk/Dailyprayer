@@ -61,6 +61,7 @@ const entitlementIds = Array.from(
 
 let rc: typeof import('react-native-purchases').default | null = null;
 let initPromise: Promise<void> | null = null;
+let customerListenerInstalled = false;
 const packages = new Map<PlanId, PurchasesPackage>();
 
 function trialDaysFor(pkg: PurchasesPackage): number | null {
@@ -83,23 +84,52 @@ function trialDaysFor(pkg: PurchasesPackage): number | null {
     : null;
 }
 
+function applyCustomerInfo(info: { entitlements: { active: Record<string, unknown> } }): void {
+  useEntitlementStore
+    .getState()
+    .setPlus(hasActiveEntitlement(info.entitlements.active, entitlementIds));
+}
+
 export function initPurchases(): Promise<void> {
+  if (rc) return refreshEntitlement();
   if (initPromise) return initPromise;
   initPromise = (async () => {
-    if (!apiKey || Platform.OS === 'web') return;
+    if (!apiKey || Platform.OS === 'web') {
+      if (!__DEV__) useEntitlementStore.getState().setPlus(false);
+      return;
+    }
     try {
       const Purchases = (await import('react-native-purchases')).default;
       Purchases.configure({ apiKey });
       rc = Purchases;
+      if (!customerListenerInstalled) {
+        Purchases.addCustomerInfoUpdateListener(applyCustomerInfo);
+        customerListenerInstalled = true;
+      }
       const info = await Purchases.getCustomerInfo();
-      useEntitlementStore
-        .getState()
-        .setPlus(hasActiveEntitlement(info.entitlements.active, entitlementIds));
+      applyCustomerInfo(info);
     } catch {
-      rc = null;
+      // `rc` remains usable when only the initial customer-info request failed;
+      // configure/import failures leave it null and the next call retries.
     }
-  })();
+  })().finally(() => {
+    initPromise = null;
+  });
   return initPromise;
+}
+
+/** Refresh persisted access whenever the app returns to the foreground. */
+export async function refreshEntitlement(): Promise<void> {
+  if (!rc) {
+    if (!initPromise) return initPurchases();
+    await initPromise;
+    return;
+  }
+  try {
+    applyCustomerInfo(await rc.getCustomerInfo());
+  } catch {
+    // A transient network failure must not permanently wedge initialization.
+  }
 }
 
 export async function loadPlans(): Promise<PurchaseCatalog> {

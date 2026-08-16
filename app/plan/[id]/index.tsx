@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Redirect, router, useLocalSearchParams } from 'expo-router';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArtSlot } from '@/components/ArtSlot';
@@ -18,6 +18,9 @@ import { useT } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
 import { InvalidRouteState } from '@/components/InvalidRouteState';
 import { singleParam } from '@/lib/routeValidation';
+import { useEntitlementStore } from '@/state/useEntitlementStore';
+import { getBible } from '@/data/bibleFull';
+import { useScriptureLocale } from '@/i18n/scripture';
 
 export default function PlanScreen() {
   const t = useTheme();
@@ -29,9 +32,13 @@ export default function PlanScreen() {
   const planId = singleParam(id);
   const plan = usePlans().find((p) => p.id === planId);
   const progress = usePlanStore((s) => s.progress);
+  const isPlus = useEntitlementStore((s) => s.isPlus);
+  const scriptureLocale = useScriptureLocale();
 
   if (!plan) return <InvalidRouteState />;
+  if (plan.plus && !isPlus) return <Redirect href="/paywall?from=plan" />;
 
+  const bible = getBible(scriptureLocale);
   const done = progress[plan.id] ?? [];
   const days = Array.from({ length: plan.days }, (_, i) => i);
 
@@ -117,7 +124,7 @@ export default function PlanScreen() {
           alignSelf: 'center',
         }}
         renderItem={({ item: dayIdx }) => {
-          const readingRef = formatReadingRef(planReading(plan.id, dayIdx), locale);
+          const readingRef = formatReadingRef(planReading(plan.id, dayIdx, bible), locale, bible);
           const isDone = done.includes(dayIdx);
           return (
             <Pressable

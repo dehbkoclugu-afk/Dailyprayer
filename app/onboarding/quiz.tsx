@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import * as Haptics from 'expo-haptics';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';

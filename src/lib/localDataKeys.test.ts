@@ -12,6 +12,6 @@ test('selects only Lumen user-state and player-position keys', () => {
       'lumen-application-content-v1',
       'expo-unrelated',
     ]),
-    ['lumen-user', 'lumen-journal', 'lumen-player-prayer-1'],
+    ['lumen-user', 'lumen-journal', 'lumen-player-prayer-1', 'lumen-entitlement'],
   );
 });

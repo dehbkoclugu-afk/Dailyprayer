@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
@@ -12,39 +12,7 @@ import { radius, spacing } from '@/theme/tokens';
 import { useUserStore } from '@/state/useUserStore';
 import * as NotificationService from '@/services/notifications';
 import { useT } from '@/i18n';
-import type { Locale } from '@/i18n/translations';
-
-// Goal phrases read into the "Guided prayers: …" line. `en` is the fallback.
-const GOAL_LABELS: Partial<Record<Locale, Record<string, string>>> = {
-  en: {
-    habit: 'a steady daily habit',
-    closer: 'closeness with God',
-    peace: 'peace over anxiety',
-    sleep: 'restful sleep',
-    bible: 'understanding scripture',
-    gratitude: 'a grateful heart',
-    default: 'a deeper prayer life',
-  },
-  tr: {
-    habit: 'istikrarlı bir günlük alışkanlık',
-    closer: 'Tanrı’yla yakınlık',
-    peace: 'kaygı yerine huzur',
-    sleep: 'huzurlu uyku',
-    bible: 'kutsal metni anlamak',
-    gratitude: 'şükreden bir kalp',
-    default: 'daha derin bir dua hayatı',
-  },
-  it: {
-    habit: 'un’abitudine quotidiana stabile', closer: 'vicinanza a Dio', peace: 'pace al posto dell’ansia',
-    sleep: 'un sonno sereno', bible: 'comprendere la Scrittura', gratitude: 'un cuore riconoscente',
-    default: 'una vita di preghiera più profonda',
-  },
-  nl: {
-    habit: 'een vast dagelijks ritme', closer: 'dichter bij God zijn', peace: 'vrede in plaats van angst',
-    sleep: 'rustige slaap', bible: 'de Schrift begrijpen', gratitude: 'een dankbaar hart',
-    default: 'een dieper gebedsleven',
-  },
-};
+import { getQuizSteps } from '@/data/quiz';
 
 /** Personalized plan reveal , the moment before the paywall. */
 export default function Reveal() {
@@ -52,27 +20,36 @@ export default function Reveal() {
   const { t: tr, locale } = useT();
   const quiz = useUserStore((s) => s.quiz);
   const setOnboarded = useUserStore((s) => s.setOnboarded);
+  const setQuiz = useUserStore((s) => s.setQuiz);
 
   useEffect(() => {
     // Schedule the reminder they chose (permission prompt happens here, post-investment).
     if (quiz.prayerTime && quiz.prayerTime !== 'none') {
       NotificationService.requestPermission()
         .then(async (granted) => {
-          if (!granted) return;
+          if (!granted) {
+            await NotificationService.disableReminders();
+            setQuiz({ prayerTime: 'none' });
+            return;
+          }
           await NotificationService.scheduleDailyReminder(quiz.prayerTime as string);
           await NotificationService.scheduleStreakSave();
         })
-        .catch(() => {}); // web / denied permissions must never crash the reveal
+        .catch(async () => {
+          await NotificationService.disableReminders().catch(() => {});
+          setQuiz({ prayerTime: 'none' });
+        }); // web / denied permissions must never crash the reveal
     }
-  }, [quiz.prayerTime]);
+  }, [quiz.prayerTime, setQuiz]);
 
-  const goals = GOAL_LABELS[locale] ?? GOAL_LABELS.en!;
-  const goal = (quiz.goals[0] && goals[quiz.goals[0]]) || goals.default;
+  const localizedGoalOptions = getQuizSteps(locale).find((step) => step.key === 'goals')?.options ?? [];
+  const goal = localizedGoalOptions.find((option) => option.value === quiz.goals[0])?.label
+    ?? '';
 
   const items = [
     { icon: 'sunny-outline', text: tr('reveal.itemVerse') },
     { icon: 'book-outline', text: tr('reveal.itemDevotional') },
-    { icon: 'flame-outline', text: `${tr('reveal.itemPrayers')} ${goal}` },
+    { icon: 'flame-outline', text: [tr('reveal.itemPrayers'), goal].filter(Boolean).join(' ') },
     { icon: 'moon-outline', text: tr('reveal.itemSleep') },
   ] as const;
 

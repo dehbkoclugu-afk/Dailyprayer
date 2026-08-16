@@ -25,4 +25,6 @@ test('the audio player uses artwork and complete media controls', async () => {
   assert.match(source, /play-forward/);
   assert.match(source, /RATES\.map/);
   assert.match(source, /formatTime\(status\.currentTime\)/);
+  assert.match(source, /request !== requestVersion\.current/);
+  assert.match(source, /requestVersion\.current \+= 1/);
 });

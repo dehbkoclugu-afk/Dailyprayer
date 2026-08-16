@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
@@ -20,6 +20,7 @@ import { useScriptureLocale } from '@/i18n/scripture';
 type Tab = 'bookmarks' | 'highlights' | 'journal';
 
 interface Row {
+  code?: string;
   book: number;
   chapter: number;
   verse: number;
@@ -45,17 +46,21 @@ export default function Library() {
   const journalEntries = useJournalStore((s) => s.entries).filter((entry) => entry.kind !== 'prayer-request');
   const removeJournal = useJournalStore((s) => s.remove);
 
-  const bookmarkRows = useMemo<Row[]>(
-    () =>
-      bookmarks.map((m) => ({
-        book: m.book,
+  const bookmarkRows = useMemo<Row[]>(() => {
+    const bible = getBible(scriptureLocale);
+    return bookmarks.flatMap((m) => {
+      const book = bible.findIndex((entry) => entry.code === m.code);
+      if (book < 0) return [];
+      return [{
+        code: m.code,
+        book,
         chapter: m.chapter,
         verse: m.verse,
         ref: m.ref,
         preview: m.preview,
-      })),
-    [bookmarks],
-  );
+      }];
+    });
+  }, [bookmarks, scriptureLocale]);
 
   const highlightRows = useMemo<Row[]>(() => {
     const bible = getBible(scriptureLocale);
@@ -154,7 +159,7 @@ export default function Library() {
 
       <FlatList
         data={rows}
-        keyExtractor={(r) => r.journalId ?? `${r.book}|${r.chapter}|${r.verse}`}
+        keyExtractor={(r) => r.journalId ?? `${r.code ?? r.book}|${r.chapter}|${r.verse}`}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingHorizontal: spacing.xl,
@@ -219,7 +224,7 @@ export default function Library() {
                     event.stopPropagation();
                     if (item.journalId) removeJournal(item.journalId);
                     else if (item.markKey) clearMark(item.markKey);
-                    else removeBookmark(item.book, item.chapter, item.verse);
+                    else if (item.code) removeBookmark(item.code, item.chapter, item.verse);
                   }}
                   hitSlop={10}
                   accessibilityRole="button"
