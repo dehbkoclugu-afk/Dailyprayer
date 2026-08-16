@@ -20,7 +20,7 @@ import { APPLICATION_LOCALES, useT, translate } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
 import * as NotificationService from '@/services/notifications';
 import { clearLocalUserData } from '@/services/localData';
-import { openSubscriptionManagement } from '@/services/purchases';
+import { getSupportUserId, openSubscriptionManagement } from '@/services/purchases';
 import {
   displayReminderTime,
   parseReminderTime,
@@ -41,6 +41,7 @@ export default function Profile() {
   } = useUserStore();
   const { count, bestCount, totalDays, activeDays } = useStreakStore();
   const isPlus = useEntitlementStore((s) => s.isPlus);
+  const setPlus = useEntitlementStore((s) => s.setPlus);
   const [sheet, setSheet] = useState<null | 'appearance'>(null);
   const sheetReturnFocus = useRef<number | null>(null);
   const [showIosReminderPicker, setShowIosReminderPicker] = useState(false);
@@ -166,6 +167,16 @@ export default function Profile() {
       await Clipboard.setStringAsync(address);
       Alert.alert(tr('paywall.supportErrorTitle'), `${tr('paywall.supportErrorBody')}\n\n${address}`);
     }
+  };
+
+  const copySupportId = async () => {
+    const id = await getSupportUserId();
+    if (!id) {
+      Alert.alert('Support ID', locale === 'tr' ? 'Kimlik alınamadı. İnternet bağlantını kontrol et.' : 'ID unavailable. Check your connection.');
+      return;
+    }
+    await Clipboard.setStringAsync(id);
+    Alert.alert('Support ID', locale === 'tr' ? 'Kopyalandı. Premium tanımlamak için bu kimliği gönder.' : 'Copied. Send this ID for a Premium grant.');
   };
 
   return (
@@ -422,6 +433,8 @@ export default function Profile() {
           onPress={() => router.push({ pathname: '/legal', params: { doc: 'terms' } })}
         />
         <Row icon="mail-outline" label={tr('profile.contact')} onPress={contactSupport} />
+        <Row icon="key-outline" label="Support ID" onPress={() => void copySupportId()} />
+        <Row icon="star-outline" label="Test Plus" onPress={() => setPlus(true)} />
         <Pressable
           onPress={reset}
           accessibilityRole="button"
