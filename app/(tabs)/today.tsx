@@ -211,14 +211,7 @@ export default function Today() {
 
       <SectionHeader
         title={tr('today.rhythm')}
-        right={(
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
-            <Text style={{ ...ty.labelMedium, color: t.inkSoft }}>
-              {tr('today.completed')}
-            </Text>
-            <ProgressRing done={doneCount} total={4} size={46} />
-          </View>
-        )}
+        right={<ProgressRing done={doneCount} total={4} size={46} />}
       />
       <View style={{ gap: spacing.md }}>
         <RitualCard
