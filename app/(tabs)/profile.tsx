@@ -41,6 +41,7 @@ export default function Profile() {
   } = useUserStore();
   const { count, bestCount, totalDays, activeDays } = useStreakStore();
   const isPlus = useEntitlementStore((s) => s.isPlus);
+  const setPlus = useEntitlementStore((s) => s.setPlus);
   const [sheet, setSheet] = useState<null | 'appearance'>(null);
   const sheetReturnFocus = useRef<number | null>(null);
   const [showIosReminderPicker, setShowIosReminderPicker] = useState(false);
@@ -433,6 +434,7 @@ export default function Profile() {
         />
         <Row icon="mail-outline" label={tr('profile.contact')} onPress={contactSupport} />
         <Row icon="key-outline" label="Support ID" onPress={() => void copySupportId()} />
+        <Row icon="star-outline" label="Test Plus" onPress={() => setPlus(true)} />
         <Pressable
           onPress={reset}
           accessibilityRole="button"
@@ -516,49 +518,3 @@ function ValueRow({
       <View
         style={{
           flexDirection: 'row',
-          alignItems: 'center',
-          gap: spacing.md,
-          paddingVertical: spacing.lg,
-          minHeight: 56,
-          borderTopWidth: first ? 0 : 1,
-          borderTopColor: t.border,
-        }}
-      >
-        <Ionicons name={icon as never} size={20} color={t.inkSoft} />
-        <Text style={{ ...ty.secondary, color: t.ink, flex: 1 }}>{label}</Text>
-        <Text style={{ ...ty.secondaryMedium, color: t.gold }}>{value}</Text>
-        <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={18} color={t.inkFaint} />
-      </View>
-    </Pressable>
-  );
-}
-
-function Row({ icon, label, onPress }: { icon: string; label: string; onPress?: () => void }) {
-  const t = useTheme();
-  const { locale } = useT();
-  return (
-    <Pressable
-      onPress={onPress}
-      disabled={!onPress}
-      accessibilityRole={onPress ? 'button' : undefined}
-      accessibilityLabel={label}
-      style={({ pressed }) => ({ paddingHorizontal: spacing.lg, opacity: pressed ? 0.7 : 1 })}
-    >
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: spacing.md,
-          paddingVertical: spacing.lg,
-          borderBottomWidth: 1,
-          borderBottomColor: t.border,
-          minHeight: 52,
-        }}
-      >
-        <Ionicons name={icon as never} size={20} color={t.inkSoft} />
-        <Text style={{ ...ty.secondary, color: t.ink, flex: 1 }}>{label}</Text>
-        <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={18} color={t.inkFaint} />
-      </View>
-    </Pressable>
-  );
-}
