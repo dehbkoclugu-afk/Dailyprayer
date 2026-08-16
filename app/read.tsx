@@ -20,7 +20,7 @@ import { fonts, scaledType, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { HIGHLIGHT_TINT } from '@/theme/highlights';
 import { useReaderTheme } from '@/theme/reading';
-import { getBible } from '@/data/bibleFull';
+import { getBible, getBibleSource } from '@/data/bibleFull';
 import { useReaderStore } from '@/state/useReaderStore';
 import { useReaderPrefsStore } from '@/state/useReaderPrefsStore';
 import { useHighlightStore } from '@/state/useHighlightStore';
@@ -37,7 +37,7 @@ import { useModalAccessibility } from '@/hooks/useModalAccessibility';
 import { accessibleVerseLabel } from '@/lib/accessibility';
 import { isExpandedLayout } from '@/lib/adaptiveLayout';
 import { newTestamentStart, testamentLabels } from '@/lib/scriptureNavigation';
-import { EnglishAudioBible } from '@/components/EnglishAudioBible';
+import { ScriptureAudioBible } from '@/components/ScriptureAudioBible';
 
 export default function Read() {
   const { t: tr, locale } = useT();
@@ -47,6 +47,7 @@ export default function Read() {
   const { width } = useWindowDimensions();
   const expanded = isExpandedLayout(width);
   const bible = getBible(scriptureLocale);
+  const scriptureSource = getBibleSource(scriptureLocale);
   const { book, chapter, setPos } = useReaderStore();
   const initialSavedVerse = useRef(useReaderStore.getState().verse).current;
   const initialPosition = useRef({ book, chapter }).current;
@@ -291,7 +292,7 @@ export default function Read() {
             <Text style={{ ...scaledType('titleLarge', fontScale), color: rt.ink, marginTop: 4, textAlign: scriptureRtl ? 'right' : 'left', writingDirection: scriptureRtl ? 'rtl' : 'ltr' }}>
               {bk.name}
             </Text>
-            <EnglishAudioBible book={bIdx} chapter={cIdx} palette={rt} />
+            <ScriptureAudioBible edition={scriptureSource.edition} book={bIdx} chapter={cIdx} palette={rt} />
             {showGestureHint ? (
               <View accessibilityRole="summary" style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginTop: spacing.lg, padding: spacing.md, borderRadius: radius.inner, backgroundColor: rt.goldSoft, borderWidth: 1, borderColor: rt.gold }}>
                 <View style={{ flex: 1, gap: spacing.xs }}>
