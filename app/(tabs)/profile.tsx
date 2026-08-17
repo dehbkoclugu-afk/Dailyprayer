@@ -300,9 +300,11 @@ export default function Profile() {
               <Text style={{ ...ty.bodyCompactStrong, color: artwork.foreground.primary }}>
                 {isPlus ? tr('profile.plusActive') : tr('profile.plusCta')}
               </Text>
-              <Text style={{ ...ty.captionRegular, color: artwork.foreground.secondary, marginTop: 2 }}>
-                {isPlus ? tr('profile.plusThanks') : tr('profile.plusSub')}
-              </Text>
+              {!isPlus ? (
+                <Text style={{ ...ty.captionRegular, color: artwork.foreground.secondary, marginTop: 2 }}>
+                  {tr('profile.plusSub')}
+                </Text>
+              ) : null}
             </View>
             {!isPlus ? <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={20} color={artwork.foreground.tertiary} /> : null}
           </Pressable>

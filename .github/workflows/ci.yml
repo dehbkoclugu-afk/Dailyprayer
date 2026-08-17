@@ -31,7 +31,9 @@ jobs:
       - name: Verify completed UI locale modules
         run: npm run ui-locales:verify
       - name: Verify completed application content packs
-        run: npm run application-content:verify
+        run: |
+          npm run application-content:build
+          npm run application-content:verify
       - name: Export and enforce Android bundle budgets
         env:
           CI: 1

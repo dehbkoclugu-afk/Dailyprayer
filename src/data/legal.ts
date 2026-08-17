@@ -7,7 +7,7 @@
  * Entity: Umut Ceylan · Contact: dehbkoclugu@gmail.com · Governing law: Turkey.
  * Have a lawyer review before publishing.
  */
-export const LEGAL_LAST_UPDATED = '2026-07-24';
+export const LEGAL_LAST_UPDATED = '2026-08-17';
 const TERMS_LAST_UPDATED = '2026-08-08';
 
 export const PRIVACY_POLICY = `# Privacy Policy
@@ -19,7 +19,7 @@ what the app does and does not do with your information.
 
 ## The short version
 - No account is required to use Selaora.
-- We do **not** collect, sell, or share your personal data.
+- We do **not** collect, sell, or share the personal content you create in Selaora.
 - Your journal entries, streaks, preferences, and highlights are stored **only on
   your device**.
 - We do **not** use third-party advertising or tracking.
@@ -35,10 +35,17 @@ Deleting the app removes this data from your device.
 
 ## Purchases
 Subscriptions are processed by Apple App Store or Google Play through our
-payments provider, RevenueCat, Inc. We receive anonymized subscription status
-(for example, whether "Plus" is active) so the app can unlock content. We do not
-receive your full payment details. See Apple's, Google's, and RevenueCat's
-privacy policies for how they handle payment data.
+payments provider, RevenueCat, Inc. RevenueCat processes purchase history and an
+anonymous app user identifier so the app can validate purchases, restore access,
+and understand subscription performance. This information is required for the
+purchase service and is encrypted in transit. We do not receive your full payment
+details. See Apple's, Google's, and RevenueCat's privacy policies for how they
+handle payment and purchase data.
+
+You can request deletion of the RevenueCat customer record associated with your
+installation by contacting us. Open Selaora's Profile screen, copy the support ID,
+and include it in your request to dehbkoclugu@gmail.com. Store transaction records
+may still be retained by Google or Apple under their own legal obligations.
 
 ## Notifications
 If you enable reminders, notifications are scheduled **locally on your device**.

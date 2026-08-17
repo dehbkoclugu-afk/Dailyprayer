@@ -37,7 +37,7 @@ Build a streak. Watch your daily rhythm become second nature. Read the Bible off
 Selaora is calm by design — no ads, no noise, no clutter. Just scripture, prayer, and space to breathe.
 
 SELAORA PLUS
-Unlock the full library of guided prayers and sleep prayers, every reading plan, and journal export with a Selaora Plus subscription. A free trial is available. Part of every subscription helps give Selaora free to someone who can't afford it.
+Unlock the full library of guided prayers and sleep prayers and every reading plan with a Selaora Plus subscription. A free trial may be available depending on the current store offer and your eligibility.
 
 Subscriptions renew automatically unless cancelled at least 24 hours before the period ends. Manage or cancel anytime in your account settings.
 
@@ -68,7 +68,7 @@ Bir seri oluştur. Günlük ritminin bir alışkanlığa dönüşmesini izle. İ
 Selaora tasarım gereği sakindir — reklam yok, gürültü yok, karmaşa yok. Yalnızca kutsal metin, dua ve nefes alacak alan.
 
 SELAORA PLUS
-Rehberli duaların ve uyku dualarının tüm kütüphanesini, tüm okuma planlarını ve günlük dışa aktarmayı Selaora Plus aboneliğiyle aç. Ücretsiz deneme mevcut. Her aboneliğin bir kısmı, Selaora'yı karşılayamayan birine ücretsiz ulaştırmaya yardım eder.
+Rehberli duaların ve uyku dualarının tüm kütüphanesini ve tüm okuma planlarını Selaora Plus aboneliğiyle aç. Güncel mağaza teklifine ve uygunluğuna bağlı olarak ücretsiz deneme sunulabilir.
 
 Abonelikler, dönem bitiminden en az 24 saat önce iptal edilmezse otomatik yenilenir. Hesap ayarlarından istediğin zaman yönet veya iptal et.
 
@@ -99,7 +99,7 @@ Crea una racha. Lee la Biblia sin conexión, resalta versículos y sigue planes 
 Selaora es sereno por diseño — sin anuncios, sin ruido.
 
 SELAORA PLUS
-Desbloquea toda la biblioteca de oraciones guiadas y para dormir, todos los planes de lectura y la exportación del diario con Selaora Plus. Prueba gratuita disponible. Parte de cada suscripción ayuda a regalar Selaora a alguien que no puede pagarlo.
+Desbloquea toda la biblioteca de oraciones guiadas y para dormir y todos los planes de lectura con Selaora Plus. Puede haber una prueba gratuita según la oferta actual de la tienda y tu elegibilidad.
 
 Las suscripciones se renuevan automáticamente salvo cancelación 24 horas antes del fin del período. Escritura de la World English Bible (dominio público).
 
@@ -128,7 +128,7 @@ Crie uma sequência. Leia a Bíblia offline, destaque versículos e siga planos 
 Selaora é sereno por design — sem anúncios, sem ruído.
 
 SELAORA PLUS
-Desbloqueie toda a biblioteca de orações guiadas e para dormir, todos os planos de leitura e a exportação do diário com o Selaora Plus. Teste grátis disponível. Parte de cada assinatura ajuda a presentear o Selaora a quem não pode pagar.
+Desbloqueie toda a biblioteca de orações guiadas e para dormir e todos os planos de leitura com o Selaora Plus. Um teste grátis pode estar disponível conforme a oferta atual da loja e sua elegibilidade.
 
 As assinaturas renovam automaticamente salvo cancelamento 24 horas antes do fim do período. Escritura da World English Bible (domínio público).
 
@@ -157,7 +157,7 @@ Créez une série. Lisez la Bible hors ligne, surlignez des versets et suivez de
 Selaora est apaisant par nature — sans publicité, sans bruit.
 
 SELAORA PLUS
-Débloquez toute la bibliothèque de prières guidées et du soir, tous les plans de lecture et l'export du journal avec Selaora Plus. Essai gratuit disponible. Une partie de chaque abonnement aide à offrir Selaora à quelqu'un qui ne peut pas se le permettre.
+Débloquez toute la bibliothèque de prières guidées et du soir ainsi que tous les plans de lecture avec Selaora Plus. Un essai gratuit peut être proposé selon l'offre actuelle de la boutique et votre éligibilité.
 
 Les abonnements se renouvellent automatiquement sauf annulation 24 heures avant la fin de la période. Écriture de la World English Bible (domaine public).
 
@@ -186,6 +186,6 @@ Baue eine Serie auf. Lies die Bibel offline, markiere Verse und folge Lesepläne
 Selaora ist von Grund auf ruhig — keine Werbung, kein Lärm.
 
 SELAORA PLUS
-Schalte die vollständige Bibliothek geführter Gebete und Schlafgebete, alle Lesepläne und den Tagebuch-Export mit Selaora Plus frei. Kostenlose Testphase verfügbar. Ein Teil jedes Abos hilft, Selaora jemandem zu schenken, der es sich nicht leisten kann.
+Schalte die vollständige Bibliothek geführter Gebete und Schlafgebete sowie alle Lesepläne mit Selaora Plus frei. Abhängig vom aktuellen Store-Angebot und deiner Berechtigung kann eine kostenlose Testphase verfügbar sein.
 
 Abos verlängern sich automatisch, sofern nicht 24 Stunden vor Periodenende gekündigt. Schrift aus der World English Bible (gemeinfrei).

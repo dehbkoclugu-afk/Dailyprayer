@@ -158,7 +158,7 @@ export default function Paywall() {
 {tr('paywall.thanksTitle')}
         </Text>
         <Text style={[ty.body, { color: t.inkSoft, marginTop: spacing.md, textAlign: 'center' }]}>
-{tr('paywall.thanksBody')}
+{tr('profile.plusActive')}
         </Text>
         <PillButton
           label={tr('paywall.thanksCta')}
