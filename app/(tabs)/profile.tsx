@@ -41,6 +41,8 @@ export default function Profile() {
   } = useUserStore();
   const { count, bestCount, totalDays, activeDays } = useStreakStore();
   const isPlus = useEntitlementStore((s) => s.isPlus);
+  const setPlus = useEntitlementStore((s) => s.setPlus);
+  const testPlusEnabled = __DEV__ || process.env.EXPO_PUBLIC_ENABLE_TEST_PLUS === '1';
   const [sheet, setSheet] = useState<null | 'appearance'>(null);
   const sheetReturnFocus = useRef<number | null>(null);
   const [showIosReminderPicker, setShowIosReminderPicker] = useState(false);
@@ -435,6 +437,13 @@ export default function Profile() {
         />
         <Row icon="mail-outline" label={tr('profile.contact')} onPress={contactSupport} />
         <Row icon="key-outline" label={`${tr('profile.contact')} · ID`} onPress={() => void copySupportId()} />
+        {testPlusEnabled ? (
+          <Row
+            icon={isPlus ? 'star' : 'star-outline'}
+            label={`Test Plus · ${isPlus ? 'ON' : 'OFF'}`}
+            onPress={() => setPlus(!isPlus)}
+          />
+        ) : null}
         <Pressable
           onPress={() => {
             reset();
