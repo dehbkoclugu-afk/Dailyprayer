@@ -173,8 +173,8 @@ jobs:
 
       - name: Build signed release AAB and APK
         env:
-          # PR artifacts are internal QA builds; Play/main releases never expose this control.
-          EXPO_PUBLIC_ENABLE_TEST_PLUS: ${{ github.event_name == 'pull_request' && '1' || '0' }}
+          # Store-distributed artifacts must exercise the real Google Play / RevenueCat flow.
+          EXPO_PUBLIC_ENABLE_TEST_PLUS: '0'
         run: cd android && ./gradlew bundleRelease assembleRelease --no-daemon
 
       - name: Enforce release bundle budgets
