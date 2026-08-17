@@ -197,7 +197,7 @@ export default function RootLayout() {
   // Render marker for the smoke test , a stuck splash never logs this.
   useEffect(() => {
     if (ready && mounted && scriptureReady && applicationContentReady) {
-      console.log('LUMEN_UI_READY');
+      console.log('SELAORA_UI_READY');
     }
   }, [applicationContentReady, ready, mounted, scriptureReady]);
 

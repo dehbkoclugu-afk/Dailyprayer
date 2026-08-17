@@ -489,7 +489,7 @@ export default function Profile() {
       </View>
 
       <Text style={{ ...ty.labelSmallRegular, color: t.inkFaint, textAlign: 'center', marginTop: spacing.xl }}>
-        Lumen v1.0.0
+        Selaora v1.0.0
       </Text>
 
       <OptionSheet

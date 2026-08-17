@@ -5,7 +5,7 @@ Status: Approved design, pending written-spec review
 
 ## Goal
 
-Expand Lumen from eight fully translated application locales to every locale
+Expand Selaora from eight fully translated application locales to every locale
 with a full, release-candidate Scripture edition, while retaining the existing
 licensed Turkish experience. This produces 41 application locale tags: the 40
 entries in `RELEASE_CANDIDATE_SCRIPTURE_LOCALE_TAGS` plus Turkish.

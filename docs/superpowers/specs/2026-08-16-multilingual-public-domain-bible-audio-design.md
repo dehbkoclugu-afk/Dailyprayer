@@ -2,7 +2,7 @@
 
 ## Goal
 
-Extend Lumen's Plus-gated chapter audio from English to four additional Scripture editions whose audio can be matched to the exact text edition displayed in the reader:
+Extend Selaora's Plus-gated chapter audio from English to four additional Scripture editions whose audio can be matched to the exact text edition displayed in the reader:
 
 - German: Lutherbibel 1912
 - Spanish: Reina-Valera 1909
@@ -55,7 +55,7 @@ The player owns only playback state and presentation. Changing edition, book, or
 
 A language is enabled only after all of the following are verified:
 
-1. The recording names the same edition Lumen displays.
+1. The recording names the same edition Selaora displays.
 2. The recording or its publisher provides a defensible public-domain or unrestricted-use statement for the audio, not only the text.
 3. Stable chapter-level HTTPS files or metadata are available without authentication.
 4. Canonical coverage is measured and missing chapters are recorded explicitly.

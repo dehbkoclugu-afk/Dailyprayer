@@ -14,6 +14,20 @@ test('Android predictive back is enabled', async () => {
   );
 });
 
+test('the public Selaora brand keeps Play and local-data compatibility identifiers stable', async () => {
+  const config = JSON.parse(await read('app.json'));
+  assert.equal(config.expo.name, 'Selaora: Daily Prayer & Bible');
+  assert.equal(config.expo.android.package, 'com.lumen.dailyprayer');
+  assert.equal(config.expo.ios.bundleIdentifier, 'com.lumen.dailyprayer');
+  assert.match(await read('src/components/Wordmark.tsx'), /accessibilityLabel="Selaora"/);
+  assert.match(await read('app/(tabs)/profile.tsx'), /Selaora v1\.0\.0/);
+  assert.match(
+    await read('src/services/purchases.ts'),
+    /'Lumen Pro'/,
+    'the legacy RevenueCat entitlement must remain accepted after the rebrand',
+  );
+});
+
 test('reader and reader action sheets handle the Android back request', async () => {
   for (const path of [
     'app/read.tsx',

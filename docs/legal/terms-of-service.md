@@ -5,17 +5,17 @@ _Last updated: 2026-08-08_
 > Source of truth is `src/data/legal.ts` (shown in-app). Keep this hosted copy in
 > sync and have a lawyer review before publishing.
 
-By using Lumen ("the app") you agree to these terms.
+By using Selaora ("the app") you agree to these terms.
 
 ## The service
-Lumen provides daily Bible verses, devotionals, guided prayers, reading plans,
+Selaora provides daily Bible verses, devotionals, guided prayers, reading plans,
 and a personal journal. The Bible reader offers separately sourced Scripture
 editions through an edition manager. Scripture language is independent from the
 app interface language. Devotionals and prayers are original devotional content
 and are not a substitute for professional, medical, or pastoral advice.
 
 ## Scripture sources and rights
-Lumen's production Scripture catalog contains 40 checksum-pinned source
+Selaora's production Scripture catalog contains 40 checksum-pinned source
 editions that passed the project's public-domain source-evidence gate, plus the
 separately licensed Turkish edition below. Public-domain status can depend on
 jurisdiction; the catalog therefore preserves each edition's identity and
@@ -24,11 +24,11 @@ upstream rights evidence rather than treating all Scripture as one license.
 Public-domain packs are built from exact, named editions supplied by eBible.org,
 CrossWire SWORD, or the independently checked Open Bibles source used by the
 release registry. Downloaded packs are integrity-checked before installation and
-are not machine/model translations. The edition name displayed in Lumen's Bible
+are not machine/model translations. The edition name displayed in Selaora's Bible
 language manager identifies the source text currently selected.
 
 - **Turkish — Yorumsuz Türkçe Çeviri (YTC):** copyright © 2023-2025 İsmail
-  Serinken and eBible.org; CC BY-ND 4.0. This edition is not public domain. Lumen
+  Serinken and eBible.org; CC BY-ND 4.0. This edition is not public domain. Selaora
   distributes the Scripture text without creating a derivative translation.
   Source and rights notice: https://ebible.org/turytc/copyright.htm. License:
   https://creativecommons.org/licenses/by-nd/4.0/.
@@ -37,11 +37,11 @@ language manager identifies the source text currently selected.
 - **CrossWire SWORD source editions:** edition-specific module information and
   rights notices are published at https://www.crosswire.org/sword/modules/.
 - **Open Bibles source used by the release registry:**
-  https://github.com/seven1m/open-bibles. Lumen's release gate rejects a source
+  https://github.com/seven1m/open-bibles. Selaora's release gate rejects a source
   when its claimed identity/rights do not match the text being packaged.
 
-## Subscriptions (Lumen Plus)
-- Lumen offers auto-renewable subscriptions that unlock additional content.
+## Subscriptions (Selaora Plus)
+- Selaora offers auto-renewable subscriptions that unlock additional content.
 - Prices are shown in the app before purchase and may vary by region.
 - Payment is charged to your Apple App Store or Google Play account at
   confirmation of purchase.

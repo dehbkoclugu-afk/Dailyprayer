@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Lumen: Daily Prayer & Bible",
+    "name": "Selaora: Daily Prayer & Bible",
     "slug": "lumen-daily-prayer",
     "version": "1.0.0",
     "orientation": "default",
@@ -28,7 +28,7 @@
       ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0E1220"
+        "backgroundColor": "#070B17"
       }
     },
     "web": {
@@ -55,7 +55,7 @@
         "expo-splash-screen",
         {
           "image": "./assets/splash.png",
-          "backgroundColor": "#0E1220",
+          "backgroundColor": "#070B17",
           "imageWidth": 200
         }
       ],

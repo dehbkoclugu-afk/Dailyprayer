@@ -6,11 +6,11 @@ _Last updated: 2026-07-24_
 > sync and have a lawyer review before publishing. Stores require a public URL
 > to this.
 
-Lumen ("the app", "we") is built to respect your privacy. This policy explains
+Selaora ("the app", "we") is built to respect your privacy. This policy explains
 what the app does and does not do with your information.
 
 ## The short version
-- No account is required to use Lumen.
+- No account is required to use Selaora.
 - We do **not** collect, sell, or share your personal data.
 - Your journal entries, streaks, preferences, and highlights are stored **only on
   your device**.
@@ -38,7 +38,7 @@ We do not run a server that sends you push messages, and enabling reminders does
 not send any data to us.
 
 ## Children
-Lumen is not directed to children under 13 (or the minimum age in your country).
+Selaora is not directed to children under 13 (or the minimum age in your country).
 We do not knowingly collect data from children.
 
 ## Changes

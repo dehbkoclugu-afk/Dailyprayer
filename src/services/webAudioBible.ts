@@ -1,6 +1,6 @@
 const BASE_URL = 'https://ebible.org/eng-web/audio/';
 
-/** Canonical Protestant order, matching every bundled Lumen Bible. */
+/** Canonical Protestant order, matching every bundled Selaora Bible. */
 export const WEB_AUDIO_BOOK_DIRECTORIES = [
   '01_Genesis', '02_Exodus', '03_Leviticus', '04_Numbers', '05_Deuteronomy',
   '06_Joshua', '07_Judges', '08_Ruth', '09_First_Samuel', '10_Second_Samuel',

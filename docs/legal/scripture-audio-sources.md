@@ -1,6 +1,6 @@
 # Scripture audio sources
 
-Runtime audio is streamed over HTTPS and selected by exact edition name. Lumen does not bundle or silently substitute recordings.
+Runtime audio is streamed over HTTPS and selected by exact edition name. Selaora does not bundle or silently substitute recordings.
 
 | Edition | Recording | Coverage | Evidence |
 |---|---|---:|---|

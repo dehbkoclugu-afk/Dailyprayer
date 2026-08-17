@@ -1,11 +1,11 @@
 /**
- * Find public-domain Scripture audio candidates for locales Lumen already ships text for.
+ * Find public-domain Scripture audio candidates for locales Selaora already ships text for.
  *
  * eBible.org publishes one directory per translation and, where a recording exists,
  * a sibling `mp3/` directory using the deterministic `<BOOKCODE><NN>.mp3` naming that
  * `src/services/publicDomainAudioProviders.ts` already resolves without scraping HTML.
  * This script enumerates the eBible catalogue, keeps the translations whose language
- * matches a Lumen locale, then probes each one for audio and reads its copyright page.
+ * matches a Selaora locale, then probes each one for audio and reads its copyright page.
  *
  * Usage:  node scripts/find-scripture-audio-candidates.mjs [--locale tr] [--json]
  *
@@ -36,7 +36,7 @@ const LIBRIVOX_LANGUAGES = {
 /** Title seeds, because the API matches on title rather than subject. */
 const LIBRIVOX_TITLE_SEEDS = ['bible', 'biblia', 'bibel', 'bijbel', 'biblija', 'biblija', 'vulgata', 'testament'];
 
-/** Lumen locale → ISO 639-3 codes eBible may file the translation under. */
+/** Selaora locale → ISO 639-3 codes eBible may file the translation under. */
 const LOCALE_LANGUAGES = {
   ar: ['arb', 'ara'], my: ['mya'], cek: ['cek'], hlt: ['hlt'],
   'zh-Hans': ['cmn'], 'zh-Hant': ['cmn'], hr: ['hrv'], cs: ['ces'],
@@ -114,7 +114,7 @@ async function licenceOf(id) {
   }
 }
 
-/** Human-narrated, US-public-domain recordings, keyed back onto Lumen locales. */
+/** Human-narrated, US-public-domain recordings, keyed back onto Selaora locales. */
 async function librivoxCandidates(onlyLocale) {
   const wanted = new Map(Object.entries(LIBRIVOX_LANGUAGES)
     .filter(([locale]) => !onlyLocale || locale === onlyLocale)
@@ -206,7 +206,7 @@ function report(results, asJson) {
   }
 
   if (!results.length) {
-    console.log('No recording matched a Lumen locale.');
+    console.log('No recording matched a Selaora locale.');
     return;
   }
   console.log(`${results.length} candidate recording(s):\n`);
