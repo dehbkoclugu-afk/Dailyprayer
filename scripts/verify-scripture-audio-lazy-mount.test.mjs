@@ -21,10 +21,22 @@ test('the audio player uses artwork and complete media controls', async () => {
   assert.match(source, /<ArtSlot id="A18-ritual-reading"/);
   assert.match(source, /accessibilityRole="adjustable"/);
   assert.match(source, /onResponderMove=\{seekFromGesture\}/);
-  assert.match(source, /play-back/);
-  assert.match(source, /play-forward/);
+  assert.match(source, />−15<\/Text>/);
+  assert.match(source, />\+15<\/Text>/);
   assert.match(source, /RATES\.map/);
   assert.match(source, /formatTime\(status\.currentTime\)/);
   assert.match(source, /request !== requestVersion\.current/);
   assert.match(source, /requestVersion\.current \+= 1/);
+});
+
+test('playback speed preserves speech pitch and avoids destructive rate extremes', async () => {
+  const source = await readFile(new URL('../src/components/ScriptureAudioBible.tsx', import.meta.url), 'utf8');
+
+  assert.match(source, /const RATES = \[0\.85, 1, 1\.15\] as const/);
+  assert.match(source, /const PITCH_CORRECTION_QUALITY = 'high' as const/);
+  assert.equal(
+    source.match(/setPlaybackRate\([^\n]+PITCH_CORRECTION_QUALITY\)/g)?.length,
+    2,
+    'initial load and live speed changes must both enable high-quality pitch correction',
+  );
 });

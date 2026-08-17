@@ -145,15 +145,14 @@ export default function Bible() {
               }}
             >
               <View style={{ borderRadius: radius.card, overflow: 'hidden', backgroundColor: t.surface, borderWidth: dawn ? 1 : 0, borderColor: t.border }}>
-                <ArtSlot id={p.art} height={150} radius={radius.card} scrim={dawn ? 'none' : 'readable'}>
-                  {!dawn ? (
-                    <LinearGradient
-                      colors={[`${p.gradient[0]}CC`, `${p.gradient[1]}F2`]}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 1 }}
-                      style={{ position: 'absolute', width: '100%', height: '100%' }}
-                    />
-                  ) : null}
+                <ArtSlot id={p.art} height={150} radius={radius.card} scrim="none">
+                  <LinearGradient
+                    colors={['rgba(5,8,16,0.02)', 'rgba(5,8,16,0.10)', 'rgba(5,8,16,0.74)']}
+                    locations={[0, 0.5, 1]}
+                    start={{ x: 0.5, y: 0 }}
+                    end={{ x: 0.5, y: 1 }}
+                    style={{ position: 'absolute', width: '100%', height: '100%' }}
+                  />
                   <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                       <Text numberOfLines={2} style={{ ...ty.titleCompact, color: t.onArtwork, flex: 1, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>

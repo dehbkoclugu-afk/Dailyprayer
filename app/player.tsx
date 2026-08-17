@@ -3,7 +3,7 @@ import { AccessibilityInfo, Pressable, ScrollView, Text, useWindowDimensions, Vi
 import { router, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import Animated, { FadeInUp, FadeOut, useReducedMotion } from 'react-native-reanimated';
+import Animated, { FadeInUp, useReducedMotion } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -171,28 +171,13 @@ export default function Player() {
         </View>
 
         <View style={{ flexGrow: 1, minHeight: short ? 150 : 260, justifyContent: 'center', paddingHorizontal: spacing.sm, paddingVertical: short ? spacing.lg : spacing.xl }}>
-          {line > 0 && !short ? (
-            <Text
-              accessible={false}
-              numberOfLines={2}
-              style={{
-                ...ty.editorialSecondary,
-                color: 'rgba(255,255,255,0.48)',
-                textAlign: 'center',
-                marginBottom: spacing.xl,
-                ...textShadow,
-              }}
-            >
-              {prayer.script[line - 1]}
-            </Text>
-          ) : null}
-          {/* each line rises gently into place , the "breath" feel */}
+          {/* Never animate the outgoing line: on some Android/Reanimated builds
+              exiting text can remain mounted and pile up behind the next line. */}
           <Animated.Text
             key={line}
-            entering={reduceMotion ? undefined : FadeInUp.duration(600)}
-            exiting={reduceMotion ? undefined : FadeOut.duration(250)}
+            entering={reduceMotion ? undefined : FadeInUp.duration(420)}
             style={{
-              ...ty.playerVerse,
+              ...(short ? ty.playerVerseCompact : ty.playerVerse),
               color: foreground,
               textAlign: 'center',
               ...textShadow,
@@ -220,15 +205,19 @@ export default function Player() {
           accessibilityRole="progressbar"
           accessibilityLabel={tr('player.guidedText')}
           accessibilityValue={{ min: 1, max: 3, now: activeSection + 1 }}
-          style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm, marginBottom: spacing.md }}
+          style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.md, marginBottom: spacing.lg }}
         >
           {[0, 1, 2].map((section) => (
-            <View key={section} style={{ alignItems: 'center', gap: 4 }}>
-              <View style={{ width: section === activeSection ? 28 : 18, height: 4, borderRadius: 2, backgroundColor: section <= activeSection ? t.gold : 'rgba(255,255,255,0.28)' }} />
-              <Text style={{ ...ty.labelSmallRegular, color: section === activeSection ? foreground : quiet, ...textShadow }}>
-                {section + 1}/3
-              </Text>
-            </View>
+            <View
+              key={section}
+              style={{
+                width: section === activeSection ? 10 : 7,
+                height: section === activeSection ? 10 : 7,
+                borderRadius: 5,
+                backgroundColor: section <= activeSection ? t.gold : 'rgba(255,255,255,0.32)',
+                opacity: section < activeSection ? 0.58 : 1,
+              }}
+            />
           ))}
         </View>
         <View style={{ marginBottom: spacing.md }}>

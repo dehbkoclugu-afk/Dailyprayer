@@ -25,7 +25,6 @@ import { useScriptureLocale } from '@/i18n/scripture';
 export default function PlanScreen() {
   const t = useTheme();
   const artwork = useArtwork();
-  const dawn = artwork.scheme === 'dawn';
   const { t: tr, locale } = useT();
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string | string[] }>();
@@ -65,15 +64,14 @@ export default function PlanScreen() {
       </Pressable>
 
       <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
-        <ArtSlot id={plan.art} height={170} radius={radius.card} scrim="strong">
-          {!dawn ? (
-            <LinearGradient
-              colors={[`${plan.gradient[0]}CC`, `${plan.gradient[1]}F2`]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={{ position: 'absolute', width: '100%', height: '100%' }}
-            />
-          ) : null}
+        <ArtSlot id={plan.art} height={170} radius={radius.card} scrim="none">
+          <LinearGradient
+            colors={['rgba(5,8,16,0.02)', 'rgba(5,8,16,0.10)', 'rgba(5,8,16,0.74)']}
+            locations={[0, 0.5, 1]}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            style={{ position: 'absolute', width: '100%', height: '100%' }}
+          />
           <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
             <Text style={[ty.titleSmall, { color: artContrast.primary, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }]}>{plan.title}</Text>
             <Text style={[ty.labelRegular, { color: artContrast.secondary, marginTop: spacing.xs, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }]}>
