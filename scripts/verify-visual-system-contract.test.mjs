@@ -37,10 +37,58 @@ test('ArtSlot callers use the semantic scrim API', async () => {
   }
 });
 
-test('Dawn verse artwork stays visible beneath a copy-focused gradient', async () => {
+test('verse artwork stays visible in both themes beneath a copy-focused gradient', async () => {
   const source = await readFile(new URL('../src/components/VerseCard.tsx', import.meta.url), 'utf8');
-  assert.match(source, /scrim=\{dawn \? 'none' : 'strong'\}/);
+  assert.match(source, /scrim="none"/);
+  assert.match(source, /colors=\{dawn/);
   assert.match(source, /locations=\{\[0, 0\.52, 1\]\}/);
+});
+
+test('guided prayer keeps exactly one animated line and uses quiet section dots', async () => {
+  const source = await readFile(new URL('../app/player.tsx', import.meta.url), 'utf8');
+  assert.match(source, /key=\{line\}/);
+  assert.doesNotMatch(source, /exiting=/);
+  assert.doesNotMatch(source, /\{section \+ 1\}\/3/);
+  assert.match(source, /width: section === activeSection \? 10 : 7/);
+});
+
+test('guided prayer restores progress once per stable prayer id', async () => {
+  const source = await readFile(new URL('../app/player.tsx', import.meta.url), 'utf8');
+  assert.match(source, /restoredPrayerId === prayerId/);
+  assert.match(source, /\[blocked, prayerId, scriptLength\]/);
+  assert.doesNotMatch(source, /\[blocked, prayer\]/);
+});
+
+test('dawn verse cards use dedicated light art and no dark center scrim', async () => {
+  const [registry, verseCard] = await Promise.all([
+    readFile(new URL('../src/assets/registry.ts', import.meta.url), 'utf8'),
+    readFile(new URL('../src/components/VerseCard.tsx', import.meta.url), 'utf8'),
+  ]);
+  for (const theme of ['peace', 'strength', 'trust', 'rest', 'hope', 'guidance', 'joy', 'love']) {
+    assert.match(registry, new RegExp(`A5-verse-${theme}-dawn\\.webp`));
+  }
+  assert.match(verseCard, /const foreground = dawn \? t\.ink : t\.onArtwork/);
+  assert.doesNotMatch(verseCard, /dawn[\s\S]{0,100}rgba\(8,10,18,0\.42\)/);
+});
+
+test('prayer copy has no stray spaces before commas', async () => {
+  const source = await readFile(new URL('../src/data/prayers.ts', import.meta.url), 'utf8');
+  assert.doesNotMatch(source, /\s+,/);
+});
+
+test('reading-plan artwork uses a bottom-only gradient instead of stacked fog', async () => {
+  const catalog = await readFile(new URL('../app/(tabs)/bible.tsx', import.meta.url), 'utf8');
+  const plan = await readFile(new URL('../app/plan/[id]/index.tsx', import.meta.url), 'utf8');
+  const rows = await readFile(new URL('../src/components/PlanDayArtwork.tsx', import.meta.url), 'utf8');
+
+  for (const source of [catalog, plan]) {
+    assert.match(source, /scrim="none"/);
+    assert.match(source, /locations=\{\[0, 0\.5, 1\]\}/);
+    assert.doesNotMatch(source, /gradient\[0\].*CC/);
+    assert.doesNotMatch(source, /gradient\[1\].*F2/);
+  }
+  assert.match(rows, /backgroundColor: artworkScrims\.soft/);
+  assert.doesNotMatch(rows, /backgroundColor: artworkScrims\.strong/);
 });
 
 test('Today rhythm header shows completion ratio only in ProgressRing', async () => {

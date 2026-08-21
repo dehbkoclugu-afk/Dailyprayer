@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { AccessibilityInfo, Pressable, ScrollView, Text, useWindowDimensions, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { Ionicons } from '@expo/vector-icons';
-import Animated, { FadeInUp, FadeOut, useReducedMotion } from 'react-native-reanimated';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import Animated, { FadeInUp, useReducedMotion } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -21,6 +21,8 @@ import { useScreenReaderEnabled } from '@/hooks/useScreenReaderEnabled';
 import { shouldAutoAdvancePrayer } from '@/lib/accessibility';
 import { prayerSection } from '@/lib/dailyExperience';
 import { isShortLayout } from '@/lib/adaptiveLayout';
+import { useEntitlementStore } from '@/state/useEntitlementStore';
+import { InvalidRouteState } from '@/components/InvalidRouteState';
 
 type Pace = 'slow' | 'normal' | 'quick';
 
@@ -44,36 +46,58 @@ export default function Player() {
   const screenReaderEnabled = useScreenReaderEnabled();
   const { id } = useLocalSearchParams<{ id: string }>();
   const prayers = usePrayers();
-  const prayer = prayers.find((p) => p.id === id) ?? prayers[0];
+  const prayer = prayers.find((p) => p.id === id);
+  const isPlus = useEntitlementStore((s) => s.isPlus);
   const [line, setLine] = useState(0);
+  const [restoredPrayerId, setRestoredPrayerId] = useState<string | null>(null);
   const [paused, setPaused] = useState(false);
   const [pace, setPace] = useState<Pace>('normal');
   const completeStep = useStreakStore((s) => s.completeStep);
-  const lastLine = line >= prayer.script.length - 1;
-  const progress = (line + 1) / prayer.script.length;
-  const activeSection = prayerSection(line, prayer.script.length);
+  const blocked = Boolean(prayer?.plus && !isPlus);
+  const safePrayer = prayer ?? prayers[0];
+  const prayerId = prayer?.id;
+  const scriptLength = prayer?.script.length ?? 0;
+  const currentLineText = prayer?.script[line] ?? '';
+  const playerReady = Boolean(prayerId && restoredPrayerId === prayerId);
+  const lastLine = line >= safePrayer.script.length - 1;
+  const progress = (line + 1) / safePrayer.script.length;
+  const activeSection = prayerSection(line, safePrayer.script.length);
   const remainingMinutes = Math.max(
     1,
     Math.ceil(
-      prayer.script.slice(line + 1).reduce((sum, item) => sum + item.length, 0) *
+      safePrayer.script.slice(line + 1).reduce((sum, item) => sum + item.length, 0) *
         PACE_FACTOR[pace] /
         60000,
     ),
   );
 
   useEffect(() => {
-    AsyncStorage.getItem(`lumen-player-${prayer.id}`)
+    if (!prayerId || blocked || scriptLength === 0) return;
+    let cancelled = false;
+    setRestoredPrayerId(null);
+    setLine(0);
+    AsyncStorage.getItem(`lumen-player-${prayerId}`)
       .then((saved) => {
+        if (cancelled) return;
         const parsed = Number(saved);
-        if (Number.isInteger(parsed) && parsed >= 0 && parsed < prayer.script.length) setLine(parsed);
+        setLine(Number.isInteger(parsed) && parsed >= 0 && parsed < scriptLength ? parsed : 0);
+        setRestoredPrayerId(prayerId);
       })
-      .catch(() => {});
-  }, [prayer.id, prayer.script.length]);
+      .catch(() => {
+        if (!cancelled) setRestoredPrayerId(prayerId);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [blocked, prayerId, scriptLength]);
 
   useEffect(() => {
-    AsyncStorage.setItem(`lumen-player-${prayer.id}`, String(line)).catch(() => {});
-    if (screenReaderEnabled) AccessibilityInfo.announceForAccessibility(prayer.script[line]);
-  }, [line, prayer.id, prayer.script, screenReaderEnabled]);
+    if (!prayerId || blocked || !playerReady) return;
+    AsyncStorage.setItem(`lumen-player-${prayerId}`, String(line)).catch(() => {});
+    if (screenReaderEnabled && currentLineText) {
+      AccessibilityInfo.announceForAccessibility(currentLineText);
+    }
+  }, [blocked, currentLineText, line, playerReady, prayerId, screenReaderEnabled]);
 
   useEffect(() => {
     if (screenReaderEnabled) setPaused(true);
@@ -81,10 +105,32 @@ export default function Player() {
 
   useEffect(() => {
     if (!shouldAutoAdvancePrayer(paused, lastLine, screenReaderEnabled)) return;
-    const ms = Math.max(4000, prayer.script[line].length * PACE_FACTOR[pace]);
-    const timer = setTimeout(() => setLine((l) => l + 1), ms);
+    if (!prayerId || blocked || !playerReady) return;
+    const ms = Math.max(4000, currentLineText.length * PACE_FACTOR[pace]);
+    const timer = setTimeout(
+      () => setLine((current) => Math.min(scriptLength - 1, current + 1)),
+      ms,
+    );
     return () => clearTimeout(timer);
-  }, [line, pace, paused, lastLine, prayer.script, screenReaderEnabled]);
+  }, [
+    blocked,
+    currentLineText,
+    lastLine,
+    line,
+    pace,
+    paused,
+    playerReady,
+    prayerId,
+    screenReaderEnabled,
+    scriptLength,
+  ]);
+
+  useEffect(() => {
+    if (blocked) router.replace('/paywall?from=prayer');
+  }, [blocked]);
+
+  if (!prayer) return <InvalidRouteState />;
+  if (blocked) return null;
 
   const finish = () => {
     completeStep('prayer');
@@ -156,28 +202,13 @@ export default function Player() {
         </View>
 
         <View style={{ flexGrow: 1, minHeight: short ? 150 : 260, justifyContent: 'center', paddingHorizontal: spacing.sm, paddingVertical: short ? spacing.lg : spacing.xl }}>
-          {line > 0 && !short ? (
-            <Text
-              accessible={false}
-              numberOfLines={2}
-              style={{
-                ...ty.editorialSecondary,
-                color: 'rgba(255,255,255,0.48)',
-                textAlign: 'center',
-                marginBottom: spacing.xl,
-                ...textShadow,
-              }}
-            >
-              {prayer.script[line - 1]}
-            </Text>
-          ) : null}
-          {/* each line rises gently into place , the "breath" feel */}
+          {/* Never animate the outgoing line: on some Android/Reanimated builds
+              exiting text can remain mounted and pile up behind the next line. */}
           <Animated.Text
             key={line}
-            entering={reduceMotion ? undefined : FadeInUp.duration(600)}
-            exiting={reduceMotion ? undefined : FadeOut.duration(250)}
+            entering={reduceMotion ? undefined : FadeInUp.duration(420)}
             style={{
-              ...ty.playerVerse,
+              ...(short ? ty.playerVerseCompact : ty.playerVerse),
               color: foreground,
               textAlign: 'center',
               ...textShadow,
@@ -205,15 +236,19 @@ export default function Player() {
           accessibilityRole="progressbar"
           accessibilityLabel={tr('player.guidedText')}
           accessibilityValue={{ min: 1, max: 3, now: activeSection + 1 }}
-          style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm, marginBottom: spacing.md }}
+          style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.md, marginBottom: spacing.lg }}
         >
           {[0, 1, 2].map((section) => (
-            <View key={section} style={{ alignItems: 'center', gap: 4 }}>
-              <View style={{ width: section === activeSection ? 28 : 18, height: 4, borderRadius: 2, backgroundColor: section <= activeSection ? t.gold : 'rgba(255,255,255,0.28)' }} />
-              <Text style={{ ...ty.labelSmallRegular, color: section === activeSection ? foreground : quiet, ...textShadow }}>
-                {section + 1}/3
-              </Text>
-            </View>
+            <View
+              key={section}
+              style={{
+                width: section === activeSection ? 10 : 7,
+                height: section === activeSection ? 10 : 7,
+                borderRadius: 5,
+                backgroundColor: section <= activeSection ? t.gold : 'rgba(255,255,255,0.32)',
+                opacity: section < activeSection ? 0.58 : 1,
+              }}
+            />
           ))}
         </View>
         <View style={{ marginBottom: spacing.md }}>
@@ -256,9 +291,9 @@ export default function Player() {
           <View style={{ flexDirection: 'row', justifyContent: 'center', gap: spacing.xl }}>
             <Pressable
               onPress={() => setLine((l) => Math.max(0, l - 1))}
-              disabled={line === 0}
+              disabled={!playerReady || line === 0}
               accessibilityRole="button"
-              accessibilityState={{ disabled: line === 0 }}
+              accessibilityState={{ disabled: !playerReady || line === 0 }}
               accessibilityLabel={tr('player.previous')}
               style={({ pressed }) => ({
                 width: 56,
@@ -269,14 +304,16 @@ export default function Player() {
                 borderColor: 'rgba(255,255,255,0.16)',
                 alignItems: 'center',
                 justifyContent: 'center',
-                opacity: line === 0 ? interaction.disabledOpacity : pressed ? interaction.pressedOpacity : 1,
+                opacity: !playerReady || line === 0 ? interaction.disabledOpacity : pressed ? interaction.pressedOpacity : 1,
               })}
             >
               <Ionicons name="play-skip-back" size={24} color={quiet} />
             </Pressable>
             <Pressable
               onPress={() => setPaused((p) => !p)}
+              disabled={!playerReady}
               accessibilityRole="button"
+              accessibilityState={{ disabled: !playerReady }}
               accessibilityLabel={paused ? tr('player.resume') : tr('player.pause')}
               style={{
                 width: 64,
@@ -291,7 +328,9 @@ export default function Player() {
             </Pressable>
             <Pressable
               onPress={() => setLine((l) => Math.min(prayer.script.length - 1, l + 1))}
+              disabled={!playerReady}
               accessibilityRole="button"
+              accessibilityState={{ disabled: !playerReady }}
               accessibilityLabel={tr('player.next')}
               style={({ pressed }) => ({
                 width: 56,
@@ -302,7 +341,7 @@ export default function Player() {
                 borderColor: 'rgba(255,255,255,0.16)',
                 alignItems: 'center',
                 justifyContent: 'center',
-                opacity: pressed ? interaction.pressedOpacity : 1,
+                opacity: !playerReady ? interaction.disabledOpacity : pressed ? interaction.pressedOpacity : 1,
               })}
             >
               <Ionicons name="play-skip-forward" size={24} color={quiet} />

@@ -1,6 +1,6 @@
 {
   "name": "lumen-daily-prayer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
@@ -8,7 +8,7 @@
     "ios": "expo start --ios",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --test scripts/verify-semantic-typography.test.mjs scripts/verify-navigation-contract.test.mjs scripts/verify-bible-loading.test.mjs scripts/verify-bundle-budget.test.mjs scripts/verify-adaptive-state-contract.test.mjs scripts/verify-visual-system-contract.test.mjs src/theme/artContrast.test.ts src/theme/visualSystem.test.ts src/lib/accessibility.test.ts src/lib/adaptiveLayout.test.ts src/lib/dailyExperience.test.ts src/lib/dates.test.ts src/lib/localDataKeys.test.ts src/lib/reminderTime.test.ts src/lib/routeValidation.test.ts src/lib/scriptureNavigation.test.ts src/lib/scriptureSearch.test.ts src/data/verses.test.ts src/data/legal.test.ts src/data/biblePack.test.ts src/data/applicationContentPack.test.ts src/i18n/applicationContent.test.ts src/i18n/applicationLanguageActivation.test.ts src/i18n/direction.test.ts src/i18n/localeText.test.ts src/i18n/readerAccessibility.test.ts src/i18n/translations.test.ts src/services/applicationContentRegistry.test.ts src/services/purchases.test.ts src/services/paywallContext.test.ts src/data/scriptureSource.test.ts scripts/verify-scripture-ui-integrity.test.mjs scripts/verify-release-claims.test.mjs",
+    "test": "node --experimental-strip-types --test scripts/verify-semantic-typography.test.mjs scripts/verify-navigation-contract.test.mjs scripts/verify-bible-loading.test.mjs scripts/verify-bundle-budget.test.mjs scripts/verify-adaptive-state-contract.test.mjs scripts/verify-visual-system-contract.test.mjs scripts/verify-scripture-audio-lazy-mount.test.mjs src/theme/artContrast.test.ts src/theme/visualSystem.test.ts src/lib/accessibility.test.ts src/lib/adaptiveLayout.test.ts src/lib/dailyExperience.test.ts src/lib/dates.test.ts src/lib/localDataKeys.test.ts src/lib/reminderTime.test.ts src/lib/routeValidation.test.ts src/lib/scriptureNavigation.test.ts src/lib/scriptureSearch.test.ts src/data/verses.test.ts src/data/legal.test.ts src/data/biblePack.test.ts src/data/applicationContentPack.test.ts src/i18n/applicationContent.test.ts src/i18n/applicationLanguageActivation.test.ts src/i18n/direction.test.ts src/i18n/localeText.test.ts src/i18n/readerAccessibility.test.ts src/i18n/translations.test.ts src/services/applicationContentRegistry.test.ts src/services/purchases.test.ts src/services/paywallContext.test.ts src/services/webAudioBible.test.ts src/services/scriptureAudio.test.ts src/services/publicDomainAudioProviders.test.ts src/data/scriptureSource.test.ts scripts/verify-scripture-ui-integrity.test.mjs scripts/verify-release-claims.test.mjs",
     "bible:pack": "node scripts/build-ebible-pack.mjs",
     "bible:pack:verify": "node --experimental-strip-types scripts/validate-ebible-source-pins.mjs",
     "application-content:build": "node --experimental-strip-types scripts/build-application-content-packs.mjs",
@@ -31,6 +31,7 @@
     "@react-native-community/datetimepicker": "^8.4.1",
     "expo": "~53.0.9",
     "expo-asset": "~11.1.7",
+    "expo-audio": "~0.4.9",
     "expo-blur": "~14.1.4",
     "expo-clipboard": "~7.1.5",
     "expo-constants": "~17.1.6",

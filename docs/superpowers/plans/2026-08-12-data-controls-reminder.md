@@ -4,7 +4,7 @@
 
 **Goal:** Add a confirmed device-local data wipe and locale-aware native reminder time selection to Profile.
 
-**Architecture:** A small reset service owns the exact Lumen storage boundary and synchronously resets live Zustand data after persistence removal. A pure reminder-time helper converts between `HH:mm`, `Date`, and localized display text; Profile remains the only UI integration point.
+**Architecture:** A small reset service owns the exact Selaora storage boundary and synchronously resets live Zustand data after persistence removal. A pure reminder-time helper converts between `HH:mm`, `Date`, and localized display text; Profile remains the only UI integration point.
 
 **Tech Stack:** Expo 53, React Native, Zustand, AsyncStorage, expo-notifications, @react-native-community/datetimepicker, TypeScript, Node test runner
 

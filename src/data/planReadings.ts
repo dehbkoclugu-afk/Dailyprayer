@@ -16,6 +16,12 @@ export interface PlanReading {
   endChapter: number;
 }
 
+interface PlanBibleBook {
+  code: string;
+  name: string;
+  chapters: readonly unknown[];
+}
+
 const idxByCode: Record<string, number> = {};
 bookMeta.forEach((b, i) => (idxByCode[b.code] = i));
 
@@ -54,28 +60,37 @@ const single = (bi: number, ch0: number): PlanReading => ({
 });
 
 /** The reading for a plan on a given 0-based day. */
-export function planReading(planId: string, day: number): PlanReading {
+export function planReading(planId: string, day: number, bible?: readonly PlanBibleBook[]): PlanReading {
+  const activeIndex = bible
+    ? Object.fromEntries(bible.map((book, index) => [book.code, index]))
+    : idxByCode;
+  const activeSingle = (code: string, chapter: number) => single(activeIndex[code] ?? idxByCode[code], chapter);
   switch (planId) {
     case 'peace-7': {
       const [code, ch] = PEACE[day % PEACE.length];
-      return single(idxByCode[code], ch - 1);
+      return activeSingle(code, ch - 1);
     }
     case 'gratitude-7': {
       const [code, ch] = GRATITUDE[day % GRATITUDE.length];
-      return single(idxByCode[code], ch - 1);
+      return activeSingle(code, ch - 1);
     }
     case 'psalms-30': {
       // Psalm 1..30, one per day, in order
-      return single(idxByCode['PSA'], day % 150);
+      return activeSingle('PSA', day % 150);
     }
     case 'gospels-90': {
+      // The four Gospels contain 89 chapters. Day 90 is the non-duplicated
+      // ascension epilogue in Acts 1 instead of repeating John 21.
+      if (day >= GOSPELS.length) return activeSingle('ACT', 0);
       const [bi, ch] = GOSPELS[Math.min(day, GOSPELS.length - 1)];
-      return single(bi, ch);
+      return activeSingle(bookMeta[bi].code, ch);
     }
     case 'bible-365':
     default: {
       // spread all 1189 chapters evenly across 365 days (~3 chapters/day)
-      const all = allChapters();
+      const all = bible
+        ? bible.flatMap((book, bookIndex) => book.chapters.map((_, chapterIndex) => [bookIndex, chapterIndex] as [number, number]))
+        : allChapters();
       const total = all.length;
       const start = Math.min(Math.floor((day * total) / 365), total - 1);
       const endExcl = Math.min(Math.floor(((day + 1) * total) / 365), total);
@@ -88,11 +103,11 @@ export function planReading(planId: string, day: number): PlanReading {
 }
 
 /** Display reference, e.g. "Mezmur 23", "Yaratılış 1–3", "Malaki 4 – Matta 2". */
-export function formatReadingRef(r: PlanReading, locale: Locale): string {
-  const sCode = bookMeta[r.book]?.code ?? '';
-  const eCode = bookMeta[r.endBook]?.code ?? '';
-  const sName = sCode ? bookName(locale, sCode) : '';
-  const eName = eCode ? bookName(locale, eCode) : '';
+export function formatReadingRef(r: PlanReading, locale: Locale, bible?: readonly PlanBibleBook[]): string {
+  const sCode = bible?.[r.book]?.code ?? bookMeta[r.book]?.code ?? '';
+  const eCode = bible?.[r.endBook]?.code ?? bookMeta[r.endBook]?.code ?? '';
+  const sName = bible?.[r.book]?.name ?? (sCode ? bookName(locale, sCode) : '');
+  const eName = bible?.[r.endBook]?.name ?? (eCode ? bookName(locale, eCode) : '');
   if (r.book === r.endBook) {
     return r.chapter === r.endChapter
       ? `${sName} ${r.chapter + 1}`

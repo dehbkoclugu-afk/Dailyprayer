@@ -24,6 +24,7 @@ export const type = {
   editorialSecondary: { fontFamily: fonts.serifLight, fontSize: 15, lineHeight: 22 },
   editorialQuote: { fontFamily: fonts.serifLight, fontSize: 19, lineHeight: 30 },
   playerVerse: { fontFamily: fonts.serifLight, fontSize: 30, lineHeight: 43 },
+  playerVerseCompact: { fontFamily: fonts.serifLight, fontSize: 26, lineHeight: 37 },
   heading: { fontFamily: fonts.sansSemiBold, fontSize: 22, lineHeight: 28 },
   subheading: { fontFamily: fonts.sansSemiBold, fontSize: 20, lineHeight: 26 },
   bodyLarge: { fontFamily: fonts.sans, fontSize: 18, lineHeight: 28 },

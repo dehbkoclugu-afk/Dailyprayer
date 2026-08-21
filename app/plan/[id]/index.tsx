@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Redirect, router, useLocalSearchParams } from 'expo-router';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArtSlot } from '@/components/ArtSlot';
@@ -18,20 +18,26 @@ import { useT } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
 import { InvalidRouteState } from '@/components/InvalidRouteState';
 import { singleParam } from '@/lib/routeValidation';
+import { useEntitlementStore } from '@/state/useEntitlementStore';
+import { getBible } from '@/data/bibleFull';
+import { useScriptureLocale } from '@/i18n/scripture';
 
 export default function PlanScreen() {
   const t = useTheme();
   const artwork = useArtwork();
-  const dawn = artwork.scheme === 'dawn';
   const { t: tr, locale } = useT();
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string | string[] }>();
   const planId = singleParam(id);
   const plan = usePlans().find((p) => p.id === planId);
   const progress = usePlanStore((s) => s.progress);
+  const isPlus = useEntitlementStore((s) => s.isPlus);
+  const scriptureLocale = useScriptureLocale();
 
   if (!plan) return <InvalidRouteState />;
+  if (plan.plus && !isPlus) return <Redirect href="/paywall?from=plan" />;
 
+  const bible = getBible(scriptureLocale);
   const done = progress[plan.id] ?? [];
   const days = Array.from({ length: plan.days }, (_, i) => i);
 
@@ -58,15 +64,14 @@ export default function PlanScreen() {
       </Pressable>
 
       <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
-        <ArtSlot id={plan.art} height={170} radius={radius.card} scrim="strong">
-          {!dawn ? (
-            <LinearGradient
-              colors={[`${plan.gradient[0]}CC`, `${plan.gradient[1]}F2`]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={{ position: 'absolute', width: '100%', height: '100%' }}
-            />
-          ) : null}
+        <ArtSlot id={plan.art} height={170} radius={radius.card} scrim="none">
+          <LinearGradient
+            colors={['rgba(5,8,16,0.02)', 'rgba(5,8,16,0.10)', 'rgba(5,8,16,0.74)']}
+            locations={[0, 0.5, 1]}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            style={{ position: 'absolute', width: '100%', height: '100%' }}
+          />
           <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
             <Text style={[ty.titleSmall, { color: artContrast.primary, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }]}>{plan.title}</Text>
             <Text style={[ty.labelRegular, { color: artContrast.secondary, marginTop: spacing.xs, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }]}>
@@ -117,7 +122,7 @@ export default function PlanScreen() {
           alignSelf: 'center',
         }}
         renderItem={({ item: dayIdx }) => {
-          const readingRef = formatReadingRef(planReading(plan.id, dayIdx), locale);
+          const readingRef = formatReadingRef(planReading(plan.id, dayIdx, bible), locale, bible);
           const isDone = done.includes(dayIdx);
           return (
             <Pressable

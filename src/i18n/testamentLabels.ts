@@ -1,0 +1,46 @@
+import type { AppLocale } from './applicationLocales.ts';
+
+const TESTAMENT_LABELS = {
+  en: ['Old Testament', 'New Testament'],
+  tr: ['Eski Ahit', 'Yeni Ahit'],
+  es: ['Antiguo Testamento', 'Nuevo Testamento'],
+  pt: ['Antigo Testamento', 'Novo Testamento'],
+  fr: ['Ancien Testament', 'Nouveau Testament'],
+  de: ['Altes Testament', 'Neues Testament'],
+  it: ['Antico Testamento', 'Nuovo Testamento'],
+  nl: ['Oude Testament', 'Nieuwe Testament'],
+  ar: ['العهد القديم', 'العهد الجديد'],
+  my: ['ဓမ္မဟောင်းကျမ်း', 'ဓမ္မသစ်ကျမ်း'],
+  'zh-Hans': ['旧约', '新约'],
+  'zh-Hant': ['舊約', '新約'],
+  hr: ['Stari zavjet', 'Novi zavjet'],
+  cs: ['Starý zákon', 'Nový zákon'],
+  eo: ['Malnova Testamento', 'Nova Testamento'],
+  ht: ['Ansyen Testaman', 'Nouvo Testaman'],
+  haw: ['Kauoha Kahiko', 'Kauoha Hou'],
+  ja: ['旧約聖書', '新約聖書'],
+  ko: ['구약', '신약'],
+  la: ['Vetus Testamentum', 'Novum Testamentum'],
+  fa: ['عهد عتیق', 'عهد جدید'],
+  ro: ['Vechiul Testament', 'Noul Testament'],
+  ru: ['Ветхий Завет', 'Новый Завет'],
+  'sr-Latn': ['Stari zavet', 'Novi zavet'],
+  'sr-Cyrl': ['Стари завет', 'Нови завет'],
+  to: ['Fuakava Motuʻa', 'Fuakava Foʻou'],
+  uk: ['Старий Заповіт', 'Новий Заповіт'],
+  vi: ['Cựu Ước', 'Tân Ước'],
+  sq: ['Dhiata e Vjetër', 'Dhiata e Re'],
+  da: ['Det Gamle Testamente', 'Det Nye Testamente'],
+  fi: ['Vanha testamentti', 'Uusi testamentti'],
+  hu: ['Ószövetség', 'Újszövetség'],
+  lv: ['Vecā Derība', 'Jaunā Derība'],
+  mi: ['Kawenata Tawhito', 'Kawenata Hou'],
+  no: ['Det gamle testamentet', 'Det nye testamentet'],
+  pl: ['Stary Testament', 'Nowy Testament'],
+  sv: ['Gamla testamentet', 'Nya testamentet'],
+  tl: ['Lumang Tipan', 'Bagong Tipan'],
+} as const satisfies Record<AppLocale, readonly [string, string]>;
+
+export function testamentLabels(locale: AppLocale): readonly [string, string] {
+  return TESTAMENT_LABELS[locale];
+}

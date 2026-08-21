@@ -2,7 +2,7 @@
 
 > **For agentic workers:** Execute this plan task-by-task. Steps use checkbox syntax.
 
-**Goal:** Add a truthful, localized store-subscription management action for active Lumen Plus members.
+**Goal:** Add a truthful, localized store-subscription management action for active Selaora Plus members.
 
 **Architecture:** Keep platform URL ownership in `src/services/purchases.ts` and reuse its existing `openSubscriptionManagement()` boundary. Profile renders one conditional action inside the existing Plus card and owns only the user-facing error alert.
 

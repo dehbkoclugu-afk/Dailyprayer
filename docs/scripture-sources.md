@@ -2,7 +2,7 @@
 
 Retrieved and reviewed: 2026-07-26
 
-This manifest records the provenance of Lumen's six historical bundled
+This manifest records the provenance of Selaora's six historical bundled
 Scripture files. It is evidence for attribution and automated integrity checks,
 not a substitute for legal review. The files are immutable under
 `docs/scripture-integrity.md`. Only English, Turkish, Spanish, and German are

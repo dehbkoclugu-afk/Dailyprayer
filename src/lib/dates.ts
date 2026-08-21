@@ -13,10 +13,17 @@ export function yesterdayKey(d: Date = new Date()): string {
   return dayKey(y);
 }
 
-/** 0-based day of year, used to rotate 365-day content. */
+/**
+ * 0-based day of year, used to rotate 365-day content.
+ *
+ * Measured midnight-to-midnight in local time: a daylight-saving shift makes the
+ * elapsed milliseconds an hour short of a whole number of days, which would hand
+ * back the previous day's content for the first hour after a clock change.
+ */
 export function dayOfYear(d: Date = new Date()): number {
   const start = new Date(d.getFullYear(), 0, 1);
-  return Math.floor((d.getTime() - start.getTime()) / 86_400_000);
+  const midnight = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  return Math.round((midnight.getTime() - start.getTime()) / 86_400_000);
 }
 
 export function greetingFor(hour: number): 'morning' | 'afternoon' | 'evening' {

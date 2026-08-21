@@ -1,4 +1,4 @@
-# Lumen — Kritik Tasarım Taslağı
+# Selaora — Kritik Tasarım Taslağı
 
 **Yöntem:** tek-bağlam design review (native RN — impeccable web detektörü/tarayıcı
 overlay'i geçersiz). Kanıt: gerçek cihaz ekran görüntüleri (Bugün, İncil, Dua, Günlük,
@@ -9,7 +9,7 @@ Ben, oynatıcı) + kaynak kod. Register: **product** (arayüz ürüne hizmet ede
 
 ## Genel yargı
 
-Lumen, tür ortalamasının **üstünde** bir iş: koyu gece-indigo zemin, tek mum-amber vurgu,
+Selaora, tür ortalamasının **üstünde** bir iş: koyu gece-indigo zemin, tek mum-amber vurgu,
 Fraunces serif ayet + Figtree sans arayüz, tam-kanama A5 ayet arkaplanları. Bu; Calm /
 YouVersion sınıfı, düşünülmüş bir devotional uygulaması gibi duruyor — jenerik "AI slop"
 değil. Ancak iki **bitmemişlik sinyali** bütün izlenimi aşağı çekiyordu (ikisi de bu

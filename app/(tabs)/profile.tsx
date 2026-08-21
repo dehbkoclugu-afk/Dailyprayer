@@ -3,7 +3,7 @@ import { Alert, Linking, Platform, Pressable, Text, View, findNodeHandle, type G
 import * as Clipboard from 'expo-clipboard';
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { OptionSheet, type SheetOption } from '@/components/OptionSheet';
@@ -20,7 +20,7 @@ import { APPLICATION_LOCALES, useT, translate } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
 import * as NotificationService from '@/services/notifications';
 import { clearLocalUserData } from '@/services/localData';
-import { openSubscriptionManagement } from '@/services/purchases';
+import { getSupportUserId, openSubscriptionManagement } from '@/services/purchases';
 import {
   displayReminderTime,
   parseReminderTime,
@@ -41,6 +41,8 @@ export default function Profile() {
   } = useUserStore();
   const { count, bestCount, totalDays, activeDays } = useStreakStore();
   const isPlus = useEntitlementStore((s) => s.isPlus);
+  const setPlus = useEntitlementStore((s) => s.setPlus);
+  const testPlusEnabled = __DEV__ || process.env.EXPO_PUBLIC_ENABLE_TEST_PLUS === '1';
   const [sheet, setSheet] = useState<null | 'appearance'>(null);
   const sheetReturnFocus = useRef<number | null>(null);
   const [showIosReminderPicker, setShowIosReminderPicker] = useState(false);
@@ -79,6 +81,7 @@ export default function Profile() {
     try {
       const granted = await NotificationService.requestPermission();
       if (!granted) {
+        await NotificationService.disableReminders();
         setQuiz({ prayerTime: 'none' });
         Alert.alert(tr('profile.reminderTitle'), tr('profile.reminderMsg'));
         await Linking.openSettings().catch(() => {});
@@ -91,6 +94,7 @@ export default function Profile() {
       setShowIosReminderPicker(false);
       return true;
     } catch {
+      await NotificationService.disableReminders().catch(() => {});
       setQuiz({ prayerTime: 'none' });
       Alert.alert(tr('profile.reminderTitle'), tr('profile.reminderMsg'));
       return false;
@@ -166,6 +170,16 @@ export default function Profile() {
       await Clipboard.setStringAsync(address);
       Alert.alert(tr('paywall.supportErrorTitle'), `${tr('paywall.supportErrorBody')}\n\n${address}`);
     }
+  };
+
+  const copySupportId = async () => {
+    const id = await getSupportUserId();
+    if (!id) {
+      Alert.alert(`${tr('profile.contact')} · ID`, tr('paywall.supportErrorBody'));
+      return;
+    }
+    await Clipboard.setStringAsync(id);
+    Alert.alert(`${tr('profile.contact')} · ID`, tr('verse.copied'));
   };
 
   return (
@@ -286,9 +300,11 @@ export default function Profile() {
               <Text style={{ ...ty.bodyCompactStrong, color: artwork.foreground.primary }}>
                 {isPlus ? tr('profile.plusActive') : tr('profile.plusCta')}
               </Text>
-              <Text style={{ ...ty.captionRegular, color: artwork.foreground.secondary, marginTop: 2 }}>
-                {isPlus ? tr('profile.plusThanks') : tr('profile.plusSub')}
-              </Text>
+              {!isPlus ? (
+                <Text style={{ ...ty.captionRegular, color: artwork.foreground.secondary, marginTop: 2 }}>
+                  {tr('profile.plusSub')}
+                </Text>
+              ) : null}
             </View>
             {!isPlus ? <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={20} color={artwork.foreground.tertiary} /> : null}
           </Pressable>
@@ -422,8 +438,19 @@ export default function Profile() {
           onPress={() => router.push({ pathname: '/legal', params: { doc: 'terms' } })}
         />
         <Row icon="mail-outline" label={tr('profile.contact')} onPress={contactSupport} />
+        <Row icon="key-outline" label={`${tr('profile.contact')} · ID`} onPress={() => void copySupportId()} />
+        {testPlusEnabled ? (
+          <Row
+            icon={isPlus ? 'star' : 'star-outline'}
+            label={`Test Plus · ${isPlus ? 'ON' : 'OFF'}`}
+            onPress={() => setPlus(!isPlus)}
+          />
+        ) : null}
         <Pressable
-          onPress={reset}
+          onPress={() => {
+            reset();
+            router.replace('/onboarding');
+          }}
           accessibilityRole="button"
           accessibilityLabel={tr('profile.restart')}
           style={({ pressed }) => ({
@@ -464,7 +491,7 @@ export default function Profile() {
       </View>
 
       <Text style={{ ...ty.labelSmallRegular, color: t.inkFaint, textAlign: 'center', marginTop: spacing.xl }}>
-        Lumen v1.0.0
+        Selaora v1.0.0
       </Text>
 
       <OptionSheet
