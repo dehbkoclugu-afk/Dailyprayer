@@ -16,7 +16,7 @@ test('Android predictive back is enabled', async () => {
 
 test('the public Selaora brand keeps Play and local-data compatibility identifiers stable', async () => {
   const config = JSON.parse(await read('app.json'));
-  assert.equal(config.expo.name, 'Selaora: Daily Prayer & Bible');
+  assert.equal(config.expo.name, 'Selaora');
   assert.equal(config.expo.android.package, 'com.lumen.dailyprayer');
   assert.equal(config.expo.ios.bundleIdentifier, 'com.lumen.dailyprayer');
   assert.match(await read('src/components/Wordmark.tsx'), /accessibilityLabel="Selaora"/);

@@ -49,11 +49,16 @@ export default function Player() {
   const prayer = prayers.find((p) => p.id === id);
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const [line, setLine] = useState(0);
+  const [restoredPrayerId, setRestoredPrayerId] = useState<string | null>(null);
   const [paused, setPaused] = useState(false);
   const [pace, setPace] = useState<Pace>('normal');
   const completeStep = useStreakStore((s) => s.completeStep);
   const blocked = Boolean(prayer?.plus && !isPlus);
   const safePrayer = prayer ?? prayers[0];
+  const prayerId = prayer?.id;
+  const scriptLength = prayer?.script.length ?? 0;
+  const currentLineText = prayer?.script[line] ?? '';
+  const playerReady = Boolean(prayerId && restoredPrayerId === prayerId);
   const lastLine = line >= safePrayer.script.length - 1;
   const progress = (line + 1) / safePrayer.script.length;
   const activeSection = prayerSection(line, safePrayer.script.length);
@@ -67,20 +72,32 @@ export default function Player() {
   );
 
   useEffect(() => {
-    if (!prayer || blocked) return;
-    AsyncStorage.getItem(`lumen-player-${prayer.id}`)
+    if (!prayerId || blocked || scriptLength === 0) return;
+    let cancelled = false;
+    setRestoredPrayerId(null);
+    setLine(0);
+    AsyncStorage.getItem(`lumen-player-${prayerId}`)
       .then((saved) => {
+        if (cancelled) return;
         const parsed = Number(saved);
-        if (Number.isInteger(parsed) && parsed >= 0 && parsed < prayer.script.length) setLine(parsed);
+        setLine(Number.isInteger(parsed) && parsed >= 0 && parsed < scriptLength ? parsed : 0);
+        setRestoredPrayerId(prayerId);
       })
-      .catch(() => {});
-  }, [blocked, prayer]);
+      .catch(() => {
+        if (!cancelled) setRestoredPrayerId(prayerId);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [blocked, prayerId, scriptLength]);
 
   useEffect(() => {
-    if (!prayer || blocked) return;
-    AsyncStorage.setItem(`lumen-player-${prayer.id}`, String(line)).catch(() => {});
-    if (screenReaderEnabled) AccessibilityInfo.announceForAccessibility(prayer.script[line]);
-  }, [blocked, line, prayer, screenReaderEnabled]);
+    if (!prayerId || blocked || !playerReady) return;
+    AsyncStorage.setItem(`lumen-player-${prayerId}`, String(line)).catch(() => {});
+    if (screenReaderEnabled && currentLineText) {
+      AccessibilityInfo.announceForAccessibility(currentLineText);
+    }
+  }, [blocked, currentLineText, line, playerReady, prayerId, screenReaderEnabled]);
 
   useEffect(() => {
     if (screenReaderEnabled) setPaused(true);
@@ -88,11 +105,25 @@ export default function Player() {
 
   useEffect(() => {
     if (!shouldAutoAdvancePrayer(paused, lastLine, screenReaderEnabled)) return;
-    if (!prayer || blocked) return;
-    const ms = Math.max(4000, prayer.script[line].length * PACE_FACTOR[pace]);
-    const timer = setTimeout(() => setLine((l) => l + 1), ms);
+    if (!prayerId || blocked || !playerReady) return;
+    const ms = Math.max(4000, currentLineText.length * PACE_FACTOR[pace]);
+    const timer = setTimeout(
+      () => setLine((current) => Math.min(scriptLength - 1, current + 1)),
+      ms,
+    );
     return () => clearTimeout(timer);
-  }, [blocked, line, pace, paused, lastLine, prayer, screenReaderEnabled]);
+  }, [
+    blocked,
+    currentLineText,
+    lastLine,
+    line,
+    pace,
+    paused,
+    playerReady,
+    prayerId,
+    screenReaderEnabled,
+    scriptLength,
+  ]);
 
   useEffect(() => {
     if (blocked) router.replace('/paywall?from=prayer');
@@ -260,9 +291,9 @@ export default function Player() {
           <View style={{ flexDirection: 'row', justifyContent: 'center', gap: spacing.xl }}>
             <Pressable
               onPress={() => setLine((l) => Math.max(0, l - 1))}
-              disabled={line === 0}
+              disabled={!playerReady || line === 0}
               accessibilityRole="button"
-              accessibilityState={{ disabled: line === 0 }}
+              accessibilityState={{ disabled: !playerReady || line === 0 }}
               accessibilityLabel={tr('player.previous')}
               style={({ pressed }) => ({
                 width: 56,
@@ -273,14 +304,16 @@ export default function Player() {
                 borderColor: 'rgba(255,255,255,0.16)',
                 alignItems: 'center',
                 justifyContent: 'center',
-                opacity: line === 0 ? interaction.disabledOpacity : pressed ? interaction.pressedOpacity : 1,
+                opacity: !playerReady || line === 0 ? interaction.disabledOpacity : pressed ? interaction.pressedOpacity : 1,
               })}
             >
               <Ionicons name="play-skip-back" size={24} color={quiet} />
             </Pressable>
             <Pressable
               onPress={() => setPaused((p) => !p)}
+              disabled={!playerReady}
               accessibilityRole="button"
+              accessibilityState={{ disabled: !playerReady }}
               accessibilityLabel={paused ? tr('player.resume') : tr('player.pause')}
               style={{
                 width: 64,
@@ -295,7 +328,9 @@ export default function Player() {
             </Pressable>
             <Pressable
               onPress={() => setLine((l) => Math.min(prayer.script.length - 1, l + 1))}
+              disabled={!playerReady}
               accessibilityRole="button"
+              accessibilityState={{ disabled: !playerReady }}
               accessibilityLabel={tr('player.next')}
               style={({ pressed }) => ({
                 width: 56,
@@ -306,7 +341,7 @@ export default function Player() {
                 borderColor: 'rgba(255,255,255,0.16)',
                 alignItems: 'center',
                 justifyContent: 'center',
-                opacity: pressed ? interaction.pressedOpacity : 1,
+                opacity: !playerReady ? interaction.disabledOpacity : pressed ? interaction.pressedOpacity : 1,
               })}
             >
               <Ionicons name="play-skip-forward" size={24} color={quiet} />

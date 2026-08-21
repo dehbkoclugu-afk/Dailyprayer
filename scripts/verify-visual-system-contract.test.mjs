@@ -52,6 +52,25 @@ test('guided prayer keeps exactly one animated line and uses quiet section dots'
   assert.match(source, /width: section === activeSection \? 10 : 7/);
 });
 
+test('guided prayer restores progress once per stable prayer id', async () => {
+  const source = await readFile(new URL('../app/player.tsx', import.meta.url), 'utf8');
+  assert.match(source, /restoredPrayerId === prayerId/);
+  assert.match(source, /\[blocked, prayerId, scriptLength\]/);
+  assert.doesNotMatch(source, /\[blocked, prayer\]/);
+});
+
+test('dawn verse cards use dedicated light art and no dark center scrim', async () => {
+  const [registry, verseCard] = await Promise.all([
+    readFile(new URL('../src/assets/registry.ts', import.meta.url), 'utf8'),
+    readFile(new URL('../src/components/VerseCard.tsx', import.meta.url), 'utf8'),
+  ]);
+  for (const theme of ['peace', 'strength', 'trust', 'rest', 'hope', 'guidance', 'joy', 'love']) {
+    assert.match(registry, new RegExp(`A5-verse-${theme}-dawn\\.webp`));
+  }
+  assert.match(verseCard, /const foreground = dawn \? t\.ink : t\.onArtwork/);
+  assert.doesNotMatch(verseCard, /dawn[\s\S]{0,100}rgba\(8,10,18,0\.42\)/);
+});
+
 test('prayer copy has no stray spaces before commas', async () => {
   const source = await readFile(new URL('../src/data/prayers.ts', import.meta.url), 'utf8');
   assert.doesNotMatch(source, /\s+,/);

@@ -52,6 +52,19 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
   const t = useTheme();
   const artwork = useArtwork();
   const dawn = artwork.scheme === 'dawn';
+  const foreground = dawn ? t.ink : t.onArtwork;
+  const mutedForeground = dawn ? t.inkSoft : t.onArtworkMuted;
+  const verseShadow = dawn
+    ? {
+        textShadowColor: 'rgba(255,255,255,0.72)',
+        textShadowOffset: { width: 0, height: 1 },
+        textShadowRadius: 5,
+      }
+    : {
+        textShadowColor: 'rgba(0,0,0,0.72)',
+        textShadowOffset: { width: 0, height: 1 },
+        textShadowRadius: 8,
+      };
   const { t: tr, locale } = useT();
   const cardRef = useRef<View>(null);
   const verseType = verseCardTypes[initialVerseFontStep(verse.text)];
@@ -84,7 +97,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       <Text
         style={{
           ...ty.overline,
-          color: t.onArtwork,
+          color: foreground,
         }}
       >
         {localeUpperCase(tr('today.verseOfDay'), locale)}
@@ -96,10 +109,8 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               ...verseType,
               letterSpacing: -0.3,
               textAlign: 'center',
-              color: t.onArtwork,
-              textShadowColor: 'rgba(0,0,0,0.72)',
-              textShadowOffset: { width: 0, height: 1 },
-              textShadowRadius: 8,
+              color: foreground,
+              ...verseShadow,
             }}
           >
             “{verse.text}”
@@ -117,7 +128,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
         }}
       >
         <Text
-          style={[ty.secondaryMedium, { color: t.onArtworkMuted, flexGrow: 1, flexBasis: 150 }]}
+          style={[ty.secondaryMedium, { color: mutedForeground, flexGrow: 1, flexBasis: 150 }]}
         >
           {verse.reference}
         </Text>
@@ -130,7 +141,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               accessibilityLabel={tr('a11y.anotherVerse')}
               style={({ pressed }) => ({ width: 48, height: 48, alignItems: 'center', justifyContent: 'center', opacity: pressed ? interaction.pressedOpacity : 1 })}
             >
-              <Ionicons name="shuffle" size={21} color={t.onArtwork} />
+              <Ionicons name="shuffle" size={21} color={foreground} />
             </Pressable>
           ) : null}
           <Pressable
@@ -140,7 +151,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
             accessibilityLabel={tr('a11y.shareVerse')}
             style={({ pressed }) => ({ width: 48, height: 48, alignItems: 'center', justifyContent: 'center', opacity: pressed ? interaction.pressedOpacity : 1 })}
           >
-            <Ionicons name="share-outline" size={21} color={t.onArtwork} />
+            <Ionicons name="share-outline" size={21} color={foreground} />
           </Pressable>
         </View>
       </View>
@@ -167,7 +178,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
         <LinearGradient
           pointerEvents="none"
           colors={dawn
-            ? ['rgba(8,10,18,0.12)', 'rgba(8,10,18,0.42)', 'rgba(8,10,18,0.14)']
+            ? ['rgba(255,252,245,0.06)', 'rgba(255,250,238,0.22)', 'rgba(255,252,245,0.08)']
             : ['rgba(4,6,12,0.18)', 'rgba(4,6,12,0.48)', 'rgba(4,6,12,0.20)']}
           locations={[0, 0.52, 1]}
           style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
