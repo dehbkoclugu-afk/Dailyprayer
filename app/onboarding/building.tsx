@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Screen } from '@/components/Screen';
 import { ArtSlot } from '@/components/ArtSlot';
 import { OnboardingBackdrop } from '@/components/OnboardingBackdrop';
@@ -23,21 +23,25 @@ export default function Building() {
   const [done, setDone] = useState(0);
 
   useEffect(() => {
+    let revealTimer: ReturnType<typeof setTimeout> | null = null;
     const timer = setInterval(() => {
       setDone((d) => {
         if (d >= 4) {
           clearInterval(timer);
-          setTimeout(() => router.replace('/onboarding/reveal'), 600);
+          revealTimer = setTimeout(() => router.replace('/onboarding/reveal'), 600);
           return d;
         }
         return d + 1;
       });
     }, 950);
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(timer);
+      if (revealTimer) clearTimeout(revealTimer);
+    };
   }, []);
 
   return (
-    <Screen scroll={false} style={{ justifyContent: 'center' }}>
+    <Screen style={{ flexGrow: 1, justifyContent: 'center' }}>
       <OnboardingBackdrop />
       <ArtSlot
         id="A15-building-candle"
@@ -63,8 +67,8 @@ export default function Building() {
               />
               <Text
                 style={{
+                  ...ty.bodyCompact,
                   fontFamily: complete ? fonts.sansMedium : fonts.sans,
-                  fontSize: 16,
                   color: complete ? t.ink : t.inkSoft,
                 }}
               >

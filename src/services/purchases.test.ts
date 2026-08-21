@@ -19,7 +19,7 @@ test('classifies unknown values as failures', () => {
   assert.equal(classifyPurchaseError(null), 'failed');
 });
 
-test('maps RevenueCat package types to Lumen plans', () => {
+test('maps RevenueCat package types to Selaora plans', () => {
   assert.equal(planIdForPackage('ANNUAL', '$rc_annual'), 'annual');
   assert.equal(planIdForPackage('MONTHLY', '$rc_monthly'), 'monthly');
   assert.equal(planIdForPackage('LIFETIME', '$rc_lifetime'), 'lifetime');
@@ -32,7 +32,7 @@ test('maps custom package identifiers conservatively', () => {
   assert.equal(planIdForPackage('CUSTOM', 'premium-weekly'), null);
 });
 
-test('recognizes the configured or legacy Lumen Plus entitlement', () => {
+test('recognizes the configured or legacy pre-rebrand Plus entitlement', () => {
   const active = { 'Lumen Pro': { identifier: 'Lumen Pro' } };
   assert.equal(hasActiveEntitlement(active, ['plus', 'Lumen Pro']), true);
   assert.equal(hasActiveEntitlement(active, ['plus']), false);

@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Lumen: Daily Prayer & Bible",
+    "name": "Selaora",
     "slug": "lumen-daily-prayer",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "default",
     "scheme": "lumen",
     "userInterfaceStyle": "automatic",
@@ -10,6 +10,7 @@
     "icon": "./assets/icon.png",
     "ios": {
       "bundleIdentifier": "com.lumen.dailyprayer",
+      "buildNumber": "2",
       "supportsTablet": true,
       "icon": "./assets/icon.png",
       "infoPlist": {
@@ -20,9 +21,14 @@
     },
     "android": {
       "package": "com.lumen.dailyprayer",
+      "versionCode": 2,
+      "predictiveBackGestureEnabled": true,
+      "blockedPermissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0E1220"
+        "backgroundColor": "#070B17"
       }
     },
     "web": {
@@ -49,7 +55,7 @@
         "expo-splash-screen",
         {
           "image": "./assets/splash.png",
-          "backgroundColor": "#0E1220",
+          "backgroundColor": "#070B17",
           "imageWidth": 200
         }
       ],

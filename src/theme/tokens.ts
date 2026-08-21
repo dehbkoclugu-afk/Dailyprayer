@@ -10,8 +10,15 @@ export interface ThemeColors {
   inkSoft: string;
   inkFaint: string;
   gold: string;
+  /** Brand emphasis independent from legacy component naming. */
+  sacredGold: string;
   goldSoft: string;
   onGold: string;
+  /** Primary and secondary copy rendered over artwork. */
+  onArtwork: string;
+  onArtworkMuted: string;
+  /** Visible keyboard/assistive focus treatment. */
+  focusRing: string;
   blue: string;
   success: string;
   danger: string;
@@ -31,8 +38,12 @@ export const themes: Record<ThemeName, ThemeColors> = {
     inkSoft: '#A9A698',
     inkFaint: '#8F8D84',
     gold: '#D9A441',
+    sacredGold: '#D9A441',
     goldSoft: '#2E2718',
     onGold: '#1A1206',
+    onArtwork: '#F7F1E7',
+    onArtworkMuted: '#E8E4DC',
+    focusRing: '#7C9CD9',
     blue: '#7C9CD9',
     success: '#7FB58A',
     danger: '#D97B6C',
@@ -49,8 +60,12 @@ export const themes: Record<ThemeName, ThemeColors> = {
     inkSoft: '#6E675C',
     inkFaint: '#756E64',
     gold: '#B8860B',
+    sacredGold: '#B8860B',
     goldSoft: '#F5E7C8',
     onGold: '#FFFFFF',
+    onArtwork: '#F7F1E7',
+    onArtworkMuted: '#E8E4DC',
+    focusRing: '#4A6BAA',
     blue: '#4A6BAA',
     success: '#3E7C4F',
     danger: '#B0492F',
@@ -77,12 +92,40 @@ export const radius = {
   pill: 999,
 } as const;
 
-export const shadow = {
+export const grainOpacity: Record<ThemeName, number> = {
+  vigil: 0.04,
+  dawn: 0.015,
+};
+
+export const interaction = {
+  pressedOpacity: 0.72,
+  disabledOpacity: 0.48,
+  focusRingWidth: 2,
+} as const;
+
+export const elevation = {
   card: {
     shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.16,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  hero: {
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.22,
+    shadowRadius: 20,
+    elevation: 5,
+  },
+  floating: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.25,
     shadowRadius: 24,
     elevation: 8,
   },
 } as const;
+
+/** Backwards-compatible alias while existing cards migrate to semantic roles. */
+export const shadow = { card: elevation.card } as const;

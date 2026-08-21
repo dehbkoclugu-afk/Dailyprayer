@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - claude/bible-app-monetization-design-n3uiqr
+      - main
+      - claude/durum-kontrolu-0ww8k2
     paths:
       - 'docs/index.html'
       - 'docs/privacy/**'

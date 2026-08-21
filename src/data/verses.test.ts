@@ -50,3 +50,10 @@ test('references are unique within each language (no repeated days)', () => {
     assert.equal(new Set(refs).size, refs.length, `duplicate ${l} references present`);
   }
 });
+
+test('Psalm headings use each edition native versification', () => {
+  const french = getVerses('fr').find((verse) => verse.reference === 'Psaume 46:11');
+  const german = getVerses('de').find((verse) => verse.reference === 'Psalm 46:11');
+  assert.match(french?.text ?? '', /Cessez|Arrêtez|Tenez-vous tranquilles|Dieu/i);
+  assert.match(german?.text ?? '', /Seid stille|Gott/i);
+});

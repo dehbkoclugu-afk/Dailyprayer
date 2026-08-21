@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
@@ -142,7 +142,7 @@ export default function ScriptureLanguage() {
         >
           <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={22} color={t.ink} />
         </Pressable>
-        <Text style={{ flex: 1, fontFamily: fonts.serif, fontSize: 30, color: t.ink }}>
+        <Text style={{ flex: 1, ...ty.titleLarge, color: t.ink }}>
           {tr('profile.scriptureLanguage')}
         </Text>
       </View>
@@ -163,7 +163,7 @@ export default function ScriptureLanguage() {
         }}
       >
         <Ionicons name="phone-portrait-outline" size={20} color={autoSelected ? t.gold : t.inkSoft} />
-        <Text style={{ flex: 1, fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>
+        <Text style={{ flex: 1, ...ty.bodyCompactStrong, color: t.ink }}>
           {tr('profile.auto')}
         </Text>
         {autoSelected ? <Ionicons name="checkmark-circle" size={22} color={t.gold} /> : null}
@@ -200,12 +200,12 @@ export default function ScriptureLanguage() {
               })}
             >
               <View style={{ flex: 1 }}>
-                <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}>
+                <Text style={{ ...ty.bodyCompactStrong, color: t.ink, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}>
                   {item.nativeName}
                 </Text>
                 <Text
                   numberOfLines={1}
-                  style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkSoft, marginTop: 3, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}
+                  style={{ ...ty.labelSmallRegular, color: t.inkSoft, marginTop: 3, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}
                 >
                   {edition}
                 </Text>
@@ -220,7 +220,7 @@ export default function ScriptureLanguage() {
               ) : release ? (
                 <View style={{ alignItems: 'flex-end', gap: 2 }}>
                   <Ionicons name="cloud-download-outline" size={21} color={t.gold} />
-                  <Text style={{ fontFamily: fonts.sans, fontSize: 10, color: t.inkFaint }}>
+                  <Text style={{ ...ty.labelSmallRegular, color: t.inkFaint }}>
                     {(release.bytes / 1024 / 1024).toFixed(1)} MB
                   </Text>
                 </View>

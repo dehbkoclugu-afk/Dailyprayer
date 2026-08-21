@@ -15,6 +15,24 @@ function packUri(locale: GlobalLocaleTag): string {
   return `${rootDirectory()}${locale}.json`;
 }
 
+function backupUri(locale: GlobalLocaleTag): string {
+  return `${packUri(locale)}.previous`;
+}
+
+async function recoverInterruptedPromotion(locale: GlobalLocaleTag): Promise<void> {
+  const target = packUri(locale);
+  const backup = backupUri(locale);
+  const [targetInfo, backupInfo] = await Promise.all([
+    FileSystem.getInfoAsync(target),
+    FileSystem.getInfoAsync(backup),
+  ]);
+  if (targetInfo.exists) {
+    if (backupInfo.exists) await FileSystem.deleteAsync(backup, { idempotent: true });
+  } else if (backupInfo.exists) {
+    await FileSystem.moveAsync({ from: backup, to: target });
+  }
+}
+
 async function ensureDirectory(): Promise<void> {
   await FileSystem.makeDirectoryAsync(rootDirectory(), { intermediates: true });
 }
@@ -32,12 +50,15 @@ async function verifyText(text: string, release: BiblePackRelease): Promise<Bibl
 export async function installBiblePack(release: BiblePackRelease): Promise<BiblePack> {
   if (!/^https:\/\//i.test(release.downloadUrl)) throw new Error('Bible pack URL must use HTTPS');
   await ensureDirectory();
+  await recoverInterruptedPromotion(release.locale);
 
   const target = packUri(release.locale);
   const temp = `${target}.download`;
+  const backup = backupUri(release.locale);
   const existingTemp = await FileSystem.getInfoAsync(temp);
   if (existingTemp.exists) await FileSystem.deleteAsync(temp, { idempotent: true });
 
+  let previousMoved = false;
   try {
     const result = await FileSystem.downloadAsync(release.downloadUrl, temp);
     if (result.status < 200 || result.status >= 300) {
@@ -47,17 +68,28 @@ export async function installBiblePack(release: BiblePackRelease): Promise<Bible
     const pack = await verifyText(text, release);
 
     const existing = await FileSystem.getInfoAsync(target);
-    if (existing.exists) await FileSystem.deleteAsync(target, { idempotent: true });
+    if (existing.exists) {
+      await FileSystem.deleteAsync(backup, { idempotent: true });
+      await FileSystem.moveAsync({ from: target, to: backup });
+      previousMoved = true;
+    }
     await FileSystem.moveAsync({ from: temp, to: target });
+    await FileSystem.deleteAsync(backup, { idempotent: true });
     return pack;
   } catch (error) {
     await FileSystem.deleteAsync(temp, { idempotent: true }).catch(() => {});
+    if (previousMoved) {
+      const current = await FileSystem.getInfoAsync(target).catch(() => ({ exists: false }));
+      if (!current.exists) await FileSystem.moveAsync({ from: backup, to: target }).catch(() => {});
+    }
     throw error;
   }
 }
 
 /** Load an already verified offline pack and re-run the schema/canon checks. */
 export async function loadInstalledBiblePack(locale: GlobalLocaleTag): Promise<BiblePack | null> {
+  await ensureDirectory();
+  await recoverInterruptedPromotion(locale);
   const uri = packUri(locale);
   const info = await FileSystem.getInfoAsync(uri);
   if (!info.exists) return null;
@@ -67,6 +99,7 @@ export async function loadInstalledBiblePack(locale: GlobalLocaleTag): Promise<B
 
 export async function removeInstalledBiblePack(locale: GlobalLocaleTag): Promise<void> {
   await FileSystem.deleteAsync(packUri(locale), { idempotent: true });
+  await FileSystem.deleteAsync(backupUri(locale), { idempotent: true });
 }
 
 export async function isBiblePackInstalled(locale: GlobalLocaleTag): Promise<boolean> {
