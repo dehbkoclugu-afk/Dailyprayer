@@ -76,5 +76,5 @@ jobs:
           )
           test "${#packs[@]}" -eq 38
           gh release create "$TAG" content/application/manifest.json "${packs[@]}" \
-            --title "Lumen application content $TAG" \
+            --title "Selaora application content $TAG" \
             --notes "Validated application content for all 38 advertised production locales; cek, hlt, and kos remain native-review gated."

@@ -141,6 +141,14 @@ const baseThemedArtRegistry = Object.fromEntries(
 
 export const themedArtRegistry: Record<AssetId, ArtworkPair | null> = {
   ...baseThemedArtRegistry,
+  'A5-verse-peace': { dawn: require('./art/A5-verse-peace-dawn.webp'), vigil: require('./art/A5-verse-peace.webp') },
+  'A5-verse-strength': { dawn: require('./art/A5-verse-strength-dawn.webp'), vigil: require('./art/A5-verse-strength.webp') },
+  'A5-verse-trust': { dawn: require('./art/A5-verse-trust-dawn.webp'), vigil: require('./art/A5-verse-trust.webp') },
+  'A5-verse-rest': { dawn: require('./art/A5-verse-rest-dawn.webp'), vigil: require('./art/A5-verse-rest.webp') },
+  'A5-verse-hope': { dawn: require('./art/A5-verse-hope-dawn.webp'), vigil: require('./art/A5-verse-hope.webp') },
+  'A5-verse-guidance': { dawn: require('./art/A5-verse-guidance-dawn.webp'), vigil: require('./art/A5-verse-guidance.webp') },
+  'A5-verse-joy': { dawn: require('./art/A5-verse-joy-dawn.webp'), vigil: require('./art/A5-verse-joy.webp') },
+  'A5-verse-love': { dawn: require('./art/A5-verse-love-dawn.webp'), vigil: require('./art/A5-verse-love.webp') },
   'A24-prayer-morning-light': { dawn: require('./art/A24-prayer-morning-light-dawn.webp'), vigil: require('./art/A24-prayer-morning-light-vigil.webp') },
   'A24-prayer-calm-the-storm': { dawn: require('./art/A24-prayer-calm-the-storm-dawn.webp'), vigil: require('./art/A24-prayer-calm-the-storm-vigil.webp') },
   'A24-prayer-grateful-heart': { dawn: require('./art/A24-prayer-grateful-heart-dawn.webp'), vigil: require('./art/A24-prayer-grateful-heart-vigil.webp') },

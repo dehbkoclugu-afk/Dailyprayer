@@ -2,7 +2,7 @@
 
 > **For agentic workers:** Execute this plan task-by-task. Steps use checkbox syntax.
 
-**Goal:** Make Lumen’s paywall use real store data and represent unavailable, cancelled, pending, failed, and purchased states truthfully.
+**Goal:** Make Selaora’s paywall use real store data and represent unavailable, cancelled, pending, failed, and purchased states truthfully.
 
 **Architecture:** Keep RevenueCat access inside `src/services/purchases.ts`. Extract deterministic package/error mapping into a dependency-free helper so Node’s built-in test runner can verify the money path. Let `app/paywall.tsx` consume a small typed state model and never infer trial or price claims itself.
 

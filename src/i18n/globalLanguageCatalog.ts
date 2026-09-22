@@ -1,5 +1,5 @@
 /**
- * Lumen global language / Scripture catalog.
+ * Selaora global language / Scripture catalog.
  *
  * IMPORTANT:
  * - This is a rollout catalog, not a claim that every entry is globally public domain.

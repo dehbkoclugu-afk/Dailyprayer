@@ -1,6 +1,6 @@
 # Global Scripture rollout
 
-Lumen's catalog contains **45 locale tags**. Chinese has Simplified/Traditional variants
+Selaora's catalog contains **45 locale tags**. Chinese has Simplified/Traditional variants
 and Serbian has Latin/Cyrillic variants. Meriam and the historic Swahili source are only
 partial Scripture in the exact public-domain sources we verified, leaving a
 **full-Bible target of 43 locale variants / 41 languages**.
@@ -28,7 +28,7 @@ We now have accepted public-domain evidence for **40 full-Bible locale variants 
 38 languages**.
 
 All **40 locale variants / 38 languages** now have a structurally validated pack path.
-The Croatian Šarić Bible stays Catholic: Lumen schema v2 records a `catholic-73` canon
+The Croatian Šarić Bible stays Catholic: Selaora schema v2 records a `catholic-73` canon
 instead of remapping it to Protestant 66. Its real eBible archive passes with 73 books
 and 35,448 parsed verses.
 
@@ -50,7 +50,7 @@ The three target languages with no accepted full public-domain source are curren
 
 ## CrossWire public-domain sources — 10/10 validated
 
-Every module below is explicitly marked Public Domain by CrossWire and passes Lumen's
+Every module below is explicitly marked Public Domain by CrossWire and passes Selaora's
 exact SWORD ZIP -> `mod2osis` -> 66-book/chapter gate:
 
 - Albanian `Alb` — 31,036 parsed verses
@@ -98,7 +98,7 @@ as public domain just to increase language count.
 
 1. App ships a locale/edition manifest.
 2. User selects a Scripture language independently from UI language.
-3. Lumen downloads the exact versioned pack.
+3. Selaora downloads the exact versioned pack.
 4. Download layer verifies released SHA-256.
 5. Runtime validates schema, locale, canon and verse shape.
 6. Pack is cached for offline reading.

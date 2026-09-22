@@ -20,7 +20,10 @@ export async function requestPermission(): Promise<boolean> {
 }
 
 export async function scheduleDailyReminder(time: string): Promise<void> {
-  const [hour, minute] = time.split(':').map(Number);
+  const match = time.match(/^([01]\d|2[0-3]):([0-5]\d)$/);
+  if (!match) throw new Error(`Reminder time is not a stored HH:MM value: ${time}`);
+  const hour = Number(match[1]);
+  const minute = Number(match[2]);
   await Notifications.cancelScheduledNotificationAsync(REMINDER_ID).catch(() => {});
   await Notifications.scheduleNotificationAsync({
     identifier: REMINDER_ID,
