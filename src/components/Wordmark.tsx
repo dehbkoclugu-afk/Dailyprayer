@@ -10,10 +10,9 @@ interface Props {
 }
 
 /**
- * "Lumen" wordmark , Fraunces serif with a gold tittle over the "e", recreated
- * from the brand wordmark as live text so it stays crisp at any size and adapts
- * to light/dark themes. (Rasterizing the supplied art was not viable: ivory
- * letters on a neutral checkerboard have no separable color/brightness signal.)
+ * "Selaora" wordmark rendered as live text so it remains crisp at every size.
+ * The gold halo above the "o" preserves the existing light motif without tying
+ * the visual identity to the former product name.
  */
 export function Wordmark({ size = 22, color }: Props) {
   const t = useTheme();
@@ -22,10 +21,10 @@ export function Wordmark({ size = 22, color }: Props) {
   const seg = { ...scaledType('wordmark', size / 22), color: ink };
 
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'flex-start' }} accessibilityLabel="Lumen">
-      <Text style={seg}>Lum</Text>
+    <View style={{ flexDirection: 'row', alignItems: 'flex-start' }} accessibilityLabel="Selaora">
+      <Text style={seg}>Sela</Text>
       <View style={{ alignItems: 'center' }}>
-        {/* gold tittle floating above the e */}
+        {/* gold halo floating above the o */}
         <View
           style={{
             position: 'absolute',
@@ -36,9 +35,9 @@ export function Wordmark({ size = 22, color }: Props) {
             backgroundColor: t.gold,
           }}
         />
-        <Text style={seg}>e</Text>
+        <Text style={seg}>o</Text>
       </View>
-      <Text style={seg}>n</Text>
+      <Text style={seg}>ra</Text>
     </View>
   );
 }

@@ -1,4 +1,4 @@
-# Lumen — Daily Prayer & Bible
+# Selaora — Daily Prayer & Bible
 
 A premium, subscription-first daily prayer & Bible app for iOS and Android,
 built with Expo (React Native + TypeScript). Its design and funnel are a

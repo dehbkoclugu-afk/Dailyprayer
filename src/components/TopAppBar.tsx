@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, Text, View, type ViewStyle } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';

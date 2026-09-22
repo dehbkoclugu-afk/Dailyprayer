@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Linking, Pressable, Text, useWindowDimensions, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
@@ -158,7 +158,7 @@ export default function Paywall() {
 {tr('paywall.thanksTitle')}
         </Text>
         <Text style={[ty.body, { color: t.inkSoft, marginTop: spacing.md, textAlign: 'center' }]}>
-{tr('paywall.thanksBody')}
+{tr('profile.plusActive')}
         </Text>
         <PillButton
           label={tr('paywall.thanksCta')}

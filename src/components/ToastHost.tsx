@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { AccessibilityInfo, Pressable, Text, View } from 'react-native';
 import Animated, { FadeInDown, FadeOutUp, useReducedMotion } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useToastStore } from '@/state/useToastStore';
 import { useTheme } from '@/hooks/useTheme';
 import { type as ty } from '@/theme/typography';

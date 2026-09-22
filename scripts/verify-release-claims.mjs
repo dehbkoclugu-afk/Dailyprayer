@@ -32,6 +32,12 @@ const REQUIRED = {
     ['scripts/verify-scripture-integrity.mjs', /SHA|sha|digest/],
     ['scripts/verify-scripture-release-rights.mjs', /rights|license|source/i],
   ],
+  'truthful-subscription-copy': [
+    ['app/paywall.tsx', /\{tr\('profile\.plusActive'\)\}/],
+    ['app/(tabs)/profile.tsx', /!isPlus[\s\S]*tr\('profile\.plusSub'\)/],
+    ['docs/store-listing.md', /^(?![\s\S]*(?:journal export|günlük dışa aktarma|exportación del diario|exportação do diário|export du journal|Tagebuch-Export|someone who can't afford|karşılayamayan|alguien que no puede pagarlo|quem não pode pagar|quelqu'un qui ne peut pas se le permettre|jemandem zu schenken))[\s\S]*$/],
+    ['src/data/legal.ts', /RevenueCat processes purchase history and an[\s\S]*anonymous app user identifier/],
+  ],
 };
 
 export function verifyReleaseClaims({ readFile = read } = {}) {

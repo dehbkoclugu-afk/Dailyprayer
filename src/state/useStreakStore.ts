@@ -10,7 +10,7 @@ interface StreakState {
   lastTickDay: string | null;
   bestCount: number;
   totalDays: number;
-  /** Unique local calendar days on which Lumen was opened or a ritual was completed. */
+  /** Unique local calendar days on which Selaora was opened or a ritual was completed. */
   activeDays: string[];
   /** steps completed for the current day, keyed by dayKey */
   doneDay: string | null;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
 import { useWindowDimensions, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useReducedMotion } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';

@@ -2,7 +2,7 @@
  * Application-language source of truth.
  *
  * Keep this catalog separate from Scripture editions: choosing the language of
- * Lumen's interface must never silently change the user's Bible preference.
+ * Selaora's interface must never silently change the user's Bible preference.
  */
 import {
   GLOBAL_LANGUAGE_CATALOG,

@@ -26,7 +26,7 @@ export function PlanDayArtwork({ planId, dayIndex, radius, height, variant = 'ro
       {variant === 'row' && source ? (
         <View
           pointerEvents="none"
-          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: artworkScrims.strong }}
+          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: artworkScrims.soft }}
         />
       ) : null}
       {children}

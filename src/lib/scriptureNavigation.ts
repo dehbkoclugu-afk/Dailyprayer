@@ -12,19 +12,6 @@ export function filterIncludesBook(filter: ScriptureFilter, bookIndex: number, t
   return bookIndex === Number(filter.slice(5));
 }
 
-const TESTAMENT_LABELS: Record<string, readonly [string, string]> = {
-  tr: ['Eski Ahit', 'Yeni Ahit'],
-  en: ['Old Testament', 'New Testament'],
-  es: ['Antiguo Testamento', 'Nuevo Testamento'],
-  de: ['Altes Testament', 'Neues Testament'],
-  pt: ['Antigo Testamento', 'Novo Testamento'],
-  fr: ['Ancien Testament', 'Nouveau Testament'],
-};
-
-export function testamentLabels(locale: string) {
-  return TESTAMENT_LABELS[locale] ?? TESTAMENT_LABELS.en;
-}
-
 export function searchSnippet(text: string, matchAt: number, matchLength: number, radius = 54) {
   const start = Math.max(0, matchAt - radius);
   const end = Math.min(text.length, matchAt + matchLength + radius);
