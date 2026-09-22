@@ -126,7 +126,7 @@ function ActiveScriptureAudio({ edition, book, chapter, palette }: {
   const { locale, t: tr } = useT();
   const artwork = useArtwork();
   const copy = audioCopy(locale, tr);
-  const player = useAudioPlayer(null, 500);
+  const player = useAudioPlayer(null, { updateInterval: 500 });
   const status = useAudioPlayerStatus(player);
   const [loadedFor, setLoadedFor] = useState('');
   const [loading, setLoading] = useState(false);

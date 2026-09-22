@@ -14,6 +14,20 @@ test('Android predictive back is enabled', async () => {
   );
 });
 
+test('Android releases stay on the Play API 36 and Billing 8 compatibility baseline', async () => {
+  const config = JSON.parse(await read('app.json'));
+  const packageJson = JSON.parse(await read('package.json'));
+  const expoMajor = Number(packageJson.dependencies.expo.match(/\d+/)?.[0]);
+  const purchasesMajor = Number(packageJson.dependencies['react-native-purchases'].match(/\d+/)?.[0]);
+
+  assert.ok(expoMajor >= 54, 'Expo SDK 54+ is required to target Android API 36');
+  assert.ok(
+    purchasesMajor >= 9,
+    'react-native-purchases 9+ is required to embed Google Play Billing Library 8+',
+  );
+  assert.equal(config.expo.newArchEnabled, true);
+});
+
 test('the public Selaora brand keeps Play and local-data compatibility identifiers stable', async () => {
   const config = JSON.parse(await read('app.json'));
   assert.equal(config.expo.name, 'Selaora');

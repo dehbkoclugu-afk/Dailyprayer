@@ -17,31 +17,47 @@ the platform maximums (App Store / Google Play).
 ## English (primary)
 
 **App name:** Selaora: Daily Prayer & Bible
-**Subtitle:** Verse of the day, prayer & calm
-**Short description (GP):** Daily Bible verse, guided prayers, devotionals and a prayer journal — calm, ad-free.
+**Subtitle:** Daily Bible Verse & Prayer
+**Short description (GP):** Daily Bible verses, guided prayer, devotionals, reading plans and faith journal.
 **Keywords (AS):** bible,prayer,daily verse,devotional,christian,faith,meditation,sleep,scripture,jesus,god,worship,journal,calm
 
 **Promo text:** Start a two-minute daily habit: a verse, a devotional, a guided prayer, and a moment of gratitude — beautifully calm and completely ad-free.
 
 **Description:**
-Selaora is a daily prayer and Bible companion designed to help you build a gentle, lasting habit of faith — two quiet minutes at a time.
+Build a meaningful daily faith habit with Selaora, a calm Bible and prayer app for scripture, guided prayer, devotionals and personal reflection.
 
-Every day, Selaora gives you:
-• A Verse of the Day, beautifully presented and easy to share
-• A short devotional that meets you where you are
-• A guided prayer for whatever you're carrying — anxiety, gratitude, sleep, family, strength
-• A gratitude journal to remember God's faithfulness
+Begin each day with a Bible verse, take a quiet moment with a short devotional, pray with gentle guidance and write privately about what is on your heart. Whether you want morning prayer, help with anxiety, peaceful sleep or a consistent Bible reading routine, Selaora gives you a simple place to return to every day.
 
-Build a streak. Watch your daily rhythm become second nature. Read the Bible offline, highlight verses that speak to you, and follow reading plans from a 7-day reset to the whole Bible in a year.
+DAILY BIBLE VERSES AND DEVOTIONALS
+• Read an inspiring Verse of the Day
+• Explore short Christian devotionals for everyday life
+• Bookmark and highlight meaningful Bible verses
+• Read the Bible offline whenever you need it
 
-Selaora is calm by design — no ads, no noise, no clutter. Just scripture, prayer, and space to breathe.
+GUIDED PRAYERS FOR EVERY MOMENT
+• Start the day with morning prayer
+• Pray for gratitude, family, strength and peace
+• Find calming prayers for anxiety and sleep
+• Save favorite prayers for easy access
+
+BIBLE READING PLANS
+• Follow structured plans that make scripture easier to approach
+• Track your reading progress day by day
+• Build a consistent Bible study and prayer routine
+
+PRIVATE FAITH JOURNAL
+• Record prayers, gratitude and personal reflections
+• Keep a private prayer list
+• Track your daily streak and set local reminders
+• Use light or dark mode for comfortable reading
+
+PRIVATE AND AD-FREE
+No account is required. Journal entries, prayer requests, reading progress and preferences are stored on your device. Selaora contains no advertising, so you can focus on the Bible, prayer and your relationship with God without distractions.
 
 SELAORA PLUS
-Unlock the full library of guided prayers and sleep prayers and every reading plan with a Selaora Plus subscription. A free trial may be available depending on the current store offer and your eligibility.
+Selaora Plus unlocks the complete guided prayer library, sleep content and premium Bible reading plans. Available subscriptions and any free trial are shown before purchase. Subscriptions are processed securely by Google Play and can be managed or cancelled from your Google Play account.
 
-Subscriptions renew automatically unless cancelled at least 24 hours before the period ends. Manage or cancel anytime in your account settings.
-
-Scripture is from the World English Bible (public domain).
+Make room for scripture and prayer each day. Read the Bible, follow a guided prayer and carry a moment of peace with you.
 
 ---
 
