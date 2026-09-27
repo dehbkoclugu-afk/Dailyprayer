@@ -16,8 +16,9 @@ sleep 2
 capture_screen() {
   local route="$1"
   local name="$2"
-  local target="${output_dir}/${theme}-${name}.png"
+  local target="${output_dir}/${locale}/${theme}-${name}.png"
   local pending="${target}.pending"
+  mkdir -p "$(dirname "$target")"
   # Each route gets a fresh app process. Keeping many image-heavy routes on the
   # same navigation stack made the headless emulator progressively exhaust its
   # graphics budget even though the app itself never raised a fatal exception.
@@ -30,29 +31,80 @@ capture_screen() {
   mv "$pending" "$target"
 }
 
-for theme in dawn vigil; do
-  if [ "$theme" = "dawn" ]; then
-    adb shell cmd uimode night no
-  else
-    adb shell cmd uimode night yes
-  fi
+select_language() {
+  local native_name="$1"
+  local dump_file
+  dump_file="$(mktemp)"
 
   adb shell am force-stop "$package"
-  sleep 1
+  adb shell am start -W -a android.intent.action.VIEW -d "lumen://application-language" -p "$package" >/dev/null
+  sleep 2
 
-  capture_screen "today" "today"
-  capture_screen "onboarding" "onboarding-welcome"
-  capture_screen "onboarding/quiz" "onboarding-quiz"
-  capture_screen "bible" "bible"
-  capture_screen "read?settings=1" "reading-settings"
-  capture_screen "scripture-source" "scripture-source"
-  capture_screen "plan/peace-7" "plan-list"
-  capture_screen "plan/peace-7/0" "plan-reading"
-  capture_screen "pray" "pray"
-  capture_screen "player?id=morning-light" "player"
-  capture_screen "journal" "journal"
-  capture_screen "profile" "profile"
-  capture_screen "paywall" "paywall"
+  for _ in $(seq 1 40); do
+    adb shell uiautomator dump /sdcard/selaora-language.xml >/dev/null
+    adb exec-out cat /sdcard/selaora-language.xml > "$dump_file"
+    coordinates="$(python3 - "$dump_file" "$native_name" <<'PY'
+import re
+import sys
+import xml.etree.ElementTree as ET
+
+root = ET.parse(sys.argv[1]).getroot()
+label = sys.argv[2]
+for node in root.iter('node'):
+    if node.attrib.get('text') != label and node.attrib.get('content-desc') != label:
+        continue
+    match = re.fullmatch(r'\[(\d+),(\d+)\]\[(\d+),(\d+)\]', node.attrib.get('bounds', ''))
+    if match:
+        left, top, right, bottom = map(int, match.groups())
+        print((left + right) // 2, (top + bottom) // 2)
+        break
+PY
+)"
+    if [ -n "$coordinates" ]; then
+      read -r x y <<< "$coordinates"
+      adb shell input tap "$x" "$y"
+      sleep 2
+      rm -f "$dump_file"
+      return 0
+    fi
+    adb shell input swipe 360 1350 360 400 300
+    sleep 1
+  done
+
+  rm -f "$dump_file"
+  echo "Could not select application language: $native_name" >&2
+  return 1
+}
+
+for locale_spec in "en-US|English" "tr-TR|Türkçe"; do
+  locale="${locale_spec%%|*}"
+  native_name="${locale_spec#*|}"
+  select_language "$native_name"
+
+  for theme in dawn vigil; do
+    if [ "$theme" = "dawn" ]; then
+      adb shell cmd uimode night no
+    else
+      adb shell cmd uimode night yes
+    fi
+
+    adb shell am force-stop "$package"
+    sleep 1
+
+    capture_screen "today" "today"
+    capture_screen "onboarding" "onboarding-welcome"
+    capture_screen "onboarding/quiz" "onboarding-quiz"
+    capture_screen "bible" "bible"
+    capture_screen "read?settings=1" "reading-settings"
+    capture_screen "scripture-source" "scripture-source"
+    capture_screen "plan/peace-7" "plan-list"
+    capture_screen "plan/peace-7/0" "plan-reading"
+    capture_screen "pray" "pray"
+    capture_screen "player?id=morning-light" "player"
+    capture_screen "journal" "journal"
+    capture_screen "profile" "profile"
+    capture_screen "paywall" "paywall"
+  done
 done
 
 adb logcat -d > logcat.txt
