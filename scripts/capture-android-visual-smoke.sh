@@ -32,12 +32,13 @@ capture_screen() {
 }
 
 select_language() {
-  local native_name="$1"
+  local route="$1"
+  local native_name="$2"
   local dump_file
   dump_file="$(mktemp)"
 
   adb shell am force-stop "$package"
-  adb shell am start -W -a android.intent.action.VIEW -d "lumen://application-language" -p "$package" >/dev/null
+  adb shell am start -W -a android.intent.action.VIEW -d "lumen://${route}" -p "$package" >/dev/null
   sleep 2
 
   for _ in $(seq 1 40); do
@@ -51,7 +52,9 @@ import xml.etree.ElementTree as ET
 root = ET.parse(sys.argv[1]).getroot()
 label = sys.argv[2]
 for node in root.iter('node'):
-    if node.attrib.get('text') != label and node.attrib.get('content-desc') != label:
+    text = node.attrib.get('text', '')
+    description = node.attrib.get('content-desc', '')
+    if text != label and description != label and not description.startswith(f'{label},'):
         continue
     match = re.fullmatch(r'\[(\d+),(\d+)\]\[(\d+),(\d+)\]', node.attrib.get('bounds', ''))
     if match:
@@ -79,7 +82,10 @@ PY
 for locale_spec in "en-US|English" "tr-TR|Türkçe"; do
   locale="${locale_spec%%|*}"
   native_name="${locale_spec#*|}"
-  select_language "$native_name"
+  select_language "application-language" "$native_name"
+  # Scripture is an independent preference. Keep verse-of-the-day and Bible
+  # content in the same locale as the surrounding store screenshot UI.
+  select_language "scripture-language" "$native_name"
 
   for theme in dawn vigil; do
     if [ "$theme" = "dawn" ]; then
