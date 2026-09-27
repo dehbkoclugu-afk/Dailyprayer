@@ -74,20 +74,37 @@ export default function Player() {
   useEffect(() => {
     if (!prayerId || blocked || scriptLength === 0) return;
     let cancelled = false;
+    let restored = false;
     setRestoredPrayerId(null);
     setLine(0);
+
+    // AsyncStorage can occasionally stall on Android while the app process is
+    // warming up. Never leave the player controls and auto-advance locked if
+    // restoring the saved line takes too long.
+    const restoreFallback = setTimeout(() => {
+      if (cancelled || restored) return;
+      restored = true;
+      setRestoredPrayerId(prayerId);
+    }, 800);
+
     AsyncStorage.getItem(`lumen-player-${prayerId}`)
       .then((saved) => {
-        if (cancelled) return;
+        if (cancelled || restored) return;
+        restored = true;
+        clearTimeout(restoreFallback);
         const parsed = Number(saved);
         setLine(Number.isInteger(parsed) && parsed >= 0 && parsed < scriptLength ? parsed : 0);
         setRestoredPrayerId(prayerId);
       })
       .catch(() => {
-        if (!cancelled) setRestoredPrayerId(prayerId);
+        if (cancelled || restored) return;
+        restored = true;
+        clearTimeout(restoreFallback);
+        setRestoredPrayerId(prayerId);
       });
     return () => {
       cancelled = true;
+      clearTimeout(restoreFallback);
     };
   }, [blocked, prayerId, scriptLength]);
 

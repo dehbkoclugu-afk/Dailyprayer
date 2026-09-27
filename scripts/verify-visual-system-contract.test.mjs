@@ -57,6 +57,8 @@ test('guided prayer restores progress once per stable prayer id', async () => {
   assert.match(source, /restoredPrayerId === prayerId/);
   assert.match(source, /\[blocked, prayerId, scriptLength\]/);
   assert.doesNotMatch(source, /\[blocked, prayer\]/);
+  assert.match(source, /const restoreFallback = setTimeout/);
+  assert.match(source, /clearTimeout\(restoreFallback\)/);
 });
 
 test('dawn verse cards use dedicated light art and no dark center scrim', async () => {

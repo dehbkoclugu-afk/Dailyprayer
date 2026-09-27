@@ -79,7 +79,9 @@ PY
   return 1
 }
 
-for locale_spec in "en-US|English" "tr-TR|Türkçe"; do
+for locale_spec in \
+  "en-US|English" "tr-TR|Türkçe" "es-419|Español" "pt-BR|Português" \
+  "fr-FR|Français" "de-DE|Deutsch" "it-IT|Italiano" "tl-PH|Tagalog"; do
   locale="${locale_spec%%|*}"
   native_name="${locale_spec#*|}"
   select_language "application-language" "$native_name"
@@ -97,19 +99,27 @@ for locale_spec in "en-US|English" "tr-TR|Türkçe"; do
     adb shell am force-stop "$package"
     sleep 1
 
-    capture_screen "today" "today"
-    capture_screen "onboarding" "onboarding-welcome"
-    capture_screen "onboarding/quiz" "onboarding-quiz"
-    capture_screen "bible" "bible"
-    capture_screen "read?settings=1" "reading-settings"
-    capture_screen "scripture-source" "scripture-source"
-    capture_screen "plan/peace-7" "plan-list"
-    capture_screen "plan/peace-7/0" "plan-reading"
-    capture_screen "pray" "pray"
-    capture_screen "player?id=morning-light" "player"
-    capture_screen "journal" "journal"
-    capture_screen "profile" "profile"
-    capture_screen "paywall" "paywall"
+    if [ "$theme" = "dawn" ]; then
+      capture_screen "today" "today"
+      capture_screen "bible" "bible"
+      capture_screen "player?id=morning-light" "player"
+      capture_screen "plan/peace-7" "plan-list"
+    else
+      capture_screen "today" "today"
+      capture_screen "pray" "pray"
+      capture_screen "journal" "journal"
+      capture_screen "profile" "profile"
+    fi
+
+    # Keep the broader regression surface for the two original smoke locales.
+    if [ "$locale" = "en-US" ] || [ "$locale" = "tr-TR" ]; then
+      capture_screen "onboarding" "onboarding-welcome"
+      capture_screen "onboarding/quiz" "onboarding-quiz"
+      capture_screen "read?settings=1" "reading-settings"
+      capture_screen "scripture-source" "scripture-source"
+      capture_screen "plan/peace-7/0" "plan-reading"
+      capture_screen "paywall" "paywall"
+    fi
   done
 done
 
