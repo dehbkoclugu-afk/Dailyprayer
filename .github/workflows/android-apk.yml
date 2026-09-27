@@ -265,5 +265,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: selaora-visual-smoke
-          path: visual-smoke/*.png
+          path: visual-smoke/**/*.png
           if-no-files-found: error
