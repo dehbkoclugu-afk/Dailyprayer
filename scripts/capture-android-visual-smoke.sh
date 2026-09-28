@@ -125,13 +125,26 @@ PY
     rm -f "$dump_file"
     return 0
   fi
+  echo "Profile language rows after selecting $native_name:" >&2
+  python3 - "$dump_file" <<'PY'
+import sys
+import xml.etree.ElementTree as ET
+root = ET.parse(sys.argv[1]).getroot()
+for node in root.iter('node'):
+    value = node.attrib.get('text', '')
+    if value:
+        print(value[:140])
+PY
+  adb exec-out screencap -p > "${output_dir}/language-mismatch-${locale}.png" || true
+  cp "$dump_file" "${output_dir}/language-mismatch-${locale}.xml"
+  adb logcat -d > logcat.txt || true
   rm -f "$dump_file"
   return 1
 }
 
 for locale_spec in \
-  "en-US|English" "tr-TR|Türkçe" "es-419|Español" "pt-BR|Português" \
-  "fr-FR|Français" "de-DE|Deutsch" "it-IT|Italiano" "tl-PH|Tagalog"; do
+  "tl-PH|Tagalog" "en-US|English" "tr-TR|Türkçe" "es-419|Español" "pt-BR|Português" \
+  "fr-FR|Français" "de-DE|Deutsch" "it-IT|Italiano"; do
   locale="${locale_spec%%|*}"
   native_name="${locale_spec#*|}"
   select_language "application-language" "$native_name"
