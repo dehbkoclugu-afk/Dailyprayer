@@ -66,8 +66,9 @@ PY
     if [ -n "$coordinates" ]; then
       read -r x y <<< "$coordinates"
       adb shell input tap "$x" "$y"
-      # A downloadable language pack can need longer than route navigation.
-      # Fail the smoke instead of saving a screenshot in the previous language.
+      # Wait until the language screen navigates back after a bundled choice
+      # or a verified remote pack install.  The tapped row stays clickable
+      # while the download is still in progress.
       for retry in $(seq 1 45); do
         sleep 2
         adb shell uiautomator dump /sdcard/selaora-language.xml >/dev/null
@@ -80,13 +81,40 @@ root = ET.parse(sys.argv[1]).getroot()
 label = sys.argv[2]
 for node in root.iter("node"):
     description = node.attrib.get("content-desc", "")
+    if (description == label or description.startswith(f"{label},")) and node.attrib.get("clickable") == "true":
+        sys.exit(1)
+sys.exit(0)
+PY
+        then
+          # Reopen the selector and confirm the saved preference is selected.
+          adb shell am force-stop "$package"
+          adb shell am start -W -a android.intent.action.VIEW -d "lumen://${route}" -p "$package" >/dev/null
+          sleep 3
+          for verify in $(seq 1 40); do
+            adb shell uiautomator dump /sdcard/selaora-language.xml >/dev/null
+            adb exec-out cat /sdcard/selaora-language.xml > "$dump_file"
+            if python3 - "$dump_file" "$native_name" <<'PY'
+import sys
+import xml.etree.ElementTree as ET
+
+root = ET.parse(sys.argv[1]).getroot()
+label = sys.argv[2]
+for node in root.iter("node"):
+    description = node.attrib.get("content-desc", "")
     if (description == label or description.startswith(f"{label},")) and node.attrib.get("selected") == "true":
         sys.exit(0)
 sys.exit(1)
 PY
-        then
+            then
+              rm -f "$dump_file"
+              return 0
+            fi
+            adb shell input swipe 360 1350 360 400 300
+            sleep 1
+          done
+          echo "Language not selected after navigation: $route / $native_name" >&2
           rm -f "$dump_file"
-          return 0
+          return 1
         fi
       done
       echo "Language selection did not complete: $route / $native_name" >&2
