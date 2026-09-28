@@ -106,7 +106,9 @@ profile_has_both_languages() {
   dump_file="$(mktemp)"
   adb shell am force-stop "$package"
   adb shell am start -W -a android.intent.action.VIEW -d 'lumen://profile' -p "$package" >/dev/null
-  sleep 4
+  # Restoring an application content pack is gated by the splash screen; give
+  # the new locale time to register before inspecting the profile rows.
+  sleep 15
   adb shell uiautomator dump /sdcard/selaora-profile.xml >/dev/null
   adb exec-out cat /sdcard/selaora-profile.xml > "$dump_file"
   if python3 - "$dump_file" "$native_name" <<'PY'
