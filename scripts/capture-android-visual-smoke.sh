@@ -73,6 +73,24 @@ PY
         sleep 2
         adb shell uiautomator dump /sdcard/selaora-language.xml >/dev/null
         adb exec-out cat /sdcard/selaora-language.xml > "$dump_file"
+        # A cold-start deep link may keep the selector visible after router.back().
+        # Its selected accessibility state is authoritative in that case.
+        if python3 - "$dump_file" "$native_name" <<'PY'
+import sys
+import xml.etree.ElementTree as ET
+
+root = ET.parse(sys.argv[1]).getroot()
+label = sys.argv[2]
+for node in root.iter("node"):
+    description = node.attrib.get("content-desc", "")
+    if (description == label or description.startswith(f"{label},")) and node.attrib.get("selected") == "true":
+        sys.exit(0)
+sys.exit(1)
+PY
+        then
+          rm -f "$dump_file"
+          return 0
+        fi
         if python3 - "$dump_file" "$native_name" <<'PY'
 import sys
 import xml.etree.ElementTree as ET
