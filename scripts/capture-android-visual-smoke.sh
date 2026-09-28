@@ -66,9 +66,32 @@ PY
     if [ -n "$coordinates" ]; then
       read -r x y <<< "$coordinates"
       adb shell input tap "$x" "$y"
-      sleep 2
+      # A downloadable language pack can need longer than route navigation.
+      # Fail the smoke instead of saving a screenshot in the previous language.
+      for retry in $(seq 1 45); do
+        sleep 2
+        adb shell uiautomator dump /sdcard/selaora-language.xml >/dev/null
+        adb exec-out cat /sdcard/selaora-language.xml > "$dump_file"
+        if python3 - "$dump_file" "$native_name" <<'PY'
+import sys
+import xml.etree.ElementTree as ET
+
+root = ET.parse(sys.argv[1]).getroot()
+label = sys.argv[2]
+for node in root.iter("node"):
+    description = node.attrib.get("content-desc", "")
+    if (description == label or description.startswith(f"{label},")) and node.attrib.get("selected") == "true":
+        sys.exit(0)
+sys.exit(1)
+PY
+        then
+          rm -f "$dump_file"
+          return 0
+        fi
+      done
+      echo "Language selection did not complete: $route / $native_name" >&2
       rm -f "$dump_file"
-      return 0
+      return 1
     fi
     adb shell input swipe 360 1350 360 400 300
     sleep 1
