@@ -68,6 +68,10 @@ for node in root.iter('node'):
     match = re.fullmatch(r'\[(\d+),(\d+)\]\[(\d+),(\d+)\]', node.attrib.get('bounds', ''))
     if match:
         left, top, right, bottom = map(int, match.groups())
+        # UIAutomator includes offscreen React Native rows with inverted or
+        # viewport-clipped bounds. Tapping their midpoint silently does nothing.
+        if not (0 <= left < right <= 720 and 0 <= top < bottom <= 1600):
+            continue
         print((left + right) // 2, (top + bottom) // 2)
         break
 PY
