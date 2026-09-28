@@ -8,6 +8,10 @@ on:
       - main
   pull_request:
 
+concurrency:
+  group: android-play-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -168,7 +172,7 @@ jobs:
 
       - name: Limit Android architectures
         run: |
-          sed -i 's/^reactNativeArchitectures=.*/reactNativeArchitectures=arm64-v8a,x86_64/' android/gradle.properties
+          sed -i 's/^reactNativeArchitectures=.*/reactNativeArchitectures=armeabi-v7a,arm64-v8a,x86,x86_64/' android/gradle.properties
           grep reactNativeArchitectures android/gradle.properties
 
       - name: Build signed release AAB and APK
