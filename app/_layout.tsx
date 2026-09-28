@@ -15,6 +15,7 @@ import { initPurchases, refreshEntitlement } from '@/services/purchases';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { loadInstalledBiblePack } from '@/services/biblePacks';
 import { registerDownloadedBiblePack } from '@/data/bibleFull';
+import { registerDownloadedVersePack } from '@/data/downloadedVersePool';
 import { isBundledScriptureLocale, resolveSystemScriptureLocale } from '@/i18n/scripture';
 import { resolveLocale, resolveRequestedApplicationLocale } from '@/i18n';
 import { getApplicationDirection } from '@/i18n/direction';
@@ -75,7 +76,10 @@ export default function RootLayout() {
       }
       loadInstalledBiblePack(scripture)
         .then((pack) => {
-          if (pack) registerDownloadedBiblePack(pack);
+          if (pack) {
+            registerDownloadedBiblePack(pack);
+            registerDownloadedVersePack(pack);
+          }
           else if (preference !== 'system') user.setScriptureLocale('system');
         })
         .catch(() => {

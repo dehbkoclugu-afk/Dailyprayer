@@ -11,6 +11,7 @@
  * list in scripts/curated-refs.mjs, not this file.
  */
 import type { GlobalLocaleTag } from '@/i18n/globalLanguageCatalog';
+import { getDownloadedVerses } from './downloadedVersePool.ts';
 
 type BundledVerseLocale = 'en' | 'tr' | 'es' | 'pt' | 'fr' | 'de';
 
@@ -41,6 +42,8 @@ const BUNDLED_VERSE_LOCALES = new Set<string>(['en', 'tr', 'es', 'pt', 'fr', 'de
 
 /** The daily-verse pool with text + reference in the given locale (cached). */
 export function getVerses(locale: GlobalLocaleTag): DailyVerse[] {
+  const downloaded = getDownloadedVerses(locale);
+  if (downloaded) return downloaded;
   const sourceLocale: BundledVerseLocale = BUNDLED_VERSE_LOCALES.has(locale)
     ? (locale as BundledVerseLocale)
     : 'en';

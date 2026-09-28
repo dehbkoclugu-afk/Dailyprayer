@@ -39,7 +39,16 @@ select_language() {
 
   adb shell am force-stop "$package"
   adb shell am start -W -a android.intent.action.VIEW -d "lumen://${route}" -p "$package" >/dev/null
-  sleep 2
+  # A downloadable locale appears before its release manifest has loaded.
+  # Let the catalog settle before tapping a row that would otherwise report
+  # the pack as unavailable.
+  if [ "$route" = "scripture-language" ] && [ "$native_name" != "English" ] && \
+     [ "$native_name" != "Türkçe" ] && [ "$native_name" != "Español" ] && \
+     [ "$native_name" != "Deutsch" ]; then
+    sleep 12
+  else
+    sleep 2
+  fi
 
   for _ in $(seq 1 40); do
     adb shell uiautomator dump /sdcard/selaora-language.xml >/dev/null
@@ -91,6 +100,33 @@ PY
   return 1
 }
 
+profile_has_both_languages() {
+  local native_name="$1"
+  local dump_file
+  dump_file="$(mktemp)"
+  adb shell am force-stop "$package"
+  adb shell am start -W -a android.intent.action.VIEW -d 'lumen://profile' -p "$package" >/dev/null
+  sleep 4
+  adb shell uiautomator dump /sdcard/selaora-profile.xml >/dev/null
+  adb exec-out cat /sdcard/selaora-profile.xml > "$dump_file"
+  if python3 - "$dump_file" "$native_name" <<'PY'
+import sys
+import xml.etree.ElementTree as ET
+
+root = ET.parse(sys.argv[1]).getroot()
+name = sys.argv[2]
+values = [node.attrib.get('text', '') for node in root.iter('node')]
+# The app language and the independent Bible language are separate rows.
+sys.exit(0 if values.count(name) >= 2 else 1)
+PY
+  then
+    rm -f "$dump_file"
+    return 0
+  fi
+  rm -f "$dump_file"
+  return 1
+}
+
 for locale_spec in \
   "en-US|English" "tr-TR|Türkçe" "es-419|Español" "pt-BR|Português" \
   "fr-FR|Français" "de-DE|Deutsch" "it-IT|Italiano" "tl-PH|Tagalog"; do
@@ -99,7 +135,14 @@ for locale_spec in \
   select_language "application-language" "$native_name"
   # Scripture is an independent preference. Keep verse-of-the-day and Bible
   # content in the same locale as the surrounding store screenshot UI.
-  select_language "scripture-language" "$native_name"
+  for attempt in 1 2 3; do
+    select_language "scripture-language" "$native_name"
+    if profile_has_both_languages "$native_name"; then break; fi
+    if [ "$attempt" = 3 ]; then
+      echo "Application and Bible languages did not match for $locale" >&2
+      exit 1
+    fi
+  done
 
   for theme in dawn vigil; do
     if [ "$theme" = "dawn" ]; then

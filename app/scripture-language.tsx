@@ -30,6 +30,7 @@ import {
 } from '@/services/biblePacks';
 import { fetchBiblePackManifest, releaseMap } from '@/services/biblePackRegistry';
 import { registerDownloadedBiblePack } from '@/data/bibleFull';
+import { registerDownloadedVersePack } from '@/data/downloadedVersePool';
 import type { BiblePackRelease } from '@/data/biblePack';
 
 const candidates = new Set<string>(RELEASE_CANDIDATE_SCRIPTURE_LOCALE_TAGS);
@@ -106,6 +107,7 @@ export default function ScriptureLanguage() {
       }
 
       registerDownloadedBiblePack(pack);
+      registerDownloadedVersePack(pack);
       if (pack.canon === 'catholic-73' || selected === 'hr') {
         useReaderStore.getState().setPos(0, 0);
       }

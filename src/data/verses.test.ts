@@ -1,6 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath, URL as NodeURL } from 'node:url';
 import { getVerses, verseCount } from './verses.ts';
+import { registerDownloadedVersePack } from './downloadedVersePool.ts';
+import type { BiblePack } from './biblePack.ts';
 
 const LOCALES = ['tr', 'en', 'es', 'pt', 'fr', 'de'] as const;
 
@@ -56,4 +60,22 @@ test('Psalm headings use each edition native versification', () => {
   const german = getVerses('de').find((verse) => verse.reference === 'Psalm 46:11');
   assert.match(french?.text ?? '', /Cessez|Arrêtez|Tenez-vous tranquilles|Dieu/i);
   assert.match(german?.text ?? '', /Seid stille|Gott/i);
+});
+
+test('downloaded editions provide native daily verses instead of English fallback', () => {
+  const source = JSON.parse(readFileSync(fileURLToPath(new NodeURL('./bible-full.en.json', import.meta.url)), 'utf8'));
+  const pack = {
+    locale: 'it',
+    books: source.books.map((book: { name: string; chapters: [string, string][][] }) => ({
+      ...book,
+      name: `Libro ${book.name}`,
+      chapters: book.chapters.map((chapter) => chapter.map(([number, text]) => [number, `Italiano ${text}`])),
+    })),
+  } as BiblePack;
+  registerDownloadedVersePack(pack);
+  const italian = getVerses('it');
+  assert.ok(italian.length >= 365);
+  assert.match(italian[0].text, /^Italiano /);
+  assert.match(italian[0].reference, /^Libro /);
+  assert.notEqual(italian[0].text, getVerses('en')[0].text);
 });
