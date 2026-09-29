@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Redirect, router, useLocalSearchParams } from 'expo-router';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import * as Haptics from 'expo-haptics';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
@@ -12,7 +12,6 @@ import { radius, spacing } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
 import { planReading, formatReadingRef } from '@/data/planReadings';
 import { getBible } from '@/data/bibleFull';
-import { bookMeta } from '@/data/bibleMeta';
 import { usePlanStore } from '@/state/usePlanStore';
 import { useT } from '@/i18n';
 import { useScriptureLocale } from '@/i18n/scripture';
@@ -21,6 +20,7 @@ import { singleParam, validPlanDay } from '@/lib/routeValidation';
 import { localeUpperCase } from '@/i18n/localeText';
 import { toast } from '@/state/useToastStore';
 import { TopAppBar } from '@/components/TopAppBar';
+import { useEntitlementStore } from '@/state/useEntitlementStore';
 
 export default function PlanDay() {
   const t = useTheme();
@@ -31,21 +31,21 @@ export default function PlanDay() {
   const plan = usePlans().find((p) => p.id === planId);
   const dayIdx = plan ? validPlanDay(day, plan.days) : null;
   const { progress, toggleDay } = usePlanStore();
+  const isPlus = useEntitlementStore((s) => s.isPlus);
 
   if (!plan || dayIdx == null) return <InvalidRouteState />;
+  if (plan.plus && !isPlus) return <Redirect href="/paywall?from=plan" />;
 
-  const reading = planReading(plan.id, dayIdx);
-  const ref = formatReadingRef(reading, locale);
   const bible = getBible(scriptureLocale);
-  const readingCode = bookMeta[reading.book]?.code;
-  const matchingBookIndex = readingCode ? bible.findIndex((book) => book.code === readingCode) : -1;
-  const readerBookIndex = matchingBookIndex >= 0 ? matchingBookIndex : reading.book;
+  const reading = planReading(plan.id, dayIdx, bible);
+  const ref = formatReadingRef(reading, locale, bible);
+  const readerBookIndex = reading.book;
   const firstVerse = bible[readerBookIndex]?.chapters[reading.chapter]?.[0]?.[1] ?? '';
   const teaser = firstVerse.length > 170 ? `${firstVerse.slice(0, 170).trimEnd()}…` : firstVerse;
   const done = (progress[plan.id] ?? []).includes(dayIdx);
 
   const openReader = () =>
-    router.push({ pathname: '/read', params: { b: readerBookIndex, c: reading.chapter } });
+    router.push({ pathname: '/read', params: { b: readerBookIndex, c: reading.chapter, eb: reading.endBook, ec: reading.endChapter } });
 
   const complete = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});

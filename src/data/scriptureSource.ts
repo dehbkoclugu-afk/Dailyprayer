@@ -27,7 +27,7 @@ export const BUNDLED_SCRIPTURE_SOURCES = {
     sourceUrl: 'https://github.com/seven1m/open-bibles/blob/master/spa-rv1909.usfx.xml',
   },
   de: {
-    edition: 'Luther Bible 1912',
+    edition: 'Lutherbibel 1912',
     rights: 'Public domain.',
     sourceUrl: 'https://ebible.org/Scriptures/copyright.php',
   },

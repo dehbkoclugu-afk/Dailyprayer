@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
 import { type as ty } from '@/theme/typography';
@@ -30,6 +30,7 @@ import {
 } from '@/services/biblePacks';
 import { fetchBiblePackManifest, releaseMap } from '@/services/biblePackRegistry';
 import { registerDownloadedBiblePack } from '@/data/bibleFull';
+import { registerDownloadedVersePack } from '@/data/downloadedVersePool';
 import type { BiblePackRelease } from '@/data/biblePack';
 
 const candidates = new Set<string>(RELEASE_CANDIDATE_SCRIPTURE_LOCALE_TAGS);
@@ -95,23 +96,30 @@ export default function ScriptureLanguage() {
         }
       }
       if (!pack) {
-        const release = releases.get(tag);
-        if (!release) {
-          Alert.alert(tr('profile.scriptureLanguage'), tr('scripture.downloadUnavailable'));
-          return;
-        }
+        // The first manifest request may fail on a fresh install. Retry when
+        // the user explicitly chooses a language instead of leaving the row
+        // permanently unavailable until the screen is reopened.
         setDownloading(tag);
+        let release = releases.get(tag);
+        if (!release) {
+          const refreshed = releaseMap(await fetchBiblePackManifest());
+          setReleases(refreshed);
+          release = refreshed.get(tag);
+        }
+        if (!release) throw new Error(`Bible pack release missing for ${tag}`);
         pack = await installBiblePack(release);
         setInstalled((current) => new Set<GlobalLocaleTag>([...current, tag]));
       }
 
       registerDownloadedBiblePack(pack);
+      registerDownloadedVersePack(pack);
       if (pack.canon === 'catholic-73' || selected === 'hr') {
         useReaderStore.getState().setPos(0, 0);
       }
       setScriptureLocale(preference);
       router.back();
-    } catch {
+    } catch (error) {
+      console.warn(`Bible language selection failed for ${tag}`, error);
       Alert.alert(tr('profile.scriptureLanguage'), tr('scripture.downloadUnavailable'));
     } finally {
       setDownloading(null);

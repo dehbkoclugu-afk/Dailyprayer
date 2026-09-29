@@ -13,14 +13,14 @@ import {
   type ViewToken,
 } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { fonts, scaledType, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { HIGHLIGHT_TINT } from '@/theme/highlights';
 import { useReaderTheme } from '@/theme/reading';
-import { getBible } from '@/data/bibleFull';
+import { getBible, getBibleSource } from '@/data/bibleFull';
 import { useReaderStore } from '@/state/useReaderStore';
 import { useReaderPrefsStore } from '@/state/useReaderPrefsStore';
 import { useHighlightStore } from '@/state/useHighlightStore';
@@ -36,7 +36,9 @@ import { getReaderAccessibilityCopy } from '@/i18n/readerAccessibility';
 import { useModalAccessibility } from '@/hooks/useModalAccessibility';
 import { accessibleVerseLabel } from '@/lib/accessibility';
 import { isExpandedLayout } from '@/lib/adaptiveLayout';
-import { newTestamentStart, testamentLabels } from '@/lib/scriptureNavigation';
+import { newTestamentStart } from '@/lib/scriptureNavigation';
+import { testamentLabels } from '@/i18n/testamentLabels';
+import { ScriptureAudioBible } from '@/components/ScriptureAudioBible';
 
 export default function Read() {
   const { t: tr, locale } = useT();
@@ -46,6 +48,7 @@ export default function Read() {
   const { width } = useWindowDimensions();
   const expanded = isExpandedLayout(width);
   const bible = getBible(scriptureLocale);
+  const scriptureSource = getBibleSource(scriptureLocale);
   const { book, chapter, setPos } = useReaderStore();
   const initialSavedVerse = useRef(useReaderStore.getState().verse).current;
   const initialPosition = useRef({ book, chapter }).current;
@@ -55,7 +58,7 @@ export default function Read() {
   const marks = useHighlightStore((s) => s.marks);
   const setMark = useHighlightStore((s) => s.set);
   const clearMark = useHighlightStore((s) => s.clear);
-  const params = useLocalSearchParams<{ b?: string | string[]; c?: string | string[]; v?: string | string[]; settings?: string }>();
+  const params = useLocalSearchParams<{ b?: string | string[]; c?: string | string[]; v?: string | string[]; eb?: string | string[]; ec?: string | string[]; settings?: string }>();
   const hasDeepPosition = params.b != null || params.c != null;
   const deepPosition = hasDeepPosition
     ? validReaderPosition(params.b, params.c, bible.map((entry) => entry.chapters.length))
@@ -79,12 +82,14 @@ export default function Read() {
 
   useModalAccessibility(picker !== null, pickerHeadingRef, pickerReturnFocus.current);
 
-  const bIdx = Math.min(book, bible.length - 1);
+  const safeBook = Number.isInteger(book) ? book : 0;
+  const bIdx = deepPosition?.book ?? Math.max(0, Math.min(safeBook, bible.length - 1));
   const bk = bible[bIdx];
-  const cIdx = Math.min(chapter, bk.chapters.length - 1);
+  const safeChapter = Number.isInteger(chapter) ? chapter : 0;
+  const cIdx = deepPosition?.chapter ?? Math.max(0, Math.min(safeChapter, bk.chapters.length - 1));
   const verses = bk.chapters[cIdx];
   const testamentStart = newTestamentStart(bible.map((bookItem) => bookItem.code));
-  const [oldTestament, newTestament] = testamentLabels(scriptureLocale);
+  const [oldTestament, newTestament] = testamentLabels(locale);
   const visibleBooks = bible
     .map((item, index) => ({ item, index }))
     .filter(({ item }) => item.name.toLocaleLowerCase(scriptureLocale).includes(bookQuery.trim().toLocaleLowerCase(scriptureLocale)));
@@ -96,8 +101,9 @@ export default function Read() {
   }, [deepPosition?.book, deepPosition?.chapter]);
 
   const deepVerse = integerParam(params.v);
+  const safeSavedVerse = Number.isInteger(initialSavedVerse) ? initialSavedVerse : 0;
   const targetV = params.v == null
-    ? (bIdx === initialPosition.book && cIdx === initialPosition.chapter ? Math.min(initialSavedVerse, verses.length - 1) : 0)
+    ? (bIdx === initialPosition.book && cIdx === initialPosition.chapter ? Math.max(0, Math.min(safeSavedVerse, verses.length - 1)) : 0)
     : deepVerse;
   const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: ViewToken[] }) => {
     const first = viewableItems.find((item) => item.isViewable && item.index != null)?.index;
@@ -105,15 +111,23 @@ export default function Read() {
   }).current;
   useEffect(() => {
     if (targetV == null || targetV >= verses.length) return;
+    let flashTimer: ReturnType<typeof setTimeout> | null = null;
     const id = setTimeout(() => {
       listRef.current?.scrollToIndex({ index: targetV, viewPosition: 0.28, animated: true });
       setFlashV(targetV);
-      setTimeout(() => setFlashV(null), 2200);
+      flashTimer = setTimeout(() => setFlashV(null), 2200);
     }, 320);
-    return () => clearTimeout(id);
+    return () => {
+      clearTimeout(id);
+      if (flashTimer) clearTimeout(flashTimer);
+    };
   }, [targetV, bIdx, cIdx, verses.length]);
 
-  if (invalidDeepPosition || (params.v != null && (deepVerse == null || deepVerse >= verses.length))) {
+  const hasPassageEnd = params.eb != null || params.ec != null;
+  const passageEnd = hasPassageEnd
+    ? validReaderPosition(params.eb, params.ec, bible.map((entry) => entry.chapters.length))
+    : null;
+  if (invalidDeepPosition || (hasPassageEnd && passageEnd == null) || (params.v != null && (deepVerse == null || deepVerse >= verses.length))) {
     return <InvalidRouteState />;
   }
 
@@ -122,6 +136,7 @@ export default function Read() {
     setPicker(null);
   };
   const next = () => {
+    if (passageEnd && (bIdx > passageEnd.book || (bIdx === passageEnd.book && cIdx >= passageEnd.chapter))) return;
     if (cIdx + 1 < bk.chapters.length) go(bIdx, cIdx + 1);
     else if (bIdx + 1 < bible.length) go(bIdx + 1, 0);
   };
@@ -129,7 +144,8 @@ export default function Read() {
     if (cIdx > 0) go(bIdx, cIdx - 1);
     else if (bIdx > 0) go(bIdx - 1, bible[bIdx - 1].chapters.length - 1);
   };
-  const hasNext = cIdx + 1 < bk.chapters.length || bIdx + 1 < bible.length;
+  const beforePassageEnd = !passageEnd || bIdx < passageEnd.book || (bIdx === passageEnd.book && cIdx < passageEnd.chapter);
+  const hasNext = beforePassageEnd && (cIdx + 1 < bk.chapters.length || bIdx + 1 < bible.length);
   const hasPrev = cIdx > 0 || bIdx > 0;
 
   const readerType = scaledType('readerVerse', fontScale);
@@ -290,6 +306,7 @@ export default function Read() {
             <Text style={{ ...scaledType('titleLarge', fontScale), color: rt.ink, marginTop: 4, textAlign: scriptureRtl ? 'right' : 'left', writingDirection: scriptureRtl ? 'rtl' : 'ltr' }}>
               {bk.name}
             </Text>
+            <ScriptureAudioBible edition={scriptureSource.edition} book={bIdx} chapter={cIdx} palette={rt} />
             {showGestureHint ? (
               <View accessibilityRole="summary" style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginTop: spacing.lg, padding: spacing.md, borderRadius: radius.inner, backgroundColor: rt.goldSoft, borderWidth: 1, borderColor: rt.gold }}>
                 <View style={{ flex: 1, gap: spacing.xs }}>

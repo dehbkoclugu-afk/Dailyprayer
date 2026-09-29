@@ -86,7 +86,7 @@
 
 - [x] **Step 1: Replace the single-source service statement**
 
-  State that Lumen bundles six separately sourced editions and refer readers to the new disclosure section.
+  State that Selaora bundles six separately sourced editions and refer readers to the new disclosure section.
 
 - [x] **Step 2: Add one bullet per edition**
 
@@ -94,7 +94,7 @@
 
 - [x] **Step 3: Correct acceptable-use wording**
 
-  Separate Lumen's original content restriction from Scripture rights and direct users to the per-edition terms instead of claiming all Scripture is WEB/public domain.
+  Separate Selaora's original content restriction from Scripture rights and direct users to the per-edition terms instead of claiming all Scripture is WEB/public domain.
 
 - [x] **Step 4: Mirror the same disclosure**
 

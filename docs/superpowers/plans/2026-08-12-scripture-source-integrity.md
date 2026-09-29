@@ -1,6 +1,6 @@
 # Scripture Source Visibility and Integrity Implementation Plan
 
-**Goal:** Complete Lumen roadmap items 11 and 12 while preserving every Scripture payload and published pack.
+**Goal:** Complete Selaora roadmap items 11 and 12 while preserving every Scripture payload and published pack.
 
 **Branch:** `agent/scripture-source-integrity`
 

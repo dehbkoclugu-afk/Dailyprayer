@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Build one or all source-pinned eBible USFX downloads into Lumen Bible packs.
+ * Build one or all source-pinned eBible USFX downloads into Selaora Bible packs.
  *
  * Scripture text is parsed from the named source edition. It is never translated
  * or rewritten. XML entities/markup and layout whitespace are decoded/removed as

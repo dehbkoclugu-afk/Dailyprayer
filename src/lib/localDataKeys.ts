@@ -9,6 +9,7 @@ const LOCAL_USER_DATA_KEYS = new Set([
   'lumen-reader',
   'lumen-reader-prefs',
   'lumen-bible',
+  'lumen-entitlement',
 ]);
 
 export function selectLocalUserDataKeys(keys: readonly string[]): string[] {

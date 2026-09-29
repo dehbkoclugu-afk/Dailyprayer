@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Modal, Pressable, Share, Text, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -61,7 +61,7 @@ export function VerseActionSheet({
   const hKey = `${verse.code}|${verse.chapter}|${verse.verse}`;
   const activeColor = marks[hKey];
   const bookmarked = bookmarks.some(
-    (m) => m.book === verse.book && m.chapter === verse.chapter && m.verse === verse.verse,
+    (m) => m.code === verse.code && m.chapter === verse.chapter && m.verse === verse.verse,
   );
 
   const tap = () => Haptics.selectionAsync().catch(() => {});
@@ -76,6 +76,7 @@ export function VerseActionSheet({
     tap();
     const on = toggleBookmark({
       book: verse.book,
+      code: verse.code,
       chapter: verse.chapter,
       verse: verse.verse,
       ref: verse.ref,

@@ -1,4 +1,4 @@
-# Lumen Art Direction & Asset Generation Briefs
+# Selaora Art Direction & Asset Generation Briefs
 
 Hand this document to your image-generation AI (Midjourney, DALL·E, Imagen, Firefly…)
 **one asset at a time**. Always paste the MASTER STYLE PROMPT first, then the asset's
@@ -45,7 +45,7 @@ are in that file). Every slot in the app is already laid out and waiting.
 > background. --ar 1:1
 
 ## A2 — Wordmark (optional) · `A2-wordmark.png` · 1200×400 · transparent
-> The word "Lumen" — provide as vector/SVG from your design tool instead of AI if
+> The word "Selaora" — provide as vector/SVG from your design tool instead of AI if
 > possible; if AI-generated, serif close to Fraunces, ivory `#F2EEE6`, a small gold halo
 > dot above the "e". --ar 3:1
 

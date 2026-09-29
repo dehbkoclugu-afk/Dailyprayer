@@ -25,6 +25,11 @@
       "id": "scripture-rights",
       "statement": "Every released Scripture edition is integrity-checked and retains edition-specific source and rights evidence.",
       "evidence": ["src/data/legal.ts", "scripts/verify-scripture-integrity.mjs", "scripts/verify-scripture-release-rights.mjs"]
+    },
+    {
+      "id": "truthful-subscription-copy",
+      "statement": "Production purchase screens and store copy do not advertise an unimplemented sponsorship program or journal export, and privacy copy discloses RevenueCat purchase-history processing.",
+      "evidence": ["app/paywall.tsx", "app/(tabs)/profile.tsx", "docs/store-listing.md", "src/data/legal.ts"]
     }
   ]
 }
