@@ -96,12 +96,17 @@ export default function ScriptureLanguage() {
         }
       }
       if (!pack) {
-        const release = releases.get(tag);
-        if (!release) {
-          Alert.alert(tr('profile.scriptureLanguage'), tr('scripture.downloadUnavailable'));
-          return;
-        }
+        // The first manifest request may fail on a fresh install. Retry when
+        // the user explicitly chooses a language instead of leaving the row
+        // permanently unavailable until the screen is reopened.
         setDownloading(tag);
+        let release = releases.get(tag);
+        if (!release) {
+          const refreshed = releaseMap(await fetchBiblePackManifest());
+          setReleases(refreshed);
+          release = refreshed.get(tag);
+        }
+        if (!release) throw new Error(`Bible pack release missing for ${tag}`);
         pack = await installBiblePack(release);
         setInstalled((current) => new Set<GlobalLocaleTag>([...current, tag]));
       }
@@ -113,7 +118,8 @@ export default function ScriptureLanguage() {
       }
       setScriptureLocale(preference);
       router.back();
-    } catch {
+    } catch (error) {
+      console.warn(`Bible language selection failed for ${tag}`, error);
       Alert.alert(tr('profile.scriptureLanguage'), tr('scripture.downloadUnavailable'));
     } finally {
       setDownloading(null);
