@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Text, useWindowDimensions, View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Screen } from '@/components/Screen';
 import { VerseCard } from '@/components/VerseCard';
@@ -12,8 +12,8 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
-import { fonts, type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { type as ty } from '@/theme/typography';
+import { interaction, radius, spacing } from '@/theme/tokens';
 import { useDailyContent } from '@/hooks/useDailyContent';
 import { getVerses, type DailyVerse } from '@/data/verses';
 import { useScriptureLocale } from '@/i18n/scripture';
@@ -25,6 +25,11 @@ import { usePrayers } from '@/data/prayers';
 import { prayerArt } from '@/assets/registry';
 import { toast } from '@/state/useToastStore';
 import { useT, translate } from '@/i18n';
+import { localeUpperCase } from '@/i18n/localeText';
+import { getDirectionalIconName } from '@/i18n/direction';
+import { foldablePaneGap, isExpandedLayout } from '@/lib/adaptiveLayout';
+import { nextDailyStep, shouldExpandTonight } from '@/lib/dailyExperience';
+import type { RitualStep } from '@/state/useStreakStore';
 
 /** Locale-aware date line using the locale's native order, month, and weekday. */
 function formatDateLine(now: Date, locale: string): string {
@@ -48,6 +53,8 @@ export default function Today() {
   const artwork = useArtwork();
   const dawn = artwork.scheme === 'dawn';
   const { t: tr, locale } = useT();
+  const { width } = useWindowDimensions();
+  const expanded = isExpandedLayout(width);
   const scriptureLocale = useScriptureLocale();
   const { verse, devotional } = useDailyContent();
   // The verse of the day is fixed by date, but let people browse the pool , a
@@ -73,6 +80,9 @@ export default function Today() {
   const doneCount = doneDay === dayKey() ? doneSteps.length : 0;
 
   const now = new Date();
+  const todaySteps = doneDay === dayKey() ? doneSteps : [];
+  const nextStep = nextDailyStep(todaySteps);
+  const tonightExpanded = shouldExpandTonight(now.getHours());
   const dateLine = formatDateLine(now, locale);
   const greeting = greetingFor(now.getHours());
   const greetText =
@@ -85,6 +95,28 @@ export default function Today() {
   const sleepPrayer = prayers.find((p) => p.category === 'sleep')!;
   const completeStep = useStreakStore((s) => s.completeStep);
   const uncompleteStep = useStreakStore((s) => s.uncompleteStep);
+  const undoStep = (step: 'verse' | 'devotional' | 'prayer' | 'gratitude', title: string) => {
+    uncompleteStep(step);
+    toast(`${title}: ${tr('today.undo')}`);
+  };
+  const stepTitle = (step: RitualStep) => ({
+    verse: tr('today.verseOfDay'),
+    devotional: tr('today.devotional'),
+    prayer: tr('today.guidedPrayer'),
+    gratitude: tr('today.gratitude'),
+  })[step];
+  const openStep = (step: RitualStep) => {
+    if (step === 'verse') {
+      completeStep('verse');
+      toast(translate('toast.verse'));
+    } else if (step === 'devotional') {
+      router.push('/devotional');
+    } else if (step === 'prayer') {
+      router.push({ pathname: '/player', params: { id: morningPrayer.id } });
+    } else {
+      router.push('/(tabs)/journal');
+    }
+  };
 
   return (
     <Screen tabbed>
@@ -107,22 +139,18 @@ export default function Today() {
         <View style={{ flex: 1, paddingRight: spacing.lg }}>
           <Text
             style={{
-              fontFamily: fonts.sansSemiBold,
-              fontSize: 11,
-              letterSpacing: 2.5,
-              textTransform: 'uppercase',
+              ...ty.overline,
               color: t.gold,
               opacity: 0.85,
             }}
           >
-            {dateLine}
+            {localeUpperCase(dateLine, locale)}
           </Text>
-          <Text style={[ty.display, { color: t.ink, fontSize: 34, lineHeight: 40, marginTop: spacing.xs }]}>
+          <Text style={[ty.displaySmall, { color: t.ink, marginTop: spacing.xs }]}>
             {greetText}{name ? `, ${name}` : ''}
           </Text>
         </View>
         <View
-          accessibilityLabel={`${count} ${tr('today.dayStreak')}`}
           style={{
             width: 68,
             height: 68,
@@ -138,6 +166,36 @@ export default function Today() {
         </View>
       </View>
 
+      <View style={{ flexDirection: expanded ? 'row' : 'column', alignItems: 'flex-start', gap: expanded ? foldablePaneGap(width) : spacing.xl }}>
+      <View style={{ flex: expanded ? 1 : undefined, width: expanded ? undefined : '100%' }}>
+      {nextStep ? (
+        <Pressable
+          onPress={() => openStep(nextStep)}
+          accessibilityRole="button"
+          accessibilityLabel={`${tr('read.next')}: ${stepTitle(nextStep)}`}
+          style={({ pressed }) => ({
+            marginTop: spacing.xl,
+            minHeight: 64,
+            borderRadius: radius.inner,
+            borderWidth: 1,
+            borderColor: t.gold,
+            backgroundColor: t.goldSoft,
+            paddingHorizontal: spacing.lg,
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: spacing.md,
+            opacity: pressed ? interaction.pressedOpacity : 1,
+          })}
+        >
+          <View style={{ width: 38, height: 38, borderRadius: 19, backgroundColor: t.gold, alignItems: 'center', justifyContent: 'center' }}>
+            <Ionicons name={getDirectionalIconName('arrow-forward', locale)} size={19} color={t.onGold} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={{ ...ty.labelSmall, color: t.gold }}>{localeUpperCase(tr('read.next'), locale)}</Text>
+            <Text style={{ ...ty.bodyStrong, color: t.ink, marginTop: 2 }}>{stepTitle(nextStep)}</Text>
+          </View>
+        </Pressable>
+      ) : null}
       <View style={{ marginTop: spacing.xl }}>
         <VerseCard
           verse={shownVerse}
@@ -162,7 +220,8 @@ export default function Today() {
           title={tr('today.devotional')}
           subtitle={`${devotional.title} · ${tr('today.twoMinuteRead')}`}
           done={isDone('devotional')}
-          onPress={() => isDone('devotional') ? uncompleteStep('devotional') : router.push('/devotional')}
+          featured={nextStep === 'devotional'}
+          onPress={() => isDone('devotional') ? undoStep('devotional', tr('today.devotional')) : router.push('/devotional')}
         />
         <RitualCard
           icon="flame-outline"
@@ -170,7 +229,8 @@ export default function Today() {
           title={tr('today.guidedPrayer')}
           subtitle={`${morningPrayer.title} · ${morningPrayer.minutes} ${tr('pray.min')}`}
           done={isDone('prayer')}
-          onPress={() => isDone('prayer') ? uncompleteStep('prayer') : router.push({ pathname: '/player', params: { id: morningPrayer.id } })}
+          featured={nextStep === 'prayer'}
+          onPress={() => isDone('prayer') ? undoStep('prayer', tr('today.guidedPrayer')) : router.push({ pathname: '/player', params: { id: morningPrayer.id } })}
         />
         <RitualCard
           icon="heart-outline"
@@ -178,48 +238,52 @@ export default function Today() {
           title={tr('today.gratitude')}
           subtitle={tr('today.gratitudeSub')}
           done={isDone('gratitude')}
-          onPress={() => isDone('gratitude') ? uncompleteStep('gratitude') : router.push('/(tabs)/journal')}
+          featured={nextStep === 'gratitude'}
+          onPress={() => isDone('gratitude') ? undoStep('gratitude', tr('today.gratitude')) : router.push('/(tabs)/journal')}
         />
       </View>
+      </View>
 
+      <View style={{ flex: expanded ? 1 : undefined, width: expanded ? undefined : '100%' }}>
       <SectionHeader
         title={tr('today.tonight')}
       />
       {/* Night shifts the palette: indigo art card, not a standard row */}
       <View>
         <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
-          <ArtSlot id={prayerArt(sleepPrayer.id)} height={150} radius={radius.card} variant={dawn ? 'card' : 'bare'}>
-            {!dawn ? (
-              <LinearGradient
-                colors={['rgba(30,26,58,0.35)', 'rgba(10,12,24,0.92)']}
-                style={{ position: 'absolute', width: '100%', height: '100%' }}
-              />
-            ) : null}
+          <ArtSlot
+            id={prayerArt(sleepPrayer.id)}
+            radius={radius.card}
+            scrim="soft"
+            style={{ minHeight: tonightExpanded ? 150 : 96 }}
+          >
+            <LinearGradient
+              colors={dawn
+                ? ['rgba(10,12,24,0.06)', 'rgba(10,12,24,0.66)']
+                : ['rgba(30,26,58,0.24)', 'rgba(10,12,24,0.82)']}
+              style={{ position: 'absolute', width: '100%', height: '100%' }}
+            />
             <View
               style={{
                 flex: 1,
-                padding: spacing.xl,
-                paddingRight: 96,
-                justifyContent: 'flex-end',
+                padding: tonightExpanded ? spacing.xl : spacing.lg,
+                justifyContent: tonightExpanded ? 'space-between' : 'center',
+                gap: tonightExpanded ? spacing.lg : spacing.sm,
               }}
             >
               <View style={{ flex: 1 }}>
                 <Text
                   style={{
-                    fontFamily: fonts.sansSemiBold,
-                    fontSize: 11,
-                    letterSpacing: 2.5,
-                    textTransform: 'uppercase',
-                    color: t.gold,
+                    ...ty.overline,
+                    color: t.onArtwork,
                   }}
                 >
-{tr('today.sleepPrayer')}
+{localeUpperCase(tr('today.sleepPrayer'), locale)}
                 </Text>
                 <Text
                   style={{
-                    fontFamily: fonts.serif,
-                    fontSize: 21,
-                    color: '#F2EEE6',
+                    ...ty.titleCompact,
+                    color: t.onArtwork,
                     marginTop: 4,
                     textShadowColor: 'rgba(0,0,0,0.72)',
                     textShadowOffset: { width: 0, height: 1 },
@@ -229,7 +293,7 @@ export default function Today() {
                   {sleepPrayer.title} · {sleepPrayer.minutes} {tr('pray.min')}
                 </Text>
               </View>
-              <Text
+              <Pressable
                 onPress={() =>
                   sleepPrayer.plus && !isPlus
                     ? router.push('/paywall?from=sleep')
@@ -241,22 +305,30 @@ export default function Today() {
                     ? tr('a11y.unlockSleep')
                     : `${tr('a11y.play')} ${sleepPrayer.title}`
                 }
-                style={{
-                  position: 'absolute',
-                  right: dawn ? 24 : spacing.xl,
-                  bottom: spacing.xl,
-                  fontFamily: fonts.sansSemiBold,
-                  fontSize: 14,
-                  color: t.onGold,
-                  backgroundColor: t.gold,
+                style={({ pressed }) => ({
+                  position: tonightExpanded ? 'relative' : 'absolute',
+                  right: tonightExpanded ? undefined : spacing.lg,
+                  bottom: tonightExpanded ? undefined : spacing.lg,
+                  alignSelf: tonightExpanded ? 'flex-start' : 'flex-end',
+                  backgroundColor: tonightExpanded ? t.gold : 'rgba(14,18,32,0.48)',
                   borderRadius: radius.pill,
-                  paddingHorizontal: spacing.lg,
-                  paddingVertical: 10,
+                  width: tonightExpanded ? undefined : 48,
+                  paddingHorizontal: tonightExpanded ? spacing.lg : 0,
+                  minHeight: 48,
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   overflow: 'hidden',
-                }}
+                  opacity: pressed ? interaction.pressedOpacity : 1,
+                })}
               >
-                {sleepPrayer.plus && !isPlus ? tr('today.unlock') : tr('today.play')}
-              </Text>
+                {tonightExpanded ? (
+                  <Text style={[ty.label, { color: t.onGold }]}>
+                    {sleepPrayer.plus && !isPlus ? tr('today.unlock') : tr('today.play')}
+                  </Text>
+                ) : (
+                  <Ionicons name={sleepPrayer.plus && !isPlus ? 'lock-closed' : 'play'} size={18} color={t.onArtwork} />
+                )}
+              </Pressable>
             </View>
             {sleepPrayer.plus && !isPlus ? (
               <View
@@ -274,11 +346,13 @@ export default function Today() {
                 }}
               >
                 <Ionicons name="lock-closed" size={11} color={t.gold} />
-                <Text style={{ fontFamily: fonts.sansBold, fontSize: 10, color: t.gold }}>PLUS</Text>
+                <Text style={[ty.labelSmall, { color: t.gold }]}>PLUS</Text>
               </View>
             ) : null}
           </ArtSlot>
         </View>
+      </View>
+      </View>
       </View>
     </Screen>
   );

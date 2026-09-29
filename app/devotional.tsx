@@ -1,18 +1,19 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import * as Haptics from 'expo-haptics';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts, type as ty } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useDailyContent } from '@/hooks/useDailyContent';
 import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
 import { useT, translate } from '@/i18n';
-import { getDirectionalIconName } from '@/i18n/direction';
+import { localeUpperCase } from '@/i18n/localeText';
+import { TopAppBar } from '@/components/TopAppBar';
 
 export default function DevotionalScreen() {
   const t = useTheme();
@@ -21,42 +22,20 @@ export default function DevotionalScreen() {
   const completeStep = useStreakStore((s) => s.completeStep);
   const [amened, setAmened] = React.useState(false);
 
-  // Amen morphs to a checkmark for a beat before returning (design-100 #64).
   const finish = () => {
     if (amened) return;
     setAmened(true);
     completeStep('devotional');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     toast(translate('toast.devotional'));
-    setTimeout(() => router.back(), 600);
   };
 
   return (
     <Screen>
-      <Pressable
-        onPress={() => router.back()}
-        hitSlop={12}
-        accessibilityRole="button"
-        accessibilityLabel={tr('a11y.back')}
-        // Bordered chip so there's always a visible tap target to leave the
-        // reader , a bare icon becomes an invisible dead corner if the glyph
-        // ever fails to render.
-        style={{
-          width: 44,
-          height: 44,
-          borderRadius: 22,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: t.surface,
-          borderWidth: 1,
-          borderColor: t.border,
-        }}
-      >
-        <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={24} color={t.inkSoft} />
-      </Pressable>
+      <TopAppBar title={tr('today.devotional')} />
 
-      <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 12, letterSpacing: 2, textTransform: 'uppercase', color: t.gold, marginTop: spacing.lg }}>
-{tr('devotional.label')}
+      <Text style={[ty.overline, { color: t.gold, marginTop: spacing.lg }]}>
+{localeUpperCase(tr('devotional.label'), locale)}
       </Text>
       <Text style={[ty.display, { color: t.ink, marginTop: spacing.sm }]}>{devotional.title}</Text>
 
@@ -68,10 +47,10 @@ export default function DevotionalScreen() {
           marginTop: spacing.xl,
         }}
       >
-        <Text style={{ fontFamily: fonts.serifLight, fontSize: 18, lineHeight: 28, color: t.ink }}>
+        <Text style={{ ...ty.editorialBody, color: t.ink }}>
           “{verse.text}”
         </Text>
-        <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.gold, marginTop: spacing.sm }}>
+        <Text style={{ ...ty.labelMedium, color: t.gold, marginTop: spacing.sm }}>
           {verse.reference}
         </Text>
       </View>
@@ -80,9 +59,7 @@ export default function DevotionalScreen() {
       <View style={{ flexDirection: 'row', marginTop: spacing.xl }}>
         <Text
           style={{
-            fontFamily: fonts.serif,
-            fontSize: 64,
-            lineHeight: 64,
+            ...ty.displayHero,
             color: t.gold,
             marginRight: spacing.sm,
             marginTop: 2,
@@ -101,12 +78,50 @@ export default function DevotionalScreen() {
           marginTop: spacing.xl,
         }}
       >
-        <Text style={{ fontFamily: fonts.serifLight, fontSize: 17, lineHeight: 26, color: t.inkSoft, fontStyle: 'italic' }}>
+        <Text style={{ ...ty.editorialCompact, color: t.inkSoft, fontStyle: 'italic' }}>
           {devotional.prayer}
         </Text>
       </View>
 
-      <PillButton label={amened ? '✓' : tr('devotional.amen')} onPress={finish} style={{ marginTop: spacing.xxl }} />
+      {amened ? (
+        <View
+          accessibilityRole="summary"
+          style={{
+            backgroundColor: t.surface,
+            borderRadius: radius.card,
+            borderWidth: 1,
+            borderColor: t.gold,
+            padding: spacing.xl,
+            marginTop: spacing.xxl,
+            alignItems: 'center',
+          }}
+        >
+          <View style={{ width: 56, height: 56, borderRadius: 28, backgroundColor: t.goldSoft, alignItems: 'center', justifyContent: 'center' }}>
+            <Ionicons name="checkmark" size={28} color={t.gold} />
+          </View>
+          <Text style={{ ...ty.titleCompact, color: t.ink, textAlign: 'center', marginTop: spacing.md }}>
+            {tr('toast.devotional')}
+          </Text>
+          <Text style={{ ...ty.secondary, color: t.inkSoft, textAlign: 'center', marginTop: spacing.sm }}>
+            {tr('journal.promptGratitude')}
+          </Text>
+          <PillButton
+            label={tr('journal.title')}
+            onPress={() => router.push({ pathname: '/(tabs)/journal', params: { prompt: 'devotional' } })}
+            style={{ width: '100%', marginTop: spacing.lg }}
+          />
+          <Pressable
+            onPress={() => router.back()}
+            accessibilityRole="button"
+            accessibilityLabel={tr('a11y.back')}
+            style={({ pressed }) => ({ minHeight: 48, paddingHorizontal: spacing.lg, justifyContent: 'center', marginTop: spacing.sm, opacity: pressed ? 0.6 : 1 })}
+          >
+            <Text style={{ ...ty.label, color: t.blue }}>{tr('a11y.back')}</Text>
+          </Pressable>
+        </View>
+      ) : (
+        <PillButton label={tr('devotional.amen')} onPress={finish} style={{ marginTop: spacing.xxl }} />
+      )}
     </Screen>
   );
 }

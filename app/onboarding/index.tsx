@@ -1,14 +1,14 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { Wordmark } from '@/components/Wordmark';
 import { OnboardingBackdrop } from '@/components/OnboardingBackdrop';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts, type as ty } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
 
@@ -16,7 +16,7 @@ export default function Welcome() {
   const t = useTheme();
   const { t: tr } = useT();
   return (
-    <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
+    <Screen style={{ flexGrow: 1, justifyContent: 'space-between' }}>
       <OnboardingBackdrop />
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
         <ArtSlot id="A1-logomark" height={44} fit="contain" radius={12} style={{ width: 44 }} />
@@ -47,7 +47,7 @@ export default function Welcome() {
           }}
         >
           <Ionicons name="lock-closed-outline" size={13} color={t.inkFaint} />
-          <Text style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkFaint }}>
+          <Text style={{ ...ty.captionRegular, color: t.inkFaint }}>
             {tr('welcome.trust')}
           </Text>
         </View>

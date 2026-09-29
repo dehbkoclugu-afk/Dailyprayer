@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
@@ -30,6 +30,7 @@ import {
 } from '@/services/biblePacks';
 import { fetchBiblePackManifest, releaseMap } from '@/services/biblePackRegistry';
 import { registerDownloadedBiblePack } from '@/data/bibleFull';
+import { registerDownloadedVersePack } from '@/data/downloadedVersePool';
 import type { BiblePackRelease } from '@/data/biblePack';
 
 const candidates = new Set<string>(RELEASE_CANDIDATE_SCRIPTURE_LOCALE_TAGS);
@@ -95,23 +96,30 @@ export default function ScriptureLanguage() {
         }
       }
       if (!pack) {
-        const release = releases.get(tag);
-        if (!release) {
-          Alert.alert(tr('profile.scriptureLanguage'), tr('scripture.downloadUnavailable'));
-          return;
-        }
+        // The first manifest request may fail on a fresh install. Retry when
+        // the user explicitly chooses a language instead of leaving the row
+        // permanently unavailable until the screen is reopened.
         setDownloading(tag);
+        let release = releases.get(tag);
+        if (!release) {
+          const refreshed = releaseMap(await fetchBiblePackManifest());
+          setReleases(refreshed);
+          release = refreshed.get(tag);
+        }
+        if (!release) throw new Error(`Bible pack release missing for ${tag}`);
         pack = await installBiblePack(release);
         setInstalled((current) => new Set<GlobalLocaleTag>([...current, tag]));
       }
 
       registerDownloadedBiblePack(pack);
+      registerDownloadedVersePack(pack);
       if (pack.canon === 'catholic-73' || selected === 'hr') {
         useReaderStore.getState().setPos(0, 0);
       }
       setScriptureLocale(preference);
       router.back();
-    } catch {
+    } catch (error) {
+      console.warn(`Bible language selection failed for ${tag}`, error);
       Alert.alert(tr('profile.scriptureLanguage'), tr('scripture.downloadUnavailable'));
     } finally {
       setDownloading(null);
@@ -142,7 +150,7 @@ export default function ScriptureLanguage() {
         >
           <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={22} color={t.ink} />
         </Pressable>
-        <Text style={{ flex: 1, fontFamily: fonts.serif, fontSize: 30, color: t.ink }}>
+        <Text style={{ flex: 1, ...ty.titleLarge, color: t.ink }}>
           {tr('profile.scriptureLanguage')}
         </Text>
       </View>
@@ -163,7 +171,7 @@ export default function ScriptureLanguage() {
         }}
       >
         <Ionicons name="phone-portrait-outline" size={20} color={autoSelected ? t.gold : t.inkSoft} />
-        <Text style={{ flex: 1, fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>
+        <Text style={{ flex: 1, ...ty.bodyCompactStrong, color: t.ink }}>
           {tr('profile.auto')}
         </Text>
         {autoSelected ? <Ionicons name="checkmark-circle" size={22} color={t.gold} /> : null}
@@ -200,12 +208,12 @@ export default function ScriptureLanguage() {
               })}
             >
               <View style={{ flex: 1 }}>
-                <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}>
+                <Text style={{ ...ty.bodyCompactStrong, color: t.ink, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}>
                   {item.nativeName}
                 </Text>
                 <Text
                   numberOfLines={1}
-                  style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkSoft, marginTop: 3, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}
+                  style={{ ...ty.labelSmallRegular, color: t.inkSoft, marginTop: 3, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}
                 >
                   {edition}
                 </Text>
@@ -220,7 +228,7 @@ export default function ScriptureLanguage() {
               ) : release ? (
                 <View style={{ alignItems: 'flex-end', gap: 2 }}>
                   <Ionicons name="cloud-download-outline" size={21} color={t.gold} />
-                  <Text style={{ fontFamily: fonts.sans, fontSize: 10, color: t.inkFaint }}>
+                  <Text style={{ ...ty.labelSmallRegular, color: t.inkFaint }}>
                     {(release.bytes / 1024 / 1024).toFixed(1)} MB
                   </Text>
                 </View>

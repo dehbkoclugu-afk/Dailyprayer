@@ -79,6 +79,23 @@ function verseText(locale, code, chapter, v1, v2) {
   return text || null;
 }
 
+/**
+ * Luther 1912 and the French source number many Psalm headings as verses.
+ * Translate the shared semantic reference into that edition's native
+ * versification instead of displaying the same number with different text.
+ */
+function localizedVerseRange(locale, code, chapter, v1, v2) {
+  if (code !== 'PSA' || locale === 'en' || locale === 'tr' || locale === 'es' || locale === 'pt') {
+    return [v1, v2];
+  }
+  const endLabel = (entries) => Math.max(...entries.map((entry) => entry[1]));
+  const localEntries = bibles[locale][code]?.[chapter];
+  const englishEntries = bibles.en[code]?.[chapter];
+  if (!localEntries || !englishEntries) return [v1, v2];
+  const shift = Math.max(0, endLabel(localEntries) - endLabel(englishEntries));
+  return [v1 + shift, v2 + shift];
+}
+
 // Resolve every curated reference, deduped, preserving group order.
 const entries = [];
 const seen = new Set();
@@ -91,16 +108,17 @@ for (const [group, refs] of Object.entries(CURATED)) {
     const { book, chapter, v1, v2 } = parseRef(ref);
     const code = CODE[book];
     if (!code) throw new Error(`no book map for "${book}" (${ref})`);
-    const span = v2 !== v1 ? `-${v2}` : '';
     const text = {};
     const reference = {};
     // English is the fallback for any locale whose versification drops a verse.
     const enText = verseText('en', code, chapter, v1, v2);
     for (const l of LOCALES) {
-      const t = verseText(l, code, chapter, v1, v2);
+      const [localV1, localV2] = localizedVerseRange(l, code, chapter, v1, v2);
+      const t = verseText(l, code, chapter, localV1, localV2);
       if (!t) (misses[l] ??= []).push(ref);
       text[l] = t ?? enText ?? '';
-      reference[l] = `${refName(l, code)} ${chapter}:${v1}${span}`;
+      const localSpan = localV2 !== localV1 ? `-${localV2}` : '';
+      reference[l] = `${refName(l, code)} ${chapter}:${localV1}${localSpan}`;
     }
     entries.push({ theme, text, reference });
   }
@@ -134,7 +152,9 @@ const header = `/**
  * GENERATED — rebuild with scripts/build-verses-i18n.mjs; edit the reference
  * list in scripts/curated-refs.mjs, not this file.
  */
-import type { Locale } from '@/i18n/translations';
+import type { GlobalLocaleTag } from '@/i18n/globalLanguageCatalog';
+
+type BundledVerseLocale = 'en' | 'tr' | 'es' | 'pt' | 'fr' | 'de';
 
 export type VerseTheme =
   | 'peace' | 'strength' | 'trust' | 'rest' | 'hope' | 'anxiety' | 'guidance'
@@ -148,8 +168,8 @@ export interface DailyVerse {
 
 interface PoolEntry {
   theme: VerseTheme;
-  text: Record<Locale, string>;
-  reference: Record<Locale, string>;
+  text: Record<BundledVerseLocale, string>;
+  reference: Record<BundledVerseLocale, string>;
 }
 
 const versePool: PoolEntry[] = ${JSON.stringify(interleaved)};
@@ -157,13 +177,18 @@ const versePool: PoolEntry[] = ${JSON.stringify(interleaved)};
 /** Size of the rotation pool (locale-independent). */
 export const verseCount = versePool.length;
 
-const cache: Partial<Record<Locale, DailyVerse[]>> = {};
+const cache: Partial<Record<BundledVerseLocale, DailyVerse[]>> = {};
+
+const BUNDLED_VERSE_LOCALES = new Set<string>(['en', 'tr', 'es', 'pt', 'fr', 'de']);
 
 /** The daily-verse pool with text + reference in the given locale (cached). */
-export function getVerses(locale: Locale): DailyVerse[] {
-  return (cache[locale] ??= versePool.map((e) => ({
-    text: e.text[locale] ?? e.text.en,
-    reference: e.reference[locale] ?? e.reference.en,
+export function getVerses(locale: GlobalLocaleTag): DailyVerse[] {
+  const sourceLocale: BundledVerseLocale = BUNDLED_VERSE_LOCALES.has(locale)
+    ? (locale as BundledVerseLocale)
+    : 'en';
+  return (cache[sourceLocale] ??= versePool.map((e) => ({
+    text: e.text[sourceLocale],
+    reference: e.reference[sourceLocale],
     theme: e.theme,
   })));
 }

@@ -1,4 +1,4 @@
-# Lumen Design Overhaul
+# Selaora Design Overhaul
 
 Date: 2026-07-25
 Status: Approved direction; implementation pending written-spec review
@@ -6,7 +6,7 @@ Target: Expo/React Native application in `dehbkoclugu-afk/Dailyprayer`
 
 ## Objective
 
-Implement the complete 100-item Lumen design critique without weakening the
+Implement the complete 100-item Selaora design critique without weakening the
 existing Sanctum identity. The work must improve trust, task clarity,
 accessibility, localization, recoverability, responsive behavior, and runtime
 performance while preserving the core midnight-indigo, candle-gold,
@@ -185,7 +185,7 @@ Acceptance:
 - Selection, completion, premium, lock, and primary-action states are visually
   distinguishable without relying on gold alone.
 - No production surface renders an art placeholder.
-- Lumen remains recognizable in interaction even when artwork is removed.
+- Selaora remains recognizable in interaction even when artwork is removed.
 
 ## Implementation Order
 

@@ -6,7 +6,7 @@ Finish the two remaining Profile safety controls: an explicit, confirmed local-d
 
 ## Chosen Approach
 
-Keep both controls in Profile. A new destructive row opens a native confirmation alert that lists the data removed from this device and states that deleting local data does not cancel a store subscription. Confirmation clears only Lumen-owned persisted user state, cancels local reminders, resets the live Zustand stores, and returns to onboarding. Downloaded first-party language and Scripture packs remain installed because they are application assets, not personal data.
+Keep both controls in Profile. A new destructive row opens a native confirmation alert that lists the data removed from this device and states that deleting local data does not cancel a store subscription. Confirmation clears only Selaora-owned persisted user state, cancels local reminders, resets the live Zustand stores, and returns to onboarding. Downloaded first-party language and Scripture packs remain installed because they are application assets, not personal data.
 
 Replace the three preset reminder times with `@react-native-community/datetimepicker`, using Android's native dialog and an inline iOS spinner with explicit cancel/save actions. Persist the selected local time as canonical `HH:mm`; display it using the active locale's 12/24-hour convention. Turning reminders off remains available and cancels both scheduled notification identifiers.
 
@@ -19,7 +19,7 @@ Replace the three preset reminder times with `@react-native-community/datetimepi
 
 ## Data Boundary
 
-Delete these persisted stores and their matching live fields: user/onboarding answers, streak and ritual progress, journal entries, prayer recents/favorites, bookmarks, highlights, reading-plan progress, reader position/preferences, Bible UI state, and player-position keys. Preserve the cached entitlement so a paid user does not temporarily lose access; the store remains its source of truth. Do not modify Scripture files, downloaded content packs, the store purchase itself, or any remote account because Lumen has no user account backend.
+Delete these persisted stores and their matching live fields: user/onboarding answers, streak and ritual progress, journal entries, prayer recents/favorites, bookmarks, highlights, reading-plan progress, reader position/preferences, Bible UI state, and player-position keys. Preserve the cached entitlement so a paid user does not temporarily lose access; the store remains its source of truth. Do not modify Scripture files, downloaded content packs, the store purchase itself, or any remote account because Selaora has no user account backend.
 
 ## Error Handling
 

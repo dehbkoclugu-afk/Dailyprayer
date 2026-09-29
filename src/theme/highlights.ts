@@ -22,3 +22,11 @@ export const HIGHLIGHT_SWATCH: Record<HighlightColor, string> = {
   green: '#7FB58A',
   blue: '#7C9CD9',
 };
+
+/** Shape cue rendered inside each swatch so color is never the only signal. */
+export const HIGHLIGHT_SYMBOL: Record<HighlightColor, string> = {
+  gold: '◆',
+  rose: '●',
+  green: '▲',
+  blue: '■',
+};

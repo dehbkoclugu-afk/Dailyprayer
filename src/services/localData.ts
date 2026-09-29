@@ -12,6 +12,7 @@ import { useReaderStore } from '@/state/useReaderStore';
 import { useStreakStore } from '@/state/useStreakStore';
 import { useToastStore } from '@/state/useToastStore';
 import { useUserStore } from '@/state/useUserStore';
+import { useEntitlementStore } from '@/state/useEntitlementStore';
 
 export async function clearLocalUserData(): Promise<void> {
   const keys = selectLocalUserDataKeys(await AsyncStorage.getAllKeys());
@@ -32,14 +33,17 @@ export async function clearLocalUserData(): Promise<void> {
       experience: null,
     },
   });
-  useStreakStore.setState({ count: 0, lastTickDay: null, bestCount: 0, totalDays: 0, doneDay: null, doneSteps: [] });
+  useStreakStore.setState({ count: 0, lastTickDay: null, bestCount: 0, totalDays: 0, activeDays: [], doneDay: null, doneSteps: [] });
   useJournalStore.setState({ entries: [] });
   usePrayerStore.setState({ recentPrayerId: null, favoritePrayerIds: [] });
   useBookmarkStore.setState({ bookmarks: [] });
   useHighlightStore.setState({ marks: {} });
   usePlanStore.setState({ progress: {} });
-  useReaderStore.setState({ book: 0, chapter: 0 });
-  useReaderPrefsStore.setState({ fontScale: 1, paper: false });
+  useReaderStore.setState({ book: 0, chapter: 0, verse: 0 });
+  useReaderPrefsStore.setState({ fontScale: 1, paper: false, showGestureHint: true });
+  // Purchase access is server-owned, but local offers and development overrides
+  // must not survive a full local-data reset. RevenueCat restores real access.
+  useEntitlementStore.setState({ isPlus: false, sawDiscountOffer: false });
   useBibleStore.setState({ chapterIndex: 0, savedVerseKeys: [], planProgress: {} });
   useToastStore.getState().clear();
 }

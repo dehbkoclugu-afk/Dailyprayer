@@ -13,6 +13,7 @@ import {
   resolveApplicationLocale,
 } from './applicationLocales.ts';
 import { translations } from './translations.ts';
+import { testamentLabels } from './testamentLabels.ts';
 
 test('every advertised app locale has complete UI chrome', () => {
   const sourceKeys = Object.keys(translations.en).sort();
@@ -28,6 +29,14 @@ test('application locale catalog and translation dictionaries stay in canonical 
     SUPPORTED_LOCALES,
   );
   assert.equal(new Set(SUPPORTED_LOCALES).size, SUPPORTED_LOCALES.length);
+});
+
+test('testament navigation is localized for every advertised application locale', () => {
+  for (const locale of SUPPORTED_LOCALES) {
+    const [oldTestament, newTestament] = testamentLabels(locale);
+    assert.ok(oldTestament.length > 0, `${locale} needs an Old Testament label`);
+    assert.ok(newTestament.length > 0, `${locale} needs a New Testament label`);
+  }
 });
 
 test('application rollout targets the 40 release candidates plus Turkish', () => {

@@ -2,7 +2,7 @@
 
 ## Goal
 
-Let an active Lumen Plus member open the correct App Store or Google Play
+Let an active Selaora Plus member open the correct App Store or Google Play
 subscription-management page directly from the Profile subscription card.
 
 ## Scope

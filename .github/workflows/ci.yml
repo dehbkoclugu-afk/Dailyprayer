@@ -25,7 +25,25 @@ jobs:
         run: |
           npm run scripture:verify:integrity
           npm run scripture:verify:rights
+          npm run scripture:verify:ui
+      - name: Verify release claims match runtime behavior
+        run: npm run release:verify:claims
       - name: Verify completed UI locale modules
         run: npm run ui-locales:verify
       - name: Verify completed application content packs
-        run: npm run application-content:verify
+        run: |
+          npm run application-content:build
+          npm run application-content:verify
+      - name: Export and enforce Android bundle budgets
+        env:
+          CI: 1
+          EXPO_NO_TELEMETRY: 1
+        run: |
+          npx expo export --platform android --output-dir dist
+          npm run release:verify:bundle -- --root dist --output artifacts/bundle-budget.json
+      - name: Upload bundle budget report
+        uses: actions/upload-artifact@v4
+        with:
+          name: selaora-bundle-budget
+          path: artifacts/bundle-budget.json
+          if-no-files-found: error
