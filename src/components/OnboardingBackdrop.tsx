@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useArtwork } from '@/hooks/useArtwork';
+import { art } from '@/theme/tokens';
 
 /** Quiet, full-screen atmosphere shared by the conversational onboarding flow. */
 export function OnboardingBackdrop() {
@@ -16,7 +17,7 @@ export function OnboardingBackdrop() {
         colors={
           dawn
             ? ['#FFF8E9', '#FBF7F0', '#F4E8D8']
-            : ['#17172B', '#0E1220', '#151B31']
+            : ['#17172B', art.night, '#151B31']
         }
         locations={[0, 0.48, 1]}
         style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}

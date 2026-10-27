@@ -30,7 +30,7 @@ export default function Welcome() {
           radius={radius.hero}
           style={{ marginBottom: spacing.xxl, borderWidth: 1, borderColor: 'rgba(184,134,11,0.18)' }}
         />
-        <Text style={[ty.display, { color: t.ink }]}>{tr('welcome.headline')}</Text>
+        <Text accessibilityRole="header" style={[ty.display, { color: t.ink }]}>{tr('welcome.headline')}</Text>
         <Text style={[ty.body, { color: t.inkSoft, marginTop: spacing.lg }]}>
 {tr('welcome.sub')}
         </Text>

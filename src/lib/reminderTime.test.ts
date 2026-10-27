@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   displayReminderTime,
+  eveningNudgeTime,
+  parseStoredReminderTime,
   parseReminderTime,
   toStoredReminderTime,
 } from './reminderTime.ts';
@@ -26,4 +28,18 @@ test('stores zero-padded local time and displays the locale clock convention', (
   const british = displayReminderTime('07:05', 'en-GB');
   assert.match(british, /7:05/);
   assert.doesNotMatch(british, /AM|PM/i);
+});
+
+test('strict stored-time parser rejects sentinels and malformed values', () => {
+  assert.deepEqual(parseStoredReminderTime('21:00'), { hour: 21, minute: 0 });
+  assert.equal(parseStoredReminderTime('none'), null);
+  assert.equal(parseStoredReminderTime('7:5'), null);
+  assert.equal(parseStoredReminderTime(null), null);
+});
+
+test('evening nudge never fires before a late daily reminder', () => {
+  assert.deepEqual(eveningNudgeTime('07:30'), { hour: 20, minute: 30 });
+  assert.deepEqual(eveningNudgeTime(null), { hour: 20, minute: 30 });
+  assert.deepEqual(eveningNudgeTime('21:00'), { hour: 22, minute: 0 });
+  assert.deepEqual(eveningNudgeTime('22:45'), { hour: 23, minute: 0 });
 });

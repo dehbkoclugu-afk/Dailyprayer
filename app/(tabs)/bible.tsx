@@ -9,9 +9,9 @@ import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
 import { fonts, type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, art, FIXED_CARD_TEXT_SCALE } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
-import { getBible, getBibleCredit } from '@/data/bibleFull';
+import { getBibleCredit, getBookName } from '@/data/bibleFull';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useReaderStore } from '@/state/useReaderStore';
 import { useT } from '@/i18n';
@@ -26,22 +26,21 @@ export default function Bible() {
   const scriptureLocale = useScriptureLocale();
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const plans = usePlans();
-  const { book, chapter } = useReaderStore();
-  const bible = getBible(scriptureLocale);
-  const readerBook = bible[book] ?? bible[0];
-  const readerBookName = readerBook.name;
-  const readerChapter = chapter;
+  const bookCode = useReaderStore((s) => s.bookCode);
+  const readerChapter = useReaderStore((s) => s.chapter);
+  // Only the book name is needed here — never parse the 4 MB edition for it.
+  const readerBookName = getBookName(scriptureLocale, bookCode);
 
   return (
     <Screen tabbed>
-      <Text style={[ty.title, { color: t.ink }]}>{tr('bible.title')}</Text>
+      <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} accessibilityRole="header" style={[ty.title, { color: t.ink }]}>{tr('bible.title')}</Text>
 
-      {/* The Scripture reader , the tab's flagship, so it earns a full art hero
+      {/* The Scripture reader — the tab's flagship, so it earns a full art hero
           at least as grand as the plan covers below. Resumes the last position. */}
       <Pressable
         onPress={() => router.push('/read')}
         accessibilityRole="button"
-        accessibilityLabel={`${tr('read.openBible')} , ${tr('read.continue')} ${readerBookName} ${readerChapter + 1}`}
+        accessibilityLabel={`${tr('read.openBible')}, ${tr('read.continue')} ${readerBookName} ${readerChapter + 1}`}
         style={({ pressed }) => ({ marginTop: spacing.xl, opacity: pressed ? 0.92 : 1 })}
       >
         <View style={{ borderRadius: radius.card, overflow: 'hidden', backgroundColor: t.surface, borderWidth: dawn ? 1 : 0, borderColor: t.border }}>
@@ -55,15 +54,15 @@ export default function Bible() {
               />
             ) : null}
             <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
-              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 11, letterSpacing: 2.5, textTransform: 'uppercase', color: t.gold }}>
+              <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} style={{ fontFamily: fonts.sansSemiBold, fontSize: 11, letterSpacing: 2.5, textTransform: 'uppercase', color: t.gold }}>
                 {tr('read.continue')}
               </Text>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 4 }}>
                 <View style={{ flex: 1, paddingRight: spacing.lg }}>
-                  <Text numberOfLines={2} style={{ fontFamily: fonts.serif, fontSize: 24, color: '#F2EEE6', textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>
+                  <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} numberOfLines={2} style={{ fontFamily: fonts.serif, fontSize: 24, color: art.ink, textShadowColor: art.textShadow, textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>
                     {tr('read.openBible')}
                   </Text>
-                  <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: 'rgba(242,238,230,0.88)', marginTop: spacing.xs, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
+                  <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: art.inkSoft, marginTop: spacing.xs, textShadowColor: art.textShadow, textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
                     {readerBookName} {readerChapter + 1}
                   </Text>
                 </View>
@@ -108,7 +107,7 @@ export default function Bible() {
               }}
             >
               <Ionicons name={a.icon} size={19} color={t.gold} />
-              <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: t.ink }}>{a.label}</Text>
+              <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: t.ink }}>{a.label}</Text>
             </View>
           </Pressable>
         ))}
@@ -127,7 +126,7 @@ export default function Bible() {
                   : router.push({ pathname: '/plan/[id]', params: { id: p.id } })
               }
               accessibilityRole="button"
-              accessibilityLabel={`${p.title}${locked ? ', requires Plus' : ''}`}
+              accessibilityLabel={`${p.title}${locked ? `, ${tr('profile.plusCta')}` : ''}`}
             >
               <View style={{ borderRadius: radius.card, overflow: 'hidden', backgroundColor: t.surface, borderWidth: dawn ? 1 : 0, borderColor: t.border }}>
                 <ArtSlot id={p.art} height={150} radius={radius.card} variant={dawn ? 'card' : 'bare'}>
@@ -141,15 +140,15 @@ export default function Bible() {
                   ) : null}
                   <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Text numberOfLines={2} style={{ fontFamily: fonts.serif, fontSize: 20, color: '#F2EEE6', flex: 1, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>
+                      <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} numberOfLines={2} style={{ fontFamily: fonts.serif, fontSize: 20, color: art.ink, flex: 1, textShadowColor: art.textShadow, textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>
                         {p.title}
                       </Text>
                       {locked ? <Ionicons name="lock-closed" size={18} color="#D9A441" /> : null}
                     </View>
-                    <Text numberOfLines={2} style={{ fontFamily: fonts.sans, fontSize: 14, color: 'rgba(242,238,230,0.86)', marginTop: spacing.xs, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
+                    <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} numberOfLines={2} style={{ fontFamily: fonts.sans, fontSize: 14, color: 'rgba(242,238,230,0.86)', marginTop: spacing.xs, textShadowColor: art.textShadow, textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
                       {p.tagline}
                     </Text>
-                    <Text
+                    <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE}
                       style={{
                         fontFamily: fonts.sansMedium,
                         fontSize: 12,
@@ -168,8 +167,8 @@ export default function Bible() {
         })}
       </View>
 
-      {/* Scripture attribution , each translation carries its own license credit. */}
-      <Text
+      {/* Scripture attribution — each translation carries its own license credit. */}
+      <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE}
         style={{
           fontFamily: fonts.sans,
           fontSize: 11,

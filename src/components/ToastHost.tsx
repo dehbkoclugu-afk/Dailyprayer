@@ -12,20 +12,27 @@ import { radius, shadow, spacing } from '@/theme/tokens';
 export function ToastHost() {
   const t = useTheme();
   const insets = useSafeAreaInsets();
-  const { message, actionLabel, action, seq, clear } = useToastStore();
+  const message = useToastStore((s) => s.message);
+  const actionLabel = useToastStore((s) => s.actionLabel);
+  const action = useToastStore((s) => s.action);
+  const seq = useToastStore((s) => s.seq);
+  const clear = useToastStore((s) => s.clear);
 
   useEffect(() => {
     if (!message) return;
     AccessibilityInfo.announceForAccessibility(message);
-    const timer = setTimeout(clear, 2200);
+    // Toasts with an action (Undo) stay long enough to actually be tapped.
+    const timer = setTimeout(clear, action ? 5000 : 2200);
     return () => clearTimeout(timer);
-  }, [message, seq, clear]);
+  }, [message, seq, clear, action]);
 
   if (!message) return null;
 
   return (
     <View
-      pointerEvents="none"
+      // box-none: the full-width wrapper never blocks the screen beneath, but
+      // the toast's own Undo button still receives touches.
+      pointerEvents="box-none"
       style={{
         position: 'absolute',
         top: insets.top + spacing.md,

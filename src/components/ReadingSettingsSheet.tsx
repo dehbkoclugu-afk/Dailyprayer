@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { fonts } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, art } from '@/theme/tokens';
 import { useReaderTheme } from '@/theme/reading';
 import { useReaderPrefsStore, FONT_MIN, FONT_MAX } from '@/state/useReaderPrefsStore';
 import { useT } from '@/i18n';
@@ -49,7 +49,7 @@ export function ReadingSettingsSheet({ visible, onClose }: { visible: boolean; o
 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
-      <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }}>
+      <View style={{ flex: 1, backgroundColor: art.scrim }}>
         <Pressable style={{ flex: 1 }} onPress={onClose} accessibilityLabel={tr('a11y.close')} />
         <View
           style={{

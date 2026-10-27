@@ -49,6 +49,12 @@ export const useJournalStore = create<JournalState>()(
           ),
         })),
     }),
-    { name: 'lumen-journal', storage: createJSONStorage(() => safePersistStorage) },
+    {
+      name: 'lumen-journal',
+      // Versioned so future shape changes ship with an explicit migration.
+      version: 1,
+      storage: createJSONStorage(() => safePersistStorage),
+      migrate: (persisted) => persisted as JournalState,
+    },
   ),
 );

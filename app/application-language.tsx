@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
-import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
@@ -12,7 +11,6 @@ import {
   resolveRequestedApplicationLocale,
   useT,
 } from '@/i18n';
-import { getDirectionalIconName } from '@/i18n/direction';
 import type { AppDirection, AppLocale } from '@/i18n/applicationLocales';
 import {
   activateApplicationLocale,
@@ -33,6 +31,9 @@ import type {
   ApplicationContentLocale,
   ApplicationContentRelease,
 } from '@/data/applicationContentPack';
+import { goBack } from '@/lib/navigation';
+import { reportError } from '@/lib/reportError';
+import { BackButton } from '@/components/BackButton';
 
 const bundled = new Set<ApplicationContentLocale>(BUNDLED_APPLICATION_CONTENT_LOCALES);
 const hasDownloadableLocale = APPLICATION_LOCALES.some(
@@ -41,7 +42,7 @@ const hasDownloadableLocale = APPLICATION_LOCALES.some(
 
 export default function ApplicationLanguage() {
   const t = useTheme();
-  const { t: tr, locale } = useT();
+  const { t: tr } = useT();
   const language = useUserStore((state) => state.language);
   const setLanguage = useUserStore((state) => state.setLanguage);
   const selected = resolveLocale(language);
@@ -52,6 +53,7 @@ export default function ApplicationLanguage() {
     Map<ApplicationContentLocale, ApplicationContentRelease>
   >(new Map());
   const [downloading, setDownloading] = useState<AppLocale | null>(null);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     if (!hasDownloadableLocale) return;
@@ -73,20 +75,24 @@ export default function ApplicationLanguage() {
     if (downloading) return;
     const locale = tag;
     try {
-      if (!bundled.has(locale)) setDownloading(tag);
+      if (!bundled.has(locale)) {
+        setProgress(0);
+        setDownloading(tag);
+      }
       await activateApplicationLocale(locale, {
         loadInstalled: loadInstalledApplicationContentPack,
         getRelease: (requested) => releases.get(requested) ?? null,
         install: async (release) => {
-          const pack = await installApplicationContentPack(release);
+          const pack = await installApplicationContentPack(release, setProgress);
           setInstalled((current) => new Set([...current, release.locale]));
           return pack;
         },
         register: registerApplicationContentPack,
         setLanguage: () => setLanguage(preference),
       });
-      router.back();
-    } catch {
+      goBack();
+    } catch (error) {
+      reportError(error, 'content-pack-install');
       Alert.alert(tr('profile.language'), tr('scripture.downloadUnavailable'));
     } finally {
       setDownloading(null);
@@ -98,24 +104,7 @@ export default function ApplicationLanguage() {
   return (
     <Screen>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
-        <Pressable
-          onPress={() => router.back()}
-          accessibilityRole="button"
-          accessibilityLabel={tr('a11y.back')}
-          hitSlop={10}
-          style={{
-            width: 42,
-            height: 42,
-            borderRadius: 21,
-            backgroundColor: t.surface,
-            borderWidth: 1,
-            borderColor: t.border,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={22} color={t.ink} />
-        </Pressable>
+        <BackButton />
         <Text style={{ flex: 1, fontFamily: fonts.serif, fontSize: 30, color: t.ink }}>
           {tr('profile.language')}
         </Text>
@@ -190,7 +179,12 @@ export default function ApplicationLanguage() {
                 {item.nativeName}
               </Text>
               {busy ? (
-                <ActivityIndicator color={t.gold} />
+                <View style={{ alignItems: 'flex-end', gap: 2 }} accessibilityLiveRegion="polite">
+                  <ActivityIndicator color={t.gold} />
+                  <Text style={{ fontFamily: fonts.sans, fontSize: 10, color: t.inkFaint, fontVariant: ['tabular-nums'] }}>
+                    {Math.round(progress * 100)}%
+                  </Text>
+                </View>
               ) : active ? (
                 <Ionicons name="checkmark-circle" size={22} color={t.gold} />
               ) : ready ? (

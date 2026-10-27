@@ -22,6 +22,12 @@ export const usePrayerStore = create<PrayerState>()(
             : [...state.favoritePrayerIds, id],
         })),
     }),
-    { name: 'lumen-prayers', storage: createJSONStorage(() => safePersistStorage) },
+    {
+      name: 'lumen-prayers',
+      // Versioned so future shape changes ship with an explicit migration.
+      version: 1,
+      storage: createJSONStorage(() => safePersistStorage),
+      migrate: (persisted) => persisted as PrayerState,
+    },
   ),
 );

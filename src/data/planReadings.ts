@@ -4,11 +4,11 @@ import type { Locale } from '@/i18n/translations';
 /**
  * Maps each reading plan's day to a REAL passage in the bundled Bible, replacing
  * the old placeholder that drew an unrelated verse from the daily pool. Uses only
- * the lightweight book metadata (names + chapter counts) , the 4 MB text is loaded
+ * the lightweight book metadata (names + chapter counts) — the 4 MB text is loaded
  * lazily by the reader when the passage is opened.
  */
 export interface PlanReading {
-  /** entry point , canonical book index + 0-based chapter (where the reader opens) */
+  /** entry point — canonical book index + 0-based chapter (where the reader opens) */
   book: number;
   chapter: number;
   /** inclusive end of the day's reading (same as book/chapter for single chapters) */
@@ -69,7 +69,10 @@ export function planReading(planId: string, day: number): PlanReading {
       return single(idxByCode['PSA'], day % 150);
     }
     case 'gospels-90': {
-      const [bi, ch] = GOSPELS[Math.min(day, GOSPELS.length - 1)];
+      // The Gospels have 89 chapters; the 90th day closes with the Ascension
+      // (Acts 1) instead of repeating John 21.
+      if (day >= GOSPELS.length) return single(idxByCode['ACT'], 0);
+      const [bi, ch] = GOSPELS[day];
       return single(bi, ch);
     }
     case 'bible-365':
@@ -85,6 +88,15 @@ export function planReading(planId: string, day: number): PlanReading {
       return { book: sb, chapter: sc, endBook: eb, endChapter: ec };
     }
   }
+}
+
+/** Every chapter in a day's reading, in order (a day may span books). */
+export function planChapters(r: PlanReading): [number, number][] {
+  const all = allChapters();
+  const start = all.findIndex(([b, c]) => b === r.book && c === r.chapter);
+  const end = all.findIndex(([b, c]) => b === r.endBook && c === r.endChapter);
+  if (start < 0 || end < start) return [[r.book, r.chapter]];
+  return all.slice(start, end + 1);
 }
 
 /** Display reference, e.g. "Mezmur 23", "Yaratılış 1–3", "Malaki 4 – Matta 2". */

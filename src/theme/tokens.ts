@@ -4,7 +4,7 @@ export interface ThemeColors {
   bg: string;
   surface: string;
   surfaceAlt: string;
-  /** tab bar / bottom chrome , one step darker than surface */
+  /** tab bar / bottom chrome — one step darker than surface */
   chrome: string;
   ink: string;
   inkSoft: string;
@@ -86,3 +86,26 @@ export const shadow = {
     elevation: 8,
   },
 } as const;
+
+/**
+ * Theme-independent colors for text and chrome painted *on artwork* (hero
+ * cards, the player, sheets' scrims). Artwork stays dark in both themes, so
+ * these don't switch with Vigil/Dawn — but they live here, not inline.
+ */
+export const art = {
+  ink: '#F2EEE6',
+  inkSoft: 'rgba(242,238,230,0.88)',
+  textShadow: 'rgba(0,0,0,0.78)',
+  scrim: 'rgba(6,8,16,0.6)',
+  night: '#0E1220',
+} as const;
+
+/** Primary-action gold gradient stops. */
+export const goldGradient = ['#E2B04A', '#C99534'] as const;
+
+/**
+ * Upper bound for Dynamic Type inside fixed-height artwork cards (verse hero,
+ * ritual and plan cards). Text still grows with the system setting, but stops
+ * before it would clip; full-length reading surfaces scale without a cap.
+ */
+export const FIXED_CARD_TEXT_SCALE = 1.4;

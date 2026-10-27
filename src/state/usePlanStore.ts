@@ -23,6 +23,12 @@ export const usePlanStore = create<PlanState>()(
       isDone: (planId, day) => (get().progress[planId] ?? []).includes(day),
       doneCount: (planId) => (get().progress[planId] ?? []).length,
     }),
-    { name: 'lumen-plans', storage: createJSONStorage(() => safePersistStorage) },
+    {
+      name: 'lumen-plans',
+      // Versioned so future shape changes ship with an explicit migration.
+      version: 1,
+      storage: createJSONStorage(() => safePersistStorage),
+      migrate: (persisted) => persisted as PlanState,
+    },
   ),
 );

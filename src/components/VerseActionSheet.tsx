@@ -5,7 +5,7 @@ import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { fonts } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, art } from '@/theme/tokens';
 import { useReaderTheme } from '@/theme/reading';
 import {
   HIGHLIGHT_ORDER,
@@ -17,17 +17,24 @@ import { useBookmarkStore } from '@/state/useBookmarkStore';
 import { useJournalStore } from '@/state/useJournalStore';
 import { toast } from '@/state/useToastStore';
 import { useT } from '@/i18n';
+import { highlightKey } from '@/data/bibleNav';
+import { truncate } from '@/lib/text';
 
 export interface SelectedVerse {
-  book: number;
-  chapter: number;
-  verse: number;
+  /** canonical book code */
   code: string;
+  /** 0-based chapter index */
+  chapter: number;
+  /** verse label ("16", "2-3") */
+  verse: string;
   ref: string;
   text: string;
 }
 
-const preview = (s: string, n = 120) => (s.length > n ? `${s.slice(0, n).trimEnd()}…` : s);
+const preview = (s: string, n = 120) => truncate(s, n);
+
+/** Plain-text citation used for copy and share. */
+export const citation = (text: string, ref: string) => `“${text}”\n— ${ref}`;
 
 export function VerseActionSheet({
   verse,
@@ -49,10 +56,10 @@ export function VerseActionSheet({
 
   if (!verse) return null;
 
-  const hKey = `${verse.code}|${verse.chapter}|${verse.verse}`;
+  const hKey = highlightKey(verse.code, verse.chapter, verse.verse);
   const activeColor = marks[hKey];
   const bookmarked = bookmarks.some(
-    (m) => m.book === verse.book && m.chapter === verse.chapter && m.verse === verse.verse,
+    (m) => m.code === verse.code && m.chapter === verse.chapter && m.verse === verse.verse,
   );
 
   const tap = () => Haptics.selectionAsync().catch(() => {});
@@ -66,7 +73,7 @@ export function VerseActionSheet({
   const onBookmark = () => {
     tap();
     const on = toggleBookmark({
-      book: verse.book,
+      code: verse.code,
       chapter: verse.chapter,
       verse: verse.verse,
       ref: verse.ref,
@@ -77,13 +84,13 @@ export function VerseActionSheet({
 
   const onCopy = async () => {
     tap();
-    await Clipboard.setStringAsync(`“${verse.text}”\n, ${verse.ref}`).catch(() => {});
+    await Clipboard.setStringAsync(citation(verse.text, verse.ref)).catch(() => {});
     toast(tr('verse.copied'));
     onClose();
   };
 
   const onShare = () => {
-    Share.share({ message: `“${verse.text}”\n, ${verse.ref}` }).catch(() => {});
+    Share.share({ message: citation(verse.text, verse.ref) }).catch(() => {});
     onClose();
   };
 
@@ -120,7 +127,7 @@ export function VerseActionSheet({
 
   return (
     <Modal visible transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
-      <View style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)' }}>
+      <View style={{ flex: 1, backgroundColor: art.scrim }}>
         <Pressable style={{ flex: 1 }} onPress={onClose} accessibilityLabel={tr('a11y.close')} />
         <View
           style={{

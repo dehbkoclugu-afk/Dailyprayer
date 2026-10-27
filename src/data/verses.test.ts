@@ -50,3 +50,22 @@ test('references are unique within each language (no repeated days)', () => {
     assert.equal(new Set(refs).size, refs.length, `duplicate ${l} references present`);
   }
 });
+
+test('German and French Psalms use English verse numbering (no superscription drift)', () => {
+  const at = (locale: 'de' | 'fr' | 'en', index: number) => getVerses(locale)[index];
+  const en = getVerses('en');
+  const index = (reference: string) => en.findIndex((v) => v.reference === reference);
+  assert.match(at('de', index('Psalm 46:10')).text, /^Seid stille/);
+  assert.match(at('fr', index('Psalm 46:10')).text, /^Cessez/);
+  assert.match(at('de', index('Psalm 23:1')).text, /^Der HERR ist mein Hirte/);
+  assert.match(at('fr', index('Psalm 42:11')).text, /^Pourquoi t'abats-tu/);
+  for (const locale of ['de', 'fr'] as const) {
+    for (const verse of getVerses(locale)) {
+      assert.doesNotMatch(
+        verse.text,
+        /^(Ein (Psalm|Lied)|Psaume (de|des)|Au maître-chantre|Cantique (de|des))/,
+        `${locale} ${verse.reference} starts with a Psalm superscription`,
+      );
+    }
+  }
+});

@@ -8,15 +8,30 @@ export function dayKey(d: Date = new Date()): string {
 }
 
 export function yesterdayKey(d: Date = new Date()): string {
-  const y = new Date(d);
-  y.setDate(y.getDate() - 1);
-  return dayKey(y);
+  return dayKey(addDays(d, -1));
 }
 
-/** 0-based day of year, used to rotate 365-day content. */
+/**
+ * 0-based day of year, used to rotate 365-day content. Calendar fields are
+ * compared in UTC so daylight-saving shifts never repeat or skip a day.
+ */
 export function dayOfYear(d: Date = new Date()): number {
-  const start = new Date(d.getFullYear(), 0, 1);
-  return Math.floor((d.getTime() - start.getTime()) / 86_400_000);
+  const today = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
+  const start = Date.UTC(d.getFullYear(), 0, 1);
+  return Math.round((today - start) / 86_400_000);
+}
+
+/** Calendar-day arithmetic in local time (DST-safe, unlike adding milliseconds). */
+export function addDays(d: Date, days: number): Date {
+  const next = new Date(d);
+  next.setDate(next.getDate() + days);
+  return next;
+}
+
+/** Milliseconds until the next local midnight (used to refresh day-bound UI). */
+export function msUntilNextDay(d: Date = new Date()): number {
+  const next = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1);
+  return next.getTime() - d.getTime();
 }
 
 export function greetingFor(hour: number): 'morning' | 'afternoon' | 'evening' {

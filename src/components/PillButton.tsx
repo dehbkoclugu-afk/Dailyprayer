@@ -4,19 +4,31 @@ import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, goldGradient } from '@/theme/tokens';
 
 interface Props {
   label: string;
   onPress: () => void;
   variant?: 'primary' | 'secondary' | 'ghost';
   disabled?: boolean;
+  /** shows a working state (e.g. purchase in progress) to assistive tech */
+  busy?: boolean;
+  /** spoken label when the visible label is a glyph (e.g. "✓") */
+  accessibilityLabel?: string;
   style?: ViewStyle;
 }
 
-export function PillButton({ label, onPress, variant = 'primary', disabled, style }: Props) {
+export function PillButton({
+  label,
+  onPress,
+  variant = 'primary',
+  disabled,
+  busy,
+  accessibilityLabel,
+  style,
+}: Props) {
   const t = useTheme();
-  // Disabled reads as a flat, clearly-inactive neutral chip , dimming the gold
+  // Disabled reads as a flat, clearly-inactive neutral chip — dimming the gold
   // gradient to 40% instead looks like a muddy/broken button, not "not yet".
   const color = disabled
     ? t.inkFaint
@@ -45,8 +57,8 @@ export function PillButton({ label, onPress, variant = 'primary', disabled, styl
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={label}
-      accessibilityState={{ disabled: Boolean(disabled), busy: Boolean(disabled) }}
+      accessibilityLabel={accessibilityLabel ?? label}
+      accessibilityState={{ disabled: Boolean(disabled), busy: Boolean(busy) }}
       disabled={disabled}
       onPress={() => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
@@ -81,7 +93,7 @@ export function PillButton({ label, onPress, variant = 'primary', disabled, styl
       {({ pressed }) =>
         variant === 'primary' && !disabled ? (
           <LinearGradient
-            colors={['#E2B04A', '#C99534']}
+            colors={goldGradient}
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }}
             style={{ borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.35)' }}

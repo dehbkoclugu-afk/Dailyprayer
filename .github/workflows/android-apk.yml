@@ -1,11 +1,12 @@
 name: Android Play release
 
+# Signed release builds run only on demand or for release tags — never on pull
+# requests (which have no signing secrets and must not touch release keys).
 on:
   workflow_dispatch:
   push:
-    branches:
-      - claude/bible-app-monetization-design-n3uiqr
-  pull_request:
+    tags:
+      - 'v*'
 
 permissions:
   contents: read
@@ -108,6 +109,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import os
+          import time
           import re
           from pathlib import Path
 
@@ -153,7 +155,9 @@ jobs:
 
           text, count = re.subn(
               r"(?m)^(\s*)versionCode\s+\d+\s*$",
-              lambda match: f"{match.group(1)}versionCode {os.environ['GITHUB_RUN_NUMBER']}",
+              # Minutes since 2026-01-01 UTC: strictly increasing across workflow
+              # renames/re-creations (run numbers reset), and far below Play's cap.
+              lambda match: f"{match.group(1)}versionCode {int((time.time() - 1767225600) // 60)}",
               text,
               count=1,
           )

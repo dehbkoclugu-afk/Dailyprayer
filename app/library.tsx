@@ -10,19 +10,25 @@ import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { HIGHLIGHT_SWATCH } from '@/theme/highlights';
 import { getBible } from '@/data/bibleFull';
-import { useBookmarkStore } from '@/state/useBookmarkStore';
+import { findBookIndex, findVerseIndex, parseHighlightKey } from '@/data/bibleNav';
+import { truncate } from '@/lib/text';
+import { useBookmarkStore, type Bookmark } from '@/state/useBookmarkStore';
 import { useHighlightStore } from '@/state/useHighlightStore';
+import { toast } from '@/state/useToastStore';
 import { useT } from '@/i18n';
-import { getDirectionalIconName } from '@/i18n/direction';
+import { useScriptureLocale } from '@/i18n/scripture';
+import { BackButton } from '@/components/BackButton';
 
 type Tab = 'bookmarks' | 'highlights';
 
 interface Row {
-  book: number;
+  key: string;
+  code: string;
   chapter: number;
-  verse: number;
+  verse: string;
   ref: string;
   preview: string;
+  bookmark?: Bookmark;
   color?: string;
   markKey?: string;
 }
@@ -30,51 +36,76 @@ interface Row {
 export default function Library() {
   const t = useTheme();
   const artwork = useArtwork();
-  const { t: tr, locale } = useT();
+  const { t: tr } = useT();
+  const scriptureLocale = useScriptureLocale();
   const insets = useSafeAreaInsets();
   const [tab, setTab] = useState<Tab>('bookmarks');
 
   const bookmarks = useBookmarkStore((s) => s.bookmarks);
   const removeBookmark = useBookmarkStore((s) => s.remove);
+  const restoreBookmark = useBookmarkStore((s) => s.restore);
   const marks = useHighlightStore((s) => s.marks);
   const clearMark = useHighlightStore((s) => s.clear);
 
   const bookmarkRows = useMemo<Row[]>(
     () =>
       bookmarks.map((m) => ({
-        book: m.book,
+        key: `b:${m.code}|${m.chapter}|${m.verse}`,
+        code: m.code,
         chapter: m.chapter,
         verse: m.verse,
         ref: m.ref,
         preview: m.preview,
+        bookmark: m,
       })),
     [bookmarks],
   );
 
+  // Highlights render from the Scripture edition the reader shows (not the UI
+  // language), in canonical order.
   const highlightRows = useMemo<Row[]>(() => {
-    const bible = getBible(locale);
-    const rows: Row[] = [];
+    const bible = getBible(scriptureLocale);
+    const rows: (Row & { order: [number, number, number] })[] = [];
     for (const [key, color] of Object.entries(marks)) {
-      const [code, cStr, vStr] = key.split('|');
-      const b = bible.findIndex((bk) => bk.code === code);
+      const address = parseHighlightKey(key);
+      if (!address) continue;
+      const b = findBookIndex(bible, address.code);
       if (b < 0) continue;
-      const c = Number(cStr);
-      const v = Number(vStr);
-      const ch = bible[b].chapters[c];
-      if (!ch || !ch[v]) continue;
-      const text = ch[v][1];
+      const ch = bible[b].chapters[address.chapter];
+      const v = findVerseIndex(ch, address.verse);
+      if (v < 0) continue;
+      const [label, text] = ch[v];
       rows.push({
-        book: b,
-        chapter: c,
-        verse: v,
-        ref: `${bible[b].name} ${c + 1}:${ch[v][0]}`,
-        preview: text.length > 90 ? `${text.slice(0, 90).trimEnd()}…` : text,
+        key: `h:${key}`,
+        code: address.code,
+        chapter: address.chapter,
+        verse: label,
+        ref: `${bible[b].name} ${address.chapter + 1}:${label}`,
+        preview: truncate(text, 90),
         color: HIGHLIGHT_SWATCH[color],
         markKey: key,
+        order: [b, address.chapter, v],
       });
     }
-    return rows;
-  }, [marks, locale]);
+    return rows.sort(
+      (a, b) => a.order[0] - b.order[0] || a.order[1] - b.order[1] || a.order[2] - b.order[2],
+    );
+  }, [marks, scriptureLocale]);
+
+  const removeRow = (item: Row) => {
+    if (item.markKey) {
+      const color = marks[item.markKey];
+      clearMark(item.markKey);
+      toast(tr('toast.highlightOff'), tr('today.undo'), () =>
+        useHighlightStore.getState().set(item.markKey as string, color),
+      );
+      return;
+    }
+    if (!item.bookmark) return;
+    const removed = item.bookmark;
+    removeBookmark(removed);
+    toast(tr('verse.bookmarkRemoved'), tr('today.undo'), () => restoreBookmark(removed));
+  };
 
   const rows = tab === 'bookmarks' ? bookmarkRows : highlightRows;
 
@@ -116,25 +147,8 @@ export default function Library() {
   return (
     <View style={{ flex: 1, backgroundColor: t.bg, paddingTop: insets.top + spacing.md }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, paddingHorizontal: spacing.xl }}>
-        <Pressable
-          onPress={() => router.back()}
-          hitSlop={12}
-          accessibilityRole="button"
-          accessibilityLabel={tr('a11y.back')}
-          style={{
-            width: 44,
-            height: 44,
-            borderRadius: 22,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: t.surface,
-            borderWidth: 1,
-            borderColor: t.border,
-          }}
-        >
-          <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={24} color={t.inkSoft} />
-        </Pressable>
-        <Text style={{ fontFamily: fonts.serif, fontSize: 24, color: t.ink }}>{tr('library.title')}</Text>
+        <BackButton />
+        <Text accessibilityRole="header" style={{ fontFamily: fonts.serif, fontSize: 24, color: t.ink }}>{tr('library.title')}</Text>
       </View>
 
       {/* segmented control */}
@@ -156,7 +170,7 @@ export default function Library() {
 
       <FlatList
         data={rows}
-        keyExtractor={(r) => `${r.book}|${r.chapter}|${r.verse}`}
+        keyExtractor={(r) => r.key}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingHorizontal: spacing.xl,
@@ -188,7 +202,7 @@ export default function Library() {
         renderItem={({ item }) => (
           <Pressable
             onPress={() =>
-              router.push({ pathname: '/read', params: { b: item.book, c: item.chapter, v: item.verse } })
+              router.push({ pathname: '/read', params: { b: item.code, c: item.chapter, v: item.verse } })
             }
             accessibilityRole="button"
             accessibilityLabel={item.ref}
@@ -219,12 +233,11 @@ export default function Library() {
                   </Text>
                 </View>
                 <Pressable
-                  onPress={() =>
-                    item.markKey ? clearMark(item.markKey) : removeBookmark(item.book, item.chapter, item.verse)
-                  }
+                  onPress={() => removeRow(item)}
                   hitSlop={10}
                   accessibilityRole="button"
-                  accessibilityLabel={item.markKey ? tr('verse.removeHighlight') : tr('verse.bookmarkRemoved')}
+                  accessibilityLabel={`${item.markKey ? tr('verse.removeHighlight') : tr('library.removeBookmark')}: ${item.ref}`}
+                  style={{ minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' }}
                 >
                   <Ionicons name="close" size={18} color={artwork.foreground.tertiary} />
                 </Pressable>

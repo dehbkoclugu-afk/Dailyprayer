@@ -1,5 +1,6 @@
 import type { GlobalLocaleTag } from '@/i18n/globalLanguageCatalog';
 import type { BiblePack } from '@/data/biblePack';
+import { bookName } from '@/data/bibleMeta';
 
 /** A chapter is an ordered list of [verseLabel, text] pairs (labels keep ranges). */
 export type Chapter = [string, string][];
@@ -45,6 +46,23 @@ function load(locale: GlobalLocaleTag): BibleData {
   return (cache.en ??= LOADERS.en());
 }
 
+/** True when the edition's text is already in memory (no parse cost to use it). */
+export function isBibleLoaded(locale: GlobalLocaleTag): boolean {
+  if (downloaded[locale]) return true;
+  return isBundledLocale(locale) ? Boolean(cache[locale]) : Boolean(cache.en);
+}
+
+/**
+ * Localized book name without loading a 4 MB edition: downloaded packs carry
+ * their own names (already in memory); bundled editions use the small
+ * metadata table.
+ */
+export function getBookName(locale: GlobalLocaleTag, code: string): string {
+  const remote = downloaded[locale]?.books.find((book) => book.code === code);
+  if (remote) return remote.name;
+  return bookName(isBundledLocale(locale) ? locale : 'en', code);
+}
+
 /** Register a checksum + schema validated offline pack for synchronous reader use. */
 export function registerDownloadedBiblePack(pack: BiblePack): void {
   downloaded[pack.locale] = { credit: pack.credit, books: pack.books };
@@ -55,7 +73,17 @@ export function getBible(locale: GlobalLocaleTag): FullBook[] {
   return load(locale).books;
 }
 
+/** Credits of the bundled editions, duplicated here so showing them never parses 4 MB. */
+const BUNDLED_CREDITS: Record<BundledBibleLocale, string> = {
+  en: 'World English Bible · Public Domain',
+  tr: 'Yorumsuz Türkçe Çeviri © İsmail Serinken & eBible.org · CC BY-ND 4.0',
+  es: 'Reina-Valera 1909 · Dominio público',
+  de: 'Lutherbibel 1912 · Gemeinfrei',
+};
+
 /** Per-translation attribution line (required by each source's license). */
 export function getBibleCredit(locale: GlobalLocaleTag): string {
-  return load(locale).credit;
+  const remote = downloaded[locale];
+  if (remote) return remote.credit;
+  return BUNDLED_CREDITS[isBundledLocale(locale) ? locale : 'en'];
 }

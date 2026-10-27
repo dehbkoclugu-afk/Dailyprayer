@@ -3,11 +3,13 @@
  * Expo Go keeps an explicit development-only mock so the funnel remains testable.
  */
 import { Linking, Platform } from 'react-native';
-import type { PurchasesPackage } from 'react-native-purchases';
+import Constants from 'expo-constants';
+import type { CustomerInfo, PurchasesPackage } from 'react-native-purchases';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
+import { reportError } from '@/lib/reportError';
 import {
   classifyPurchaseError,
-  hasActiveEntitlement,
+  entitlementSnapshot,
   planIdForPackage,
   type PlanId,
 } from './purchases.logic';
@@ -63,6 +65,13 @@ let rc: typeof import('react-native-purchases').default | null = null;
 let initPromise: Promise<void> | null = null;
 const packages = new Map<PlanId, PurchasesPackage>();
 
+/** Apply RevenueCat's view of the entitlement and return whether Plus is active. */
+function applyCustomerInfo(info: CustomerInfo): boolean {
+  const snapshot = entitlementSnapshot(info.entitlements.active, entitlementIds);
+  useEntitlementStore.getState().setEntitlement(snapshot);
+  return snapshot.active;
+}
+
 function trialDaysFor(pkg: PurchasesPackage): number | null {
   const intro = pkg.product.introPrice;
   if (intro?.price === 0) {
@@ -83,23 +92,37 @@ function trialDaysFor(pkg: PurchasesPackage): number | null {
     : null;
 }
 
+/**
+ * Configure RevenueCat once. Configuration failures are not cached, so the next
+ * paywall visit retries; a failed customer-info refresh (e.g. offline launch)
+ * keeps the SDK usable and only falls back to the cached, expiry-checked state.
+ */
 export function initPurchases(): Promise<void> {
   if (initPromise) return initPromise;
+  useEntitlementStore.getState().expireIfLapsed();
   initPromise = (async () => {
     if (!apiKey || Platform.OS === 'web') return;
-    try {
-      const Purchases = (await import('react-native-purchases')).default;
-      Purchases.configure({ apiKey });
-      rc = Purchases;
-      const info = await Purchases.getCustomerInfo();
-      useEntitlementStore
-        .getState()
-        .setPlus(hasActiveEntitlement(info.entitlements.active, entitlementIds));
-    } catch {
-      rc = null;
+    if (!rc) {
+      try {
+        const Purchases = (await import('react-native-purchases')).default;
+        Purchases.configure({ apiKey });
+        Purchases.addCustomerInfoUpdateListener(applyCustomerInfo);
+        rc = Purchases;
+      } catch (error) {
+        initPromise = null;
+        throw error;
+      }
     }
-  })();
-  return initPromise;
+    try {
+      applyCustomerInfo(await rc.getCustomerInfo());
+    } catch {
+      // Offline: the cached entitlement (already expiry-checked) stays in effect.
+    }
+  })().catch((error) => {
+    reportError(error, 'purchases-configure');
+    initPromise = null;
+  });
+  return initPromise ?? Promise.resolve();
 }
 
 export async function loadPlans(): Promise<PurchaseCatalog> {
@@ -156,7 +179,7 @@ export async function purchase(planId: PlanId): Promise<PurchaseResult> {
   await initPurchases();
   if (!rc) {
     if (!__DEV__) return { status: 'unavailable' };
-    useEntitlementStore.getState().setPlus(true);
+    useEntitlementStore.getState().setEntitlement({ active: true, expiresAt: null });
     return { status: 'purchased' };
   }
 
@@ -165,30 +188,41 @@ export async function purchase(planId: PlanId): Promise<PurchaseResult> {
     const pkg = packages.get(planId);
     if (!pkg) return { status: 'unavailable' };
     const { customerInfo } = await rc.purchasePackage(pkg);
-    const active = hasActiveEntitlement(
-      customerInfo.entitlements.active,
-      entitlementIds,
-    );
-    useEntitlementStore.getState().setPlus(active);
-    return active ? { status: 'purchased' } : { status: 'failed' };
+    return applyCustomerInfo(customerInfo) ? { status: 'purchased' } : { status: 'failed' };
   } catch (error) {
     return { status: classifyPurchaseError(error) };
   }
 }
 
+/**
+ * Restore store purchases. Resolves true/false for found/not found and rejects
+ * only when the store could not be reached, so callers can show a retry.
+ */
 export async function restore(): Promise<boolean> {
   await initPurchases();
-  if (!rc) return __DEV__ && useEntitlementStore.getState().isPlus;
-  const info = await rc.restorePurchases();
-  const active = hasActiveEntitlement(info.entitlements.active, entitlementIds);
-  useEntitlementStore.getState().setPlus(active);
-  return active;
+  if (!rc) {
+    if (__DEV__) return useEntitlementStore.getState().isPlus;
+    throw new Error('Purchases are unavailable');
+  }
+  return applyCustomerInfo(await rc.restorePurchases());
 }
 
 export async function openSubscriptionManagement(): Promise<void> {
+  const androidPackage = Constants.expoConfig?.android?.package ?? 'com.lumen.dailyprayer';
   const url =
     Platform.OS === 'ios'
       ? 'https://apps.apple.com/account/subscriptions'
-      : 'https://play.google.com/store/account/subscriptions?package=com.lumen.dailyprayer';
+      : `https://play.google.com/store/account/subscriptions?package=${encodeURIComponent(androidPackage)}`;
   await Linking.openURL(url);
+}
+
+/** RevenueCat's anonymous app user ID, quoted to support for data requests. */
+export async function getSupportId(): Promise<string | null> {
+  await initPurchases();
+  if (!rc) return null;
+  try {
+    return await rc.getAppUserID();
+  } catch {
+    return null;
+  }
 }

@@ -25,7 +25,7 @@ export function SectionHeader({
         ...style,
       }}
     >
-      <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 20, color: t.ink }}>{title}</Text>
+      <Text accessibilityRole="header" style={{ fontFamily: fonts.sansSemiBold, fontSize: 20, color: t.ink }}>{title}</Text>
       {right}
     </View>
   );

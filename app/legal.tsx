@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
@@ -9,10 +9,11 @@ import { getDirectionalIconName } from '@/i18n/direction';
 import { fonts } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
 import { PRIVACY_POLICY, TERMS_OF_SERVICE } from '@/data/legal';
+import { goBack } from '@/lib/navigation';
 
 /**
  * Minimal Markdown renderer for our own controlled legal copy (headings, bold,
- * list items, paragraphs). Not a general-purpose parser , just what legal.ts uses.
+ * list items, paragraphs). Not a general-purpose parser — just what legal.ts uses.
  */
 function Markdown({ source }: { source: string }) {
   const t = useTheme();
@@ -25,6 +26,7 @@ function Markdown({ source }: { source: string }) {
           return (
             <Text
               key={key}
+              accessibilityRole="header"
               style={{ fontFamily: fonts.sansSemiBold, fontSize: 18, color: t.ink, marginTop: spacing.xl, marginBottom: spacing.sm }}
             >
               {line.slice(3)}
@@ -33,7 +35,7 @@ function Markdown({ source }: { source: string }) {
         }
         if (line.startsWith('# ')) {
           return (
-            <Text key={key} style={{ fontFamily: fonts.serif, fontSize: 26, color: t.ink, marginBottom: spacing.sm }}>
+            <Text key={key} accessibilityRole="header" style={{ fontFamily: fonts.serif, fontSize: 26, color: t.ink, marginBottom: spacing.sm }}>
               {line.slice(2)}
             </Text>
           );
@@ -89,7 +91,7 @@ export default function Legal() {
   return (
     <Screen>
       <Pressable
-        onPress={() => router.back()}
+        onPress={() => goBack()}
         hitSlop={12}
         accessibilityRole="button"
         accessibilityLabel={tr('a11y.back')}
@@ -97,6 +99,23 @@ export default function Legal() {
       >
         <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={26} color={t.inkSoft} />
       </Pressable>
+      {locale !== 'en' ? (
+        // The binding legal text is English; say so in the reader's language.
+        <Text
+          style={{
+            fontFamily: fonts.sans,
+            fontSize: 13,
+            lineHeight: 19,
+            color: t.inkSoft,
+            backgroundColor: t.surface,
+            borderRadius: 12,
+            padding: spacing.md,
+            marginBottom: spacing.lg,
+          }}
+        >
+          {tr('legal.englishOnly')}
+        </Text>
+      ) : null}
       <Markdown source={source} />
     </Screen>
   );

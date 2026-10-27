@@ -35,7 +35,7 @@
       "key": "goals",
       "question": "Qu’espères-tu voir grandir en toi ?",
       "subtitle": "Choisis tout ce qui s’applique.",
-      "affirmation": "Tu es en bonne compagnie , 73 % des membres nous ont rejoints pour la même raison.",
+      "affirmation": "Tu es en bonne compagnie — 73 % des membres nous ont rejoints pour la même raison.",
       "options": [
         {
           "value": "habit",
@@ -116,7 +116,7 @@
     {
       "key": "prayerTime",
       "question": "Quand souhaites-tu un rappel quotidien ?",
-      "subtitle": "Un rappel doux , jamais de spam.",
+      "subtitle": "Un rappel doux — jamais de spam.",
       "options": [
         {
           "value": "07:30",
@@ -342,7 +342,7 @@
     {
       "id": "devotional-003",
       "title": "Conduit, Non Poussé",
-      "body": "Un berger marche devant ; un meneur pousse par-derrière. Le Psaume 23 affirme que Dieu conduit : vers de verts pâturages, près des eaux paisibles. Si ta foi t’a semblé être poussée , pressée, sous pression, apeurée ,, cette voix n’est pas celle du Berger. Aujourd’hui, écoute la voix qui conduit avec douceur, et suis un pas à la fois.",
+      "body": "Un berger marche devant ; un meneur pousse par-derrière. Le Psaume 23 affirme que Dieu conduit : vers de verts pâturages, près des eaux paisibles. Si ta foi t’a semblé être poussée — pressée, sous pression, apeurée ,, cette voix n’est pas celle du Berger. Aujourd’hui, écoute la voix qui conduit avec douceur, et suis un pas à la fois.",
       "prayer": "Berger de mon âme, apprends-moi le son de ta voix. Conduis-moi aujourd’hui. Amen."
     },
     {
@@ -384,7 +384,7 @@
     {
       "id": "devotional-010",
       "title": "Connu et Aimé",
-      "body": "Avant que tu ne formes une seule pensée ce matin, tu étais déjà connu. Le Psaume 139 dit que Dieu t’a tissé et sait quand tu t’assieds et quand tu te lèves. Tu n’es pas un étranger quémandant de l’attention. Tu es un enfant, pleinement connu et , étonnamment , pleinement aimé. Que ce soit le sol où tu te tiens aujourd’hui.",
+      "body": "Avant que tu ne formes une seule pensée ce matin, tu étais déjà connu. Le Psaume 139 dit que Dieu t’a tissé et sait quand tu t’assieds et quand tu te lèves. Tu n’es pas un étranger quémandant de l’attention. Tu es un enfant, pleinement connu et — étonnamment — pleinement aimé. Que ce soit le sol où tu te tiens aujourd’hui.",
       "prayer": "Seigneur, merci : je suis pleinement connu et pourtant pleinement aimé. Affermis-moi là-dessus. Amen."
     },
     {
@@ -396,7 +396,7 @@
     {
       "id": "devotional-012",
       "title": "Quand Tu Te Sens Oublié",
-      "body": "Agar, seule au désert, donna à Dieu un nom : « le Dieu qui me voit. » Quand personne d’autre ne la remarquait, lui le faisait. Si aujourd’hui tu te sens négligé , par les gens, par les circonstances, même par tes propres espoirs ,, entends ceci : tu es vu. Rien de ta vie n’est invisible à Celui qui compte les étoiles et les appelle chacune par leur nom.",
+      "body": "Agar, seule au désert, donna à Dieu un nom : « le Dieu qui me voit. » Quand personne d’autre ne la remarquait, lui le faisait. Si aujourd’hui tu te sens négligé — par les gens, par les circonstances, même par tes propres espoirs ,, entends ceci : tu es vu. Rien de ta vie n’est invisible à Celui qui compte les étoiles et les appelle chacune par leur nom.",
       "prayer": "Dieu qui me vois, merci : je ne suis jamais vraiment seul. Rejoins-moi ici. Amen."
     },
     {
@@ -426,7 +426,7 @@
     {
       "id": "devotional-017",
       "title": "Ne Méprise Pas les Petits Commencements",
-      "body": "Zacharie demande qui ose mépriser le jour des petits commencements. Nous voulons la cathédrale achevée ; Dieu se réjouit de la première pierre posée. Quoi que tu commences , une habitude, une guérison, une réconciliation ,, ne le mesure pas à ce qu’il paraît peu aujourd’hui. Les grandes choses commencent presque toujours d’une petitesse gênante.",
+      "body": "Zacharie demande qui ose mépriser le jour des petits commencements. Nous voulons la cathédrale achevée ; Dieu se réjouit de la première pierre posée. Quoi que tu commences — une habitude, une guérison, une réconciliation ,, ne le mesure pas à ce qu’il paraît peu aujourd’hui. Les grandes choses commencent presque toujours d’une petitesse gênante.",
       "prayer": "Seigneur, bénis le petit commencement devant moi. Aide-moi à être fidèle avec peu. Amen."
     },
     {
@@ -444,7 +444,7 @@
     {
       "id": "devotional-020",
       "title": "Le Poids de la Gloire",
-      "body": "Paul appelle ses épreuves « légères et momentanées » , et cela d’un homme battu et emprisonné. Il pouvait le dire parce qu’il mesurait ses détresses à une éternité de gloire. Ta douleur est réelle ; il ne prétend jamais le contraire. Mais ce n’est pas la plus grande chose en vue. Quelque chose de bien plus lourd et de bien plus tendre s’en vient.",
+      "body": "Paul appelle ses épreuves « légères et momentanées » — et cela d’un homme battu et emprisonné. Il pouvait le dire parce qu’il mesurait ses détresses à une éternité de gloire. Ta douleur est réelle ; il ne prétend jamais le contraire. Mais ce n’est pas la plus grande chose en vue. Quelque chose de bien plus lourd et de bien plus tendre s’en vient.",
       "prayer": "Père, quand ce jour semble lourd, lève mes yeux vers ce qui demeure. Porte-moi à travers. Amen."
     },
     {
@@ -462,7 +462,7 @@
     {
       "id": "devotional-023",
       "title": "L’Ami qui Reste",
-      "body": "Les Proverbes disent qu’il y a un ami plus attaché qu’un frère. Dans un monde de gens qui vont et viennent, Jésus est celui qui reste , à travers l’échec, le silence, la longue nuit. Tu n’es pas trop pour lui, et tu n’es jamais trop loin. Il ne cherche pas une raison de partir. Il est l’ami qui reste.",
+      "body": "Les Proverbes disent qu’il y a un ami plus attaché qu’un frère. Dans un monde de gens qui vont et viennent, Jésus est celui qui reste — à travers l’échec, le silence, la longue nuit. Tu n’es pas trop pour lui, et tu n’es jamais trop loin. Il ne cherche pas une raison de partir. Il est l’ami qui reste.",
       "prayer": "Jésus, merci d’être resté quand d’autres ne le pouvaient pas. Aide-moi à me reposer dans ta fidélité. Amen."
     },
     {

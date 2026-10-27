@@ -25,6 +25,12 @@ export const useReaderPrefsStore = create<ReaderPrefsState>()(
       bumpFont: (dir) => set((s) => ({ fontScale: clamp(s.fontScale + dir * STEP) })),
       togglePaper: () => set((s) => ({ paper: !s.paper })),
     }),
-    { name: 'lumen-reader-prefs', storage: createJSONStorage(() => safePersistStorage) },
+    {
+      name: 'lumen-reader-prefs',
+      // Versioned so future shape changes ship with an explicit migration.
+      version: 1,
+      storage: createJSONStorage(() => safePersistStorage),
+      migrate: (persisted) => persisted as ReaderPrefsState,
+    },
   ),
 );

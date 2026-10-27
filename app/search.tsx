@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, Pressable, Text, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -8,27 +8,45 @@ import { useArtwork } from '@/hooks/useArtwork';
 import { ArtSlot } from '@/components/ArtSlot';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
-import { getBible } from '@/data/bibleFull';
+import { getBible, type FullBook } from '@/data/bibleFull';
+import { findMatch, foldForSearch, minimumQueryLength } from '@/lib/search';
 import { useT } from '@/i18n';
-import { getDirectionalIconName } from '@/i18n/direction';
 import { useScriptureLocale } from '@/i18n/scripture';
+import type { GlobalLocaleTag } from '@/i18n/globalLanguageCatalog';
+import { BackButton } from '@/components/BackButton';
 
 interface Hit {
-  book: number;
+  code: string;
   chapter: number;
-  verse: number;
+  verse: string;
   ref: string;
   text: string;
-  at: number; // match offset in text
+  start: number; // match span in the original text
+  end: number;
 }
 
-const lower = (s: string, locale: string) => s.toLocaleLowerCase(locale);
 const MAX = 300;
+/** Verses scanned per slice before yielding back to the UI thread. */
+const SLICE = 2500;
+
+/**
+ * Folded verse text per edition, filled lazily during scans (so the cost is
+ * spread over UI-friendly slices) and reused by every later query.
+ */
+const foldedCache = new Map<string, { bible: FullBook[]; folded: string[] }>();
+function foldedFor(locale: GlobalLocaleTag): { bible: FullBook[]; folded: string[] } {
+  const bible = getBible(locale);
+  const cached = foldedCache.get(locale);
+  if (cached && cached.bible === bible) return cached;
+  const entry = { bible, folded: [] as string[] };
+  foldedCache.set(locale, entry);
+  return entry;
+}
 
 export default function Search() {
   const t = useTheme();
   const artwork = useArtwork();
-  const { t: tr, locale } = useT();
+  const { t: tr } = useT();
   const scriptureLocale = useScriptureLocale();
   const insets = useSafeAreaInsets();
   const [query, setQuery] = useState('');
@@ -39,58 +57,75 @@ export default function Search() {
     return () => clearTimeout(id);
   }, [query]);
 
-  const hits = useMemo<Hit[]>(() => {
-    if (q.length < 2) return [];
-    const bible = getBible(scriptureLocale);
-    const needle = lower(q, scriptureLocale);
-    const out: Hit[] = [];
-    for (let b = 0; b < bible.length; b++) {
-      const bk = bible[b];
-      for (let c = 0; c < bk.chapters.length; c++) {
-        const ch = bk.chapters[c];
-        for (let v = 0; v < ch.length; v++) {
-          const text = ch[v][1];
-          const at = lower(text, scriptureLocale).indexOf(needle);
-          if (at !== -1) {
-            out.push({ book: b, chapter: c, verse: v, ref: `${bk.name} ${c + 1}:${ch[v][0]}`, text, at });
-            if (out.length >= MAX) return out;
+  const minLength = minimumQueryLength(q);
+  const active = q.length >= minLength;
+  const [hits, setHits] = useState<Hit[]>([]);
+  const [searching, setSearching] = useState(false);
+
+  // Scan in slices so typing stays responsive; a newer query cancels the old scan.
+  useEffect(() => {
+    if (!active) {
+      setHits([]);
+      setSearching(false);
+      return;
+    }
+    let cancelled = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    setSearching(true);
+    timer = setTimeout(() => {
+      const { bible, folded } = foldedFor(scriptureLocale);
+      const needle = foldForSearch(q, scriptureLocale);
+      const out: Hit[] = [];
+      let b = 0;
+      let c = 0;
+      let v = 0;
+      let flat = 0;
+      const step = () => {
+        if (cancelled) return;
+        let budget = SLICE;
+        while (b < bible.length && budget-- > 0 && out.length < MAX) {
+          const book = bible[b];
+          const chapter = book.chapters[c];
+          const [label, text] = chapter[v];
+          const haystack = (folded[flat] ??= foldForSearch(text, scriptureLocale));
+          if (haystack.includes(needle)) {
+            const span = findMatch(text, haystack, needle, scriptureLocale);
+            if (span) {
+              out.push({ code: book.code, chapter: c, verse: label, ref: `${book.name} ${c + 1}:${label}`, text, ...span });
+            }
+          }
+          flat++;
+          if (++v >= chapter.length) {
+            v = 0;
+            if (++c >= book.chapters.length) {
+              c = 0;
+              b++;
+            }
           }
         }
-      }
-    }
-    return out;
-  }, [q, scriptureLocale]);
+        setHits([...out]);
+        if (b < bible.length && out.length < MAX) timer = setTimeout(step, 0);
+        else setSearching(false);
+      };
+      step();
+    }, 0);
+    return () => {
+      cancelled = true;
+      if (timer) clearTimeout(timer);
+    };
+  }, [active, q, scriptureLocale]);
 
   const snippet = (h: Hit) => {
-    const start = Math.max(0, h.at - 40);
-    const pre = (start > 0 ? '…' : '') + h.text.slice(start, h.at);
-    const match = h.text.slice(h.at, h.at + q.length);
-    const post = h.text.slice(h.at + q.length);
-    return { pre, match, post };
+    const from = Math.max(0, h.start - 40);
+    const pre = (from > 0 ? '…' : '') + h.text.slice(from, h.start);
+    return { pre, match: h.text.slice(h.start, h.end), post: h.text.slice(h.end) };
   };
 
   return (
     <View style={{ flex: 1, backgroundColor: t.bg, paddingTop: insets.top + spacing.md }}>
       {/* search bar */}
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm, paddingHorizontal: spacing.xl }}>
-        <Pressable
-          onPress={() => router.back()}
-          hitSlop={12}
-          accessibilityRole="button"
-          accessibilityLabel={tr('a11y.back')}
-          style={{
-            width: 44,
-            height: 44,
-            borderRadius: 22,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: t.surface,
-            borderWidth: 1,
-            borderColor: t.border,
-          }}
-        >
-          <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={24} color={t.inkSoft} />
-        </Pressable>
+        <BackButton />
         <View
           style={{
             flex: 1,
@@ -124,7 +159,7 @@ export default function Search() {
         </View>
       </View>
 
-      {q.length >= 2 ? (
+      {active ? (
         <Text
           style={{
             fontFamily: fonts.sansMedium,
@@ -134,14 +169,14 @@ export default function Search() {
             marginTop: spacing.lg,
           }}
         >
-          {hits.length >= MAX ? `${MAX}+ ` : `${hits.length} `}
+          {hits.length >= MAX ? `${MAX}+ ` : `${hits.length}${searching ? '…' : ''} `}
           {tr('read.results')}
         </Text>
       ) : null}
 
       <FlatList
         data={hits}
-        keyExtractor={(h) => `${h.book}|${h.chapter}|${h.verse}`}
+        keyExtractor={(h) => `${h.code}|${h.chapter}|${h.verse}`}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -155,7 +190,7 @@ export default function Search() {
         }}
         ListEmptyComponent={
           <View style={{ alignItems: 'center', paddingTop: spacing.xxxl, paddingHorizontal: spacing.xl }}>
-            <Ionicons name={q.length >= 2 ? 'search-outline' : 'book-outline'} size={40} color={t.inkFaint} />
+            <Ionicons name={active ? 'search-outline' : 'book-outline'} size={40} color={t.inkFaint} />
             <Text
               style={{
                 fontFamily: fonts.serifLight,
@@ -167,7 +202,7 @@ export default function Search() {
                 maxWidth: 280,
               }}
             >
-              {q.length >= 2 ? tr('read.searchEmpty') : tr('read.searchPrompt')}
+              {active ? (searching ? '…' : tr('read.searchEmpty')) : tr('read.searchPrompt')}
             </Text>
           </View>
         }
@@ -176,7 +211,7 @@ export default function Search() {
           return (
             <Pressable
               onPress={() =>
-                router.push({ pathname: '/read', params: { b: item.book, c: item.chapter, v: item.verse } })
+                router.push({ pathname: '/read', params: { b: item.code, c: item.chapter, v: item.verse } })
               }
               accessibilityRole="button"
               accessibilityLabel={item.ref}

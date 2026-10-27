@@ -59,15 +59,15 @@
     {
       "locale": "en",
       "version": "1.0.0",
-      "bytes": 23674,
-      "sha256": "bfdc23220b5951c94ed4099e8c6d807a2e1dee86a2a7a62918fca7115a2bb080",
+      "bytes": 23768,
+      "sha256": "5a6b9e9b08feb6fed9bb211d8caeb5424134d17ea73506e06bec5d96e6ed06b6",
       "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/en.json"
     },
     {
       "locale": "tr",
       "version": "1.0.0",
-      "bytes": 25020,
-      "sha256": "8cd5f9e7ce7e7b3a6054da9de6077b193daae3b63a530872c97f720f68e19c45",
+      "bytes": 25110,
+      "sha256": "6e41e97b2f4b93176db79fa0e069274328a271706e73cd6b7d30db7bcf5429e7",
       "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/tr.json"
     },
     {
@@ -80,22 +80,22 @@
     {
       "locale": "pt",
       "version": "1.0.0",
-      "bytes": 24577,
-      "sha256": "6fa6e8ea467ba3b95c5c815ed5edfe71876f97a74a5cf48f0091ca558d549f96",
+      "bytes": 24593,
+      "sha256": "3abb1ab0c47060c85f0e92b19d65f2a6966258d3efd5e8e897fee31e96c5bf3e",
       "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/pt.json"
     },
     {
       "locale": "fr",
       "version": "1.0.0",
-      "bytes": 26349,
-      "sha256": "03bf59eb712ccf6b1045812a2d274598bd49379582c797dd4259ff39e77cc3a2",
+      "bytes": 26367,
+      "sha256": "761ca0eaee3ce6875d6b1714d2bcda576b7bf2156c66bb1071c3c1648eacbc49",
       "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/fr.json"
     },
     {
       "locale": "de",
       "version": "1.0.0",
-      "bytes": 26083,
-      "sha256": "2830201f71cd7eec895fc5128ae6b1e5c4d33075e09e0dbefce3044e233f5c46",
+      "bytes": 26087,
+      "sha256": "ef3ed8d9ecd1ceffbdbf87aa5c7e9d89db59dd7f643c4dc7bb9570c074db47c7",
       "downloadUrl": "https://github.com/dehbkoclugu-afk/Dailyprayer/releases/download/application-content-v1/de.json"
     },
     {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Linking, Pressable, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,9 +9,10 @@ import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
 import { fonts, type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, art } from '@/theme/tokens';
 import {
   loadPlans,
+  openSubscriptionManagement,
   purchase,
   restore,
   type PlanId,
@@ -23,11 +24,11 @@ import {
   resolvePaywallContext,
   type BenefitId,
 } from '@/services/paywallContext.logic';
+import { SUPPORT_EMAIL } from '@/services/support';
+import { addDays } from '@/lib/dates';
+import { useEntitlementStore } from '@/state/useEntitlementStore';
 
-const configuredSupportEmail = process.env.EXPO_PUBLIC_SUPPORT_EMAIL?.trim() ?? '';
-const supportEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(configuredSupportEmail)
-  ? configuredSupportEmail
-  : null;
+const supportEmail = SUPPORT_EMAIL;
 
 export default function Paywall() {
   const t = useTheme();
@@ -59,16 +60,25 @@ export default function Paywall() {
   const [thanks, setThanks] = useState(false);
   const [pending, setPending] = useState(false);
   const [restoreStatus, setRestoreStatus] = useState<'idle' | 'busy' | 'found' | 'missing'>('idle');
+  const isPlus = useEntitlementStore((s) => s.isPlus);
+  const mounted = useRef(true);
+  useEffect(() => () => {
+    mounted.current = false;
+  }, []);
+
   const refreshCatalog = () => {
     setCatalog(null);
-    loadPlans().then((next) => {
-      setCatalog(next);
-      if (next.status === 'ready') {
-        setSelected((current) =>
-          next.plans.some((p) => p.id === current) ? current : next.plans[0].id,
-        );
-      }
-    });
+    loadPlans()
+      .catch((): PurchaseCatalog => ({ status: 'unavailable', plans: [], mock: false }))
+      .then((next) => {
+        if (!mounted.current) return;
+        setCatalog(next);
+        if (next.status === 'ready' && next.plans.length) {
+          setSelected((current) =>
+            next.plans.some((p) => p.id === current) ? current : next.plans[0].id,
+          );
+        }
+      });
   };
 
   useEffect(refreshCatalog, []);
@@ -93,6 +103,7 @@ export default function Paywall() {
     setPending(false);
     try {
       const result = await purchase(selectedPlan.id);
+      if (!mounted.current) return;
       if (result.status === 'purchased') setThanks(true);
       else if (result.status === 'pending') setPending(true);
       else if (result.status === 'failed') {
@@ -103,7 +114,7 @@ export default function Paywall() {
     } catch {
       Alert.alert(tr('paywall.purchaseFailTitle'), tr('paywall.purchaseFailBody'));
     } finally {
-      setBusy(false);
+      if (mounted.current) setBusy(false);
     }
   };
 
@@ -123,9 +134,11 @@ export default function Paywall() {
     setRestoreStatus('busy');
     try {
       const restored = await restore();
+      if (!mounted.current) return;
       setRestoreStatus(restored ? 'found' : 'missing');
       if (restored) setThanks(true);
     } catch {
+      if (!mounted.current) return;
       setRestoreStatus('idle');
       Alert.alert(tr('paywall.restoreErrorTitle'), tr('paywall.restoreErrorBody'));
     }
@@ -151,7 +164,7 @@ export default function Paywall() {
           fit="contain"
           style={{ width: 180, alignSelf: 'center', marginBottom: spacing.xl }}
         />
-        <Text style={[ty.title, { color: t.ink, textAlign: 'center' }]}>
+        <Text accessibilityRole="header" style={[ty.title, { color: t.ink, textAlign: 'center' }]}>
 {tr('paywall.thanksTitle')}
         </Text>
         <Text style={[ty.body, { color: t.inkSoft, marginTop: spacing.md, textAlign: 'center' }]}>
@@ -162,6 +175,38 @@ export default function Paywall() {
           onPress={() => router.replace('/(tabs)/today')}
           style={{ marginTop: spacing.xxl }}
         />
+      </Screen>
+    );
+  }
+
+  // Subscribers reaching the paywall (deep link, stale screen) see their status
+  // and subscription management instead of a second purchase button.
+  if (isPlus) {
+    return (
+      <Screen scroll={false} style={{ justifyContent: 'center' }}>
+        <ArtSlot
+          id="A9-thanks-sharing"
+          height={160}
+          fit="contain"
+          style={{ width: 160, alignSelf: 'center', marginBottom: spacing.xl }}
+        />
+        <Text accessibilityRole="header" style={[ty.title, { color: t.ink, textAlign: 'center' }]}>
+          {tr('profile.plusActive')}
+        </Text>
+        <Text style={[ty.body, { color: t.inkSoft, marginTop: spacing.md, textAlign: 'center' }]}>
+          {tr('profile.plusThanks')}
+        </Text>
+        <PillButton
+          label={tr('profile.manageSubscription')}
+          onPress={() => {
+            openSubscriptionManagement().catch(() =>
+              Alert.alert(tr('profile.manageSubscriptionErrorTitle'), tr('profile.manageSubscriptionErrorBody')),
+            );
+          }}
+          variant="secondary"
+          style={{ marginTop: spacing.xxl }}
+        />
+        <PillButton label={tr('a11y.close')} onPress={close} variant="ghost" style={{ marginTop: spacing.sm }} />
       </Screen>
     );
   }
@@ -180,7 +225,7 @@ export default function Paywall() {
   if (catalog.status === 'unavailable') {
     return (
       <Screen scroll={false} style={{ justifyContent: 'center' }}>
-        <Text style={[ty.title, { color: t.ink, textAlign: 'center' }]}>
+        <Text accessibilityRole="header" style={[ty.title, { color: t.ink, textAlign: 'center' }]}>
           {tr('paywall.purchaseFailTitle')}
         </Text>
         <Text style={[ty.body, { color: t.inkSoft, textAlign: 'center', marginTop: spacing.md }]}>
@@ -221,14 +266,14 @@ export default function Paywall() {
             />
           ) : null}
           <View style={{ flex: 1, justifyContent: 'flex-end', padding: spacing.xl }}>
-            <Text style={{ fontFamily: fonts.serif, fontSize: 27, color: dawn ? t.ink : '#F2EEE6' }}>
+            <Text style={{ fontFamily: fonts.serif, fontSize: 27, color: dawn ? t.ink : art.ink }}>
 {tr(paywallContext.titleKey)}
             </Text>
             <View style={{ gap: spacing.xs, marginTop: spacing.md }}>
               {BENEFITS.map((b) => (
                 <View key={b} style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
                   <Ionicons name="checkmark-circle" size={16} color={t.gold} />
-                  <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: dawn ? t.inkSoft : '#F2EEE6', flex: 1 }}>{b}</Text>
+                  <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: dawn ? t.inkSoft : art.ink, flex: 1 }}>{b}</Text>
                 </View>
               ))}
             </View>
@@ -306,6 +351,7 @@ export default function Paywall() {
         }
         onPress={buy}
         disabled={busy || pending || !selectedPlan}
+        busy={busy}
         style={{ marginTop: spacing.xl }}
       />
       {busy ? (
@@ -348,7 +394,7 @@ export default function Paywall() {
               day: 'numeric',
               month: 'long',
               year: 'numeric',
-            }).format(new Date(Date.now() + selectedPlan.trialDays * 86_400_000))}
+            }).format(addDays(new Date(), selectedPlan.trialDays))}
             . {selectedPlan.price} {PLAN_PERIOD[selectedPlan.id]}.
           </Text>
           <Text style={{ fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, color: t.inkSoft, textAlign: 'center' }}>

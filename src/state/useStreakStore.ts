@@ -62,6 +62,12 @@ export const useStreakStore = create<StreakState>()(
         return doneDay === dayKey() && doneSteps.includes(step);
       },
     }),
-    { name: 'lumen-streak', storage: createJSONStorage(() => safePersistStorage) },
+    {
+      name: 'lumen-streak',
+      // Versioned so future shape changes ship with an explicit migration.
+      version: 1,
+      storage: createJSONStorage(() => safePersistStorage),
+      migrate: (persisted) => persisted as StreakState,
+    },
   ),
 );

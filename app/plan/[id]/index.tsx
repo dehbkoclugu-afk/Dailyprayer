@@ -9,12 +9,14 @@ import { PlanDayArtwork } from '@/components/PlanDayArtwork';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
 import { fonts } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, art, FIXED_CARD_TEXT_SCALE } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
 import { planReading, formatReadingRef } from '@/data/planReadings';
 import { usePlanStore } from '@/state/usePlanStore';
 import { useT } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
+import { useRequirePlus } from '@/hooks/useRequirePlus';
+import { BackButton } from '@/components/BackButton';
 
 export default function PlanScreen() {
   const t = useTheme();
@@ -25,33 +27,16 @@ export default function PlanScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const plan = usePlans().find((p) => p.id === id);
   const progress = usePlanStore((s) => s.progress);
+  const allowed = useRequirePlus(Boolean(plan?.plus), 'plan');
 
-  if (!plan) return <View style={{ flex: 1, backgroundColor: t.bg }} />;
+  if (!plan || !allowed) return <View style={{ flex: 1, backgroundColor: t.bg }} />;
 
   const done = progress[plan.id] ?? [];
   const days = Array.from({ length: plan.days }, (_, i) => i);
 
   const header = (
     <View>
-      <Pressable
-        onPress={() => router.back()}
-        hitSlop={12}
-        accessibilityRole="button"
-        accessibilityLabel={tr('a11y.back')}
-        style={{
-          width: 44,
-          height: 44,
-          borderRadius: 22,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: t.surface,
-          borderWidth: 1,
-          borderColor: t.border,
-          marginBottom: spacing.lg,
-        }}
-      >
-        <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={24} color={t.inkSoft} />
-      </Pressable>
+      <BackButton style={{ marginBottom: spacing.lg }} />
 
       <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
         <ArtSlot id={plan.art} height={170} radius={radius.card} variant={dawn ? 'card' : 'bare'}>
@@ -64,8 +49,8 @@ export default function PlanScreen() {
             />
           ) : null}
           <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
-            <Text style={{ fontFamily: fonts.serif, fontSize: 24, color: '#F2EEE6', textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>{plan.title}</Text>
-            <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: 'rgba(242,238,230,0.88)', marginTop: spacing.xs, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
+            <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} style={{ fontFamily: fonts.serif, fontSize: 24, color: art.ink, textShadowColor: art.textShadow, textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>{plan.title}</Text>
+            <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} style={{ fontFamily: fonts.sans, fontSize: 14, color: art.inkSoft, marginTop: spacing.xs, textShadowColor: art.textShadow, textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
               {plan.tagline}
             </Text>
           </View>
@@ -83,7 +68,7 @@ export default function PlanScreen() {
             }}
           />
         </View>
-        <Text
+        <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE}
           style={{
             fontFamily: fonts.sansMedium,
             fontSize: 13,
@@ -120,6 +105,7 @@ export default function PlanScreen() {
             <Pressable
               onPress={() => router.push({ pathname: '/plan/[id]/[day]', params: { id: plan.id, day: dayIdx } })}
               accessibilityRole="button"
+              accessibilityLabel={`${tr('plan.dayLabel')} ${dayIdx + 1}, ${readingRef}${isDone ? `, ${tr('plan.done')}` : ''}`}
               style={({ pressed }) => ({
                 backgroundColor: t.surface,
                 borderRadius: radius.card,
@@ -145,16 +131,16 @@ export default function PlanScreen() {
                     {isDone ? (
                       <Ionicons name="checkmark" size={18} color={t.onGold} />
                     ) : (
-                      <Text style={{ fontFamily: fonts.sansBold, fontSize: 13, color: artwork.foreground.secondary, fontVariant: ['tabular-nums'], textShadowColor: 'rgba(0,0,0,0.72)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 5 }}>
+                      <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} style={{ fontFamily: fonts.sansBold, fontSize: 13, color: artwork.foreground.secondary, fontVariant: ['tabular-nums'], textShadowColor: 'rgba(0,0,0,0.72)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 5 }}>
                         {dayIdx + 1}
                       </Text>
                     )}
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: artwork.foreground.primary, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
+                    <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: artwork.foreground.primary, textShadowColor: art.textShadow, textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
                       {tr('plan.dayLabel')} {dayIdx + 1}
                     </Text>
-                    <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: isDone ? t.gold : artwork.foreground.secondary, marginTop: 2, textShadowColor: 'rgba(0,0,0,0.72)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 5 }}>
+                    <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: isDone ? t.gold : artwork.foreground.secondary, marginTop: 2, textShadowColor: 'rgba(0,0,0,0.72)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 5 }}>
                       {readingRef}
                     </Text>
                   </View>

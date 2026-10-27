@@ -77,3 +77,12 @@ test('rejects packs that attempt to carry Scripture payloads', () => {
   pack.books = [];
   assert.throws(() => validateApplicationContentPack(pack, 'en'), /forbidden Scripture field/);
 });
+
+test('published content packs carry no " , " em-dash corruption', async () => {
+  const { readdirSync, readFileSync } = await import('node:fs');
+  const { fileURLToPath } = await import('node:url');
+  const dir = fileURLToPath(new URL('../../content/application/', import.meta.url).href);
+  for (const file of readdirSync(dir).filter((name: string) => name.endsWith('.json'))) {
+    assert.doesNotMatch(readFileSync(`${dir}${file}`, 'utf8'), / , /, `${file} has a broken em dash`);
+  }
+});

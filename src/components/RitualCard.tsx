@@ -16,7 +16,7 @@ import Animated, {
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
 import { fonts } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, FIXED_CARD_TEXT_SCALE } from '@/theme/tokens';
 import { useT } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
 
@@ -92,7 +92,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         />
       ) : null}
 
-      {/* shimmer overlay , sweeps once on completion, invisible otherwise */}
+      {/* shimmer overlay — sweeps once on completion, invisible otherwise */}
       <Animated.View
         pointerEvents="none"
         style={[
@@ -122,7 +122,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         >
           <Ionicons name={icon} size={hasArt ? 19 : 22} color={done ? t.gold : hasArt ? '#FFFFFF' : t.inkSoft} />
         </View>
-        <Text
+        <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE}
           numberOfLines={2}
           style={{
             fontFamily: fonts.sansSemiBold,
@@ -135,7 +135,7 @@ export function RitualCard({ icon, title, subtitle, done, locked, onPress, art }
         >
           {title}
         </Text>
-        <Text
+        <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE}
           numberOfLines={2}
           style={{
             fontFamily: fonts.sans,

@@ -35,7 +35,7 @@
       "key": "goals",
       "question": "Was soll in dir wachsen?",
       "subtitle": "Wähle alles Zutreffende.",
-      "affirmation": "Du bist in guter Gesellschaft , 73 % der Mitglieder sind aus demselben Grund beigetreten.",
+      "affirmation": "Du bist in guter Gesellschaft — 73 % der Mitglieder sind aus demselben Grund beigetreten.",
       "options": [
         {
           "value": "habit",
@@ -116,7 +116,7 @@
     {
       "key": "prayerTime",
       "question": "Wann möchtest du eine tägliche Erinnerung?",
-      "subtitle": "Eine sanfte Erinnerung , niemals Spam.",
+      "subtitle": "Eine sanfte Erinnerung — niemals Spam.",
       "options": [
         {
           "value": "07:30",

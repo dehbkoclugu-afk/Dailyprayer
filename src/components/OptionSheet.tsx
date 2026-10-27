@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, art } from '@/theme/tokens';
 
 export interface SheetOption<T extends string> {
   value: T;
@@ -22,7 +22,7 @@ interface Props<T extends string> {
 }
 
 /**
- * A calm bottom-sheet picker , the app's own surface, gold accent and a check
+ * A calm bottom-sheet picker — the app's own surface, gold accent and a check
  * on the current choice. Replaces the jarring native Alert for settings that
  * are really single-select lists (theme, language).
  */
@@ -41,7 +41,7 @@ export function OptionSheet<T extends string>({
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
       <Pressable
         onPress={onClose}
-        style={{ flex: 1, backgroundColor: 'rgba(6,8,16,0.6)', justifyContent: 'flex-end' }}
+        style={{ flex: 1, backgroundColor: art.scrim, justifyContent: 'flex-end' }}
       >
         {/* stop propagation so taps inside the sheet don't dismiss it */}
         <Pressable

@@ -35,7 +35,7 @@
       "key": "goals",
       "question": "O que você espera que cresça em você?",
       "subtitle": "Escolha todas as que se aplicam.",
-      "affirmation": "Você está em boa companhia , 73% dos membros entraram pelo mesmo motivo.",
+      "affirmation": "Você está em boa companhia — 73% dos membros entraram pelo mesmo motivo.",
       "options": [
         {
           "value": "habit",
@@ -116,7 +116,7 @@
     {
       "key": "prayerTime",
       "question": "Quando você gostaria de um lembrete diário?",
-      "subtitle": "Um lembrete gentil , nunca spam.",
+      "subtitle": "Um lembrete gentil — nunca spam.",
       "options": [
         {
           "value": "07:30",
@@ -342,7 +342,7 @@
     {
       "id": "devotional-003",
       "title": "Guiado, Não Empurrado",
-      "body": "Um pastor caminha à frente; um tocador empurra por trás. O Salmo 23 insiste que Deus guia: a verdes pastos, junto a águas tranquilas. Se a sua fé tem parecido ser empurrada , apressada, pressionada, com medo ,, essa voz não é a do Pastor. Hoje, escute a voz que guia com doçura, e siga um passo de cada vez.",
+      "body": "Um pastor caminha à frente; um tocador empurra por trás. O Salmo 23 insiste que Deus guia: a verdes pastos, junto a águas tranquilas. Se a sua fé tem parecido ser empurrada — apressada, pressionada, com medo ,, essa voz não é a do Pastor. Hoje, escute a voz que guia com doçura, e siga um passo de cada vez.",
       "prayer": "Pastor da minha alma, ensina-me o som da tua voz. Guia-me hoje. Amém."
     },
     {
@@ -384,7 +384,7 @@
     {
       "id": "devotional-010",
       "title": "Conhecido e Amado",
-      "body": "Antes de você formar um único pensamento esta manhã, você já era conhecido. O Salmo 139 diz que Deus o teceu e sabe quando você se senta e quando se levanta. Você não é um estranho implorando atenção. Você é um filho, plenamente conhecido e , surpreendentemente , plenamente amado. Que esse seja o chão em que você pisa hoje.",
+      "body": "Antes de você formar um único pensamento esta manhã, você já era conhecido. O Salmo 139 diz que Deus o teceu e sabe quando você se senta e quando se levanta. Você não é um estranho implorando atenção. Você é um filho, plenamente conhecido e — surpreendentemente — plenamente amado. Que esse seja o chão em que você pisa hoje.",
       "prayer": "Senhor, obrigado porque sou plenamente conhecido e ainda assim plenamente amado. Firma-me nisso. Amém."
     },
     {
@@ -396,7 +396,7 @@
     {
       "id": "devotional-012",
       "title": "Quando Você Se Sente Esquecido",
-      "body": "Agar, sozinha no deserto, deu a Deus um nome: “o Deus que me vê.” Quando ninguém mais a notou, Ele notou. Se hoje você se sente ignorado , pelas pessoas, pelas circunstâncias, até pelas suas próprias esperanças ,, ouça isto: você é visto. Nada da sua vida é invisível Àquele que conta as estrelas e as chama pelo nome.",
+      "body": "Agar, sozinha no deserto, deu a Deus um nome: “o Deus que me vê.” Quando ninguém mais a notou, Ele notou. Se hoje você se sente ignorado — pelas pessoas, pelas circunstâncias, até pelas suas próprias esperanças ,, ouça isto: você é visto. Nada da sua vida é invisível Àquele que conta as estrelas e as chama pelo nome.",
       "prayer": "Deus que me vê, obrigado porque nunca estou verdadeiramente só. Encontra-me aqui. Amém."
     },
     {
@@ -426,7 +426,7 @@
     {
       "id": "devotional-017",
       "title": "Não Despreze os Pequenos Começos",
-      "body": "Zacarias pergunta quem ousa desprezar o dia das pequenas coisas. Queremos a catedral pronta; Deus se deleita na primeira pedra assentada. Seja o que for que você está começando , um hábito, uma cura, uma reconciliação ,, não o meça pelo pouco que parece hoje. As grandes coisas quase sempre começam constrangedoramente pequenas.",
+      "body": "Zacarias pergunta quem ousa desprezar o dia das pequenas coisas. Queremos a catedral pronta; Deus se deleita na primeira pedra assentada. Seja o que for que você está começando — um hábito, uma cura, uma reconciliação ,, não o meça pelo pouco que parece hoje. As grandes coisas quase sempre começam constrangedoramente pequenas.",
       "prayer": "Senhor, abençoa o pequeno começo diante de mim. Ajuda-me a ser fiel com o pouco. Amém."
     },
     {
@@ -444,7 +444,7 @@
     {
       "id": "devotional-020",
       "title": "O Peso da Glória",
-      "body": "Paulo chama as suas dificuldades de “leves e momentâneas” , e isto de um homem espancado e preso. Ele podia dizê-lo porque media as suas aflições contra uma eternidade de glória. A sua dor é real; ele nunca finge o contrário. Mas não é a maior coisa à vista. Algo muito mais pesado e muito mais bondoso está a caminho.",
+      "body": "Paulo chama as suas dificuldades de “leves e momentâneas” — e isto de um homem espancado e preso. Ele podia dizê-lo porque media as suas aflições contra uma eternidade de glória. A sua dor é real; ele nunca finge o contrário. Mas não é a maior coisa à vista. Algo muito mais pesado e muito mais bondoso está a caminho.",
       "prayer": "Pai, quando o hoje parecer pesado, ergue os meus olhos para o que permanece. Leva-me através. Amém."
     },
     {

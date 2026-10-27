@@ -1,22 +1,17 @@
 {
   "expo": {
-    "name": "Lumen: Daily Prayer & Bible",
+    "name": "Selaora: Daily Prayer & Bible",
     "slug": "lumen-daily-prayer",
     "version": "1.0.0",
     "orientation": "default",
-    "scheme": "lumen",
+    "scheme": ["selaora", "lumen"],
     "userInterfaceStyle": "automatic",
     "newArchEnabled": false,
     "icon": "./assets/icon.png",
     "ios": {
       "bundleIdentifier": "com.lumen.dailyprayer",
       "supportsTablet": true,
-      "icon": "./assets/icon.png",
-      "infoPlist": {
-        "UIBackgroundModes": [
-          "audio"
-        ]
-      }
+      "icon": "./assets/icon.png"
     },
     "android": {
       "package": "com.lumen.dailyprayer",

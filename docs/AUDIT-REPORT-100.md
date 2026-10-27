@@ -1,4 +1,4 @@
-# Lumen — 100 Maddelik Denetim, Hata ve İyileştirme Raporu
+# Selaora — 100 Maddelik Denetim, Hata ve İyileştirme Raporu
 
 _Tarih: 2026-10-27 · Kapsam: `app/`, `src/`, `scripts/`, `content/`, yapılandırma, CI, dokümanlar_
 
@@ -199,7 +199,7 @@ Arka plan ses modu kullanmayan uygulama App Store 2.5.4 gerekçesiyle reddedilir
 Uygulama GitHub Releases'tan manifest/paket indiriyor (IP adresi GitHub'a gider), RevenueCat anonim kullanıcı kimliği
 oluşturuyor. “Hiçbir şey gönderilmez” ifadesi eksik kalıyor.
 
-**46. 🟠 Marka tutarsızlığı: “Selaora” vs “Lumen”** — `docs/privacy/index.html` (son commit) vs `app.json`, `legal.ts`
+**46. 🟠 Marka tutarsızlığı: “Selaora” vs “Lumen”** _(ürün adı Selaora olarak netleşti)_ — `docs/privacy/index.html` (son commit) vs `app.json`, `legal.ts`
 Mağazaya girilen gizlilik URL'si farklı ürün adı gösteriyor → inceleme reddi riski. Tek isimde birleştirin.
 
 **47. 🟡 Yasal metinler yalnızca İngilizce** — `legal.tsx`, `legal.ts`; uygulama 38 dilde. En azından bundled 8 dile çevirin veya dil notu ekleyin.
@@ -347,3 +347,38 @@ Bible versiyonunda `generatedAt` ve `Number.isFinite(bytes)` kontrolü eksik. Or
 - **Mezmur (#4):** `verses.ts` havuzundan “Psalm 46:10” → DE: “der den Kriegen steuert in aller Welt…”, FR: “Il fait cesser les combats…” (her ikisi de 46:9).
 - **Toast (#1):** `ToastHost.tsx:28` `pointerEvents="none"` — RN dokümantasyonuna göre alt görünümler de dokunma hedefi olamaz.
 - Otomatik kontroller: typecheck ✅, lint ✅, 56 test ✅ (bu raporun hazırlandığı commit üzerinde).
+
+
+---
+
+## Düzeltme durumu (2026-10-27)
+
+Uygulama adı **Selaora** olarak güncellendi (uygulama adı, wordmark, 38 dildeki metinler,
+yasal metinler, dokümanlar). Mevcut kullanıcı verisi ve mağaza kaydı bozulmasın diye iç
+tanımlayıcılar bilerek korundu: paket kimliği `com.lumen.dailyprayer`, `lumen-*` depolama
+anahtarları, RevenueCat `Lumen Pro` yetki kimliği ve `lumen://` şeması (`selaora://` eklendi).
+
+Doğrulama: `typecheck` ✅ · `lint` ✅ · `npm test` 80/80 ✅ (Europe/Berlin ve America/New_York
+saat dilimlerinde de) · kutsal metin bütünlüğü ✅ · içerik paketleri ✅ · web export + Playwright
+duman testi (onboarding, deep link, Plus kilidi, arama, günlükte Geri al) ✅.
+
+| # | Durum | Not |
+|---|---|---|
+| 1–36, 38–51, 54–60, 62, 64, 66–67, 69–85, 87–93, 96–99 | ✅ Düzeltildi | |
+| 4 | ✅ | Üretici script'e versification kaydırması; 57 DE + 56 FR girişi düzeldi, regresyon testi eklendi |
+| 37 | ➖ Bilinçli korundu | Uygulamayı açınca serinin yanması README'de tanımlı ürün kararı (YouVersion modeli); hydration hatası (#2) giderildiği için artık gerçekten çalışıyor |
+| 47 | ◐ Kısmi | Yasal metin tercümesi avukat onayı gerektirir; İngilizce olmayan dillerde “bağlayıcı metin İngilizcedir” notu gösteriliyor |
+| 52 | ⏸ Ertelendi | New Architecture'a geçiş cihazda test gerektirir (quiz.tsx'te eski mimariye özgü bir geçici çözüm var); körlemesine açmak release'i riske atar |
+| 53 | ⏸ Sizden bilgi gerekli | `eas.json` Apple ID / ASC App ID / Team ID değerleri hesap bilgisi |
+| 61 | ➖ Değişiklik gerekmedi | FR/PT dosyaları ayet üreticisinin kaynağı ve `docs/scripture-integrity.md` gereği bütünlük-kilitli; uygulama paketine girmiyorlar |
+| 63 | ➖ Korundu | `.claude/` proje skill'leri bilinçli olarak repoda; silmek sizin kararınız |
+| 65 | ◐ Kısmi | Sıcak yol (okuyucudaki ayet satırları) memo'landı; kart bileşenleri ucuz, closure'lar yüzünden memo kazanç getirmez |
+| 68 | ➖ Gerekmedi | Uygulamada tekil sayı üreten bir metin yok (planlar 7/30/90/365 gün, “dk” kısaltma) |
+| 86 | ◐ Kısmi | Merkezi `reportError` katmanı + Error Boundary bağlandı; Sentry vb. için DSN/hesap gerekli (`setErrorSink`) |
+| 94 | ✅ | node:test loader ile store testleri (hydration, migration'lar, undo) |
+| 95 | ◐ Kısmi | Maestro akışı eklendi (`.maestro/onboarding.yaml`); CI'da emülatör çalıştırmak ayrı iş |
+| 100 | ◐ Kısmi | “Verilerimi dışa aktar” (JSON paylaşımı) eklendi; içe aktarma için dosya seçici bağımlılığı gerekir |
+
+Ek gözlem (raporda yoktu): quiz'deki “üyelerin %73'ü aynı sebeple katıldı” ifadesi
+doğrulanmamış bir istatistik; mağaza/tüketici hukuku açısından kaldırılması veya gerçek veriyle
+değiştirilmesi önerilir (38 dilde içerik değişikliği gerektirdiği için dokunulmadı).

@@ -1,4 +1,4 @@
-# Lumen — Güncel 100 Tasarım Önerisi
+# Selaora — Güncel 100 Tasarım Önerisi
 
 Bu liste, `f7a010d4` birleşiminden sonraki uygulama kaynakları incelenerek yeniden
 hazırlandı. Önceki listede tamamlanan işler tekrar sayılmadı. Maddeler etki sırasındadır:
@@ -38,7 +38,7 @@ deneyimi, performans ve görsel cila gelir.
     değerleri değişirse veya release hak seti saparsa CI ve imzalı Android işi açıkça durur.
 14. ✅ **TAMAMLANDI — Günlük ve kullanıcı verisi silme akışını iki aşamalı yap.** Profile’daki ayrı
     yıkıcı işlem; silinecek verileri ve aboneliğin iptal olmayacağını açıklayan native onaydan sonra
-    yalnız Lumen kullanıcı store’larını temizliyor, indirilen içerik ve entitlement korunuyor.
+    yalnız Selaora kullanıcı store’larını temizliyor, indirilen içerik ve entitlement korunuyor.
 15. ✅ **TAMAMLANDI — Günlük girdisi silmeye Undo ekle.** 48 dp silme hedefi, geri alınabilir
     toast eylemi ve özgün zaman sırasını koruyan restore davranışı eklendi.
 16. ✅ **TAMAMLANDI — Bildirim izni reddedildiğinde ölü başarı mesajı gösterme.** İzin verilmeden

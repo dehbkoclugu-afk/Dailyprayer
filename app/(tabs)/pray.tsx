@@ -8,7 +8,7 @@ import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
 import { fonts, type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, art, FIXED_CARD_TEXT_SCALE } from '@/theme/tokens';
 import { usePrayers, prayerCategories, type GuidedPrayer } from '@/data/prayers';
 import { useEntitlementStore } from '@/state/useEntitlementStore';
 import { useT } from '@/i18n';
@@ -30,12 +30,12 @@ export default function Pray() {
 
   return (
     <Screen tabbed>
-      <Text style={[ty.title, { color: t.ink }]}>{tr('pray.title')}</Text>
-      <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>
+      <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} accessibilityRole="header" style={[ty.title, { color: t.ink }]}>{tr('pray.title')}</Text>
+      <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>
 {tr('pray.sub')}
       </Text>
 
-      {/* category filter , a single calm chip row (matches the Bible chapter
+      {/* category filter — a single calm chip row (matches the Bible chapter
           picker); tap the active chip again to clear back to the full library */}
       <ScrollView
         horizontal
@@ -51,7 +51,7 @@ export default function Pray() {
               onPress={() => setCat(active ? 'all' : c.key)}
               accessibilityRole="button"
               accessibilityState={{ selected: active }}
-              accessibilityLabel={tr(`cat.${c.key}` as never)}
+              accessibilityLabel={tr(`cat.${c.key}` as const)}
               style={({ pressed }) => ({
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -71,14 +71,14 @@ export default function Pray() {
                 size={16}
                 color={active ? t.gold : t.inkSoft}
               />
-              <Text
+              <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE}
                 style={{
                   fontFamily: active ? fonts.sansSemiBold : fonts.sansMedium,
                   fontSize: 14,
                   color: active ? t.gold : t.inkSoft,
                 }}
               >
-                {tr(`cat.${c.key}` as never)}
+                {tr(`cat.${c.key}` as const)}
               </Text>
             </Pressable>
           );
@@ -86,11 +86,11 @@ export default function Pray() {
       </ScrollView>
 
       <SectionHeader
-        title={cat === 'all' ? tr('pray.library') : tr(`cat.${cat}` as never)}
+        title={cat === 'all' ? tr('pray.library') : tr(`cat.${cat}` as const)}
         right={
           cat !== 'all' ? (
             <Pressable onPress={() => setCat('all')} hitSlop={8} accessibilityRole="button" accessibilityLabel={tr('a11y.showAll')}>
-              <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>{tr('pray.showAll')}</Text>
+              <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.blue }}>{tr('pray.showAll')}</Text>
             </Pressable>
           ) : undefined
         }
@@ -103,7 +103,7 @@ export default function Pray() {
               key={p.id}
               onPress={() => open(p)}
               accessibilityRole="button"
-              accessibilityLabel={`${p.title}, ${p.minutes} ${tr('pray.min')}${p.plus ? ' · Plus' : ''}`}
+              accessibilityLabel={`${p.title}, ${p.minutes} ${tr('pray.min')}${locked ? `, ${tr('profile.plusCta')}` : ''}`}
               style={({ pressed }) => ({
                 backgroundColor: t.surface,
                 borderRadius: radius.card,
@@ -148,7 +148,7 @@ export default function Pray() {
                     />
                   </View>
                   <View style={{ alignItems: 'center', maxWidth: 280 }}>
-                    <Text
+                    <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE}
                       numberOfLines={2}
                       style={{
                         fontFamily: fonts.serif,
@@ -156,26 +156,26 @@ export default function Pray() {
                         lineHeight: 26,
                         color: '#FFFFFF',
                         textAlign: 'center',
-                        textShadowColor: 'rgba(0,0,0,0.78)',
+                        textShadowColor: art.textShadow,
                         textShadowOffset: { width: 0, height: 1 },
                         textShadowRadius: 8,
                       }}
                     >
                       {p.title}
                     </Text>
-                    <Text
+                    <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE}
                       style={{
                         fontFamily: fonts.sansMedium,
                         fontSize: 13,
                         color: 'rgba(255,255,255,0.90)',
                         marginTop: spacing.xs,
                         textAlign: 'center',
-                        textShadowColor: 'rgba(0,0,0,0.78)',
+                        textShadowColor: art.textShadow,
                         textShadowOffset: { width: 0, height: 1 },
                         textShadowRadius: 6,
                       }}
                     >
-                      {p.minutes} {tr('pray.min')} · {tr(`cat.${p.category}` as never)}
+                      {p.minutes} {tr('pray.min')} · {tr(`cat.${p.category}` as const)}
                     </Text>
                   </View>
                   {p.plus ? (
@@ -192,7 +192,7 @@ export default function Pray() {
                         paddingVertical: 3,
                       }}
                     >
-                      <Text style={{ fontFamily: fonts.sansBold, fontSize: 10, color: locked ? artwork.foreground.tertiary : '#FFFFFF' }}>
+                      <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} style={{ fontFamily: fonts.sansBold, fontSize: 10, color: locked ? artwork.foreground.tertiary : '#FFFFFF' }}>
                         PLUS
                       </Text>
                     </View>

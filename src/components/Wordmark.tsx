@@ -10,7 +10,7 @@ interface Props {
 }
 
 /**
- * "Lumen" wordmark , Fraunces serif with a gold tittle over the "e", recreated
+ * "Selaora" wordmark — Fraunces serif with a gold tittle over the "e", recreated
  * from the brand wordmark as live text so it stays crisp at any size and adapts
  * to light/dark themes. (Rasterizing the supplied art was not viable: ivory
  * letters on a neutral checkerboard have no separable color/brightness signal.)
@@ -22,7 +22,7 @@ export function Wordmark({ size = 22, color }: Props) {
   const seg = { fontFamily: fonts.serif, fontSize: size, color: ink, lineHeight: size * 1.1 };
 
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'flex-start' }} accessibilityLabel="Lumen">
+    <View style={{ flexDirection: 'row', alignItems: 'flex-start' }} accessibilityLabel="Selaora">
       <Text style={seg}>Lum</Text>
       <View style={{ alignItems: 'center' }}>
         {/* gold tittle floating above the e */}

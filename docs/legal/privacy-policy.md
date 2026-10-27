@@ -1,16 +1,16 @@
 # Privacy Policy
 
-_Last updated: 2026-07-24_
+_Last updated: 2026-10-27_
 
 > Source of truth is `src/data/legal.ts` (shown in-app). Keep this hosted copy in
 > sync and have a lawyer review before publishing. Stores require a public URL
 > to this.
 
-Lumen ("the app", "we") is built to respect your privacy. This policy explains
+Selaora ("the app", "we") is built to respect your privacy. This policy explains
 what the app does and does not do with your information.
 
 ## The short version
-- No account is required to use Lumen.
+- No account is required to use Selaora.
 - We do **not** collect, sell, or share your personal data.
 - Your journal entries, streaks, preferences, and highlights are stored **only on
   your device**.
@@ -32,13 +32,21 @@ payments provider, RevenueCat, Inc. We receive anonymized subscription status
 receive your full payment details. See Apple's, Google's, and RevenueCat's
 privacy policies for how they handle payment data.
 
+## Downloads and network requests
+Selaora works offline. It connects to the internet only to:
+- download optional Bible editions and language packs you choose, from our
+  public release page on GitHub (github.com). Like any web request, GitHub
+  receives your IP address and basic device/network information; the request
+  contains no personal data from the app. See GitHub's privacy statement.
+- check purchases through RevenueCat, which assigns an anonymous app user ID.
+
 ## Notifications
 If you enable reminders, notifications are scheduled **locally on your device**.
 We do not run a server that sends you push messages, and enabling reminders does
 not send any data to us.
 
 ## Children
-Lumen is not directed to children under 13 (or the minimum age in your country).
+Selaora is not directed to children under 13 (or the minimum age in your country).
 We do not knowingly collect data from children.
 
 ## Changes

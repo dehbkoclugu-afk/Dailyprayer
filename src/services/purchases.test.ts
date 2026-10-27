@@ -2,7 +2,9 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   classifyPurchaseError,
+  entitlementSnapshot,
   hasActiveEntitlement,
+  isCachedEntitlementValid,
   planIdForPackage,
 } from './purchases.logic.ts';
 
@@ -36,4 +38,24 @@ test('recognizes the configured or legacy Lumen Plus entitlement', () => {
   const active = { 'Lumen Pro': { identifier: 'Lumen Pro' } };
   assert.equal(hasActiveEntitlement(active, ['plus', 'Lumen Pro']), true);
   assert.equal(hasActiveEntitlement(active, ['plus']), false);
+});
+
+test('captures the latest expiry of active entitlements, null for lifetime', () => {
+  assert.deepEqual(
+    entitlementSnapshot({ plus: { expirationDate: '2026-01-01T00:00:00Z' } }, ['plus']),
+    { active: true, expiresAt: '2026-01-01T00:00:00.000Z' },
+  );
+  assert.deepEqual(entitlementSnapshot({ plus: { expirationDate: null } }, ['plus']), {
+    active: true,
+    expiresAt: null,
+  });
+  assert.deepEqual(entitlementSnapshot({}, ['plus']), { active: false, expiresAt: null });
+});
+
+test('expired cached entitlements are not trusted offline', () => {
+  const now = Date.parse('2026-06-01T00:00:00Z');
+  assert.equal(isCachedEntitlementValid({ active: true, expiresAt: '2026-05-01T00:00:00Z' }, now), false);
+  assert.equal(isCachedEntitlementValid({ active: true, expiresAt: '2026-07-01T00:00:00Z' }, now), true);
+  assert.equal(isCachedEntitlementValid({ active: true, expiresAt: null }, now), true);
+  assert.equal(isCachedEntitlementValid({ active: false, expiresAt: null }, now), false);
 });

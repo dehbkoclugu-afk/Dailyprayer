@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Alert, Linking, Platform, Pressable, Text, View } from 'react-native';
+import { Alert, Linking, Platform, Pressable, Share, Text, View } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
+import Constants from 'expo-constants';
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -19,8 +20,10 @@ import { toast } from '@/state/useToastStore';
 import { APPLICATION_LOCALES, useT, translate } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
 import * as NotificationService from '@/services/notifications';
-import { clearLocalUserData } from '@/services/localData';
-import { openSubscriptionManagement } from '@/services/purchases';
+import { clearLocalUserData, exportLocalUserData } from '@/services/localData';
+import { SUPPORT_EMAIL } from '@/services/support';
+import { dayKey } from '@/lib/dates';
+import { getSupportId, openSubscriptionManagement } from '@/services/purchases';
 import {
   displayReminderTime,
   parseReminderTime,
@@ -29,16 +32,23 @@ import {
 import type { ThemeName } from '@/theme/tokens';
 import { GLOBAL_LANGUAGE_CATALOG } from '@/i18n/globalLanguageCatalog';
 
+type IoniconName = keyof typeof Ionicons.glyphMap;
+
 export default function Profile() {
   const t = useTheme();
   const themeName = useThemeName();
   const artwork = useArtwork();
   const { t: tr, locale } = useT();
-  const {
-    quiz, themePreference, setThemePreference, language,
-    scriptureLocale, setQuiz, reset,
-  } = useUserStore();
-  const { count, bestCount, totalDays } = useStreakStore();
+  const quiz = useUserStore((s) => s.quiz);
+  const themePreference = useUserStore((s) => s.themePreference);
+  const setThemePreference = useUserStore((s) => s.setThemePreference);
+  const language = useUserStore((s) => s.language);
+  const scriptureLocale = useUserStore((s) => s.scriptureLocale);
+  const setQuiz = useUserStore((s) => s.setQuiz);
+  const reset = useUserStore((s) => s.reset);
+  const count = useStreakStore((s) => s.count);
+  const bestCount = useStreakStore((s) => s.bestCount);
+  const totalDays = useStreakStore((s) => s.totalDays);
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const [sheet, setSheet] = useState<null | 'appearance'>(null);
   const [showIosReminderPicker, setShowIosReminderPicker] = useState(false);
@@ -64,7 +74,7 @@ export default function Profile() {
     if (!time) {
       setQuiz({ prayerTime: 'none' });
       await NotificationService.disableReminders();
-      toast(translate('toast.reminderSet'));
+      toast(translate('toast.reminderOff'));
       setShowIosReminderPicker(false);
       return true;
     }
@@ -73,12 +83,19 @@ export default function Profile() {
       const granted = await NotificationService.requestPermission();
       if (!granted) {
         setQuiz({ prayerTime: 'none' });
-        Alert.alert(tr('profile.reminderTitle'), tr('profile.reminderMsg'));
-        await Linking.openSettings().catch(() => {});
+        // Offer Settings as a choice instead of jumping there under the alert.
+        Alert.alert(tr('profile.reminderTitle'), tr('profile.reminderMsg'), [
+          { text: tr('profile.cancel'), style: 'cancel' },
+          { text: tr('profile.openSettings'), onPress: () => void Linking.openSettings().catch(() => {}) },
+        ]);
         return false;
       }
+      const streak = useStreakStore.getState();
       await NotificationService.scheduleDailyReminder(time);
-      await NotificationService.scheduleStreakSave(count);
+      await NotificationService.scheduleStreakSave({
+        doneToday: streak.doneDay === dayKey() && streak.doneSteps.length > 0,
+        reminder: time,
+      });
       setQuiz({ prayerTime: time });
       toast(translate('toast.reminderSet'));
       setShowIosReminderPicker(false);
@@ -151,8 +168,40 @@ export default function Profile() {
     }
   };
 
+  const confirmRestart = () =>
+    Alert.alert(tr('profile.restart'), tr('profile.restartMessage'), [
+      { text: tr('profile.cancel'), style: 'cancel' },
+      {
+        text: tr('profile.restart'),
+        style: 'destructive',
+        onPress: async () => {
+          await NotificationService.disableReminders().catch(() => {});
+          reset();
+          router.replace('/onboarding');
+        },
+      },
+    ]);
+
+  const copySupportId = async () => {
+    const id = await getSupportId();
+    if (!id) {
+      Alert.alert(tr('profile.supportId'), tr('scripture.downloadUnavailable'));
+      return;
+    }
+    await Clipboard.setStringAsync(id).catch(() => {});
+    toast(`${tr('verse.copied')} · ${id}`);
+  };
+
+  const exportData = async () => {
+    try {
+      await Share.share({ title: 'Selaora', message: exportLocalUserData() });
+    } catch {
+      Alert.alert(tr('profile.exportData'), tr('profile.deleteDataError'));
+    }
+  };
+
   const contactSupport = async () => {
-    const address = 'dehbkoclugu@gmail.com';
+    const address = SUPPORT_EMAIL;
     try {
       await Linking.openURL(`mailto:${address}`);
     } catch {
@@ -163,14 +212,14 @@ export default function Profile() {
 
   return (
     <Screen tabbed>
-      <Text style={[ty.title, { color: t.ink }]}>
+      <Text accessibilityRole="header" style={[ty.title, { color: t.ink }]}>
         {quiz.name ? quiz.name : tr('profile.journey')}
       </Text>
       <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.xs }]}>
         {tr('profile.subtitle')}
       </Text>
 
-      {/* streak , the current run is the hero (a flame + one number reads warm,
+      {/* streak — the current run is the hero (a flame + one number reads warm,
           not the hollow "three identical 1s" dashboard); best/total sit below
           as a quiet footnote so the card has hierarchy instead of three peers. */}
       <ArtSlot
@@ -228,7 +277,7 @@ export default function Profile() {
         variant="card"
         radius={radius.card}
         style={{
-          // Active Plus previously filled with goldSoft , a muddy olive block on
+          // Active Plus previously filled with goldSoft — a muddy olive block on
           // the dark surface. The gold border + filled star already read as
           // premium, so keep a clean surface fill in both states.
           backgroundColor: t.surface,
@@ -390,8 +439,10 @@ export default function Profile() {
           onPress={() => router.push({ pathname: '/legal', params: { doc: 'terms' } })}
         />
         <Row icon="mail-outline" label={tr('profile.contact')} onPress={contactSupport} />
+        <Row icon="download-outline" label={tr('profile.exportData')} onPress={exportData} />
+        <Row icon="finger-print-outline" label={tr('profile.supportId')} onPress={copySupportId} />
         <Pressable
-          onPress={reset}
+          onPress={confirmRestart}
           accessibilityRole="button"
           accessibilityLabel={tr('profile.restart')}
           style={({ pressed }) => ({
@@ -431,7 +482,7 @@ export default function Profile() {
       </View>
 
       <Text style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkFaint, textAlign: 'center', marginTop: spacing.xl }}>
-        Lumen v1.0.0
+        Selaora v{Constants.expoConfig?.version ?? '1.0.0'}
       </Text>
 
       <OptionSheet
@@ -453,7 +504,7 @@ function ValueRow({
   onPress,
   first,
 }: {
-  icon: string;
+  icon: IoniconName;
   label: string;
   value: string;
   onPress: () => void;
@@ -479,7 +530,7 @@ function ValueRow({
           borderTopColor: t.border,
         }}
       >
-        <Ionicons name={icon as never} size={20} color={t.inkSoft} />
+        <Ionicons name={icon} size={20} color={t.inkSoft} />
         <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink, flex: 1 }}>{label}</Text>
         <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.gold }}>{value}</Text>
         <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={18} color={t.inkFaint} />
@@ -488,7 +539,7 @@ function ValueRow({
   );
 }
 
-function Row({ icon, label, onPress }: { icon: string; label: string; onPress?: () => void }) {
+function Row({ icon, label, onPress }: { icon: IoniconName; label: string; onPress?: () => void }) {
   const t = useTheme();
   const { locale } = useT();
   return (
@@ -510,7 +561,7 @@ function Row({ icon, label, onPress }: { icon: string; label: string; onPress?: 
           minHeight: 52,
         }}
       >
-        <Ionicons name={icon as never} size={20} color={t.inkSoft} />
+        <Ionicons name={icon} size={20} color={t.inkSoft} />
         <Text style={{ fontFamily: fonts.sans, fontSize: 15, color: t.ink, flex: 1 }}>{label}</Text>
         <Ionicons name={getDirectionalIconName('chevron-forward', locale)} size={18} color={t.inkFaint} />
       </View>

@@ -13,8 +13,12 @@ import { useUserStore } from '@/state/useUserStore';
 import * as NotificationService from '@/services/notifications';
 import { useT } from '@/i18n';
 import type { Locale } from '@/i18n/translations';
+import { getQuizSteps } from '@/data/quiz';
+import { useStreakStore } from '@/state/useStreakStore';
+import { dayKey } from '@/lib/dates';
 
-// Goal phrases read into the "Guided prayers: …" line. `en` is the fallback.
+// Hand-written goal phrases for the "Guided prayers: …" line. Other locales use
+// the localized quiz option label, so no language shows English mid-sentence.
 const GOAL_LABELS: Partial<Record<Locale, Record<string, string>>> = {
   en: {
     habit: 'a steady daily habit',
@@ -46,34 +50,58 @@ const GOAL_LABELS: Partial<Record<Locale, Record<string, string>>> = {
   },
 };
 
-/** Personalized plan reveal , the moment before the paywall. */
+/** Personalized plan reveal — the moment before the paywall. */
 export default function Reveal() {
   const t = useTheme();
   const { t: tr, locale } = useT();
   const quiz = useUserStore((s) => s.quiz);
+  const setQuiz = useUserStore((s) => s.setQuiz);
   const setOnboarded = useUserStore((s) => s.setOnboarded);
 
   useEffect(() => {
     // Schedule the reminder they chose (permission prompt happens here, post-investment).
-    if (quiz.prayerTime && quiz.prayerTime !== 'none') {
-      NotificationService.requestPermission()
-        .then((granted) => {
-          if (granted) {
-            NotificationService.scheduleDailyReminder(quiz.prayerTime as string);
-            NotificationService.scheduleStreakSave();
-          }
-        })
-        .catch(() => {}); // web / denied permissions must never crash the reveal
-    }
-  }, [quiz.prayerTime]);
+    const time = quiz.prayerTime;
+    if (!time || time === 'none') return;
+    let active = true;
+    (async () => {
+      try {
+        if (!(await NotificationService.requestPermission())) throw new Error('denied');
+        const streak = useStreakStore.getState();
+        await NotificationService.scheduleDailyReminder(time);
+        await NotificationService.scheduleStreakSave({
+          doneToday: streak.doneDay === dayKey() && streak.doneSteps.length > 0,
+          reminder: time,
+        });
+      } catch {
+        // Denied/unsupported: record that no reminder exists, so Profile
+        // doesn't claim one is set. Web/denied must never crash the reveal.
+        if (active) setQuiz({ prayerTime: 'none' });
+      }
+    })();
+    return () => {
+      active = false;
+    };
+    // Run once for the answer given in the quiz.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const goals = GOAL_LABELS[locale] ?? GOAL_LABELS.en!;
-  const goal = (quiz.goals[0] && goals[quiz.goals[0]]) || goals.default;
+  const goalKey = quiz.goals[0];
+  const handWritten = GOAL_LABELS[locale];
+  const optionLabel = goalKey
+    ? getQuizSteps(locale).find((step) => step.key === 'goals')?.options.find((o) => o.value === goalKey)?.label
+    : undefined;
+  const goal =
+    (handWritten && goalKey && handWritten[goalKey]) ||
+    optionLabel ||
+    handWritten?.default ||
+    GOAL_LABELS.en!.default;
 
+  const prayersLabel = tr('reveal.itemPrayers');
   const items = [
     { icon: 'sunny-outline', text: tr('reveal.itemVerse') },
     { icon: 'book-outline', text: tr('reveal.itemDevotional') },
-    { icon: 'flame-outline', text: `${tr('reveal.itemPrayers')} ${goal}` },
+    // Full-width CJK colons already carry their own spacing.
+    { icon: 'flame-outline', text: `${prayersLabel}${prayersLabel.endsWith('：') ? '' : ' '}${goal}` },
     { icon: 'moon-outline', text: tr('reveal.itemSleep') },
   ] as const;
 
@@ -93,8 +121,10 @@ export default function Reveal() {
             fit="contain"
             style={{ width: 120, alignSelf: 'center', marginTop: spacing.xl }}
           />
-          <Text style={[ty.display, { color: t.ink, marginTop: spacing.lg }]}>
-            {quiz.name ? `${quiz.name}, ${tr('reveal.planReadySuffix')}` : tr('reveal.planReady')}
+          <Text accessibilityRole="header" style={[ty.display, { color: t.ink, marginTop: spacing.lg }]}>
+            {quiz.name
+              ? tr('format.nameFirst', { name: quiz.name, text: tr('reveal.planReadySuffix') })
+              : tr('reveal.planReady')}
           </Text>
           <Text style={[ty.body, { color: t.inkSoft, marginTop: spacing.md }]}>
             {tr('reveal.sub')}

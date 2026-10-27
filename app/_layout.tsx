@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Stack } from 'expo-router';
+import { Stack, type ErrorBoundaryProps } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { Platform, useColorScheme } from 'react-native';
+import { AppState, I18nManager, Platform, Pressable, Text, View, useColorScheme } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import {
@@ -20,12 +21,17 @@ import { ToastHost } from '@/components/ToastHost';
 import { useTheme } from '@/hooks/useTheme';
 import { useStreakStore } from '@/state/useStreakStore';
 import { useUserStore } from '@/state/useUserStore';
+import { waitForHydration } from '@/state/hydration';
 import { initPurchases } from '@/services/purchases';
+import { syncReminders } from '@/services/notifications';
+import { dayKey } from '@/lib/dates';
+import { fonts } from '@/theme/typography';
+import { reportError } from '@/lib/reportError';
 import { loadInstalledBiblePack } from '@/services/biblePacks';
 import { registerDownloadedBiblePack } from '@/data/bibleFull';
 import { isBundledScriptureLocale, resolveSystemScriptureLocale } from '@/i18n/scripture';
-import { resolveLocale, resolveRequestedApplicationLocale } from '@/i18n';
-import { getApplicationDirection } from '@/i18n/direction';
+import { resolveLocale, resolveRequestedApplicationLocale, translate } from '@/i18n';
+import { getApplicationDirection, isApplicationRTL } from '@/i18n/direction';
 import {
   BUNDLED_APPLICATION_CONTENT_LOCALES,
   restoreInstalledApplicationLocale,
@@ -35,13 +41,47 @@ import { loadInstalledApplicationContentPack } from '@/services/applicationConte
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
+/** Keys of retired stores; removed once so they don't linger on devices. */
+const RETIRED_STORAGE_KEYS = ['lumen-bible'];
+
+function reminderState() {
+  const streak = useStreakStore.getState();
+  return {
+    prayerTime: useUserStore.getState().quiz.prayerTime,
+    doneToday: streak.doneDay === dayKey() && streak.doneSteps.length > 0,
+  };
+}
+
+/** Rendered by Expo Router when any screen throws, instead of a blank app. */
+export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
+  const t = useTheme();
+  useEffect(() => reportError(error, 'render'), [error]);
+  return (
+    <View style={{ flex: 1, backgroundColor: t.bg, alignItems: 'center', justifyContent: 'center', padding: 32, gap: 12 }}>
+      <Text accessibilityRole="header" style={{ fontFamily: fonts.serif, fontSize: 24, color: t.ink, textAlign: 'center' }}>
+        {translate('error.title')}
+      </Text>
+      <Text style={{ fontFamily: fonts.sans, fontSize: 15, lineHeight: 22, color: t.inkSoft, textAlign: 'center' }}>
+        {translate('error.body')}
+      </Text>
+      <Pressable
+        onPress={retry}
+        accessibilityRole="button"
+        style={{ marginTop: 12, minHeight: 48, paddingHorizontal: 24, borderRadius: 999, backgroundColor: t.gold, justifyContent: 'center' }}
+      >
+        <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.onGold }}>{translate('error.retry')}</Text>
+      </Pressable>
+    </View>
+  );
+}
+
 export default function RootLayout() {
   const t = useTheme();
   const scheme = useColorScheme();
   const pref = useUserStore((s) => s.themePreference);
   const language = useUserStore((s) => s.language);
   const [loaded, fontError] = useFonts({
-    // Ionicons glyph font , without this the icons render blank in release
+    // Ionicons glyph font — without this the icons render blank in release
     // builds (empty buttons, missing chevrons/play controls).
     ...Ionicons.font,
     Fraunces_400Regular,
@@ -55,7 +95,7 @@ export default function RootLayout() {
   // Gate rendering on font readiness, but NEVER hang on the splash: proceed when
   // fonts load, when they error, or after a short failsafe timeout. A release
   // build that stalls loading fonts would otherwise sit on the splash forever
-  // (the emulator smoke test can't catch this , the process stays alive).
+  // (the emulator smoke test can't catch this — the process stays alive).
   const [ready, setReady] = useState(false);
   const [scriptureReady, setScriptureReady] = useState(false);
   const [applicationContentReady, setApplicationContentReady] = useState(false);
@@ -84,7 +124,8 @@ export default function RootLayout() {
           if (pack) registerDownloadedBiblePack(pack);
           else if (preference !== 'system') user.setScriptureLocale('system');
         })
-        .catch(() => {
+        .catch((error) => {
+          reportError(error, 'restore-scripture-pack');
           if (preference !== 'system') user.setScriptureLocale('system');
         })
         .finally(() => {
@@ -116,6 +157,7 @@ export default function RootLayout() {
         loadInstalled: loadInstalledApplicationContentPack,
         register: registerApplicationContentPack,
       })
+        .catch(() => false)
         .finally(() => {
           if (active) setApplicationContentReady(true);
         });
@@ -130,26 +172,71 @@ export default function RootLayout() {
     };
   }, []);
 
+  // Startup work that depends on persisted state runs only after every store
+  // has hydrated — otherwise the app-open streak tick and reminder sync would
+  // act on defaults and then be overwritten by the stored values.
+  const [hydrated, setHydrated] = useState(false);
   useEffect(() => {
-    initPurchases();
-    // App-open streak tick (YouVersion pattern): opening the app keeps the flame lit.
-    const streak = useStreakStore.getState();
-    streak.tickToday();
-    // Keep the evening streak-save notification referencing the live count ,
-    // only for users who opted into reminders.
-    const { prayerTime } = useUserStore.getState().quiz;
-    if (prayerTime && prayerTime !== 'none') {
-      import('@/services/notifications')
-        .then((n) => n.scheduleStreakSave(useStreakStore.getState().count))
-        .catch(() => {});
-    }
+    let active = true;
+    waitForHydration().then(() => {
+      if (!active) return;
+      setHydrated(true);
+      initPurchases();
+      // App-open streak tick (YouVersion pattern): opening the app keeps the flame lit.
+      useStreakStore.getState().tickToday();
+      syncReminders(reminderState()).catch((error) => reportError(error, 'reminders'));
+      AsyncStorage.multiRemove(RETIRED_STORAGE_KEYS).catch(() => {});
+    });
+    return () => {
+      active = false;
+    };
   }, []);
 
+  // A new day can begin while the app sits in the background: tick again and
+  // refresh reminders whenever it returns to the foreground.
   useEffect(() => {
-    if (ready && scriptureReady && applicationContentReady) {
+    if (!hydrated) return;
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state !== 'active') return;
+      useStreakStore.getState().tickToday();
+      syncReminders(reminderState()).catch((error) => reportError(error, 'reminders'));
+    });
+    return () => subscription.remove();
+  }, [hydrated]);
+
+  // Re-render notification copy in the new language, and drop today's evening
+  // nudge as soon as a ritual step is completed.
+  useEffect(() => {
+    if (!hydrated) return;
+    const resync = () => {
+      syncReminders(reminderState()).catch((error) => reportError(error, 'reminders'));
+    };
+    const unsubscribeUser = useUserStore.subscribe((state, previous) => {
+      if (state.language !== previous.language || state.quiz.prayerTime !== previous.quiz.prayerTime) resync();
+    });
+    const unsubscribeStreak = useStreakStore.subscribe((state, previous) => {
+      if (state.doneDay !== previous.doneDay || state.doneSteps.length !== previous.doneSteps.length) resync();
+    });
+    return () => {
+      unsubscribeUser();
+      unsubscribeStreak();
+    };
+  }, [hydrated]);
+
+  // Inline `direction` mirrors this session immediately; native chrome (tab bar,
+  // gestures, modals) follows I18nManager, which applies from the next launch.
+  const rtl = isApplicationRTL(resolveLocale(language));
+  useEffect(() => {
+    if (Platform.OS === 'web' || I18nManager.isRTL === rtl) return;
+    I18nManager.allowRTL(rtl);
+    I18nManager.forceRTL(rtl);
+  }, [rtl]);
+
+  useEffect(() => {
+    if (ready && hydrated && scriptureReady && applicationContentReady) {
       SplashScreen.hideAsync().catch(() => {});
     }
-  }, [applicationContentReady, ready, scriptureReady]);
+  }, [applicationContentReady, hydrated, ready, scriptureReady]);
 
   // Web static export renders build-time HTML with default state; persisted
   // stores + locale only exist client-side, so hydrate after mount to avoid
@@ -157,14 +244,14 @@ export default function RootLayout() {
   const [mounted, setMounted] = useState(Platform.OS !== 'web');
   useEffect(() => setMounted(true), []);
 
-  // Render marker for the smoke test , a stuck splash never logs this.
+  // Render marker for the smoke test — a stuck splash never logs this.
   useEffect(() => {
-    if (ready && mounted && scriptureReady && applicationContentReady) {
-      console.log('LUMEN_UI_READY');
+    if (ready && hydrated && mounted && scriptureReady && applicationContentReady) {
+      console.log('SELAORA_UI_READY');
     }
-  }, [applicationContentReady, ready, mounted, scriptureReady]);
+  }, [applicationContentReady, hydrated, ready, mounted, scriptureReady]);
 
-  if (!ready || !mounted || !scriptureReady || !applicationContentReady) return null;
+  if (!ready || !hydrated || !mounted || !scriptureReady || !applicationContentReady) return null;
 
   const dark = pref === 'system' ? scheme !== 'light' : pref === 'vigil';
   const direction = getApplicationDirection(resolveLocale(language));

@@ -54,6 +54,12 @@ export const useUserStore = create<UserState>()(
       setQuiz: (patch) => set((s) => ({ quiz: { ...s.quiz, ...patch } })),
       reset: () => set({ onboarded: false, quiz: emptyQuiz }),
     }),
-    { name: 'lumen-user', storage: createJSONStorage(() => safePersistStorage) },
+    {
+      name: 'lumen-user',
+      // Versioned so future shape changes ship with an explicit migration.
+      version: 1,
+      storage: createJSONStorage(() => safePersistStorage),
+      migrate: (persisted) => persisted as UserState,
+    },
   ),
 );

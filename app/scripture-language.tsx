@@ -1,13 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
-import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
-import { getDirectionalIconName } from '@/i18n/direction';
 import {
   EXISTING_NON_PD_SCRIPTURE,
   GLOBAL_LANGUAGE_CATALOG,
@@ -21,7 +19,6 @@ import {
   useScriptureLocale,
 } from '@/i18n/scripture';
 import { useUserStore } from '@/state/useUserStore';
-import { useReaderStore } from '@/state/useReaderStore';
 import {
   installBiblePack,
   listInstalledBiblePacks,
@@ -31,6 +28,9 @@ import {
 import { fetchBiblePackManifest, releaseMap } from '@/services/biblePackRegistry';
 import { registerDownloadedBiblePack } from '@/data/bibleFull';
 import type { BiblePackRelease } from '@/data/biblePack';
+import { goBack } from '@/lib/navigation';
+import { reportError } from '@/lib/reportError';
+import { BackButton } from '@/components/BackButton';
 
 const candidates = new Set<string>(RELEASE_CANDIDATE_SCRIPTURE_LOCALE_TAGS);
 const languages = GLOBAL_LANGUAGE_CATALOG.filter(
@@ -39,7 +39,7 @@ const languages = GLOBAL_LANGUAGE_CATALOG.filter(
 
 export default function ScriptureLanguage() {
   const t = useTheme();
-  const { t: tr, locale } = useT();
+  const { t: tr } = useT();
   const effectiveScriptureLocale = useScriptureLocale();
   const scriptureLocale = useUserStore((s) => s.scriptureLocale);
   const setScriptureLocale = useUserStore((s) => s.setScriptureLocale);
@@ -48,6 +48,7 @@ export default function ScriptureLanguage() {
   );
   const [releases, setReleases] = useState<Map<GlobalLocaleTag, BiblePackRelease>>(new Map());
   const [downloading, setDownloading] = useState<GlobalLocaleTag | null>(null);
+  const [progress, setProgress] = useState(0);
 
   const selected = effectiveScriptureLocale;
 
@@ -74,10 +75,12 @@ export default function ScriptureLanguage() {
   ) => {
     if (downloading) return;
     try {
+      // The reading position is stored by canonical book code, so switching to
+      // an edition with a different canon keeps the user's place (or falls back
+      // to the first book when the edition lacks it) — no reset needed here.
       if (isBundledScriptureLocale(tag)) {
-        if (selected === 'hr') useReaderStore.getState().setPos(0, 0);
         setScriptureLocale(preference);
-        router.back();
+        goBack();
         return;
       }
 
@@ -100,18 +103,17 @@ export default function ScriptureLanguage() {
           Alert.alert(tr('profile.scriptureLanguage'), tr('scripture.downloadUnavailable'));
           return;
         }
+        setProgress(0);
         setDownloading(tag);
-        pack = await installBiblePack(release);
+        pack = await installBiblePack(release, setProgress);
         setInstalled((current) => new Set<GlobalLocaleTag>([...current, tag]));
       }
 
       registerDownloadedBiblePack(pack);
-      if (pack.canon === 'catholic-73' || selected === 'hr') {
-        useReaderStore.getState().setPos(0, 0);
-      }
       setScriptureLocale(preference);
-      router.back();
-    } catch {
+      goBack();
+    } catch (error) {
+      reportError(error, 'bible-pack-install');
       Alert.alert(tr('profile.scriptureLanguage'), tr('scripture.downloadUnavailable'));
     } finally {
       setDownloading(null);
@@ -124,24 +126,7 @@ export default function ScriptureLanguage() {
   return (
     <Screen>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
-        <Pressable
-          onPress={() => router.back()}
-          accessibilityRole="button"
-          accessibilityLabel={tr('a11y.back')}
-          hitSlop={10}
-          style={{
-            width: 42,
-            height: 42,
-            borderRadius: 21,
-            backgroundColor: t.surface,
-            borderWidth: 1,
-            borderColor: t.border,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={22} color={t.ink} />
-        </Pressable>
+        <BackButton />
         <Text style={{ flex: 1, fontFamily: fonts.serif, fontSize: 30, color: t.ink }}>
           {tr('profile.scriptureLanguage')}
         </Text>
@@ -149,6 +134,10 @@ export default function ScriptureLanguage() {
 
       <Pressable
         onPress={() => choose(resolveSystemScriptureLocale(), 'system')}
+        disabled={downloading !== null}
+        accessibilityRole="button"
+        accessibilityState={{ selected: autoSelected }}
+        accessibilityLabel={tr('profile.auto')}
         style={{
           marginTop: spacing.xl,
           minHeight: 60,
@@ -184,7 +173,8 @@ export default function ScriptureLanguage() {
               onPress={() => choose(tag)}
               disabled={downloading !== null}
               accessibilityRole="button"
-              accessibilityLabel={`${item.nativeName}, ${edition}`}
+              accessibilityState={{ selected: active, busy }}
+              accessibilityLabel={`${item.nativeName}, ${edition}${!ready && release ? `, ${(release.bytes / 1024 / 1024).toFixed(1)} MB` : ''}`}
               style={({ pressed }) => ({
                 minHeight: 72,
                 paddingHorizontal: spacing.lg,
@@ -212,7 +202,12 @@ export default function ScriptureLanguage() {
               </View>
 
               {busy ? (
-                <ActivityIndicator color={t.gold} />
+                <View style={{ alignItems: 'flex-end', gap: 2 }} accessibilityLiveRegion="polite">
+                  <ActivityIndicator color={t.gold} />
+                  <Text style={{ fontFamily: fonts.sans, fontSize: 10, color: t.inkFaint, fontVariant: ['tabular-nums'] }}>
+                    {Math.round(progress * 100)}%
+                  </Text>
+                </View>
               ) : active ? (
                 <Ionicons name="checkmark-circle" size={22} color={t.gold} />
               ) : ready ? (

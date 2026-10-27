@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AccessibilityInfo, Pressable, Text, View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { FadeInUp, FadeOut, useReducedMotion } from 'react-native-reanimated';
@@ -11,12 +11,14 @@ import { PillButton } from '@/components/PillButton';
 import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts } from '@/theme/typography';
-import { spacing } from '@/theme/tokens';
+import { spacing, art } from '@/theme/tokens';
 import { prayerArt } from '@/assets/registry';
-import { usePrayers } from '@/data/prayers';
+import { usePrayers, type GuidedPrayer } from '@/data/prayers';
 import { useStreakStore } from '@/state/useStreakStore';
 import { toast } from '@/state/useToastStore';
 import { translate, useT } from '@/i18n';
+import { useRequirePlus } from '@/hooks/useRequirePlus';
+import { goBack } from '@/lib/navigation';
 
 type Pace = 'slow' | 'normal' | 'quick';
 
@@ -27,17 +29,26 @@ const PACE_FACTOR: Record<Pace, number> = {
 };
 
 /**
- * Guided prayer player , paced text lines with a breathing pause between them.
+ * Guided prayer player — paced text lines with a breathing pause between them.
  * Audio narration slots in here later (expo-audio) without changing the flow.
  */
 export default function Player() {
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const prayers = usePrayers();
+  const prayer = prayers.find((p) => p.id === id) ?? prayers[0];
+  // Deep links can open a Plus prayer directly; send those to the paywall.
+  const allowed = useRequirePlus(Boolean(prayer?.plus), prayer?.category === 'sleep' ? 'sleep' : 'prayer');
+  if (!prayer || !prayer.script.length || !allowed) {
+    return <View style={{ flex: 1, backgroundColor: art.night }} />;
+  }
+  return <PrayerPlayer prayer={prayer} />;
+}
+
+function PrayerPlayer({ prayer }: { prayer: GuidedPrayer }) {
   const t = useTheme();
   const { t: tr } = useT();
   const insets = useSafeAreaInsets();
   const reduceMotion = useReducedMotion();
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const prayers = usePrayers();
-  const prayer = prayers.find((p) => p.id === id) ?? prayers[0];
   const [line, setLine] = useState(0);
   const [paused, setPaused] = useState(false);
   const [pace, setPace] = useState<Pace>('normal');
@@ -53,33 +64,50 @@ export default function Player() {
     ),
   );
 
+  // Resume where the user left off. Nothing is written (and the auto-advance
+  // timer doesn't start) until the saved line has been read, so a slow read
+  // can never overwrite the saved position with 0.
+  const restored = useRef(false);
+  const [ready, setReady] = useState(false);
   useEffect(() => {
+    let active = true;
     AsyncStorage.getItem(`lumen-player-${prayer.id}`)
       .then((saved) => {
         const parsed = Number(saved);
-        if (Number.isInteger(parsed) && parsed >= 0 && parsed < prayer.script.length) setLine(parsed);
+        if (active && saved !== null && Number.isInteger(parsed) && parsed >= 0 && parsed < prayer.script.length) {
+          setLine(parsed);
+        }
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => {
+        if (!active) return;
+        restored.current = true;
+        setReady(true);
+      });
+    return () => {
+      active = false;
+    };
   }, [prayer.id, prayer.script.length]);
 
   useEffect(() => {
+    if (!restored.current) return;
     AsyncStorage.setItem(`lumen-player-${prayer.id}`, String(line)).catch(() => {});
     AccessibilityInfo.announceForAccessibility(prayer.script[line]);
-  }, [line, prayer.id, prayer.script]);
+  }, [line, prayer.id, prayer.script, ready]);
 
   useEffect(() => {
-    if (paused || lastLine) return;
+    if (!ready || paused || lastLine) return;
     const ms = Math.max(4000, prayer.script[line].length * PACE_FACTOR[pace]);
     const timer = setTimeout(() => setLine((l) => l + 1), ms);
     return () => clearTimeout(timer);
-  }, [line, pace, paused, lastLine, prayer.script]);
+  }, [line, pace, paused, lastLine, prayer.script, ready]);
 
   const finish = () => {
     completeStep('prayer');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     AsyncStorage.removeItem(`lumen-player-${prayer.id}`).catch(() => {});
     toast(translate('toast.prayer'));
-    router.back();
+    goBack();
   };
 
   const foreground = '#FFFFFF';
@@ -92,7 +120,7 @@ export default function Player() {
   } as const;
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#0E1220' }}>
+    <View style={{ flex: 1, backgroundColor: art.night }}>
       <StatusBar style="light" />
       <ArtSlot
         id={prayerArt(prayer.id)}
@@ -118,7 +146,7 @@ export default function Player() {
             </Text>
           </View>
           <Pressable
-            onPress={() => router.back()}
+            onPress={() => goBack()}
             hitSlop={12}
             accessibilityRole="button"
             accessibilityLabel={tr('player.close')}
@@ -139,14 +167,14 @@ export default function Player() {
         </View>
 
         <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: spacing.sm }}>
-          {/* each line rises gently into place , the "breath" feel */}
+          {/* each line rises gently into place — the "breath" feel */}
           <Animated.Text
             key={line}
             entering={reduceMotion ? undefined : FadeInUp.duration(600)}
             exiting={reduceMotion ? undefined : FadeOut.duration(250)}
             accessibilityLiveRegion="polite"
             style={{
-              fontFamily: 'Fraunces_400Regular',
+              fontFamily: fonts.serifLight,
               fontSize: 30,
               lineHeight: 43,
               color: foreground,
@@ -174,11 +202,11 @@ export default function Player() {
         <Pressable
           onPress={() => setPace((current) => current === 'slow' ? 'normal' : current === 'normal' ? 'quick' : 'slow')}
           accessibilityRole="button"
-          accessibilityLabel={`${tr('player.pace')}: ${tr(`player.pace.${pace}` as never)}`}
+          accessibilityLabel={`${tr('player.pace')}: ${tr(`player.pace.${pace}` as const)}`}
           style={{ minHeight: 48, alignSelf: 'center', justifyContent: 'center', marginBottom: spacing.md }}
         >
           <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: muted, ...textShadow }}>
-            {tr('player.pace')}: {tr(`player.pace.${pace}` as never)}
+            {tr('player.pace')}: {tr(`player.pace.${pace}` as const)}
           </Text>
         </Pressable>
 

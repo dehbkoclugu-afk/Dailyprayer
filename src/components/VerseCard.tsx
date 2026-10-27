@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { captureRef } from 'react-native-view-shot';
 import * as Sharing from 'expo-sharing';
 import { fonts } from '@/theme/typography';
-import { radius, shadow, spacing } from '@/theme/tokens';
+import { radius, shadow, spacing, art, FIXED_CARD_TEXT_SCALE } from '@/theme/tokens';
 import { type AssetId } from '@/assets/registry';
 import { ArtSlot } from '@/components/ArtSlot';
 import type { DailyVerse } from '@/data/verses';
@@ -81,7 +81,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
 
   /** Share the rendered card as an image (organic growth); text fallback on web/failure. */
   const share = async () => {
-    const text = `“${verse.text}” , ${verse.reference}\n\nLumen 🕊`;
+    const text = `“${verse.text}”\n— ${verse.reference}\n\nSelaora 🕊`;
     try {
       if (Platform.OS !== 'web' && (await Sharing.isAvailableAsync())) {
         const uri = await captureRef(cardRef, { format: 'png', quality: 1 });
@@ -103,7 +103,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
         paddingTop: spacing.xl,
       }}
     >
-      <Text
+      <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE}
         style={{
           fontFamily: fonts.sansSemiBold,
           fontSize: 11,
@@ -130,7 +130,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
             paddingBottom: spacing.sm,
           }}
         >
-          <Text
+          <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE}
             style={{
               fontFamily: fonts.serifLight,
               fontSize: verseType.fontSize,
@@ -161,13 +161,13 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               backgroundColor: 'rgba(14,18,32,0.66)',
             }}
           >
-            <Ionicons name="chevron-down" size={16} color="#F2EEE6" />
+            <Ionicons name="chevron-down" size={16} color={art.ink} />
           </View>
         ) : null}
       </View>
 
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: spacing.sm }}>
-        <Text
+        <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE}
           numberOfLines={1}
           adjustsFontSizeToFit
           minimumFontScale={0.75}
@@ -184,7 +184,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
               accessibilityLabel={tr('a11y.anotherVerse')}
               style={({ pressed }) => ({ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
             >
-              <Ionicons name="shuffle" size={21} color="#F2EEE6" />
+              <Ionicons name="shuffle" size={21} color={art.ink} />
             </Pressable>
           ) : null}
           <Pressable
@@ -194,7 +194,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
             accessibilityLabel={tr('a11y.shareVerse')}
             style={({ pressed }) => ({ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
           >
-            <Ionicons name="share-outline" size={21} color="#F2EEE6" />
+            <Ionicons name="share-outline" size={21} color={art.ink} />
           </Pressable>
         </View>
       </View>
@@ -206,7 +206,8 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       ref={cardRef}
       onPress={onRead}
       accessibilityRole="button"
-      accessibilityLabel={`Verse of the day, ${verse.reference}`}
+      accessibilityLabel={`${tr('today.verseOfDay')}, ${verse.reference}`}
+      accessibilityHint={verse.text}
       // The hero frame stays stable. Header and source/actions remain fixed while
       // the middle verse region scales down, then scrolls for exceptionally long text.
       style={[

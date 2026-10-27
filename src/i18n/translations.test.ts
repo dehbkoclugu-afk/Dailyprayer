@@ -78,3 +78,11 @@ test('device locale resolution preserves Chinese and Serbian script variants', (
   assert.equal(resolveGlobalLocale('ar-TR', 'ar'), 'ar');
   assert.equal(resolveGlobalLocale('xx-ZZ', 'xx'), 'en');
 });
+
+test('no UI string carries the " , " em-dash corruption', () => {
+  for (const [locale, dictionary] of Object.entries(translations)) {
+    for (const [key, value] of Object.entries(dictionary)) {
+      assert.doesNotMatch(value, / , /, `${locale}.${key} has a broken em dash`);
+    }
+  }
+});

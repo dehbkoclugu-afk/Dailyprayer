@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -13,7 +13,7 @@ import { ArtSlot } from '@/components/ArtSlot';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
 import { fonts, type as ty } from '@/theme/typography';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, art, FIXED_CARD_TEXT_SCALE } from '@/theme/tokens';
 import { useDailyContent } from '@/hooks/useDailyContent';
 import { getVerses, type DailyVerse } from '@/data/verses';
 import { useScriptureLocale } from '@/i18n/scripture';
@@ -25,6 +25,8 @@ import { usePrayers } from '@/data/prayers';
 import { prayerArt } from '@/assets/registry';
 import { toast } from '@/state/useToastStore';
 import { useT, translate } from '@/i18n';
+import { useNow } from '@/hooks/useNow';
+import type { RitualStep } from '@/state/useStreakStore';
 
 /** Locale-aware date line using the locale's native order, month, and weekday. */
 function formatDateLine(now: Date, locale: string): string {
@@ -50,7 +52,7 @@ export default function Today() {
   const { t: tr, locale } = useT();
   const scriptureLocale = useScriptureLocale();
   const { verse, devotional } = useDailyContent();
-  // The verse of the day is fixed by date, but let people browse the pool , a
+  // The verse of the day is fixed by date, but let people browse the pool — a
   // shuffle swaps in another verse without touching the day's read-streak.
   const [otherVerse, setOtherVerse] = useState<DailyVerse | null>(null);
   const shownVerse = otherVerse ?? verse;
@@ -68,27 +70,38 @@ export default function Today() {
   const prayers = usePrayers();
   const name = useUserStore((s) => s.quiz.name);
   const isPlus = useEntitlementStore((s) => s.isPlus);
-  const { count, lastTickDay, doneDay, doneSteps } = useStreakStore();
-  const litToday = lastTickDay === dayKey();
-  const doneCount = doneDay === dayKey() ? doneSteps.length : 0;
+  const count = useStreakStore((s) => s.count);
+  const lastTickDay = useStreakStore((s) => s.lastTickDay);
+  const doneDay = useStreakStore((s) => s.doneDay);
+  const doneSteps = useStreakStore((s) => s.doneSteps);
+  const completeStep = useStreakStore((s) => s.completeStep);
 
-  const now = new Date();
+  // Re-renders at midnight / each hour / on foreground so the date, greeting
+  // and "done today" state never go stale while the app stays in memory.
+  const now = useNow();
+  const today = dayKey(now);
+  const litToday = lastTickDay === today;
+  const doneCount = doneDay === today ? doneSteps.length : 0;
   const dateLine = formatDateLine(now, locale);
   const greeting = greetingFor(now.getHours());
   const greetText =
     greeting === 'morning' ? tr('today.morning') : greeting === 'afternoon' ? tr('today.afternoon') : tr('today.evening');
 
-  const isDone = (s: 'verse' | 'devotional' | 'prayer' | 'gratitude') =>
-    doneDay === dayKey() && doneSteps.includes(s);
+  const isDone = (s: RitualStep) => doneDay === today && doneSteps.includes(s);
 
-  const morningPrayer = prayers.find((p) => p.category === 'morning')!;
-  const sleepPrayer = prayers.find((p) => p.category === 'sleep')!;
-  const completeStep = useStreakStore((s) => s.completeStep);
-  const uncompleteStep = useStreakStore((s) => s.uncompleteStep);
+  // Content packs are validated to include these categories, but never crash
+  // the home screen if one is missing — fall back to any prayer.
+  const morningPrayer = prayers.find((p) => p.category === 'morning') ?? prayers[0];
+  const sleepPrayer = prayers.find((p) => p.category === 'sleep') ?? prayers[prayers.length - 1];
+  const sleepLocked = Boolean(sleepPrayer?.plus && !isPlus);
+  const openSleep = () =>
+    sleepLocked
+      ? router.push('/paywall?from=sleep')
+      : router.push({ pathname: '/player', params: { id: sleepPrayer.id } });
 
   return (
     <Screen tabbed>
-      {/* candle-glow wash behind the header , a soft top-down fade, not a hard
+      {/* candle-glow wash behind the header — a soft top-down fade, not a hard
           disc. The old 340px circle read as an unintentional dark dome; a
           vertical gradient bleeds warmth in without a visible shape edge. */}
       {!dawn ? (
@@ -105,7 +118,7 @@ export default function Today() {
           compact ritual marker instead of looking like a settings tile. */}
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <View style={{ flex: 1, paddingRight: spacing.lg }}>
-          <Text
+          <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE}
             style={{
               fontFamily: fonts.sansSemiBold,
               fontSize: 11,
@@ -117,8 +130,8 @@ export default function Today() {
           >
             {dateLine}
           </Text>
-          <Text style={[ty.display, { color: t.ink, fontSize: 34, lineHeight: 40, marginTop: spacing.xs }]}>
-            {greetText}{name ? `, ${name}` : ''}
+          <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} accessibilityRole="header" style={[ty.display, { color: t.ink, fontSize: 34, lineHeight: 40, marginTop: spacing.xs }]}>
+            {name ? tr('format.nameLast', { text: greetText, name }) : greetText}
           </Text>
         </View>
         <View
@@ -142,10 +155,11 @@ export default function Today() {
         <VerseCard
           verse={shownVerse}
           onShuffle={shuffleVerse}
-          onRead={() => {
+          // Only the verse of the day counts toward today's rhythm, not a shuffled pick.
+          onRead={otherVerse ? undefined : () => {
             if (!isDone('verse')) {
               completeStep('verse');
-              toast(translate('toast.verse'));
+              toast(translate('toast.verse', { done: doneCount + 1, total: 4 }));
             }
           }}
         />
@@ -162,7 +176,7 @@ export default function Today() {
           title={tr('today.devotional')}
           subtitle={`${devotional.title} · ${tr('today.twoMinuteRead')}`}
           done={isDone('devotional')}
-          onPress={() => isDone('devotional') ? uncompleteStep('devotional') : router.push('/devotional')}
+          onPress={() => router.push('/devotional')}
         />
         <RitualCard
           icon="flame-outline"
@@ -170,7 +184,7 @@ export default function Today() {
           title={tr('today.guidedPrayer')}
           subtitle={`${morningPrayer.title} · ${morningPrayer.minutes} ${tr('pray.min')}`}
           done={isDone('prayer')}
-          onPress={() => isDone('prayer') ? uncompleteStep('prayer') : router.push({ pathname: '/player', params: { id: morningPrayer.id } })}
+          onPress={() => router.push({ pathname: '/player', params: { id: morningPrayer.id } })}
         />
         <RitualCard
           icon="heart-outline"
@@ -178,7 +192,7 @@ export default function Today() {
           title={tr('today.gratitude')}
           subtitle={tr('today.gratitudeSub')}
           done={isDone('gratitude')}
-          onPress={() => isDone('gratitude') ? uncompleteStep('gratitude') : router.push('/(tabs)/journal')}
+          onPress={() => router.push('/(tabs)/journal')}
         />
       </View>
 
@@ -204,7 +218,7 @@ export default function Today() {
               }}
             >
               <View style={{ flex: 1 }}>
-                <Text
+                <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE}
                   style={{
                     fontFamily: fonts.sansSemiBold,
                     fontSize: 11,
@@ -215,11 +229,11 @@ export default function Today() {
                 >
 {tr('today.sleepPrayer')}
                 </Text>
-                <Text
+                <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE}
                   style={{
                     fontFamily: fonts.serif,
                     fontSize: 21,
-                    color: '#F2EEE6',
+                    color: art.ink,
                     marginTop: 4,
                     textShadowColor: 'rgba(0,0,0,0.72)',
                     textShadowOffset: { width: 0, height: 1 },
@@ -229,37 +243,33 @@ export default function Today() {
                   {sleepPrayer.title} · {sleepPrayer.minutes} {tr('pray.min')}
                 </Text>
               </View>
-              <Text
-                onPress={() =>
-                  sleepPrayer.plus && !isPlus
-                    ? router.push('/paywall?from=sleep')
-                    : router.push({ pathname: '/player', params: { id: sleepPrayer.id } })
-                }
+              <Pressable
+                onPress={openSleep}
                 accessibilityRole="button"
                 accessibilityLabel={
-                  sleepPrayer.plus && !isPlus
-                    ? tr('a11y.unlockSleep')
-                    : `${tr('a11y.play')} ${sleepPrayer.title}`
+                  sleepLocked ? tr('a11y.unlockSleep') : `${tr('a11y.play')} ${sleepPrayer.title}`
                 }
-                style={{
+                style={({ pressed }) => ({
                   position: 'absolute',
                   right: dawn ? 24 : spacing.xl,
                   bottom: spacing.xl,
-                  fontFamily: fonts.sansSemiBold,
-                  fontSize: 14,
-                  color: t.onGold,
+                  minHeight: 44,
+                  justifyContent: 'center',
                   backgroundColor: t.gold,
                   borderRadius: radius.pill,
                   paddingHorizontal: spacing.lg,
-                  paddingVertical: 10,
-                  overflow: 'hidden',
-                }}
+                  opacity: pressed ? 0.85 : 1,
+                })}
               >
-                {sleepPrayer.plus && !isPlus ? tr('today.unlock') : tr('today.play')}
-              </Text>
+                <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: t.onGold }}>
+                  {sleepLocked ? tr('today.unlock') : tr('today.play')}
+                </Text>
+              </Pressable>
             </View>
-            {sleepPrayer.plus && !isPlus ? (
+            {sleepLocked ? (
               <View
+                accessible={false}
+                importantForAccessibility="no-hide-descendants"
                 style={{
                   position: 'absolute',
                   top: spacing.lg,
@@ -274,7 +284,7 @@ export default function Today() {
                 }}
               >
                 <Ionicons name="lock-closed" size={11} color={t.gold} />
-                <Text style={{ fontFamily: fonts.sansBold, fontSize: 10, color: t.gold }}>PLUS</Text>
+                <Text maxFontSizeMultiplier={FIXED_CARD_TEXT_SCALE} style={{ fontFamily: fonts.sansBold, fontSize: 10, color: t.gold }}>PLUS</Text>
               </View>
             ) : null}
           </ArtSlot>
