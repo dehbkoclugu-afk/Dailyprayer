@@ -64,7 +64,28 @@ function parseRef(ref) {
   return { book: book.trim().toLowerCase(), chapter: +ch, v1: +a, v2: b ? +b : +a };
 }
 
-function verseText(locale, code, chapter, v1, v2) {
+// Luther 1912 and Louis Segond 1910 number Psalm superscriptions as verse 1
+// (sometimes 1-2), so their verse numbers run ahead of the English (WEB/KJV)
+// numbering used by the curated list. Shift by the per-chapter difference.
+const SUPERSCRIPTION_NUMBERED = new Set(['de', 'fr']);
+const lastVerse = (entries) => Math.max(...entries.map((e) => e[1]));
+function psalmOffset(locale, code, chapter) {
+  if (code !== 'PSA' || !SUPERSCRIPTION_NUMBERED.has(locale)) return 0;
+  const src = bibles[locale][code]?.[chapter];
+  const en = bibles.en[code]?.[chapter];
+  if (!src || !en) return 0;
+  return Math.max(0, lastVerse(src) - lastVerse(en));
+}
+// When the verse count matches, the superscription is merged into verse 1.
+const SUPERSCRIPTION = {
+  de: /^(?:Ein(?:e)?\s+(?:Psalm|Psalmlied|Lied|Dankpsalm|Gebet|Unterweisung|güldenes Kleinod)[^.]*\.\s+)+/,
+  fr: /^(?:(?:Au maître-chantre|Psaume|Cantique|Prière|Maskil|Hymne)[^.]*\.\s+)+/,
+};
+
+function verseText(locale, code, chapter, rawV1, rawV2) {
+  const offset = psalmOffset(locale, code, chapter);
+  const v1 = rawV1 + offset;
+  const v2 = rawV2 + offset;
   const entries = bibles[locale][code]?.[chapter];
   if (!entries) return null;
   const hits = entries.filter((e) => e[0] <= v2 && e[1] >= v1).sort((x, y) => x[0] - y[0]);
@@ -75,7 +96,10 @@ function verseText(locale, code, chapter, v1, v2) {
     seen.add(a);
     if (text) parts.push(text);
   }
-  const text = parts.join(' ').replace(/\s+/g, ' ').replace(/\s+([,.;:!?])/g, '$1').trim();
+  let text = parts.join(' ').replace(/\s+/g, ' ').replace(/\s+([,.;:!?])/g, '$1').trim();
+  if (code === 'PSA' && offset === 0 && rawV1 === 1 && SUPERSCRIPTION[locale]) {
+    text = text.replace(SUPERSCRIPTION[locale], '');
+  }
   return text || null;
 }
 
@@ -134,7 +158,9 @@ const header = `/**
  * GENERATED — rebuild with scripts/build-verses-i18n.mjs; edit the reference
  * list in scripts/curated-refs.mjs, not this file.
  */
-import type { Locale } from '@/i18n/translations';
+import type { GlobalLocaleTag } from '@/i18n/globalLanguageCatalog';
+
+type BundledVerseLocale = 'en' | 'tr' | 'es' | 'pt' | 'fr' | 'de';
 
 export type VerseTheme =
   | 'peace' | 'strength' | 'trust' | 'rest' | 'hope' | 'anxiety' | 'guidance'
@@ -148,8 +174,8 @@ export interface DailyVerse {
 
 interface PoolEntry {
   theme: VerseTheme;
-  text: Record<Locale, string>;
-  reference: Record<Locale, string>;
+  text: Record<BundledVerseLocale, string>;
+  reference: Record<BundledVerseLocale, string>;
 }
 
 const versePool: PoolEntry[] = ${JSON.stringify(interleaved)};
@@ -157,13 +183,18 @@ const versePool: PoolEntry[] = ${JSON.stringify(interleaved)};
 /** Size of the rotation pool (locale-independent). */
 export const verseCount = versePool.length;
 
-const cache: Partial<Record<Locale, DailyVerse[]>> = {};
+const cache: Partial<Record<BundledVerseLocale, DailyVerse[]>> = {};
+
+const BUNDLED_VERSE_LOCALES = new Set<string>(['en', 'tr', 'es', 'pt', 'fr', 'de']);
 
 /** The daily-verse pool with text + reference in the given locale (cached). */
-export function getVerses(locale: Locale): DailyVerse[] {
-  return (cache[locale] ??= versePool.map((e) => ({
-    text: e.text[locale] ?? e.text.en,
-    reference: e.reference[locale] ?? e.reference.en,
+export function getVerses(locale: GlobalLocaleTag): DailyVerse[] {
+  const sourceLocale: BundledVerseLocale = BUNDLED_VERSE_LOCALES.has(locale)
+    ? (locale as BundledVerseLocale)
+    : 'en';
+  return (cache[sourceLocale] ??= versePool.map((e) => ({
+    text: e.text[sourceLocale],
+    reference: e.reference[sourceLocale],
     theme: e.theme,
   })));
 }

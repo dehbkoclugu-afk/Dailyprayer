@@ -1,25 +1,25 @@
 {
   "expo": {
-    "name": "Lumen: Daily Prayer & Bible",
+    "name": "Selaora: Daily Prayer & Bible",
     "slug": "lumen-daily-prayer",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "default",
-    "scheme": "lumen",
+    "scheme": [
+      "selaora",
+      "lumen"
+    ],
     "userInterfaceStyle": "automatic",
     "newArchEnabled": false,
     "icon": "./assets/icon.png",
     "ios": {
       "bundleIdentifier": "com.lumen.dailyprayer",
       "supportsTablet": true,
-      "icon": "./assets/icon.png",
-      "infoPlist": {
-        "UIBackgroundModes": [
-          "audio"
-        ]
-      }
+      "icon": "./assets/icon.png"
     },
     "android": {
       "package": "com.lumen.dailyprayer",
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0E1220"
@@ -60,7 +60,17 @@
         }
       ],
       "expo-asset",
-      "expo-localization"
+      "expo-localization",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 36,
+            "targetSdkVersion": 36,
+            "buildToolsVersion": "36.0.0"
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

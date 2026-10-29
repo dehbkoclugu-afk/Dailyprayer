@@ -10,7 +10,7 @@ import { type as ty, fonts } from '@/theme/typography';
 import { spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
 
-/** "Building your plan" interstitial , a checklist completing line by line. */
+/** "Building your plan" interstitial — a checklist completing line by line. */
 export default function Building() {
   const t = useTheme();
   const { t: tr } = useT();
@@ -22,22 +22,19 @@ export default function Building() {
   ];
   const [done, setDone] = useState(0);
 
+  // One step per beat; the updater stays pure and navigation is a separate,
+  // cleaned-up effect (safe under StrictMode double-invocation and unmount).
   useEffect(() => {
-    const timer = setInterval(() => {
-      setDone((d) => {
-        if (d >= 4) {
-          clearInterval(timer);
-          setTimeout(() => router.replace('/onboarding/reveal'), 600);
-          return d;
-        }
-        return d + 1;
-      });
-    }, 950);
-    return () => clearInterval(timer);
-  }, []);
+    if (done >= STEPS.length) {
+      const timer = setTimeout(() => router.replace('/onboarding/reveal'), 600);
+      return () => clearTimeout(timer);
+    }
+    const timer = setTimeout(() => setDone((d) => d + 1), 950);
+    return () => clearTimeout(timer);
+  }, [done, STEPS.length]);
 
   return (
-    <Screen scroll={false} style={{ justifyContent: 'center' }}>
+    <Screen style={{ flexGrow: 1, justifyContent: 'center' }}>
       <OnboardingBackdrop />
       <ArtSlot
         id="A15-building-candle"
@@ -45,7 +42,7 @@ export default function Building() {
         fit="contain"
         style={{ marginBottom: spacing.xxl, alignSelf: 'center', width: 140 }}
       />
-      <Text style={[ty.title, { color: t.ink, textAlign: 'center', marginBottom: spacing.xxl }]}>
+      <Text accessibilityRole="header" style={[ty.title, { color: t.ink, textAlign: 'center', marginBottom: spacing.xxl }]}>
         {tr('building.title')}
       </Text>
       <View style={{ gap: spacing.lg, alignSelf: 'center' }}>
@@ -63,8 +60,8 @@ export default function Building() {
               />
               <Text
                 style={{
+                  ...ty.bodyCompact,
                   fontFamily: complete ? fonts.sansMedium : fonts.sans,
-                  fontSize: 16,
                   color: complete ? t.ink : t.inkSoft,
                 }}
               >

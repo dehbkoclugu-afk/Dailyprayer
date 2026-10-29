@@ -8,13 +8,18 @@ import { ArtSlot } from '@/components/ArtSlot';
 import { PlanDayArtwork } from '@/components/PlanDayArtwork';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
+import { artContrast } from '@/theme/artContrast';
 import { radius, spacing } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
 import { planReading, formatReadingRef } from '@/data/planReadings';
 import { usePlanStore } from '@/state/usePlanStore';
 import { useT } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
+import { InvalidRouteState } from '@/components/InvalidRouteState';
+import { singleParam } from '@/lib/routeValidation';
+import { useRequirePlus } from '@/hooks/useRequirePlus';
+import { goBack } from '@/lib/navigation';
 
 export default function PlanScreen() {
   const t = useTheme();
@@ -22,11 +27,15 @@ export default function PlanScreen() {
   const dawn = artwork.scheme === 'dawn';
   const { t: tr, locale } = useT();
   const insets = useSafeAreaInsets();
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const plan = usePlans().find((p) => p.id === id);
+  const { id } = useLocalSearchParams<{ id: string | string[] }>();
+  const planId = singleParam(id);
+  const plan = usePlans().find((p) => p.id === planId);
   const progress = usePlanStore((s) => s.progress);
+  // Deep links can open a Plus plan directly; send those to the paywall.
+  const allowed = useRequirePlus(Boolean(plan?.plus), 'plan');
 
-  if (!plan) return <View style={{ flex: 1, backgroundColor: t.bg }} />;
+  if (!plan) return <InvalidRouteState />;
+  if (!allowed) return <View style={{ flex: 1, backgroundColor: t.bg }} />;
 
   const done = progress[plan.id] ?? [];
   const days = Array.from({ length: plan.days }, (_, i) => i);
@@ -34,14 +43,14 @@ export default function PlanScreen() {
   const header = (
     <View>
       <Pressable
-        onPress={() => router.back()}
+        onPress={() => goBack()}
         hitSlop={12}
         accessibilityRole="button"
         accessibilityLabel={tr('a11y.back')}
         style={{
-          width: 44,
-          height: 44,
-          borderRadius: 22,
+          width: 48,
+          height: 48,
+          borderRadius: 24,
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: t.surface,
@@ -54,7 +63,7 @@ export default function PlanScreen() {
       </Pressable>
 
       <View style={{ borderRadius: radius.card, overflow: 'hidden' }}>
-        <ArtSlot id={plan.art} height={170} radius={radius.card} variant={dawn ? 'card' : 'bare'}>
+        <ArtSlot id={plan.art} height={170} radius={radius.card} scrim="strong">
           {!dawn ? (
             <LinearGradient
               colors={[`${plan.gradient[0]}CC`, `${plan.gradient[1]}F2`]}
@@ -64,8 +73,8 @@ export default function PlanScreen() {
             />
           ) : null}
           <View style={{ flex: 1, padding: spacing.xl, justifyContent: 'flex-end' }}>
-            <Text style={{ fontFamily: fonts.serif, fontSize: 24, color: '#F2EEE6', textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }}>{plan.title}</Text>
-            <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: 'rgba(242,238,230,0.88)', marginTop: spacing.xs, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
+            <Text style={[ty.titleSmall, { color: artContrast.primary, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 7 }]}>{plan.title}</Text>
+            <Text style={[ty.labelRegular, { color: artContrast.secondary, marginTop: spacing.xs, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }]}>
               {plan.tagline}
             </Text>
           </View>
@@ -85,8 +94,7 @@ export default function PlanScreen() {
         </View>
         <Text
           style={{
-            fontFamily: fonts.sansMedium,
-            fontSize: 13,
+            ...ty.caption,
             color: t.inkSoft,
             marginTop: spacing.sm,
             fontVariant: ['tabular-nums'],
@@ -145,16 +153,16 @@ export default function PlanScreen() {
                     {isDone ? (
                       <Ionicons name="checkmark" size={18} color={t.onGold} />
                     ) : (
-                      <Text style={{ fontFamily: fonts.sansBold, fontSize: 13, color: artwork.foreground.secondary, fontVariant: ['tabular-nums'], textShadowColor: 'rgba(0,0,0,0.72)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 5 }}>
+                      <Text style={[ty.captionStrong, { color: artContrast.primary, fontVariant: ['tabular-nums'], textShadowColor: 'rgba(0,0,0,0.72)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 5 }]}>
                         {dayIdx + 1}
                       </Text>
                     )}
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 15, color: artwork.foreground.primary, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }}>
+                    <Text style={[ty.secondaryStrong, { color: artContrast.primary, textShadowColor: 'rgba(0,0,0,0.78)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 }]}>
                       {tr('plan.dayLabel')} {dayIdx + 1}
                     </Text>
-                    <Text style={{ fontFamily: fonts.sansMedium, fontSize: 13, color: isDone ? t.gold : artwork.foreground.secondary, marginTop: 2, textShadowColor: 'rgba(0,0,0,0.72)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 5 }}>
+                    <Text style={[ty.caption, { color: artContrast.secondary, marginTop: 2, textShadowColor: 'rgba(0,0,0,0.72)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 5 }]}>
                       {readingRef}
                     </Text>
                   </View>

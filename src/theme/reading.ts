@@ -1,9 +1,10 @@
+import { useMemo } from 'react';
 import { useTheme } from '@/hooks/useTheme';
 import { useReaderPrefsStore } from '@/state/useReaderPrefsStore';
 import type { ThemeColors } from '@/theme/tokens';
 
 /**
- * Warm "paper" reading surface , a self-contained palette so the reading mode
+ * Warm "paper" reading surface — a self-contained palette so the reading mode
  * reads like a printed page regardless of the app's light/dark theme.
  */
 export const PAPER: Partial<ThemeColors> = {
@@ -25,8 +26,11 @@ export const PAPER: Partial<ThemeColors> = {
  * everywhere in the reading experience so opening a sheet over the paper page
  * doesn't flash a jarring dark surface.
  */
-export function useReaderTheme(): ThemeColors {
+export type ReaderTheme = ThemeColors;
+
+export function useReaderTheme(): ReaderTheme {
   const t = useTheme();
   const paper = useReaderPrefsStore((s) => s.paper);
-  return paper ? { ...t, ...PAPER } : t;
+  // Stable identity so memoized verse rows don't all re-render each frame.
+  return useMemo(() => (paper ? { ...t, ...PAPER } : t), [paper, t]);
 }

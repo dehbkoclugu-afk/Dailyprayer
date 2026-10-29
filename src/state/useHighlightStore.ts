@@ -2,11 +2,13 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { safePersistStorage } from '@/state/safePersistStorage';
 import type { HighlightColor } from '@/theme/highlights';
+import { legacyVerseRef } from '@/data/bibleNav';
 
 /**
- * Highlighted verses, keyed "Book|chapter|verseIndex" -> color name.
- * (v1 replaced the old string[] of keys; the migration below folds those into
- * gold marks so nobody loses a highlight on upgrade.)
+ * Highlighted verses, keyed "BOOKCODE|chapter|verseLabel" -> color name.
+ * v1 replaced the old string[] of keys (folded into gold marks); v2 moved from
+ * verse array indices to labels — old index keys become "#<index>" so they
+ * keep resolving to the same verse in the edition they were made in.
  */
 interface HighlightState {
   marks: Record<string, HighlightColor>;
@@ -32,15 +34,26 @@ export const useHighlightStore = create<HighlightState>()(
     }),
     {
       name: 'lumen-highlights',
-      version: 1,
+      version: 2,
       storage: createJSONStorage(() => safePersistStorage),
       migrate: (persisted, version) => {
+        let marks: Record<string, HighlightColor> = {};
         if (version === 0 && persisted && Array.isArray((persisted as { keys?: string[] }).keys)) {
-          const marks: Record<string, HighlightColor> = {};
           for (const k of (persisted as { keys: string[] }).keys) marks[k] = 'gold';
-          return { marks };
+        } else {
+          marks = { ...((persisted as { marks?: Record<string, HighlightColor> })?.marks ?? {}) };
         }
-        return persisted as HighlightState;
+        if (version < 2) {
+          const migrated: Record<string, HighlightColor> = {};
+          for (const [key, color] of Object.entries(marks)) {
+            const [code, chapter, verse] = key.split('|');
+            const index = Number(verse);
+            if (!code || !Number.isInteger(Number(chapter)) || !Number.isInteger(index)) continue;
+            migrated[`${code}|${chapter}|${legacyVerseRef(index)}`] = color;
+          }
+          marks = migrated;
+        }
+        return { marks } as HighlightState;
       },
     },
   ),

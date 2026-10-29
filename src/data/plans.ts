@@ -21,7 +21,7 @@ export const plans: ReadingPlan[] = [
     title: 'Seven Days of Peace',
     days: 7,
     plus: false,
-    tagline: 'For anxious seasons , one calming passage a day.',
+    tagline: 'For anxious seasons — one calming passage a day.',
     gradient: ['#2B4C7E', '#0E1220'],
     art: 'A13-peace7',
   },
@@ -57,7 +57,7 @@ export const plans: ReadingPlan[] = [
     title: 'Bible in a Year',
     days: 365,
     plus: true,
-    tagline: 'The whole story , 20 minutes a day.',
+    tagline: 'The whole story — 20 minutes a day.',
     gradient: ['#8A4B2E', '#0E1220'],
     art: 'A13-bible365',
   },
@@ -67,7 +67,7 @@ export const plans: ReadingPlan[] = [
 const TR: Record<string, { title: string; tagline: string }> = {
   'peace-7': {
     title: 'Yedi Günlük Huzur',
-    tagline: 'Kaygılı dönemler için , günde bir yatıştırıcı bölüm.',
+    tagline: 'Kaygılı dönemler için — günde bir yatıştırıcı bölüm.',
   },
   'gratitude-7': {
     title: 'Şükran Haftası',
@@ -75,7 +75,7 @@ const TR: Record<string, { title: string; tagline: string }> = {
   },
   'psalms-30': {
     title: 'Mezmurlarda 30 Gün',
-    tagline: 'İncil’in dua kitabı , her seferinde bir mezmur.',
+    tagline: 'İncil’in dua kitabı — her seferinde bir mezmur.',
   },
   'gospels-90': {
     title: '90 Günde İsa’nın Yaşamı',
@@ -83,7 +83,7 @@ const TR: Record<string, { title: string; tagline: string }> = {
   },
   'bible-365': {
     title: 'Bir Yılda İncil',
-    tagline: 'Bütün hikâye , günde 20 dakika.',
+    tagline: 'Bütün hikâye — günde 20 dakika.',
   },
 };
 

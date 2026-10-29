@@ -39,9 +39,31 @@ export function resolveLocale(pref: Locale | 'system'): Locale {
   return 'en';
 }
 
-function lookup(locale: Locale, key: TranslationKey): string {
+export type TranslationParams = Record<string, string | number>;
+
+/**
+ * Replace `{{name}}` tokens; numbers use the locale's digits (e.g. Persian).
+ * Unknown tokens are left visible for QA.
+ */
+export function interpolate(template: string, params?: TranslationParams, locale?: string): string {
+  if (!params) return template;
+  return template.replace(/\{\{\s*(\w+)\s*\}\}/g, (match, name: string) => {
+    if (!Object.prototype.hasOwnProperty.call(params, name)) return match;
+    const value = params[name];
+    if (typeof value === 'number' && locale) {
+      try {
+        return new Intl.NumberFormat(locale).format(value);
+      } catch {
+        return String(value);
+      }
+    }
+    return String(value);
+  });
+}
+
+function lookup(locale: Locale, key: TranslationKey, params?: TranslationParams): string {
   const dict = translations[locale] as Record<string, string>;
-  return dict[key] ?? translations.en[key];
+  return interpolate(dict[key] ?? translations.en[key], params, locale);
 }
 
 /** Reactive translator for components. */
@@ -50,11 +72,11 @@ export function useT() {
   const locale = resolveLocale(pref);
   return {
     locale,
-    t: (key: TranslationKey) => lookup(locale, key),
+    t: (key: TranslationKey, params?: TranslationParams) => lookup(locale, key, params),
   };
 }
 
 /** Non-reactive translator for call sites outside React (toasts, services). */
-export function translate(key: TranslationKey): string {
-  return lookup(resolveLocale(useUserStore.getState().language), key);
+export function translate(key: TranslationKey, params?: TranslationParams): string {
+  return lookup(resolveLocale(useUserStore.getState().language), key, params);
 }

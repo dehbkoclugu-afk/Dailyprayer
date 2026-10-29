@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
-import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import {
   APPLICATION_LOCALES,
@@ -20,6 +19,8 @@ import {
 } from '@/i18n/applicationLanguageActivation';
 import { registerApplicationContentPack } from '@/i18n/applicationContent';
 import { useUserStore } from '@/state/useUserStore';
+import { goBack } from '@/lib/navigation';
+import { reportError } from '@/lib/reportError';
 import {
   installApplicationContentPack,
   listInstalledApplicationContentPacks,
@@ -52,6 +53,7 @@ export default function ApplicationLanguage() {
     Map<ApplicationContentLocale, ApplicationContentRelease>
   >(new Map());
   const [downloading, setDownloading] = useState<AppLocale | null>(null);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     if (!hasDownloadableLocale) return;
@@ -73,20 +75,24 @@ export default function ApplicationLanguage() {
     if (downloading) return;
     const locale = tag;
     try {
-      if (!bundled.has(locale)) setDownloading(tag);
+      if (!bundled.has(locale)) {
+        setProgress(0);
+        setDownloading(tag);
+      }
       await activateApplicationLocale(locale, {
         loadInstalled: loadInstalledApplicationContentPack,
         getRelease: (requested) => releases.get(requested) ?? null,
         install: async (release) => {
-          const pack = await installApplicationContentPack(release);
+          const pack = await installApplicationContentPack(release, setProgress);
           setInstalled((current) => new Set([...current, release.locale]));
           return pack;
         },
         register: registerApplicationContentPack,
         setLanguage: () => setLanguage(preference),
       });
-      router.back();
-    } catch {
+      goBack();
+    } catch (error) {
+      reportError(error, 'content-pack-install');
       Alert.alert(tr('profile.language'), tr('scripture.downloadUnavailable'));
     } finally {
       setDownloading(null);
@@ -99,7 +105,7 @@ export default function ApplicationLanguage() {
     <Screen>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
         <Pressable
-          onPress={() => router.back()}
+          onPress={() => goBack()}
           accessibilityRole="button"
           accessibilityLabel={tr('a11y.back')}
           hitSlop={10}
@@ -116,7 +122,7 @@ export default function ApplicationLanguage() {
         >
           <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={22} color={t.ink} />
         </Pressable>
-        <Text style={{ flex: 1, fontFamily: fonts.serif, fontSize: 30, color: t.ink }}>
+        <Text style={{ flex: 1, ...ty.titleLarge, color: t.ink }}>
           {tr('profile.language')}
         </Text>
       </View>
@@ -141,7 +147,7 @@ export default function ApplicationLanguage() {
         })}
       >
         <Ionicons name="phone-portrait-outline" size={20} color={autoSelected ? t.gold : t.inkSoft} />
-        <Text style={{ flex: 1, fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>
+        <Text style={{ flex: 1, ...ty.bodyCompactStrong, color: t.ink }}>
           {tr('profile.auto')}
         </Text>
         {autoSelected ? <Ionicons name="checkmark-circle" size={22} color={t.gold} /> : null}
@@ -180,8 +186,7 @@ export default function ApplicationLanguage() {
               <Text
                 style={{
                   flex: 1,
-                  fontFamily: fonts.sansSemiBold,
-                  fontSize: 16,
+                  ...ty.bodyCompactStrong,
                   color: t.ink,
                   textAlign: direction === 'rtl' ? 'right' : 'left',
                   writingDirection: direction,
@@ -190,7 +195,12 @@ export default function ApplicationLanguage() {
                 {item.nativeName}
               </Text>
               {busy ? (
-                <ActivityIndicator color={t.gold} />
+                <View style={{ alignItems: 'flex-end', gap: 2 }} accessibilityLiveRegion="polite">
+                  <ActivityIndicator color={t.gold} />
+                  <Text style={{ ...ty.captionRegular, color: t.inkFaint, fontVariant: ['tabular-nums'] }}>
+                    {Math.round(progress * 100)}%
+                  </Text>
+                </View>
               ) : active ? (
                 <Ionicons name="checkmark-circle" size={22} color={t.gold} />
               ) : ready ? (
@@ -198,7 +208,7 @@ export default function ApplicationLanguage() {
               ) : release ? (
                 <View style={{ alignItems: 'flex-end', gap: 2 }}>
                   <Ionicons name="cloud-download-outline" size={21} color={t.gold} />
-                  <Text style={{ fontFamily: fonts.sans, fontSize: 10, color: t.inkFaint }}>
+                  <Text style={{ ...ty.labelSmallRegular, color: t.inkFaint }}>
                     {(release.bytes / 1024 / 1024).toFixed(1)} MB
                   </Text>
                 </View>

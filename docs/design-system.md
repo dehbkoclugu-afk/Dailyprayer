@@ -6,7 +6,7 @@ the category leaders (Hallow, Glorify) win with deep calm darks + warm light acc
 
 ## Brand
 
-- **Product name:** *Lumen — Daily Prayer & Bible*
+- **Product name:** *Selaora — Daily Prayer & Bible*
 - **Personality:** reverent, warm, unhurried, hopeful. Never gamified-loud, never corporate.
 - **Voice:** second person, gentle imperative ("Take a breath. God is near.").
 

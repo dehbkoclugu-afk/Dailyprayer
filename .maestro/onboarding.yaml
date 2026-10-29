@@ -1,0 +1,30 @@
+# End-to-end smoke flow (Maestro: https://maestro.mobile.dev).
+# Run against a dev build with the device language set to English:
+#   maestro test .maestro/onboarding.yaml
+appId: com.lumen.dailyprayer
+---
+- launchApp:
+    clearState: true
+- assertVisible: "Begin"
+- tapOn: "Begin"
+- tapOn: "Skip"
+- tapOn: "Just exploring"
+- tapOn: "Continue"
+- tapOn: "A daily prayer habit"
+- tapOn: "Continue"
+- tapOn: "Continue"  # affirmation
+- tapOn: "Anxiety or worry"
+- tapOn: "Continue"
+- tapOn: "Continue"  # affirmation
+- tapOn: "I’m just beginning"
+- tapOn: "Continue"
+- tapOn: "No reminders"
+- tapOn: "Create my plan"
+- extendedWaitUntil:
+    visible: "Your plan is ready.*"
+    timeout: 10000
+- tapOn: "Start my journey"
+- tapOn: "Close"
+- assertVisible: "Today"
+- tapOn: "Bible"
+- assertVisible: "Read the Bible"

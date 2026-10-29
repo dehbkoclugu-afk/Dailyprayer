@@ -17,6 +17,7 @@ export interface JournalEntry {
 interface JournalState {
   entries: JournalEntry[];
   add: (kind: JournalEntry['kind'], text: string, ref?: string) => void;
+  update: (id: string, text: string) => void;
   remove: (id: string) => void;
   restore: (entry: JournalEntry) => void;
 }
@@ -40,6 +41,12 @@ export const useJournalStore = create<JournalState>()(
             ...s.entries,
           ],
         })),
+      update: (id, text) =>
+        set((s) => ({
+          entries: s.entries.map((entry) =>
+            entry.id === id && entry.kind !== 'verse' ? { ...entry, text: text.trim() } : entry,
+          ),
+        })),
       remove: (id) =>
         set((s) => ({ entries: s.entries.filter((e) => e.id !== id) })),
       restore: (entry) =>
@@ -49,6 +56,12 @@ export const useJournalStore = create<JournalState>()(
           ),
         })),
     }),
-    { name: 'lumen-journal', storage: createJSONStorage(() => safePersistStorage) },
+    {
+      name: 'lumen-journal',
+      // Versioned so future shape changes ship with an explicit migration.
+      version: 1,
+      storage: createJSONStorage(() => safePersistStorage),
+      migrate: (persisted) => persisted as JournalState,
+    },
   ),
 );

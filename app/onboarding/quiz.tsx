@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
-import { router } from 'expo-router';
+import React, { useCallback, useMemo, useState } from 'react';
+import { BackHandler, Pressable, Text, TextInput, View } from 'react-native';
+import { router, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { Screen } from '@/components/Screen';
@@ -11,8 +11,10 @@ import { useTheme } from '@/hooks/useTheme';
 import { fonts, type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { getQuizSteps } from '@/data/quiz';
-import { useUserStore } from '@/state/useUserStore';
+import { useUserStore, type QuizAnswers } from '@/state/useUserStore';
 import { useT } from '@/i18n';
+import { getDirectionalIconName } from '@/i18n/direction';
+import { goBack } from '@/lib/navigation';
 
 /** Step 0 = name entry, then quizSteps, with affirmation interstitials. */
 export default function Quiz() {
@@ -23,6 +25,8 @@ export default function Quiz() {
   const [step, setStep] = useState(0);
   const [name, setName] = useState('');
   const [selected, setSelected] = useState<string[]>([]);
+  // Answers per step, so stepping back shows (and keeps) earlier choices.
+  const [answers, setAnswers] = useState<Record<number, string[]>>({});
   const [affirmation, setAffirmation] = useState<string | null>(null);
   const [nameFocused, setNameFocused] = useState(false);
 
@@ -35,7 +39,8 @@ export default function Quiz() {
       setQuiz({ name: name.trim() });
     } else if (current) {
       const value = current.multi ? selected : selected[0] ?? null;
-      setQuiz({ [current.key]: value } as never);
+      setQuiz({ [current.key]: value } as Partial<QuizAnswers>);
+      setAnswers((all) => ({ ...all, [step]: selected }));
       if (current.affirmation) {
         setAffirmation(current.affirmation);
         return; // interstitial handles the next advance
@@ -46,13 +51,36 @@ export default function Quiz() {
 
   const goNext = () => {
     setAffirmation(null);
-    setSelected([]);
     if (step + 1 >= total) {
       router.replace('/onboarding/building');
     } else {
+      setSelected(answers[step + 1] ?? []);
       setStep(step + 1);
     }
   };
+
+  /** Step back inside the quiz; leave it only from the first step. */
+  const goPrevious = useCallback(() => {
+    if (affirmation) {
+      setAffirmation(null);
+      return true;
+    }
+    if (step === 0) {
+      goBack();
+      return true;
+    }
+    setSelected(answers[step - 1] ?? []);
+    setStep(step - 1);
+    return true;
+  }, [affirmation, answers, step]);
+
+  // Android hardware back walks the quiz instead of discarding it.
+  useFocusEffect(
+    useCallback(() => {
+      const subscription = BackHandler.addEventListener('hardwareBackPress', goPrevious);
+      return () => subscription.remove();
+    }, [goPrevious]),
+  );
 
   const toggle = (value: string) => {
     if (!current) return;
@@ -66,7 +94,7 @@ export default function Quiz() {
 
   if (affirmation) {
     return (
-      <Screen scroll={false} style={{ justifyContent: 'center' }}>
+      <Screen keyboardAware style={{ flexGrow: 1, justifyContent: 'center' }}>
         <OnboardingBackdrop />
         <View
           style={{
@@ -83,7 +111,7 @@ export default function Quiz() {
             fit="contain"
             style={{ width: 120, alignSelf: 'center', marginBottom: spacing.xl }}
           />
-          <Text style={[ty.title, { color: t.ink }]}>{affirmation}</Text>
+          <Text accessibilityRole="header" style={[ty.title, { color: t.ink }]}>{affirmation}</Text>
           <PillButton label={tr('quiz.continue')} onPress={goNext} style={{ marginTop: spacing.xxl }} />
         </View>
       </Screen>
@@ -91,11 +119,20 @@ export default function Quiz() {
   }
 
   return (
-    <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
+    <Screen keyboardAware style={{ flexGrow: 1, justifyContent: 'space-between' }}>
       <OnboardingBackdrop />
       <View>
-        {/* progress bar + step counter */}
+        {/* back + progress bar + step counter */}
         <View style={{ marginBottom: spacing.xxl }}>
+          <Pressable
+            onPress={goPrevious}
+            hitSlop={12}
+            accessibilityRole="button"
+            accessibilityLabel={tr('a11y.back')}
+            style={{ width: 44, height: 44, justifyContent: 'center', marginBottom: spacing.sm }}
+          >
+            <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={24} color={t.inkSoft} />
+          </Pressable>
           <View
             style={{
               height: 4,
@@ -115,8 +152,7 @@ export default function Quiz() {
           </View>
           <Text
             style={{
-              fontFamily: fonts.sansMedium,
-              fontSize: 12,
+              ...ty.labelSmallMedium,
               color: t.inkFaint,
               textAlign: 'right',
               marginTop: spacing.sm,
@@ -138,7 +174,7 @@ export default function Quiz() {
         >
         {step === 0 ? (
           <View key="name">
-            <Text style={[ty.title, { color: t.ink }]}>{tr('quiz.namePrompt')}</Text>
+            <Text accessibilityRole="header" style={[ty.title, { color: t.ink }]}>{tr('quiz.namePrompt')}</Text>
             <TextInput
               value={name}
               onChangeText={setName}
@@ -155,15 +191,13 @@ export default function Quiz() {
                 borderWidth: 1.5,
                 borderColor: nameFocused ? t.gold : t.border,
                 padding: spacing.lg,
-                fontFamily: fonts.sans,
-                fontSize: 18,
+                ...ty.bodyLarge,
                 color: t.ink,
               }}
             />
             <Text
               style={{
-                fontFamily: fonts.sans,
-                fontSize: 13,
+                ...ty.captionRegular,
                 color: t.inkFaint,
                 marginTop: spacing.sm,
               }}
@@ -172,11 +206,11 @@ export default function Quiz() {
             </Text>
           </View>
         ) : current ? (
-          // Plain View , no reanimated entering/exiting here: on the old
+          // Plain View — no reanimated entering/exiting here: on the old
           // architecture the exiting layout copy lingers over the next step and
           // swallows taps on the option buttons, trapping the user in the quiz.
           <View key={current.key}>
-            <Text style={[ty.title, { color: t.ink }]}>{current.question}</Text>
+            <Text accessibilityRole="header" style={[ty.title, { color: t.ink }]}>{current.question}</Text>
             {current.subtitle ? (
               <Text style={[ty.secondary, { color: t.inkSoft, marginTop: spacing.sm }]}>
                 {current.subtitle}
@@ -222,8 +256,8 @@ export default function Quiz() {
                     />
                     <Text
                       style={{
+                        ...ty.bodyCompact,
                         fontFamily: active ? fonts.sansSemiBold : fonts.sans,
-                        fontSize: 16,
                         color: t.ink,
                         flex: 1,
                       }}
@@ -240,11 +274,24 @@ export default function Quiz() {
         </View>
       </View>
 
-      <PillButton
-        label={step + 1 >= total ? tr('quiz.createPlan') : tr('quiz.continue')}
-        onPress={advance}
-        disabled={step === 0 ? name.trim().length === 0 : selected.length === 0}
-      />
+      <View>
+        {step === 0 && !name.trim() ? (
+          // The name is only used for greetings — never a gate.
+          <Pressable
+            onPress={advance}
+            accessibilityRole="button"
+            accessibilityLabel={tr('quiz.skip')}
+            style={{ minHeight: 48, justifyContent: 'center', alignSelf: 'center', marginBottom: spacing.sm }}
+          >
+            <Text style={{ ...ty.secondaryMedium, color: t.inkSoft }}>{tr('quiz.skip')}</Text>
+          </Pressable>
+        ) : null}
+        <PillButton
+          label={step + 1 >= total ? tr('quiz.createPlan') : tr('quiz.continue')}
+          onPress={advance}
+          disabled={step === 0 ? name.trim().length === 0 : selected.length === 0}
+        />
+      </View>
     </Screen>
   );
 }

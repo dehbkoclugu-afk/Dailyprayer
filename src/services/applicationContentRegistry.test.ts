@@ -51,6 +51,10 @@ test('rejects invalid release integrity metadata', () => {
   insecure.releases[0]!.downloadUrl = 'http://example.com/ar.json';
   assert.throws(() => validateApplicationContentManifest(insecure), /metadata/);
 
+  const oversized = validManifest();
+  oversized.releases[0]!.bytes = 1024 * 1024 * 1024;
+  assert.throws(() => validateApplicationContentManifest(oversized), /metadata/);
+
   const emptyVersion = validManifest();
   emptyVersion.releases[0]!.version = '';
   assert.throws(() => validateApplicationContentManifest(emptyVersion), /metadata/);

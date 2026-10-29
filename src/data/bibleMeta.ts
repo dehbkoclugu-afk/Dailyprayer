@@ -22,12 +22,3 @@ const names = bookNames as Record<string, Partial<Record<Locale, string>>>;
 export function bookName(locale: Locale, code: string): string {
   return names[code]?.[locale] ?? names[code]?.en ?? code;
 }
-
-/** Book list with names localized for the given locale. */
-export function getBookMeta(locale: Locale): BookMeta[] {
-  return (meta as BookMeta[]).map((b) => ({
-    code: b.code,
-    chapters: b.chapters,
-    name: bookName(locale, b.code),
-  }));
-}

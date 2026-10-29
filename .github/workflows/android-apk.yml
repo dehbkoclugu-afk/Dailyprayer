@@ -1,11 +1,14 @@
 name: Android Play release
 
+# Signed release builds run only on demand or for release tags — never on pull
+# requests (which have no signing secrets and must not touch release keys).
 on:
   workflow_dispatch:
   push:
     branches:
-      - claude/bible-app-monetization-design-n3uiqr
-  pull_request:
+      - main
+    tags:
+      - 'v*'
 
 permissions:
   contents: read
@@ -61,6 +64,8 @@ jobs:
           npm run application-content:verify:production
           npm run scripture:verify:integrity
           npm run scripture:verify:rights
+          npm run scripture:verify:ui
+          npm run release:verify:claims
 
       # Publish application-content-v1 first. The binary must never advertise a
       # downloadable locale whose immutable manifest/assets are not live yet.
@@ -108,6 +113,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import os
+          import time
           import re
           from pathlib import Path
 
@@ -153,7 +159,9 @@ jobs:
 
           text, count = re.subn(
               r"(?m)^(\s*)versionCode\s+\d+\s*$",
-              lambda match: f"{match.group(1)}versionCode {os.environ['GITHUB_RUN_NUMBER']}",
+              # Minutes since 2026-01-01 UTC: strictly increasing across workflow
+              # renames/re-creations (run numbers reset), and far below Play's cap.
+              lambda match: f"{match.group(1)}versionCode {int((time.time() - 1767225600) // 60)}",
               text,
               count=1,
           )
@@ -170,6 +178,31 @@ jobs:
 
       - name: Build signed release AAB and APK
         run: cd android && ./gradlew bundleRelease assembleRelease --no-daemon
+
+      - name: Verify Google Play policy requirements (API 36, Billing 8)
+        shell: bash
+        run: |
+          AAPT2="$(find "$ANDROID_HOME/build-tools" -type f -name aapt2 | sort -V | tail -n 1)"
+          BADGING="$("$AAPT2" dump badging android/app/build/outputs/apk/release/app-release.apk)"
+          echo "$BADGING" | grep -E "^package:|targetSdkVersion"
+          echo "$BADGING" | grep -q "targetSdkVersion:'36'" || { echo "targetSdkVersion must be 36"; exit 1; }
+          cd android
+          ./gradlew :app:dependencies --configuration releaseRuntimeClasspath --no-daemon > ../artifacts-deps.txt
+          grep -E "com.android.billingclient:billing" ../artifacts-deps.txt | sort -u
+          if grep -E "com.android.billingclient:billing:[0-7]\." ../artifacts-deps.txt | grep -v -- "->" ; then
+            echo "Play Billing Library must be 8.0.0 or newer"; exit 1
+          fi
+          grep -qE "com.android.billingclient:billing(-ktx)?:([0-9.]+ -> )?(8|9|[1-9][0-9])\." ../artifacts-deps.txt || { echo "Billing 8+ not resolved"; exit 1; }
+
+      - name: Enforce release bundle budgets
+        run: npm run release:verify:bundle -- --root android/app/build/generated --output artifacts/bundle-budget.json
+
+      - name: Upload bundle budget report
+        uses: actions/upload-artifact@v4
+        with:
+          name: lumen-android-bundle-budget
+          path: artifacts/bundle-budget.json
+          if-no-files-found: error
 
       - name: Verify release signatures
         shell: bash

@@ -1,10 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
-import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
 import { getDirectionalIconName } from '@/i18n/direction';
@@ -21,7 +20,8 @@ import {
   useScriptureLocale,
 } from '@/i18n/scripture';
 import { useUserStore } from '@/state/useUserStore';
-import { useReaderStore } from '@/state/useReaderStore';
+import { goBack } from '@/lib/navigation';
+import { reportError } from '@/lib/reportError';
 import {
   installBiblePack,
   listInstalledBiblePacks,
@@ -48,6 +48,7 @@ export default function ScriptureLanguage() {
   );
   const [releases, setReleases] = useState<Map<GlobalLocaleTag, BiblePackRelease>>(new Map());
   const [downloading, setDownloading] = useState<GlobalLocaleTag | null>(null);
+  const [progress, setProgress] = useState(0);
 
   const selected = effectiveScriptureLocale;
 
@@ -74,10 +75,12 @@ export default function ScriptureLanguage() {
   ) => {
     if (downloading) return;
     try {
+      // The reading position is stored by canonical book code, so switching to
+      // an edition with a different canon keeps the user's place (or falls back
+      // to the first book when the edition lacks it) — no reset needed here.
       if (isBundledScriptureLocale(tag)) {
-        if (selected === 'hr') useReaderStore.getState().setPos(0, 0);
         setScriptureLocale(preference);
-        router.back();
+        goBack();
         return;
       }
 
@@ -100,18 +103,17 @@ export default function ScriptureLanguage() {
           Alert.alert(tr('profile.scriptureLanguage'), tr('scripture.downloadUnavailable'));
           return;
         }
+        setProgress(0);
         setDownloading(tag);
-        pack = await installBiblePack(release);
+        pack = await installBiblePack(release, setProgress);
         setInstalled((current) => new Set<GlobalLocaleTag>([...current, tag]));
       }
 
       registerDownloadedBiblePack(pack);
-      if (pack.canon === 'catholic-73' || selected === 'hr') {
-        useReaderStore.getState().setPos(0, 0);
-      }
       setScriptureLocale(preference);
-      router.back();
-    } catch {
+      goBack();
+    } catch (error) {
+      reportError(error, 'bible-pack-install');
       Alert.alert(tr('profile.scriptureLanguage'), tr('scripture.downloadUnavailable'));
     } finally {
       setDownloading(null);
@@ -125,7 +127,7 @@ export default function ScriptureLanguage() {
     <Screen>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
         <Pressable
-          onPress={() => router.back()}
+          onPress={() => goBack()}
           accessibilityRole="button"
           accessibilityLabel={tr('a11y.back')}
           hitSlop={10}
@@ -142,7 +144,7 @@ export default function ScriptureLanguage() {
         >
           <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={22} color={t.ink} />
         </Pressable>
-        <Text style={{ flex: 1, fontFamily: fonts.serif, fontSize: 30, color: t.ink }}>
+        <Text style={{ flex: 1, ...ty.titleLarge, color: t.ink }}>
           {tr('profile.scriptureLanguage')}
         </Text>
       </View>
@@ -163,7 +165,7 @@ export default function ScriptureLanguage() {
         }}
       >
         <Ionicons name="phone-portrait-outline" size={20} color={autoSelected ? t.gold : t.inkSoft} />
-        <Text style={{ flex: 1, fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>
+        <Text style={{ flex: 1, ...ty.bodyCompactStrong, color: t.ink }}>
           {tr('profile.auto')}
         </Text>
         {autoSelected ? <Ionicons name="checkmark-circle" size={22} color={t.gold} /> : null}
@@ -200,19 +202,24 @@ export default function ScriptureLanguage() {
               })}
             >
               <View style={{ flex: 1 }}>
-                <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}>
+                <Text style={{ ...ty.bodyCompactStrong, color: t.ink, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}>
                   {item.nativeName}
                 </Text>
                 <Text
                   numberOfLines={1}
-                  style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkSoft, marginTop: 3, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}
+                  style={{ ...ty.labelSmallRegular, color: t.inkSoft, marginTop: 3, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}
                 >
                   {edition}
                 </Text>
               </View>
 
               {busy ? (
-                <ActivityIndicator color={t.gold} />
+                <View style={{ alignItems: 'flex-end', gap: 2 }} accessibilityLiveRegion="polite">
+                  <ActivityIndicator color={t.gold} />
+                  <Text style={{ ...ty.captionRegular, color: t.inkFaint, fontVariant: ['tabular-nums'] }}>
+                    {Math.round(progress * 100)}%
+                  </Text>
+                </View>
               ) : active ? (
                 <Ionicons name="checkmark-circle" size={22} color={t.gold} />
               ) : ready ? (
@@ -220,7 +227,7 @@ export default function ScriptureLanguage() {
               ) : release ? (
                 <View style={{ alignItems: 'flex-end', gap: 2 }}>
                   <Ionicons name="cloud-download-outline" size={21} color={t.gold} />
-                  <Text style={{ fontFamily: fonts.sans, fontSize: 10, color: t.inkFaint }}>
+                  <Text style={{ ...ty.labelSmallRegular, color: t.inkFaint }}>
                     {(release.bytes / 1024 / 1024).toFixed(1)} MB
                   </Text>
                 </View>

@@ -15,12 +15,12 @@ marked **[you]** need a human with accounts/credentials; **[code]** I can do.
 - [ ] App icon (A16) → `assets/icon.png`; splash (A17) → configure in app.json.
 
 ## 2. Monetization — [you] set up, [code] wire
-- [ ] In RevenueCat: create entitlement `plus`; products `lumen.weekly`,
-      `lumen.annual` (with 7-day trial), `lumen.lifetime`.
+- [ ] In RevenueCat: create entitlement `plus`; an offering with monthly,
+      annual (with 7-day trial) and lifetime packages.
 - [ ] In App Store Connect + Play Console: create the matching IAP/subscription
       products with the same identifiers and localized prices.
-- [ ] Put RevenueCat public API keys into `src/services/purchases.ts`
-      (`API_KEYS.ios` / `.android`).
+- [ ] Put RevenueCat public API keys into the build environment
+      (`EXPO_PUBLIC_REVENUECAT_IOS_KEY` / `EXPO_PUBLIC_REVENUECAT_ANDROID_KEY`).
 - [ ] Build a dev client and verify a sandbox purchase unlocks `isPlus`.
 
 ## 3. Legal — [you] finalize

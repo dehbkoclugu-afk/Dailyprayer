@@ -39,3 +39,14 @@ test('rejects a canon label that does not match its book profile', () => {
   const pack = fixture('catholic-73', CANONICAL_BOOK_CODES);
   assert.throws(() => validateBiblePack(pack, 'hr'), /must contain 73 books/);
 });
+
+test('lightweight bundled credits match the bundled Bible files', async () => {
+  const { readFileSync } = await import('node:fs');
+  const { fileURLToPath } = await import('node:url');
+  const here = (name: string) => fileURLToPath(new URL(name, import.meta.url).href);
+  const source = readFileSync(here('./bibleFull.ts'), 'utf8');
+  for (const locale of ['en', 'tr', 'es', 'de']) {
+    const { credit } = JSON.parse(readFileSync(here(`./bible-full.${locale}.json`), 'utf8'));
+    assert.ok(source.includes(JSON.stringify(credit).slice(1, -1)), `${locale} credit drifted: ${credit}`);
+  }
+});
