@@ -2,6 +2,7 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { useWindowDimensions, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useReducedMotion } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
@@ -32,6 +33,7 @@ function TabIcon({ outline, filled, focused, color, size }: TabIconProps) {
 }
 
 export default function TabsLayout() {
+  const insets = useSafeAreaInsets();
   const t = useTheme();
   const reduceMotion = useReducedMotion();
   const { t: tr } = useT();
@@ -49,7 +51,9 @@ export default function TabsLayout() {
           borderRightColor: expanded ? t.border : 'transparent',
           borderRightWidth: expanded ? 1 : 0,
           width: expanded ? 112 : undefined,
-          height: expanded ? '100%' : 84,
+          // Android 16 enforces edge-to-edge: grow by the navigation-bar inset
+          // instead of a fixed height that the system bar would cover.
+          height: expanded ? '100%' : 50 + insets.bottom,
           paddingTop: expanded ? 24 : 8,
         },
         tabBarPosition: expanded ? 'left' : 'bottom',

@@ -179,6 +179,21 @@ jobs:
       - name: Build signed release AAB and APK
         run: cd android && ./gradlew bundleRelease assembleRelease --no-daemon
 
+      - name: Verify Google Play policy requirements (API 36, Billing 8)
+        shell: bash
+        run: |
+          AAPT2="$(find "$ANDROID_HOME/build-tools" -type f -name aapt2 | sort -V | tail -n 1)"
+          BADGING="$("$AAPT2" dump badging android/app/build/outputs/apk/release/app-release.apk)"
+          echo "$BADGING" | grep -E "^package:|targetSdkVersion"
+          echo "$BADGING" | grep -q "targetSdkVersion:'36'" || { echo "targetSdkVersion must be 36"; exit 1; }
+          cd android
+          ./gradlew :app:dependencies --configuration releaseRuntimeClasspath --no-daemon > ../artifacts-deps.txt
+          grep -E "com.android.billingclient:billing" ../artifacts-deps.txt | sort -u
+          if grep -E "com.android.billingclient:billing:[0-7]\." ../artifacts-deps.txt | grep -v -- "->" ; then
+            echo "Play Billing Library must be 8.0.0 or newer"; exit 1
+          fi
+          grep -qE "com.android.billingclient:billing(-ktx)?:([0-9.]+ -> )?(8|9|[1-9][0-9])\." ../artifacts-deps.txt || { echo "Billing 8+ not resolved"; exit 1; }
+
       - name: Enforce release bundle budgets
         run: npm run release:verify:bundle -- --root android/app/build/generated --output artifacts/bundle-budget.json
 
