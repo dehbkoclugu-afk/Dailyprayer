@@ -28,4 +28,12 @@ export default {
   'legal.englishOnly':'Ten dokument jest dostępny w języku angielskim, a wiążąca jest wersja angielska.',
   'format.nameFirst':'{{name}}, {{text}}',
   'format.nameLast':'{{text}}, {{name}}',
+  'scriptureSource.title': "Źródło tekstu",
+  'scriptureSource.edition': "Wydanie",
+  'scriptureSource.rights': "Prawa i licencja",
+  'scriptureSource.attribution': "Pełne przypisanie",
+  'scriptureSource.openSource': "Otwórz informację o źródle",
+  'scriptureSource.openLicense': "Otwórz licencję",
+  'scriptureSource.rightsUnavailable': "Status praw jest podany w informacji o źródle.",
+  'scriptureSource.linkError': "Nie udało się otworzyć linku. Spróbuj ponownie.",
 } as const;

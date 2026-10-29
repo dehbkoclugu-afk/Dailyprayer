@@ -8,7 +8,7 @@
     "ios": "expo start --ios",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --import ./test/register.mjs --test \"src/**/*.test.ts\"",
+    "test": "node --experimental-strip-types --import ./test/register.mjs --test \"src/**/*.test.ts\" \"scripts/*.test.mjs\"",
     "bible:pack": "node scripts/build-ebible-pack.mjs",
     "bible:pack:verify": "node --experimental-strip-types scripts/validate-ebible-source-pins.mjs",
     "application-content:build": "node --experimental-strip-types scripts/build-application-content-packs.mjs",
@@ -18,7 +18,10 @@
     "ui-locales:verify:production": "node --experimental-strip-types scripts/validate-ui-locales.mjs --production",
     "scripture:verify:integrity": "node scripts/verify-scripture-integrity.mjs",
     "scripture:verify:rights": "node scripts/verify-scripture-release-rights.mjs",
-    "test:tz": "TZ=Europe/Berlin npm test && TZ=America/New_York npm test"
+    "test:tz": "TZ=Europe/Berlin npm test && TZ=America/New_York npm test",
+    "scripture:verify:ui": "node scripts/verify-scripture-ui-integrity.mjs",
+    "release:verify:claims": "node scripts/verify-release-claims.mjs",
+    "release:verify:bundle": "node scripts/verify-bundle-budget.mjs"
   },
   "dependencies": {
     "@expo-google-fonts/figtree": "^0.2.3",

@@ -24,4 +24,12 @@ export default {
   'legal.englishOnly':'این سند به زبان انگلیسی ارائه شده و نسخه انگلیسی متن معتبر است.',
   'format.nameFirst':'{{name}}، {{text}}',
   'format.nameLast':'{{text}}، {{name}}',
+  'scriptureSource.title': "منبع متن",
+  'scriptureSource.edition': "نسخه",
+  'scriptureSource.rights': "حقوق و مجوز",
+  'scriptureSource.attribution': "انتساب کامل",
+  'scriptureSource.openSource': "باز کردن اطلاعیه منبع",
+  'scriptureSource.openLicense': "باز کردن مجوز",
+  'scriptureSource.rightsUnavailable': "وضعیت حقوق در اطلاعیه منبع آمده است.",
+  'scriptureSource.linkError': "پیوند باز نشد. دوباره تلاش کنید.",
 } as const;

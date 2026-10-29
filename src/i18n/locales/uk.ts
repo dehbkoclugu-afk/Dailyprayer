@@ -28,4 +28,12 @@ export default {
   'legal.englishOnly':'Цей документ доступний англійською мовою; обов’язковою є англійська версія.',
   'format.nameFirst':'{{name}}, {{text}}',
   'format.nameLast':'{{text}}, {{name}}',
+  'scriptureSource.title': "Джерело тексту",
+  'scriptureSource.edition': "Видання",
+  'scriptureSource.rights': "Права та ліцензія",
+  'scriptureSource.attribution': "Повна атрибуція",
+  'scriptureSource.openSource': "Відкрити відомості про джерело",
+  'scriptureSource.openLicense': "Відкрити ліцензію",
+  'scriptureSource.rightsUnavailable': "Статус прав наведено у відомостях про джерело.",
+  'scriptureSource.linkError': "Не вдалося відкрити посилання. Спробуйте ще раз.",
 } as const;

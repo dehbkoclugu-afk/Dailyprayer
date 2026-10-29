@@ -28,4 +28,12 @@ export default {
   'legal.englishOnly':'Ĉi tiu dokumento estas en la angla, kaj la angla versio estas la deviga teksto.',
   'format.nameFirst':'{{name}}, {{text}}',
   'format.nameLast':'{{text}}, {{name}}',
+  'scriptureSource.title': "Tekstofonto",
+  'scriptureSource.edition': "Eldono",
+  'scriptureSource.rights': "Rajtoj kaj permesilo",
+  'scriptureSource.attribution': "Plena atribuo",
+  'scriptureSource.openSource': "Malfermi fontan avizon",
+  'scriptureSource.openLicense': "Malfermi permesilon",
+  'scriptureSource.rightsUnavailable': "La rajta stato troviĝas en la fonta avizo.",
+  'scriptureSource.linkError': "La ligilo ne povis malfermiĝi. Provu denove.",
 } as const;

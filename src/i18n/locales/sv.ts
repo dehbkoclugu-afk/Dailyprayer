@@ -28,4 +28,12 @@ export default {
   'legal.englishOnly':'Det här dokumentet finns på engelska, och den engelska versionen är den bindande texten.',
   'format.nameFirst':'{{name}}, {{text}}',
   'format.nameLast':'{{text}}, {{name}}',
+  'scriptureSource.title': "Textkälla",
+  'scriptureSource.edition': "Utgåva",
+  'scriptureSource.rights': "Rättigheter och licens",
+  'scriptureSource.attribution': "Fullständig källhänvisning",
+  'scriptureSource.openSource': "Öppna källinformation",
+  'scriptureSource.openLicense': "Öppna licens",
+  'scriptureSource.rightsUnavailable': "Rättighetsstatus finns i källinformationen.",
+  'scriptureSource.linkError': "Länken kunde inte öppnas. Försök igen.",
 } as const;

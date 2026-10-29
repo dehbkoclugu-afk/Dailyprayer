@@ -1,8 +1,9 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import Animated, { ZoomIn } from 'react-native-reanimated';
+import Animated, { ZoomIn, useReducedMotion } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
+import { useT } from '@/i18n';
 
 interface Props {
   done: number;
@@ -16,10 +17,16 @@ interface Props {
  */
 export function ProgressRing({ done, total, size = 56 }: Props) {
   const t = useTheme();
+  const { t: tr, locale } = useT();
+  const reduceMotion = useReducedMotion();
+  const number = new Intl.NumberFormat(locale);
   const dots = Array.from({ length: total }, (_, i) => i < done);
   return (
     <View
-      accessibilityLabel={`${done} of ${total} completed today`}
+      accessible
+      accessibilityRole="progressbar"
+      accessibilityLabel={`${tr('today.completed')}: ${number.format(done)}/${number.format(total)}`}
+      accessibilityValue={{ min: 0, max: total, now: done }}
       style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}
     >
       <View style={{ position: 'absolute', width: size, height: size }}>
@@ -30,7 +37,7 @@ export function ProgressRing({ done, total, size = 56 }: Props) {
             // key includes fill state so a newly-earned dot pops in with a spring
             <Animated.View
               key={`${i}-${filled}`}
-              entering={filled ? ZoomIn.springify().damping(12) : undefined}
+              entering={filled && !reduceMotion ? ZoomIn.springify().damping(12) : undefined}
               style={{
                 position: 'absolute',
                 left: size / 2 + r * Math.cos(angle) - 4,
@@ -38,14 +45,14 @@ export function ProgressRing({ done, total, size = 56 }: Props) {
                 width: 8,
                 height: 8,
                 borderRadius: 4,
-                backgroundColor: filled ? t.gold : t.border,
+                backgroundColor: filled ? t.sacredGold : t.border,
               }}
             />
           );
         })}
       </View>
       <Text
-        style={{ fontFamily: fonts.sansBold, fontSize: 15, color: t.ink, fontVariant: ['tabular-nums'] }}
+        style={{ ...ty.secondaryStrong, color: t.ink, fontVariant: ['tabular-nums'] }}
       >
         {done}/{total}
       </Text>

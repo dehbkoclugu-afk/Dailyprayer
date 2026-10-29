@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react';
 import { AccessibilityInfo, Pressable, Text, View } from 'react-native';
-import Animated, { FadeInDown, FadeOutUp } from 'react-native-reanimated';
+import Animated, { FadeInDown, FadeOutUp, useReducedMotion } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useToastStore } from '@/state/useToastStore';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
-import { radius, shadow, spacing } from '@/theme/tokens';
+import { type as ty } from '@/theme/typography';
+import { elevation, interaction, radius, spacing } from '@/theme/tokens';
 
 /** Minimal gold-trimmed toast. Mount once in the root layout. */
 export function ToastHost() {
   const t = useTheme();
   const insets = useSafeAreaInsets();
+  const reduceMotion = useReducedMotion();
   const message = useToastStore((s) => s.message);
   const actionLabel = useToastStore((s) => s.actionLabel);
   const action = useToastStore((s) => s.action);
@@ -44,28 +45,26 @@ export function ToastHost() {
     >
       <Animated.View
         key={seq}
-        accessibilityRole="alert"
-        accessibilityLiveRegion="polite"
-        entering={FadeInDown.springify().damping(20)}
-        exiting={FadeOutUp.duration(150)}
+        entering={reduceMotion ? undefined : FadeInDown.springify().damping(20)}
+        exiting={reduceMotion ? undefined : FadeOutUp.duration(150)}
         style={[
           {
             flexDirection: 'row',
             alignItems: 'center',
             gap: spacing.sm,
             backgroundColor: t.surface,
-            borderColor: t.gold,
+            borderColor: t.sacredGold,
             borderWidth: 1,
             borderRadius: radius.pill,
             paddingHorizontal: spacing.lg,
             paddingVertical: spacing.md,
             maxWidth: 320,
           },
-          shadow.card,
+          elevation.floating,
         ]}
       >
-        <Ionicons name="sparkles" size={15} color={t.gold} />
-        <Text style={{ flexShrink: 1, fontFamily: fonts.sansMedium, fontSize: 14, color: t.ink }}>
+        <Ionicons name="sparkles" size={15} color={t.sacredGold} />
+        <Text style={{ flexShrink: 1, ...ty.labelMedium, color: t.ink }}>
           {message}
         </Text>
         {actionLabel && action ? (
@@ -81,10 +80,10 @@ export function ToastHost() {
               minHeight: 48,
               alignItems: 'center',
               justifyContent: 'center',
-              opacity: pressed ? 0.6 : 1,
+              opacity: pressed ? interaction.pressedOpacity : 1,
             })}
           >
-            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: t.gold }}>
+            <Text style={{ ...ty.label, color: t.sacredGold }}>
               {actionLabel}
             </Text>
           </Pressable>

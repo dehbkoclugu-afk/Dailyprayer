@@ -28,4 +28,12 @@ export default {
   'legal.englishOnly':'Ovaj dokument je dostupan na engleskom, a obavezujući je engleski tekst.',
   'format.nameFirst':'{{name}}, {{text}}',
   'format.nameLast':'{{text}}, {{name}}',
+  'scriptureSource.title': "Izvor teksta",
+  'scriptureSource.edition': "Izdanje",
+  'scriptureSource.rights': "Prava i licenca",
+  'scriptureSource.attribution': "Puna atribucija",
+  'scriptureSource.openSource': "Otvori obaveštenje izvora",
+  'scriptureSource.openLicense': "Otvori licencu",
+  'scriptureSource.rightsUnavailable': "Status prava je naveden u obaveštenju izvora.",
+  'scriptureSource.linkError': "Vezu nije moguće otvoriti. Pokušajte ponovo.",
 } as const;

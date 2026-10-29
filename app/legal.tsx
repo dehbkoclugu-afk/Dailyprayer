@@ -1,15 +1,13 @@
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
 import { useT } from '@/i18n';
-import { getDirectionalIconName } from '@/i18n/direction';
-import { fonts } from '@/theme/typography';
-import { spacing } from '@/theme/tokens';
+import { type as ty } from '@/theme/typography';
+import { radius, spacing } from '@/theme/tokens';
 import { PRIVACY_POLICY, TERMS_OF_SERVICE } from '@/data/legal';
-import { goBack } from '@/lib/navigation';
+import { TopAppBar } from '@/components/TopAppBar';
 
 /**
  * Minimal Markdown renderer for our own controlled legal copy (headings, bold,
@@ -27,7 +25,7 @@ function Markdown({ source }: { source: string }) {
             <Text
               key={key}
               accessibilityRole="header"
-              style={{ fontFamily: fonts.sansSemiBold, fontSize: 18, color: t.ink, marginTop: spacing.xl, marginBottom: spacing.sm }}
+              style={{ ...ty.bodyLargeStrong, color: t.ink, marginTop: spacing.xl, marginBottom: spacing.sm }}
             >
               {line.slice(3)}
             </Text>
@@ -35,14 +33,14 @@ function Markdown({ source }: { source: string }) {
         }
         if (line.startsWith('# ')) {
           return (
-            <Text key={key} accessibilityRole="header" style={{ fontFamily: fonts.serif, fontSize: 26, color: t.ink, marginBottom: spacing.sm }}>
+            <Text key={key} accessibilityRole="header" style={{ ...ty.title, color: t.ink, marginBottom: spacing.sm }}>
               {line.slice(2)}
             </Text>
           );
         }
         if (line.startsWith('_') && line.endsWith('_')) {
           return (
-            <Text key={key} style={{ fontFamily: fonts.sans, fontSize: 13, color: t.inkFaint, marginBottom: spacing.md }}>
+            <Text key={key} style={{ ...ty.captionRegular, color: t.inkFaint, marginBottom: spacing.md }}>
               {line.slice(1, -1)}
             </Text>
           );
@@ -50,8 +48,8 @@ function Markdown({ source }: { source: string }) {
         if (line.startsWith('- ')) {
           return (
             <View key={key} style={{ flexDirection: 'row', gap: spacing.sm, marginBottom: 6 }}>
-              <Text style={{ color: t.gold, fontSize: 15 }}>•</Text>
-              <Text style={{ fontFamily: fonts.sans, fontSize: 15, lineHeight: 23, color: t.ink, flex: 1 }}>
+              <Text style={{ ...ty.secondary, color: t.gold }}>•</Text>
+              <Text style={{ ...ty.secondaryComfortable, color: t.ink, flex: 1 }}>
                 {renderInline(line.slice(2))}
               </Text>
             </View>
@@ -59,7 +57,7 @@ function Markdown({ source }: { source: string }) {
         }
         if (line.trim() === '') return <View key={key} style={{ height: spacing.sm }} />;
         return (
-          <Text key={key} style={{ fontFamily: fonts.sans, fontSize: 15, lineHeight: 23, color: t.ink, marginBottom: 6 }}>
+          <Text key={key} style={{ ...ty.secondaryComfortable, color: t.ink, marginBottom: 6 }}>
             {renderInline(line)}
           </Text>
         );
@@ -72,7 +70,7 @@ function Markdown({ source }: { source: string }) {
     const parts = text.split(/(\*\*[^*]+\*\*)/g);
     return parts.map((p, i) =>
       p.startsWith('**') && p.endsWith('**') ? (
-        <Text key={i} style={{ fontFamily: fonts.sansSemiBold }}>
+        <Text key={i} style={ty.label}>
           {p.slice(2, -2)}
         </Text>
       ) : (
@@ -86,31 +84,21 @@ export default function Legal() {
   const t = useTheme();
   const { t: tr, locale } = useT();
   const { doc } = useLocalSearchParams<{ doc?: string }>();
-  const source = doc === 'terms' ? TERMS_OF_SERVICE : PRIVACY_POLICY;
+  const source = (doc === 'terms' ? TERMS_OF_SERVICE : PRIVACY_POLICY).replace(/^# .+\n/, '');
 
   return (
     <Screen>
-      <Pressable
-        onPress={() => goBack()}
-        hitSlop={12}
-        accessibilityRole="button"
-        accessibilityLabel={tr('a11y.back')}
-        style={({ pressed }) => ({ width: 48, height: 48, justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
-      >
-        <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={26} color={t.inkSoft} />
-      </Pressable>
+      <TopAppBar title={doc === 'terms' ? tr('profile.terms') : tr('profile.privacy')} />
       {locale !== 'en' ? (
         // The binding legal text is English; say so in the reader's language.
         <Text
           style={{
-            fontFamily: fonts.sans,
-            fontSize: 13,
-            lineHeight: 19,
+            ...ty.captionRegular,
             color: t.inkSoft,
             backgroundColor: t.surface,
-            borderRadius: 12,
+            borderRadius: radius.inner,
             padding: spacing.md,
-            marginBottom: spacing.lg,
+            marginTop: spacing.md,
           }}
         >
           {tr('legal.englishOnly')}

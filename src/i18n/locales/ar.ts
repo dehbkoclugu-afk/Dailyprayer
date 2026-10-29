@@ -28,4 +28,12 @@ export default {
   'legal.englishOnly':'هذه الوثيقة متاحة باللغة الإنجليزية، والنسخة الإنجليزية هي النص المُلزِم.',
   'format.nameFirst':'{{name}}، {{text}}',
   'format.nameLast':'{{text}}، {{name}}',
+  'scriptureSource.title': "مصدر النص",
+  'scriptureSource.edition': "الإصدار",
+  'scriptureSource.rights': "الحقوق والترخيص",
+  'scriptureSource.attribution': "الإسناد الكامل",
+  'scriptureSource.openSource': "فتح إشعار المصدر",
+  'scriptureSource.openLicense': "فتح الترخيص",
+  'scriptureSource.rightsUnavailable': "حالة الحقوق متاحة في إشعار المصدر.",
+  'scriptureSource.linkError': "تعذّر فتح الرابط. حاول مرة أخرى.",
 } as const;

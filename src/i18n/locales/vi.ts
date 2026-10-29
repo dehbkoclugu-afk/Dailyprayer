@@ -23,4 +23,12 @@ export default {
   'legal.englishOnly':'Tài liệu này được cung cấp bằng tiếng Anh và bản tiếng Anh là văn bản có giá trị ràng buộc.',
   'format.nameFirst':'{{name}}, {{text}}',
   'format.nameLast':'{{text}}, {{name}}',
+  'scriptureSource.title': "Nguồn văn bản",
+  'scriptureSource.edition': "Bản dịch",
+  'scriptureSource.rights': "Quyền và giấy phép",
+  'scriptureSource.attribution': "Ghi nguồn đầy đủ",
+  'scriptureSource.openSource': "Mở thông báo nguồn",
+  'scriptureSource.openLicense': "Mở giấy phép",
+  'scriptureSource.rightsUnavailable': "Trạng thái quyền có trong thông báo nguồn.",
+  'scriptureSource.linkError': "Không thể mở liên kết. Vui lòng thử lại.",
 } as const;

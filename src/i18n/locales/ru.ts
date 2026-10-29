@@ -28,4 +28,12 @@ export default {
   'legal.englishOnly':'Этот документ доступен на английском языке; юридическую силу имеет английская версия.',
   'format.nameFirst':'{{name}}, {{text}}',
   'format.nameLast':'{{text}}, {{name}}',
+  'scriptureSource.title': "Источник текста",
+  'scriptureSource.edition': "Издание",
+  'scriptureSource.rights': "Права и лицензия",
+  'scriptureSource.attribution': "Полная атрибуция",
+  'scriptureSource.openSource': "Открыть сведения об источнике",
+  'scriptureSource.openLicense': "Открыть лицензию",
+  'scriptureSource.rightsUnavailable': "Статус прав указан в сведениях об источнике.",
+  'scriptureSource.linkError': "Не удалось открыть ссылку. Попробуйте снова.",
 } as const;

@@ -17,6 +17,7 @@ import {
 } from '@expo-google-fonts/figtree';
 import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { useReducedMotion } from 'react-native-reanimated';
 import { ToastHost } from '@/components/ToastHost';
 import { useTheme } from '@/hooks/useTheme';
 import { useStreakStore } from '@/state/useStreakStore';
@@ -25,7 +26,7 @@ import { waitForHydration } from '@/state/hydration';
 import { initPurchases } from '@/services/purchases';
 import { syncReminders } from '@/services/notifications';
 import { dayKey } from '@/lib/dates';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { reportError } from '@/lib/reportError';
 import { loadInstalledBiblePack } from '@/services/biblePacks';
 import { registerDownloadedBiblePack } from '@/data/bibleFull';
@@ -38,6 +39,7 @@ import {
 } from '@/i18n/applicationLanguageActivation';
 import { registerApplicationContentPack } from '@/i18n/applicationContent';
 import { loadInstalledApplicationContentPack } from '@/services/applicationContentPacks';
+import { resolveMotionPattern } from '@/theme/motion';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -58,10 +60,10 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
   useEffect(() => reportError(error, 'render'), [error]);
   return (
     <View style={{ flex: 1, backgroundColor: t.bg, alignItems: 'center', justifyContent: 'center', padding: 32, gap: 12 }}>
-      <Text accessibilityRole="header" style={{ fontFamily: fonts.serif, fontSize: 24, color: t.ink, textAlign: 'center' }}>
+      <Text accessibilityRole="header" style={{ ...ty.titleSmall, color: t.ink, textAlign: 'center' }}>
         {translate('error.title')}
       </Text>
-      <Text style={{ fontFamily: fonts.sans, fontSize: 15, lineHeight: 22, color: t.inkSoft, textAlign: 'center' }}>
+      <Text style={{ ...ty.secondary, color: t.inkSoft, textAlign: 'center' }}>
         {translate('error.body')}
       </Text>
       <Pressable
@@ -69,7 +71,7 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
         accessibilityRole="button"
         style={{ marginTop: 12, minHeight: 48, paddingHorizontal: 24, borderRadius: 999, backgroundColor: t.gold, justifyContent: 'center' }}
       >
-        <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.onGold }}>{translate('error.retry')}</Text>
+        <Text style={{ ...ty.bodyCompactStrong, color: t.onGold }}>{translate('error.retry')}</Text>
       </Pressable>
     </View>
   );
@@ -77,6 +79,7 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
 
 export default function RootLayout() {
   const t = useTheme();
+  const reduceMotion = useReducedMotion();
   const scheme = useColorScheme();
   const pref = useUserStore((s) => s.themePreference);
   const language = useUserStore((s) => s.language);
@@ -255,15 +258,20 @@ export default function RootLayout() {
 
   const dark = pref === 'system' ? scheme !== 'light' : pref === 'vigil';
   const direction = getApplicationDirection(resolveLocale(language));
+  const sharedAxisMotion = resolveMotionPattern('sharedAxis', reduceMotion);
+  const containerMotion = resolveMotionPattern('container', reduceMotion);
 
   return (
     <GestureHandlerRootView style={{ flex: 1, direction }}>
       <StatusBar style={dark ? 'light' : 'dark'} />
       <Stack
-        screenOptions={{
+        screenOptions={({ route }) => ({
           headerShown: false,
           contentStyle: { backgroundColor: t.bg, direction },
-        }}
+          animation: route.name === 'paywall' || route.name === 'player'
+            ? containerMotion.animation
+            : sharedAxisMotion.animation,
+        })}
       >
         <Stack.Screen name="paywall" options={{ presentation: 'modal' }} />
         <Stack.Screen name="player" options={{ presentation: 'modal' }} />
@@ -271,6 +279,7 @@ export default function RootLayout() {
         <Stack.Screen name="legal" options={{ presentation: 'card' }} />
         <Stack.Screen name="plan" options={{ presentation: 'card' }} />
         <Stack.Screen name="scripture-language" options={{ presentation: 'card' }} />
+        <Stack.Screen name="scripture-source" options={{ presentation: 'card' }} />
         <Stack.Screen name="application-language" options={{ presentation: 'card' }} />
       </Stack>
       <ToastHost />

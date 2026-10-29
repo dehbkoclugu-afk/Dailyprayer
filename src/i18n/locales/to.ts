@@ -231,4 +231,12 @@ export default {
   "legal.englishOnly": "ʻOku tuku mai ʻa e tohi ko ʻení ʻi he lea faka-Pilitānia, pea ko e tatau faka-Pilitāniá ʻa e tohi mafaí.",
   "format.nameFirst": "{{name}}, {{text}}",
   "format.nameLast": "{{text}}, {{name}}",
+  'scriptureSource.title': "Matavai ʻo e tohi",
+  'scriptureSource.edition': "Pulusinga",
+  'scriptureSource.rights': "Ngaahi totonu mo e laiseni",
+  'scriptureSource.attribution': "Fakamatala kakato",
+  'scriptureSource.openSource': "Fakaava ʻa e fanongonongo matavai",
+  'scriptureSource.openLicense': "Fakaava ʻa e laiseni",
+  'scriptureSource.rightsUnavailable': "ʻOku ʻi he fanongonongo matavai ʻa e tuʻunga totonu.",
+  'scriptureSource.linkError': "Naʻe ʻikai lava ke fakaava ʻa e fehokotaki. Toe feinga.",
 } as const;

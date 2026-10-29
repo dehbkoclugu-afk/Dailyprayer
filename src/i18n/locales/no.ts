@@ -28,4 +28,12 @@ export default {
   'legal.englishOnly':'Dette dokumentet er tilgjengelig på engelsk, og den engelske versjonen er den bindende teksten.',
   'format.nameFirst':'{{name}}, {{text}}',
   'format.nameLast':'{{text}}, {{name}}',
+  'scriptureSource.title': "Tekstkilde",
+  'scriptureSource.edition': "Utgave",
+  'scriptureSource.rights': "Rettigheter og lisens",
+  'scriptureSource.attribution': "Full kreditering",
+  'scriptureSource.openSource': "Åpne kildemelding",
+  'scriptureSource.openLicense': "Åpne lisens",
+  'scriptureSource.rightsUnavailable': "Rettighetsstatusen står i kildemeldingen.",
+  'scriptureSource.linkError': "Lenken kunne ikke åpnes. Prøv igjen.",
 } as const;

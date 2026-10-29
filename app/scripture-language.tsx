@@ -3,9 +3,10 @@ import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { useT } from '@/i18n';
+import { getDirectionalIconName } from '@/i18n/direction';
 import {
   EXISTING_NON_PD_SCRIPTURE,
   GLOBAL_LANGUAGE_CATALOG,
@@ -19,6 +20,8 @@ import {
   useScriptureLocale,
 } from '@/i18n/scripture';
 import { useUserStore } from '@/state/useUserStore';
+import { goBack } from '@/lib/navigation';
+import { reportError } from '@/lib/reportError';
 import {
   installBiblePack,
   listInstalledBiblePacks,
@@ -28,9 +31,6 @@ import {
 import { fetchBiblePackManifest, releaseMap } from '@/services/biblePackRegistry';
 import { registerDownloadedBiblePack } from '@/data/bibleFull';
 import type { BiblePackRelease } from '@/data/biblePack';
-import { goBack } from '@/lib/navigation';
-import { reportError } from '@/lib/reportError';
-import { BackButton } from '@/components/BackButton';
 
 const candidates = new Set<string>(RELEASE_CANDIDATE_SCRIPTURE_LOCALE_TAGS);
 const languages = GLOBAL_LANGUAGE_CATALOG.filter(
@@ -39,7 +39,7 @@ const languages = GLOBAL_LANGUAGE_CATALOG.filter(
 
 export default function ScriptureLanguage() {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const effectiveScriptureLocale = useScriptureLocale();
   const scriptureLocale = useUserStore((s) => s.scriptureLocale);
   const setScriptureLocale = useUserStore((s) => s.setScriptureLocale);
@@ -126,18 +126,31 @@ export default function ScriptureLanguage() {
   return (
     <Screen>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
-        <BackButton />
-        <Text style={{ flex: 1, fontFamily: fonts.serif, fontSize: 30, color: t.ink }}>
+        <Pressable
+          onPress={() => goBack()}
+          accessibilityRole="button"
+          accessibilityLabel={tr('a11y.back')}
+          hitSlop={10}
+          style={{
+            width: 42,
+            height: 42,
+            borderRadius: 21,
+            backgroundColor: t.surface,
+            borderWidth: 1,
+            borderColor: t.border,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={22} color={t.ink} />
+        </Pressable>
+        <Text style={{ flex: 1, ...ty.titleLarge, color: t.ink }}>
           {tr('profile.scriptureLanguage')}
         </Text>
       </View>
 
       <Pressable
         onPress={() => choose(resolveSystemScriptureLocale(), 'system')}
-        disabled={downloading !== null}
-        accessibilityRole="button"
-        accessibilityState={{ selected: autoSelected }}
-        accessibilityLabel={tr('profile.auto')}
         style={{
           marginTop: spacing.xl,
           minHeight: 60,
@@ -152,7 +165,7 @@ export default function ScriptureLanguage() {
         }}
       >
         <Ionicons name="phone-portrait-outline" size={20} color={autoSelected ? t.gold : t.inkSoft} />
-        <Text style={{ flex: 1, fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>
+        <Text style={{ flex: 1, ...ty.bodyCompactStrong, color: t.ink }}>
           {tr('profile.auto')}
         </Text>
         {autoSelected ? <Ionicons name="checkmark-circle" size={22} color={t.gold} /> : null}
@@ -173,8 +186,7 @@ export default function ScriptureLanguage() {
               onPress={() => choose(tag)}
               disabled={downloading !== null}
               accessibilityRole="button"
-              accessibilityState={{ selected: active, busy }}
-              accessibilityLabel={`${item.nativeName}, ${edition}${!ready && release ? `, ${(release.bytes / 1024 / 1024).toFixed(1)} MB` : ''}`}
+              accessibilityLabel={`${item.nativeName}, ${edition}`}
               style={({ pressed }) => ({
                 minHeight: 72,
                 paddingHorizontal: spacing.lg,
@@ -190,12 +202,12 @@ export default function ScriptureLanguage() {
               })}
             >
               <View style={{ flex: 1 }}>
-                <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}>
+                <Text style={{ ...ty.bodyCompactStrong, color: t.ink, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}>
                   {item.nativeName}
                 </Text>
                 <Text
                   numberOfLines={1}
-                  style={{ fontFamily: fonts.sans, fontSize: 12, color: t.inkSoft, marginTop: 3, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}
+                  style={{ ...ty.labelSmallRegular, color: t.inkSoft, marginTop: 3, textAlign: item.direction === 'rtl' ? 'right' : 'left', writingDirection: item.direction === 'rtl' ? 'rtl' : 'ltr' }}
                 >
                   {edition}
                 </Text>
@@ -204,7 +216,7 @@ export default function ScriptureLanguage() {
               {busy ? (
                 <View style={{ alignItems: 'flex-end', gap: 2 }} accessibilityLiveRegion="polite">
                   <ActivityIndicator color={t.gold} />
-                  <Text style={{ fontFamily: fonts.sans, fontSize: 10, color: t.inkFaint, fontVariant: ['tabular-nums'] }}>
+                  <Text style={{ ...ty.captionRegular, color: t.inkFaint, fontVariant: ['tabular-nums'] }}>
                     {Math.round(progress * 100)}%
                   </Text>
                 </View>
@@ -215,7 +227,7 @@ export default function ScriptureLanguage() {
               ) : release ? (
                 <View style={{ alignItems: 'flex-end', gap: 2 }}>
                   <Ionicons name="cloud-download-outline" size={21} color={t.gold} />
-                  <Text style={{ fontFamily: fonts.sans, fontSize: 10, color: t.inkFaint }}>
+                  <Text style={{ ...ty.labelSmallRegular, color: t.inkFaint }}>
                     {(release.bytes / 1024 / 1024).toFixed(1)} MB
                   </Text>
                 </View>

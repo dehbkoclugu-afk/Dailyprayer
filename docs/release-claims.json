@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "claims": [
+    {
+      "id": "store-prices-only",
+      "statement": "Production prices come from the active App Store or Google Play offering; unavailable offerings do not display invented prices.",
+      "evidence": ["src/services/purchases.ts", "app/paywall.tsx"]
+    },
+    {
+      "id": "trial-eligibility",
+      "statement": "Trial copy is shown only when the store reports the selected product as eligible.",
+      "evidence": ["src/services/purchases.ts", "app/paywall.tsx"]
+    },
+    {
+      "id": "local-notifications",
+      "statement": "Reminders require permission and are scheduled locally; a denied permission does not produce a success state.",
+      "evidence": ["app/(tabs)/profile.tsx", "src/services/notifications.ts", "src/data/legal.ts"]
+    },
+    {
+      "id": "local-private-data",
+      "statement": "Journal, progress and preferences remain on-device; deleting local data preserves purchases and downloaded content.",
+      "evidence": ["src/data/legal.ts", "src/lib/localDataKeys.ts", "src/lib/localDataKeys.test.ts", "app/(tabs)/profile.tsx"]
+    },
+    {
+      "id": "scripture-rights",
+      "statement": "Every released Scripture edition is integrity-checked and retains edition-specific source and rights evidence.",
+      "evidence": ["src/data/legal.ts", "scripts/verify-scripture-integrity.mjs", "scripts/verify-scripture-release-rights.mjs"]
+    }
+  ]
+}

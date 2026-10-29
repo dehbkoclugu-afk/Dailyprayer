@@ -3,7 +3,7 @@ import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import {
   APPLICATION_LOCALES,
@@ -11,6 +11,7 @@ import {
   resolveRequestedApplicationLocale,
   useT,
 } from '@/i18n';
+import { getDirectionalIconName } from '@/i18n/direction';
 import type { AppDirection, AppLocale } from '@/i18n/applicationLocales';
 import {
   activateApplicationLocale,
@@ -18,6 +19,8 @@ import {
 } from '@/i18n/applicationLanguageActivation';
 import { registerApplicationContentPack } from '@/i18n/applicationContent';
 import { useUserStore } from '@/state/useUserStore';
+import { goBack } from '@/lib/navigation';
+import { reportError } from '@/lib/reportError';
 import {
   installApplicationContentPack,
   listInstalledApplicationContentPacks,
@@ -31,9 +34,6 @@ import type {
   ApplicationContentLocale,
   ApplicationContentRelease,
 } from '@/data/applicationContentPack';
-import { goBack } from '@/lib/navigation';
-import { reportError } from '@/lib/reportError';
-import { BackButton } from '@/components/BackButton';
 
 const bundled = new Set<ApplicationContentLocale>(BUNDLED_APPLICATION_CONTENT_LOCALES);
 const hasDownloadableLocale = APPLICATION_LOCALES.some(
@@ -42,7 +42,7 @@ const hasDownloadableLocale = APPLICATION_LOCALES.some(
 
 export default function ApplicationLanguage() {
   const t = useTheme();
-  const { t: tr } = useT();
+  const { t: tr, locale } = useT();
   const language = useUserStore((state) => state.language);
   const setLanguage = useUserStore((state) => state.setLanguage);
   const selected = resolveLocale(language);
@@ -104,8 +104,25 @@ export default function ApplicationLanguage() {
   return (
     <Screen>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
-        <BackButton />
-        <Text style={{ flex: 1, fontFamily: fonts.serif, fontSize: 30, color: t.ink }}>
+        <Pressable
+          onPress={() => goBack()}
+          accessibilityRole="button"
+          accessibilityLabel={tr('a11y.back')}
+          hitSlop={10}
+          style={{
+            width: 42,
+            height: 42,
+            borderRadius: 21,
+            backgroundColor: t.surface,
+            borderWidth: 1,
+            borderColor: t.border,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Ionicons name={getDirectionalIconName('chevron-back', locale)} size={22} color={t.ink} />
+        </Pressable>
+        <Text style={{ flex: 1, ...ty.titleLarge, color: t.ink }}>
           {tr('profile.language')}
         </Text>
       </View>
@@ -130,7 +147,7 @@ export default function ApplicationLanguage() {
         })}
       >
         <Ionicons name="phone-portrait-outline" size={20} color={autoSelected ? t.gold : t.inkSoft} />
-        <Text style={{ flex: 1, fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.ink }}>
+        <Text style={{ flex: 1, ...ty.bodyCompactStrong, color: t.ink }}>
           {tr('profile.auto')}
         </Text>
         {autoSelected ? <Ionicons name="checkmark-circle" size={22} color={t.gold} /> : null}
@@ -169,8 +186,7 @@ export default function ApplicationLanguage() {
               <Text
                 style={{
                   flex: 1,
-                  fontFamily: fonts.sansSemiBold,
-                  fontSize: 16,
+                  ...ty.bodyCompactStrong,
                   color: t.ink,
                   textAlign: direction === 'rtl' ? 'right' : 'left',
                   writingDirection: direction,
@@ -181,7 +197,7 @@ export default function ApplicationLanguage() {
               {busy ? (
                 <View style={{ alignItems: 'flex-end', gap: 2 }} accessibilityLiveRegion="polite">
                   <ActivityIndicator color={t.gold} />
-                  <Text style={{ fontFamily: fonts.sans, fontSize: 10, color: t.inkFaint, fontVariant: ['tabular-nums'] }}>
+                  <Text style={{ ...ty.captionRegular, color: t.inkFaint, fontVariant: ['tabular-nums'] }}>
                     {Math.round(progress * 100)}%
                   </Text>
                 </View>
@@ -192,7 +208,7 @@ export default function ApplicationLanguage() {
               ) : release ? (
                 <View style={{ alignItems: 'flex-end', gap: 2 }}>
                   <Ionicons name="cloud-download-outline" size={21} color={t.gold} />
-                  <Text style={{ fontFamily: fonts.sans, fontSize: 10, color: t.inkFaint }}>
+                  <Text style={{ ...ty.labelSmallRegular, color: t.inkFaint }}>
                     {(release.bytes / 1024 / 1024).toFixed(1)} MB
                   </Text>
                 </View>

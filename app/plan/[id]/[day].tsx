@@ -7,38 +7,46 @@ import { Screen } from '@/components/Screen';
 import { PillButton } from '@/components/PillButton';
 import { PlanDayArtwork } from '@/components/PlanDayArtwork';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { usePlans } from '@/data/plans';
 import { planChapters, planReading, formatReadingRef } from '@/data/planReadings';
 import { getBookName } from '@/data/bibleFull';
-import { bookMeta } from '@/data/bibleMeta';
 import { findBookIndex } from '@/data/bibleNav';
-import { truncate } from '@/lib/text';
 import { useBible } from '@/hooks/useBible';
 import { useRequirePlus } from '@/hooks/useRequirePlus';
+import { goBack } from '@/lib/navigation';
+import { truncate } from '@/lib/text';
+import { bookMeta } from '@/data/bibleMeta';
 import { usePlanStore } from '@/state/usePlanStore';
 import { useT } from '@/i18n';
 import { useScriptureLocale } from '@/i18n/scripture';
-import { BackButton } from '@/components/BackButton';
+import { InvalidRouteState } from '@/components/InvalidRouteState';
+import { singleParam, validPlanDay } from '@/lib/routeValidation';
+import { localeUpperCase } from '@/i18n/localeText';
+import { toast } from '@/state/useToastStore';
+import { TopAppBar } from '@/components/TopAppBar';
 
 export default function PlanDay() {
   const t = useTheme();
   const { t: tr, locale } = useT();
   const scriptureLocale = useScriptureLocale();
-  const { id, day } = useLocalSearchParams<{ id: string; day: string }>();
-  const plan = usePlans().find((p) => p.id === id);
-  const parsedDay = /^\d+$/.test(day ?? '') ? Number(day) : NaN;
-  const dayIdx = plan && Number.isInteger(parsedDay) && parsedDay < plan.days ? parsedDay : 0;
+  const { id, day } = useLocalSearchParams<{ id: string | string[]; day: string | string[] }>();
+  const planId = singleParam(id);
+  const plan = usePlans().find((p) => p.id === planId);
+  const dayIdx = plan ? validPlanDay(day, plan.days) : null;
   const progress = usePlanStore((s) => s.progress);
   const toggleDay = usePlanStore((s) => s.toggleDay);
+  // Deep links can open a Plus plan directly; send those to the paywall.
   const allowed = useRequirePlus(Boolean(plan?.plus), 'plan');
   const bible = useBible(scriptureLocale);
 
-  if (!plan || !allowed) return <View style={{ flex: 1, backgroundColor: t.bg }} />;
+  if (!plan || dayIdx == null) return <InvalidRouteState />;
+  if (!allowed) return <View style={{ flex: 1, backgroundColor: t.bg }} />;
 
   const reading = planReading(plan.id, dayIdx);
   const ref = formatReadingRef(reading, locale);
+  // Multi-chapter days (e.g. Bible in a Year) list every chapter of the reading.
   const chapters = planChapters(reading).map(([book, chapter]) => ({
     code: bookMeta[book]?.code ?? '',
     chapter,
@@ -50,20 +58,24 @@ export default function PlanDay() {
   const teaser = truncate(firstVerse, 170);
   const done = (progress[plan.id] ?? []).includes(dayIdx);
 
-  const openReader = (code: string, chapter: number) =>
+  const openChapter = (code: string, chapter: number) =>
     router.push({ pathname: '/read', params: { b: code, c: chapter } });
+  const openReader = () => openChapter(first.code, first.chapter);
 
   const complete = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
-    if (!done) toggleDay(plan.id, dayIdx);
-    if (router.canGoBack()) router.back();
-    else router.replace({ pathname: '/plan/[id]', params: { id: plan.id } });
+    if (!done) {
+      toggleDay(plan.id, dayIdx);
+      toast(`${plan.title}: ${tr('plan.done')}`);
+    }
   };
+  const hasNextDay = dayIdx + 1 < plan.days;
+  const openNextDay = () => router.replace({ pathname: '/plan/[id]/[day]', params: { id: plan.id, day: dayIdx + 1 } });
 
   return (
-    <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
+    <Screen style={{ justifyContent: 'space-between' }}>
       <View style={{ flex: 1 }}>
-        <BackButton />
+        <TopAppBar title={`${plan.title} · ${tr('plan.dayLabel')} ${dayIdx + 1}`} />
 
         <PlanDayArtwork
           planId={plan.id}
@@ -76,32 +88,27 @@ export default function PlanDay() {
 
         <Text
           style={{
-            fontFamily: fonts.sansSemiBold,
-            fontSize: 12,
-            letterSpacing: 2,
-            textTransform: 'uppercase',
+            ...ty.overline,
             color: t.gold,
             marginTop: spacing.lg,
           }}
         >
-          {plan.title} · {tr('plan.dayLabel')} {dayIdx + 1}
+          {localeUpperCase(`${plan.title} · ${tr('plan.dayLabel')} ${dayIdx + 1}`, locale)}
         </Text>
 
         {/* the day's reading — a real passage in the bundled Bible */}
-        <Text accessibilityRole="header" style={{ fontFamily: fonts.serif, fontSize: 34, color: t.ink, marginTop: spacing.md }}>
+        <Text style={{ ...ty.displaySmall, color: t.ink, marginTop: spacing.md }}>
           {ref}
         </Text>
         <Text
           style={{
-            fontFamily: fonts.sansMedium,
-            fontSize: 13,
+            ...ty.labelSmall,
             letterSpacing: 1,
-            textTransform: 'uppercase',
             color: t.inkFaint,
             marginTop: spacing.sm,
           }}
         >
-          {tr('plan.todaysReading')}
+          {localeUpperCase(tr('plan.todaysReading'), locale)}
         </Text>
 
         {teaser ? (
@@ -122,9 +129,7 @@ export default function PlanDay() {
           >
             <Text
               style={{
-                fontFamily: fonts.serif,
-                fontSize: 46,
-                lineHeight: 46,
+                ...ty.displayNumeral,
                 color: t.gold,
                 marginRight: spacing.sm,
               }}
@@ -133,9 +138,7 @@ export default function PlanDay() {
             </Text>
             <Text
               style={{
-                fontFamily: fonts.serifLight,
-                fontSize: 19,
-                lineHeight: 30,
+                ...ty.editorialQuote,
                 color: t.inkSoft,
                 flex: 1,
                 fontStyle: 'italic',
@@ -148,20 +151,19 @@ export default function PlanDay() {
       </View>
 
       <View style={{ gap: spacing.md }}>
-        <PillButton label={tr('plan.read')} onPress={() => openReader(first.code, first.chapter)} />
+        <PillButton label={tr('plan.read')} onPress={openReader} />
         {chapters.length > 1 ? (
-          // Multi-chapter days: every chapter of the reading is one tap away.
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, justifyContent: 'center' }}>
             {chapters.map((item) => {
               const label = `${getBookName(scriptureLocale, item.code)} ${item.chapter + 1}`;
               return (
                 <Pressable
                   key={`${item.code}-${item.chapter}`}
-                  onPress={() => openReader(item.code, item.chapter)}
+                  onPress={() => openChapter(item.code, item.chapter)}
                   accessibilityRole="button"
                   accessibilityLabel={label}
                   style={({ pressed }) => ({
-                    minHeight: 44,
+                    minHeight: 48,
                     paddingHorizontal: spacing.lg,
                     justifyContent: 'center',
                     borderRadius: radius.pill,
@@ -171,27 +173,24 @@ export default function PlanDay() {
                     opacity: pressed ? 0.7 : 1,
                   })}
                 >
-                  <Text style={{ fontFamily: fonts.sansMedium, fontSize: 14, color: t.ink }}>{label}</Text>
+                  <Text style={{ ...ty.label, color: t.ink }}>{label}</Text>
                 </Pressable>
               );
             })}
           </View>
         ) : null}
         {done ? (
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: spacing.sm,
-              paddingVertical: 14,
-            }}
-          >
-            <Ionicons name="checkmark-circle" size={20} color={t.gold} />
-            <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 16, color: t.gold }}>
-              {tr('plan.done')}
-            </Text>
-          </View>
+          <>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm, paddingVertical: 14 }}>
+              <Ionicons name="checkmark-circle" size={20} color={t.gold} />
+              <Text style={{ ...ty.bodyCompactStrong, color: t.gold }}>{tr('plan.done')}</Text>
+            </View>
+            {hasNextDay ? (
+              <PillButton label={`${tr('read.next')}: ${tr('plan.dayLabel')} ${dayIdx + 2}`} onPress={openNextDay} variant="secondary" />
+            ) : (
+              <PillButton label={tr('a11y.back')} onPress={() => goBack()} variant="secondary" />
+            )}
+          </>
         ) : (
           <PillButton label={tr('plan.complete')} onPress={complete} variant="secondary" />
         )}

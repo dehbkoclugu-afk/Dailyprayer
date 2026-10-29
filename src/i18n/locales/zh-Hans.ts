@@ -22,4 +22,12 @@ export default {
   'legal.englishOnly':'本文件以英文提供，以英文版本为准。',
   'format.nameFirst':'{{name}}，{{text}}',
   'format.nameLast':'{{text}}，{{name}}',
+  'scriptureSource.title': "文本来源",
+  'scriptureSource.edition': "版本",
+  'scriptureSource.rights': "权利与许可",
+  'scriptureSource.attribution': "完整署名",
+  'scriptureSource.openSource': "打开来源声明",
+  'scriptureSource.openLicense': "打开许可证",
+  'scriptureSource.rightsUnavailable': "权利状态见来源声明。",
+  'scriptureSource.linkError': "无法打开链接，请重试。",
 } as const;

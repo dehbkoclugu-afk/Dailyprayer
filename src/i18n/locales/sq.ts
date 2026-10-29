@@ -28,4 +28,12 @@ export default {
   'legal.englishOnly':'Ky dokument ofrohet në anglisht dhe versioni në anglisht është teksti detyrues.',
   'format.nameFirst':'{{name}}, {{text}}',
   'format.nameLast':'{{text}}, {{name}}',
+  'scriptureSource.title': "Burimi i tekstit",
+  'scriptureSource.edition': "Botimi",
+  'scriptureSource.rights': "Të drejtat dhe licenca",
+  'scriptureSource.attribution': "Atribuimi i plotë",
+  'scriptureSource.openSource': "Hap njoftimin e burimit",
+  'scriptureSource.openLicense': "Hap licencën",
+  'scriptureSource.rightsUnavailable': "Statusi i të drejtave gjendet te njoftimi i burimit.",
+  'scriptureSource.linkError': "Lidhja nuk mund të hapej. Provo përsëri.",
 } as const;

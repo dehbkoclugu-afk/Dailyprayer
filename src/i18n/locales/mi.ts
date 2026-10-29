@@ -231,4 +231,12 @@ export default {
   "legal.englishOnly": "Kei te reo Pākehā tēnei tuhinga, ā, ko te putanga reo Pākehā te kupu whai mana.",
   "format.nameFirst": "{{name}}, {{text}}",
   "format.nameLast": "{{text}}, {{name}}",
+  'scriptureSource.title': "Pūtake kuputuhi",
+  'scriptureSource.edition': "Putanga",
+  'scriptureSource.rights': "Motika me te raihana",
+  'scriptureSource.attribution': "Whakamihi katoa",
+  'scriptureSource.openSource': "Whakatuwhera pānui pūtake",
+  'scriptureSource.openLicense': "Whakatuwhera raihana",
+  'scriptureSource.rightsUnavailable': "Kei te pānui pūtake te tūnga motika.",
+  'scriptureSource.linkError': "Kāore i taea te whakatuwhera i te hono. Ngana anō.",
 } as const;

@@ -23,4 +23,12 @@ export default {
   'legal.englishOnly':'この文書は英語で提供されており、英語版が正式な文書です。',
   'format.nameFirst':'{{name}}さん、{{text}}',
   'format.nameLast':'{{text}}、{{name}}さん',
+  'scriptureSource.title': "本文の出典",
+  'scriptureSource.edition': "版",
+  'scriptureSource.rights': "権利とライセンス",
+  'scriptureSource.attribution': "完全な帰属表示",
+  'scriptureSource.openSource': "出典情報を開く",
+  'scriptureSource.openLicense': "ライセンスを開く",
+  'scriptureSource.rightsUnavailable': "権利状況は出典情報に記載されています。",
+  'scriptureSource.linkError': "リンクを開けませんでした。もう一度お試しください。",
 } as const;

@@ -28,4 +28,12 @@ export default {
   'legal.englishOnly':'Tämä asiakirja on saatavilla englanniksi, ja englanninkielinen versio on sitova.',
   'format.nameFirst':'{{name}}, {{text}}',
   'format.nameLast':'{{text}}, {{name}}',
+  'scriptureSource.title': "Tekstin lähde",
+  'scriptureSource.edition': "Laitos",
+  'scriptureSource.rights': "Oikeudet ja lisenssi",
+  'scriptureSource.attribution': "Täydellinen lähdemerkintä",
+  'scriptureSource.openSource': "Avaa lähdeilmoitus",
+  'scriptureSource.openLicense': "Avaa lisenssi",
+  'scriptureSource.rightsUnavailable': "Oikeuksien tila on lähdeilmoituksessa.",
+  'scriptureSource.linkError': "Linkkiä ei voitu avata. Yritä uudelleen.",
 } as const;

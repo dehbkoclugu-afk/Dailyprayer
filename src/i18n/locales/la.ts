@@ -28,4 +28,12 @@ export default {
   'legal.englishOnly':'Hoc documentum Anglice praebetur, et versio Anglica textus auctoritativus est.',
   'format.nameFirst':'{{name}}, {{text}}',
   'format.nameLast':'{{text}}, {{name}}',
+  'scriptureSource.title': "Fons textus",
+  'scriptureSource.edition': "Editio",
+  'scriptureSource.rights': "Iura et licentia",
+  'scriptureSource.attribution': "Attributio plena",
+  'scriptureSource.openSource': "Aperi notitiam fontis",
+  'scriptureSource.openLicense': "Aperi licentiam",
+  'scriptureSource.rightsUnavailable': "Status iurium in notitia fontis invenitur.",
+  'scriptureSource.linkError': "Vinculum aperiri non potuit. Iterum tenta.",
 } as const;

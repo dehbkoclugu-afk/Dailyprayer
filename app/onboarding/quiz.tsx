@@ -94,7 +94,7 @@ export default function Quiz() {
 
   if (affirmation) {
     return (
-      <Screen scroll={false} style={{ justifyContent: 'center' }}>
+      <Screen keyboardAware style={{ flexGrow: 1, justifyContent: 'center' }}>
         <OnboardingBackdrop />
         <View
           style={{
@@ -119,7 +119,7 @@ export default function Quiz() {
   }
 
   return (
-    <Screen scroll={false} style={{ justifyContent: 'space-between' }}>
+    <Screen keyboardAware style={{ flexGrow: 1, justifyContent: 'space-between' }}>
       <OnboardingBackdrop />
       <View>
         {/* back + progress bar + step counter */}
@@ -152,8 +152,7 @@ export default function Quiz() {
           </View>
           <Text
             style={{
-              fontFamily: fonts.sansMedium,
-              fontSize: 12,
+              ...ty.labelSmallMedium,
               color: t.inkFaint,
               textAlign: 'right',
               marginTop: spacing.sm,
@@ -192,15 +191,13 @@ export default function Quiz() {
                 borderWidth: 1.5,
                 borderColor: nameFocused ? t.gold : t.border,
                 padding: spacing.lg,
-                fontFamily: fonts.sans,
-                fontSize: 18,
+                ...ty.bodyLarge,
                 color: t.ink,
               }}
             />
             <Text
               style={{
-                fontFamily: fonts.sans,
-                fontSize: 13,
+                ...ty.captionRegular,
                 color: t.inkFaint,
                 marginTop: spacing.sm,
               }}
@@ -259,8 +256,8 @@ export default function Quiz() {
                     />
                     <Text
                       style={{
+                        ...ty.bodyCompact,
                         fontFamily: active ? fonts.sansSemiBold : fonts.sans,
-                        fontSize: 16,
                         color: t.ink,
                         flex: 1,
                       }}
@@ -286,7 +283,7 @@ export default function Quiz() {
             accessibilityLabel={tr('quiz.skip')}
             style={{ minHeight: 48, justifyContent: 'center', alignSelf: 'center', marginBottom: spacing.sm }}
           >
-            <Text style={{ fontFamily: fonts.sansMedium, fontSize: 15, color: t.inkSoft }}>{tr('quiz.skip')}</Text>
+            <Text style={{ ...ty.secondaryMedium, color: t.inkSoft }}>{tr('quiz.skip')}</Text>
           </Pressable>
         ) : null}
         <PillButton

@@ -231,4 +231,12 @@ export default {
   "legal.englishOnly": "Aia kēia palapala ma ka ʻōlelo Pelekānia, a ʻo ka mana Pelekānia ka mea paʻa.",
   "format.nameFirst": "{{name}}, {{text}}",
   "format.nameLast": "{{text}}, {{name}}",
+  'scriptureSource.title': "Kumu kikokikona",
+  'scriptureSource.edition': "Paʻi",
+  'scriptureSource.rights': "Nā kuleana a me ka laikini",
+  'scriptureSource.attribution': "Ka hoʻomaikaʻi piha",
+  'scriptureSource.openSource': "Wehe i ka ʻike kumu",
+  'scriptureSource.openLicense': "Wehe i ka laikini",
+  'scriptureSource.rightsUnavailable': "Aia ke kūlana kuleana ma ka ʻike kumu.",
+  'scriptureSource.linkError': "ʻAʻole hiki ke wehe i ka loulou. E hoʻāʻo hou.",
 } as const;

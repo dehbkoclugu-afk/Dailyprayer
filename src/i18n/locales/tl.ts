@@ -28,4 +28,12 @@ export default {
   'legal.englishOnly':'Ang dokumentong ito ay nasa Ingles, at ang bersyong Ingles ang may bisang teksto.',
   'format.nameFirst':'{{name}}, {{text}}',
   'format.nameLast':'{{text}}, {{name}}',
+  'scriptureSource.title': "Pinagmulan ng teksto",
+  'scriptureSource.edition': "Edisyon",
+  'scriptureSource.rights': "Mga karapatan at lisensya",
+  'scriptureSource.attribution': "Buong atribusyon",
+  'scriptureSource.openSource': "Buksan ang paunawa ng pinagmulan",
+  'scriptureSource.openLicense': "Buksan ang lisensya",
+  'scriptureSource.rightsUnavailable': "Makikita ang katayuan ng mga karapatan sa paunawa ng pinagmulan.",
+  'scriptureSource.linkError': "Hindi mabuksan ang link. Subukan muli.",
 } as const;

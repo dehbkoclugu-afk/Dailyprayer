@@ -28,4 +28,12 @@ export default {
   'legal.englishOnly':'Acest document este disponibil în limba engleză, iar versiunea în engleză este textul obligatoriu.',
   'format.nameFirst':'{{name}}, {{text}}',
   'format.nameLast':'{{text}}, {{name}}',
+  'scriptureSource.title': "Sursa textului",
+  'scriptureSource.edition': "Ediție",
+  'scriptureSource.rights': "Drepturi și licență",
+  'scriptureSource.attribution': "Atribuire completă",
+  'scriptureSource.openSource': "Deschide informația sursei",
+  'scriptureSource.openLicense': "Deschide licența",
+  'scriptureSource.rightsUnavailable': "Statutul drepturilor este disponibil în informația sursei.",
+  'scriptureSource.linkError': "Linkul nu a putut fi deschis. Încearcă din nou.",
 } as const;

@@ -34,7 +34,7 @@ export default function Building() {
   }, [done, STEPS.length]);
 
   return (
-    <Screen scroll={false} style={{ justifyContent: 'center' }}>
+    <Screen style={{ flexGrow: 1, justifyContent: 'center' }}>
       <OnboardingBackdrop />
       <ArtSlot
         id="A15-building-candle"
@@ -60,8 +60,8 @@ export default function Building() {
               />
               <Text
                 style={{
+                  ...ty.bodyCompact,
                   fontFamily: complete ? fonts.sansMedium : fonts.sans,
-                  fontSize: 16,
                   color: complete ? t.ink : t.inkSoft,
                 }}
               >

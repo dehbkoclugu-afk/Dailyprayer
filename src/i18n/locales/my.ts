@@ -231,4 +231,12 @@ export default {
   "legal.englishOnly": "ဤစာတမ်းကို အင်္ဂလိပ်ဘာသာဖြင့် ပေးထားပြီး အင်္ဂလိပ်မူသည် တရားဝင်စာသား ဖြစ်ပါသည်။",
   "format.nameFirst": "{{name}}၊ {{text}}",
   "format.nameLast": "{{text}}၊ {{name}}",
+  'scriptureSource.title': "စာသားရင်းမြစ်",
+  'scriptureSource.edition': "မူကွဲ",
+  'scriptureSource.rights': "အခွင့်အရေးနှင့် လိုင်စင်",
+  'scriptureSource.attribution': "ရင်းမြစ်ဖော်ပြချက်အပြည့်အစုံ",
+  'scriptureSource.openSource': "ရင်းမြစ်အသိပေးချက်ကို ဖွင့်ရန်",
+  'scriptureSource.openLicense': "လိုင်စင်ကို ဖွင့်ရန်",
+  'scriptureSource.rightsUnavailable': "အခွင့်အရေးအခြေအနေကို ရင်းမြစ်အသိပေးချက်တွင် ကြည့်နိုင်သည်။",
+  'scriptureSource.linkError': "လင့်ခ်ကို ဖွင့်မရပါ။ ထပ်မံကြိုးစားပါ။",
 } as const;

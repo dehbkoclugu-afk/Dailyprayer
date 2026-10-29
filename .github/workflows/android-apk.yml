@@ -5,6 +5,8 @@ name: Android Play release
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
 
@@ -62,6 +64,8 @@ jobs:
           npm run application-content:verify:production
           npm run scripture:verify:integrity
           npm run scripture:verify:rights
+          npm run scripture:verify:ui
+          npm run release:verify:claims
 
       # Publish application-content-v1 first. The binary must never advertise a
       # downloadable locale whose immutable manifest/assets are not live yet.
@@ -174,6 +178,16 @@ jobs:
 
       - name: Build signed release AAB and APK
         run: cd android && ./gradlew bundleRelease assembleRelease --no-daemon
+
+      - name: Enforce release bundle budgets
+        run: npm run release:verify:bundle -- --root android/app/build/generated --output artifacts/bundle-budget.json
+
+      - name: Upload bundle budget report
+        uses: actions/upload-artifact@v4
+        with:
+          name: lumen-android-bundle-budget
+          path: artifacts/bundle-budget.json
+          if-no-files-found: error
 
       - name: Verify release signatures
         shell: bash

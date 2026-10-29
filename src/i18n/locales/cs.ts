@@ -28,4 +28,12 @@ export default {
   'legal.englishOnly':'Tento dokument je k dispozici v angličtině; závazné je anglické znění.',
   'format.nameFirst':'{{name}}, {{text}}',
   'format.nameLast':'{{text}}, {{name}}',
+  'scriptureSource.title': "Zdroj textu",
+  'scriptureSource.edition': "Vydání",
+  'scriptureSource.rights': "Práva a licence",
+  'scriptureSource.attribution': "Úplné uvedení zdroje",
+  'scriptureSource.openSource': "Otevřít oznámení zdroje",
+  'scriptureSource.openLicense': "Otevřít licenci",
+  'scriptureSource.rightsUnavailable': "Stav práv je uveden v oznámení zdroje.",
+  'scriptureSource.linkError': "Odkaz se nepodařilo otevřít. Zkuste to znovu.",
 } as const;

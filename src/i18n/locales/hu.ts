@@ -28,4 +28,12 @@ export default {
   'legal.englishOnly':'Ez a dokumentum angol nyelven érhető el, és az angol változat a kötelező érvényű szöveg.',
   'format.nameFirst':'{{name}}, {{text}}',
   'format.nameLast':'{{text}}, {{name}}',
+  'scriptureSource.title': "Szövegforrás",
+  'scriptureSource.edition': "Kiadás",
+  'scriptureSource.rights': "Jogok és licenc",
+  'scriptureSource.attribution': "Teljes forrásmegjelölés",
+  'scriptureSource.openSource': "Forrásközlés megnyitása",
+  'scriptureSource.openLicense': "Licenc megnyitása",
+  'scriptureSource.rightsUnavailable': "A jogállás a forrásközlésben található.",
+  'scriptureSource.linkError': "A hivatkozás nem nyitható meg. Próbáld újra.",
 } as const;

@@ -6,39 +6,42 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 import { useArtwork } from '@/hooks/useArtwork';
 import { ArtSlot } from '@/components/ArtSlot';
-import { fonts } from '@/theme/typography';
+import { type as ty } from '@/theme/typography';
 import { radius, spacing } from '@/theme/tokens';
 import { HIGHLIGHT_SWATCH } from '@/theme/highlights';
 import { getBible } from '@/data/bibleFull';
 import { findBookIndex, findVerseIndex, parseHighlightKey } from '@/data/bibleNav';
 import { truncate } from '@/lib/text';
 import { useBookmarkStore, type Bookmark } from '@/state/useBookmarkStore';
-import { useHighlightStore } from '@/state/useHighlightStore';
 import { toast } from '@/state/useToastStore';
+import { useHighlightStore } from '@/state/useHighlightStore';
 import { useT } from '@/i18n';
+import { useJournalStore } from '@/state/useJournalStore';
+import { TopAppBar } from '@/components/TopAppBar';
 import { useScriptureLocale } from '@/i18n/scripture';
-import { BackButton } from '@/components/BackButton';
 
-type Tab = 'bookmarks' | 'highlights';
+type Tab = 'bookmarks' | 'highlights' | 'journal';
 
 interface Row {
   key: string;
   code: string;
   chapter: number;
+  /** verse label ("16") or legacy "#index" */
   verse: string;
   ref: string;
-  preview: string;
   bookmark?: Bookmark;
+  preview: string;
   color?: string;
   markKey?: string;
+  journalId?: string;
 }
 
 export default function Library() {
   const t = useTheme();
   const artwork = useArtwork();
   const { t: tr } = useT();
-  const scriptureLocale = useScriptureLocale();
   const insets = useSafeAreaInsets();
+  const scriptureLocale = useScriptureLocale();
   const [tab, setTab] = useState<Tab>('bookmarks');
 
   const bookmarks = useBookmarkStore((s) => s.bookmarks);
@@ -46,6 +49,10 @@ export default function Library() {
   const restoreBookmark = useBookmarkStore((s) => s.restore);
   const marks = useHighlightStore((s) => s.marks);
   const clearMark = useHighlightStore((s) => s.clear);
+  // Every entry is the user's own writing (including legacy prayer requests).
+  const journalEntries = useJournalStore((s) => s.entries);
+  const removeJournal = useJournalStore((s) => s.remove);
+  const restoreJournal = useJournalStore((s) => s.restore);
 
   const bookmarkRows = useMemo<Row[]>(
     () =>
@@ -61,8 +68,7 @@ export default function Library() {
     [bookmarks],
   );
 
-  // Highlights render from the Scripture edition the reader shows (not the UI
-  // language), in canonical order.
+  // Highlights render from the edition the reader shows, in canonical order.
   const highlightRows = useMemo<Row[]>(() => {
     const bible = getBible(scriptureLocale);
     const rows: (Row & { order: [number, number, number] })[] = [];
@@ -88,17 +94,33 @@ export default function Library() {
       });
     }
     return rows.sort(
-      (a, b) => a.order[0] - b.order[0] || a.order[1] - b.order[1] || a.order[2] - b.order[2],
+      (x, y) => x.order[0] - y.order[0] || x.order[1] - y.order[1] || x.order[2] - y.order[2],
     );
   }, [marks, scriptureLocale]);
 
+  const journalRows = useMemo<Row[]>(() => journalEntries.map((entry) => ({
+    key: `j:${entry.id}`,
+    code: '',
+    chapter: -1,
+    verse: '',
+    ref: entry.ref ?? entry.day,
+    preview: entry.text,
+    journalId: entry.id,
+  })), [journalEntries]);
+
+  // Every removal can be undone from the toast.
   const removeRow = (item: Row) => {
+    if (item.journalId) {
+      const entry = journalEntries.find((candidate) => candidate.id === item.journalId);
+      removeJournal(item.journalId);
+      if (entry) toast(tr('a11y.deleteEntry'), tr('today.undo'), () => restoreJournal(entry));
+      return;
+    }
     if (item.markKey) {
-      const color = marks[item.markKey];
-      clearMark(item.markKey);
-      toast(tr('toast.highlightOff'), tr('today.undo'), () =>
-        useHighlightStore.getState().set(item.markKey as string, color),
-      );
+      const key = item.markKey;
+      const color = marks[key];
+      clearMark(key);
+      toast(tr('toast.highlightOff'), tr('today.undo'), () => useHighlightStore.getState().set(key, color));
       return;
     }
     if (!item.bookmark) return;
@@ -107,7 +129,7 @@ export default function Library() {
     toast(tr('verse.bookmarkRemoved'), tr('today.undo'), () => restoreBookmark(removed));
   };
 
-  const rows = tab === 'bookmarks' ? bookmarkRows : highlightRows;
+  const rows = tab === 'bookmarks' ? bookmarkRows : tab === 'highlights' ? highlightRows : journalRows;
 
   const segment = (key: Tab, label: string, count: number) => {
     const active = tab === key;
@@ -121,19 +143,19 @@ export default function Library() {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: 6,
+          gap: spacing.sm,
+          minHeight: 48,
           paddingVertical: 9,
           borderRadius: radius.pill,
           backgroundColor: active ? t.gold : 'transparent',
         }}
       >
-        <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: active ? t.onGold : t.inkSoft }}>
+        <Text numberOfLines={2} style={{ ...ty.label, flexShrink: 1, textAlign: 'center', color: active ? t.onGold : t.inkSoft }}>
           {label}
         </Text>
         <Text
           style={{
-            fontFamily: fonts.sansBold,
-            fontSize: 12,
+            ...ty.labelSmallBold,
             color: active ? t.onGold : t.inkFaint,
             fontVariant: ['tabular-nums'],
           }}
@@ -146,9 +168,8 @@ export default function Library() {
 
   return (
     <View style={{ flex: 1, backgroundColor: t.bg, paddingTop: insets.top + spacing.md }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, paddingHorizontal: spacing.xl }}>
-        <BackButton />
-        <Text accessibilityRole="header" style={{ fontFamily: fonts.serif, fontSize: 24, color: t.ink }}>{tr('library.title')}</Text>
+      <View style={{ paddingHorizontal: spacing.xl }}>
+        <TopAppBar title={tr('library.title')} />
       </View>
 
       {/* segmented control */}
@@ -166,6 +187,7 @@ export default function Library() {
       >
         {segment('bookmarks', tr('library.bookmarks'), bookmarkRows.length)}
         {segment('highlights', tr('library.highlights'), highlightRows.length)}
+        {segment('journal', tr('journal.entries'), journalRows.length)}
       </View>
 
       <FlatList
@@ -183,27 +205,25 @@ export default function Library() {
         }}
         ListEmptyComponent={
           <View style={{ alignItems: 'center', paddingTop: spacing.xxxl, paddingHorizontal: spacing.xl }}>
-            <Ionicons name={tab === 'bookmarks' ? 'bookmark-outline' : 'color-fill-outline'} size={40} color={t.inkFaint} />
+            <Ionicons name={tab === 'bookmarks' ? 'bookmark-outline' : tab === 'highlights' ? 'color-fill-outline' : 'journal-outline'} size={40} color={t.inkFaint} />
             <Text
               style={{
-                fontFamily: fonts.serifLight,
-                fontSize: 16,
-                lineHeight: 24,
+                ...ty.editorialCompact,
                 color: t.inkSoft,
                 textAlign: 'center',
                 marginTop: spacing.lg,
                 maxWidth: 280,
               }}
             >
-              {tr('library.empty')}
+              {tab === 'journal' ? tr('journal.empty') : tr('library.empty')}
             </Text>
           </View>
         }
         renderItem={({ item }) => (
           <Pressable
-            onPress={() =>
-              router.push({ pathname: '/read', params: { b: item.code, c: item.chapter, v: item.verse } })
-            }
+            onPress={() => item.journalId
+              ? router.push('/(tabs)/journal')
+              : router.push({ pathname: '/read', params: { b: item.code, c: item.chapter, v: item.verse } })}
             accessibilityRole="button"
             accessibilityLabel={item.ref}
             style={({ pressed }) => ({
@@ -216,28 +236,31 @@ export default function Library() {
               opacity: pressed ? 0.85 : 1,
             })}
           >
-            <ArtSlot id="A18-ritual-reading" variant="row" radius={radius.card} style={{ width: '100%' }}>
+            <ArtSlot id="A18-ritual-reading" scrim="readable" radius={radius.card} style={{ width: '100%' }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, padding: spacing.lg, minHeight: 84 }}>
                 {item.color ? (
                   <View style={{ width: 6, alignSelf: 'stretch', borderRadius: 3, backgroundColor: item.color }} />
                 ) : (
-                  <Ionicons name="bookmark" size={18} color={t.gold} />
+                  <Ionicons name={item.journalId ? 'journal' : 'bookmark'} size={18} color={t.gold} />
                 )}
                 <View style={{ flex: 1 }}>
-                  <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 14, color: t.gold }}>{item.ref}</Text>
+                  <Text style={{ ...ty.label, color: t.gold }}>{item.ref}</Text>
                   <Text
-                    style={{ fontFamily: fonts.serifLight, fontSize: 14, lineHeight: 21, color: artwork.foreground.secondary, marginTop: 2 }}
+                    style={{ ...ty.editorialSecondary, color: artwork.foreground.secondary, marginTop: 2 }}
                     numberOfLines={2}
                   >
                     {item.preview}
                   </Text>
                 </View>
                 <Pressable
-                  onPress={() => removeRow(item)}
+                  onPress={(event) => {
+                    event.stopPropagation();
+                    removeRow(item);
+                  }}
                   hitSlop={10}
                   accessibilityRole="button"
-                  accessibilityLabel={`${item.markKey ? tr('verse.removeHighlight') : tr('library.removeBookmark')}: ${item.ref}`}
-                  style={{ minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' }}
+                  accessibilityLabel={`${item.journalId ? tr('a11y.deleteEntry') : item.markKey ? tr('verse.removeHighlight') : tr('library.removeBookmark')}: ${item.ref}`}
+                  style={{ minWidth: 48, minHeight: 48, alignItems: 'center', justifyContent: 'center' }}
                 >
                   <Ionicons name="close" size={18} color={artwork.foreground.tertiary} />
                 </Pressable>

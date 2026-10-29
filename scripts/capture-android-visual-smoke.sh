@@ -44,6 +44,8 @@ for theme in dawn vigil; do
   capture_screen "onboarding" "onboarding-welcome"
   capture_screen "onboarding/quiz" "onboarding-quiz"
   capture_screen "bible" "bible"
+  capture_screen "read?settings=1" "reading-settings"
+  capture_screen "scripture-source" "scripture-source"
   capture_screen "plan/peace-7" "plan-list"
   capture_screen "plan/peace-7/0" "plan-reading"
   capture_screen "pray" "pray"

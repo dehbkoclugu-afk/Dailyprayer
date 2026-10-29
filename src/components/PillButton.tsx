@@ -1,17 +1,17 @@
 import React from 'react';
-import { Pressable, Text, View, type ViewStyle } from 'react-native';
+import { ActivityIndicator, Pressable, Text, View, type ViewStyle } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
+import { useReducedMotion } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/useTheme';
-import { fonts } from '@/theme/typography';
-import { radius, spacing, goldGradient } from '@/theme/tokens';
+import { type as ty } from '@/theme/typography';
+import { elevation, radius, spacing } from '@/theme/tokens';
 
 interface Props {
   label: string;
   onPress: () => void;
   variant?: 'primary' | 'secondary' | 'ghost';
   disabled?: boolean;
-  /** shows a working state (e.g. purchase in progress) to assistive tech */
   busy?: boolean;
   /** spoken label when the visible label is a glyph (e.g. "✓") */
   accessibilityLabel?: string;
@@ -22,15 +22,17 @@ export function PillButton({
   label,
   onPress,
   variant = 'primary',
-  disabled,
-  busy,
+  disabled = false,
+  busy = false,
   accessibilityLabel,
   style,
 }: Props) {
   const t = useTheme();
+  const reduceMotion = useReducedMotion();
+  const inactive = disabled || busy;
   // Disabled reads as a flat, clearly-inactive neutral chip — dimming the gold
   // gradient to 40% instead looks like a muddy/broken button, not "not yet".
-  const color = disabled
+  const color = inactive
     ? t.inkFaint
     : variant === 'primary'
       ? t.onGold
@@ -48,9 +50,12 @@ export function PillButton({
         minHeight: 54,
       }}
     >
-      <Text style={{ fontFamily: fonts.sansSemiBold, fontSize: 17, color, opacity: pressed ? 0.9 : 1 }}>
-        {label}
-      </Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm }}>
+        {busy ? <ActivityIndicator color={color} /> : null}
+        <Text style={{ ...ty.bodyStrong, color, opacity: pressed ? 0.9 : 1 }}>
+          {label}
+        </Text>
+      </View>
     </View>
   );
 
@@ -58,8 +63,8 @@ export function PillButton({
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel ?? label}
-      accessibilityState={{ disabled: Boolean(disabled), busy: Boolean(busy) }}
-      disabled={disabled}
+      accessibilityState={{ disabled, busy }}
+      disabled={inactive}
       onPress={() => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
         onPress();
@@ -68,8 +73,8 @@ export function PillButton({
         {
           borderRadius: radius.pill,
           overflow: 'hidden',
-          transform: [{ scale: pressed ? 0.97 : 1 }],
-          backgroundColor: disabled
+          transform: [{ scale: pressed && !reduceMotion ? 0.97 : 1 }],
+          backgroundColor: inactive
             ? t.surfaceAlt
             : variant === 'secondary'
               ? t.surfaceAlt
@@ -77,13 +82,10 @@ export function PillButton({
                 ? 'transparent'
                 : undefined,
           // candlelight glow under the primary action
-          ...(variant === 'primary' && !disabled
+          ...(variant === 'primary' && !inactive
             ? {
-                shadowColor: t.gold,
-                shadowOffset: { width: 0, height: 6 },
-                shadowOpacity: 0.35,
-                shadowRadius: 16,
-                elevation: 6,
+                ...elevation.hero,
+                shadowColor: t.sacredGold,
               }
             : null),
         },
@@ -91,9 +93,9 @@ export function PillButton({
       ]}
     >
       {({ pressed }) =>
-        variant === 'primary' && !disabled ? (
+        variant === 'primary' && !inactive ? (
           <LinearGradient
-            colors={goldGradient}
+            colors={[t.sacredGold, t.gold]}
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }}
             style={{ borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.35)' }}

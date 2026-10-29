@@ -22,4 +22,12 @@ export default {
   'legal.englishOnly':'이 문서는 영어로 제공되며, 영어 원문이 구속력 있는 문서입니다.',
   'format.nameFirst':'{{name}}님, {{text}}',
   'format.nameLast':'{{name}}님, {{text}}',
+  'scriptureSource.title': "본문 출처",
+  'scriptureSource.edition': "판본",
+  'scriptureSource.rights': "권리 및 라이선스",
+  'scriptureSource.attribution': "전체 출처 표시",
+  'scriptureSource.openSource': "출처 고지 열기",
+  'scriptureSource.openLicense': "라이선스 열기",
+  'scriptureSource.rightsUnavailable': "권리 상태는 출처 고지에서 확인할 수 있습니다.",
+  'scriptureSource.linkError': "링크를 열 수 없습니다. 다시 시도하세요.",
 } as const;

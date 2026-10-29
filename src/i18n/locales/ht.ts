@@ -28,4 +28,12 @@ export default {
   'legal.englishOnly':'Dokiman sa a disponib an angle, e vèsyon angle a se tèks ofisyèl la.',
   'format.nameFirst':'{{name}}, {{text}}',
   'format.nameLast':'{{text}}, {{name}}',
+  'scriptureSource.title': "Sous tèks la",
+  'scriptureSource.edition': "Edisyon",
+  'scriptureSource.rights': "Dwa ak lisans",
+  'scriptureSource.attribution': "Atribisyon konplè",
+  'scriptureSource.openSource': "Louvri avi sous la",
+  'scriptureSource.openLicense': "Louvri lisans lan",
+  'scriptureSource.rightsUnavailable': "Estati dwa yo disponib nan avi sous la.",
+  'scriptureSource.linkError': "Lyen an pa t kapab louvri. Eseye ankò.",
 } as const;

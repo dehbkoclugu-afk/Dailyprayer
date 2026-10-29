@@ -28,4 +28,12 @@ export default {
   'legal.englishOnly':'Šis dokuments ir pieejams angļu valodā, un saistošs ir teksts angļu valodā.',
   'format.nameFirst':'{{name}}, {{text}}',
   'format.nameLast':'{{text}}, {{name}}',
+  'scriptureSource.title': "Teksta avots",
+  'scriptureSource.edition': "Izdevums",
+  'scriptureSource.rights': "Tiesības un licence",
+  'scriptureSource.attribution': "Pilna atsauce",
+  'scriptureSource.openSource': "Atvērt avota paziņojumu",
+  'scriptureSource.openLicense': "Atvērt licenci",
+  'scriptureSource.rightsUnavailable': "Tiesību statuss ir norādīts avota paziņojumā.",
+  'scriptureSource.linkError': "Saiti neizdevās atvērt. Mēģiniet vēlreiz.",
 } as const;
