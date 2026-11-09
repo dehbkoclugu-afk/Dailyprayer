@@ -5,7 +5,7 @@
  * while keeping the previous pack until the new one is in place.
  */
 import * as Crypto from 'expo-crypto';
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 import { SHA256_RE, type PackRelease } from '@/services/releaseManifest';
 
 export interface PackStore<L extends string, P> {
