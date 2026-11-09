@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
-import { useWindowDimensions, View } from 'react-native';
+import { useWindowDimensions, View, type ColorValue } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useReducedMotion } from 'react-native-reanimated';
@@ -14,7 +14,7 @@ interface TabIconProps {
   outline: keyof typeof Ionicons.glyphMap;
   filled: keyof typeof Ionicons.glyphMap;
   focused: boolean;
-  color: string;
+  color: ColorValue;
   size: number;
 }
 
