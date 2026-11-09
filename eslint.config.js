@@ -9,7 +9,7 @@ module.exports = defineConfig([
   },
   {
     // SDK 56 enables React Compiler rules. Existing call sites predate them and
-    // are tracked in docs/SDK56-UPGRADE.md; keep them visible as warnings until
+    // are tracked in docs/EXPO-UPGRADE.md; keep them visible as warnings until
     // each is refactored and verified on device.
     rules: {
       "react-hooks/set-state-in-effect": "warn",
