@@ -4,6 +4,9 @@ import { reportError } from '@/lib/reportError';
 
 const unreadableKeys = new Set<string>();
 export const hasUnreadableStorage = (): boolean => unreadableKeys.size > 0;
+export const markUnreadableStorage = (name: string): void => { unreadableKeys.add(name); };
+export const clearUnreadableStorage = (name: string): void => { unreadableKeys.delete(name); };
+export const isUnreadableStorage = (name: string): boolean => unreadableKeys.has(name);
 
 /**
  * Zustand parses persisted JSON after StateStorage returns it. Validate first so

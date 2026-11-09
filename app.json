@@ -17,6 +17,7 @@
     },
     "android": {
       "package": "com.lumen.dailyprayer",
+      "allowBackup": false,
       "predictiveBackGestureEnabled": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -69,7 +70,8 @@
           }
         }
       ],
-      "@sentry/react-native"
+      "@sentry/react-native",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true

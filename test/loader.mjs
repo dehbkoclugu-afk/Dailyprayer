@@ -5,6 +5,9 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const root = new URL('../', import.meta.url);
 const MOCKS = {
   '@react-native-async-storage/async-storage': new URL('./mocks/asyncStorage.ts', import.meta.url).href,
+  'react-native': new URL('./mocks/reactNative.ts', import.meta.url).href,
+  'expo-crypto': new URL('./mocks/expoCrypto.ts', import.meta.url).href,
+  'expo-secure-store': new URL('./mocks/expoSecureStore.ts', import.meta.url).href,
 };
 
 function resolveSource(base) {

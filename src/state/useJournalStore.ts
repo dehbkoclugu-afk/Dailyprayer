@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { safePersistStorage } from '@/state/safePersistStorage';
+import { journalStorage } from '@/state/journalStorage';
 import { dayKey } from '@/lib/dates';
 
 export interface JournalEntry {
@@ -60,7 +60,7 @@ export const useJournalStore = create<JournalState>()(
       name: 'lumen-journal',
       // Versioned so future shape changes ship with an explicit migration.
       version: 1,
-      storage: createJSONStorage(() => safePersistStorage),
+      storage: createJSONStorage(() => journalStorage),
       migrate: (persisted) => persisted as JournalState,
     },
   ),
