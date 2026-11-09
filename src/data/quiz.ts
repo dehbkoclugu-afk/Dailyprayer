@@ -445,9 +445,6 @@ const text: Partial<Record<Locale, StepText[]>> = {
 
 /** Localized quiz steps for the active locale, falling back to English. */
 export function getQuizSteps(locale: Locale): QuizStep[] {
-  // Tradition, struggles and experience are not used by content selection.
-  // Do not ask for sensitive answers or imply a tailored plan until they are.
-  const active = (step: QuizStep) => step.key === 'goals' || step.key === 'prayerTime';
   const pack = getRegisteredApplicationContentPack(locale);
   if (pack) {
     const localized = new Map(pack.quiz.map((step) => [step.key, step]));
@@ -459,13 +456,13 @@ export function getQuizSteps(locale: Locale): QuizStep[] {
         multi: step.multi,
         question: content.question,
         subtitle: content.subtitle,
-        affirmation: step.key === 'goals' ? undefined : content.affirmation,
+        affirmation: content.affirmation,
         options: step.options.map((option) => ({
           ...option,
           label: labels.get(option.value)!,
         })),
       };
-    }).filter(active);
+    });
   }
   const fallback = text.en!;
   const tx = text[locale] ?? fallback;
@@ -476,12 +473,12 @@ export function getQuizSteps(locale: Locale): QuizStep[] {
       multi: b.multi,
       question: s.question,
       subtitle: s.subtitle,
-      affirmation: b.key === 'goals' ? undefined : s.affirmation,
+      affirmation: s.affirmation,
       options: b.options.map((o) => ({
         value: o.value,
         icon: o.icon,
         label: s.labels[o.value] ?? fallback[i]!.labels[o.value] ?? o.value,
       })),
     };
-  }).filter(active);
+  });
 }

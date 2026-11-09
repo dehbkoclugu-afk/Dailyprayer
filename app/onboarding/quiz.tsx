@@ -20,7 +20,11 @@ import { goBack } from '@/lib/navigation';
 export default function Quiz() {
   const t = useTheme();
   const { t: tr, locale } = useT();
-  const quizSteps = useMemo(() => getQuizSteps(locale), [locale]);
+  // The content package retains its complete schema, but onboarding only asks
+  // for answers the current app actually uses.
+  const quizSteps = useMemo(() => getQuizSteps(locale).filter(
+    (item) => item.key === 'goals' || item.key === 'prayerTime',
+  ).map((item) => item.key === 'goals' ? { ...item, affirmation: undefined } : item), [locale]);
   const setQuiz = useUserStore((s) => s.setQuiz);
   const [step, setStep] = useState(0);
   const [name, setName] = useState('');

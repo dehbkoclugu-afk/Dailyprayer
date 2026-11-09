@@ -29,6 +29,7 @@ import { syncReminders } from '@/services/notifications';
 import { dayKey } from '@/lib/dates';
 import { type as ty } from '@/theme/typography';
 import { reportError } from '@/lib/reportError';
+import { initErrorMonitoring } from '@/lib/errorMonitoring';
 import { loadInstalledBiblePack } from '@/services/biblePacks';
 import { registerDownloadedBiblePack } from '@/data/bibleFull';
 import { isBundledScriptureLocale, resolveSystemScriptureLocale } from '@/i18n/scripture';
@@ -43,6 +44,7 @@ import { loadInstalledApplicationContentPack } from '@/services/applicationConte
 import { resolveMotionPattern } from '@/theme/motion';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
+initErrorMonitoring();
 
 /** Keys of retired stores; removed once so they don't linger on devices. */
 const RETIRED_STORAGE_KEYS = ['lumen-bible'];
