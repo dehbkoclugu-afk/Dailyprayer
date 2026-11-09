@@ -21,7 +21,9 @@
     "test:tz": "TZ=Europe/Berlin npm test && TZ=America/New_York npm test",
     "scripture:verify:ui": "node scripts/verify-scripture-ui-integrity.mjs",
     "release:verify:claims": "node scripts/verify-release-claims.mjs",
-    "release:verify:bundle": "node scripts/verify-bundle-budget.mjs"
+    "release:verify:bundle": "node scripts/verify-bundle-budget.mjs",
+    "privacy:build": "node --experimental-strip-types scripts/build-privacy-page.mjs",
+    "privacy:verify": "node --experimental-strip-types scripts/build-privacy-page.mjs --check"
   },
   "dependencies": {
     "@expo-google-fonts/figtree": "^0.2.3",

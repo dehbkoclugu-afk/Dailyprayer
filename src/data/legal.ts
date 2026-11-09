@@ -7,7 +7,7 @@
  * Entity: Umut Ceylan · Contact: dehbkoclugu@gmail.com · Governing law: Turkey.
  * Have a lawyer review before publishing.
  */
-export const LEGAL_LAST_UPDATED = '2026-10-27';
+export const LEGAL_LAST_UPDATED = '2026-11-09';
 const TERMS_LAST_UPDATED = '2026-08-08';
 
 export const PRIVACY_POLICY = `# Privacy Policy
@@ -24,6 +24,14 @@ what the app does and does not do with your information.
   your device**.
 - We do **not** use third-party advertising or tracking.
 
+## Journal security and backups
+On Android and iOS, journal entries and prayer requests are encrypted on your
+device. The encryption key is kept in your device's secure store. Android app
+backup is disabled. There is no journal export or account recovery, so
+uninstalling the app, changing devices, or losing the key may permanently remove
+access to these entries. Other locally stored information is not covered by this
+additional journal encryption. There is no separate in-app biometric lock.
+
 ## Information stored on your device
 The following is saved locally on your device and is not transmitted to us:
 - Your first name (used only to greet you) and onboarding answers
@@ -32,6 +40,13 @@ The following is saved locally on your device and is not transmitted to us:
 - Highlighted verses, language, theme, and reminder preferences
 
 Deleting the app removes this data from your device.
+
+## Error reports
+If error reporting is configured for a release, Selaora may send technical
+crash and error details to Sentry to diagnose failures. The app filters journal
+text, prayer requests, quiz answers, and user identity from reports. The
+information may include an app version, error category, and technical device
+details. Error reporting is inactive when no Sentry project is configured.
 
 ## Purchases
 Subscriptions are processed by Apple App Store or Google Play through our
