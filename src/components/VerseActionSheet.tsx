@@ -93,9 +93,13 @@ export function VerseActionSheet({
 
   const onCopy = async () => {
     tap();
-    await Clipboard.setStringAsync(citation(verse.text, verse.ref)).catch(() => {});
-    toast(tr('verse.copied'));
-    onClose();
+    try {
+      await Clipboard.setStringAsync(citation(verse.text, verse.ref));
+      toast(tr('verse.copied'));
+      onClose();
+    } catch {
+      // Keep the sheet open so the user can retry or choose Share.
+    }
   };
 
   const onShare = () => {
@@ -160,6 +164,9 @@ export function VerseActionSheet({
             paddingBottom: insets.bottom + spacing.lg,
           }}
         >
+          <Pressable onPress={onClose} accessibilityRole="button" accessibilityLabel={tr('a11y.close')} style={{ alignSelf: 'flex-end', padding: spacing.sm }}>
+            <Ionicons name="close" size={24} color={t.ink} />
+          </Pressable>
           <View
             style={{
               alignSelf: 'center',

@@ -16,18 +16,21 @@ import { localeUpperCase } from '@/i18n/localeText';
 import { TopAppBar } from '@/components/TopAppBar';
 import { splitDropCap } from '@/lib/text';
 import { goBack } from '@/lib/navigation';
+import { dayKey } from '@/lib/dates';
 
 export default function DevotionalScreen() {
   const t = useTheme();
   const { t: tr, locale } = useT();
   const { verse, devotional } = useDailyContent();
   const completeStep = useStreakStore((s) => s.completeStep);
-  const [amened, setAmened] = React.useState(false);
+  const today = dayKey();
+  const [amenedDay, setAmenedDay] = React.useState<string | null>(null);
+  const amened = amenedDay === today;
   const dropCap = splitDropCap(devotional.body);
 
   const finish = () => {
     if (amened) return;
-    setAmened(true);
+    setAmenedDay(today);
     completeStep('devotional');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     toast(translate('toast.devotional'));

@@ -52,7 +52,7 @@ export default function Quiz() {
   const goNext = () => {
     setAffirmation(null);
     if (step + 1 >= total) {
-      router.replace('/onboarding/building');
+      router.replace('/onboarding/reveal');
     } else {
       setSelected(answers[step + 1] ?? []);
       setStep(step + 1);

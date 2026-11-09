@@ -278,9 +278,7 @@ function PrayerPlayer({ prayer }: { prayer: GuidedPrayer }) {
           </View>
         </View>
 
-        {lastLine ? (
-          <PillButton label={translate('devotional.amen')} onPress={finish} />
-        ) : (
+        {lastLine && <PillButton label={translate('devotional.amen')} onPress={finish} />}
           <View style={{ flexDirection: 'row', justifyContent: 'center', gap: spacing.xl }}>
             <Pressable
               onPress={() => setLine((l) => Math.max(0, l - 1))}
@@ -336,7 +334,6 @@ function PrayerPlayer({ prayer }: { prayer: GuidedPrayer }) {
               <Ionicons name="play-skip-forward" size={24} color={quiet} />
             </Pressable>
           </View>
-        )}
       </ScrollView>
     </View>
   );

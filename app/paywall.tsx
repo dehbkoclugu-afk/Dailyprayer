@@ -71,7 +71,10 @@ export default function Paywall() {
 
   const refreshCatalog = () => {
     setCatalog(null);
-    loadPlans()
+    Promise.race<PurchaseCatalog>([
+      loadPlans(),
+      new Promise((resolve) => setTimeout(() => resolve({ status: 'unavailable', plans: [], mock: false }), 15000)),
+    ])
       .catch((): PurchaseCatalog => ({ status: 'unavailable', plans: [], mock: false }))
       .then((next) => {
         if (!mounted.current) return;
@@ -217,6 +220,7 @@ export default function Paywall() {
   if (!catalog) {
     return (
       <Screen scroll={false} style={{ alignItems: 'center', justifyContent: 'center', gap: spacing.md }}>
+        <PillButton label={tr('a11y.close')} onPress={close} variant="ghost" />
         <ActivityIndicator color={t.gold} />
         <Text accessibilityRole="alert" style={[ty.secondary, { color: t.inkSoft, textAlign: 'center' }]}>
           {tr('paywall.processing')}

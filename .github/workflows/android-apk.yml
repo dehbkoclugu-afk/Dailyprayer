@@ -57,6 +57,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Verify source before signing
+        run: |
+          npm run typecheck
+          npm run lint
+          npm test
+
       - name: Verify production localization coverage
         run: |
           npm run application-content:build

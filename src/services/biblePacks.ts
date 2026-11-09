@@ -12,8 +12,9 @@ const store = createPackStore<GlobalLocaleTag, BiblePack>({
 export function installBiblePack(
   release: BiblePackRelease,
   onProgress?: (fraction: number) => void,
+  signal?: AbortSignal,
 ): Promise<BiblePack> {
-  return store.install(release, onProgress);
+  return store.install(release, onProgress, signal);
 }
 
 /** Load an already verified offline pack and re-run the schema/canon checks. */

@@ -56,9 +56,9 @@ test('v0 reading position migrates from book index to canonical code', () => {
   assert.equal(useReaderStore.getState().chapter, 22);
 });
 
-test('entitlement cache drops the retired discount flag and expires when lapsed', () => {
+test('legacy entitlement is not treated as lifetime and known expiry lapses', () => {
   const state = useEntitlementStore.getState();
-  assert.equal(state.isPlus, true);
+  assert.equal(state.isPlus, false);
   assert.equal('sawDiscountOffer' in state, false);
   state.setEntitlement({ active: true, expiresAt: new Date(Date.now() - 1000).toISOString() });
   useEntitlementStore.getState().expireIfLapsed();

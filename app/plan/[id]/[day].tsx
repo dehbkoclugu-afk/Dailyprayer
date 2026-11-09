@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
@@ -17,7 +17,6 @@ import { useBible } from '@/hooks/useBible';
 import { useRequirePlus } from '@/hooks/useRequirePlus';
 import { goBack } from '@/lib/navigation';
 import { truncate } from '@/lib/text';
-import { bookMeta } from '@/data/bibleMeta';
 import { usePlanStore } from '@/state/usePlanStore';
 import { useT } from '@/i18n';
 import { useScriptureLocale } from '@/i18n/scripture';
@@ -43,12 +42,13 @@ export default function PlanDay() {
 
   if (!plan || dayIdx == null) return <InvalidRouteState />;
   if (!allowed) return <View style={{ flex: 1, backgroundColor: t.bg }} />;
+  if (!bible) return <Screen><ActivityIndicator color={t.gold} /></Screen>;
 
-  const reading = planReading(plan.id, dayIdx);
-  const ref = formatReadingRef(reading, locale);
+  const reading = planReading(plan.id, dayIdx, bible);
+  const ref = formatReadingRef(reading, locale, bible);
   // Multi-chapter days (e.g. Bible in a Year) list every chapter of the reading.
-  const chapters = planChapters(reading).map(([book, chapter]) => ({
-    code: bookMeta[book]?.code ?? '',
+  const chapters = planChapters(reading, bible).map(([book, chapter]) => ({
+    code: bible[book]?.code ?? '',
     chapter,
   }));
   const first = chapters[0];

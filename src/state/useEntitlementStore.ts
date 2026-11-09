@@ -9,7 +9,7 @@ import {
 interface EntitlementState {
   /** true when the `plus` entitlement is active (RevenueCat) or dev override */
   isPlus: boolean;
-  /** ISO expiry of the cached entitlement; null for lifetime/inactive */
+  /** ISO expiry; null only for a verified lifetime entitlement or inactive state. */
   expiresAt: string | null;
   /** last time RevenueCat confirmed the entitlement (ms epoch) */
   verifiedAt: number | null;
@@ -35,13 +35,20 @@ export const useEntitlementStore = create<EntitlementState>()(
     }),
     {
       name: 'lumen-entitlement',
-      version: 1,
+      version: 2,
       storage: createJSONStorage(() => safePersistStorage),
       partialize: ({ isPlus, expiresAt, verifiedAt }) => ({ isPlus, expiresAt, verifiedAt }),
       // v0 stored an unused `sawDiscountOffer` flag next to isPlus.
-      migrate: (persisted) => {
-        const value = (persisted ?? {}) as { isPlus?: unknown };
-        return { isPlus: value.isPlus === true, expiresAt: null, verifiedAt: null };
+      migrate: (persisted, version) => {
+        const value = (persisted ?? {}) as { isPlus?: unknown; expiresAt?: unknown; verifiedAt?: unknown };
+        // v0 had no expiry or verification timestamp. Never turn that unknown
+        // subscription into a lifetime entitlement while offline.
+        if (version === 0) return { isPlus: false, expiresAt: null, verifiedAt: null };
+        return {
+          isPlus: value.isPlus === true && (typeof value.expiresAt === 'string' || typeof value.verifiedAt === 'number'),
+          expiresAt: typeof value.expiresAt === 'string' ? value.expiresAt : null,
+          verifiedAt: typeof value.verifiedAt === 'number' ? value.verifiedAt : null,
+        };
       },
     },
   ),

@@ -9,7 +9,7 @@ import * as FileSystem from 'expo-file-system';
 import { SHA256_RE, type PackRelease } from '@/services/releaseManifest';
 
 export interface PackStore<L extends string, P> {
-  install: (release: PackRelease<L>, onProgress?: (fraction: number) => void) => Promise<P>;
+  install: (release: PackRelease<L>, onProgress?: (fraction: number) => void, signal?: AbortSignal) => Promise<P>;
   load: (locale: L) => Promise<P | null>;
   isInstalled: (locale: L) => Promise<boolean>;
   remove: (locale: L) => Promise<void>;
@@ -54,7 +54,8 @@ export function createPackStore<L extends string, P>(options: {
   }
 
   return {
-    async install(release, onProgress) {
+    async install(release, onProgress, signal) {
+      if (signal?.aborted) throw new Error(`${label} download cancelled`);
       if (!/^https:\/\//i.test(release.downloadUrl)) throw new Error(`${label} URL must use HTTPS`);
       await ensureDirectory();
       await recover(release.locale);
@@ -72,7 +73,29 @@ export function createPackStore<L extends string, P>(options: {
           }
           onProgress?.(Math.min(1, event.totalBytesWritten / total));
         });
-        const result = await download.downloadAsync();
+        const cancelDownload = () => { void download.cancelAsync().catch(() => {}); };
+        signal?.addEventListener('abort', cancelDownload, { once: true });
+        let downloadTimer: ReturnType<typeof setTimeout> | null = null;
+        let result: FileSystem.FileSystemDownloadResult | undefined;
+        try {
+          result = await Promise.race([
+            download.downloadAsync(),
+            new Promise<never>((_, reject) => {
+              downloadTimer = setTimeout(() => {
+                cancelDownload();
+                reject(new Error(`${label} download timed out`));
+              }, 120000);
+            }),
+            new Promise<never>((_, reject) => {
+              if (signal?.aborted) reject(new Error(`${label} download cancelled`));
+              else signal?.addEventListener('abort', () => reject(new Error(`${label} download cancelled`)), { once: true });
+            }),
+          ]);
+        } finally {
+          if (downloadTimer) clearTimeout(downloadTimer);
+          signal?.removeEventListener('abort', cancelDownload);
+        }
+        if (signal?.aborted) throw new Error(`${label} download cancelled`);
         if (!result || result.status < 200 || result.status >= 300) {
           throw new Error(`${label} download failed: HTTP ${result?.status ?? 'cancelled'}`);
         }
@@ -82,6 +105,7 @@ export function createPackStore<L extends string, P>(options: {
         }
         const text = await FileSystem.readAsStringAsync(temp, { encoding: FileSystem.EncodingType.UTF8 });
         const pack = await verify(text, release);
+        if (signal?.aborted) throw new Error(`${label} download cancelled`);
 
         if ((await FileSystem.getInfoAsync(target)).exists) {
           await FileSystem.deleteAsync(backup, { idempotent: true });

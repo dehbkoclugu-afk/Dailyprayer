@@ -17,8 +17,9 @@ const store = createPackStore<ApplicationContentLocale, ApplicationContentPack>(
 export function installApplicationContentPack(
   release: ApplicationContentRelease,
   onProgress?: (fraction: number) => void,
+  signal?: AbortSignal,
 ): Promise<ApplicationContentPack> {
-  return store.install(release, onProgress);
+  return store.install(release, onProgress, signal);
 }
 
 export const loadInstalledApplicationContentPack = store.load;

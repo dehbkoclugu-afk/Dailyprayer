@@ -50,9 +50,9 @@ function isBundledLocale(locale: GlobalLocaleTag): locale is BundledBibleLocale 
 }
 
 function load(locale: GlobalLocaleTag): BibleData {
-  // A language switch releases the previous parsed multi-megabyte JSON. Metro
-  // retains the compressed module bytes, but only the active Scripture tree is
-  // held by this data layer.
+  // A language switch removes our previous cache reference. The runtime may
+  // still retain a require()'d JSON module; measure heap use before claiming
+  // that switching editions releases its parsed tree.
   if (activeLocale !== locale) {
     for (const cachedLocale of Object.keys(cache) as BundledBibleLocale[]) {
       if (cachedLocale !== locale) delete cache[cachedLocale];

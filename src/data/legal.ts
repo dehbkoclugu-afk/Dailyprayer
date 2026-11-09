@@ -19,7 +19,7 @@ what the app does and does not do with your information.
 
 ## The short version
 - No account is required to use Selaora.
-- We do **not** collect, sell, or share your personal data.
+- We do **not** sell your personal data or use it for advertising.
 - Your journal entries, streaks, preferences, and highlights are stored **only on
   your device**.
 - We do **not** use third-party advertising or tracking.
@@ -35,10 +35,15 @@ Deleting the app removes this data from your device.
 
 ## Purchases
 Subscriptions are processed by Apple App Store or Google Play through our
-payments provider, RevenueCat, Inc. We receive anonymized subscription status
-(for example, whether "Plus" is active) so the app can unlock content. We do not
-receive your full payment details. See Apple's, Google's, and RevenueCat's
-privacy policies for how they handle payment data.
+payments provider, RevenueCat, Inc. RevenueCat processes purchase history and
+an anonymous app user ID to validate purchases, restore access, and understand
+subscription performance. This information is encrypted in transit. We do not
+receive your full payment details.
+
+You may request deletion of the RevenueCat customer record associated with your
+installation. Open Profile, copy the support ID, and email it to
+dehbkoclugu@gmail.com. Apple or Google may retain store transaction records
+under their own legal obligations.
 
 ## Downloads and network requests
 Selaora works offline. It connects to the internet only to:
