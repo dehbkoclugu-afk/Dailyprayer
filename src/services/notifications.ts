@@ -51,12 +51,12 @@ function ensureChannel(): Promise<void> {
 
 export async function requestPermission(): Promise<boolean> {
   const settings = await Notifications.requestPermissionsAsync();
-  return settings.granted || settings.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL;
+  return ('granted' in settings && settings.granted === true) || settings.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL;
 }
 
 export async function hasPermission(): Promise<boolean> {
   const settings = await Notifications.getPermissionsAsync();
-  return settings.granted || settings.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL;
+  return ('granted' in settings && settings.granted === true) || settings.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL;
 }
 
 async function scheduleDailyReminderNow(time: string): Promise<void> {
