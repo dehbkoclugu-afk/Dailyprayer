@@ -85,7 +85,6 @@ export default function Search() {
         <TopAppBar title={tr('read.search')} />
         <View
           style={{
-            flex: 1,
             flexDirection: 'row',
             alignItems: 'center',
             gap: spacing.sm,
