@@ -9,8 +9,10 @@ and onboarding answers must never be added as tags or event context.
 To activate it, create a Sentry React Native project and set the public DSN as
 the GitHub Actions repository variable `SENTRY_DSN` for Android releases. Add
 `EXPO_PUBLIC_SENTRY_DSN` to other build environments. Configure Sentry's
-organization, project, and auth token in the build environment before claiming
-symbolicated production stack traces. Verify a test exception in a development
+organization, project, and auth token (`SENTRY_AUTH_TOKEN` secret) in the build
+environment before claiming symbolicated production stack traces. Without that
+secret, CI sets `SENTRY_DISABLE_AUTO_UPLOAD=true` so release builds skip
+source-map upload instead of failing. Verify a test exception in a development
 build and inspect the received event for private data before shipping.
 
 This integration does not include a Sentry account or DSN. Until those are

@@ -26,6 +26,8 @@ jobs:
       EXPO_PUBLIC_REVENUECAT_ENTITLEMENT_ID: plus
       EXPO_PUBLIC_SUPPORT_EMAIL: dehbkoclugu@gmail.com
       EXPO_PUBLIC_SENTRY_DSN: ${{ vars.SENTRY_DSN }}
+      # Source-map upload needs a Sentry org/project/token; skip it until one exists.
+      SENTRY_DISABLE_AUTO_UPLOAD: ${{ secrets.SENTRY_AUTH_TOKEN == '' && 'true' || 'false' }}
 
     steps:
       - uses: actions/checkout@v4
