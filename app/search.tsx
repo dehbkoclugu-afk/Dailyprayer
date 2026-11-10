@@ -132,8 +132,10 @@ export default function Search() {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        style={{ marginTop: spacing.md }}
-        contentContainerStyle={{ gap: spacing.sm, paddingHorizontal: spacing.xl }}
+        // ScrollView defaults to flexGrow/flexShrink 1, which made this chip row
+        // compete with the results list for height and squash the search field.
+        style={{ marginTop: spacing.md, flexGrow: 0, flexShrink: 0 }}
+        contentContainerStyle={{ gap: spacing.sm, paddingHorizontal: spacing.xl, alignItems: 'center' }}
       >
         {([
           ['all', tr('pray.showAll')],
@@ -188,24 +190,26 @@ export default function Search() {
             {!index && !indexError ? <ActivityIndicator color={t.gold} /> : (
               <Ionicons name={queryReady ? 'search-outline' : 'book-outline'} size={40} color={t.inkFaint} />
             )}
-            <Text
-              style={{
-                ...ty.editorialCompact,
-                color: t.inkSoft,
-                textAlign: 'center',
-                marginTop: spacing.lg,
-                maxWidth: 280,
-              }}
-            >
-              {indexError ? tr('paywall.purchaseFailBody') : !index ? tr('paywall.processing') : queryReady ? tr('read.searchEmpty') : tr('read.searchPrompt')}
-            </Text>
+            {index || indexError ? (
+              <Text
+                style={{
+                  ...ty.editorialCompact,
+                  color: t.inkSoft,
+                  textAlign: 'center',
+                  marginTop: spacing.lg,
+                  maxWidth: 280,
+                }}
+              >
+                {indexError ? tr('error.title') : queryReady ? tr('read.searchEmpty') : tr('read.searchPrompt')}
+              </Text>
+            ) : null}
             {indexError ? (
               <Pressable
                 onPress={() => setIndexAttempt((attempt) => attempt + 1)}
                 accessibilityRole="button"
                 style={{ minHeight: 48, justifyContent: 'center', paddingHorizontal: spacing.xl, marginTop: spacing.md }}
               >
-                <Text style={{ ...ty.label, color: t.blue }}>{tr('paywall.retry')}</Text>
+                <Text style={{ ...ty.label, color: t.blue }}>{tr('error.retry')}</Text>
               </Pressable>
             ) : null}
           </View>
