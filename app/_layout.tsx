@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useSyncExternalStore } from 'react';
 import { Stack, type ErrorBoundaryProps } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { AppState, I18nManager, Platform, Pressable, Text, View, useColorScheme } from 'react-native';
@@ -48,6 +48,8 @@ initErrorMonitoring();
 
 /** Keys of retired stores; removed once so they don't linger on devices. */
 const RETIRED_STORAGE_KEYS = ['lumen-bible'];
+
+const noopSubscribe = () => () => {};
 
 function reminderState() {
   const streak = useStreakStore.getState();
@@ -102,14 +104,12 @@ export default function RootLayout() {
   // fonts load, when they error, or after a short failsafe timeout. A release
   // build that stalls loading fonts would otherwise sit on the splash forever
   // (the emulator smoke test can't catch this — the process stays alive).
-  const [ready, setReady] = useState(false);
+  const [fontTimedOut, setFontTimedOut] = useState(false);
+  const ready = loaded || Boolean(fontError) || fontTimedOut;
   const [scriptureReady, setScriptureReady] = useState(false);
   const [applicationContentReady, setApplicationContentReady] = useState(false);
   useEffect(() => {
-    if (loaded || fontError) setReady(true);
-  }, [loaded, fontError]);
-  useEffect(() => {
-    const timer = setTimeout(() => setReady(true), 3000);
+    const timer = setTimeout(() => setFontTimedOut(true), 3000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -275,8 +275,9 @@ export default function RootLayout() {
   // Web static export renders build-time HTML with default state; persisted
   // stores + locale only exist client-side, so hydrate after mount to avoid
   // React hydration mismatches. No-op on native.
-  const [mounted, setMounted] = useState(Platform.OS !== 'web');
-  useEffect(() => setMounted(true), []);
+  // useSyncExternalStore returns the server snapshot (false) during static
+  // render and hydration, then the client snapshot (true).
+  const mounted = useSyncExternalStore(noopSubscribe, () => true, () => Platform.OS !== 'web');
 
   // Render marker for the smoke test — a stuck splash never logs this.
   useEffect(() => {

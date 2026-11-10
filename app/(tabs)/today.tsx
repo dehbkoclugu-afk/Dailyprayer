@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Pressable, Text, useWindowDimensions, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -60,8 +60,9 @@ export default function Today() {
   const { verse, devotional } = useDailyContent();
   // The verse of the day is fixed by date, but let people browse the pool — a
   // shuffle swaps in another verse without touching the day's read-streak.
-  const [otherVerse, setOtherVerse] = useState<DailyVerse | null>(null);
-  const shownVerse = otherVerse ?? verse;
+  // Keyed by language so a shuffled pick never shows stale text after a switch.
+  const [shuffled, setShuffled] = useState<{ locale: string; verse: DailyVerse } | null>(null);
+  const shownVerse = shuffled?.locale === scriptureLocale ? shuffled.verse : verse;
   const shuffleVerse = () => {
     const pool = getVerses(scriptureLocale);
     if (pool.length < 2) return;
@@ -69,10 +70,8 @@ export default function Today() {
     while (next.reference === shownVerse.reference) {
       next = pool[Math.floor(Math.random() * pool.length)];
     }
-    setOtherVerse(next);
+    setShuffled({ locale: scriptureLocale, verse: next });
   };
-  // Drop a shuffled pick when the language changes so it doesn't show stale text.
-  useEffect(() => setOtherVerse(null), [scriptureLocale]);
   const prayers = usePrayers();
   const name = useUserStore((s) => s.quiz.name);
   const isPlus = useEntitlementStore((s) => s.isPlus);
@@ -209,7 +208,7 @@ export default function Today() {
           verse={shownVerse}
           onShuffle={shuffleVerse}
           // Only the verse of the day counts toward today's rhythm, not a shuffled pick.
-          onRead={otherVerse ? undefined : () => {
+          onRead={shuffled?.locale === scriptureLocale ? undefined : () => {
             if (!isDone('verse')) {
               completeStep('verse');
               toast(translate('toast.verse', { done: doneCount + 1, total: 4 }));

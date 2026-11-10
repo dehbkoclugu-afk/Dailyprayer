@@ -38,9 +38,15 @@ export default function Search() {
   const [q, setQ] = useState(''); // debounced
   const [filter, setFilter] = useState<ScriptureFilter>('all');
   const bible = useMemo(() => getBible(scriptureLocale), [scriptureLocale]);
-  const [index, setIndex] = useState<ScriptureSearchIndex | null>(null);
-  const [indexError, setIndexError] = useState(false);
   const [indexAttempt, setIndexAttempt] = useState(0);
+  // Keyed by the request so a result for a previous edition/attempt is ignored.
+  const indexKey = `${scriptureLocale}:${indexAttempt}`;
+  const [indexResult, setIndexResult] = useState<
+    { key: string; index: ScriptureSearchIndex | null; error: boolean } | null
+  >(null);
+  const current = indexResult?.key === indexKey ? indexResult : null;
+  const index = current?.index ?? null;
+  const indexError = current?.error ?? false;
   const testamentStart = newTestamentStart(bible.map((book) => book.code));
   const [oldTestament, newTestament] = testamentLabels(scriptureLocale);
 
@@ -51,15 +57,13 @@ export default function Search() {
 
   useEffect(() => {
     let active = true;
-    setIndex(null);
-    setIndexError(false);
     getScriptureSearchIndex(bible, scriptureLocale).then((next) => {
-      if (active) setIndex(next);
+      if (active) setIndexResult({ key: indexKey, index: next, error: false });
     }).catch(() => {
-      if (active) setIndexError(true);
+      if (active) setIndexResult({ key: indexKey, index: null, error: true });
     });
     return () => { active = false; };
-  }, [bible, indexAttempt, scriptureLocale]);
+  }, [bible, indexKey, scriptureLocale]);
 
   const hits = useMemo<ScriptureSearchHit[]>(() => index
     ? searchScriptureIndex(index, q, {

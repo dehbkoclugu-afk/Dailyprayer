@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer } from 'react';
 import { InteractionManager } from 'react-native';
 import { getBible, isBibleLoaded, type FullBook } from '@/data/bibleFull';
 import type { GlobalLocaleTag } from '@/i18n/globalLanguageCatalog';
@@ -9,19 +9,17 @@ import type { GlobalLocaleTag } from '@/i18n/globalLanguageCatalog';
  * finished; callers render a lightweight loading state until then.
  */
 export function useBible(locale: GlobalLocaleTag): FullBook[] | null {
-  const [bible, setBible] = useState<FullBook[] | null>(() =>
-    isBibleLoaded(locale) ? getBible(locale) : null,
-  );
+  const [, rerender] = useReducer((n: number) => n + 1, 0);
+  const loaded = isBibleLoaded(locale);
 
   useEffect(() => {
-    if (isBibleLoaded(locale)) {
-      setBible(getBible(locale));
-      return;
-    }
-    setBible(null);
-    const task = InteractionManager.runAfterInteractions(() => setBible(getBible(locale)));
+    if (loaded) return;
+    const task = InteractionManager.runAfterInteractions(() => {
+      getBible(locale);
+      rerender();
+    });
     return () => task.cancel();
-  }, [locale]);
+  }, [loaded, locale]);
 
-  return bible;
+  return loaded ? getBible(locale) : null;
 }

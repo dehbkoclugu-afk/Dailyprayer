@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -74,8 +74,8 @@ function Reader({ bible }: { bible: FullBook[] }) {
   const setPos = useReaderStore((s) => s.setPos);
   const storedBook = findBookIndex(bible, bookCode);
   const book = storedBook >= 0 ? storedBook : 0;
-  const initialSavedVerse = useRef(useReaderStore.getState().verse).current;
-  const initialPosition = useRef({ book, chapter }).current;
+  const [initialSavedVerse] = useState(() => useReaderStore.getState().verse);
+  const [initialPosition] = useState(() => ({ book, chapter }));
   const fontScale = useReaderPrefsStore((s) => s.fontScale);
   const showGestureHint = useReaderPrefsStore((s) => s.showGestureHint);
   const dismissGestureHint = useReaderPrefsStore((s) => s.dismissGestureHint);
@@ -113,19 +113,21 @@ function Reader({ bible }: { bible: FullBook[] }) {
   const retryScrollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const visibleChapter = useRef('');
   const pickerHeadingRef = useRef<Text>(null);
-  const pickerReturnFocus = useRef<number | null>(null);
-  const settingsReturnFocus = useRef<number | null>(null);
-  const verseReturnFocus = useRef<number | null>(null);
+  const [pickerReturnFocus, setPickerReturnFocus] = useState<number | null>(null);
+  const [settingsReturnFocus, setSettingsReturnFocus] = useState<number | null>(null);
+  const [verseReturnFocus, setVerseReturnFocus] = useState<number | null>(null);
 
-  useModalAccessibility(picker !== null, pickerHeadingRef, pickerReturnFocus.current);
+  useModalAccessibility(picker !== null, pickerHeadingRef, pickerReturnFocus);
 
   const bIdx = Math.min(book, bible.length - 1);
   const bk = bible[bIdx];
   const cIdx = Math.max(0, Math.min(chapter, bk.chapters.length - 1));
   const verses = bk.chapters[cIdx];
-  visibleChapter.current = `${bIdx}:${cIdx}`;
-  useEffect(() => () => {
-    if (retryScrollTimer.current) clearTimeout(retryScrollTimer.current);
+  useEffect(() => {
+    visibleChapter.current = `${bIdx}:${cIdx}`;
+    return () => {
+      if (retryScrollTimer.current) clearTimeout(retryScrollTimer.current);
+    };
   }, [bIdx, cIdx]);
   const testamentStart = newTestamentStart(bible.map((bookItem) => bookItem.code));
   const [oldTestament, newTestament] = testamentLabels(scriptureLocale);
@@ -142,15 +144,19 @@ function Reader({ bible }: { bible: FullBook[] }) {
         ? { book: deepPosition.book, chapter: deepPosition.chapter, verse: deepPosition.verse }
         : null;
     restoreTarget.current = null;
+    // One-shot consumption of router params (an external source); the token
+    // re-runs the scroll effect below once the new position has rendered.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTargetToken((token) => token + 1);
     router.setParams({ b: undefined, c: undefined, v: undefined });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deepPosition?.book, deepPosition?.chapter, deepPosition?.verse]);
 
-  const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: ViewToken[] }) => {
+  // FlatList requires a stable onViewableItemsChanged.
+  const onViewableItemsChanged = useCallback(({ viewableItems }: { viewableItems: ViewToken[] }) => {
     const first = viewableItems.find((item) => item.isViewable && item.index != null)?.index;
     if (first != null) useReaderStore.getState().setVerse(first);
-  }).current;
+  }, []);
   useEffect(() => {
     const pending = pendingTarget.current;
     let target: number | null = null;
@@ -296,7 +302,7 @@ function Reader({ bible }: { bible: FullBook[] }) {
         </Pressable>
         <Pressable
           onPress={(event) => {
-            pickerReturnFocus.current = eventHandle(event);
+            setPickerReturnFocus(eventHandle(event));
             setPicker('books');
           }}
           accessibilityRole="button"
@@ -323,10 +329,10 @@ function Reader({ bible }: { bible: FullBook[] }) {
         </Pressable>
         {expanded ? iconBtn('search', tr('a11y.search'), () => router.push('/search')) : null}
         {expanded ? iconBtn('text', tr('a11y.readingSettings'), (event) => {
-          settingsReturnFocus.current = eventHandle(event);
+          setSettingsReturnFocus(eventHandle(event));
           setSettings(true);
         }) : iconBtn('ellipsis-horizontal', tr('read.settings'), (event) => {
-          settingsReturnFocus.current = eventHandle(event);
+          setSettingsReturnFocus(eventHandle(event));
           setToolbar(true);
         })}
       </View>
@@ -401,7 +407,7 @@ function Reader({ bible }: { bible: FullBook[] }) {
           const flashed = flashV === index;
           const ref = `${bk.name} ${cIdx + 1}:${item[0]}`;
           const open = (returnFocusHandle?: number) => {
-            if (returnFocusHandle) verseReturnFocus.current = returnFocusHandle;
+            if (returnFocusHandle) setVerseReturnFocus(returnFocusHandle);
             setSelected({ code: bk.code, chapter: cIdx, verse: item[0], ref, text: item[1] });
           };
           // long-press is the quick path: highlight (or un-highlight) in place,
@@ -423,7 +429,7 @@ function Reader({ bible }: { bible: FullBook[] }) {
             ],
             onAccessibilityAction: (event: AccessibilityActionEvent) => {
               const handle = eventHandle(event) ?? undefined;
-              verseReturnFocus.current = handle ?? null;
+              setVerseReturnFocus(handle ?? null);
               if (event.nativeEvent.actionName === 'open') open(handle);
               if (event.nativeEvent.actionName === 'highlight') quickHighlight();
             },
@@ -696,14 +702,14 @@ function Reader({ bible }: { bible: FullBook[] }) {
       <ReadingSettingsSheet
         visible={settings}
         onClose={() => setSettings(false)}
-        returnFocusHandle={settingsReturnFocus.current}
+        returnFocusHandle={settingsReturnFocus}
         sampleReference={`${bk.name} ${cIdx + 1}:${verses[0]?.[0] ?? 1}`}
         sampleText={verses[0]?.[1] ?? ''}
       />
       <VerseActionSheet
         verse={selected}
         onClose={() => setSelected(null)}
-        returnFocusHandle={verseReturnFocus.current}
+        returnFocusHandle={verseReturnFocus}
       />
     </View>
   );

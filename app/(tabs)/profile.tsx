@@ -53,7 +53,7 @@ export default function Profile() {
   const activeDays = useStreakStore((s) => s.activeDays);
   const isPlus = useEntitlementStore((s) => s.isPlus);
   const [sheet, setSheet] = useState<null | 'appearance'>(null);
-  const sheetReturnFocus = useRef<number | null>(null);
+  const [sheetReturnFocus, setSheetReturnFocus] = useState<number | null>(null);
   const [showIosReminderPicker, setShowIosReminderPicker] = useState(false);
   const reminderRequest = useRef(0);
   const [reminderDraft, setReminderDraft] = useState(() => parseReminderTime('07:30'));
@@ -392,7 +392,7 @@ export default function Profile() {
           label={tr('profile.appearance')}
           value={appearanceLabel}
           onPress={(event) => {
-            sheetReturnFocus.current = findNodeHandle(event.currentTarget as unknown as React.Component);
+            setSheetReturnFocus(findNodeHandle(event.currentTarget as unknown as React.Component));
             setSheet('appearance');
           }}
           first
@@ -530,7 +530,7 @@ export default function Profile() {
         selected={themePreference}
         onSelect={setThemePreference}
         onClose={() => setSheet(null)}
-        returnFocusHandle={sheetReturnFocus.current}
+        returnFocusHandle={sheetReturnFocus}
       />
     </Screen>
   );
