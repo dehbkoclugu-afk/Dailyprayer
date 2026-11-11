@@ -237,10 +237,10 @@ export default function Paywall() {
     return (
       <Screen scroll={false} style={{ justifyContent: 'center' }}>
         <Text style={[ty.title, { color: t.ink, textAlign: 'center' }]}>
-          {tr('paywall.purchaseFailTitle')}
+          {tr('error.title')}
         </Text>
         <Text style={[ty.body, { color: t.inkSoft, textAlign: 'center', marginTop: spacing.md }]}>
-          {tr('paywall.purchaseFailBody')}
+          {tr('error.body')}
         </Text>
         <PillButton label={tr('paywall.retry')} onPress={refreshCatalog} style={{ marginTop: spacing.xl }} />
         <PillButton label={tr('a11y.close')} onPress={close} variant="ghost" style={{ marginTop: spacing.sm }} />
