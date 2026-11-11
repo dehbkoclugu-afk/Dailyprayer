@@ -44,7 +44,9 @@ async function seal(value: string): Promise<string> {
 
 async function unseal(value: string): Promise<string> {
   const key = await keyFor(true);
-  const encrypted = AESSealedData.fromCombined(value.slice(PREFIX.length));
+  // Android's native fromCombined accepts only bytes; a base64 string throws there.
+  const combined = Uint8Array.from(atob(value.slice(PREFIX.length)), (c) => c.charCodeAt(0));
+  const encrypted = AESSealedData.fromCombined(combined);
   return new TextDecoder().decode(await aesDecryptAsync(encrypted, key));
 }
 

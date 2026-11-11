@@ -11,7 +11,11 @@ export class AESEncryptionKey {
 export class AESSealedData {
   readonly bytes: Buffer;
   constructor(bytes: Buffer) { this.bytes = bytes; }
-  static fromCombined(value: string): AESSealedData { return new AESSealedData(Buffer.from(value, 'base64')); }
+  // Mirrors Android: the native fromCombined only accepts bytes, a base64 string throws.
+  static fromCombined(value: Uint8Array): AESSealedData {
+    if (!(value instanceof Uint8Array)) throw new TypeError('fromCombined expects a Uint8Array on Android');
+    return new AESSealedData(Buffer.from(value));
+  }
   async combined(): Promise<string> { return this.bytes.toString('base64'); }
 }
 
