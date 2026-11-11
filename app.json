@@ -9,7 +9,6 @@
       "lumen"
     ],
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": false,
     "icon": "./assets/icon.png",
     "ios": {
       "bundleIdentifier": "com.lumen.dailyprayer",
@@ -18,7 +17,7 @@
     },
     "android": {
       "package": "com.lumen.dailyprayer",
-      "edgeToEdgeEnabled": true,
+      "allowBackup": false,
       "predictiveBackGestureEnabled": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -71,7 +70,8 @@
           }
         }
       ],
-      "@sentry/react-native"
+      "@sentry/react-native",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true

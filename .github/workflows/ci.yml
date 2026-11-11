@@ -30,6 +30,8 @@ jobs:
           npm run scripture:verify:ui
       - name: Verify release claims match runtime behavior
         run: npm run release:verify:claims
+      - name: Verify hosted privacy policy matches the app
+        run: npm run privacy:verify
       - name: Verify completed UI locale modules
         run: npm run ui-locales:verify
       - name: Verify completed application content packs
