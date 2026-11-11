@@ -1,6 +1,8 @@
 import { bookMeta, bookName } from '@/data/bibleMeta';
 import type { Locale } from '@/i18n/translations';
 
+export type ReadingBook = { code: string; name: string; chapters: readonly unknown[] };
+
 /**
  * Maps each reading plan's day to a REAL passage in the bundled Bible, replacing
  * the old placeholder that drew an unrelated verse from the daily pool. Uses only
@@ -28,8 +30,17 @@ const GRATITUDE: [string, number][] = [
 ];
 
 /** Flat [bookIndex, chapterIndex] list across the given books, in order. */
-function flatten(codes: string[]): [number, number][] {
+function flatten(codes: string[], books?: readonly ReadingBook[]): [number, number][] {
   const out: [number, number][] = [];
+  if (books) {
+    const byCode = new Map(books.map((book, index) => [book.code, index]));
+    for (const code of codes) {
+      const index = byCode.get(code);
+      if (index === undefined) continue;
+      for (let chapter = 0; chapter < books[index].chapters.length; chapter++) out.push([index, chapter]);
+    }
+    return out;
+  }
   for (const c of codes) {
     const bi = idxByCode[c];
     if (bi === undefined) continue;
@@ -54,31 +65,32 @@ const single = (bi: number, ch0: number): PlanReading => ({
 });
 
 /** The reading for a plan on a given 0-based day. */
-export function planReading(planId: string, day: number): PlanReading {
+export function planReading(planId: string, day: number, books?: readonly ReadingBook[]): PlanReading {
+  const indexOf = (code: string) => books ? books.findIndex((book) => book.code === code) : idxByCode[code];
   switch (planId) {
     case 'peace-7': {
       const [code, ch] = PEACE[day % PEACE.length];
-      return single(idxByCode[code], ch - 1);
+      return single(indexOf(code), ch - 1);
     }
     case 'gratitude-7': {
       const [code, ch] = GRATITUDE[day % GRATITUDE.length];
-      return single(idxByCode[code], ch - 1);
+      return single(indexOf(code), ch - 1);
     }
     case 'psalms-30': {
       // Psalm 1..30, one per day, in order
-      return single(idxByCode['PSA'], day % 150);
+      return single(indexOf('PSA'), day % 150);
     }
     case 'gospels-90': {
       // The Gospels have 89 chapters; the 90th day closes with the Ascension
       // (Acts 1) instead of repeating John 21.
-      if (day >= GOSPELS.length) return single(idxByCode['ACT'], 0);
-      const [bi, ch] = GOSPELS[day];
+      if (day >= GOSPELS.length) return single(indexOf('ACT'), 0);
+      const [bi, ch] = books ? flatten(['MAT', 'MRK', 'LUK', 'JHN'], books)[day] : GOSPELS[day];
       return single(bi, ch);
     }
     case 'bible-365':
     default: {
       // spread all 1189 chapters evenly across 365 days (~3 chapters/day)
-      const all = allChapters();
+      const all = books ? flatten(books.map((book) => book.code), books) : allChapters();
       const total = all.length;
       const start = Math.min(Math.floor((day * total) / 365), total - 1);
       const endExcl = Math.min(Math.floor(((day + 1) * total) / 365), total);
@@ -91,8 +103,8 @@ export function planReading(planId: string, day: number): PlanReading {
 }
 
 /** Every chapter in a day's reading, in order (a day may span books). */
-export function planChapters(r: PlanReading): [number, number][] {
-  const all = allChapters();
+export function planChapters(r: PlanReading, books?: readonly ReadingBook[]): [number, number][] {
+  const all = books ? flatten(books.map((book) => book.code), books) : allChapters();
   const start = all.findIndex(([b, c]) => b === r.book && c === r.chapter);
   const end = all.findIndex(([b, c]) => b === r.endBook && c === r.endChapter);
   if (start < 0 || end < start) return [[r.book, r.chapter]];
@@ -100,11 +112,11 @@ export function planChapters(r: PlanReading): [number, number][] {
 }
 
 /** Display reference, e.g. "Mezmur 23", "Yaratılış 1–3", "Malaki 4 – Matta 2". */
-export function formatReadingRef(r: PlanReading, locale: Locale): string {
-  const sCode = bookMeta[r.book]?.code ?? '';
-  const eCode = bookMeta[r.endBook]?.code ?? '';
-  const sName = sCode ? bookName(locale, sCode) : '';
-  const eName = eCode ? bookName(locale, eCode) : '';
+export function formatReadingRef(r: PlanReading, locale: Locale, books?: readonly ReadingBook[]): string {
+  const sCode = books?.[r.book]?.code ?? bookMeta[r.book]?.code ?? '';
+  const eCode = books?.[r.endBook]?.code ?? bookMeta[r.endBook]?.code ?? '';
+  const sName = books?.[r.book]?.name ?? (sCode ? bookName(locale, sCode) : '');
+  const eName = books?.[r.endBook]?.name ?? (eCode ? bookName(locale, eCode) : '');
   if (r.book === r.endBook) {
     return r.chapter === r.endChapter
       ? `${sName} ${r.chapter + 1}`

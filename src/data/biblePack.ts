@@ -1,4 +1,5 @@
 import type { GlobalLocaleTag } from '@/i18n/globalLanguageCatalog';
+import { bookMeta } from '@/data/bibleMeta';
 
 /**
  * On-disk/network Bible language-pack contract.
@@ -58,6 +59,11 @@ const CANON_BOOK_CODES: Record<BibleCanon, readonly string[]> = {
   'protestant-66': CANONICAL_BOOK_CODES,
   'catholic-73': CATHOLIC_73_BOOK_CODES,
 };
+const CATHOLIC_CHAPTER_OVERRIDES: Record<string, number> = {
+  DAN: 14, JOL: 4, MAL: 3, TOB: 14, JDT: 16, ESG: 10,
+  WIS: 19, SIR: 51, BAR: 6, '1MA': 16, '2MA': 15,
+};
+const PROTESTANT_CHAPTERS = new Map(bookMeta.map((book) => [book.code, book.chapters]));
 
 /**
  * Defensive validation for downloaded packs. This deliberately checks shape
@@ -99,8 +105,14 @@ export function validateBiblePack(value: unknown, expectedLocale?: GlobalLocaleT
     if (typeof book.name !== 'string' || !book.name || !Array.isArray(book.chapters) || !book.chapters.length) {
       throw new Error(`Invalid Bible book payload: ${book.code}`);
     }
+    const expectedChapters = pack.canon === 'catholic-73'
+      ? CATHOLIC_CHAPTER_OVERRIDES[book.code] ?? PROTESTANT_CHAPTERS.get(book.code)
+      : PROTESTANT_CHAPTERS.get(book.code);
+    if (book.chapters.length !== expectedChapters) {
+      throw new Error(`Bible book ${book.code} must contain ${expectedChapters} chapters`);
+    }
     for (const chapter of book.chapters) {
-      if (!Array.isArray(chapter)) throw new Error(`Invalid chapter in ${book.code}`);
+      if (!Array.isArray(chapter) || chapter.length === 0) throw new Error(`Empty or invalid chapter in ${book.code}`);
       for (const verse of chapter) {
         if (
           !Array.isArray(verse) ||

@@ -20,12 +20,15 @@ import { InvalidRouteState } from '@/components/InvalidRouteState';
 import { singleParam } from '@/lib/routeValidation';
 import { useRequirePlus } from '@/hooks/useRequirePlus';
 import { goBack } from '@/lib/navigation';
+import { useBible } from '@/hooks/useBible';
+import { useScriptureLocale } from '@/i18n/scripture';
 
 export default function PlanScreen() {
   const t = useTheme();
   const artwork = useArtwork();
   const dawn = artwork.scheme === 'dawn';
   const { t: tr, locale } = useT();
+  const bible = useBible(useScriptureLocale());
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string | string[] }>();
   const planId = singleParam(id);
@@ -36,6 +39,7 @@ export default function PlanScreen() {
 
   if (!plan) return <InvalidRouteState />;
   if (!allowed) return <View style={{ flex: 1, backgroundColor: t.bg }} />;
+  if (!bible) return <View style={{ flex: 1, backgroundColor: t.bg }} />;
 
   const done = progress[plan.id] ?? [];
   const days = Array.from({ length: plan.days }, (_, i) => i);
@@ -122,7 +126,7 @@ export default function PlanScreen() {
           alignSelf: 'center',
         }}
         renderItem={({ item: dayIdx }) => {
-          const readingRef = formatReadingRef(planReading(plan.id, dayIdx), locale);
+          const readingRef = formatReadingRef(planReading(plan.id, dayIdx, bible), locale, bible);
           const isDone = done.includes(dayIdx);
           return (
             <Pressable

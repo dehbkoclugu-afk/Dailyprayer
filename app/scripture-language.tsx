@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
@@ -49,6 +49,8 @@ export default function ScriptureLanguage() {
   const [releases, setReleases] = useState<Map<GlobalLocaleTag, BiblePackRelease>>(new Map());
   const [downloading, setDownloading] = useState<GlobalLocaleTag | null>(null);
   const [progress, setProgress] = useState(0);
+  const downloadController = useRef<AbortController | null>(null);
+  useEffect(() => () => downloadController.current?.abort(), []);
 
   const selected = effectiveScriptureLocale;
 
@@ -105,7 +107,9 @@ export default function ScriptureLanguage() {
         }
         setProgress(0);
         setDownloading(tag);
-        pack = await installBiblePack(release, setProgress);
+        const controller = new AbortController();
+        downloadController.current = controller;
+        pack = await installBiblePack(release, setProgress, controller.signal);
         setInstalled((current) => new Set<GlobalLocaleTag>([...current, tag]));
       }
 
@@ -113,9 +117,11 @@ export default function ScriptureLanguage() {
       setScriptureLocale(preference);
       goBack();
     } catch (error) {
+      if (downloadController.current?.signal.aborted) return;
       reportError(error, 'bible-pack-install');
       Alert.alert(tr('profile.scriptureLanguage'), tr('scripture.downloadUnavailable'));
     } finally {
+      downloadController.current = null;
       setDownloading(null);
     }
   };
@@ -184,7 +190,7 @@ export default function ScriptureLanguage() {
             <Pressable
               key={tag}
               onPress={() => choose(tag)}
-              disabled={downloading !== null}
+              disabled={downloading !== null && !busy}
               accessibilityRole="button"
               accessibilityLabel={`${item.nativeName}, ${edition}`}
               style={({ pressed }) => ({
@@ -219,6 +225,9 @@ export default function ScriptureLanguage() {
                   <Text style={{ ...ty.captionRegular, color: t.inkFaint, fontVariant: ['tabular-nums'] }}>
                     {Math.round(progress * 100)}%
                   </Text>
+                  <Pressable onPress={() => downloadController.current?.abort()} accessibilityRole="button" accessibilityLabel={tr('profile.cancel')}>
+                    <Text style={{ ...ty.captionRegular, color: t.gold }}>{tr('profile.cancel')}</Text>
+                  </Pressable>
                 </View>
               ) : active ? (
                 <Ionicons name="checkmark-circle" size={22} color={t.gold} />

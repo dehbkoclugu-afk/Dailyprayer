@@ -1,4 +1,4 @@
-/** Onboarding quiz — personalization → plan reveal → paywall (category-proven funnel). */
+/** Onboarding asks only for preferences the app currently uses. */
 import type { Locale } from '@/i18n/translations';
 import { getRegisteredApplicationContentPack } from '@/i18n/applicationContent';
 

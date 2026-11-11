@@ -25,6 +25,7 @@ jobs:
       EXPO_PUBLIC_REVENUECAT_ANDROID_KEY: ${{ secrets.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY }}
       EXPO_PUBLIC_REVENUECAT_ENTITLEMENT_ID: plus
       EXPO_PUBLIC_SUPPORT_EMAIL: dehbkoclugu@gmail.com
+      EXPO_PUBLIC_SENTRY_DSN: ${{ vars.SENTRY_DSN }}
 
     steps:
       - uses: actions/checkout@v4
@@ -56,6 +57,12 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Verify source before signing
+        run: |
+          npm run typecheck
+          npm run lint
+          npm test
 
       - name: Verify production localization coverage
         run: |

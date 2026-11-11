@@ -152,7 +152,7 @@ export function VerseCard({ verse, onRead, onShuffle }: Props) {
       ref={cardRef}
       onPress={onRead}
       accessibilityRole="button"
-      accessibilityLabel={`${tr('today.verseOfDay')}, ${verse.reference}`}
+      accessibilityLabel={`${tr('today.verseOfDay')}, ${verse.reference}, ${verse.text}`}
       style={[
         { minHeight: 340, borderRadius: radius.hero, overflow: 'hidden' },
         elevation.hero,

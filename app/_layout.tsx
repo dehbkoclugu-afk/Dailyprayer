@@ -22,12 +22,14 @@ import { ToastHost } from '@/components/ToastHost';
 import { useTheme } from '@/hooks/useTheme';
 import { useStreakStore } from '@/state/useStreakStore';
 import { useUserStore } from '@/state/useUserStore';
-import { waitForHydration } from '@/state/hydration';
+import { PERSISTED_STORES, waitForHydration } from '@/state/hydration';
+import { hasUnreadableStorage } from '@/state/safePersistStorage';
 import { initPurchases } from '@/services/purchases';
 import { syncReminders } from '@/services/notifications';
 import { dayKey } from '@/lib/dates';
 import { type as ty } from '@/theme/typography';
 import { reportError } from '@/lib/reportError';
+import { initErrorMonitoring } from '@/lib/errorMonitoring';
 import { loadInstalledBiblePack } from '@/services/biblePacks';
 import { registerDownloadedBiblePack } from '@/data/bibleFull';
 import { isBundledScriptureLocale, resolveSystemScriptureLocale } from '@/i18n/scripture';
@@ -42,6 +44,7 @@ import { loadInstalledApplicationContentPack } from '@/services/applicationConte
 import { resolveMotionPattern } from '@/theme/motion';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
+initErrorMonitoring();
 
 /** Keys of retired stores; removed once so they don't linger on devices. */
 const RETIRED_STORAGE_KEYS = ['lumen-bible'];
@@ -179,21 +182,49 @@ export default function RootLayout() {
   // has hydrated — otherwise the app-open streak tick and reminder sync would
   // act on defaults and then be overwritten by the stored values.
   const [hydrated, setHydrated] = useState(false);
+  const [storageFailed, setStorageFailed] = useState(false);
+  const retryStorage = async () => {
+    await Promise.all(PERSISTED_STORES.map((store) => Promise.resolve(store.persist.rehydrate()).catch(() => {})));
+    if (hasUnreadableStorage()) return;
+    const user = useUserStore.getState();
+    const scripture = user.scriptureLocale === 'system' ? resolveSystemScriptureLocale() : user.scriptureLocale;
+    if (!isBundledScriptureLocale(scripture)) {
+      const pack = await loadInstalledBiblePack(scripture).catch(() => null);
+      if (pack) registerDownloadedBiblePack(pack);
+      else user.setScriptureLocale('system');
+    }
+    const locale = resolveRequestedApplicationLocale(user.language);
+    if (!(BUNDLED_APPLICATION_CONTENT_LOCALES as readonly string[]).includes(locale)) {
+      await restoreInstalledApplicationLocale(locale, {
+        loadInstalled: loadInstalledApplicationContentPack,
+        register: registerApplicationContentPack,
+      }).catch(() => false);
+    }
+    setStorageFailed(false);
+    setHydrated(true);
+  };
   useEffect(() => {
     let active = true;
     waitForHydration().then(() => {
       if (!active) return;
+      if (hasUnreadableStorage()) {
+        setStorageFailed(true);
+        return;
+      }
       setHydrated(true);
-      initPurchases();
-      // App-open streak tick (YouVersion pattern): opening the app keeps the flame lit.
-      useStreakStore.getState().tickToday();
-      syncReminders(reminderState()).catch((error) => reportError(error, 'reminders'));
-      AsyncStorage.multiRemove(RETIRED_STORAGE_KEYS).catch(() => {});
     });
     return () => {
       active = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    initPurchases();
+    useStreakStore.getState().tickToday();
+    syncReminders(reminderState()).catch((error) => reportError(error, 'reminders'));
+    AsyncStorage.multiRemove(RETIRED_STORAGE_KEYS).catch(() => {});
+  }, [hydrated]);
 
   // A new day can begin while the app sits in the background: tick again and
   // refresh reminders whenever it returns to the foreground.
@@ -236,10 +267,10 @@ export default function RootLayout() {
   }, [rtl]);
 
   useEffect(() => {
-    if (ready && hydrated && scriptureReady && applicationContentReady) {
+    if (ready && (storageFailed || (hydrated && scriptureReady && applicationContentReady))) {
       SplashScreen.hideAsync().catch(() => {});
     }
-  }, [applicationContentReady, hydrated, ready, scriptureReady]);
+  }, [applicationContentReady, hydrated, ready, scriptureReady, storageFailed]);
 
   // Web static export renders build-time HTML with default state; persisted
   // stores + locale only exist client-side, so hydrate after mount to avoid
@@ -254,7 +285,17 @@ export default function RootLayout() {
     }
   }, [applicationContentReady, hydrated, ready, mounted, scriptureReady]);
 
-  if (!ready || !hydrated || !mounted || !scriptureReady || !applicationContentReady) return null;
+  if (!ready || !mounted) return null;
+  if (storageFailed) return (
+    <View style={{ flex: 1, justifyContent: 'center', padding: 24, backgroundColor: t.bg }}>
+      <Text style={{ ...ty.title, color: t.ink }}>Saved data could not be read</Text>
+      <Text style={{ ...ty.body, color: t.inkSoft, marginTop: 12 }}>Your data has not been deleted. Check device storage and try again.</Text>
+      <Pressable onPress={() => void retryStorage()} accessibilityRole="button" style={{ marginTop: 24, padding: 16, backgroundColor: t.surface }}>
+        <Text style={{ color: t.ink }}>Retry</Text>
+      </Pressable>
+    </View>
+  );
+  if (!hydrated || !scriptureReady || !applicationContentReady) return null;
 
   const dark = pref === 'system' ? scheme !== 'light' : pref === 'vigil';
   const direction = getApplicationDirection(resolveLocale(language));

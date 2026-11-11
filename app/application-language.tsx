@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
@@ -54,6 +54,8 @@ export default function ApplicationLanguage() {
   >(new Map());
   const [downloading, setDownloading] = useState<AppLocale | null>(null);
   const [progress, setProgress] = useState(0);
+  const downloadController = useRef<AbortController | null>(null);
+  useEffect(() => () => downloadController.current?.abort(), []);
 
   useEffect(() => {
     if (!hasDownloadableLocale) return;
@@ -83,7 +85,9 @@ export default function ApplicationLanguage() {
         loadInstalled: loadInstalledApplicationContentPack,
         getRelease: (requested) => releases.get(requested) ?? null,
         install: async (release) => {
-          const pack = await installApplicationContentPack(release, setProgress);
+          const controller = new AbortController();
+          downloadController.current = controller;
+          const pack = await installApplicationContentPack(release, setProgress, controller.signal);
           setInstalled((current) => new Set([...current, release.locale]));
           return pack;
         },
@@ -92,9 +96,11 @@ export default function ApplicationLanguage() {
       });
       goBack();
     } catch (error) {
+      if (downloadController.current?.signal.aborted) return;
       reportError(error, 'content-pack-install');
       Alert.alert(tr('profile.language'), tr('scripture.downloadUnavailable'));
     } finally {
+      downloadController.current = null;
       setDownloading(null);
     }
   };
@@ -165,7 +171,7 @@ export default function ApplicationLanguage() {
             <Pressable
               key={item.tag}
               onPress={() => choose(item.tag)}
-              disabled={downloading !== null}
+              disabled={downloading !== null && !busy}
               accessibilityRole="button"
               accessibilityState={{ selected: active }}
               accessibilityLabel={item.nativeName}
@@ -200,6 +206,9 @@ export default function ApplicationLanguage() {
                   <Text style={{ ...ty.captionRegular, color: t.inkFaint, fontVariant: ['tabular-nums'] }}>
                     {Math.round(progress * 100)}%
                   </Text>
+                  <Pressable onPress={() => downloadController.current?.abort()} accessibilityRole="button" accessibilityLabel={tr('profile.cancel')}>
+                    <Text style={{ ...ty.captionRegular, color: t.gold }}>{tr('profile.cancel')}</Text>
+                  </Pressable>
                 </View>
               ) : active ? (
                 <Ionicons name="checkmark-circle" size={22} color={t.gold} />

@@ -55,6 +55,7 @@ export default function Profile() {
   const [sheet, setSheet] = useState<null | 'appearance'>(null);
   const sheetReturnFocus = useRef<number | null>(null);
   const [showIosReminderPicker, setShowIosReminderPicker] = useState(false);
+  const reminderRequest = useRef(0);
   const [reminderDraft, setReminderDraft] = useState(() => parseReminderTime('07:30'));
   const recentDays = countRecentActiveDays(activeDays ?? []);
   const recentStart = new Date();
@@ -79,6 +80,7 @@ export default function Profile() {
       : GLOBAL_LANGUAGE_CATALOG.find((item) => item.tag === scriptureLocale)?.nativeName ?? String(scriptureLocale);
 
   const setReminder = async (time: string | null): Promise<boolean> => {
+    const request = ++reminderRequest.current;
     if (!time) {
       setQuiz({ prayerTime: 'none' });
       await NotificationService.disableReminders();
@@ -89,6 +91,7 @@ export default function Profile() {
 
     try {
       const granted = await NotificationService.requestPermission();
+      if (request !== reminderRequest.current) return false;
       if (!granted) {
         setQuiz({ prayerTime: 'none' });
         // Offer Settings as a choice instead of jumping there under the alert.
@@ -99,16 +102,17 @@ export default function Profile() {
         return false;
       }
       const streak = useStreakStore.getState();
-      await NotificationService.scheduleDailyReminder(time);
-      await NotificationService.scheduleStreakSave({
+      await NotificationService.syncReminders({
+        prayerTime: time,
         doneToday: streak.doneDay === dayKey() && streak.doneSteps.length > 0,
-        reminder: time,
       });
+      if (request !== reminderRequest.current) return false;
       setQuiz({ prayerTime: time });
       toast(translate('toast.reminderSet'));
       setShowIosReminderPicker(false);
       return true;
     } catch {
+      if (request !== reminderRequest.current) return false;
       setQuiz({ prayerTime: 'none' });
       Alert.alert(tr('profile.reminderTitle'), tr('profile.reminderMsg'));
       return false;

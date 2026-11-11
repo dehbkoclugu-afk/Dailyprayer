@@ -1,5 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { StateStorage } from 'zustand/middleware';
+import { reportError } from '@/lib/reportError';
+
+const unreadableKeys = new Set<string>();
+export const hasUnreadableStorage = (): boolean => unreadableKeys.size > 0;
 
 /**
  * Zustand parses persisted JSON after StateStorage returns it. Validate first so
@@ -7,7 +11,16 @@ import type { StateStorage } from 'zustand/middleware';
  */
 export const safePersistStorage: StateStorage = {
   getItem: async (name) => {
-    const value = await AsyncStorage.getItem(name);
+    let value: string | null;
+    try {
+      value = await AsyncStorage.getItem(name);
+      unreadableKeys.delete(name);
+    } catch (error) {
+      // A failed read is not corrupt data: leave the persisted value intact.
+      reportError(error, `storage read: ${name}`);
+      unreadableKeys.add(name);
+      return null;
+    }
     if (value === null) return null;
     try {
       JSON.parse(value);
@@ -17,6 +30,8 @@ export const safePersistStorage: StateStorage = {
       return null;
     }
   },
-  setItem: (name, value) => AsyncStorage.setItem(name, value),
+  setItem: (name, value) => unreadableKeys.has(name)
+    ? Promise.reject(new Error(`Storage read failed; refusing to overwrite ${name}`))
+    : AsyncStorage.setItem(name, value),
   removeItem: (name) => AsyncStorage.removeItem(name),
 };

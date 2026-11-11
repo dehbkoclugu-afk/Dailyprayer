@@ -110,6 +110,8 @@ function Reader({ bible }: { bible: FullBook[] }) {
   const [bookQuery, setBookQuery] = useState('');
   const [toolbar, setToolbar] = useState(false);
   const listRef = useRef<FlatList>(null);
+  const retryScrollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const visibleChapter = useRef('');
   const pickerHeadingRef = useRef<Text>(null);
   const pickerReturnFocus = useRef<number | null>(null);
   const settingsReturnFocus = useRef<number | null>(null);
@@ -121,6 +123,10 @@ function Reader({ bible }: { bible: FullBook[] }) {
   const bk = bible[bIdx];
   const cIdx = Math.max(0, Math.min(chapter, bk.chapters.length - 1));
   const verses = bk.chapters[cIdx];
+  visibleChapter.current = `${bIdx}:${cIdx}`;
+  useEffect(() => () => {
+    if (retryScrollTimer.current) clearTimeout(retryScrollTimer.current);
+  }, [bIdx, cIdx]);
   const testamentStart = newTestamentStart(bible.map((bookItem) => bookItem.code));
   const [oldTestament, newTestament] = testamentLabels(scriptureLocale);
   const visibleBooks = bible
@@ -334,9 +340,14 @@ function Reader({ bible }: { bible: FullBook[] }) {
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={{ itemVisiblePercentThreshold: 55 }}
         onScrollToIndexFailed={({ index, averageItemLength }) => {
+          if (index < 0 || index >= verses.length) return;
+          const chapterAtFailure = `${bIdx}:${cIdx}`;
           listRef.current?.scrollToOffset({ offset: index * (averageItemLength || bodyLine * 2), animated: false });
-          setTimeout(() => {
-            listRef.current?.scrollToIndex({ index, viewPosition: 0.28, animated: true });
+          if (retryScrollTimer.current) clearTimeout(retryScrollTimer.current);
+          retryScrollTimer.current = setTimeout(() => {
+            if (visibleChapter.current === chapterAtFailure) {
+              listRef.current?.scrollToIndex({ index, viewPosition: 0.28, animated: true });
+            }
           }, 120);
         }}
         contentContainerStyle={{

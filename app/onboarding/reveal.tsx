@@ -67,10 +67,9 @@ export default function Reveal() {
       try {
         if (!(await NotificationService.requestPermission())) throw new Error('denied');
         const streak = useStreakStore.getState();
-        await NotificationService.scheduleDailyReminder(time);
-        await NotificationService.scheduleStreakSave({
+        await NotificationService.syncReminders({
+          prayerTime: time,
           doneToday: streak.doneDay === dayKey() && streak.doneSteps.length > 0,
-          reminder: time,
         });
       } catch {
         // Denied/unsupported: record that no reminder exists, so Profile

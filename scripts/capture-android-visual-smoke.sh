@@ -23,8 +23,26 @@ capture_screen() {
   # graphics budget even though the app itself never raised a fatal exception.
   adb shell am force-stop "$package"
   sleep 1
+  adb logcat -c
   adb shell am start -W -a android.intent.action.VIEW -d "lumen://${route}" -p "$package" >/dev/null
   sleep 2
+  adb logcat -d > "${output_dir}/${theme}-${name}.logcat.txt"
+  if grep -q 'FATAL EXCEPTION' "${output_dir}/${theme}-${name}.logcat.txt"; then
+    echo "${route}: Android fatal exception" >&2
+    exit 1
+  fi
+  # A non-empty screenshot of the splash was previously accepted as success.
+  # Require the app's rendered-root marker for this fresh process first.
+  if ! grep -q 'SELAORA_UI_READY' "${output_dir}/${theme}-${name}.logcat.txt"; then
+    echo "${route}: app did not render its root UI" >&2
+    exit 1
+  fi
+  adb shell uiautomator dump /sdcard/selaora-visual.xml >/dev/null
+  adb shell cat /sdcard/selaora-visual.xml > "${output_dir}/${theme}-${name}.xml"
+  if ! grep -q "package=\"${package}\"" "${output_dir}/${theme}-${name}.xml"; then
+    echo "${route}: app is not the visible screen" >&2
+    exit 1
+  fi
   adb exec-out screencap -p > "$pending"
   test -s "$pending"
   mv "$pending" "$target"

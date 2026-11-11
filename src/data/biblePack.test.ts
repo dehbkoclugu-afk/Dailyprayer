@@ -7,6 +7,12 @@ import {
   validateBiblePack,
   type BibleCanon,
 } from './biblePack.ts';
+import { bookMeta } from './bibleMeta.ts';
+
+const catholicChapters: Record<string, number> = {
+  DAN: 14, JOL: 4, MAL: 3, TOB: 14, JDT: 16, ESG: 10,
+  WIS: 19, SIR: 51, BAR: 6, '1MA': 16, '2MA': 15,
+};
 
 function fixture(canon: BibleCanon, codes: readonly string[]) {
   return {
@@ -18,7 +24,12 @@ function fixture(canon: BibleCanon, codes: readonly string[]) {
     sourceUrl: 'https://example.test/source.zip',
     sourceSha256: 'a'.repeat(64),
     generatedAt: '2026-08-08T00:00:00.000Z',
-    books: codes.map((code) => ({ code, name: code, chapters: [[['1', 'Text']]] })),
+    books: codes.map((code) => ({
+      code, name: code,
+      chapters: Array.from({ length: canon === 'catholic-73'
+        ? catholicChapters[code] ?? bookMeta.find((book) => book.code === code)?.chapters ?? 0
+        : bookMeta.find((book) => book.code === code)?.chapters ?? 0 }, () => [['1', 'Text']]),
+    })),
   };
 }
 
@@ -38,6 +49,18 @@ test('accepts Catholic 73 profile without pretending ESG is EST', () => {
 test('rejects a canon label that does not match its book profile', () => {
   const pack = fixture('catholic-73', CANONICAL_BOOK_CODES);
   assert.throws(() => validateBiblePack(pack, 'hr'), /must contain 73 books/);
+});
+
+test('rejects books with empty chapters', () => {
+  const pack = fixture('protestant-66', CANONICAL_BOOK_CODES);
+  pack.books[0].chapters[0] = [];
+  assert.throws(() => validateBiblePack(pack, 'en'), /Empty or invalid chapter/);
+});
+
+test('rejects an incomplete book even when its remaining chapters have verses', () => {
+  const pack = fixture('protestant-66', CANONICAL_BOOK_CODES);
+  pack.books[0].chapters.pop();
+  assert.throws(() => validateBiblePack(pack, 'en'), /GEN must contain 50 chapters/);
 });
 
 test('lightweight bundled credits match the bundled Bible files', async () => {

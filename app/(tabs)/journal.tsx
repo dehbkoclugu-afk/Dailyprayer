@@ -78,11 +78,11 @@ export default function Journal() {
 
       <ArtSlot
         id="A22-journal-compose"
-        height={310}
         radius={radius.card}
         scrim="soft"
         style={{
           backgroundColor: t.surface,
+          minHeight: 310,
           borderRadius: radius.card,
           borderWidth: 1,
           borderColor: editingId ? t.gold : t.border,
@@ -90,7 +90,7 @@ export default function Journal() {
           overflow: 'hidden',
         }}
       >
-        <View style={{ flex: 1, padding: spacing.lg }}>
+        <View style={{ padding: spacing.lg }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
             <Ionicons name={editingId ? 'create-outline' : prompt === 'devotional' ? 'book-outline' : 'leaf-outline'} size={16} color={t.gold} />
             <Text style={{ ...ty.labelSmall, letterSpacing: 2, color: t.gold, flex: 1 }}>
@@ -121,7 +121,7 @@ export default function Journal() {
             multiline
             maxLength={2000}
             accessibilityLabel={tr('a11y.journalEntry')}
-            style={{ marginTop: spacing.lg, minHeight: 64, flex: 1, ...ty.bodyInput, color: artwork.foreground.primary, textShadowColor: 'rgba(0,0,0,0.72)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 5, textAlignVertical: 'top' }}
+            style={{ marginTop: spacing.lg, minHeight: 100, ...ty.bodyInput, color: artwork.foreground.primary, textShadowColor: 'rgba(0,0,0,0.72)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 5, textAlignVertical: 'top' }}
           />
 
           <PillButton label={tr('journal.save')} onPress={submit} disabled={!text.trim()} style={{ marginTop: spacing.sm }} />

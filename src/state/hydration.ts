@@ -13,6 +13,7 @@ interface PersistedStore {
   persist: {
     hasHydrated: () => boolean;
     onFinishHydration: (listener: () => void) => () => void;
+    rehydrate: () => void | Promise<void>;
   };
 }
 

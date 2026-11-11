@@ -22,6 +22,19 @@ const STREAK_PREFIX = 'streak-save-';
 const STREAK_DAYS_AHEAD = 7;
 const CHANNEL_ID = 'reminders';
 
+// Serialize native writes so an older permission/sync task cannot schedule
+// notifications after a newer "off" preference has finished.
+let notificationQueue: Promise<void> = Promise.resolve();
+let requestGeneration = 0;
+function enqueue(task: () => Promise<void>): Promise<void> {
+  const generation = ++requestGeneration;
+  const run = notificationQueue.catch(() => {}).then(async () => {
+    if (generation === requestGeneration) await task();
+  });
+  notificationQueue = run.catch(() => {});
+  return run;
+}
+
 let channelReady: Promise<void> | null = null;
 function ensureChannel(): Promise<void> {
   if (Platform.OS !== 'android') return Promise.resolve();
@@ -46,7 +59,7 @@ export async function hasPermission(): Promise<boolean> {
   return settings.granted || settings.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL;
 }
 
-export async function scheduleDailyReminder(time: string): Promise<void> {
+async function scheduleDailyReminderNow(time: string): Promise<void> {
   const parsed = parseStoredReminderTime(time);
   if (!parsed) throw new Error(`Invalid reminder time: ${time}`);
   await ensureChannel();
@@ -66,6 +79,10 @@ export async function scheduleDailyReminder(time: string): Promise<void> {
   });
 }
 
+export function scheduleDailyReminder(time: string): Promise<void> {
+  return enqueue(() => scheduleDailyReminderNow(time));
+}
+
 async function cancelStreakNudges(): Promise<void> {
   const scheduled = await Notifications.getAllScheduledNotificationsAsync().catch(() => []);
   await Promise.all(
@@ -80,7 +97,7 @@ async function cancelStreakNudges(): Promise<void> {
  * once the user has already completed a ritual step, so nobody is asked to
  * "come back" on a day they already showed up.
  */
-export async function scheduleStreakSave(options: {
+async function scheduleStreakSaveNow(options: {
   doneToday: boolean;
   reminder: string | null;
   now?: Date;
@@ -109,11 +126,23 @@ export async function scheduleStreakSave(options: {
   }
 }
 
-export async function disableReminders(): Promise<void> {
+export function scheduleStreakSave(options: {
+  doneToday: boolean;
+  reminder: string | null;
+  now?: Date;
+}): Promise<void> {
+  return enqueue(() => scheduleStreakSaveNow(options));
+}
+
+async function disableRemindersNow(): Promise<void> {
   await Promise.all([
     Notifications.cancelScheduledNotificationAsync(REMINDER_ID).catch(() => {}),
     cancelStreakNudges(),
   ]);
+}
+
+export function disableReminders(): Promise<void> {
+  return enqueue(disableRemindersNow);
 }
 
 /**
@@ -126,10 +155,12 @@ export async function syncReminders(state: {
   doneToday: boolean;
 }): Promise<void> {
   const time = state.prayerTime && state.prayerTime !== 'none' ? state.prayerTime : null;
-  if (!time || !(await hasPermission())) {
-    await disableReminders();
-    return;
-  }
-  await scheduleDailyReminder(time);
-  await scheduleStreakSave({ doneToday: state.doneToday, reminder: time });
+  await enqueue(async () => {
+    if (!time || !(await hasPermission())) {
+      await disableRemindersNow();
+      return;
+    }
+    await scheduleDailyReminderNow(time);
+    await scheduleStreakSaveNow({ doneToday: state.doneToday, reminder: time });
+  });
 }

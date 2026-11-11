@@ -94,6 +94,9 @@ export function ReadingSettingsSheet({
           }}
           showsVerticalScrollIndicator={false}
         >
+          <Pressable onPress={onClose} accessibilityRole="button" accessibilityLabel={tr('a11y.close')} style={{ alignSelf: 'flex-end', padding: spacing.sm }}>
+            <Ionicons name="close" size={24} color={t.ink} />
+          </Pressable>
           <View
             style={{
               alignSelf: 'center',
