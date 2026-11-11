@@ -71,7 +71,9 @@
         }
       ],
       "@sentry/react-native",
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-sharing",
+      "expo-status-bar"
     ],
     "experiments": {
       "typedRoutes": true

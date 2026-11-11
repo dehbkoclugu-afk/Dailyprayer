@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
-import { useWindowDimensions, View } from 'react-native';
+import { useWindowDimensions, View, type ColorValue } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useReducedMotion } from 'react-native-reanimated';
@@ -14,7 +14,7 @@ interface TabIconProps {
   outline: keyof typeof Ionicons.glyphMap;
   filled: keyof typeof Ionicons.glyphMap;
   focused: boolean;
-  color: string;
+  color: ColorValue;
   size: number;
 }
 
@@ -37,8 +37,11 @@ export default function TabsLayout() {
   const t = useTheme();
   const reduceMotion = useReducedMotion();
   const { t: tr } = useT();
-  const { width } = useWindowDimensions();
+  const { width, fontScale } = useWindowDimensions();
   const expanded = isExpandedLayout(width);
+  // 8 top padding + 30 icon block (icon, gap, active marker) + 8 bottom
+  // breathing room, plus the label line, which grows with the text size.
+  const compactTabBarHeight = 46 + Math.ceil(ty.labelSmallMedium.lineHeight * fontScale);
   const fadeThrough = resolveMotionPattern('fadeThrough', reduceMotion);
   return (
     <Tabs
@@ -53,7 +56,7 @@ export default function TabsLayout() {
           width: expanded ? 112 : undefined,
           // Android 16 enforces edge-to-edge: grow by the navigation-bar inset
           // instead of a fixed height that the system bar would cover.
-          height: expanded ? '100%' : 50 + insets.bottom,
+          height: expanded ? '100%' : compactTabBarHeight + insets.bottom,
           paddingTop: expanded ? 24 : 8,
         },
         tabBarPosition: expanded ? 'left' : 'bottom',

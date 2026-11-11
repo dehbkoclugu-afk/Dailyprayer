@@ -103,9 +103,12 @@ function PrayerPlayer({ prayer }: { prayer: GuidedPrayer }) {
     if (screenReaderEnabled) AccessibilityInfo.announceForAccessibility(prayer.script[line]);
   }, [line, prayer.id, prayer.script, screenReaderEnabled, ready]);
 
-  useEffect(() => {
+  // Pause when a screen reader turns on; the user can still resume afterwards.
+  const [screenReaderSeen, setScreenReaderSeen] = useState(screenReaderEnabled);
+  if (screenReaderSeen !== screenReaderEnabled) {
+    setScreenReaderSeen(screenReaderEnabled);
     if (screenReaderEnabled) setPaused(true);
-  }, [screenReaderEnabled]);
+  }
 
   useEffect(() => {
     if (!ready || !shouldAutoAdvancePrayer(paused, lastLine, screenReaderEnabled)) return;

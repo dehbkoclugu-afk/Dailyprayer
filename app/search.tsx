@@ -38,9 +38,15 @@ export default function Search() {
   const [q, setQ] = useState(''); // debounced
   const [filter, setFilter] = useState<ScriptureFilter>('all');
   const bible = useMemo(() => getBible(scriptureLocale), [scriptureLocale]);
-  const [index, setIndex] = useState<ScriptureSearchIndex | null>(null);
-  const [indexError, setIndexError] = useState(false);
   const [indexAttempt, setIndexAttempt] = useState(0);
+  // Keyed by the request so a result for a previous edition/attempt is ignored.
+  const indexKey = `${scriptureLocale}:${indexAttempt}`;
+  const [indexResult, setIndexResult] = useState<
+    { key: string; index: ScriptureSearchIndex | null; error: boolean } | null
+  >(null);
+  const current = indexResult?.key === indexKey ? indexResult : null;
+  const index = current?.index ?? null;
+  const indexError = current?.error ?? false;
   const testamentStart = newTestamentStart(bible.map((book) => book.code));
   const [oldTestament, newTestament] = testamentLabels(scriptureLocale);
 
@@ -51,15 +57,13 @@ export default function Search() {
 
   useEffect(() => {
     let active = true;
-    setIndex(null);
-    setIndexError(false);
     getScriptureSearchIndex(bible, scriptureLocale).then((next) => {
-      if (active) setIndex(next);
+      if (active) setIndexResult({ key: indexKey, index: next, error: false });
     }).catch(() => {
-      if (active) setIndexError(true);
+      if (active) setIndexResult({ key: indexKey, index: null, error: true });
     });
     return () => { active = false; };
-  }, [bible, indexAttempt, scriptureLocale]);
+  }, [bible, indexKey, scriptureLocale]);
 
   const hits = useMemo<ScriptureSearchHit[]>(() => index
     ? searchScriptureIndex(index, q, {
@@ -81,7 +85,6 @@ export default function Search() {
         <TopAppBar title={tr('read.search')} />
         <View
           style={{
-            flex: 1,
             flexDirection: 'row',
             alignItems: 'center',
             gap: spacing.sm,
@@ -128,8 +131,10 @@ export default function Search() {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        style={{ marginTop: spacing.md }}
-        contentContainerStyle={{ gap: spacing.sm, paddingHorizontal: spacing.xl }}
+        // ScrollView defaults to flexGrow/flexShrink 1, which made this chip row
+        // compete with the results list for height and squash the search field.
+        style={{ marginTop: spacing.md, flexGrow: 0, flexShrink: 0 }}
+        contentContainerStyle={{ gap: spacing.sm, paddingHorizontal: spacing.xl, alignItems: 'center' }}
       >
         {([
           ['all', tr('pray.showAll')],
@@ -184,24 +189,26 @@ export default function Search() {
             {!index && !indexError ? <ActivityIndicator color={t.gold} /> : (
               <Ionicons name={queryReady ? 'search-outline' : 'book-outline'} size={40} color={t.inkFaint} />
             )}
-            <Text
-              style={{
-                ...ty.editorialCompact,
-                color: t.inkSoft,
-                textAlign: 'center',
-                marginTop: spacing.lg,
-                maxWidth: 280,
-              }}
-            >
-              {indexError ? tr('paywall.purchaseFailBody') : !index ? tr('paywall.processing') : queryReady ? tr('read.searchEmpty') : tr('read.searchPrompt')}
-            </Text>
+            {index || indexError ? (
+              <Text
+                style={{
+                  ...ty.editorialCompact,
+                  color: t.inkSoft,
+                  textAlign: 'center',
+                  marginTop: spacing.lg,
+                  maxWidth: 280,
+                }}
+              >
+                {indexError ? tr('error.title') : queryReady ? tr('read.searchEmpty') : tr('read.searchPrompt')}
+              </Text>
+            ) : null}
             {indexError ? (
               <Pressable
                 onPress={() => setIndexAttempt((attempt) => attempt + 1)}
                 accessibilityRole="button"
                 style={{ minHeight: 48, justifyContent: 'center', paddingHorizontal: spacing.xl, marginTop: spacing.md }}
               >
-                <Text style={{ ...ty.label, color: t.blue }}>{tr('paywall.retry')}</Text>
+                <Text style={{ ...ty.label, color: t.blue }}>{tr('error.retry')}</Text>
               </Pressable>
             ) : null}
           </View>

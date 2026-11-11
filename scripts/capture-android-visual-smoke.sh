@@ -25,7 +25,14 @@ capture_screen() {
   sleep 1
   adb logcat -c
   adb shell am start -W -a android.intent.action.VIEW -d "lumen://${route}" -p "$package" >/dev/null
-  sleep 2
+  # Cold starts on a loaded runner vary; wait for the ready marker (max ~20s)
+  # instead of a fixed sleep, then give the screen a moment to settle.
+  for _ in $(seq 1 40); do
+    adb logcat -d > "${output_dir}/${theme}-${name}.logcat.txt"
+    grep -qE 'SELAORA_UI_READY|FATAL EXCEPTION' "${output_dir}/${theme}-${name}.logcat.txt" && break
+    sleep 0.5
+  done
+  sleep 1
   adb logcat -d > "${output_dir}/${theme}-${name}.logcat.txt"
   if grep -q 'FATAL EXCEPTION' "${output_dir}/${theme}-${name}.logcat.txt"; then
     echo "${route}: Android fatal exception" >&2
@@ -62,6 +69,7 @@ for theme in dawn vigil; do
   capture_screen "onboarding" "onboarding-welcome"
   capture_screen "onboarding/quiz" "onboarding-quiz"
   capture_screen "bible" "bible"
+  capture_screen "search" "search"
   capture_screen "read?settings=1" "reading-settings"
   capture_screen "scripture-source" "scripture-source"
   capture_screen "plan/peace-7" "plan-list"

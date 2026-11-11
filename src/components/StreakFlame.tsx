@@ -32,26 +32,26 @@ export function StreakFlame({ count, litToday }: Props) {
   // one-shot pop when the streak ticks up (design-100 #58)
   useEffect(() => {
     if (!reduceMotion && count > prevCount.current) {
-      scale.value = withSequence(withSpring(1.25, { damping: 12 }), withSpring(1, { damping: 16 }));
+      scale.set(withSequence(withSpring(1.25, { damping: 12 }), withSpring(1, { damping: 16 })));
     }
     prevCount.current = count;
   }, [count, reduceMotion, scale]);
 
   useEffect(() => {
     if (!reduceMotion && litToday) {
-      scale.value = withRepeat(
+      scale.set(withRepeat(
         withTiming(1.06, { duration: 2000, easing: Easing.inOut(Easing.quad) }),
         -1,
         true,
-      );
+      ));
     }
     return () => {
       cancelAnimation(scale);
-      scale.value = 1;
+      scale.set(1);
     };
   }, [litToday, reduceMotion, scale]);
 
-  const style = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
+  const style = useAnimatedStyle(() => ({ transform: [{ scale: scale.get() }] }));
 
   return (
     <View

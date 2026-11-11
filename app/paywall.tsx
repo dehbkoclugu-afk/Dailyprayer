@@ -69,8 +69,7 @@ export default function Paywall() {
     mounted.current = false;
   }, []);
 
-  const refreshCatalog = () => {
-    setCatalog(null);
+  const loadCatalog = () => {
     Promise.race<PurchaseCatalog>([
       loadPlans(),
       new Promise((resolve) => setTimeout(() => resolve({ status: 'unavailable', plans: [], mock: false }), 15000)),
@@ -87,7 +86,12 @@ export default function Paywall() {
       });
   };
 
-  useEffect(refreshCatalog, []);
+  const refreshCatalog = () => {
+    setCatalog(null);
+    loadCatalog();
+  };
+
+  useEffect(loadCatalog, []);
 
   const plans = catalog?.status === 'ready' ? catalog.plans : [];
   const selectedPlan = plans.find((p) => p.id === selected);
