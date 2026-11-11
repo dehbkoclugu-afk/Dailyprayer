@@ -28,6 +28,9 @@ jobs:
       EXPO_PUBLIC_SENTRY_DSN: ${{ vars.SENTRY_DSN }}
       # Source-map upload needs a Sentry org/project/token; skip it until one exists.
       SENTRY_DISABLE_AUTO_UPLOAD: ${{ secrets.SENTRY_AUTH_TOKEN == '' && 'true' || 'false' }}
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+      SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
 
     steps:
       - uses: actions/checkout@v4

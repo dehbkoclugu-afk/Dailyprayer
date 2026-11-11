@@ -44,11 +44,21 @@ jobs:
       - name: Generate Android project
         run: npx expo prebuild --platform android --no-install
 
-      - name: Limit Android architectures to the emulator ABI
-        run: sed -i 's/^reactNativeArchitectures=.*/reactNativeArchitectures=x86_64/' android/gradle.properties
+      # x86_64 for the emulator, arm64-v8a so the same APK installs on phones.
+      - name: Limit Android architectures
+        run: sed -i 's/^reactNativeArchitectures=.*/reactNativeArchitectures=arm64-v8a,x86_64/' android/gradle.properties
 
       - name: Build release APK (debug keystore)
         run: cd android && ./gradlew assembleRelease --no-daemon
+
+      # Debug-keystore signed test build: uninstall any Play build before installing.
+      - name: Upload test APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: selaora-test-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Configure KVM permissions
         run: |
